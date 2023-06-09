@@ -2,7 +2,7 @@
 import TheWelcome from "../components/TheWelcome.vue";
 
 import Button from "@/stories/Button/Button.vue";
-import { PlusCircleOutlined } from "@ant-design/icons-vue";
+import { FileExcelOutlined } from "@ant-design/icons-vue";
 </script>
 
 <template>
@@ -10,7 +10,9 @@ import { PlusCircleOutlined } from "@ant-design/icons-vue";
     <TheWelcome />
 
     <Button label="button">
-      <template #icon><PlusCircleOutlined /></template>
+      <template #icon>
+        <FileExcelOutlined />
+      </template>
     </Button>
   </main>
 </template>

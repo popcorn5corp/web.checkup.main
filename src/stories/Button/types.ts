@@ -2,7 +2,7 @@
 type ButtonSize = "small" | "medium" | "large";
 type ButtonType = "primary" | "dashed" | "text" | "link";
 type ButtonShape = "default" | "circle" | "round";
-type ButtonIcon = "download" | "plusCircle" | "excel";
+type ButtonIcon = "download" | "plusCircle" | "excel" ;
 
 export interface ButtonProps {
   label: string;
@@ -12,4 +12,8 @@ export interface ButtonProps {
   icon?: ButtonIcon;
   loading?: boolean;
   disabled?: boolean;
+}
+
+export interface ButtonEmits {
+  (e: "click"): void;
 }
