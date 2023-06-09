@@ -1,5 +1,6 @@
 <template>
   <a-button
+    :class="getButtonClass"
     :type="type"
     :shape="shape"
     :size="size"
@@ -7,28 +8,64 @@
     :disabled="disabled"
     @click="$emit('click')"
   >
-    <slot name="icon"></slot>
+    <ButtonIcon v-if="icon" :icon="icon" />
+    <slot v-else name="icon"></slot>
 
-    <DownloadOutlined v-if="icon === 'download'" />
-    <PlusCircleOutlined v-if="icon === 'plusCircle'" />
-    <FileExcelOutlined v-if="icon === 'excel'" />
     {{ label }}
   </a-button>
 </template>
 
 <script lang="ts" setup>
-import type { ButtonProps } from './types';
-import "./button.css";
-import {
-  DownloadOutlined,
-  PlusCircleOutlined,
-  FileExcelOutlined,
-} from "@ant-design/icons-vue";
+import { computed } from "vue";
+import ButtonIcon from "./ButtonIcon.vue";
+
+import type { ButtonProps, ButtonEmits } from "./types";
 
 const props = defineProps<ButtonProps>();
+const emit = defineEmits<ButtonEmits>();
 
-const emit = defineEmits<{
-  (e: "click"): void;
-}>();
- 
+const getButtonClass = computed(() => {
+  const { size } = props;
+  return [
+    {
+      [`storybook-button--small`]: size === "small",
+    },
+  ];
+});
 </script>
+
+<style lang="scss" scoped>
+.ant-btn {
+  display: flex;
+  align-items: center;
+}
+.storybook-button {
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  border: 0;
+  border-radius: 3em;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+}
+.storybook-button--primary {
+  color: white;
+  background-color: #1ea7fd;
+}
+.storybook-button--secondary {
+  color: #333;
+  background-color: transparent;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
+}
+.storybook-button--small {
+  font-size: 11px;
+}
+.storybook-button--medium {
+  font-size: 14px;
+  padding: 11px 20px;
+}
+.storybook-button--large {
+  font-size: 16px;
+  padding: 12px 24px;
+}
+</style>
