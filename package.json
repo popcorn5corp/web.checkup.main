@@ -20,6 +20,7 @@
     "ant-design-vue": "^4.0.0-rc.3",
     "axios": "^1.4.0",
     "pinia": "^2.0.36",
+    "pinia-plugin-persist": "^1.0.0",
     "sass": "^1.63.2",
     "vue": "^3.3.2",
     "vue-i18n": "9",

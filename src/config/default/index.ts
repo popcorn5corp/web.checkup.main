@@ -1,4 +1,4 @@
-export const netConfig = import('./net.config')
-export const settingConfig = import('./setting.config')
-export const themeConfig = import('./theme.config')
-export const layoutSettings = import('./layout')
+export const netConfig = import('./netConfig')
+export const settingConfig = import('./settingConfig')
+export const themeConfig = import('./themeConfig')
+export const layoutSettings = import('./layoutConfig')

@@ -16,3 +16,11 @@ export enum RouterMode {
   Hash = 'hash',
   History = 'history'
 }
+
+export enum TokenStorageName {
+  LocalStorage = 'localStorage',
+  SessionStorage = 'sessionStorage',
+  Cookie = 'cookie'
+}
+
+export const DEFAULT_PRIMARY: string = '#009688'
