@@ -41,8 +41,6 @@ const filterMenus = computed(() => {
     .sort((a, b) => ((a?.meta?.orderNum as any) || 0) - ((b?.meta?.orderNum as any) || 0))
 })
 
-console.log('filterMenus >> ', filterMenus)
-
 const isShowSubMenu = (menuItem: RouteRecordRaw) => {
   return (
     menuItem?.meta?.type === 0 ||
@@ -51,4 +49,28 @@ const isShowSubMenu = (menuItem: RouteRecordRaw) => {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.ant-menu-submenu) {
+  .ant-menu-submenu-selected {
+    color: red;
+    border-bottom: 2px solid red;
+  }
+}
+
+:deep(.ant-menu-title-content) {
+  span.anticon {
+    margin-inline-end: 10px;
+    margin-right: 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1;
+    background: rgba(108, 114, 147, 0.2);
+    width: 31px;
+    height: 31px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+  }
+}
+</style>

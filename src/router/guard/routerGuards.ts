@@ -3,13 +3,6 @@ import { isNavigationFailure } from 'vue-router'
 import { RouteNameEnum } from '@/router/interface/index'
 import type { WhiteNameList } from '@/router/constant'
 import type { Router, RouteLocationNormalized } from 'vue-router'
-// import { useUserStore } from '@/store/modules/user'
-// import { useKeepAliveStore } from '@/store/modules/keepAlive'‰
-// import { ACCESS_TOKEN_KEY } from '@/enums/cacheEnum'
-// import { Storage } from '@/utils/Storage'
-// import { to as _to } from '@/utils/awaitTo'
-
-// NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const defaultRoutePath = '/dashboard/welcome'
 
@@ -22,11 +15,9 @@ export function createRouterGuards(router: Router, whiteNameList: WhiteNameList)
 
     if (token) {
       if (to.name === RouteNameEnum.LOGIN) {
-        next({ path: defaultRoutePath })
+        // next({ path: defaultRoutePath })
       } else {
         const hasRoute = router.hasRoute(to.name!)
-
-        console.log('hasRoute >> ', hasRoute)
         // if (userStore.menus.length === 0) {
         //   const [err] = await _to(userStore.afterLogin())
         //   if (err) {
@@ -56,7 +47,6 @@ export function createRouterGuards(router: Router, whiteNameList: WhiteNameList)
   })
 
   const getComponentName = (route: RouteLocationNormalized) => {
-    console.log('getComponentName >> ', route)
     const comp = route.matched.at(-1)?.components?.default
     return comp?.name ?? (comp as any)?.type?.name
   }
@@ -71,14 +61,10 @@ export function createRouterGuards(router: Router, whiteNameList: WhiteNameList)
     }
     const toCompName = getComponentName(to)
 
-    console.log('toCompName >> ', toCompName)
     if (to.meta?.keepAlive) {
       if (toCompName) {
         // keepAliveStore.add(toCompName)
       } else {
-        console.warn(
-          `${to.fullPath}页面组件的keepAlive为true但未设置组件名，会导致缓存失效，请检查`
-        )
       }
     } else {
       if (toCompName) {

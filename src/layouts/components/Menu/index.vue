@@ -6,8 +6,7 @@
       :mode="isSideMenu ? 'inline' : 'horizontal'"
       :theme="theme"
       :collapsed="props.collapsed"
-      collapsible
-      @click="clickMenuItem"
+      @click="onClickMenuItem"
     >
       <MenuItem :menus="menuList" />
     </Menu>
@@ -15,8 +14,8 @@
 </template>
 
 <script setup lang="ts" name="Menu">
-import { reactive, computed, watch, type PropType } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { reactive, computed, watch, type PropType, onMounted } from 'vue'
+import { useRoute, useRouter, type RouteRecordName, type RouteRecord } from 'vue-router'
 import { Menu, type MenuTheme } from 'ant-design-vue'
 import MenuItem from './components/MenuItem.vue'
 // import { useUserStore } from '@/store/modules/user'
@@ -40,6 +39,7 @@ const state = reactive({
   openKeys: [] as string[],
   selectedKeys: [currentRoute.name] as string[]
 })
+
 const menuList = computed(() => menus)
 const isSideMenu = computed(() => themeStore.config.theme.layout === 'sidemenu')
 const getRouteByName = (name: string) => router.getRoutes().find((n) => n.name === name)
@@ -49,19 +49,13 @@ const getTargetMenuByActiveMenuName = (activeMenu: string) => {
 
 const getOpenKeys = (): string[] => {
   const meta = currentRoute.meta
+  const openKeys: string[] = []
 
-  console.log('getOpenKeys ', meta)
+  currentRoute.matched.map((route) => {
+    route.name && openKeys.push(route.name as string)
+  })
 
-  if (meta?.activeMenu) {
-    // const targetMenu = getTargetMenuByActiveMenuName(meta.activeMenu)
-    // return targetMenu?.meta?.namePath ?? [meta?.activeMenu]
-  }
-
-  return (
-    meta?.hideInMenu
-      ? state?.openKeys || []
-      : currentRoute.meta?.namePath ?? currentRoute.matched.slice(1).map((n) => n.name)
-  ) as string[]
+  return openKeys
 }
 
 watch(
@@ -77,6 +71,7 @@ watch(
   () => {
     if (currentRoute.name === RouteNameEnum.LOGIN || props.collapsed) return
     state.openKeys = getOpenKeys()
+
     const meta = currentRoute.meta
     if (meta?.activeMenu) {
       const targetMenu = getTargetMenuByActiveMenuName(meta.activeMenu as string)
@@ -90,8 +85,7 @@ watch(
   }
 )
 
-const clickMenuItem = ({ key }) => {
-  console.log('')
+const onClickMenuItem = ({ key }) => {
   if (key === currentRoute.name) return
   const targetRoute = getRouteByName(key)
   const { isExt, openMode } = targetRoute?.meta || {}

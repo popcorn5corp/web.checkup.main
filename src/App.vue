@@ -1,10 +1,10 @@
 <template>
   <ConfigProvider>
     <Layout>
-      <!-- <router-view #="{ Component }">
-        {{ Component }}
+      <!-- <router-view v-slot="{ Component }">
         <component :is="Component" />
       </router-view> -->
+      <!-- <RouterView></RouterView> -->
     </Layout>
   </ConfigProvider>
 </template>

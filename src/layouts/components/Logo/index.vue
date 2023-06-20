@@ -1,7 +1,7 @@
 <template>
   <div class="logo">
-    <!-- <img src="@/assets/images/logo.png" alt="" /> -->
-    <h2 v-show="!collapsed" class="title">One Piece</h2>
+    <img v-if="!collapsed" src="@/assets/images/checkup_logo.jpg" alt="" />
+    <img v-else src="@/assets/images/checkup_simple_logo.png" alt="" />
   </div>
 </template>
 <script setup lang="ts" name="Logo">
@@ -15,21 +15,24 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="scss" scoped>
-// .logo {
-//   @apply flex overflow-hidden whitespace-nowrap items-center;
+.logo {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  align-items: center;
+  height: 64px;
+  // padding-left: 24px;
+  line-height: 64px;
 
-//   height: 64px;
-//   padding-left: 24px;
-//   line-height: 64px;
+  img {
+    // height: 32px;
+    // margin-right: 8px;
+    width: 100%;
+  }
 
-//   img {
-//     height: 32px;
-//     margin-right: 8px;
-//   }
-
-//   .title {
-//     @apply mb-0 text-xl;
-//     color: @primary-color;
-//   }
-// }
+  .title {
+    color: blue;
+    margin-bottom: 0;
+  }
+}
 </style>

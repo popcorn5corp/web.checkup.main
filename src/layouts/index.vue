@@ -1,5 +1,7 @@
 <template>
-  <component :is="LayoutComponents[layout]" />
+  <component :is="LayoutComponents[layout]">
+    <RouterView></RouterView>
+  </component>
   <!-- <ThemeDrawer /> -->
 </template>
 

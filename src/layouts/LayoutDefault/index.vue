@@ -1,5 +1,5 @@
 <template>
-  <Layout class="layout">
+  <Layout class="layout-default">
     <Layout.Sider
       v-if="config.theme.layout === 'sidemenu'"
       v-model:collapsed="collapsed"
@@ -20,7 +20,7 @@
         </template>
       </PageHeader>
       <Layout.Content class="layout-content">
-        <router-view></router-view>
+        <slot></slot>
       </Layout.Content>
       <PageFooter />
     </Layout>
@@ -49,7 +49,7 @@ onMounted(() => {
 })
 </script>
 <style lang="scss" scoped>
-.layout {
+.layout-default {
   display: flex;
   height: 100vh;
   overflow: hidden;

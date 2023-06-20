@@ -1,10 +1,5 @@
 <template>
-  <Footer>
-    <div class="copyright">
-      Copyright <CopyrightOutlined /> 2023
-      <a href="https://buqiyuan.gitee.io" target="_blank"> buqiyuan.gitee.io </a>
-    </div>
-  </Footer>
+  <Footer> </Footer>
 </template>
 <script setup lang="ts" name="Footer">
 import { Layout } from 'ant-design-vue'
