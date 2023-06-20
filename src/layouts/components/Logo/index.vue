@@ -1,7 +1,7 @@
 <template>
   <div class="logo">
-    <img v-if="!collapsed" src="@/assets/images/checkup_logo.jpg" alt="" />
-    <img v-else src="@/assets/images/checkup_simple_logo.png" alt="" />
+    <img v-if="!collapsed" src="@/assets/images/output-onlinepngtools.png" alt="" />
+    <img v-else src="@/assets/images/output-onlinepngtools (1).png" alt="" />
   </div>
 </template>
 <script setup lang="ts" name="Logo">

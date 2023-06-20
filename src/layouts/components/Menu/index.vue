@@ -1,5 +1,7 @@
 <template>
   <div class="menu-container" :class="{ 'is-side-menu': isSideMenu }">
+    <MenuHeader :collapsed="collapsed" />
+
     <Menu
       v-model:selected-keys="state.selectedKeys"
       :open-keys="isSideMenu ? state.openKeys : []"
@@ -21,7 +23,9 @@ import MenuItem from './components/MenuItem.vue'
 // import { useUserStore } from '@/store/modules/user'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { RouteNameEnum } from '@/router/interface'
+import MenuHeader from './components/MenuHeader.vue'
 import { menus } from './mock'
+import Button from '@/stories/Button/Button.vue'
 
 const props = defineProps({
   collapsed: {
