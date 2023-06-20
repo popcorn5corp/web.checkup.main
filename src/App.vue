@@ -1,4 +1,29 @@
+<template>
+  <ConfigProvider>
+    <Layout>
+      <!-- <router-view v-slot="{ Component }">
+        <component :is="Component" />
+      </router-view> -->
+      <!-- <RouterView></RouterView> -->
+    </Layout>
+  </ConfigProvider>
+</template>
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { ConfigProvider } from 'ant-design-vue'
+import Layout from '@/layouts/index.vue'
+
+defineOptions({
+  name: 'App'
+})
+
+onMounted(() => {
+  console.log('app!!')
+})
+</script>
+<style lang="scss" scoped></style>
+
+<!-- <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 </script>
@@ -82,4 +107,4 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
-</style>
+</style> -->

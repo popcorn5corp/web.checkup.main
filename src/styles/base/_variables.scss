@@ -1,0 +1,80 @@
+// _variables.scss
+//
+// Template's variables for colors, font weight and... .
+//
+
+// Base Colors
+$color-primary: #1890ff;
+$color-secondary: #b37feb;
+$color-success: #52c41a;
+$color-warning: #fadb14;
+$color-danger: #f5222d;
+$color-dark: #141414;
+$color-white: #ffffff;
+// / Base Colors
+
+// Neutral Colors
+$color-gray-1: #ffffff;
+$color-gray-2: #fafafa;
+$color-gray-3: #f5f5f5;
+$color-gray-4: #f0f0f0;
+$color-gray-5: #d9d9d9;
+$color-gray-6: #bfbfbf;
+$color-gray-7: #8c8c8c;
+$color-gray-8: #595959;
+$color-gray-9: #434343;
+$color-gray-10: #262626;
+$color-gray-11: #1f1f1f;
+$color-gray-12: #141414;
+$color-muted: $color-gray-7;
+// / Neutral Colors
+
+// Font Weights
+$fw-regular: 400;
+$fw-semibold: 600;
+$fw-bold: 700;
+// / Font Weights
+
+// Font Family
+$f-family: 'open sans', Helvetica, Arial, sans-serif;
+// / Font Family
+
+// Responsive Breakpoints
+$xs: 480px;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1600px;
+// / Responsive Breakpoints
+
+// Ant Design Vars
+$btn-height-base: 40px;
+$btn-height-lg: 48px;
+$btn-height-sm: 34px;
+$btn-padding-base: 0px 15px;
+$btn-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+$btn-border-radius-base: 6px;
+$btn-font-size-base: 12px;
+$btn-font-size-lg: 16px;
+$btn-font-size-sm: 12px;
+$btn-font-weight: $fw-bold;
+$input-color: $color-gray-7;
+$input-border-color: $color-gray-5;
+$input-hover-border-color: $color-primary;
+$input-height-base: $btn-height-base;
+$input-height-lg: $btn-height-lg;
+$input-height-sm: $btn-height-sm;
+$select-color: $color-gray-7;
+$select-border-color: $color-gray-5;
+$select-hover-border-color: $color-primary;
+// / Ant Design Vars
+
+// Template Vars
+$shadow-0: none;
+$shadow-1: 0px 20px 27px rgba(0, 0, 0, 0.05);
+$shadow-2: 0px 4px 6px rgba(0, 0, 0, 0.12);
+$shadow-3: 0px 5px 10px rgba(0, 0, 0, 0.12);
+
+$submenu-links-p: 10px 16px;
+// / Template Vars
