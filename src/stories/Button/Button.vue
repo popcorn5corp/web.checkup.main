@@ -16,32 +16,32 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
-import ButtonIcon from "./ButtonIcon.vue";
+import { computed } from 'vue'
+import ButtonIcon from './ButtonIcon.vue'
 
-import type { ButtonProps, ButtonEmits } from "./types";
+import type { ButtonProps, ButtonEmits } from './types'
 
-const props = defineProps<ButtonProps>();
-const emit = defineEmits<ButtonEmits>();
+const props = defineProps<ButtonProps>()
+const emit = defineEmits<ButtonEmits>()
 
 const getButtonClass = computed(() => {
-  const { size } = props;
+  const { size } = props
   return [
     {
-      [`storybook-button--small`]: size === "small",
-    },
-  ];
-});
+      [`storybook-button--small`]: size === 'small'
+    }
+  ]
+})
 </script>
 
 <style lang="scss" scoped>
 .ant-btn {
-  display: flex;
+  // display: flex;
   align-items: center;
   justify-content: center;
 }
 .storybook-button {
-  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
   border: 0;
   border-radius: 3em;
