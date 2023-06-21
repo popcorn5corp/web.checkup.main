@@ -3,17 +3,20 @@
     <Space :size="20">
       <slot>
         <Space :size="20">
-          <span class="menu-fold" @click="() => emit('update:collapsed', !collapsed)">
-            <component :is="collapsed ? MenuUnfoldOutlined : MenuFoldOutlined" />
+          <!-- <span class="menu-fold" @click="() => emit('update:collapsed', !collapsed)"> -->
+          <span class="menu-fold" @click="setCollapse(!props.collapsed)">
+            <component :is="props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined" />
           </span>
         </Space>
       </slot>
     </Space>
     <Space :size="20">
-      <Search />
+      <!-- <Search /> -->
 
-      <FullScreen />
-      <LocalePicker />
+      <!-- <FullScreen />
+      <LocalePicker /> -->
+      <span>Theme change Test</span>
+      <a-switch size="small" v-model:checked="isDarkMode" />
 
       <Avatar style="background-color: #d7b0f4">
         <template #icon>
@@ -21,13 +24,13 @@
         </template>
       </Avatar>
 
-      <ProjectSetting />
+      <!-- <ProjectSetting /> -->
     </Space>
   </Layout.Header>
 </template>
 
 <script lang="tsx" setup>
-import { computed, nextTick, type CSSProperties, type PropType } from 'vue'
+import { computed, nextTick, ref, type CSSProperties, type PropType } from 'vue'
 // import { useRouter, useRoute, RouteRecordRaw } from 'vue-router'
 import {
   QuestionCircleOutlined,
@@ -51,7 +54,7 @@ import {
 } from 'ant-design-vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 
-defineProps({
+const props = defineProps({
   collapsed: {
     type: Boolean
   },
@@ -61,13 +64,19 @@ defineProps({
 })
 const emit = defineEmits(['update:collapsed'])
 
-const projectConfigStore = useProjectConfigStore()
+const { config, setCollapse, setTheme } = useProjectConfigStore()
+const isDarkMode = computed({
+  get() {
+    return config.theme.isDark
+  },
+  set(isDark) {
+    setTheme({ navTheme: isDark ? 'dark' : 'light', isDark })
+  }
+})
 const headerStyle = computed<CSSProperties>(() => {
   const {
-    config: {
-      theme: { navTheme, layout }
-    }
-  } = projectConfigStore
+    theme: { navTheme, layout }
+  } = config
   const isDark = navTheme === 'dark' && layout === 'topmenu'
   return {
     backgroundColor: navTheme === 'realDark' || isDark ? '' : 'rgba(255, 255, 255, 0.85)',

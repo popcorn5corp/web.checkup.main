@@ -24,20 +24,22 @@ export const layouts = {
 export type LayoutType = (typeof layouts)[keyof typeof layouts]
 
 export type ThemeName = 'light' | 'dark' | 'realDark'
-interface Theme {
+export interface Theme {
   navTheme: ThemeName // theme for nav menu
+  isDark: boolean
   primaryColor: string // '#F5222D', // primary color of ant design
   layout: 'sidemenu' | 'topmenu' // nav menu position: `sidemenu` or `topmenu`
   contentWidth: 'Fluid' | 'Fixed' // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
-  fixedHeader: false // sticky header
-  fixSiderbar: false // sticky siderbar
-  colorWeak: false
+  fixedHeader: boolean // sticky header
+  fixSiderbar: boolean // sticky siderbar
+  colorWeak: boolean
   menu: {
-    locale: true
+    locale: boolean
   }
   title: string
-  pwa: false
+  pwa: boolean
   iconfontUrl: string
+  logoFileName: string
   // production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
 }
 

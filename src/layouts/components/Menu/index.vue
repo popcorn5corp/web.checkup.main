@@ -12,6 +12,8 @@
     >
       <MenuItem :menus="menuList" />
     </Menu>
+
+    <div class="menu-bottom"></div>
   </div>
 </template>
 
@@ -25,7 +27,6 @@ import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { RouteNameEnum } from '@/router/interface'
 import MenuHeader from './components/MenuHeader.vue'
 import { menus } from './mock'
-import Button from '@/stories/Button/Button.vue'
 
 const props = defineProps({
   collapsed: {
@@ -35,7 +36,6 @@ const props = defineProps({
     type: String as PropType<MenuTheme>
   }
 })
-// const userStore = useUserStore()
 const themeStore = useProjectConfigStore()
 const currentRoute = useRoute()
 const router = useRouter()

@@ -13,7 +13,8 @@ export const menus: any = [
       title: '대시보드',
       icon: 'icon-yibiaopan',
       namePath: ['dashboard'],
-      fullPath: '/dashboard'
+      fullPath: '/dashboard',
+      isNew: true
     },
     children: [
       {

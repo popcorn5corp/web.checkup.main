@@ -1,16 +1,20 @@
 <template>
-  <div class="logo">
-    <img v-if="!collapsed" src="@/assets/images/output-onlinepngtools.png" alt="" />
-    <img v-else src="@/assets/images/output-onlinepngtools (1).png" alt="" />
+  <div class="logo" :style="logoStyle">
+    <img :src="imagePath" />
   </div>
 </template>
 <script setup lang="ts" name="Logo">
-interface Props {
-  collapsed: boolean
-}
+import { computed, type CSSProperties } from 'vue'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 
-withDefaults(defineProps<Props>(), {
-  collapsed: false
+const { config } = useProjectConfigStore()
+const imagePath = computed(
+  () => new URL(`/src/assets/images/${config.theme.logoFileName}`, import.meta.url).href
+)
+const logoStyle = computed<CSSProperties>(() => {
+  return {
+    padding: config.isCollapse ? '10px' : ''
+  }
 })
 </script>
 

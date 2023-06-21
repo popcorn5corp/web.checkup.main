@@ -23,7 +23,7 @@ import { type PropType, computed } from 'vue'
 import { Menu } from 'ant-design-vue'
 import MenuItemContent from './MenuItemContent.vue'
 import type { RouteRecordRaw } from 'vue-router'
-
+import Badge from '@/stories/Badge/Badge.vue'
 defineOptions({
   name: 'MenuItem'
 })
@@ -54,6 +54,27 @@ const isShowSubMenu = (menuItem: RouteRecordRaw) => {
   .ant-menu-submenu-selected {
     color: red;
     border-bottom: 2px solid red;
+  }
+}
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  color: #fff;
+  background-color: #6c757d;
+
+  &.primary {
+    background-color: #ab2dff;
+  }
+
+  &.secondary {
+    background-color: #079b0b;
   }
 }
 

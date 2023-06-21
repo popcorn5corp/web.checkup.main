@@ -17,9 +17,7 @@ defineOptions({
   name: 'App'
 })
 
-onMounted(() => {
-  console.log('app!!')
-})
+onMounted(() => {})
 </script>
 <style lang="scss" scoped></style>
 

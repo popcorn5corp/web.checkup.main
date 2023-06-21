@@ -13,7 +13,8 @@
       <AsideMenu :collapsed="collapsed" :theme="getTheme" />
     </Layout.Sider>
     <Layout>
-      <PageHeader v-model:collapsed="collapsed" :theme="getTheme">
+      <!-- <PageHeader v-model:collapsed="collapsed" :theme="getTheme"> -->
+      <PageHeader :collapsed="collapsed" :theme="getTheme">
         <template v-if="config.theme.layout === 'topmenu'" #default>
           <Logo :collapsed="collapsed" />
           <AsideMenu :collapsed="collapsed" :theme="getTheme" />
@@ -35,18 +36,11 @@ import AsideMenu from '../components/Menu/index.vue'
 import PageHeader from '../components/Header/index.vue'
 import PageFooter from '../components/Footer/index.vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import router from '@/router'
-
-console.log('getRoutes()', router.getRoutes())
 
 const { config } = useProjectConfigStore()
-const collapsed = ref<boolean>(false)
+const collapsed = computed<boolean>(() => config.isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
-
-onMounted(() => {
-  console.log('mounted')
-})
 </script>
 <style lang="scss" scoped>
 .layout-default {
