@@ -20,9 +20,12 @@
           <AsideMenu :collapsed="collapsed" :theme="getTheme" />
         </template>
       </PageHeader>
-      <Layout.Content class="layout-content">
+
+      <PageTabs />
+
+      <!-- <Layout.Content class="layout-content">
         <slot></slot>
-      </Layout.Content>
+      </Layout.Content> -->
       <PageFooter />
     </Layout>
   </Layout>
@@ -35,7 +38,9 @@ import Logo from '../components/Logo/index.vue'
 import AsideMenu from '../components/Menu/index.vue'
 import PageHeader from '../components/Header/index.vue'
 import PageFooter from '../components/Footer/index.vue'
+import PageTabs from '../components/Tabs/index.vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import Badge from '@/stories/Badge/Badge.vue'
 
 const { config } = useProjectConfigStore()
 const collapsed = computed<boolean>(() => config.isCollapse)

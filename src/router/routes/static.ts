@@ -35,13 +35,23 @@ export const staticRoutes: RouteRecordRaw[] = [
   },
   {
     path: '/dashboard',
-    name: 'dashboard',
+    // name: 'dashboard',
     // redirect: '/dashboard',
-    component: () => import(/* webpackChunkName: "layout" */ '@/views/Dashboard/index.vue'),
+    // component: () => import(/* webpackChunkName: "layout" */ '@/views/Dashboard/index.vue'),
     meta: {
       layout: LayoutTypeEnum.DEFAULT
-    }
-    // children: []
+    },
+    children: [
+      {
+        path: '',
+        name: 'dashboard',
+        component: () => import(/* webpackChunkName: "layout" */ '@/views/Dashboard/index.vue'),
+        meta: {
+          title: '대시보드'
+        },
+        children: []
+      }
+    ]
   },
   {
     path: '/fms',
@@ -60,7 +70,10 @@ export const staticRoutes: RouteRecordRaw[] = [
             component: () =>
               import(
                 /* webpackChunkName: "fms-facility-status" */ '@/views/FMS/Facility/FacilityStatus/index.vue'
-              )
+              ),
+            meta: {
+              title: '설비 현황'
+            }
           },
           {
             path: 'category',
@@ -68,7 +81,47 @@ export const staticRoutes: RouteRecordRaw[] = [
             component: () =>
               import(
                 /* webpackChunkName: "fms-facility-category" */ '@/views/FMS/Facility/FacilityCategory/index.vue'
-              )
+              ),
+            meta: {
+              title: '설비 카테고리'
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/ems',
+    name: 'ems',
+    meta: {
+      layout: LayoutTypeEnum.DEFAULT
+    },
+    children: [
+      {
+        path: '/utilities',
+        name: 'ems-utilities',
+        children: [
+          {
+            path: 'performance',
+            name: 'ems-utilities-performance',
+            component: () =>
+              import(
+                /* webpackChunkName: "ems-utilities-performance" */ '@/views/EMS/Utilities/Performance/index.vue'
+              ),
+            meta: {
+              title: '수도광열비 실적'
+            }
+          },
+          {
+            path: 'site',
+            name: 'ems-utilities-site',
+            component: () =>
+              import(
+                /* webpackChunkName: "ems-utilities-site" */ '@/views/EMS/Utilities/Site/index.vue'
+              ),
+            meta: {
+              title: '사업장 영업정보'
+            }
           }
         ]
       }
@@ -85,7 +138,12 @@ export const staticRoutes: RouteRecordRaw[] = [
         path: 'search',
         name: 'partner-search',
         component: () =>
-          import(/* webpackChunkName: "partner-search" */ '@/views/Partner/PartnerSearch/index.vue')
+          import(
+            /* webpackChunkName: "partner-search" */ '@/views/Partner/PartnerSearch/index.vue'
+          ),
+        meta: {
+          title: '파트너 검색'
+        }
       }
     ]
   },
@@ -102,7 +160,10 @@ export const staticRoutes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "setting-project" */ '@/views/Setting/SettingProject/index.vue'
-          )
+          ),
+        meta: {
+          title: '프로젝트 설정'
+        }
       },
       {
         path: 'company',
@@ -110,7 +171,10 @@ export const staticRoutes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "setting-company" */ '@/views/Setting/SettingCompany/index.vue'
-          )
+          ),
+        meta: {
+          title: '회사 설정'
+        }
       }
     ]
   }

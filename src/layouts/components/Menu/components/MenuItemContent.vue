@@ -53,11 +53,13 @@ const props = withDefaults(defineProps<Props>(), {
   }
   .menu-title {
     font-size: 0.9em;
+    font-size: 1em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     flex-grow: 1;
     transition: color 0.3s;
+    font-weight: 500;
   }
 
   .badge {

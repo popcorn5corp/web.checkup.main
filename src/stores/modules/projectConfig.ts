@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { type ProjectConfigState, type Theme, DeviceTypeEnum } from '../interface'
 import { DEFAULT_PRIMARY } from '@/constants/settings'
 
-export const useProjectConfigStore = defineStore('projectConfig', () => {
+export const useProjectConfigStore = defineStore('useProjectConfigStore', () => {
   const config = ref<ProjectConfigState>({
     layout: 'default',
     language: null,

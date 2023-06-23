@@ -10,4 +10,4 @@ export const ROLES_KEY = 'ROLES__KEY__'
 
 export const IS_LOCKSCREEN = 'IS_LOCKSCREEN'
 
-export const TABS_ROUTES = 'TABS_ROUTES'
+export const TABS_ROUTES_KEY = 'TABS_ROUTES'

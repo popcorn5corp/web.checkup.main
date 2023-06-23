@@ -14,7 +14,6 @@ async function setupApp() {
   // Asynchronous case: language files may be obtained from the server side
   // await setupI18n(app);
   await setupRouter(app)
-
   app.mount('#app')
 }
 

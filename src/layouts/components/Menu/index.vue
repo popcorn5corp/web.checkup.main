@@ -2,6 +2,8 @@
   <div class="menu-container" :class="{ 'is-side-menu': isSideMenu }">
     <MenuHeader :collapsed="collapsed" />
 
+    <!-- <span>Category</span> -->
+
     <Menu
       v-model:selected-keys="state.selectedKeys"
       :open-keys="isSideMenu ? state.openKeys : []"
@@ -64,8 +66,8 @@ const getOpenKeys = (): string[] => {
 
 watch(
   () => props.collapsed,
-  (newVal) => {
-    state.openKeys = newVal ? [] : getOpenKeys()
+  (collapsed) => {
+    state.openKeys = collapsed ? [] : getOpenKeys()
     state.selectedKeys = [currentRoute.name] as string[]
   }
 )

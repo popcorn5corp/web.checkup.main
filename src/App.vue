@@ -1,5 +1,9 @@
 <template>
-  <ConfigProvider>
+  <ConfigProvider
+    :theme="{
+      algorithm: theme.defaultAlgorithm
+    }"
+  >
     <Layout>
       <!-- <router-view v-slot="{ Component }">
         <component :is="Component" />
@@ -12,6 +16,7 @@
 import { onMounted } from 'vue'
 import { ConfigProvider } from 'ant-design-vue'
 import Layout from '@/layouts/index.vue'
+import { theme } from 'ant-design-vue'
 
 defineOptions({
   name: 'App'

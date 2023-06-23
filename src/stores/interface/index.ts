@@ -1,3 +1,5 @@
+import type { RouteLocation, RouteRecordName } from 'vue-router'
+
 // export type LayoutType = 'default' | 'vertical' | 'transverse' | 'columns'
 export type AssemblySizeType = 'large' | 'default' | 'small'
 export type LanguageType = 'zh' | 'en' | null
@@ -61,6 +63,12 @@ export interface ProjectConfigState {
   // footer: boolean
   device: DeviceTypeEnum
   theme: Theme
+}
+
+export type RouteItem = Omit<RouteLocation, 'matched' | 'redirectedFrom'>
+
+export interface TabsLayoutState {
+  tabs: RouteItem[]
 }
 
 export interface UserState {}
