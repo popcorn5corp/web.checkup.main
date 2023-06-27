@@ -1,28 +1,28 @@
 <template>
   <ConfigProvider
     :theme="{
-      algorithm: theme.defaultAlgorithm
+      algorithm: theme.defaultAlgorithm,
+      token: {
+        colorPrimary: configTheme.primaryColor
+      }
     }"
   >
-    <Layout>
-      <!-- <router-view v-slot="{ Component }">
-        <component :is="Component" />
-      </router-view> -->
-      <!-- <RouterView></RouterView> -->
-    </Layout>
+    <LayoutContainer />
   </ConfigProvider>
 </template>
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed } from 'vue'
 import { ConfigProvider } from 'ant-design-vue'
-import Layout from '@/layouts/index.vue'
+import LayoutContainer from '@/layouts/index.vue'
 import { theme } from 'ant-design-vue'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 
 defineOptions({
   name: 'App'
 })
 
-onMounted(() => {})
+const { config } = useProjectConfigStore()
+const configTheme = computed(() => config.theme)
 </script>
 <style lang="scss" scoped></style>
 

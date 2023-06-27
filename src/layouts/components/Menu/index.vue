@@ -1,21 +1,29 @@
 <template>
-  <div class="menu-container" :class="{ 'is-side-menu': isSideMenu }">
+  <div class="menu-container">
+    <!-- <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a> -->
     <MenuHeader :collapsed="collapsed" />
 
-    <!-- <span>Category</span> -->
+    <!-- <a-divider style="height: 2px" /> -->
+    <!-- <a-divider orientation="left"></a-divider> -->
+    <!-- <a-divider orientation="left" style="height: 2px; background: silver" plain>FMS</a-divider> -->
 
-    <Menu
-      v-model:selected-keys="state.selectedKeys"
-      :open-keys="isSideMenu ? state.openKeys : []"
-      :mode="isSideMenu ? 'inline' : 'horizontal'"
-      :theme="theme"
-      :collapsed="props.collapsed"
-      @click="onClickMenuItem"
-    >
-      <MenuItem :menus="menuList" />
-    </Menu>
+    <!-- <hr style="border-top: 3px solid #bbb" /> -->
+    <!-- <div class="text-divider">FMS</div> -->
 
-    <div class="menu-bottom"></div>
+    <div class="menu-content" :class="{ 'is-side-menu': isSideMenu }">
+      <Menu
+        v-model:selected-keys="state.selectedKeys"
+        :open-keys="isSideMenu ? state.openKeys : []"
+        :mode="isSideMenu ? 'inline' : 'horizontal'"
+        :theme="theme"
+        :collapsed="props.collapsed"
+        @click="onClickMenuItem"
+      >
+        <MenuItem :menus="menuList" />
+      </Menu>
+    </div>
+
+    <div class="menu-footer"></div>
   </div>
 </template>
 
@@ -105,15 +113,77 @@ const onClickMenuItem = ({ key }) => {
 
 <style lang="scss" scoped>
 .menu-container {
-  overflow: auto;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+  .sidebar-collapser {
+    -webkit-transition: left, right, 0.3s;
+    transition: left, right, 0.3s;
+    position: fixed;
+    left: calc(250px - 20px);
+    top: 40px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #00829f;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    font-size: 1.2em;
+    -webkit-transform: translateX(50%);
+    transform: translateX(50%);
+    z-index: 111;
+    cursor: pointer;
+    color: white;
+    -webkit-box-shadow: 1px 1px 4px #0c1e35;
+    box-shadow: 1px 1px 4px #0c1e35;
   }
+  // .text-divider {
+  //   --text-divider-gap: 1rem;
+  //   display: flex;
+  //   align-items: center;
+  //   font-size: 0.9375rem;
+  //   text-transform: uppercase;
+  //   letter-spacing: 0.1em;
+  //   text-align: left;
+  // }
 
-  &.is-side-menu {
-    height: calc(100vh - 64px);
+  // .text-divider::before,
+  // .text-divider::after {
+  //   content: '';
+  //   height: 1.5px;
+  //   background-color: silver;
+  //   flex-grow: 1;
+  // }
+
+  // .text-divider::before {
+  //   margin-right: var(--text-divider-gap);
+  // }
+
+  // .text-divider::after {
+  //   margin-left: var(--text-divider-gap);
+  // }
+  .menu-content {
+    overflow: auto;
+
+    :deep(.ant-menu) {
+      &.ant-menu-root {
+        margin-top: 10px;
+      }
+    }
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    &.is-side-menu {
+      height: calc(100vh - 120px);
+      // height: calc(100vh - 215px);
+    }
   }
 }
 </style>

@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import Button from "@/stories/Button/Button.vue";
-import {
-  DownloadOutlined,
-  PlusCircleOutlined,
-  FileExcelOutlined,
-} from "@ant-design/icons-vue";
+import { Button } from '@/stories'
+import { DownloadOutlined, PlusCircleOutlined, FileExcelOutlined } from '@ant-design/icons-vue'
 
 const onClick = () => {
-  console.log("on Click");
-};
+  console.log('on Click')
+}
 </script>
 
 <template>

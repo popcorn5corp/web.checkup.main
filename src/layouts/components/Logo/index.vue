@@ -24,9 +24,9 @@ const logoStyle = computed<CSSProperties>(() => {
   overflow: hidden;
   white-space: nowrap;
   align-items: center;
-  height: 64px;
+  height: 55px;
   // padding-left: 24px;
-  line-height: 64px;
+  // line-height: 64px;
 
   img {
     // height: 32px;

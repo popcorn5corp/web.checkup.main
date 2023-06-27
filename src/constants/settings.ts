@@ -23,4 +23,5 @@ export enum TokenStorageName {
   Cookie = 'cookie'
 }
 
-export const DEFAULT_PRIMARY: string = '#009688'
+// export const DEFAULT_PRIMARY: string = '#009688'
+export const DEFAULT_PRIMARY: string = '#1677ff'

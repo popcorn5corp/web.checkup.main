@@ -1,5 +1,6 @@
 <template>
   <Layout class="layout-default">
+    <!-- <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a> -->
     <Layout.Sider
       v-if="config.theme.layout === 'sidemenu'"
       v-model:collapsed="collapsed"
@@ -42,16 +43,55 @@ import PageTabs from '../components/Tabs/index.vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import Badge from '@/stories/Badge/Badge.vue'
 
+import {
+  DownloadOutlined,
+  PlusCircleOutlined,
+  FileExcelOutlined,
+  ClockCircleFilled
+} from '@ant-design/icons-vue'
+
 const { config } = useProjectConfigStore()
 const collapsed = computed<boolean>(() => config.isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
 </script>
 <style lang="scss" scoped>
+body {
+  background-color: #ededed;
+}
 .layout-default {
   display: flex;
   height: 100vh;
   overflow: hidden;
+
+  .sidebar-collapser {
+    -webkit-transition: left, right, 0.3s;
+    transition: left, right, 0.3s;
+    position: fixed;
+    left: calc(250px - 20px);
+    top: 40px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #00829f;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    font-size: 1.2em;
+    -webkit-transform: translateX(50%);
+    transform: translateX(50%);
+    z-index: 111;
+    cursor: pointer;
+    color: white;
+    -webkit-box-shadow: 1px 1px 4px #0c1e35;
+    box-shadow: 1px 1px 4px #0c1e35;
+  }
 
   .ant-layout {
     overflow: hidden;

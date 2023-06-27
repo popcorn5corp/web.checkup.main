@@ -96,9 +96,21 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .tabs-container {
   :deep(.ant-tabs) {
-    .ant-tabs-tab {
+    background-color: rgba(255, 255, 255, 0.85);
+
+    &.ant-tabs-top {
       border-radius: 0;
+
+      .ant-tabs-nav {
+        margin: 0;
+        height: 35px;
+        line-height: 0px;
+      }
     }
+  }
+
+  .tabs-content {
+    height: calc(100vh - 104px);
   }
 }
 </style>

@@ -1,5 +1,6 @@
 <script setup lang="ts" name="MenuHeader">
 import Button from '@/stories/Button/Button.vue'
+import { PlusCircleFilled } from '@/components/Icon'
 
 defineProps({
   collapsed: {
@@ -9,18 +10,18 @@ defineProps({
 </script>
 <template>
   <div class="menu-header">
-    <Button
-      icon="plusCircle"
-      :label="!collapsed ? '새 프로젝트' : ''"
-      type="primary"
-      shape="default"
-    />
+    <Button type="primary" :label="!collapsed ? '새 프로젝트' : ''" style="width: 180px">
+      <template #icon>
+        <PlusCircleFilled />
+      </template>
+    </Button>
   </div>
 </template>
 <style lang="scss" scoped>
 .menu-header {
-  margin-top: 10px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 50px;
 }
 </style>

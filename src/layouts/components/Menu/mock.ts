@@ -135,6 +135,58 @@ export const menus: any = [
     ]
   },
   {
+    path: '/ems',
+    name: 'ems',
+    // redirect: '/dashboard/welcome',
+    component: {
+      name: 'LayoutParentView',
+      __hmrId: 'f60f4a90',
+      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
+    },
+    meta: {
+      // title: 'routes.dashboard.dashboard',
+      title: 'EMS',
+      icon: 'icon-yibiaopan',
+      namePath: ['ems'],
+      fullPath: '/ems'
+    },
+    children: [
+      {
+        path: 'utilities',
+        name: 'ems-utilities',
+        meta: {
+          // title: 'routes.dashboard.workbench',
+          title: '수도광열비',
+          icon: 'icon-shouye',
+          namePath: ['ems', 'utilities'],
+          fullPath: '/ems/utilities'
+        },
+        children: [
+          {
+            path: 'performance',
+            name: 'ems-utilities-performance',
+            meta: {
+              title: '수도광열비 실적',
+              icon: 'icon-shouye',
+              namePath: ['ems', 'utilities', 'performance'],
+              fullPath: '/ems/utilities/performance'
+            }
+          },
+          {
+            path: 'site',
+            name: 'ems-utilities-site',
+            meta: {
+              title: '사업장 영업정보',
+              icon: 'icon-shouye',
+              namePath: ['ems', 'utilities', 'site'],
+              fullPath: '/ems/utilities/site'
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
     path: '/partner',
     name: 'partner',
     // redirect: '/dashboard/welcome',

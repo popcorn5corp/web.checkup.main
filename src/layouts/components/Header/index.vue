@@ -15,14 +15,45 @@
 
       <!-- <FullScreen />
       <LocalePicker /> -->
-      <span>Theme change Test</span>
+      <!-- <span>Theme change Test</span> -->
       <a-switch size="small" v-model:checked="isDarkMode" />
 
-      <Avatar style="background-color: #d7b0f4">
+      <!-- <Avatar style="background-color: #d7b0f4">
         <template #icon>
           <UserOutlined />
         </template>
-      </Avatar>
+      </Avatar> -->
+
+      <!-- <Button label="김인수" shape="round">
+        <template #icon>
+          <CaretDownOutlined />
+        </template>
+      </Button> -->
+
+      <a-dropdown>
+        <a-button>
+          체크업 주식회사
+          <DownOutlined />
+        </a-button>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item key="1">
+              <UserOutlined />
+              1st menu item
+            </a-menu-item>
+            <a-menu-item key="2">
+              <UserOutlined />
+              2nd menu item
+            </a-menu-item>
+            <a-menu-item key="3">
+              <UserOutlined />
+              3rd item
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
+
+      <!-- <DropdownMenu label="체크업 주식회사" /> -->
 
       <!-- <ProjectSetting /> -->
     </Space>
@@ -32,14 +63,20 @@
 <script lang="tsx" setup>
 import { computed, nextTick, ref, type CSSProperties, type PropType } from 'vue'
 // import { useRouter, useRoute, RouteRecordRaw } from 'vue-router'
+import { Button } from '@/stories'
 import {
   QuestionCircleOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PoweroffOutlined,
   LockOutlined,
-  UserOutlined
-} from '@ant-design/icons-vue'
+  UserOutlined,
+  DownOutlined,
+  DownSquareFilled,
+  DownCircleFilled,
+  CaretDownOutlined
+} from '@/components/Icon'
+
 import {
   Layout,
   message,
@@ -53,6 +90,7 @@ import {
   type MenuTheme
 } from 'ant-design-vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { DropdownMenu } from '@/stories'
 
 const props = defineProps({
   collapsed: {
@@ -91,7 +129,7 @@ const headerStyle = computed<CSSProperties>(() => {
   top: 0;
   z-index: 10;
   display: flex;
-  height: 64px;
+  height: 55px;
   padding: 0 20px;
   justify-content: space-between;
   align-items: center;

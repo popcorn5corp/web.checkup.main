@@ -17,7 +17,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "ant-design-vue": "^4.0.0-rc.3",
+    "ant-design-vue": "^4.0.0-rc.4",
     "axios": "^1.4.0",
     "pinia": "^2.0.36",
     "pinia-plugin-persist": "^1.0.0",
