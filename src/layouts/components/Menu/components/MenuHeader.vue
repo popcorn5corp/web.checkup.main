@@ -1,16 +1,23 @@
 <script setup lang="ts" name="MenuHeader">
+import { computed, type CSSProperties } from 'vue'
 import Button from '@/stories/Button/Button.vue'
 import { PlusCircleFilled } from '@/components/Icon'
 
-defineProps({
+const props = defineProps({
   collapsed: {
     type: Boolean
+  }
+})
+
+const menuHeaderbuttonStyle = computed<CSSProperties>(() => {
+  return {
+    width: !props.collapsed ? '180px' : '50px'
   }
 })
 </script>
 <template>
   <div class="menu-header">
-    <Button type="primary" :label="!collapsed ? '새 프로젝트' : ''" style="width: 180px">
+    <Button type="primary" :label="!collapsed ? '새 프로젝트' : ''" :style="menuHeaderbuttonStyle">
       <template #icon>
         <PlusCircleFilled />
       </template>

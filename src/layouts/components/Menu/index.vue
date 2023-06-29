@@ -29,8 +29,8 @@
 
 <script setup lang="ts" name="Menu">
 import { reactive, computed, watch, type PropType, onMounted } from 'vue'
-import { useRoute, useRouter, type RouteRecordName, type RouteRecord } from 'vue-router'
-import { Menu, type MenuTheme } from 'ant-design-vue'
+import { useRoute, useRouter } from 'vue-router'
+import Menu, { type MenuTheme } from 'ant-design-vue/es/menu'
 import MenuItem from './components/MenuItem.vue'
 // import { useUserStore } from '@/store/modules/user'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'

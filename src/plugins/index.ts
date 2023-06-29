@@ -1,1 +1,1 @@
-export default {}
+export { setupFontAwesome } from '@/plugins/fontawesome'

@@ -24,31 +24,22 @@
 
       <PageTabs />
 
-      <!-- <Layout.Content class="layout-content">
+      <Layout.Content class="layout-content">
         <slot></slot>
-      </Layout.Content> -->
+      </Layout.Content>
       <PageFooter />
     </Layout>
   </Layout>
 </template>
 <script setup lang="ts" name="Layout">
-import { ref, computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { Layout } from 'ant-design-vue'
 import Logo from '../components/Logo/index.vue'
-// import { TabsView } from './tabs'
 import AsideMenu from '../components/Menu/index.vue'
 import PageHeader from '../components/Header/index.vue'
 import PageFooter from '../components/Footer/index.vue'
 import PageTabs from '../components/Tabs/index.vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import Badge from '@/stories/Badge/Badge.vue'
-
-import {
-  DownloadOutlined,
-  PlusCircleOutlined,
-  FileExcelOutlined,
-  ClockCircleFilled
-} from '@ant-design/icons-vue'
 
 const { config } = useProjectConfigStore()
 const collapsed = computed<boolean>(() => config.isCollapse)
@@ -56,9 +47,6 @@ const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
 </script>
 <style lang="scss" scoped>
-body {
-  background-color: #ededed;
-}
 .layout-default {
   display: flex;
   height: 100vh;
@@ -99,6 +87,7 @@ body {
 
   .layout-content {
     flex: none;
+    height: calc(100vh - 90px);
   }
 }
 </style>

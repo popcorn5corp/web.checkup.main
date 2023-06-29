@@ -4,7 +4,8 @@
   </div>
 </template>
 <script setup lang="ts" name="Logo">
-import { computed, type CSSProperties } from 'vue'
+import { computed } from 'vue'
+import type { CSSProperties } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 
 const { config } = useProjectConfigStore()

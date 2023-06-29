@@ -4,6 +4,7 @@
       algorithm: theme.defaultAlgorithm,
       token: {
         colorPrimary: configTheme.primaryColor
+        // fontSize: 13
       }
     }"
   >
@@ -16,6 +17,9 @@ import { ConfigProvider } from 'ant-design-vue'
 import LayoutContainer from '@/layouts/index.vue'
 import { theme } from 'ant-design-vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { Modal } from 'ant-design-vue'
+
+const [{ confirm }] = Modal.useModal()
 
 defineOptions({
   name: 'App'

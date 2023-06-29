@@ -4,20 +4,22 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { setupRouter } from './router'
 import { setupStore } from '@/stores'
+import { setupFontAwesome } from '@/plugins'
 
 const app = createApp(App)
 
-function setupPlugins() {}
+function setupPlugins() {
+  setupFontAwesome(app)
+}
 
 async function setupApp() {
   setupStore(app)
-  // Asynchronous case: language files may be obtained from the server side
-  // await setupI18n(app);
   await setupRouter(app)
   app.mount('#app')
 }
 
-;(async function startCheckUpMain() {
+;(async function bootCheckUpMain() {
   await setupApp()
-  setupPlugins()
 })()
+
+setupPlugins()

@@ -3,7 +3,6 @@
     <Space :size="20">
       <slot>
         <Space :size="20">
-          <!-- <span class="menu-fold" @click="() => emit('update:collapsed', !collapsed)"> -->
           <span class="menu-fold" @click="setCollapse(!props.collapsed)">
             <component :is="props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined" />
           </span>
@@ -11,86 +10,61 @@
       </slot>
     </Space>
     <Space :size="20">
-      <!-- <Search /> -->
-
-      <!-- <FullScreen />
-      <LocalePicker /> -->
-      <!-- <span>Theme change Test</span> -->
       <a-switch size="small" v-model:checked="isDarkMode" />
 
-      <!-- <Avatar style="background-color: #d7b0f4">
-        <template #icon>
-          <UserOutlined />
-        </template>
-      </Avatar> -->
-
-      <!-- <Button label="김인수" shape="round">
-        <template #icon>
-          <CaretDownOutlined />
-        </template>
-      </Button> -->
-
-      <a-dropdown>
-        <a-button>
-          체크업 주식회사
-          <DownOutlined />
-        </a-button>
+      <Dropdown label="체크업 주식회사">
         <template #overlay>
-          <a-menu>
+          <a-menu @click="onClickMenu">
+            <a-menu-item key="0" style="text-align: center">
+              <Avatar style="background-color: #d7b0f4">
+                <template #icon>
+                  <UserOutlined />
+                </template>
+              </Avatar>
+            </a-menu-item>
+            <a-menu-item key="0" style="text-align: center"> 체크업 주식회사 </a-menu-item>
+            <a-menu-item key="0"> admin@checkupv.com </a-menu-item>
             <a-menu-item key="1">
-              <UserOutlined />
-              1st menu item
+              <SettingOutlined />
+              환경설정
             </a-menu-item>
             <a-menu-item key="2">
               <UserOutlined />
-              2nd menu item
+              고객센터
             </a-menu-item>
             <a-menu-item key="3">
-              <UserOutlined />
-              3rd item
+              <LogoutOutlined />
+              로그아웃
             </a-menu-item>
           </a-menu>
         </template>
-      </a-dropdown>
-
-      <!-- <DropdownMenu label="체크업 주식회사" /> -->
-
-      <!-- <ProjectSetting /> -->
+      </Dropdown>
     </Space>
   </Layout.Header>
+
+  <Modal v-model:open="isOpen" title="환경설정" @ok="handleOk" width="1000px">
+    <Tabs v-model:active-key="activeKey" :tab-position="'left'">
+      <TabPane key="1" tab="계정">계정</TabPane>
+      <TabPane key="2" tab="디스플레이 설정" force-render>디스플레이 설정</TabPane>
+      <TabPane key="3" tab="언어">언어</TabPane>
+    </Tabs>
+  </Modal>
 </template>
 
-<script lang="tsx" setup>
-import { computed, nextTick, ref, type CSSProperties, type PropType } from 'vue'
-// import { useRouter, useRoute, RouteRecordRaw } from 'vue-router'
-import { Button } from '@/stories'
+<script lang="tsx" setup name="Header">
+import { computed, type CSSProperties, type PropType, ref } from 'vue'
+import { Dropdown } from '@/stories'
 import {
-  QuestionCircleOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  PoweroffOutlined,
-  LockOutlined,
   UserOutlined,
-  DownOutlined,
-  DownSquareFilled,
-  DownCircleFilled,
-  CaretDownOutlined
+  SettingOutlined,
+  LogoutOutlined
 } from '@/components/Icon'
 
-import {
-  Layout,
-  message,
-  Modal,
-  Dropdown,
-  Menu,
-  Space,
-  Breadcrumb,
-  Avatar,
-  Tooltip,
-  type MenuTheme
-} from 'ant-design-vue'
+import { Layout, Modal, Space, Avatar, Tabs, type MenuTheme, type MenuProps } from 'ant-design-vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { DropdownMenu } from '@/stories'
+const { TabPane } = Tabs
 
 const props = defineProps({
   collapsed: {
@@ -103,6 +77,9 @@ const props = defineProps({
 const emit = defineEmits(['update:collapsed'])
 
 const { config, setCollapse, setTheme } = useProjectConfigStore()
+const isOpen = ref(false)
+const activeKey = ref('1')
+
 const isDarkMode = computed({
   get() {
     return config.theme.isDark
@@ -111,6 +88,7 @@ const isDarkMode = computed({
     setTheme({ navTheme: isDark ? 'dark' : 'light', isDark })
   }
 })
+
 const headerStyle = computed<CSSProperties>(() => {
   const {
     theme: { navTheme, layout }
@@ -121,6 +99,17 @@ const headerStyle = computed<CSSProperties>(() => {
     color: isDark ? 'rgba(255, 255, 255, 0.85)' : ''
   }
 })
+
+const onClickMenu: MenuProps['onClick'] = (e) => {
+  console.log('e', e)
+  if (e.key === '1') {
+    isOpen.value = true
+  }
+}
+
+function handleOk(e: MouseEvent) {
+  isOpen.value = false
+}
 </script>
 
 <style lang="scss" scoped>

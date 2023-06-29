@@ -1,3 +1,3 @@
 export * from './Button'
-export * from './DropdownMenu'
+export * from './Dropdown'
 export * from './Badge'
