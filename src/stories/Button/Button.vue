@@ -1,11 +1,10 @@
 <template>
   <a-button
     :class="getButtonClass"
-    :type="type"
-    :shape="shape"
-    :size="size"
-    :loading="loading"
-    :disabled="disabled"
+    v-bind="{
+      ...props,
+      icon: undefined
+    }"
     @click="$emit('click')"
   >
     <ButtonIcon v-if="icon" :icon="icon" />

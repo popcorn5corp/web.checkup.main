@@ -6,6 +6,7 @@
       type="editable-card"
       @change="onChangeTab"
       @edit="onEditTab"
+      :style="tabsStyle"
     >
       <a-tab-pane v-for="tab in tabs" :key="tab.fullPath" :tab="tab.meta.title" />
     </a-tabs>
@@ -29,21 +30,32 @@
 </template>
 
 <script setup lang="ts" name="Tabs">
-import { ref, watch, computed, onUnmounted, unref, onMounted } from 'vue'
+import { ref, watch, computed, onUnmounted, unref, onMounted, type CSSProperties } from 'vue'
 import { useRoute, type RouteLocationNormalized } from 'vue-router'
 import { useTabsLayoutStore } from '@/stores/modules/tabsLayout'
 import type { RouteItem } from '@/stores/interface'
 import { Storage } from '@/utils/storage'
 import { TABS_ROUTES_KEY } from '@/enums/cacheKeyEnum'
 import router from '@/router'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 
 const route = useRoute()
 const tabsLyoutStore = useTabsLayoutStore()
+const {
+  config: { theme }
+} = useProjectConfigStore()
 const tabs = computed(() => tabsLyoutStore.getTabs())
 const activeKey = ref(route.fullPath)
 const newTabIndex = ref(0)
 
 initTabs()
+
+const activeTabBorderColor = computed(() => theme.primaryColor)
+const tabsStyle = computed<CSSProperties>(() => {
+  return {
+    backgroundColor: theme.navTheme !== 'realDark' ? 'rgba(255, 255, 255, 0.85)' : ''
+  }
+})
 
 watch(
   () => route.fullPath,
@@ -66,7 +78,7 @@ function getSimpleRoute(route: RouteLocationNormalized): RouteItem {
   return { fullPath, hash, meta, name, params, path, query }
 }
 
-function onChangeTab(key: RouteItem['fullPath']) {
+function onChangeTab(key: string) {
   Object.is(route.fullPath, key) || router.push(key)
 }
 
@@ -96,8 +108,6 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .tabs-container {
   :deep(.ant-tabs) {
-    background-color: rgba(255, 255, 255, 0.85);
-
     &.ant-tabs-top {
       border-radius: 0;
 
@@ -149,7 +159,7 @@ onUnmounted(() => {
         }
 
         .ant-tabs-tab-active {
-          border-top: 2px solid #1890ff;
+          border-top: 2px solid v-bind(activeTabBorderColor);
         }
       }
     }

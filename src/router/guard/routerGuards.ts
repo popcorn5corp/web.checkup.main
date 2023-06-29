@@ -81,7 +81,5 @@ export function createRouterGuards(router: Router, whiteNameList: WhiteNameList)
     // NProgress.done() // finish progress bar
   })
 
-  router.onError((error) => {
-    console.log(error, '路由错误')
-  })
+  router.onError((error) => {})
 }

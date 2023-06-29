@@ -9,7 +9,7 @@ const props = defineProps({
   }
 })
 
-const menuHeaderbuttonStyle = computed<CSSProperties>(() => {
+const buttonStyle = computed<CSSProperties>(() => {
   return {
     width: !props.collapsed ? '180px' : '50px'
   }
@@ -17,7 +17,7 @@ const menuHeaderbuttonStyle = computed<CSSProperties>(() => {
 </script>
 <template>
   <div class="menu-header">
-    <Button type="primary" :label="!collapsed ? '새 프로젝트' : ''" :style="menuHeaderbuttonStyle">
+    <Button type="primary" :label="!collapsed ? '새 프로젝트' : ''" :style="buttonStyle">
       <template #icon>
         <PlusCircleFilled />
       </template>

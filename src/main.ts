@@ -4,12 +4,13 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { setupRouter } from './router'
 import { setupStore } from '@/stores'
-import { setupFontAwesome } from '@/plugins'
+import { setupFontAwesome, setupAssets } from '@/plugins'
 
 const app = createApp(App)
 
 function setupPlugins() {
   setupFontAwesome(app)
+  setupAssets()
 }
 
 async function setupApp() {
@@ -20,6 +21,5 @@ async function setupApp() {
 
 ;(async function bootCheckUpMain() {
   await setupApp()
+  setupPlugins()
 })()
-
-setupPlugins()

@@ -2,7 +2,7 @@
   <Dropdown :trigger="['click']">
     <Button shape="round">
       {{ props.label }}
-      <DownOutlined />
+      <CaretDownOutlined />
     </Button>
     <template #overlay>
       <slot name="overlay"></slot>
@@ -22,7 +22,13 @@
 <script lang="ts" setup name="Dropdown">
 import { computed } from 'vue'
 import { Dropdown, Button, DropdownButton } from 'ant-design-vue'
-import { DownOutlined } from '@ant-design/icons-vue'
+import {
+  DownOutlined,
+  DownSquareTwoTone,
+  DownSquareFilled,
+  CaretDownOutlined,
+  CaretDownFilled
+} from '@ant-design/icons-vue'
 
 const {} = Dropdown
 
