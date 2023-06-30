@@ -70,6 +70,25 @@ const showRadio = ref(false)
           </div>
         </li>
       </ul>
+
+      <div class="mobile-footer">
+        <a-divider></a-divider>
+        <div class="btn-group">
+          <Button
+            label="Clear all"
+            size="large"
+            icon="filter"
+            @click="showFilter = showFilter ? false : true"
+          />
+          <Button
+            label="Done"
+            type="primary"
+            size="large"
+            icon="filter"
+            @click="showFilter = showFilter ? false : true"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -82,10 +101,29 @@ const showRadio = ref(false)
 
 .filter-list {
   width: 300px;
-  .mobile-header {
-    text-align: center;
+  .mobile-header,
+  .mobile-footer {
     display: none;
   }
+
+  .mobile-header {
+    text-align: center;
+  }
+
+  .mobile-footer {
+    position: absolute;
+    bottom: 23px;
+    width: 100%;
+    .btn-group {
+      display: flex;
+      justify-content: space-around;
+      button {
+        width: 47%;
+        height: 54px;
+      }
+    }
+  }
+
   @media screen and (max-width: 830px) {
     .mobile-header {
       padding: 41px 16px;
@@ -99,6 +137,10 @@ const showRadio = ref(false)
         font-size: 22px !important;
         color: #04111d;
       }
+    }
+
+    .mobile-footer {
+      display: block;
     }
 
     .slideUp {
