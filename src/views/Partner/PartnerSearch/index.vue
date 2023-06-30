@@ -1,5 +1,7 @@
-<script setup lang="ts" name="ParnerSearch"></script>
+<script setup lang="ts" name="ParnerSearch">
+import Filter from '@/components/Filter/index.vue'
+</script>
 <template>
-  <div>파트너검색 화면</div>
+  <Filter />
 </template>
 <style lang="scss" scoped></style>

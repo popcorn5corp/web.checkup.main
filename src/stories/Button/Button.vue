@@ -38,6 +38,7 @@ const getButtonClass = computed(() => {
   // display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600;
 }
 .storybook-button {
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;

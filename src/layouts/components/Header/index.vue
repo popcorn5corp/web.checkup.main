@@ -50,7 +50,6 @@ const headerStyle = computed<CSSProperties>(() => {
 .layout-header {
   position: sticky;
   top: 0;
-  z-index: 10;
   display: flex;
   height: 55px;
   padding: 0 20px;

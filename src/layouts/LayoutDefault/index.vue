@@ -243,6 +243,7 @@ const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : '
   .layout-content {
     flex: none;
     height: calc(100vh - 90px);
+    background: white;
   }
 }
 </style>

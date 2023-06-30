@@ -20,6 +20,6 @@ async function setupApp() {
 }
 
 ;(async function bootCheckUpMain() {
-  await setupApp()
   setupPlugins()
+  await setupApp()
 })()
