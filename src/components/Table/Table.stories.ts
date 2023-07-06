@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
-import Table from './Table.vue'
+import Table from '@/components/Table/Table.vue'
 
 const meta = {
   title: 'checkupuikit/Atoms/Table',

@@ -1,5 +1,5 @@
-<script setup>
-import Button from '@/stories/Button/Button.vue'
+<script lang="ts" setup name="FilterDatepicker">
+import { Button } from '@/components/Button'
 import { ref } from 'vue'
 
 const value1 = ref([])

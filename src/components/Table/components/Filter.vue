@@ -1,72 +1,56 @@
-<script setup>
-import { ref } from 'vue'
-import Button from '@/stories/Button/Button.vue'
-import FilterCheckbox from '@/components/Filter/components/FilterCheckbox.vue'
-import FilterDatepicker from '@/components/Filter/components/FilterDatepicker.vue'
-import FilterSelect from '@/components/Filter/components/FilterSelect.vue'
-import FilterRadio from '@/components/Filter/components/FilterRadio.vue'
+<script setup lang="ts" name="Filter">
+import { ref, computed } from 'vue'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { filterList } from '../mock'
+// import { Button } from '@/components/Button'
+import { Button } from '../../Button'
+import FilterType from './filterType/FilterType.vue'
 
-const showFilter = ref(true)
-const showCheckbox = ref(true)
-const showDatepicker = ref(true)
-const showSelect = ref()
-const showRadio = ref(false)
+const emit = defineEmits(['showFilter'])
+
+const { config } = useProjectConfigStore()
+const getTheme = computed(() => config.theme.navTheme)
+
+const getStyle = computed(() => {
+  return {
+    backgroundColor: config.theme.navTheme === 'light' ? '' : 'rgb(0, 21, 41)'
+  }
+})
+
+const getClass = computed(() => {
+  return [
+    {
+      [`dark-mode`]: getTheme.value === 'dark'
+    }
+  ]
+})
+const filterData = ref({ ...filterList })
+const showFilter = ref<Boolean>(true)
+
+const onFilter = (): void => {
+  showFilter.value = showFilter ? false : true
+  emit('showFilter', showFilter.value)
+}
 </script>
 <template>
   <div class="filter-wrapper">
-    <Button
-      label="Filter"
-      size="large"
-      icon="filter"
-      @click="showFilter = showFilter ? false : true"
-    />
-
     <div class="filter-list" v-if="showFilter">
+      <!-- 모바일 버전 헤더 -->
       <div class="mobile-header">
         <h3>Filters</h3>
-        <font-awesome-icon
-          @click="showFilter = showFilter ? false : true"
-          class="xmark"
-          :icon="['fas', 'xmark']"
-        />
+        <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
+
       <ul>
-        <li>
-          <div>
-            <div class="filter-title" @click="showCheckbox = showCheckbox ? false : true">
-              <h3>Checkbox</h3>
+        <li class="flex-direction-columns" :class="getClass">
+          <div v-for="(item, index) in filterData" :key="index">
+            <div class="filter-title" @click="() => (item.show = item.show ? false : true)">
+              <h3>{{ item.name }}</h3>
               <font-awesome-icon :icon="['fas', 'angle-down']" />
             </div>
-            <FilterCheckbox v-if="showCheckbox" />
-          </div>
-        </li>
-
-        <li>
-          <div>
-            <div class="filter-title" @click="showRadio = showRadio ? false : true">
-              <h3>Radio</h3>
-              <font-awesome-icon :icon="['fas', 'angle-down']" />
-            </div>
-            <FilterRadio v-if="showRadio" />
-          </div>
-        </li>
-
-        <li>
-          <div>
-            <div class="filter-title" @click="showDatepicker = showDatepicker ? false : true">
-              <h3>Datepicker</h3>
-              <font-awesome-icon :icon="['fas', 'angle-down']" />
-            </div>
-            <FilterDatepicker v-if="showDatepicker" />
-          </div>
-        </li>
-        <li>
-          <div>
-            <div class="filter-title" @click="showSelect = showSelect ? false : true">
-              <h3>Select</h3>
-              <font-awesome-icon :icon="['fas', 'angle-down']" />
-            </div>
-            <FilterSelect v-if="showSelect" />
+            <template v-if="item.show">
+              <FilterType :type="item.type" />
+            </template>
           </div>
         </li>
       </ul>
@@ -74,19 +58,8 @@ const showRadio = ref(false)
       <div class="mobile-footer">
         <a-divider></a-divider>
         <div class="btn-group">
-          <Button
-            label="Clear all"
-            size="large"
-            icon="filter"
-            @click="showFilter = showFilter ? false : true"
-          />
-          <Button
-            label="Done"
-            type="primary"
-            size="large"
-            icon="filter"
-            @click="showFilter = showFilter ? false : true"
-          />
+          <Button label="Clear all" size="large" @click="onFilter" />
+          <Button label="Done" type="primary" size="large" @click="onFilter" />
         </div>
       </div>
     </div>
@@ -100,7 +73,7 @@ const showRadio = ref(false)
 }
 
 .filter-list {
-  width: 300px;
+  width: 100%;
   .mobile-header,
   .mobile-footer {
     display: none;
@@ -215,5 +188,13 @@ const showRadio = ref(false)
       }
     }
   }
+}
+.flex-direction-columns {
+  flex-direction: column;
+}
+
+.dark-mode {
+  background: rgb(0, 21, 41) !important;
+  color: white !important;
 }
 </style>

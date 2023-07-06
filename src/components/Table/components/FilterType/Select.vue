@@ -1,6 +1,6 @@
-<script setup>
+<script lang="ts" setup name="FilterSelect">
 import { ref } from 'vue'
-import Button from '@/stories/Button/Button.vue'
+import { Button } from '@/components/Button'
 
 const value1 = ref([])
 </script>

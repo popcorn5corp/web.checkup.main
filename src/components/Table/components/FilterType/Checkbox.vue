@@ -1,7 +1,8 @@
-<script>
+<script lang="ts" setup name="FilterCheckbox">
 import { ref } from 'vue'
 
 const value1 = ref([])
+const userName = ref(null)
 </script>
 <template>
   <div class="filter-input">

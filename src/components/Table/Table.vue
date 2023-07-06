@@ -1,6 +1,6 @@
 <script setup lang="ts" name="TableComponent">
-import type { DefaultPagination, TableProps } from './types'
 import { ref, toRefs, watch, withDefaults } from 'vue'
+import type { DefaultPagination, TableProps } from './types'
 import { SearchOutlined } from '@ant-design/icons-vue'
 
 const emits = defineEmits(['rowClick', 'change', 'search'])
@@ -40,19 +40,19 @@ let isTableChangedFlag = false
 /**
  * 테이블 칼럼 세팅 ('NO' 칼럼 추가)
  */
-function setColumns() {
-  tableColumns.value.unshift({
-    title: 'No',
-    align: 'center',
-    dataIndex: 'index',
-    key: 'index'
-  })
-}
+// function setColumns() {
+//   tableColumns.value.unshift({
+//     title: 'No',
+//     align: 'center',
+//     dataIndex: 'index',
+//     key: 'index'
+//   })
+// }
 watch(
   columns,
   () => {
     if (options.value.isShowNo === undefined || options.value.isShowNo === true) {
-      setColumns()
+      // setColumns()
     }
   },
   {
@@ -63,6 +63,7 @@ watch(
 watch(
   () => dataSource.value,
   () => {
+    console.log(dataSource.value)
     // pagination 사용하는 경우
     if (isUsePagination) {
       // 검색조건 변경일 경우, current 초기화
@@ -101,7 +102,7 @@ const getRowNo = (rowIndex: number) => {
  * 테이블 Change 이벤트
  * @param {{total: number, current: number, pageSize: number, showSizeChanger: boolean, position: string[], pageSizeOptions: string[]}} event
  */
-const onChange = (event) => {
+const onChange = (event: { pageSize: number; current: number }) => {
   const { pageSize, current } = event
   // 페이지 사이즈 변경 시, 첫 페이지로 이동
   const isChangePageSize = tablePagination.value.pageSize !== pageSize
@@ -140,11 +141,14 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters) =>
 }
 </script>
 <template>
-  <div class="table-top">
-    <span v-if="total !== null">전체: {{ total }}건</span>
-    <div class="btn-group">
-      <slot name="buttons">
-        <!-- <a-button shape="round">
+  <div class="wrapper">
+    <div class="table-wrapper">
+      <div>
+        <div class="table-top">
+          <!-- <span v-if="total !== null">전체: {{ total }}건</span> -->
+          <div class="btn-group">
+            <slot name="buttons">
+              <!-- <a-button shape="round">
 					<template #icon><DownloadOutlined /></template>일괄다운</a-button
 				>
 				<a-button
@@ -154,73 +158,76 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters) =>
 					title="체크리스트 생성"
 					><i class="fas fa-plus"></i
 				></a-button> -->
-      </slot>
+            </slot>
+          </div>
+        </div>
+
+        <a-table
+          :loading="loading"
+          :dataSaource="dataSource"
+          :columns="tableColumns"
+          :size="size"
+          :pagination="isUsePagination ? tablePagination : false"
+          :customRow="customRow"
+          @change="onChange"
+        >
+          <!--------------------- 테이블 Header Filter 영역 --------------------->
+          <template
+            #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+          >
+            <slot
+              name="customFilterDropdown"
+              :setSelectedKeys="setSelectedKeys"
+              :selectedKeys="selectedKeys"
+              :confirm="confirm"
+              :clearFilters="clearFilters"
+              :column="column"
+            />
+            <div style="padding: 8px">
+              <a-input
+                ref="searchInput"
+                :placeholder="`${column.title}을 검색해주세요.`"
+                :value="selectedKeys[0]"
+                style="width: 188px; margin-bottom: 8px; display: block"
+                @change="(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                @pressEnter="handleSearch(selectedKeys, column.dataIndex, confirm)"
+              />
+              <a-button
+                type="primary"
+                size="small"
+                style="width: 90px; margin-right: 8px"
+                @click="handleSearch(selectedKeys, column.dataIndex, confirm)"
+              >
+                <template #icon><SearchOutlined /></template>
+                검색
+              </a-button>
+              <a-button
+                size="small"
+                style="width: 90px"
+                @click="handleReset(selectedKeys, column.dataIndex, clearFilters)"
+              >
+                초기화
+              </a-button>
+            </div>
+          </template>
+
+          <!------------------- 테이블 Header Filter Icon 영역 ------------------->
+          <template #customFilterIcon="{ filtered }">
+            <slot name="filterIcon" :filtered="filtered" />
+            <!-- <SearchOutlined :style="{ color: filtered ? '#108ee9' : undefined }" /> -->
+          </template>
+
+          <!-------------------------- 테이블 Body 영역-------------------------->
+          <template #bodyCell="{ record, column, index, text }">
+            <template v-if="column.key === 'index'">
+              {{ options.isPagination ? getRowNo(index) : index + 1 }}
+            </template>
+            <slot name="bodyCell" :record="record" :column="column" :index="index" :text="text" />
+          </template>
+        </a-table>
+      </div>
     </div>
   </div>
-
-  <a-table
-    :loading="loading"
-    :dataSaource="dataSource"
-    :columns="tableColumns"
-    :size="size"
-    :pagination="isUsePagination ? tablePagination : false"
-    :customRow="customRow"
-    @change="onChange"
-  >
-    <!--------------------- 테이블 Header Filter 영역 --------------------->
-    <template
-      #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
-    >
-      <slot
-        name="customFilterDropdown"
-        :setSelectedKeys="setSelectedKeys"
-        :selectedKeys="selectedKeys"
-        :confirm="confirm"
-        :clearFilters="clearFilters"
-        :column="column"
-      />
-      <div style="padding: 8px">
-        <a-input
-          ref="searchInput"
-          :placeholder="`${column.title}을 검색해주세요.`"
-          :value="selectedKeys[0]"
-          style="width: 188px; margin-bottom: 8px; display: block"
-          @change="(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-          @pressEnter="handleSearch(selectedKeys, column.dataIndex, confirm)"
-        />
-        <a-button
-          type="primary"
-          size="small"
-          style="width: 90px; margin-right: 8px"
-          @click="handleSearch(selectedKeys, column.dataIndex, confirm)"
-        >
-          <template #icon><SearchOutlined /></template>
-          검색
-        </a-button>
-        <a-button
-          size="small"
-          style="width: 90px"
-          @click="handleReset(selectedKeys, column.dataIndex, clearFilters)"
-        >
-          초기화
-        </a-button>
-      </div>
-    </template>
-
-    <!------------------- 테이블 Header Filter Icon 영역 ------------------->
-    <template #customFilterIcon="{ filtered }">
-      <slot name="filterIcon" :filtered="filtered" />
-      <!-- <SearchOutlined :style="{ color: filtered ? '#108ee9' : undefined }" /> -->
-    </template>
-
-    <!-------------------------- 테이블 Body 영역-------------------------->
-    <template #bodyCell="{ record, column, index, text }">
-      <template v-if="column.key === 'index'">
-        {{ options.isPagination ? getRowNo(index) : index + 1 }}
-      </template>
-      <slot name="bodyCell" :record="record" :column="column" :index="index" :text="text" />
-    </template>
-  </a-table>
 </template>
 <style lang="scss" scoped>
 :deep(.ant-table) {
@@ -243,6 +250,16 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters) =>
     float: right;
     display: flex;
     gap: 5px;
+  }
+}
+
+:deep(.ant-table-thead) {
+  color: rgb(4, 17, 29) !important;
+  th {
+    background: rgb(255, 255, 255) !important;
+    border-bottom: 1px solid rgb(229, 232, 235) !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
   }
 }
 </style>

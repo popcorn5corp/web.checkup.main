@@ -33,3 +33,16 @@ export interface TableOptions {
 }
 
 export interface TableEmits {}
+
+export enum FilterTypeEnum {
+  'SELECT' = 'select',
+  'DATEPICKER' = 'datepicker',
+  'CHECKBOX' = 'checkbox',
+  'RADIO' = 'radio'
+}
+
+export interface Filter {
+  type: FilterTypeEnum
+  name: string
+  show: boolean
+}

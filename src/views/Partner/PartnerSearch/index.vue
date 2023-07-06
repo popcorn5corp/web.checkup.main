@@ -1,7 +1,8 @@
 <script setup lang="ts" name="ParnerSearch">
-import Filter from '@/components/Filter/index.vue'
+import { TableFilter } from '@/components/Table'
+import { dataSource, columns } from '@/components/Table/mock'
 </script>
+
 <template>
-  <Filter />
+  <TableFilter :dataSource="dataSource" :columns="columns" />
 </template>
-<style lang="scss" scoped></style>

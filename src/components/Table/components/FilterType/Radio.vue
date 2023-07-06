@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup name="FilterRadio">
 import { ref } from 'vue'
 
 const value = ref(1)

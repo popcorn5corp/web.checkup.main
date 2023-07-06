@@ -24,9 +24,12 @@
 
       <PageTabs />
 
-      <Layout.Content class="layout-content">
-        <slot></slot>
-      </Layout.Content>
+      <Layout.Content
+        class="layout-content"
+        :style="{ backgroundColor: getTheme === 'dark' ? '#001529' : '' }"
+      >
+        <slot></slot
+      ></Layout.Content>
       <PageFooter />
     </Layout>
 
@@ -48,7 +51,7 @@
   </Layout>
 </template>
 <script setup lang="ts" name="Layout">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { Layout } from 'ant-design-vue'
 import Logo from '../components/Logo/index.vue'
 import AsideMenu from '../components/Menu/index.vue'
@@ -61,6 +64,13 @@ const { config } = useProjectConfigStore()
 const collapsed = computed<boolean>(() => config.isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
+
+watch(
+  () => getTheme.value,
+  (theme) => {
+    console.log(theme)
+  }
+)
 </script>
 <style lang="scss" scoped>
 .circular-menu {
@@ -241,6 +251,7 @@ const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : '
   }
 
   .layout-content {
+    padding: 1rem;
     flex: none;
     height: calc(100vh - 90px);
     background: white;

@@ -1,6 +1,6 @@
 <script setup lang="ts" name="MenuHeader">
 import { computed, type CSSProperties } from 'vue'
-import Button from '@/stories/Button/Button.vue'
+import { Button } from '@/components/Button'
 import { PlusCircleFilled } from '@/components/Icon'
 
 const props = defineProps({

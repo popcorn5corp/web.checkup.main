@@ -18,7 +18,7 @@ const meta = {
       options: ['small', 'medium', 'large'],
       control: 'select',
       table: {
-        type: { summary: 'small | medium | large' },
+        type: { summary: 'small1 | medium | large' },
         defaultValue: { summary: 'medium' }
       }
     },
