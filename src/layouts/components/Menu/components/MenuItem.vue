@@ -23,7 +23,6 @@ import { type PropType, computed } from 'vue'
 import { Menu } from 'ant-design-vue'
 import MenuItemContent from './MenuItemContent.vue'
 import type { RouteRecordRaw } from 'vue-router'
-import Badge from '@/stories/Badge/Badge.vue'
 defineOptions({
   name: 'MenuItem'
 })

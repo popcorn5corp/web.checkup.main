@@ -15,7 +15,6 @@
 <script setup lang="ts" name="MenuItemContent">
 import type { RouteRecordRaw } from 'vue-router'
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue'
-import Badge from '@/stories/Badge/Badge.vue'
 
 defineOptions({
   name: 'MenuItemContent'

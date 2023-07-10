@@ -1,40 +1,35 @@
 <script setup lang="ts" name="Filter">
-import { ref, computed } from 'vue'
+import { ref,computed,type PropType  } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { filterList } from '../mock'
-// import { Button } from '@/components/Button'
-import { Button } from '../../Button'
-import FilterType from './filterType/FilterType.vue'
 
+import { Button } from '../../Button'
+import FilterType from './FilterType/FilterType.vue'
+import type { Filter } from '../types'
+import { filterList } from '../mock'
 const emit = defineEmits(['showFilter'])
 
 const { config } = useProjectConfigStore()
+
 const getTheme = computed(() => config.theme.navTheme)
-
-const getStyle = computed(() => {
-  return {
-    backgroundColor: config.theme.navTheme === 'light' ? '' : 'rgb(0, 21, 41)'
-  }
-})
-
-const getClass = computed(() => {
-  return [
-    {
-      [`dark-mode`]: getTheme.value === 'dark'
-    }
-  ]
-})
-const filterData = ref({ ...filterList })
 const showFilter = ref<Boolean>(true)
 
 const onFilter = (): void => {
   showFilter.value = showFilter ? false : true
   emit('showFilter', showFilter.value)
 }
+
+defineProps({
+  filterList: {
+    type: Array as PropType<Filter[]>,
+    default: () => [],
+    required: true,
+  },
+})
+
 </script>
 <template>
   <div class="filter-wrapper">
-    <div class="filter-list" v-if="showFilter">
+    <div class="filter-list"  v-if="showFilter">
       <!-- 모바일 버전 헤더 -->
       <div class="mobile-header">
         <h3>Filters</h3>
@@ -42,8 +37,8 @@ const onFilter = (): void => {
       </div>
 
       <ul>
-        <li class="flex-direction-columns" :class="getClass">
-          <div v-for="(item, index) in filterData" :key="index">
+        <li :class="{'dark-mode' : getTheme === 'realDark' }" class="flex-direction-columns" >
+          <div v-for="(item, index) in filterList" :key="index">
             <div class="filter-title" @click="() => (item.show = item.show ? false : true)">
               <h3>{{ item.name }}</h3>
               <font-awesome-icon :icon="['fas', 'angle-down']" />
@@ -194,7 +189,8 @@ const onFilter = (): void => {
 }
 
 .dark-mode {
-  background: rgb(0, 21, 41) !important;
+  background: none !important;
   color: white !important;
 }
+ 
 </style>

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import Badge from './Badge.vue'
+import {Badge} from './'
 
 const meta = {
   title: 'checkupuikit/Atoms/Badge',
@@ -18,7 +18,7 @@ const meta = {
       options: ['small', 'medium', 'large'],
       control: 'select',
       table: {
-        type: { summary: 'small1 | medium | large' },
+        type: { summary: 'small | medium | large' },
         defaultValue: { summary: 'medium' }
       }
     },

@@ -1,8 +1,13 @@
 <script lang="ts" setup name="FilterCheckbox">
 import { ref } from 'vue'
+import {useTableFilterStore} from '@/stores/modules/tableFilter'
+
+const store = useTableFilterStore();
+const { addItems } = store;
 
 const value1 = ref([])
 const userName = ref(null)
+
 </script>
 <template>
   <div class="filter-input">
@@ -10,15 +15,12 @@ const userName = ref(null)
       <template #prefix>
         <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" />
       </template>
-      <template #suffix>
-        <a-tooltip title="Extra information">
-          <info-circle-outlined style="color: rgba(0, 0, 0, 0.45)" />
-        </a-tooltip>
-      </template>
+      
     </a-input>
   </div>
   <a-checkbox-group
     v-model:value="value1"
+    @change="addItems(value1)"
     name="checkboxgroup"
     :options="[
       { label: 'Apple', value: 'Apple' },

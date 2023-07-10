@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { FilterTypeEnum, type Filter } from './types'
-export const dataSource = ref([
+export const dataSource = ref<any>([
   {
     key: '1',
     name: 'Mike',
@@ -15,7 +15,7 @@ export const dataSource = ref([
   }
 ])
 
-export const columns = ref([
+export const columns = ref<any>([
   {
     title: 'No',
     dataIndex: 'key',
