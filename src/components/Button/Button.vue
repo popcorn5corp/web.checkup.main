@@ -14,11 +14,13 @@
   </a-button>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="Button">
 import { computed } from 'vue'
 import ButtonIcon from './ButtonIcon.vue'
-
 import type { ButtonProps, ButtonEmits } from './types'
+defineOptions({
+  name: 'Button'
+})
 
 const props = defineProps<ButtonProps>()
 const emit = defineEmits<ButtonEmits>()

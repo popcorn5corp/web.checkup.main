@@ -36,12 +36,15 @@ const { config, setCollapse } = useProjectConfigStore()
 
 const headerStyle = computed<CSSProperties>(() => {
   const {
-    theme: { navTheme, layout }
+    theme: { navTheme, menuPosition }
   } = config
-  // const isDark = navTheme === 'dark' && layout === 'topmenu'
-  const isDark = navTheme === 'dark'
+  // const isDark = navTheme === 'dark' && menuPosition === 'topmenu'
+  // const isDark = navTheme === 'dark'
   return {
-    backgroundColor: navTheme === 'realDark' ? '' : 'rgba(255, 255, 255, 0.85)'
+    backgroundColor:
+      navTheme === 'realDark' || (navTheme === 'dark' && menuPosition === 'topmenu')
+        ? ''
+        : 'rgba(255, 255, 255, 0.85)'
   }
 })
 </script>
@@ -55,6 +58,7 @@ const headerStyle = computed<CSSProperties>(() => {
   padding: 0 20px;
   justify-content: space-between;
   align-items: center;
+  line-height: 35px;
 
   * {
     cursor: pointer;

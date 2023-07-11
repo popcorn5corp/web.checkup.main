@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { LayoutTypeEnum } from '@/stores/interface'
+import { layoutTypes } from '@/stores/interface'
 
 // export const staticRoutes: RouteRecordRaw[] = [
 //   {
@@ -39,7 +39,7 @@ export const staticRoutes: RouteRecordRaw[] = [
     // redirect: '/dashboard',
     // component: () => import(/* webpackChunkName: "layout" */ '@/views/Dashboard/index.vue'),
     meta: {
-      layout: LayoutTypeEnum.DEFAULT
+      layout: layoutTypes.default
     },
     children: [
       {
@@ -57,7 +57,7 @@ export const staticRoutes: RouteRecordRaw[] = [
     path: '/fms',
     name: 'fms',
     meta: {
-      layout: LayoutTypeEnum.DEFAULT
+      layout: layoutTypes.default
     },
     children: [
       {
@@ -94,7 +94,7 @@ export const staticRoutes: RouteRecordRaw[] = [
     path: '/ems',
     name: 'ems',
     meta: {
-      layout: LayoutTypeEnum.DEFAULT
+      layout: layoutTypes.default
     },
     children: [
       {
@@ -131,7 +131,7 @@ export const staticRoutes: RouteRecordRaw[] = [
     path: '/partner',
     name: 'partner',
     meta: {
-      layout: LayoutTypeEnum.DEFAULT
+      layout: layoutTypes.default
     },
     children: [
       {
@@ -151,7 +151,7 @@ export const staticRoutes: RouteRecordRaw[] = [
     path: '/setting',
     name: 'setting',
     meta: {
-      layout: LayoutTypeEnum.DEFAULT
+      layout: layoutTypes.default
     },
     children: [
       {
@@ -174,6 +174,24 @@ export const staticRoutes: RouteRecordRaw[] = [
           ),
         meta: {
           title: '회사 설정'
+        }
+      }
+    ]
+  },
+  {
+    path: '/sample',
+    name: 'sample',
+    meta: {
+      layout: layoutTypes.default
+    },
+    children: [
+      {
+        path: 'sample',
+        name: 'sample-table',
+        component: () =>
+          import(/* webpackChunkName: "setting-table" */ '@/views/Sample/TableSample/index.vue'),
+        meta: {
+          title: '테이블 샘플'
         }
       }
     ]

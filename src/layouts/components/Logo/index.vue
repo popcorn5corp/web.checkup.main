@@ -1,20 +1,28 @@
 <template>
-  <div class="logo" :style="logoStyle">
-    <img :src="imagePath" />
-  </div>
+  <RouterLink class="logo" :style="getStyle.logo" :to="'/'">
+    <img :src="imagePath" :style="getStyle.img" />
+  </RouterLink>
 </template>
-<script setup lang="ts" name="Logo">
+<script setup lang="tsx">
 import { computed } from 'vue'
 import type { CSSProperties } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+defineOptions({
+  name: 'Logo'
+})
 
 const { config } = useProjectConfigStore()
 const imagePath = computed(
   () => new URL(`/src/assets/images/${config.theme.logoFileName}`, import.meta.url).href
 )
-const logoStyle = computed<CSSProperties>(() => {
+const getStyle = computed<{ logo: CSSProperties; img: CSSProperties }>(() => {
   return {
-    padding: config.isCollapse ? '10px' : ''
+    logo: {
+      padding: config.isCollapse ? '10px' : ''
+    },
+    img: {
+      width: config.isCollapse ? '60px' : '220px'
+    }
   }
 })
 </script>
@@ -28,12 +36,6 @@ const logoStyle = computed<CSSProperties>(() => {
   height: 55px;
   // padding-left: 24px;
   // line-height: 64px;
-
-  img {
-    // height: 32px;
-    // margin-right: 8px;
-    width: 100%;
-  }
 
   .title {
     color: blue;

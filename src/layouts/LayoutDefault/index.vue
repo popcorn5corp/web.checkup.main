@@ -2,7 +2,7 @@
   <Layout class="layout-default">
     <!-- <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a> -->
     <Layout.Sider
-      v-if="config.theme.layout === 'sidemenu'"
+      v-if="config.theme.menuPosition === 'sidemenu'"
       v-model:collapsed="collapsed"
       :width="asiderWidth"
       :trigger="null"
@@ -16,7 +16,7 @@
     <Layout>
       <!-- <PageHeader v-model:collapsed="collapsed" :theme="getTheme"> -->
       <PageHeader :collapsed="collapsed" :theme="getTheme">
-        <template v-if="config.theme.layout === 'topmenu'" #default>
+        <template v-if="config.theme.menuPosition === 'topmenu'" #default>
           <Logo :collapsed="collapsed" />
           <AsideMenu :collapsed="collapsed" :theme="getTheme" />
         </template>
@@ -33,25 +33,25 @@
       <PageFooter />
     </Layout>
 
-    <div id="circularMenu" class="circular-menu circular-menu-left active">
+    <div id="circularMenu" class="circular-menu circular-menu-left">
       <a
         class="floating-btn"
         onclick="document.getElementById('circularMenu').classList.toggle('active');"
       >
-        <i class="fa fa-bars"></i>
+        <font-awesome-icon icon="fa-solid fa-circle-info" beat size="xl" />
       </a>
 
       <menu class="items-wrapper">
-        <a href="#" class="menu-item"><font-awesome-icon :icon="['fa', 'user-secret']" /></a>
-        <a href="#" class="menu-item"><font-awesome-icon :icon="['fa', 'user-secret']" /></a>
-        <a href="#" class="menu-item"><font-awesome-icon :icon="['fa', 'user-secret']" /></a>
-        <a href="#" class="menu-item"><font-awesome-icon :icon="['fa', 'user-secret']" /></a>
+        <a href="#" class="menu-item"> <font-awesome-icon icon="fa-solid fa-check" beat /></a>
+        <a href="#" class="menu-item"> <font-awesome-icon icon="fa-solid fa-check" /></a>
+        <a href="#" class="menu-item"> <font-awesome-icon icon="fa-solid fa-check" /></a>
+        <a href="#" class="menu-item"> <font-awesome-icon icon="fa-solid fa-check" /></a>
       </menu>
     </div>
   </Layout>
 </template>
 <script setup lang="ts" name="Layout">
-import { computed, watch } from 'vue'
+import { computed, onMounted } from 'vue'
 import { Layout } from 'ant-design-vue'
 import Logo from '../components/Logo/index.vue'
 import AsideMenu from '../components/Menu/index.vue'
@@ -64,13 +64,17 @@ const { config } = useProjectConfigStore()
 const collapsed = computed<boolean>(() => config.isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
+const circularMenuColor = computed(() => config.theme.primaryColor)
 
-watch(
-  () => getTheme.value,
-  (theme) => {
-    console.log(theme)
-  }
-)
+onMounted(() => {
+  setTimeout(() => {
+    document.getElementById('circularMenu')?.classList.add('active')
+  }, 300)
+
+  setTimeout(() => {
+    document.getElementById('circularMenu')?.classList.remove('active')
+  }, 2000)
+})
 </script>
 <style lang="scss" scoped>
 .circular-menu {
@@ -88,7 +92,7 @@ watch(
   box-shadow: 0 2px 5px 0 hsla(0, 0%, 0%, 0.26);
   color: hsl(0, 0%, 100%);
   text-align: center;
-  line-height: 3.9;
+  line-height: 3.5;
   cursor: pointer;
   outline: 0;
 }
@@ -186,11 +190,11 @@ watch(
 }
 
 .circular-menu.circular-menu-left .floating-btn {
-  background-color: hsl(217, 89%, 61%);
+  background-color: v-bind(circularMenuColor);
 }
 
 .circular-menu.circular-menu-left:after {
-  background-color: hsl(217, 89%, 61%);
+  background-color: v-bind(circularMenuColor);
 }
 
 .circular-menu.circular-menu-left.active .floating-btn i {

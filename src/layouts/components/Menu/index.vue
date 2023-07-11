@@ -1,14 +1,12 @@
 <template>
   <div class="menu-container">
     <!-- <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a> -->
-    <MenuHeader :collapsed="collapsed" />
+    <MenuHeader v-if="isSideMenu" :collapsed="collapsed" />
 
     <!-- <a-divider style="height: 2px" /> -->
-    <!-- <a-divider orientation="left"></a-divider> -->
+    <!-- <a-divider orientation="left">FMS</a-divider> -->
     <!-- <a-divider orientation="left" style="height: 2px; background: silver" plain>FMS</a-divider> -->
-
     <!-- <hr style="border-top: 3px solid #bbb" /> -->
-    <!-- <div class="text-divider">FMS</div> -->
 
     <div class="menu-content" :class="{ 'is-side-menu': isSideMenu }">
       <Menu
@@ -28,11 +26,10 @@
 </template>
 
 <script setup lang="ts" name="Menu">
-import { reactive, computed, watch, type PropType, onMounted } from 'vue'
+import { reactive, computed, watch, type PropType } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Menu, { type MenuTheme } from 'ant-design-vue/es/menu'
 import MenuItem from './components/MenuItem.vue'
-// import { useUserStore } from '@/store/modules/user'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { RouteNameEnum } from '@/router/interface'
 import MenuHeader from './components/MenuHeader.vue'
@@ -46,7 +43,7 @@ const props = defineProps({
     type: String as PropType<MenuTheme>
   }
 })
-const themeStore = useProjectConfigStore()
+const { config } = useProjectConfigStore()
 const currentRoute = useRoute()
 const router = useRouter()
 const state = reactive({
@@ -55,7 +52,7 @@ const state = reactive({
 })
 
 const menuList = computed(() => menus)
-const isSideMenu = computed(() => themeStore.config.theme.layout === 'sidemenu')
+const isSideMenu = computed(() => config.theme.menuPosition === 'sidemenu')
 const getRouteByName = (name: string) => router.getRoutes().find((n) => n.name === name)
 const getTargetMenuByActiveMenuName = (activeMenu: string) => {
   return router.getRoutes().find((n) => [n.name, n.path].includes(activeMenu))
@@ -99,7 +96,7 @@ watch(
   }
 )
 
-const onClickMenuItem = ({ key }) => {
+const onClickMenuItem = ({ key }: any) => {
   if (key === currentRoute.name) return
   const targetRoute = getRouteByName(key)
   const { isExt, openMode } = targetRoute?.meta || {}
@@ -113,12 +110,14 @@ const onClickMenuItem = ({ key }) => {
 
 <style lang="scss" scoped>
 .menu-container {
+  overflow: auto;
+
   .sidebar-collapser {
     -webkit-transition: left, right, 0.3s;
     transition: left, right, 0.3s;
     position: fixed;
-    left: calc(250px - 20px);
-    top: 40px;
+    left: calc(250px - 50px);
+    bottom: 40px;
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -168,10 +167,19 @@ const onClickMenuItem = ({ key }) => {
   // }
   .menu-content {
     overflow: auto;
+    // height: calc(100vh - 105px);
+    height: 100vh;
 
     :deep(.ant-menu) {
+      height: 100%;
       &.ant-menu-root {
         margin-top: 10px;
+      }
+
+      .ant-menu-sub-menu {
+        .ant-menu-sub-menu-active {
+          border: none;
+        }
       }
     }
 

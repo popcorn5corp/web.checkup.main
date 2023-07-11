@@ -1,9 +1,10 @@
 <template>
-  <Dropdown :trigger="['click']" :theme="'dark'">
+  <Dropdown class="user-dropdown" :trigger="['click']" :theme="'dark'">
     <Button shape="round">
-      <a-badge status="processing" text="체크업 주식회사" color="green" />
-
-      <CaretDownOutlined />
+      <template #icon>
+        <Badge status="processing" text="체크업 주식회사" color="green" />
+        <CaretDownOutlined />
+      </template>
     </Button>
     <template #overlay>
       <Menu @click="onClickMenu">
@@ -51,6 +52,19 @@
               </Tooltip>
             </Descriptions.Item>
           </Descriptions>
+          <Descriptions title="메뉴 위치" :column="5">
+            <Descriptions.Item v-for="item in menuLayouts" :key="item.value">
+              <Tooltip :title="item.label">
+                <div
+                  class="check-item"
+                  :class="{ active: config.theme.menuPosition === item.value }"
+                  @click="setMenuPosition(item.value)"
+                >
+                  <SvgIcon :name="item.value" size="50" />
+                </div>
+              </Tooltip>
+            </Descriptions.Item>
+          </Descriptions>
           <Descriptions title="색상" :column="9">
             <Descriptions.Item v-for="item in themeColors" :key="item.value">
               <div class="check-item">
@@ -62,8 +76,17 @@
               </div>
             </Descriptions.Item>
           </Descriptions>
+          <Descriptions title="글자 크기" :column="5">
+            <Descriptions.Item>
+              <a-radio-group v-model:value="config.theme.fontSize" @change="setLayoutFontSize">
+                <a-radio v-for="item in layoutFonts" :value="item.value">{{ item.label }}</a-radio>
+              </a-radio-group>
+            </Descriptions.Item>
+          </Descriptions>
         </TabPane>
-        <TabPane key="3" tab="언어">언어</TabPane>
+        <TabPane key="3" tab="언어">
+          <LanguageSetting />
+        </TabPane>
       </Tabs>
     </div>
   </Modal>
@@ -71,7 +94,8 @@
 <script setup lang="ts" name="UserDropdown">
 import { ref, computed } from 'vue'
 import {
-  Button,
+  type MenuProps,
+  // Button,
   Dropdown,
   Tag,
   Tooltip,
@@ -81,7 +105,9 @@ import {
   Menu,
   MenuItem,
   Avatar,
-  type MenuProps
+  Badge,
+  Select,
+  type RadioChangeEvent
 } from 'ant-design-vue'
 import {
   UserOutlined,
@@ -91,13 +117,18 @@ import {
   SvgIcon
 } from '@/components/Icon'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import type { Theme, ThemeName } from '@/stores/interface'
-import { themeStyle, themeColors } from '@/config/default/themeConfig'
+import { Button } from '@/components/Button'
+import type { Theme } from '@/stores/interface'
+import { themeStyle, themeColors, menuLayouts, layoutFonts } from '@/config/default/themeConfig'
+import LanguageSetting from './LanguageSetting.vue'
 const { TabPane } = Tabs
+const { Option } = Select
 
 const { config, setTheme } = useProjectConfigStore()
 const activeKey = ref('2')
 const isOpen = ref(false)
+const value1 = ref('jack')
+
 const isDarkMode = computed({
   get() {
     return config.theme.isDark
@@ -110,14 +141,20 @@ const isDarkMode = computed({
 const getThemeColorVisible = (color: string) =>
   config.theme.primaryColor === color ? 'visible' : 'hidden'
 
-function setNavTheme(themeName: ThemeName) {
-  console.log('setNavTheme ', themeName)
-
+function setNavTheme(themeName: Theme['navTheme']) {
   setTheme({ navTheme: themeName })
 }
 
 function setThemeColor(primaryColor: string) {
   setTheme({ primaryColor })
+}
+
+function setMenuPosition(menuPosition: Theme['menuPosition']) {
+  setTheme({ menuPosition })
+}
+
+function setLayoutFontSize({ target: { value } }: RadioChangeEvent) {
+  setTheme({ fontSize: value })
 }
 
 const onClickMenu: MenuProps['onClick'] = (e) => {
@@ -131,6 +168,12 @@ function handleOk(e: MouseEvent) {
 }
 </script>
 <style lang="scss" scoped>
+.user-dropdown {
+  :deep(.ant-badge .ant-badge-status-dot) {
+    width: 7px;
+    height: 7px;
+  }
+}
 .modal-content {
   margin-top: 30px;
 

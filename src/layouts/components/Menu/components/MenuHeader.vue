@@ -1,29 +1,38 @@
-<script setup lang="ts" name="MenuHeader">
-import { computed, type CSSProperties } from 'vue'
-import { Button } from '@/components/Button'
-import { PlusCircleFilled } from '@/components/Icon'
-
-const props = defineProps({
-  collapsed: {
-    type: Boolean
-  }
-})
-
-const buttonStyle = computed<CSSProperties>(() => {
-  return {
-    width: !props.collapsed ? '180px' : '50px'
-  }
-})
-</script>
 <template>
   <div class="menu-header">
-    <Button type="primary" :label="!collapsed ? '새 프로젝트' : ''" :style="buttonStyle">
+    <Button
+      type="primary"
+      :label="!collapsed ? $t('layout.menu.newProject') : ''"
+      :style="buttonStyle"
+    >
       <template #icon>
         <PlusCircleFilled />
       </template>
     </Button>
   </div>
 </template>
+<script setup lang="ts">
+import { computed, type CSSProperties } from 'vue'
+import { Button } from '@/components/Button'
+import { PlusCircleFilled } from '@/components/Icon'
+import { useI18n } from 'vue-i18n'
+
+defineOptions({
+  name: 'MenuHeader'
+})
+
+interface Props {
+  collapsed: boolean
+}
+
+const props = defineProps<Props>()
+const { t } = useI18n()
+const buttonStyle = computed<CSSProperties>(() => {
+  return {
+    width: !props.collapsed ? '180px' : '50px'
+  }
+})
+</script>
 <style lang="scss" scoped>
 .menu-header {
   display: flex;

@@ -1,9 +1,23 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "vue-friendly-iframe.d.ts"],
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    // added
+    "**/*.d.ts",
+    "mock/**/*",
+    "src/**/*.ts",
+    "src/**/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "types/**/*.d.ts",
+    "types/**/*.ts",
+    "vite.config.ts"
+  ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
-    "composite": true,
+    // "composite": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

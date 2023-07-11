@@ -1,5 +1,8 @@
-<script setup lang="ts">
+<script setup lang="ts" name="ButtonIcon">
 import { DownloadOutlined, PlusCircleOutlined, FileExcelOutlined } from '@ant-design/icons-vue'
+defineOptions({
+  name: 'ButtonIcon'
+})
 
 defineProps<{ icon?: string }>()
 </script>

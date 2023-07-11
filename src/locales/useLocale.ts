@@ -31,7 +31,7 @@ export function useLocale() {
     return i18n.global.getLocaleMessage(unref(getLocale)).antdLocale
   })
 
-  async function changeLocale(locale: LocaleType) {
+  async function setLocale(locale: LocaleType) {
     const globalI18n = i18n.global
     const currentLocale = unref(globalI18n.locale)
     if (currentLocale === locale) {
@@ -56,6 +56,6 @@ export function useLocale() {
   return {
     getLocale,
     getAntdLocale,
-    changeLocale
+    setLocale
   }
 }

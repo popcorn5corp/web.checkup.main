@@ -1,5 +1,5 @@
 <script setup lang="ts" name="Filter">
-import { ref,computed,type PropType  } from 'vue'
+import { ref, computed, type PropType } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 
 import { Button } from '../../Button'
@@ -22,14 +22,13 @@ defineProps({
   filterList: {
     type: Array as PropType<Filter[]>,
     default: () => [],
-    required: true,
-  },
+    required: true
+  }
 })
-
 </script>
 <template>
   <div class="filter-wrapper">
-    <div class="filter-list"  v-if="showFilter">
+    <div class="filter-list" v-if="showFilter">
       <!-- 모바일 버전 헤더 -->
       <div class="mobile-header">
         <h3>Filters</h3>
@@ -37,7 +36,7 @@ defineProps({
       </div>
 
       <ul>
-        <li :class="{'dark-mode' : getTheme === 'realDark' }" class="flex-direction-columns" >
+        <li :class="{ 'dark-mode': getTheme === 'realDark' }" class="flex-direction-columns">
           <div v-for="(item, index) in filterList" :key="index">
             <div class="filter-title" @click="() => (item.show = item.show ? false : true)">
               <h3>{{ item.name }}</h3>
@@ -60,6 +59,7 @@ defineProps({
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .filter-wrapper {
   display: flex;
@@ -192,5 +192,4 @@ defineProps({
   background: none !important;
   color: white !important;
 }
- 
 </style>

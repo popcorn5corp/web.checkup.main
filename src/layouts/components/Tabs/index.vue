@@ -1,6 +1,6 @@
 <template>
   <div class="tabs-container">
-    <a-tabs
+    <Tabs
       v-model:activeKey="activeKey"
       hide-add
       type="editable-card"
@@ -8,8 +8,8 @@
       @edit="onEditTab"
       :style="tabsStyle"
     >
-      <a-tab-pane v-for="tab in tabs" :key="tab.fullPath" :tab="tab.meta.title" />
-    </a-tabs>
+      <TabPane v-for="tab in tabs" :key="tab.fullPath" :tab="tab.meta.title" />
+    </Tabs>
 
     <!-- <div class="tabs-content">
       <router-view v-slot="{ Component }">
@@ -31,6 +31,7 @@
 
 <script setup lang="ts" name="Tabs">
 import { ref, watch, computed, onUnmounted, unref, onMounted, type CSSProperties } from 'vue'
+import { Tabs } from 'ant-design-vue'
 import { useRoute, type RouteLocationNormalized } from 'vue-router'
 import { useTabsLayoutStore } from '@/stores/modules/tabsLayout'
 import type { RouteItem } from '@/stores/interface'
@@ -38,6 +39,7 @@ import { Storage } from '@/utils/storage'
 import { TABS_ROUTES_KEY } from '@/enums/cacheKeyEnum'
 import router from '@/router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+const { TabPane } = Tabs
 
 const route = useRoute()
 const tabsLyoutStore = useTabsLayoutStore()
@@ -66,7 +68,7 @@ watch(
   { immediate: true }
 )
 
-function initTabs() {
+function initTabs(): void {
   let routes: RouteItem[] = []
   const routesStr = Storage.get(TABS_ROUTES_KEY)
   routes = routesStr ? JSON.parse(routesStr) : [getSimpleRoute(route)]
@@ -78,26 +80,26 @@ function getSimpleRoute(route: RouteLocationNormalized): RouteItem {
   return { fullPath, hash, meta, name, params, path, query }
 }
 
-function onChangeTab(key: string) {
+function onChangeTab(key: string): void {
   Object.is(route.fullPath, key) || router.push(key)
 }
 
-function removeTab(route: RouteItem) {
+function removeTab(route: RouteItem): void {
   tabsLyoutStore.closeCurrentTab(route)
 }
 
-function saveTabs() {
+function saveTabs(): void {
   Storage.set(TABS_ROUTES_KEY, JSON.stringify(unref(tabs)))
 }
 
-function onEditTab(key: string, action: string) {
+function onEditTab(key: string, action: string): void {
   if (action === 'remove') {
     const selectedTab = tabs.value.find((item) => item.fullPath === key)
     removeTab(selectedTab!)
   }
 }
 
-onMounted(() => {
+onMounted((): void => {
   window.addEventListener('beforeunload', saveTabs)
 })
 
@@ -107,6 +109,8 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .tabs-container {
+  margin-top: 2px;
+
   :deep(.ant-tabs) {
     &.ant-tabs-top {
       border-radius: 0;

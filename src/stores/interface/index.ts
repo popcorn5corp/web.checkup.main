@@ -1,4 +1,4 @@
-import type { RouteLocation, RouteRecordName } from 'vue-router'
+import type { RouteLocation } from 'vue-router'
 
 // export type LayoutType = 'default' | 'vertical' | 'transverse' | 'columns'
 export type AssemblySizeType = 'large' | 'default' | 'small'
@@ -9,12 +9,12 @@ export enum DeviceTypeEnum {
   Desktop
 }
 
-export enum LayoutTypeEnum {
-  DEFAULT = 'default'
-  // VERTICAL = 'vertical',
-  // TRANSVERSE = 'transverse',
-  // COLUMNS = 'columns'
-}
+export const layoutTypes = {
+  default: 'default'
+  // vertical: 'vertical',
+  // transverse: 'transverse',
+  // columns: 'columns'
+} as const
 
 export const layouts = {
   default: 'default'
@@ -23,14 +23,33 @@ export const layouts = {
   // columns: 'columns'
 } as const
 
-export type LayoutType = (typeof layouts)[keyof typeof layouts]
+export const themeNames = {
+  light: 'light',
+  dark: 'dark',
+  realDark: 'realDark'
+} as const
 
-export type ThemeName = 'light' | 'dark' | 'realDark'
+export const layoutFontSizes = {
+  small: 12,
+  medium: 13,
+  large: 14
+} as const
+
+export const menuPositions = {
+  side: 'sidemenu',
+  top: 'topmenu'
+} as const
+
+export type LayoutType = (typeof layoutTypes)[keyof typeof layoutTypes]
+export type ThemeName = (typeof themeNames)[keyof typeof themeNames]
+export type LayoutFontSize = (typeof layoutFontSizes)[keyof typeof layoutFontSizes]
+export type MenuPosition = (typeof menuPositions)[keyof typeof menuPositions]
+
 export interface Theme {
   navTheme: ThemeName // theme for nav menu
   isDark: boolean
   primaryColor: string // '#F5222D', // primary color of ant design
-  layout: 'sidemenu' | 'topmenu' // nav menu position: `sidemenu` or `topmenu`
+  menuPosition: MenuPosition // nav menu position: `sidemenu` or `topmenu`
   contentWidth: 'Fluid' | 'Fixed' // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
   fixedHeader: boolean // sticky header
   fixSiderbar: boolean // sticky siderbar
@@ -42,6 +61,7 @@ export interface Theme {
   pwa: boolean
   iconfontUrl: string
   logoFileName: string
+  fontSize: LayoutFontSize
   // production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
 }
 

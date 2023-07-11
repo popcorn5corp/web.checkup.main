@@ -19,21 +19,20 @@
 </template>
 
 <script setup lang="ts" name="MenuItem">
-import { type PropType, computed } from 'vue'
+import { computed } from 'vue'
 import { Menu } from 'ant-design-vue'
 import MenuItemContent from './MenuItemContent.vue'
 import type { RouteRecordRaw } from 'vue-router'
+
+interface Props {
+  menus: RouteRecordRaw[]
+}
+
 defineOptions({
   name: 'MenuItem'
 })
 
-const props = defineProps({
-  menus: {
-    type: Array as PropType<RouteRecordRaw[]>,
-    default: () => []
-  }
-})
-
+const props = withDefaults(defineProps<Props>(), { menus: () => [] })
 const filterMenus = computed(() => {
   return [...props.menus]
     .filter((n) => !n.meta?.hideInMenu)

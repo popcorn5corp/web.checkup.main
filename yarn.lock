@@ -1528,23 +1528,47 @@
   "resolved" "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   "version" "1.2.1"
 
+<<<<<<< Updated upstream
 "@intlify/core-base@9.2.2":
   "integrity" "sha512-JjUpQtNfn+joMbrXvpR4hTF8iJQ2sEFzzK3KIESOx+f+uwIjgw20igOyaIdhfsVVBCds8ZM64MoeNSx+PHQMkA=="
   "resolved" "https://registry.npmjs.org/@intlify/core-base/-/core-base-9.2.2.tgz"
   "version" "9.2.2"
+=======
+"@intlify/bundle-utils@^7.0.0":
+  version "7.0.1"
+  resolved "https://registry.npmjs.org/@intlify/bundle-utils/-/bundle-utils-7.0.1.tgz"
+  integrity sha512-D7XrFOR8hbKnukGCWFrbz1IJsTQy8VgZ0TIOTQTSQ/bGhRmpyaLMQs44lJqP782mAR0AbumLlF56+oXpZqWuzQ==
+>>>>>>> Stashed changes
   dependencies:
-    "@intlify/devtools-if" "9.2.2"
-    "@intlify/message-compiler" "9.2.2"
-    "@intlify/shared" "9.2.2"
-    "@intlify/vue-devtools" "9.2.2"
+    "@intlify/message-compiler" "9.3.0-beta.20"
+    "@intlify/shared" "9.3.0-beta.20"
+    acorn "^8.8.2"
+    escodegen "^2.0.0"
+    estree-walker "^2.0.2"
+    jsonc-eslint-parser "^1.0.1"
+    magic-string "^0.30.0"
+    mlly "^1.2.0"
+    source-map-js "^1.0.1"
+    yaml-eslint-parser "^0.3.2"
 
+<<<<<<< Updated upstream
 "@intlify/devtools-if@9.2.2":
   "integrity" "sha512-4ttr/FNO29w+kBbU7HZ/U0Lzuh2cRDhP8UlWOtV9ERcjHzuyXVZmjyleESK6eVP60tGC9QtQW9yZE+JeRhDHkg=="
   "resolved" "https://registry.npmjs.org/@intlify/devtools-if/-/devtools-if-9.2.2.tgz"
   "version" "9.2.2"
+=======
+"@intlify/core-base@9.3.0-beta.14-77e850b":
+  version "9.3.0-beta.14-77e850b"
+  resolved "https://registry.npmjs.org/@intlify/core-base/-/core-base-9.3.0-beta.14-77e850b.tgz"
+  integrity sha512-Eb8CeN+s/Och1whMLzW8ds1dkYgEuu5Vf26IYz+GVYstx1rPICnh5HNvgTyQvQMUsvVei5ujz2gx/LcPxxRymQ==
+>>>>>>> Stashed changes
   dependencies:
-    "@intlify/shared" "9.2.2"
+    "@intlify/devtools-if" "9.3.0-beta.14-77e850b"
+    "@intlify/message-compiler" "9.3.0-beta.14-77e850b"
+    "@intlify/shared" "9.3.0-beta.14-77e850b"
+    "@intlify/vue-devtools" "9.3.0-beta.14-77e850b"
 
+<<<<<<< Updated upstream
 "@intlify/message-compiler@9.2.2":
   "integrity" "sha512-IUrQW7byAKN2fMBe8z6sK6riG1pue95e5jfokn8hA5Q3Bqy4MBJ5lJAofUsawQJYHeoPJ7svMDyBaVJ4d0GTtA=="
   "resolved" "https://registry.npmjs.org/@intlify/message-compiler/-/message-compiler-9.2.2.tgz"
@@ -1562,9 +1586,66 @@
   "integrity" "sha512-+dUyqyCHWHb/UcvY1MlIpO87munedm3Gn6E9WWYdWrMuYLcoIoOEVDWSS8xSwtlPU+kA+MEQTP6Q1iI/ocusJg=="
   "resolved" "https://registry.npmjs.org/@intlify/vue-devtools/-/vue-devtools-9.2.2.tgz"
   "version" "9.2.2"
+=======
+"@intlify/devtools-if@9.3.0-beta.14-77e850b":
+  version "9.3.0-beta.14-77e850b"
+  resolved "https://registry.npmjs.org/@intlify/devtools-if/-/devtools-if-9.3.0-beta.14-77e850b.tgz"
+  integrity sha512-Misf4UDGi9vyUONXIAhcSAIb8n6bBYNfuezLQxwgnVDrJk0GacKQG38GW231QE9OgLvmUmC+WGbq7LTZo/pCpA==
   dependencies:
-    "@intlify/core-base" "9.2.2"
-    "@intlify/shared" "9.2.2"
+    "@intlify/shared" "9.3.0-beta.14-77e850b"
+
+"@intlify/message-compiler@9.3.0-beta.14-77e850b":
+  version "9.3.0-beta.14-77e850b"
+  resolved "https://registry.npmjs.org/@intlify/message-compiler/-/message-compiler-9.3.0-beta.14-77e850b.tgz"
+  integrity sha512-MF7EdnBoKo21Unf8rDy37KEhRzcbPlel+FTD7VR+EzzMgk4R/sMtICnMgDxS3Kl5FS9tLdHlNF0Qbuxc6+NNmg==
+  dependencies:
+    "@intlify/shared" "9.3.0-beta.14-77e850b"
+    source-map "0.6.1"
+
+"@intlify/message-compiler@9.3.0-beta.20":
+  version "9.3.0-beta.20"
+  resolved "https://registry.npmjs.org/@intlify/message-compiler/-/message-compiler-9.3.0-beta.20.tgz"
+  integrity sha512-hwqQXyTnDzAVZ300SU31jO0+3OJbpOdfVU6iBkrmNpS7t2HRnVACo0EwcEXzJa++4EVDreqz5OeqJbt+PeSGGA==
+>>>>>>> Stashed changes
+  dependencies:
+    "@intlify/shared" "9.3.0-beta.20"
+    source-map-js "^1.0.2"
+
+"@intlify/shared@9.3.0-beta.14-77e850b":
+  version "9.3.0-beta.14-77e850b"
+  resolved "https://registry.npmjs.org/@intlify/shared/-/shared-9.3.0-beta.14-77e850b.tgz"
+  integrity sha512-aHZYRM0sJN+YSUnoC5Dv4L1TFYtP23kdTkrK5cHSEqUbI5UXc8FbnXPal0lJliMhO0ED7Ic7aEOeQX84BM3xCQ==
+
+"@intlify/shared@9.3.0-beta.20":
+  version "9.3.0-beta.20"
+  resolved "https://registry.npmjs.org/@intlify/shared/-/shared-9.3.0-beta.20.tgz"
+  integrity sha512-RucSPqh8O9FFxlYUysQTerSw0b9HIRpyoN1Zjogpm0qLiHK+lBNSa5sh1nCJ4wSsNcjphzgpLQCyR60GZlRV8g==
+
+"@intlify/unplugin-vue-i18n@^0.12.0":
+  version "0.12.0"
+  resolved "https://registry.npmjs.org/@intlify/unplugin-vue-i18n/-/unplugin-vue-i18n-0.12.0.tgz"
+  integrity sha512-L155p03eZpzYUIU1YKbb38xq++GcaW6bsqo800GdonmkQXY8nc4/HsKQRQY5lRoAOkbhO0Vyt7yrsU11vVrqnw==
+  dependencies:
+    "@intlify/bundle-utils" "^7.0.0"
+    "@intlify/shared" "9.3.0-beta.20"
+    "@rollup/pluginutils" "^5.0.2"
+    "@vue/compiler-sfc" "^3.2.47"
+    debug "^4.3.3"
+    fast-glob "^3.2.12"
+    js-yaml "^4.1.0"
+    json5 "^2.2.3"
+    pathe "^1.0.0"
+    picocolors "^1.0.0"
+    source-map-js "^1.0.2"
+    unplugin "^1.1.0"
+
+"@intlify/vue-devtools@9.3.0-beta.14-77e850b":
+  version "9.3.0-beta.14-77e850b"
+  resolved "https://registry.npmjs.org/@intlify/vue-devtools/-/vue-devtools-9.3.0-beta.14-77e850b.tgz"
+  integrity sha512-QRznXFfu9UldQmE4kWj5VbfSFzT4y2Zh5xD9L2AJ8J/bhlLzbncMHDb3BOL6Xzczv5K6LhYDLdoVvW1n+z4tpA==
+  dependencies:
+    "@intlify/core-base" "9.3.0-beta.14-77e850b"
+    "@intlify/shared" "9.3.0-beta.14-77e850b"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   "integrity" "sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ=="
@@ -2674,10 +2755,24 @@
   "resolved" "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.12.tgz"
   "version" "7.0.12"
 
+<<<<<<< Updated upstream
 "@types/lodash@^4.14.167":
   "integrity" "sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg=="
   "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.195.tgz"
   "version" "4.14.195"
+=======
+"@types/lodash-es@^4.17.7":
+  version "4.17.7"
+  resolved "https://registry.npmjs.org/@types/lodash-es/-/lodash-es-4.17.7.tgz"
+  integrity sha512-z0ptr6UI10VlU6l5MYhGwS4mC8DZyYer2mCoyysZtSF7p26zOX8UpbrV0YpNYLGS8K4PUFIyEr62IMFFjveSiQ==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*", "@types/lodash@^4.14.167":
+  version "4.14.195"
+  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.195.tgz"
+  integrity sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==
+>>>>>>> Stashed changes
 
 "@types/mdast@^3.0.0":
   "integrity" "sha512-Y/uImid8aAwrEA24/1tcRZwpxX3pIFTSilcNDKSPn+Y2iDywSEachzRuvgAYYLR3wpGXAsMbv5lvKLDZLeYPAw=="
@@ -2831,6 +2926,13 @@
   "integrity" "sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ=="
   "resolved" "https://registry.npmjs.org/@types/unist/-/unist-2.0.6.tgz"
   "version" "2.0.6"
+
+"@types/vue-i18n@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/@types/vue-i18n/-/vue-i18n-7.0.0.tgz"
+  integrity sha512-4e3EvN4k+B6eTq1qWDFW1wpzCgz+8nNCn6LAQTkcRoGJx9rVO5iYzyEogFTi9RwBJ588+Rx0nUwRFjKUYPe/BQ==
+  dependencies:
+    vue-i18n "*"
 
 "@types/yargs-parser@*":
   "integrity" "sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA=="
@@ -3030,10 +3132,17 @@
     "@vue/compiler-core" "3.3.4"
     "@vue/shared" "3.3.4"
 
+<<<<<<< Updated upstream
 "@vue/compiler-sfc@^3.2.0", "@vue/compiler-sfc@3.3.4":
   "integrity" "sha512-6y/d8uw+5TkCuzBkgLS0v3lSM3hJDntFEiUORM11pQ/hKvkhSKZrXW6i69UyXlJQisJxuUEJKAWEqWbWsLeNKQ=="
   "resolved" "https://registry.npmjs.org/@vue/compiler-sfc/-/compiler-sfc-3.3.4.tgz"
   "version" "3.3.4"
+=======
+"@vue/compiler-sfc@^3.2.0", "@vue/compiler-sfc@^3.2.47", "@vue/compiler-sfc@3.3.4":
+  version "3.3.4"
+  resolved "https://registry.npmjs.org/@vue/compiler-sfc/-/compiler-sfc-3.3.4.tgz"
+  integrity sha512-6y/d8uw+5TkCuzBkgLS0v3lSM3hJDntFEiUORM11pQ/hKvkhSKZrXW6i69UyXlJQisJxuUEJKAWEqWbWsLeNKQ==
+>>>>>>> Stashed changes
   dependencies:
     "@babel/parser" "^7.20.15"
     "@vue/compiler-core" "3.3.4"
@@ -3184,10 +3293,17 @@
     "mime-types" "~2.1.34"
     "negotiator" "0.6.3"
 
+<<<<<<< Updated upstream
 "acorn-jsx@^5.3.2":
   "integrity" "sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ=="
   "resolved" "https://registry.npmjs.org/acorn-jsx/-/acorn-jsx-5.3.2.tgz"
   "version" "5.3.2"
+=======
+acorn-jsx@^5.2.0, acorn-jsx@^5.3.2:
+  version "5.3.2"
+  resolved "https://registry.npmjs.org/acorn-jsx/-/acorn-jsx-5.3.2.tgz"
+  integrity sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==
+>>>>>>> Stashed changes
 
 "acorn-walk@^8.2.0":
   "integrity" "sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA=="
@@ -3199,10 +3315,17 @@
   "resolved" "https://registry.npmjs.org/acorn/-/acorn-8.9.0.tgz"
   "version" "8.9.0"
 
+<<<<<<< Updated upstream
 "acorn@^7.1.1":
   "integrity" "sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A=="
   "resolved" "https://registry.npmjs.org/acorn/-/acorn-7.4.1.tgz"
   "version" "7.4.1"
+=======
+acorn@^7.1.1, acorn@^7.4.1:
+  version "7.4.1"
+  resolved "https://registry.npmjs.org/acorn/-/acorn-7.4.1.tgz"
+  integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
+>>>>>>> Stashed changes
 
 "address@^1.0.1":
   "integrity" "sha512-4B/qKCfeE/ODUaAUpSwfzazo5x29WD4r3vXiWsB7I2mSDAihwEqKO+g8GELZUQSSAo5e1XTYh3ZVfLyxBc12nA=="
@@ -4986,10 +5109,28 @@
   "resolved" "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-5.0.0.tgz"
   "version" "5.0.0"
 
+<<<<<<< Updated upstream
 "eslint-config-prettier@^8.3.0":
   "integrity" "sha512-wLbQiFre3tdGgpDv67NQKnJuTlcUVYHas3k+DZCc2U2BadthoEY4B7hLPvAxaqdyOGCzuLfii2fqGph10va7oA=="
   "resolved" "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.8.0.tgz"
   "version" "8.8.0"
+=======
+escodegen@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/escodegen/-/escodegen-2.1.0.tgz"
+  integrity sha512-2NlIDTwUWJN0mRPQOdtQBzbUHvdGY2P1VXSyU83Q3xKxM7WHX2Ql8dKq782Q9TgQUNOLEzEYu9bzLNj1q88I5w==
+  dependencies:
+    esprima "^4.0.1"
+    estraverse "^5.2.0"
+    esutils "^2.0.2"
+  optionalDependencies:
+    source-map "~0.6.1"
+
+eslint-config-prettier@^8.3.0:
+  version "8.8.0"
+  resolved "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.8.0.tgz"
+  integrity sha512-wLbQiFre3tdGgpDv67NQKnJuTlcUVYHas3k+DZCc2U2BadthoEY4B7hLPvAxaqdyOGCzuLfii2fqGph10va7oA==
+>>>>>>> Stashed changes
 
 "eslint-plugin-cypress@^2.13.3":
   "integrity" "sha512-nAPjZE5WopCsgJwl3vHm5iafpV+ZRO76Z9hMyRygWhmg5ODXDPd+9MaPl7kdJ2azj+sO87H3P1PRnggIrz848g=="
@@ -5044,10 +5185,34 @@
     "esrecurse" "^4.3.0"
     "estraverse" "^5.2.0"
 
+<<<<<<< Updated upstream
 "eslint-visitor-keys@^3.3.0", "eslint-visitor-keys@^3.4.1":
   "integrity" "sha512-pZnmmLwYzf+kWaM/Qgrvpen51upAktaaiI01nsJD/Yr3lMOdNtq0cxkrrg16w64VtisN6okbs7Q8AfGqj4c9fA=="
   "resolved" "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-3.4.1.tgz"
   "version" "3.4.1"
+=======
+eslint-utils@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/eslint-utils/-/eslint-utils-2.1.0.tgz"
+  integrity sha512-w94dQYoauyvlDc43XnGB8lU3Zt713vNChgt4EWwhXAP2XkBvndfxF0AgIqKOOasjPIPzj9JqgwkwbCYD0/V3Zg==
+  dependencies:
+    eslint-visitor-keys "^1.1.0"
+
+eslint-visitor-keys@^1.1.0, eslint-visitor-keys@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-1.3.0.tgz"
+  integrity sha512-6J72N8UNa462wa/KFODt/PJ3IU60SDpC3QXC1Hjc1BXXpfL2C9R5+AU7jhe0F6GREqVMh4Juu+NY7xn+6dipUQ==
+
+eslint-visitor-keys@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-1.3.0.tgz"
+  integrity sha512-6J72N8UNa462wa/KFODt/PJ3IU60SDpC3QXC1Hjc1BXXpfL2C9R5+AU7jhe0F6GREqVMh4Juu+NY7xn+6dipUQ==
+
+eslint-visitor-keys@^3.3.0, eslint-visitor-keys@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-3.4.1.tgz"
+  integrity sha512-pZnmmLwYzf+kWaM/Qgrvpen51upAktaaiI01nsJD/Yr3lMOdNtq0cxkrrg16w64VtisN6okbs7Q8AfGqj4c9fA==
+>>>>>>> Stashed changes
 
 "eslint@*", "eslint@^6.0.0 || ^7.0.0 || ^8.0.0", "eslint@^6.0.0 || ^7.0.0 || >=8.0.0", "eslint@^6.2.0 || ^7.0.0 || ^8.0.0", "eslint@^8.39.0", "eslint@>= 3.2.1", "eslint@>= 7.28.0", "eslint@>=6", "eslint@>=6.0.0", "eslint@>=7.0.0", "eslint@>=7.28.0":
   "integrity" "sha512-aaCpf2JqqKesMFGgmRPessmVKjcGXqdlAYLLC3THM8t5nBRZRQ+st5WM/hoJXkdioEXLLbXgclUpM0TXo5HX5Q=="
@@ -5094,19 +5259,42 @@
     "strip-json-comments" "^3.1.0"
     "text-table" "^0.2.0"
 
+<<<<<<< Updated upstream
 "espree@^9.3.1", "espree@^9.5.2":
   "integrity" "sha512-7OASN1Wma5fum5SrNhFMAMJxOUAbhyfQ8dQ//PJaJbNw0URTPWqIghHWt1MmAANKhHZIYOHruW4Kw4ruUWOdGw=="
   "resolved" "https://registry.npmjs.org/espree/-/espree-9.5.2.tgz"
   "version" "9.5.2"
+=======
+espree@^6.0.0:
+  version "6.2.1"
+  resolved "https://registry.npmjs.org/espree/-/espree-6.2.1.tgz"
+  integrity sha512-ysCxRQY3WaXJz9tdbWOwuWr5Y/XrPTGX9Kiz3yoUXwW0VZ4w30HTkQLaGx/+ttFjF8i+ACbArnB4ce68a9m5hw==
+  dependencies:
+    acorn "^7.1.1"
+    acorn-jsx "^5.2.0"
+    eslint-visitor-keys "^1.1.0"
+
+espree@^9.3.1, espree@^9.5.2:
+  version "9.5.2"
+  resolved "https://registry.npmjs.org/espree/-/espree-9.5.2.tgz"
+  integrity sha512-7OASN1Wma5fum5SrNhFMAMJxOUAbhyfQ8dQ//PJaJbNw0URTPWqIghHWt1MmAANKhHZIYOHruW4Kw4ruUWOdGw==
+>>>>>>> Stashed changes
   dependencies:
     "acorn" "^8.8.0"
     "acorn-jsx" "^5.3.2"
     "eslint-visitor-keys" "^3.4.1"
 
+<<<<<<< Updated upstream
 "esprima@^4.0.0", "esprima@~4.0.0":
   "integrity" "sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A=="
   "resolved" "https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz"
   "version" "4.0.1"
+=======
+esprima@^4.0.0, esprima@^4.0.1, esprima@~4.0.0:
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz"
+  integrity sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
+>>>>>>> Stashed changes
 
 "esquery@^1.4.0", "esquery@^1.4.2":
   "integrity" "sha512-YQLXUplAwJgCydQ78IMJywZCceoqk1oH01OERdSAJc/7U2AylwjhSCLDEtqwg811idIS/9fIU5GjG73IgjKMVg=="
@@ -6846,6 +7034,7 @@
   dependencies:
     "minimist" "^1.2.0"
 
+<<<<<<< Updated upstream
 "json5@^2.2.2":
   "integrity" "sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg=="
   "resolved" "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz"
@@ -6855,6 +7044,28 @@
   "integrity" "sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w=="
   "resolved" "https://registry.npmjs.org/jsonc-parser/-/jsonc-parser-3.2.0.tgz"
   "version" "3.2.0"
+=======
+json5@^2.2.2, json5@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz"
+  integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
+
+jsonc-eslint-parser@^1.0.1:
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/jsonc-eslint-parser/-/jsonc-eslint-parser-1.4.1.tgz"
+  integrity sha512-hXBrvsR1rdjmB2kQmUjf1rEIa+TqHBGMge8pwi++C+Si1ad7EjZrJcpgwym+QGK/pqTx+K7keFAtLlVNdLRJOg==
+  dependencies:
+    acorn "^7.4.1"
+    eslint-utils "^2.1.0"
+    eslint-visitor-keys "^1.3.0"
+    espree "^6.0.0"
+    semver "^6.3.0"
+
+jsonc-parser@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/jsonc-parser/-/jsonc-parser-3.2.0.tgz"
+  integrity sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==
+>>>>>>> Stashed changes
 
 "jsonfile@^6.0.1":
   "integrity" "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ=="
@@ -7021,10 +7232,17 @@
   dependencies:
     "p-locate" "^5.0.0"
 
+<<<<<<< Updated upstream
 "lodash-es@^4.17.15":
   "integrity" "sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw=="
   "resolved" "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.21.tgz"
   "version" "4.17.21"
+=======
+lodash-es@^4.17.15, lodash-es@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.21.tgz"
+  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
+>>>>>>> Stashed changes
 
 "lodash.debounce@^4.0.8":
   "integrity" "sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow=="
@@ -7041,10 +7259,17 @@
   "resolved" "https://registry.npmjs.org/lodash.once/-/lodash.once-4.1.1.tgz"
   "version" "4.1.1"
 
+<<<<<<< Updated upstream
 "lodash@^4.17.15", "lodash@^4.17.21":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
+=======
+lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+>>>>>>> Stashed changes
 
 "log-symbols@^4.0.0", "log-symbols@^4.1.0":
   "integrity" "sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg=="
@@ -8242,10 +8467,17 @@
   "resolved" "https://registry.npmjs.org/pathe/-/pathe-0.2.0.tgz"
   "version" "0.2.0"
 
+<<<<<<< Updated upstream
 "pathe@^1.1.0", "pathe@^1.1.1":
   "integrity" "sha512-d+RQGp0MAYTIaDBIMmOfMwz3E+LOZnxx1HZd5R18mmCZY0QBlK0LDZfPc8FW8Ed2DlvsuE6PRjroDY+wg4+j/Q=="
   "resolved" "https://registry.npmjs.org/pathe/-/pathe-1.1.1.tgz"
   "version" "1.1.1"
+=======
+pathe@^1.0.0, pathe@^1.1.0, pathe@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/pathe/-/pathe-1.1.1.tgz"
+  integrity sha512-d+RQGp0MAYTIaDBIMmOfMwz3E+LOZnxx1HZd5R18mmCZY0QBlK0LDZfPc8FW8Ed2DlvsuE6PRjroDY+wg4+j/Q==
+>>>>>>> Stashed changes
 
 "pathval@^1.1.1":
   "integrity" "sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ=="
@@ -9459,10 +9691,17 @@
     "source-map-resolve" "^0.5.0"
     "use" "^3.1.0"
 
+<<<<<<< Updated upstream
 "source-map-js@^1.0.2", "source-map-js@>=0.6.2 <2.0.0":
   "integrity" "sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw=="
   "resolved" "https://registry.npmjs.org/source-map-js/-/source-map-js-1.0.2.tgz"
   "version" "1.0.2"
+=======
+source-map-js@^1.0.1, source-map-js@^1.0.2, "source-map-js@>=0.6.2 <2.0.0":
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/source-map-js/-/source-map-js-1.0.2.tgz"
+  integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==
+>>>>>>> Stashed changes
 
 "source-map-resolve@^0.5.0":
   "integrity" "sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw=="
@@ -10578,14 +10817,21 @@
     "lodash" "^4.17.21"
     "semver" "^7.3.6"
 
+<<<<<<< Updated upstream
 "vue-i18n@9":
   "integrity" "sha512-yswpwtj89rTBhegUAv9Mu37LNznyu3NpyLQmozF3i1hYOhwpG8RjcjIFIIfnu+2MDZJGSZPXaKWvnQA71Yv9TQ=="
   "resolved" "https://registry.npmjs.org/vue-i18n/-/vue-i18n-9.2.2.tgz"
   "version" "9.2.2"
+=======
+vue-i18n@*, vue-i18n@^9.3.0-beta.21:
+  version "9.3.0-beta.14-77e850b"
+  resolved "https://registry.npmjs.org/vue-i18n/-/vue-i18n-9.3.0-beta.14-77e850b.tgz"
+  integrity sha512-Zjkzm7ZYhLfssuwSgJI9jq1agex7kPl7gEI18pw23+eWUisqy3q20lPP2xDFLmzhUYb3AoaDifj5z4U6+cvhHA==
+>>>>>>> Stashed changes
   dependencies:
-    "@intlify/core-base" "9.2.2"
-    "@intlify/shared" "9.2.2"
-    "@intlify/vue-devtools" "9.2.2"
+    "@intlify/core-base" "9.3.0-beta.14-77e850b"
+    "@intlify/shared" "9.3.0-beta.14-77e850b"
+    "@intlify/vue-devtools" "9.3.0-beta.14-77e850b"
     "@vue/devtools-api" "^6.2.1"
 
 "vue-inbrowser-compiler-independent-utils@^4.69.0":
@@ -10904,10 +11150,31 @@
   "resolved" "https://registry.npmjs.org/yallist/-/yallist-4.0.0.tgz"
   "version" "4.0.0"
 
+<<<<<<< Updated upstream
 "yauzl@^2.10.0":
   "integrity" "sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g=="
   "resolved" "https://registry.npmjs.org/yauzl/-/yauzl-2.10.0.tgz"
   "version" "2.10.0"
+=======
+yaml-eslint-parser@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.npmjs.org/yaml-eslint-parser/-/yaml-eslint-parser-0.3.2.tgz"
+  integrity sha512-32kYO6kJUuZzqte82t4M/gB6/+11WAuHiEnK7FreMo20xsCKPeFH5tDBU7iWxR7zeJpNnMXfJyXwne48D0hGrg==
+  dependencies:
+    eslint-visitor-keys "^1.3.0"
+    lodash "^4.17.20"
+    yaml "^1.10.0"
+
+yaml@^1.10.0:
+  version "1.10.2"
+  resolved "https://registry.npmjs.org/yaml/-/yaml-1.10.2.tgz"
+  integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
+
+yauzl@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.npmjs.org/yauzl/-/yauzl-2.10.0.tgz"
+  integrity sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==
+>>>>>>> Stashed changes
   dependencies:
     "buffer-crc32" "~0.2.3"
     "fd-slicer" "~1.1.0"

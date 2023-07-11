@@ -1,19 +1,59 @@
-export const themeStyle = [
+import {
+  layoutFontSizes,
+  themeNames,
+  menuPositions,
+  type ThemeName,
+  type MenuPosition,
+  type LayoutFontSize
+} from '@/stores/interface'
+
+export interface LabelValue<T> {
+  label: string
+  value: T
+}
+
+export const themeStyle: ReadonlyArray<LabelValue<ThemeName>> = [
   {
     label: 'Light',
-    value: 'light'
+    value: themeNames.light
   },
   {
     label: 'Dark',
-    value: 'dark'
+    value: themeNames.dark
   },
   {
     label: 'Real Dark',
-    value: 'realDark'
+    value: themeNames.realDark
   }
 ] as const
 
-export const themeColors = [
+export const menuLayouts: ReadonlyArray<LabelValue<MenuPosition>> = [
+  {
+    label: 'Side Menu',
+    value: menuPositions.side
+  },
+  {
+    label: 'Top Menu',
+    value: menuPositions.top
+  }
+] as const
+
+export const layoutFonts: ReadonlyArray<LabelValue<LayoutFontSize>> = [
+  {
+    label: '작게',
+    value: layoutFontSizes.small
+  },
+  {
+    label: '중간',
+    value: layoutFontSizes.medium
+  },
+  {
+    label: '크게',
+    value: layoutFontSizes.large
+  }
+] as const
+
+export const themeColors: ReadonlyArray<LabelValue<string>> = [
   {
     label: 'Daybreak',
     value: 'rgb(24, 144, 255)'
@@ -45,16 +85,5 @@ export const themeColors = [
   {
     label: 'Purple',
     value: 'rgb(114, 46, 209)'
-  }
-] as const
-
-export const layouts = [
-  {
-    label: 'Side Menu',
-    value: 'sidemenu'
-  },
-  {
-    label: 'Top Menu',
-    value: 'topmenu'
   }
 ] as const

@@ -3,11 +3,11 @@ export const menus: any = [
     path: '/dashboard',
     name: 'dashboard',
     // redirect: '/dashboard/welcome',
-    component: {
-      name: 'LayoutParentView',
-      __hmrId: 'f60f4a90',
-      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
-    },
+    // component: {
+    //   name: 'LayoutParentView',
+    //   __hmrId: 'f60f4a90',
+    //   __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
+    // },
     meta: {
       // title: 'routes.dashboard.dashboard',
       title: '대시보드',
@@ -253,6 +253,31 @@ export const menus: any = [
           icon: 'icon-shouye',
           namePath: ['setting', 'setting-company'],
           fullPath: '/setting/company'
+        }
+      }
+    ]
+  },
+  {
+    path: '/sample',
+    name: 'sample',
+    // redirect: '/dashboard/welcome',
+    meta: {
+      // title: 'routes.dashboard.dashboard',
+      title: 'Samples',
+      icon: 'icon-yibiaopan',
+      namePath: ['sample'],
+      fullPath: '/sample'
+    },
+    children: [
+      {
+        path: 'table',
+        name: 'sample-table',
+        meta: {
+          // title: 'routes.dashboard.workbench',
+          title: 'Table Sample',
+          icon: 'icon-shouye',
+          namePath: ['sample', 'sample-table'],
+          fullPath: '/sample/table'
         }
       }
     ]

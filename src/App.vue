@@ -1,10 +1,11 @@
 <template>
   <ConfigProvider
+    :locale="getAntdLocale"
     :theme="{
       algorithm: themeAlgorithm,
       token: {
-        colorPrimary: configTheme.primaryColor
-        // fontSize: 13
+        colorPrimary: configTheme.primaryColor,
+        fontSize: configTheme.fontSize
       }
     }"
   >
@@ -12,11 +13,12 @@
   </ConfigProvider>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { ConfigProvider } from 'ant-design-vue'
 import LayoutContainer from '@/layouts/index.vue'
 import { theme } from 'ant-design-vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useLocale } from '@/hooks/useLocale'
 
 defineOptions({
   name: 'App'
@@ -27,6 +29,8 @@ const configTheme = computed(() => config.theme)
 const themeAlgorithm = computed(() =>
   config.theme.navTheme === 'realDark' ? theme.darkAlgorithm : theme.defaultAlgorithm
 )
+
+const { getAntdLocale } = useLocale()
 </script>
 <style lang="scss" scoped></style>
 

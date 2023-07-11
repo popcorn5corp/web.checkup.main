@@ -4,7 +4,11 @@ import type { App } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 /* import font awesome icon component */
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {
+  FontAwesomeIcon,
+  FontAwesomeLayers,
+  FontAwesomeLayersText
+} from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -14,4 +18,6 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 export function setupFontAwesome(app: App<Element>) {
   library.add(fas, far, fab)
   app.component('font-awesome-icon', FontAwesomeIcon)
+  app.component('font-awesome-layers', FontAwesomeLayers)
+  app.component('font-awesome-layer-text', FontAwesomeLayersText)
 }
