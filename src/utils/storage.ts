@@ -29,9 +29,9 @@ export const createStorage = ({ prefixKey = '', storage = window.localStorage } 
           const data = JSON.parse(item)
           const { value, expire } = data
 
-          if (expire === null || expire >= Date.now()) {
-            return value
-          }
+          // if (expire === null || expire >= Date.now()) {
+          return value
+          // }
         }
       } catch (e) {
         console.log(e)

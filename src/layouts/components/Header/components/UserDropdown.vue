@@ -19,27 +19,32 @@
         <MenuItem key="2"> admin@checkupv.com </MenuItem>
         <MenuItem key="3">
           <SettingOutlined />
-          환경설정
+          {{ $t('layout.header.dropdownItemSettings') }}
         </MenuItem>
-        <MenuItem key="4">
+        <!-- <MenuItem key="4">
           <UserOutlined />
           고객센터
-        </MenuItem>
+        </MenuItem> -->
         <MenuItem key="5">
           <LogoutOutlined />
-          로그아웃
+          {{ $t('layout.header.dropdownItemLogout') }}
         </MenuItem>
       </Menu>
     </template>
   </Dropdown>
 
-  <Modal v-model:open="isOpen" title="환경설정" @ok="handleOk" width="800px">
+  <Modal
+    v-model:open="isOpen"
+    :title="$t('layout.header.dropdownItemSettings')"
+    @ok="handleOk"
+    width="800px"
+  >
     <div class="modal-content">
       <Tabs v-model:active-key="activeKey" :tab-position="'left'">
-        <TabPane key="1" tab="계정">계정</TabPane>
-        <TabPane key="2" tab="디스플레이 설정" force-render>
+        <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')"></TabPane>
+        <TabPane key="2" :tab="$t('layout.header.settings.tabDisplaySetting')" force-render>
           <!-- <a-switch size="small" v-model:checked="isDarkMode" /> -->
-          <Descriptions title="테마" :column="5">
+          <Descriptions :title="$t('layout.header.settings.displaySettingTheme')" :column="5">
             <Descriptions.Item v-for="theme in themeStyle" :key="theme.value">
               <Tooltip :title="theme.label">
                 <div
@@ -52,7 +57,10 @@
               </Tooltip>
             </Descriptions.Item>
           </Descriptions>
-          <Descriptions title="메뉴 위치" :column="5">
+          <Descriptions
+            :title="$t('layout.header.settings.displaySettingMenuPosition')"
+            :column="5"
+          >
             <Descriptions.Item v-for="item in menuLayouts" :key="item.value">
               <Tooltip :title="item.label">
                 <div
@@ -65,7 +73,7 @@
               </Tooltip>
             </Descriptions.Item>
           </Descriptions>
-          <Descriptions title="색상" :column="9">
+          <Descriptions :title="$t('layout.header.settings.displaySettingColor')" :column="9">
             <Descriptions.Item v-for="item in themeColors" :key="item.value">
               <div class="check-item">
                 <Tooltip :title="item.label">
@@ -76,7 +84,7 @@
               </div>
             </Descriptions.Item>
           </Descriptions>
-          <Descriptions title="글자 크기" :column="5">
+          <Descriptions :title="$t('layout.header.settings.displaySettingFontSize')" :column="5">
             <Descriptions.Item>
               <a-radio-group v-model:value="config.theme.fontSize" @change="setLayoutFontSize">
                 <a-radio v-for="item in layoutFonts" :value="item.value">{{ item.label }}</a-radio>
@@ -84,7 +92,7 @@
             </Descriptions.Item>
           </Descriptions>
         </TabPane>
-        <TabPane key="3" tab="언어">
+        <TabPane key="3" :tab="$t('layout.header.settings.tabLang')">
           <LanguageSetting />
         </TabPane>
       </Tabs>

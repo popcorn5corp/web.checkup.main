@@ -14,7 +14,7 @@ const onChangeLang = (locale: LocaleType) => {
 }
 </script>
 <template>
-  <Descriptions :title="$t('layout.header.settings.tabTitle.language')" :column="5">
+  <Descriptions :title="$t('layout.header.settings.tabLang')" :column="5">
     <Descriptions.Item>
       <Select
         v-model:value="selectedLocale"

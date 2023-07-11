@@ -11,7 +11,8 @@ interface LocaleState {
 
 export const useLocaleStore = defineStore('locale', () => {
   const state = reactive<LocaleState>({
-    locale: Storage.get(LOCALE_KEY, localeMap.ko_KR)
+    // locale: Storage.get(LOCALE_KEY, localeMap.ko_KR)
+    locale: Storage.get(LOCALE_KEY)
   })
 
   function getLocale(): LocaleType {

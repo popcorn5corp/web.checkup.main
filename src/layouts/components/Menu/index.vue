@@ -189,8 +189,8 @@ const onClickMenuItem = ({ key }: any) => {
     }
 
     &.is-side-menu {
-      height: calc(100vh - 120px);
-      // height: calc(100vh - 215px);
+      // height: calc(100vh - 120px);
+      height: calc(100vh - 215px);
     }
   }
 }

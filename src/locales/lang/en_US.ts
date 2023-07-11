@@ -3,13 +3,11 @@ import { genMessage } from '@/helpers/locale'
 import { localeMap, type LocaleType } from '../config'
 
 const locale: LocaleType = localeMap.en_US
-const modulesFiles = import.meta.glob<Recordable>(`./en-US/**/*.ts`, { eager: true })
-
-console.log('ddddddddd', genMessage(modulesFiles, 'en-US'))
+const modulesFiles = import.meta.glob<Recordable>(`./en_US/**/*.ts`, { eager: true })
 
 export default {
   message: {
-    ...genMessage(modulesFiles, 'en-US'),
+    ...genMessage(modulesFiles, locale),
     antdLocale
   }
 }

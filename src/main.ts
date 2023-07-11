@@ -4,7 +4,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { setupRouter } from './router'
 import { setupStore } from '@/stores'
-import { setupFontAwesome, setupAssets, setupI18n } from '@/plugins'
+import { setupFontAwesome, setupAssets } from '@/plugins'
+import { setupI18n } from '@/locales'
 
 const app = createApp(App)
 

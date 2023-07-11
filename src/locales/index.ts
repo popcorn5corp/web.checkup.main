@@ -4,7 +4,7 @@ import { setHtmlPageLang, setLoadLocalePool } from '@/helpers/locale'
 import { createI18n, type I18n, type I18nOptions } from 'vue-i18n'
 import { localeMap } from './config'
 
-export let i18n: Awaited<I18n>
+// export let i18n: Awaited<I18n>
 
 async function createI18nOptions(): Promise<I18nOptions> {
   const localeStore = useLocaleStoreWithOut()
@@ -21,16 +21,29 @@ async function createI18nOptions(): Promise<I18nOptions> {
     locale,
     legacy: false,
     fallbackLocale: localeMap.ko_KR, // set fallback locale
-    messages: {
-      [locale]: message as { [key: string]: string }
-    },
     silentTranslationWarn: true, // true - warning off
     missingWarn: false,
     silentFallbackWarn: true,
     globalInjection: true,
-    allowComposition: true
+    allowComposition: true,
+    messages: {
+      [locale]: message as { [key: string]: string }
+    }
   }
 }
 
-export const getI18n: Promise<I18n> = (async () => createI18n(await createI18nOptions()))()
+// export const getI18n: Promise<I18n> = (async () => createI18n(await createI18nOptions()))()
+// getI18n.then((res) => (i18n = res))
+
+export const getI18n = (async () => createI18n(await createI18nOptions()))()
+
+export let i18n: Awaited<typeof getI18n>
+
 getI18n.then((res) => (i18n = res))
+
+// setup i18n instance with global
+export async function setupI18n(app: App) {
+  await getI18n
+  console.log('i18n >> ', i18n)
+  app.use(i18n)
+}
