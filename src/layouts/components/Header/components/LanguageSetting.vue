@@ -4,21 +4,23 @@ import { Descriptions, Select, Modal } from 'ant-design-vue'
 import { localeList } from '@/locales/config'
 import { useLocale } from '@/locales/useLocale'
 import type { LocaleType } from '@/locales/config'
-import { ExclamationCircleOutlined } from '@/components/Icon'
+import { QuestionCircleTwoTone } from '@/components/Icon'
 import { useI18n } from 'vue-i18n'
 const { Option } = Select
 const { t } = useI18n()
 const { setLocale, getLocale, fallbackLocale } = useLocale()
 const selectedLocale = ref<LocaleType>(unref(getLocale))
-const prevLocale = unref(selectedLocale)
+let prevLocale: LocaleType = selectedLocale.value
 
 const onChangeLang = async (locale: LocaleType) => {
   await setLocale(locale)
 
   Modal.confirm({
     content: t('common.message.changeLang'),
-    icon: createVNode(ExclamationCircleOutlined),
-    onOk() {},
+    icon: createVNode(QuestionCircleTwoTone),
+    onOk() {
+      prevLocale = locale
+    },
     onCancel() {
       fallbackLocale()
       selectedLocale.value = prevLocale
