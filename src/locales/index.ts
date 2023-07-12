@@ -44,6 +44,5 @@ getI18n.then((res) => (i18n = res))
 // setup i18n instance with global
 export async function setupI18n(app: App) {
   await getI18n
-  console.log('i18n >> ', i18n)
   app.use(i18n)
 }

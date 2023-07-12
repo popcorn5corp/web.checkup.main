@@ -31,7 +31,7 @@ defineProps({
     <div class="filter-list" v-if="showFilter">
       <!-- 모바일 버전 헤더 -->
       <div class="mobile-header">
-        <h3>Filters</h3>
+        <h3>{{ $t('common.filterText') }}</h3>
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
 

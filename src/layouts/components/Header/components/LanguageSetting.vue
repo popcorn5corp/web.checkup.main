@@ -1,16 +1,29 @@
 <script setup lang="ts">
-import { ref, unref } from 'vue'
-import { Descriptions, Select } from 'ant-design-vue'
+import { ref, unref, createVNode } from 'vue'
+import { Descriptions, Select, Modal } from 'ant-design-vue'
 import { localeList } from '@/locales/config'
 import { useLocale } from '@/locales/useLocale'
 import type { LocaleType } from '@/locales/config'
+import { ExclamationCircleOutlined } from '@/components/Icon'
+import { useI18n } from 'vue-i18n'
 const { Option } = Select
-
-const { setLocale, getLocale } = useLocale()
+const { t } = useI18n()
+const { setLocale, getLocale, fallbackLocale } = useLocale()
 const selectedLocale = ref<LocaleType>(unref(getLocale))
+const prevLocale = unref(selectedLocale)
 
-const onChangeLang = (locale: LocaleType) => {
-  setLocale(locale)
+const onChangeLang = async (locale: LocaleType) => {
+  await setLocale(locale)
+
+  Modal.confirm({
+    content: t('common.message.changeLang'),
+    icon: createVNode(ExclamationCircleOutlined),
+    onOk() {},
+    onCancel() {
+      fallbackLocale()
+      selectedLocale.value = prevLocale
+    }
+  })
 }
 </script>
 <template>

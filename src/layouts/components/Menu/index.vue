@@ -168,7 +168,7 @@ const onClickMenuItem = ({ key }: any) => {
   .menu-content {
     overflow: auto;
     // height: calc(100vh - 105px);
-    height: 100vh;
+    // height: 100vh;
 
     :deep(.ant-menu) {
       height: 100%;

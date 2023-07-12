@@ -45,7 +45,7 @@ export type ThemeName = (typeof themeNames)[keyof typeof themeNames]
 export type LayoutFontSize = (typeof layoutFontSizes)[keyof typeof layoutFontSizes]
 export type MenuPosition = (typeof menuPositions)[keyof typeof menuPositions]
 
-export interface Theme {
+export interface ThemeConfig {
   navTheme: ThemeName // theme for nav menu
   isDark: boolean
   primaryColor: string // '#F5222D', // primary color of ant design
@@ -82,7 +82,7 @@ export interface ProjectConfigState {
   // tabsIcon: boolean
   // footer: boolean
   device: DeviceTypeEnum
-  theme: Theme
+  theme: ThemeConfig
 }
 
 export type RouteItem = Omit<RouteLocation, 'matched' | 'redirectedFrom'>

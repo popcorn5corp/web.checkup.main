@@ -27,8 +27,8 @@ export function useLocale() {
   const localeStore = useLocaleStoreWithOut()
   // getter
   const getLocale = computed(() => localeStore.getLocale())
-  const getAntdLocale = computed<Locale>((): any => {
-    return i18n.global.getLocaleMessage(unref(getLocale)).antdLocale
+  const getAntdLocale = computed<Locale>(() => {
+    return (i18n.global.getLocaleMessage(unref(getLocale)) as any).antdLocale
   })
 
   async function setLocale(locale: LocaleType) {
@@ -53,9 +53,14 @@ export function useLocale() {
     return locale
   }
 
+  function fallbackLocale() {
+    setLocale(localeStore.fallbackLocale)
+  }
+
   return {
     getLocale,
     getAntdLocale,
-    setLocale
+    setLocale,
+    fallbackLocale
   }
 }

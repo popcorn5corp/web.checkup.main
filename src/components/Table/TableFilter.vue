@@ -6,18 +6,18 @@ import Filter from './components/Filter.vue'
 import { Table } from './index'
 import { Button } from '@/components/Button'
 
-const store = useTableFilterStore();
-const { filterList , selectedItems} = storeToRefs(store);
+const store = useTableFilterStore()
+const { filterList, selectedItems } = storeToRefs(store)
 const showFilter = ref<Boolean>(true)
 
 defineProps({
   dataSource: {
     type: Array as PropType<String[]>,
-    default: () => [],
+    default: () => []
   },
   columns: {
-    type:  Array as PropType<String[]>,
-    default: () => [],
+    type: Array as PropType<String[]>,
+    default: () => []
   }
 })
 </script>
@@ -25,10 +25,12 @@ defineProps({
 <template>
   <div class="filter-table-containter">
     <div class="table-header">
-      <span v-if="dataSource.length !== null">전체 : {{ dataSource.length }} 건</span>
+      <span v-if="dataSource.length !== null">{{
+        $t('common.tableTotalText', { count: dataSource.length })
+      }}</span>
       <Button
         class="table-btn"
-        label="Filter"
+        :label="$t('common.filterText')"
         size="large"
         @click="showFilter = showFilter ? false : true"
       />

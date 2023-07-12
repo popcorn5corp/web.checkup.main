@@ -37,6 +37,7 @@
     v-model:open="isOpen"
     :title="$t('layout.header.dropdownItemSettings')"
     @ok="handleOk"
+    :footer="false"
     width="800px"
   >
     <div class="modal-content">
