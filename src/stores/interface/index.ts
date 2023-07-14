@@ -1,5 +1,6 @@
 import type { RouteLocation } from 'vue-router'
-
+import { type Filter } from '@/components/Table/types'
+import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 // export type LayoutType = 'default' | 'vertical' | 'transverse' | 'columns'
 export type AssemblySizeType = 'large' | 'default' | 'small'
 export type LanguageType = 'zh' | 'en' | null
@@ -89,6 +90,16 @@ export type RouteItem = Omit<RouteLocation, 'matched' | 'redirectedFrom'>
 
 export interface TabsLayoutState {
   tabs: RouteItem[]
+}
+
+export type OptionType = { label: string; value: string | number }
+export type SelectedType = string | number | [] | null | CheckboxValueType[]
+export interface Params {
+  [key: string]: SelectedType
+}
+export interface TableFilterState {
+  selectedFilterData: Params
+  filterList: Filter[]
 }
 
 export interface UserState {}

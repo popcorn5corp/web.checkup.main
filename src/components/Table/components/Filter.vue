@@ -1,14 +1,14 @@
 <script setup lang="ts" name="Filter">
-import { ref, computed, type PropType } from 'vue'
+import { ref, computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-
+import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { Button } from '../../Button'
 import FilterType from './FilterType/FilterType.vue'
-import type { Filter } from '../types'
-import { filterList } from '../mock'
+
 const emit = defineEmits(['showFilter'])
 
 const { config } = useProjectConfigStore()
+const { filterList } = useTableFilterStore()
 
 const getTheme = computed(() => config.theme.navTheme)
 const showFilter = ref<Boolean>(true)
@@ -17,14 +17,6 @@ const onFilter = (): void => {
   showFilter.value = showFilter ? false : true
   emit('showFilter', showFilter.value)
 }
-
-defineProps({
-  filterList: {
-    type: Array as PropType<Filter[]>,
-    default: () => [],
-    required: true
-  }
-})
 </script>
 <template>
   <div class="filter-wrapper">
@@ -38,12 +30,12 @@ defineProps({
       <ul>
         <li :class="{ 'dark-mode': getTheme === 'realDark' }" class="flex-direction-columns">
           <div v-for="(item, index) in filterList" :key="index">
-            <div class="filter-title" @click="() => (item.show = item.show ? false : true)">
-              <h3>{{ item.name }}</h3>
+            <div class="filter-title" @click="() => (item.open = item.open ? false : true)">
+              <h3>{{ item.title }}</h3>
               <font-awesome-icon :icon="['fas', 'angle-down']" />
             </div>
-            <template v-if="item.show">
-              <FilterType :type="item.type" />
+            <template v-if="item.open">
+              <FilterType :item="item" />
             </template>
           </div>
         </li>

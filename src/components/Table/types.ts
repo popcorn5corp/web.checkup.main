@@ -1,6 +1,6 @@
 import type { PaginationProps } from 'ant-design-vue/lib/pagination'
 import type { DefaultRecordType, ColumnsType } from 'ant-design-vue/lib/vc-table/interface'
-
+import type { Dayjs } from 'dayjs'
 type PaginationPositon =
   | 'topLeft'
   | 'topCenter'
@@ -43,6 +43,8 @@ export enum FilterTypeEnum {
 
 export interface Filter {
   type: FilterTypeEnum
-  name: string
-  show: boolean
+  title: string
+  open: boolean
+  options: []
+  selected: [] | {}
 }

@@ -1,25 +1,29 @@
 <script setup lang="ts" name="LayoutFilter">
 import { ref, type PropType } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import { useTag } from '@/hooks/useTag'
 import Filter from './components/Filter.vue'
 import { Table } from './index'
 import { Button } from '@/components/Button'
 
-const store = useTableFilterStore();
-const { filterList , selectedItems} = storeToRefs(store);
+const { tags, remove } = useTag()
+
 const showFilter = ref<Boolean>(true)
 
 defineProps({
   dataSource: {
     type: Array as PropType<String[]>,
-    default: () => [],
+    default: () => []
   },
   columns: {
-    type:  Array as PropType<String[]>,
-    default: () => [],
+    type: Array as PropType<String[]>,
+    default: () => []
   }
 })
+
+const onClose = (e) => {
+  console.log(e)
+  remove()
+}
 </script>
 
 <template>
@@ -36,15 +40,14 @@ defineProps({
 
     <div class="table-body">
       <div class="table-content" :style="{ flex: showFilter ? 0.7 : 1 }">
-        <template v-for="item in selectedItems">
-          <a-tag class="table-tag" closable @close="">{{ item }}</a-tag>
+        <template v-for="tag in tags">
+          <a-tag v-if="tag !== ''" class="table-tag" closable @close="onClose">{{ tag }}</a-tag>
         </template>
         <Table :columns="columns" :dataSource="dataSource" :total="dataSource.length" />
       </div>
       <Filter
         class="table-filter"
         v-if="showFilter"
-        :filterList="filterList"
         @showFilter="(flag:boolean) => (showFilter = flag)"
       />
     </div>
