@@ -9,4 +9,8 @@ export class Axios {
     this.options = options
     this.axiosInstance = axios.create(options)
   }
+
+  private setupInterceptors() {}
+
+  uploadFile() {}
 }

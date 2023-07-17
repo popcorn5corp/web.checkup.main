@@ -1,9 +1,9 @@
-import { computed, unref } from 'vue'
+import { computed, unref, nextTick } from 'vue'
 import { loadLocalePool, setHtmlPageLang } from '@/helpers/locale'
 import { useLocaleStoreWithOut } from '@/stores/modules/locale'
 import type { LocaleType } from '@/locales/config'
 import type { Locale } from 'ant-design-vue/es/locale-provider'
-import { i18n } from '@/locales/'
+import i18n from '@/locales/'
 
 interface LangModule {
   message: Recordable
@@ -13,19 +13,26 @@ interface LangModule {
 
 function setI18nLanguage(locale: LocaleType) {
   const localeStore = useLocaleStoreWithOut()
-
-  if (i18n.mode === 'legacy') {
-    i18n.global.locale = locale
-  } else {
-    ;(i18n.global.locale as any).value = locale
-  }
-  localeStore.setLocale(locale)
+  i18n.global.locale.value = locale
   setHtmlPageLang(locale)
+  localeStore.setLocale(locale)
+}
+
+async function loadLocaleMessages(locale: LocaleType) {
+  const globalI18n = i18n.global
+
+  if (!globalI18n.availableLocales.includes(locale)) {
+    const langModule = ((await import(`./lang/${locale}.ts`)) as any).default as LangModule
+    if (!langModule) return
+    const { message } = langModule
+    globalI18n.setLocaleMessage(locale, message as any)
+  }
+
+  return nextTick()
 }
 
 export function useLocale() {
   const localeStore = useLocaleStoreWithOut()
-  // getter
   const getLocale = computed(() => localeStore.getLocale())
   const getAntdLocale = computed<Locale>(() => {
     return (i18n.global.getLocaleMessage(unref(getLocale)) as any).antdLocale
@@ -33,7 +40,7 @@ export function useLocale() {
 
   async function setLocale(locale: LocaleType) {
     const globalI18n = i18n.global
-    const currentLocale = unref(globalI18n.locale)
+    const currentLocale = globalI18n.locale.value
     if (currentLocale === locale) {
       return locale
     }
@@ -43,24 +50,15 @@ export function useLocale() {
       return locale
     }
 
-    const langModule = ((await import(`./lang/${locale}.ts`)) as any).default as LangModule
-    if (!langModule) return
-    const { message } = langModule
-
-    globalI18n.setLocaleMessage(locale, message)
+    loadLocaleMessages(locale)
     loadLocalePool.push(locale)
     setI18nLanguage(locale)
     return locale
   }
 
-  function fallbackLocale() {
-    setLocale(localeStore.fallbackLocale)
-  }
-
   return {
     getLocale,
     getAntdLocale,
-    setLocale,
-    fallbackLocale
+    setLocale
   }
 }

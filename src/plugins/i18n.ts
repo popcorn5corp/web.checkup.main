@@ -1,8 +1,7 @@
 import type { App } from 'vue'
-import { getI18n, i18n } from '@/locales'
+import i18n from '@/locales'
 
 // setup i18n instance with global
-export async function setupI18n(app: App) {
-  await getI18n
+export function setupI18n(app: App) {
   app.use(i18n)
 }

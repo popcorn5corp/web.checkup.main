@@ -3,7 +3,7 @@ import { loadLocalePool, setHtmlPageLang } from '@/helpers/locale'
 import { useLocaleStoreWithOut } from '@/stores/modules/locale'
 import type { LocaleType } from '@/locales/config'
 import type { Locale } from 'ant-design-vue/es/locale-provider'
-import { i18n } from '@/locales/'
+import i18n from '@/locales/'
 
 interface LangModule {
   message: Recordable
@@ -13,25 +13,19 @@ interface LangModule {
 
 function setI18nLanguage(locale: LocaleType) {
   const localeStore = useLocaleStoreWithOut()
-
-  if (i18n.mode === 'legacy') {
-    i18n.global.locale = locale
-  } else {
-    ;(i18n.global.locale as any).value = locale
-  }
-  localeStore.setLocale(locale)
+  i18n.global.locale.value = locale
   setHtmlPageLang(locale)
+  localeStore.setLocale(locale)
 }
 
 export function useLocale() {
   const localeStore = useLocaleStoreWithOut()
-  // getter
   const getLocale = computed(() => localeStore.getLocale())
-  const getAntdLocale = computed<Locale>((): any => {
-    return i18n.global.getLocaleMessage(unref(getLocale)).antdLocale
+  const getAntdLocale = computed<Locale>(() => {
+    return (i18n.global.getLocaleMessage(unref(getLocale)) as any).antdLocale
   })
 
-  async function changeLocale(locale: LocaleType) {
+  async function setLocale(locale: LocaleType) {
     const globalI18n = i18n.global
     const currentLocale = unref(globalI18n.locale)
     if (currentLocale === locale) {
@@ -47,7 +41,7 @@ export function useLocale() {
     if (!langModule) return
     const { message } = langModule
 
-    globalI18n.setLocaleMessage(locale, message)
+    globalI18n.setLocaleMessage(locale, message as any)
     loadLocalePool.push(locale)
     setI18nLanguage(locale)
     return locale
@@ -56,6 +50,6 @@ export function useLocale() {
   return {
     getLocale,
     getAntdLocale,
-    changeLocale
+    setLocale
   }
 }

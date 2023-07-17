@@ -15,10 +15,9 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
   return {
     plugins: [
       vue(),
-      // VueI18nPlugin({
-      //   runtimeOnly: false,
-      //   include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**') // provide a path to the folder where you'll store translation data (see below)
-      // }),
+      VueI18nPlugin({
+        include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/lang/*/**') // provide a path to the folder where you'll store translation data (see below)
+      }),
       Components({
         resolvers: [
           AntDesignVueResolver({

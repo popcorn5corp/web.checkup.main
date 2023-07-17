@@ -25,3 +25,8 @@ declare interface ComponentElRef<T extends HTMLElement = HTMLDivElement> {
 declare type ComponentRef<T extends HTMLElement = HTMLDivElement> = ComponentElRef<T> | null
 
 declare type ElRef<T extends HTMLElement = HTMLDivElement> = Nullable<T>
+
+declare interface LabelValue<T> {
+  label: string
+  value: T
+}

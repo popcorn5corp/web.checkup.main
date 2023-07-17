@@ -4,8 +4,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { setupRouter } from './router'
 import { setupStore } from '@/stores'
-import { setupFontAwesome, setupAssets } from '@/plugins'
-import { setupI18n } from '@/locales'
+import { setupFontAwesome, setupAssets, setupI18n } from '@/plugins'
 
 const app = createApp(App)
 
@@ -15,13 +14,13 @@ function setupPlugins() {
 }
 
 async function setupApp() {
+  setupI18n(app)
   setupStore(app)
-  await setupI18n(app)
   await setupRouter(app)
   app.mount('#app')
 }
 
-;(async function bootCheckUpMain() {
+;(async function boot() {
   setupPlugins()
   await setupApp()
 })()

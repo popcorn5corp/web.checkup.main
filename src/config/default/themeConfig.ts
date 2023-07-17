@@ -6,11 +6,7 @@ import {
   type MenuPosition,
   type LayoutFontSize
 } from '@/stores/interface'
-
-export interface LabelValue<T> {
-  label: string
-  value: T
-}
+import i18n from '@/locales'
 
 export const themeStyle: ReadonlyArray<LabelValue<ThemeName>> = [
   {
@@ -40,7 +36,7 @@ export const menuLayouts: ReadonlyArray<LabelValue<MenuPosition>> = [
 
 export const layoutFonts: ReadonlyArray<LabelValue<LayoutFontSize>> = [
   {
-    label: '작게',
+    label: i18n.global.t('layout.header.settings.fontSizeSmall'),
     value: layoutFontSizes.small
   },
   {

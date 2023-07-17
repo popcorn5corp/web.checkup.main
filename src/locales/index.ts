@@ -1,48 +1,33 @@
 import type { App } from 'vue'
-import { useLocaleStoreWithOut } from '@/stores/modules/locale'
+import type { I18n, I18nOptions } from 'vue-i18n'
+
+import { createI18n } from 'vue-i18n'
 import { setHtmlPageLang, setLoadLocalePool } from '@/helpers/locale'
-import { createI18n, type I18n, type I18nOptions } from 'vue-i18n'
+import { useLocaleStoreWithOut } from '@/stores/modules/locale'
 import { localeMap } from './config'
+import ko_KR from './lang/ko_KR'
+import id_ID from './lang/id_ID'
+import en_US from './lang/en_US'
 
-// export let i18n: Awaited<I18n>
+const localeStore = useLocaleStoreWithOut()
+const locale = localeStore.getLocale()
 
-async function createI18nOptions(): Promise<I18nOptions> {
-  const localeStore = useLocaleStoreWithOut()
-  const locale = localeStore.getLocale()
-  const defaultLocale = await import(`./lang/${locale}.ts`)
-  const message = defaultLocale.default?.message ?? {}
-
-  setHtmlPageLang(locale)
-  setLoadLocalePool((loadLocalePool) => {
-    loadLocalePool.push(locale)
-  })
-
-  return {
-    locale,
-    legacy: false,
-    fallbackLocale: localeMap.ko_KR, // set fallback locale
-    silentTranslationWarn: true, // true - warning off
-    missingWarn: false,
-    silentFallbackWarn: true,
-    globalInjection: true,
-    allowComposition: true,
-    messages: {
-      [locale]: message as { [key: string]: string }
+const i18n = createI18n({
+  legacy: false,
+  locale,
+  fallbackLocale: localeMap.ko_KR,
+  messages: {
+    ko_KR: {
+      ...ko_KR.message
+    },
+    id_ID: {
+      ...id_ID.message
+    },
+    en_US: {
+      ...en_US.message
     }
-  }
-}
+  },
+  globalInjection: true
+})
 
-// export const getI18n: Promise<I18n> = (async () => createI18n(await createI18nOptions()))()
-// getI18n.then((res) => (i18n = res))
-
-export const getI18n = (async () => createI18n(await createI18nOptions()))()
-
-export let i18n: Awaited<typeof getI18n>
-
-getI18n.then((res) => (i18n = res))
-
-// setup i18n instance with global
-export async function setupI18n(app: App) {
-  await getI18n
-  app.use(i18n)
-}
+export default i18n;

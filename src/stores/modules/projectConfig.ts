@@ -70,6 +70,7 @@ export const useProjectConfigStore = defineStore('projectConfig', () => {
   const config = ref<ProjectConfigState>({
     ...defaultConfig,
     theme: {
+      ...defaultConfig.theme,
       ...localThemeConfig
     }
   })

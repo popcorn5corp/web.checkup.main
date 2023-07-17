@@ -4,13 +4,13 @@ import { Descriptions, Select, Modal } from 'ant-design-vue'
 import { localeList } from '@/locales/config'
 import { useLocale } from '@/locales/useLocale'
 import type { LocaleType } from '@/locales/config'
-import { QuestionCircleTwoTone } from '@/components/Icon'
 import { useI18n } from 'vue-i18n'
+import { QuestionCircleTwoTone } from '@/components/Icon'
 const { Option } = Select
 const { t } = useI18n()
-const { setLocale, getLocale, fallbackLocale } = useLocale()
+const { setLocale, getLocale } = useLocale()
 const selectedLocale = ref<LocaleType>(unref(getLocale))
-let prevLocale: LocaleType = selectedLocale.value
+let prevLocale = selectedLocale.value
 
 const onChangeLang = async (locale: LocaleType) => {
   await setLocale(locale)
@@ -21,15 +21,15 @@ const onChangeLang = async (locale: LocaleType) => {
     onOk() {
       prevLocale = locale
     },
-    onCancel() {
-      fallbackLocale()
+    async onCancel() {
       selectedLocale.value = prevLocale
+      await setLocale(prevLocale)
     }
   })
 }
 </script>
 <template>
-  <Descriptions :title="$t('layout.header.settings.tabLang')" :column="5">
+  <Descriptions :title="t('layout.header.settings.tabLang')" :column="5">
     <Descriptions.Item>
       <Select
         v-model:value="selectedLocale"
