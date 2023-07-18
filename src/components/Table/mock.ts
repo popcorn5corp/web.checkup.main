@@ -41,22 +41,43 @@ export const columns = ref<any>([
 export const filterList: Filter[] = [
   {
     type: FilterTypeEnum.DATEPICKER,
-    name: '조회날짜',
-    show: true
+    title: '조회날짜',
+    open: true,
+    options: [],
+    selected: []
   },
   {
     type: FilterTypeEnum.SELECT,
-    name: '반입장비',
-    show: false
+    title: '반입장비',
+    open: false,
+    options: [
+      { label: '고소작업', value: 1 },
+      { label: '화기작업', value: 2 },
+      { label: '밀폐작업', value: 3 },
+      { label: '화기작업', value: 4 }
+    ],
+    selected: []
   },
   {
     type: FilterTypeEnum.CHECKBOX,
-    name: '작업유형',
-    show: true
+    title: '작업유형',
+    open: true,
+    options: [
+      { label: '일반공사', value: 1 },
+      { label: '전기공사', value: 2 },
+      { label: '기계공사', value: 3 },
+      { label: '소방공사', value: 4 }
+    ],
+    selected: []
   },
   {
     type: FilterTypeEnum.RADIO,
-    name: '상태',
-    show: true
+    title: '상태',
+    open: true,
+    options: [
+      { label: '해당있음', value: true },
+      { label: '해당없음', value: false }
+    ],
+    selected: []
   }
 ]

@@ -1,12 +1,29 @@
 <script lang="ts" setup name="FilterDatepicker">
-import { Button } from '@/components/Button'
-import { ref } from 'vue'
+import { toRefs } from 'vue'
+import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import type { Dayjs } from 'dayjs'
+import type { Filter } from '../../types'
 
-const value1 = ref([])
+const { setSelectedFilterData } = useTableFilterStore()
+
+const props = defineProps({
+  item: {
+    type: Object as PropType<Filter>,
+    default: () => {}
+  }
+})
+
+const { type, selected } = toRefs(props.item)
+
+const onRangeChange = (
+  value: [Dayjs, Dayjs] | [string, string],
+  dateString: [string, string]
+): void => {
+  setSelectedFilterData(type.value, dateString)
+}
 </script>
 <template>
-  <a-range-picker v-model:value="value1" />
-  <Button label="Apply" type="primary" size="large" />
+  <a-range-picker v-model:value="selected" @change="" />
   <a-divider />
 </template>
 <style lang="scss" scoped>

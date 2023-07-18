@@ -1,19 +1,24 @@
-import { reactive, computed, ref, unref} from 'vue'
+import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { filterList } from '@/components/Table/mock'
+import type { TableFilterState, SelectedType, OptionType } from '../interface'
 
-export const useTableFilterStore = defineStore('tableFilter', () =>{
-  const state = reactive({
-    selectedItems: [] as String[],
-
+export const useTableFilterStore = defineStore('tableFilter', () => {
+  // state
+  const state = reactive<TableFilterState>({
+    selectedFilterData: {},
+    filterList
   })
 
-  function addItems(item:any) {}
-  
-  return{
-    selectedItems: state.selectedItems,
-    filterList,
-    addItems
+  // action
+  function setSelectedFilterData(type: string, item: SelectedType | OptionType) {
+    Object.values(filterList).forEach(({ type, selected }) => {
+      state.selectedFilterData[type] = selected
+    })
+  }
+
+  return {
+    ...state,
+    setSelectedFilterData
   }
 })
- 

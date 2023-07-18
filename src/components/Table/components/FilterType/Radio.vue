@@ -1,17 +1,25 @@
 <script lang="ts" setup name="FilterRadio">
-import { ref } from 'vue'
+import { toRefs } from 'vue'
+import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import type { Filter } from '../../types'
+import type { RadioChangeEvent } from 'ant-design-vue'
+const { setSelectedFilterData } = useTableFilterStore()
 
-const value = ref(1)
+const props = defineProps({
+  item: {
+    type: Object as PropType<Filter>,
+    default: () => {}
+  }
+})
+const { type, options, selected } = toRefs(props.item)
+
+const onChange = ({ target: { value } }: RadioChangeEvent): void => {
+  setSelectedFilterData(type.value, value)
+}
 </script>
 <template>
-  <a-radio-group v-model:value="value">
-    <a-radio :value="1">Option A</a-radio>
-    <a-radio :value="2">Option B</a-radio>
-    <a-radio :value="3">Option C</a-radio>
-    <a-radio :value="4">
-      More...
-      <a-input v-if="value === 4" style="width: 100px; margin-left: 10px" />
-    </a-radio>
+  <a-radio-group v-for="{ label, value } in options" v-model:value="selected" @change="onChange">
+    <a-radio :value="{ label, value }">{{ label }}</a-radio>
   </a-radio-group>
   <a-divider />
 </template>
