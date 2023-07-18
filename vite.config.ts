@@ -7,8 +7,15 @@ import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+import pkg from './package.json'
+import dayjs from 'dayjs'
 
 const CWD = process.cwd()
+const { dependencies, devDependencies, name, version } = pkg
+const __APP_INFO__ = {
+  pkg: { dependencies, devDependencies, name, version },
+  lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+}
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
@@ -36,6 +43,11 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
+    },
+    server: {},
+    build: {
+      outDir: 'dist',
+      minify: 'esbuild'
     }
   }
 })

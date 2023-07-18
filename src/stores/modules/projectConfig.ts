@@ -78,16 +78,20 @@ export const useProjectConfigStore = defineStore('projectConfig', () => {
   watch(
     () => [config.value.theme.navTheme, config.value.isCollapse],
     ([navTheme, isCollapse]) => {
-      let logoFileName = `${config.value.theme.title}_logo${
-        isCollapse ? '_simple' : ''
-      }_${navTheme}.png`
-
-      setTheme({ logoFileName })
+      setLogo()
     },
     {
       immediate: true
     }
   )
+
+  function setLogo() {
+    let logoFileName = `${config.value.theme.title}_logo${
+      config.value.isCollapse ? '_simple' : ''
+    }_${navTheme}.png`
+
+    setTheme({ logoFileName })
+  }
 
   function setCollapse(isCollapse: boolean) {
     config.value.isCollapse = isCollapse

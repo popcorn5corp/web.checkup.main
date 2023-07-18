@@ -2,6 +2,7 @@ import type { LocaleType } from '@/locales/config'
 
 declare global {
   interface ImportMetaEnv {
+    readonly VITE_GLOB_APP_TITLE: string
     readonly VITE_APP_BASE_URL: string
     readonly VITE_APP_IMAGE_URL: string
     readonly VITE_APP_ENV: string

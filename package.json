@@ -27,6 +27,7 @@
     "@types/vue-i18n": "^7.0.0",
     "ant-design-vue": "4.x",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.9",
     "lodash-es": "^4.17.21",
     "pinia": "^2.0.36",
     "pinia-plugin-persist": "^1.0.0",
