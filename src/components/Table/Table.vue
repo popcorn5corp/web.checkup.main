@@ -1,5 +1,5 @@
 <script setup lang="ts" name="TableComponent">
-import { ref, toRefs, watch, withDefaults } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 import type { DefaultPagination, TableProps } from './types'
 import { SearchOutlined } from '@ant-design/icons-vue'
 
@@ -40,19 +40,19 @@ let isTableChangedFlag = false
 /**
  * 테이블 칼럼 세팅 ('NO' 칼럼 추가)
  */
-// function setColumns() {
-//   tableColumns.value.unshift({
-//     title: 'No',
-//     align: 'center',
-//     dataIndex: 'index',
-//     key: 'index'
-//   })
-// }
+function setColumns() {
+  tableColumns.value.unshift({
+    title: 'No',
+    align: 'center',
+    dataIndex: 'index',
+    key: 'index'
+  })
+}
 watch(
   columns,
   () => {
     if (options.value.isShowNo === undefined || options.value.isShowNo === true) {
-      // setColumns()
+      setColumns()
     }
   },
   {
@@ -132,7 +132,7 @@ const handleSearch = (selectedKeys: string[], dataIndex: string, confirm: () => 
   confirm()
 }
 
-const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters) => {
+const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters: Function) => {
   clearFilters({ confirm: true })
   emits('search', {
     key: dataIndex,
@@ -162,50 +162,26 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters) =>
           </div>
         </div>
 
-        <a-table
-          :loading="loading"
-          :dataSaource="dataSource"
-          :columns="tableColumns"
-          :size="size"
-          :pagination="isUsePagination ? tablePagination : false"
-          :customRow="customRow"
-          @change="onChange"
-        >
+        <a-table :loading="loading" :data-source="dataSource" :columns="tableColumns" :size="size"
+          :pagination="isUsePagination ? tablePagination : false" :customRow="customRow" @change="onChange">
           <!--------------------- 테이블 Header Filter 영역 --------------------->
-          <template
-            #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
-          >
-            <slot
-              name="customFilterDropdown"
-              :setSelectedKeys="setSelectedKeys"
-              :selectedKeys="selectedKeys"
-              :confirm="confirm"
-              :clearFilters="clearFilters"
-              :column="column"
-            />
+          <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
+            <slot name="customFilterDropdown" :setSelectedKeys="setSelectedKeys" :selectedKeys="selectedKeys"
+              :confirm="confirm" :clearFilters="clearFilters" :column="column" />
             <div style="padding: 8px">
-              <a-input
-                ref="searchInput"
-                :placeholder="`${column.title}을 검색해주세요.`"
-                :value="selectedKeys[0]"
+              <a-input ref="searchInput" :placeholder="`${column.title}을 검색해주세요.`" :value="selectedKeys[0]"
                 style="width: 188px; margin-bottom: 8px; display: block"
                 @change="(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-                @pressEnter="handleSearch(selectedKeys, column.dataIndex, confirm)"
-              />
-              <a-button
-                type="primary"
-                size="small"
-                style="width: 90px; margin-right: 8px"
-                @click="handleSearch(selectedKeys, column.dataIndex, confirm)"
-              >
-                <template #icon><SearchOutlined /></template>
+                @pressEnter="handleSearch(selectedKeys, column.dataIndex, confirm)" />
+              <a-button type="primary" size="small" style="width: 90px; margin-right: 8px"
+                @click="handleSearch(selectedKeys, column.dataIndex, confirm)">
+                <template #icon>
+                  <SearchOutlined />
+                </template>
                 검색
               </a-button>
-              <a-button
-                size="small"
-                style="width: 90px"
-                @click="handleReset(selectedKeys, column.dataIndex, clearFilters)"
-              >
+              <a-button size="small" style="width: 90px"
+                @click="handleReset(selectedKeys, column.dataIndex, clearFilters)">
                 초기화
               </a-button>
             </div>
@@ -242,11 +218,11 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters) =>
   clear: both;
   height: 40px;
 
-  > span {
+  >span {
     float: left;
   }
 
-  > .btn-group {
+  >.btn-group {
     float: right;
     display: flex;
     gap: 5px;
@@ -255,6 +231,7 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters) =>
 
 :deep(.ant-table-thead) {
   color: rgb(4, 17, 29) !important;
+
   th {
     background: rgb(255, 255, 255) !important;
     border-bottom: 1px solid rgb(229, 232, 235) !important;

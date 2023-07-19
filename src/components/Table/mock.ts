@@ -17,24 +17,19 @@ export const dataSource = ref<any>([
 
 export const columns = ref<any>([
   {
-    title: 'No',
-    dataIndex: 'key',
-    key: 'key'
+    title: '게시물 제목',
+    dataIndex: 'boardTitle',
+    key: 'boardTitle'
   },
   {
-    title: '신청서 번호',
-    dataIndex: 'name',
-    key: 'name'
+    title: '게시물 내용',
+    dataIndex: 'boardContent',
+    key: 'boardContent'
   },
   {
-    title: '작업 유형',
-    dataIndex: 'age',
-    key: 'age'
-  },
-  {
-    title: '작업',
-    dataIndex: 'address',
-    key: 'address'
+    title: '생성일',
+    dataIndex: 'createdAt',
+    key: 'createdAt'
   }
 ])
 

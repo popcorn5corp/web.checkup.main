@@ -7,6 +7,10 @@ declare interface ResultData<T = any> extends Result {
   data: T
 }
 
+declare interface ResultData<T = any> extends Result {
+  data: T
+}
+
 declare interface UploadFileParams {
   // Other parameters
   data?: Recordable

@@ -4,6 +4,7 @@ import { useTag } from '@/hooks/useTag'
 import Filter from './components/Filter.vue'
 import { Table } from './index'
 import { Button } from '@/components/Button'
+import type { TableOptions } from './types'
 
 const { tags, remove } = useTag()
 
@@ -11,12 +12,15 @@ const showFilter = ref<Boolean>(true)
 
 defineProps({
   dataSource: {
-    type: Array as PropType<String[]>,
+    type: Array as PropType<Object[]>,
     default: () => []
   },
   columns: {
-    type: Array as PropType<String[]>,
+    type: Array as PropType<Object[]>,
     default: () => []
+  },
+  options: {
+    type: Object as PropType<TableOptions>
   }
 })
 
@@ -41,7 +45,7 @@ const onClose = (e) => {
         <template v-for="tag in tags">
           <a-tag v-if="tag !== ''" class="table-tag" closable @close="onClose">{{ tag }}</a-tag>
         </template>
-        <Table :columns="columns" :dataSource="dataSource" :total="dataSource.length" />
+        <Table :columns="columns" :dataSource="dataSource" :total="dataSource.length" :options="options"/>
       </div>
       <Filter class="table-filter" v-if="showFilter" @showFilter="(flag: boolean) => (showFilter = flag)" />
     </div>

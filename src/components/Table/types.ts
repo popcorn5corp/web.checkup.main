@@ -9,7 +9,7 @@ type PaginationPositon =
   | 'bottomCenter'
   | 'bottomRight'
 
-type TableSize = 'default' | 'middle' | 'small' | 'large'
+type TableSize = 'middle' | 'small' | 'large'
 
 export interface DefaultPagination extends PaginationProps {
   position: PaginationPositon[]
@@ -27,9 +27,9 @@ export interface TableProps<RecordType = DefaultRecordType> {
 }
 
 export interface TableOptions {
-  pointer: boolean
-  isPagination: boolean
-  isShowNo: boolean
+  pointer?: boolean
+  isPagination?: boolean
+  isShowNo?: boolean
 }
 
 export interface TableEmits {}
@@ -45,6 +45,6 @@ export interface Filter {
   type: FilterTypeEnum
   title: string
   open: boolean
-  options: []
+  options: LabelValue[]
   selected: [] | {}
 }

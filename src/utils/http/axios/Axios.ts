@@ -37,7 +37,7 @@ export class Axios {
 
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => {
-        return response
+        return response.data
       },
       (error) => {
         return Promise.reject(error)
@@ -45,16 +45,16 @@ export class Axios {
     )
   }
 
-  get<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
+  get<T>(url: string, params?: object, _object = {}): Promise<T> {
     return this.axiosInstance.get(url, { params, ..._object })
   }
-  post<T>(url: string, params?: object | string, _object = {}): Promise<ResultData<T>> {
+  post<T>(url: string, params?: object | string, _object = {}): Promise<T> {
     return this.axiosInstance.post(url, params, _object)
   }
-  put<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
+  put<T>(url: string, params?: object, _object = {}): Promise<T> {
     return this.axiosInstance.put(url, params, _object)
   }
-  delete<T>(url: string, params?: any, _object = {}): Promise<ResultData<T>> {
+  delete<T>(url: string, params?: any, _object = {}): Promise<T> {
     return this.axiosInstance.delete(url, { params, ..._object })
   }
   download(url: string, params?: object, _object = {}): Promise<BlobPart> {
@@ -68,4 +68,28 @@ export class Axios {
       }
     })
   }
+
+  // get<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
+  //   return this.axiosInstance.get(url, { params, ..._object })
+  // }
+  // post<T>(url: string, params?: object | string, _object = {}): Promise<ResultData<T>> {
+  //   return this.axiosInstance.post(url, params, _object)
+  // }
+  // put<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
+  //   return this.axiosInstance.put(url, params, _object)
+  // }
+  // delete<T>(url: string, params?: any, _object = {}): Promise<ResultData<T>> {
+  //   return this.axiosInstance.delete(url, { params, ..._object })
+  // }
+  // download(url: string, params?: object, _object = {}): Promise<BlobPart> {
+  //   return this.axiosInstance.post(url, params, { ..._object, responseType: 'blob' })
+  // }
+  // uploadFile(url: string, params?: object, _object = {}) {
+  //   return this.axiosInstance.post(url, params, {
+  //     ..._object,
+  //     headers: {
+  //       'Content-type': ContentTypeEnum.FORM_DATA
+  //     }
+  //   })
+  // }
 }

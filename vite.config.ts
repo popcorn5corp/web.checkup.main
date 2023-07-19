@@ -44,7 +44,16 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
-    server: {},
+    server: {
+      cors: true,
+      proxy: {
+        '^/api': {
+          target: 'https://dev.checkup-api.co.kr/base',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      }
+    },
     build: {
       outDir: 'dist',
       minify: 'esbuild'
