@@ -162,26 +162,52 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters: Fu
           </div>
         </div>
 
-        <a-table :loading="loading" :data-source="dataSource" :columns="tableColumns" :size="size"
-          :pagination="isUsePagination ? tablePagination : false" :customRow="customRow" @change="onChange">
+        <a-table
+          :loading="loading"
+          :dataSource="dataSource"
+          :columns="tableColumns"
+          :size="size"
+          :pagination="isUsePagination ? tablePagination : false"
+          :customRow="customRow"
+          @change="onChange"
+        >
           <!--------------------- 테이블 Header Filter 영역 --------------------->
-          <template #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }">
-            <slot name="customFilterDropdown" :setSelectedKeys="setSelectedKeys" :selectedKeys="selectedKeys"
-              :confirm="confirm" :clearFilters="clearFilters" :column="column" />
+          <template
+            #customFilterDropdown="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+          >
+            <slot
+              name="customFilterDropdown"
+              :setSelectedKeys="setSelectedKeys"
+              :selectedKeys="selectedKeys"
+              :confirm="confirm"
+              :clearFilters="clearFilters"
+              :column="column"
+            />
             <div style="padding: 8px">
-              <a-input ref="searchInput" :placeholder="`${column.title}을 검색해주세요.`" :value="selectedKeys[0]"
+              <a-input
+                ref="searchInput"
+                :placeholder="`${column.title}을 검색해주세요.`"
+                :value="selectedKeys[0]"
                 style="width: 188px; margin-bottom: 8px; display: block"
                 @change="(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-                @pressEnter="handleSearch(selectedKeys, column.dataIndex, confirm)" />
-              <a-button type="primary" size="small" style="width: 90px; margin-right: 8px"
-                @click="handleSearch(selectedKeys, column.dataIndex, confirm)">
+                @pressEnter="handleSearch(selectedKeys, column.dataIndex, confirm)"
+              />
+              <a-button
+                type="primary"
+                size="small"
+                style="width: 90px; margin-right: 8px"
+                @click="handleSearch(selectedKeys, column.dataIndex, confirm)"
+              >
                 <template #icon>
                   <SearchOutlined />
                 </template>
                 검색
               </a-button>
-              <a-button size="small" style="width: 90px"
-                @click="handleReset(selectedKeys, column.dataIndex, clearFilters)">
+              <a-button
+                size="small"
+                style="width: 90px"
+                @click="handleReset(selectedKeys, column.dataIndex, clearFilters)"
+              >
                 초기화
               </a-button>
             </div>
@@ -218,11 +244,11 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters: Fu
   clear: both;
   height: 40px;
 
-  >span {
+  > span {
     float: left;
   }
 
-  >.btn-group {
+  > .btn-group {
     float: right;
     display: flex;
     gap: 5px;

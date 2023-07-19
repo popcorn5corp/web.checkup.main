@@ -1,20 +1,26 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { filterList } from '@/components/Table/mock'
+
 import type { TableFilterState, SelectedType, OptionType } from '../interface'
+import { useTable } from '@/hooks/useTable'
 
 export const useTableFilterStore = defineStore('tableFilter', () => {
   // state
   const state = reactive<TableFilterState>({
-    selectedFilterData: {},
+    selectedData: {},
     filterList
   })
 
   // action
   function setSelectedFilterData(type: string, item: SelectedType | OptionType) {
-    Object.values(filterList).forEach(({ type, selected }) => {
-      state.selectedFilterData[type] = selected
+    Object.values(state.filterList).forEach((list) => {
+      list.type === type && (list.selected = item)
     })
+
+    const { update } = useTable()
+
+    update()
   }
 
   return {

@@ -98,7 +98,7 @@ export interface Params {
   [key: string]: SelectedType
 }
 export interface TableFilterState {
-  selectedFilterData: Params
+  selectedData: Params
   filterList: Filter[]
 }
 

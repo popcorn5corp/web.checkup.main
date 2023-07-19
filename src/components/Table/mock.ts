@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { FilterTypeEnum, type Filter } from './types'
+import { FilterTypes, type Filter } from './types'
 export const dataSource = ref<any>([
   {
     key: '1',
@@ -35,16 +35,16 @@ export const columns = ref<any>([
 
 export const filterList: Filter[] = [
   {
-    type: FilterTypeEnum.DATEPICKER,
+    type: FilterTypes.DATEPICKER,
     title: '조회날짜',
     open: true,
     options: [],
     selected: []
   },
   {
-    type: FilterTypeEnum.SELECT,
+    type: FilterTypes.SELECT,
     title: '반입장비',
-    open: false,
+    open: true,
     options: [
       { label: '고소작업', value: 1 },
       { label: '화기작업', value: 2 },
@@ -54,7 +54,7 @@ export const filterList: Filter[] = [
     selected: []
   },
   {
-    type: FilterTypeEnum.CHECKBOX,
+    type: FilterTypes.CHECKBOX,
     title: '작업유형',
     open: true,
     options: [
@@ -66,7 +66,7 @@ export const filterList: Filter[] = [
     selected: []
   },
   {
-    type: FilterTypeEnum.RADIO,
+    type: FilterTypes.RADIO,
     title: '상태',
     open: true,
     options: [

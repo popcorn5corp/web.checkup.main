@@ -2,9 +2,8 @@
 import { toRefs } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import type { Filter } from '../../types'
-import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
-const { setSelectedFilterData } = useTableFilterStore()
 
+const { setSelectedFilterData } = useTableFilterStore()
 const props = defineProps({
   item: {
     type: Object as PropType<Filter>,
@@ -13,8 +12,8 @@ const props = defineProps({
 })
 const { type, options, selected } = toRefs(props.item)
 
-const onChange = (value: CheckboxValueType[]): void => {
-  setSelectedFilterData(type.value, value)
+const onSelect = (selected) => {
+  setSelectedFilterData(type.value, selected)
 }
 </script>
 <template>
@@ -25,12 +24,13 @@ const onChange = (value: CheckboxValueType[]): void => {
       </template>
     </a-input>
   </div>
-  <a-checkbox-group
-    v-model:value="selected"
-    @change="onChange"
-    name="checkboxgroup"
-    :options="options"
-  ></a-checkbox-group>
+  <a-checkbox-group @change="onSelect" name="checkboxgroup">
+    <template v-for="option in options">
+      <a-col>
+        <a-checkbox :value="option">{{ option.label }}</a-checkbox>
+      </a-col>
+    </template>
+  </a-checkbox-group>
   <a-divider />
 </template>
 <style lang="scss" scoped>
@@ -41,13 +41,18 @@ const onChange = (value: CheckboxValueType[]): void => {
   }
 }
 .ant-checkbox-group {
-  width: 100%;
+  width: 80%;
   padding: 1rem 0;
   display: flex;
   flex-direction: column;
 
+  :deep(.ant-col) {
+    margin-top: 1rem;
+  }
+
   :deep(.ant-checkbox-group-item) {
     padding: 1rem;
+
     &:hover {
       background: rgba(229, 232, 235, 0.2);
       border-radius: 10px;

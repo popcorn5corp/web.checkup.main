@@ -1,27 +1,36 @@
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { toRefs, computed } from 'vue'
+import { watch, ref } from 'vue'
 
 export function useTag() {
-  const { selectedFilterData: items } = toRefs(useTableFilterStore())
+  const { filterList } = useTableFilterStore()
 
-  function updateTag() {
-    return Object.values(items.value)
-      .map((item) => {
-        return Object.keys(item).includes('label') ? item.label : item
+  const tags = ref<string[] | string>([])
+
+  function update() {
+    tags.value = Object.values(filterList)
+      .map((list) => {
+        const { type, selected } = list
+        if (type === 'datepicker') return selected
+
+        return Object.keys(selected).includes('label') ? selected.label : selected.map(getLabel)
       })
       .join()
       .split(',')
   }
 
-  function remove(e) {
-    updateTag()
+  function getLabel({ label }: { label: string; value: string | number }) {
+    return label
   }
 
-  const tags = computed(() => updateTag())
+  function close(item: { type: string; value: {} | string }) {
+    const { type, value } = item
+  }
+
+  watch(filterList, (filterList) => update())
 
   return {
     tags,
-    remove,
-    updateTag
+    update,
+    close
   }
 }
