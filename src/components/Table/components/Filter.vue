@@ -52,7 +52,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
             </div>
             <template v-if="item.open">
               <keep-alive>
-                <component :is="filterTypeComponents[getComponentName(item.type)]" />
+                <component :is="filterTypeComponents[getComponentName(item.type)]" :item="item" />
               </keep-alive>
             </template>
           </div>
