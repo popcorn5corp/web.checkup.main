@@ -12,12 +12,12 @@ const props = defineProps({
 })
 const { type, options, selected } = toRefs(props.item)
 
-const onSelect = (value, option) => {
+const onSelect = (_, option) => {
   setSelectedFilterData(type.value, option)
 }
 </script>
 <template>
-  <a-select @select="onSelect" placeholder="Select" v-model:value="selected" :options="options" />
+  <a-select @select="onSelect" v-model:value="selected" placeholder="Select" :options="options" />
   <a-divider />
 </template>
 <style lang="scss" scoped>

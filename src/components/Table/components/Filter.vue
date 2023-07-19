@@ -1,9 +1,14 @@
 <script setup lang="ts" name="Filter">
-import { ref, computed } from 'vue'
+import { ref, computed, type Component } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { Button } from '../../Button'
-import FilterType from './FilterType/FilterType.vue'
+import type { FilterType } from '../types'
+
+import Checkbox from './FilterType/Checkbox.vue'
+import Datepicker from './FilterType/Datepicker.vue'
+import Select from './FilterType/Select.vue'
+import Radio from './FilterType/Radio.vue'
 
 const emit = defineEmits(['showFilter'])
 
@@ -16,6 +21,17 @@ const showFilter = ref<Boolean>(true)
 const onFilter = (): void => {
   showFilter.value = showFilter ? false : true
   emit('showFilter', showFilter.value)
+}
+
+const getComponentName = (type) => {
+  return type.charAt(0).toUpperCase() + type.slice(1)
+}
+
+const filterTypeComponents: Record<FilterType, Component> = {
+  Checkbox,
+  Datepicker,
+  Select,
+  Radio
 }
 </script>
 <template>
@@ -35,7 +51,9 @@ const onFilter = (): void => {
               <font-awesome-icon :icon="['fas', 'angle-down']" />
             </div>
             <template v-if="item.open">
-              <FilterType :item="item" />
+              <keep-alive>
+                <component :is="filterTypeComponents[getComponentName(item.type)]" />
+              </keep-alive>
             </template>
           </div>
         </li>

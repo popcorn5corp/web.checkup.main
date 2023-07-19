@@ -164,7 +164,7 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters) =>
 
         <a-table
           :loading="loading"
-          :dataSaource="dataSource"
+          :dataSource="dataSource"
           :columns="tableColumns"
           :size="size"
           :pagination="isUsePagination ? tablePagination : false"

@@ -18,7 +18,7 @@ const onChange = ({ target: { value } }: RadioChangeEvent): void => {
 }
 </script>
 <template>
-  <a-radio-group v-for="{ label, value } in options" v-model:value="selected" @change="onChange">
+  <a-radio-group v-for="{ label, value } in options" @change="onChange">
     <a-radio :value="{ label, value }">{{ label }}</a-radio>
   </a-radio-group>
   <a-divider />

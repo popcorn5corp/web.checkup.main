@@ -1,11 +1,12 @@
 <script setup lang="ts" name="LayoutFilter">
-import { ref, type PropType } from 'vue'
+import { ref, toRefs, type PropType } from 'vue'
 import { useTag } from '@/hooks/useTag'
 import Filter from './components/Filter.vue'
 import { Table } from './index'
 import { Button } from '@/components/Button'
 
-const { tags, remove } = useTag()
+const { tags } = toRefs(useTag())
+const { close } = useTag()
 
 const showFilter = ref<Boolean>(true)
 
@@ -20,9 +21,8 @@ defineProps({
   }
 })
 
-const onClose = (e) => {
-  console.log(e)
-  remove()
+const onClose = (selected) => {
+  close(selected)
 }
 </script>
 
@@ -41,7 +41,9 @@ const onClose = (e) => {
     <div class="table-body">
       <div class="table-content" :style="{ flex: showFilter ? 0.7 : 1 }">
         <template v-for="tag in tags">
-          <a-tag v-if="tag !== ''" class="table-tag" closable @close="onClose">{{ tag }}</a-tag>
+          <a-tag v-if="tag !== ''" class="table-tag" @close="onClose()" closable>
+            <span>{{ tag }}</span>
+          </a-tag>
         </template>
         <Table :columns="columns" :dataSource="dataSource" :total="dataSource.length" />
       </div>
@@ -72,6 +74,11 @@ const onClose = (e) => {
     flex: 0.7;
     :deep(.table-wrapper) {
       width: 100%;
+    }
+
+    .table-tags {
+      :deep(.ant-tag) {
+      }
     }
 
     .table-tag {

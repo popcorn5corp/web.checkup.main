@@ -23,7 +23,7 @@ const onRangeChange = (
 }
 </script>
 <template>
-  <a-range-picker v-model:value="selected" @change="" />
+  <a-range-picker @change="onRangeChange" />
   <a-divider />
 </template>
 <style lang="scss" scoped>

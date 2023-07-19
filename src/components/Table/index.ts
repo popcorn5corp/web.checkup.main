@@ -1,4 +1,4 @@
 import Table from './Table.vue'
-import TableFilter from './TableFilter.vue'
+import FilterTable from './FilterTable.vue'
 
-export { Table, TableFilter }
+export { Table, FilterTable }

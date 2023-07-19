@@ -34,15 +34,27 @@ export interface TableOptions {
 
 export interface TableEmits {}
 
-export enum FilterTypeEnum {
+export enum FilterTypes {
   'SELECT' = 'select',
   'DATEPICKER' = 'datepicker',
   'CHECKBOX' = 'checkbox',
   'RADIO' = 'radio'
 }
 
+// export type LayoutType = (typeof FilterTypes)[keyof typeof FilterTypes]
+
+/**
+ * todo: enum > as const
+ */
+// export const FilterTypes = {
+//   SELECT: 'select',
+//   DATEPICKER: 'datepicker',
+//   CHECKBOX: 'checkbox',
+//   RADIO: 'radio'
+// } as const
+
 export interface Filter {
-  type: FilterTypeEnum
+  type: FilterTypes
   title: string
   open: boolean
   options: []
