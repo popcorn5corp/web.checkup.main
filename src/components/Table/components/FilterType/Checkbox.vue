@@ -2,29 +2,31 @@
 import { toRefs } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import type { Filter } from '../../types'
+import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 
-const { setSelectedFilterData } = useTableFilterStore()
 const props = defineProps({
   item: {
     type: Object as PropType<Filter>,
     default: () => {}
   }
 })
-const { type, options, selected } = toRefs(props.item)
 
-const onSelect = (selected) => {
-  setSelectedFilterData(type.value, selected)
+const { type, options, selectedItems } = toRefs(props.item)
+const { setSelectedFilterData } = useTableFilterStore()
+
+const onSelect = (options: LabelInValueType[]) => {
+  setSelectedFilterData(type.value, options)
 }
 </script>
 <template>
   <div class="filter-input">
-    <a-input placeholder="Basic usage">
+    <a-input placeholder="search">
       <template #prefix>
         <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" />
       </template>
     </a-input>
   </div>
-  <a-checkbox-group @change="onSelect" name="checkboxgroup">
+  <a-checkbox-group v-model:value="selectedItems" @change="onSelect" name="checkboxgroup">
     <template v-for="option in options">
       <a-col>
         <a-checkbox :value="option">{{ option.label }}</a-checkbox>

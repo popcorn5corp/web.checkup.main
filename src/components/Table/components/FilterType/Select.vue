@@ -2,22 +2,29 @@
 import { toRefs } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import type { Filter } from '../../types'
+import type { RawValueType } from 'ant-design-vue/es/vc-select/BaseSelect'
+import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 
-const { setSelectedFilterData } = useTableFilterStore()
 const props = defineProps({
   item: {
     type: Object as PropType<Filter>,
     default: () => {}
   }
 })
-const { type, options, selected } = toRefs(props.item)
+const { type, options, selectedItems } = toRefs(props.item)
+const { setSelectedFilterData } = useTableFilterStore()
 
-const onSelect = (_, option) => {
-  setSelectedFilterData(type.value, option)
+const onSelect = (value: RawValueType | LabelInValueType, option: LabelInValueType) => {
+  setSelectedFilterData(type.value, [option])
 }
 </script>
 <template>
-  <a-select @select="onSelect" v-model:value="selected" placeholder="Select" :options="options" />
+  <a-select
+    @select="onSelect"
+    v-model:value="selectedItems"
+    placeholder="Select"
+    :options="options"
+  />
   <a-divider />
 </template>
 <style lang="scss" scoped>

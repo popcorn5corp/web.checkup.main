@@ -1,9 +1,11 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { filterList } from '@/components/Table/mock'
-
-import type { TableFilterState, SelectedType, OptionType } from '../interface'
 import { useTable } from '@/hooks/useTable'
+
+import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
+import type { TableFilterState } from '../interface'
+import type { Filter } from '@/components/Table/types'
 
 export const useTableFilterStore = defineStore('tableFilter', () => {
   // state
@@ -13,18 +15,22 @@ export const useTableFilterStore = defineStore('tableFilter', () => {
   })
 
   // action
-  function setSelectedFilterData(type: string, item: SelectedType | OptionType) {
-    Object.values(state.filterList).forEach((list) => {
-      list.type === type && (list.selected = item)
+  function setSelectedFilterData(type: string, options: LabelInValueType[]) {
+    Object.values(state.filterList).forEach((filter) => {
+      filter.type === type && (filter.selectedItems = options as [])
     })
+    const { addParams } = useTable()
 
-    const { update } = useTable()
+    addParams()
+  }
 
-    update()
+  function setFilterList(newFilterList: Filter[]) {
+    state.filterList = newFilterList
   }
 
   return {
     ...state,
-    setSelectedFilterData
+    setSelectedFilterData,
+    setFilterList
   }
 })

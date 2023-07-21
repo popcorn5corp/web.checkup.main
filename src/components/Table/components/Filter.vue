@@ -23,15 +23,11 @@ const onFilter = (): void => {
   emit('showFilter', showFilter.value)
 }
 
-const getComponentName = (type) => {
-  return type.charAt(0).toUpperCase() + type.slice(1)
-}
-
 const filterTypeComponents: Record<FilterType, Component> = {
-  Checkbox,
-  Datepicker,
-  Select,
-  Radio
+  checkbox: Checkbox,
+  datepicker: Datepicker,
+  select: Select,
+  radio: Radio
 }
 </script>
 <template>
@@ -48,11 +44,12 @@ const filterTypeComponents: Record<FilterType, Component> = {
           <div v-for="(item, index) in filterList" :key="index">
             <div class="filter-title" @click="() => (item.open = item.open ? false : true)">
               <h3>{{ item.title }}</h3>
+
               <font-awesome-icon :icon="['fas', 'angle-down']" />
             </div>
             <template v-if="item.open">
               <keep-alive>
-                <component :is="filterTypeComponents[getComponentName(item.type)]" :item="item" />
+                <component :is="filterTypeComponents[item.type as FilterType]" :item="item" />
               </keep-alive>
             </template>
           </div>

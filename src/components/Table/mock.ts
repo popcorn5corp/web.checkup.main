@@ -39,7 +39,7 @@ export const filterList: Filter[] = [
     title: '조회날짜',
     open: true,
     options: [],
-    selected: []
+    selectedItems: []
   },
   {
     type: FilterTypes.SELECT,
@@ -51,7 +51,7 @@ export const filterList: Filter[] = [
       { label: '밀폐작업', value: 3 },
       { label: '화기작업', value: 4 }
     ],
-    selected: []
+    selectedItems: []
   },
   {
     type: FilterTypes.CHECKBOX,
@@ -63,7 +63,7 @@ export const filterList: Filter[] = [
       { label: '기계공사', value: 3 },
       { label: '소방공사', value: 4 }
     ],
-    selected: []
+    selectedItems: []
   },
   {
     type: FilterTypes.RADIO,
@@ -73,6 +73,6 @@ export const filterList: Filter[] = [
       { label: '해당있음', value: true },
       { label: '해당없음', value: false }
     ],
-    selected: []
+    selectedItems: []
   }
 ]

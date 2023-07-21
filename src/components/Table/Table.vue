@@ -63,7 +63,6 @@ watch(
 watch(
   () => dataSource.value,
   () => {
-    console.log(dataSource.value)
     // pagination 사용하는 경우
     if (isUsePagination) {
       // 검색조건 변경일 경우, current 초기화

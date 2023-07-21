@@ -2,8 +2,7 @@
 import { toRefs } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import type { Filter } from '../../types'
-import type { RadioChangeEvent } from 'ant-design-vue'
-const { setSelectedFilterData } = useTableFilterStore()
+import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 
 const props = defineProps({
   item: {
@@ -11,15 +10,20 @@ const props = defineProps({
     default: () => {}
   }
 })
-const { type, options, selected } = toRefs(props.item)
+const { type, options, selectedItems } = toRefs(props.item)
+const { setSelectedFilterData } = useTableFilterStore()
 
-const onChange = ({ target: { value } }: RadioChangeEvent): void => {
-  setSelectedFilterData(type.value, value)
+const onChange = (options: LabelInValueType[]): void => {
+  setSelectedFilterData(type.value, [options])
 }
 </script>
 <template>
-  <a-radio-group v-for="{ label, value } in options" @change="onChange">
-    <a-radio :value="{ label, value }">{{ label }}</a-radio>
+  <a-radio-group
+    v-for="{ label, value: item } in options"
+    @change="onChange({ label, value })"
+    v-model:value="selectedItems"
+  >
+    <a-radio :value="item">{{ label }}</a-radio>
   </a-radio-group>
   <a-divider />
 </template>

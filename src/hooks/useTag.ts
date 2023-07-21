@@ -1,36 +1,35 @@
-import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { watch, ref } from 'vue'
+import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
+import { FilterTypes, type FilterType } from '@/components/Table/types'
 
 export function useTag() {
-  const { filterList } = useTableFilterStore()
+  const { filterList, setFilterList } = useTableFilterStore()
 
-  const tags = ref<string[] | string>([])
+  const tags = ref<[]>([])
 
-  function update() {
-    tags.value = Object.values(filterList)
-      .map((list) => {
-        const { type, selected } = list
-        if (type === 'datepicker') return selected
-
-        return Object.keys(selected).includes('label') ? selected.label : selected.map(getLabel)
-      })
-      .join()
-      .split(',')
+  function addTag() {
+    tags.value = Object.values(filterList).map((filter) => filter.selectedItems) as []
   }
 
-  function getLabel({ label }: { label: string; value: string | number }) {
-    return label
+  function removeTag(options: LabelInValueType, type: FilterType) {
+    filterList.map((filter) => {
+      if (type && filter.type === FilterTypes.DATEPICKER) {
+        return (filter.selectedItems = [])
+      } else {
+        return (filter.selectedItems = filter.selectedItems.filter(
+          (item) => Object.entries(item).toString() !== Object.entries(options).toString()
+        ))
+      }
+    })
+    setFilterList(filterList)
   }
 
-  function close(item: { type: string; value: {} | string }) {
-    const { type, value } = item
-  }
-
-  watch(filterList, (filterList) => update())
+  watch(filterList, (filterList) => addTag())
 
   return {
     tags,
-    update,
-    close
+    addTag,
+    removeTag
   }
 }

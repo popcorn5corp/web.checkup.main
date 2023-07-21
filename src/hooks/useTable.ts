@@ -7,10 +7,10 @@ export function useTable() {
   const params = ref<string>('')
   const divide = '&'
 
-  function update() {
+  function addParams() {
     params.value = ''
     params.value = filterList
-      .map((list) => `${list.type}=${setRequestParmas(list)}${divide}`)
+      .map((filter) => `${filter.type}=${getParamsValue(filter)}${divide}`)
       .join('')
       .slice(0, -1)
   }
@@ -19,16 +19,14 @@ export function useTable() {
     return value
   }
 
-  function setRequestParmas(list: Filter) {
-    return Object.keys(list.selected).includes('value')
-      ? list.selected.value
-      : list.selected.map(getValue)
+  function getParamsValue(filter: Filter) {
+    return filter.selectedItems.map(getValue)
   }
 
-  watch(filterList, (filterList) => update())
+  watch(filterList, () => addParams())
 
   return {
     params,
-    update
+    addParams
   }
 }
