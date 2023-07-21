@@ -12,7 +12,7 @@ type PaginationPositon =
 
 type TableSize = 'middle' | 'small' | 'large'
 
-export interface DefaultPagination extends PaginationProps {
+export interface TablePagination extends PaginationProps {
   position: PaginationPositon[]
 }
 
@@ -24,7 +24,7 @@ export interface TableProps<RecordType = DefaultRecordType> {
   showHeader?: boolean
   size?: TableSize
   options?: TableOptions
-  pagination?: DefaultPagination
+  pagination?: TablePagination
 }
 
 export interface TableOptions {

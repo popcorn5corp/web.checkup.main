@@ -1,21 +1,8 @@
 import { ref } from 'vue'
 import { FilterTypes, type Filter } from './types'
-export const dataSource = ref<any>([
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street'
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street'
-  }
-])
+import type { TableColumnsType } from 'ant-design-vue'
 
-export const columns = ref<any>([
+export const columns = ref<TableColumnsType>([
   {
     title: '게시물 제목',
     dataIndex: 'boardTitle',
@@ -30,6 +17,11 @@ export const columns = ref<any>([
     title: '생성일',
     dataIndex: 'createdAt',
     key: 'createdAt'
+  },
+  {
+    title: '게시물 구분',
+    dataIndex: 'division',
+    key: 'division'
   }
 ])
 

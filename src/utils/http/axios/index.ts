@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig } from 'axios'
-import { Axios } from './Axios'
+import { AxiosHttpClient } from './Axios'
 import { ResultEnum } from '@/enums/httpEnum'
 
 const config: AxiosRequestConfig = {
@@ -8,4 +8,4 @@ const config: AxiosRequestConfig = {
   // withCredentials: true
 }
 
-export default new Axios(config)
+export default new AxiosHttpClient(config)

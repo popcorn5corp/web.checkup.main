@@ -2,8 +2,8 @@
 import { FilterTable } from '@/components/Table'
 import { columns } from '@/components/Table/mock'
 import { ref } from 'vue'
-import BaseSampleService from '@/api/BaseSample/index'
-import type { IBaseSample } from '@/api/BaseSample/interface'
+import BaseSampleService from '@/services/BaseSample/index'
+import type { IBaseSample } from '@/services/BaseSample/interface'
 
 defineOptions({
   name: 'TableSample'
