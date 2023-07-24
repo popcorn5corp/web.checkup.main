@@ -46,7 +46,12 @@ const filterTypeComponents: Record<FilterType, Component> = {
             <div class="filter-title" @click="() => (item.open = item.open ? false : true)">
               <h3>{{ item.title }}</h3>
 
-              <font-awesome-icon :icon="['fas', 'angle-down']" />
+              <template v-if="item.open">
+                <font-awesome-icon :icon="['fas', 'angle-up']" />
+              </template>
+              <template v-else>
+                <font-awesome-icon :icon="['fas', 'angle-down']" />
+              </template>
             </div>
             <template v-if="item.open">
               <keep-alive>
@@ -168,7 +173,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
   }
 
   > ul {
-    padding: 1rem;
+    padding: 0 1rem;
 
     > li {
       display: flex;
