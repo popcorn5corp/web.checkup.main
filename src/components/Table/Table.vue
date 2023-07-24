@@ -258,7 +258,7 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters: Fu
   color: rgb(4, 17, 29) !important;
 
   th {
-    background: rgb(255, 255, 255) !important;
+    background: transparent !important;
     border-bottom: 1px solid rgb(229, 232, 235) !important;
     font-weight: 400 !important;
     font-size: 14px !important;

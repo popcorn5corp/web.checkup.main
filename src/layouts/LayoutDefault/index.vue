@@ -24,10 +24,7 @@
 
       <PageTabs />
 
-      <Layout.Content
-        class="layout-content"
-        :style="{ backgroundColor: getTheme === 'dark' ? '#001529' : '' }"
-      >
+      <Layout.Content class="layout-content" :class="isRealDarkClass">
         <slot></slot
       ></Layout.Content>
       <PageFooter />
@@ -66,6 +63,7 @@ const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
 const circularMenuColor = computed(() => config.theme.primaryColor)
 
+const isRealDarkClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
 onMounted(() => {
   setTimeout(() => {
     document.getElementById('circularMenu')?.classList.add('active')
@@ -259,6 +257,11 @@ onMounted(() => {
     flex: none;
     height: calc(100vh - 90px);
     background: white;
+  }
+
+  .dark-mode {
+    background: #001529 !important;
+    color: white !important;
   }
 }
 </style>

@@ -15,7 +15,8 @@ const emit = defineEmits(['showFilter'])
 const { config } = useProjectConfigStore()
 const { filterList } = useTableFilterStore()
 
-const getTheme = computed(() => config.theme.navTheme)
+const isRealDarkClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
+
 const showFilter = ref<Boolean>(true)
 
 const onFilter = (): void => {
@@ -32,15 +33,15 @@ const filterTypeComponents: Record<FilterType, Component> = {
 </script>
 <template>
   <div class="filter-wrapper">
-    <div class="filter-list" v-if="showFilter">
+    <div class="filter-list" :class="isRealDarkClass" v-if="showFilter">
       <!-- 모바일 버전 헤더 -->
       <div class="mobile-header">
         <h3>{{ $t('common.filterText') }}</h3>
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
 
-      <ul>
-        <li :class="{ 'dark-mode': getTheme === 'realDark' }" class="flex-direction-columns">
+      <ul :class="isRealDarkClass">
+        <li :class="isRealDarkClass" class="flex-direction-columns">
           <div v-for="(item, index) in filterList" :key="index">
             <div class="filter-title" @click="() => (item.open = item.open ? false : true)">
               <h3>{{ item.title }}</h3>
@@ -56,7 +57,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
         </li>
       </ul>
 
-      <div class="mobile-footer">
+      <div :class="isRealDarkClass" class="mobile-footer">
         <a-divider></a-divider>
         <div class="btn-group">
           <Button label="Clear all" size="large" @click="onFilter" />
@@ -76,6 +77,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
 
 .filter-list {
   width: 100%;
+  background: white;
   .mobile-header,
   .mobile-footer {
     display: none;
@@ -86,12 +88,13 @@ const filterTypeComponents: Record<FilterType, Component> = {
   }
 
   .mobile-footer {
-    position: absolute;
-    bottom: 23px;
+    position: fixed;
+    bottom: 0px;
     width: 100%;
     .btn-group {
       display: flex;
       justify-content: space-around;
+      margin-bottom: 10px;
       button {
         width: 47%;
         height: 54px;
@@ -191,12 +194,16 @@ const filterTypeComponents: Record<FilterType, Component> = {
     }
   }
 }
+
+:deep(.ant-divider) {
+  margin: 0 0 10px 0;
+}
 .flex-direction-columns {
   flex-direction: column;
 }
 
 .dark-mode {
-  background: none !important;
+  background: #001529 !important;
   color: white !important;
 }
 </style>

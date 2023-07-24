@@ -31,7 +31,7 @@ const onRangeChange = (
 watch(selectedItems, () => !selectedItems.value.length && (dates.value = []))
 </script>
 <template>
-  <a-range-picker v-model:value="dates" @change="onRangeChange" />
+  <a-range-picker :allowClear="false" v-model:value="dates" @change="onRangeChange" />
   <a-divider />
 </template>
 <style lang="scss" scoped>

@@ -1,5 +1,6 @@
 <script setup lang="ts" name="LayoutFilter">
-import { ref, type PropType } from 'vue'
+import { ref, type PropType, computed } from 'vue'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTag } from '@/hooks/useTag'
 
 import Filter from './components/Filter.vue'
@@ -7,8 +8,10 @@ import { Table } from './index'
 import { Button } from '@/components/Button'
 import type { TableOptions } from './types'
 
+const { config } = useProjectConfigStore()
 const { tags, removeTag } = useTag()
 
+const isRealDarkClass = computed(() => ({ 'tags-dark-mode': config.theme.navTheme === 'realDark' }))
 const showFilter = ref<Boolean>(true)
 
 defineProps({
@@ -61,7 +64,7 @@ const onClose = (options, type = null) => {
         <div class="table-tags">
           <template v-for="tag in tags">
             <template v-for="{ label, value, type } in tag">
-              <p @click="onClose({ label, value }, type)">
+              <p :class="isRealDarkClass" @click="onClose({ label, value }, type)">
                 <span>{{ label }}</span>
                 <span><font-awesome-icon :icon="['fas', 'xmark']" /></span>
               </p>
@@ -158,5 +161,11 @@ const onClose = (options, type = null) => {
     content: '\58';
     margin-left: 8px;
   }
+}
+
+.tags-dark-mode {
+  background: transparent !important;
+  color: white !important;
+  border: 1px solid #666666 !important;
 }
 </style>
