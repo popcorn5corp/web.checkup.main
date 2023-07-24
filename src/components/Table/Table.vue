@@ -143,11 +143,11 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters: Fu
   <div class="wrapper">
     <div class="table-wrapper">
       <div>
-        <div class="table-top">
-          <!-- <span v-if="total !== null">전체: {{ total }}건</span> -->
-          <div class="btn-group">
-            <slot name="buttons">
-              <!-- <a-button shape="round">
+        <!-- <div class="table-top"> -->
+        <!-- <span v-if="total !== null">전체: {{ total }}건</span> -->
+        <div class="btn-group">
+          <slot name="buttons">
+            <!-- <a-button shape="round">
 					<template #icon><DownloadOutlined /></template>일괄다운</a-button
 				>
 				<a-button
@@ -157,8 +157,8 @@ const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters: Fu
 					title="체크리스트 생성"
 					><i class="fas fa-plus"></i
 				></a-button> -->
-            </slot>
-          </div>
+          </slot>
+          <!-- </div> -->
         </div>
 
         <a-table
