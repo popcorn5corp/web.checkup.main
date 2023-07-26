@@ -1,6 +1,6 @@
 export interface IBaseSampleService {
-  getAll: () => Promise<IBaseSample.IBaseSamples>
-  getOneById?: (id: number) => IBaseSample.Content
+  getAll: (params: IBaseSample.BaseSamplesParam) => Promise<IBaseSample.BaseSamples>
+  getOneById?: (id: string) => Promise<IBaseSample.BaseSample>
   createPost?: () => IBaseSample.Content
 }
 
@@ -24,7 +24,7 @@ export namespace IBaseSample {
     division: 'PRIVATE' | 'PUBLIC' // 샘플 게시판 구분
   }
 
-  export interface IBaseSamples {
+  export interface BaseSamples {
     enabledSortCodes: SortCode[]
     posts: {
       content: Content[]
@@ -48,27 +48,22 @@ export namespace IBaseSample {
     }
   }
 
-  export interface ResGetBaseSample {
-    enabledSortCodes: SortCode[]
-    posts: {
-      content: Content[]
-      empty: boolean
-      first: boolean
-      last: boolean
-      number: number
-      numberOfElements: number
-      pageable: {
-        offset: number
-        pageNumber: number
-        pageSize: number
-        paged: boolean
-        sort: SortInfo
-        unpaged: boolean
-      }
+  export interface BaseSample extends Content {
+    boardFiles: Array<{
+      extension: string
+      fileId: string
+      fileOriginName: string
+      fileUrl: string
       size: number
-      sort: SortInfo
-      totalElements: number
-      totalPages: number
-    }
+    }>
+  }
+
+  export interface BaseSamplesParam {
+    searchEndDate: string
+    searchStartDate: string
+    searchWord: string
+    size: number
+    page: number
+    division: 'PRIVATE' | 'PUBLIC' | ''
   }
 }

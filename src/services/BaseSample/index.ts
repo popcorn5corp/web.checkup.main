@@ -2,10 +2,12 @@ import { service } from '@/utils/service'
 import type { IBaseSample, IBaseSampleService } from './interface'
 
 class BaseSampleService implements IBaseSampleService {
-  getAll() {
-    return service.get<IBaseSample.IBaseSamples>('/sample-board/posts')
+  getAll(params: IBaseSample.BaseSamplesParam) {
+    return service.get<IBaseSample.BaseSamples>('/sample-board/posts', params)
   }
-  // getOneById(id: number): IBaseSample.Content {}
+  getOneById(boardId: string): Promise<IBaseSample.BaseSample> {
+    return service.get<IBaseSample.BaseSample>(`/sample-board/posts/${boardId}`)
+  }
   // createPost(): IBaseSample.Content {}
 }
 

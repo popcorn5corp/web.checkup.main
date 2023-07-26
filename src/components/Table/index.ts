@@ -1,4 +1,5 @@
 import Table from './Table.vue'
-import FilterTable from './FilterTable.vue'
+import DynamicTable from './DynamicTable.vue'
 
-export { Table, FilterTable }
+export default DynamicTable
+export { Table, DynamicTable }
