@@ -45,7 +45,7 @@ const options = ref([
   }
 ])
 
-const onClose = (options, type = null) => {
+const onClose = (options: LabelValueOptions, type = null) => {
   removeTag(options, type)
 }
 </script>
@@ -59,7 +59,7 @@ const onClose = (options, type = null) => {
             <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" />
           </template>
         </a-input>
-        <a-select placeholder="정렬" />
+        <!-- <a-select placeholder="정렬" /> -->
 
         <Segmented v-model:value="value" :options="options">
           <template #label="{ value: val, payload = {} }">
@@ -94,9 +94,11 @@ const onClose = (options, type = null) => {
           <div class="table-tags">
             <template v-for="tag in tags">
               <template v-for="{ label, value, type } in tag">
-                <p :class="isRealDarkClass" @click="onClose({ label, value }, type)">
+                <p v-if="value !== null" :class="isRealDarkClass">
                   <span>{{ label }}</span>
-                  <span><font-awesome-icon :icon="['fas', 'xmark']" /></span>
+                  <span @click="onClose({ label, value }, type)"
+                    ><font-awesome-icon :icon="['fas', 'xmark']"
+                  /></span>
                 </p>
               </template>
             </template>
@@ -182,25 +184,15 @@ const onClose = (options, type = null) => {
         font-weight: 500;
         font-size: 14px;
         gap: 14px;
-        cursor: pointer;
+        :nth-child(2) {
+          cursor: pointer;
+        }
       }
     }
   }
 
   .table-filter {
     flex: 0.3;
-  }
-}
-
-.badge-custom {
-  margin-right: 5px;
-  padding: 0.5rem 0.7rem !important;
-  margin: 0 8px 8px 0;
-  cursor: pointer;
-
-  &:after {
-    content: '\58';
-    margin-left: 8px;
   }
 }
 

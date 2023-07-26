@@ -1,32 +1,20 @@
-import type { Filter } from '@/components/Table/types'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { ref, watch } from 'vue'
 
 export function useTable() {
   const { filterList } = useTableFilterStore()
-  const params = ref<string>('')
-  const divide = '&'
+  const requestParams = ref<{ [key: string]: any }>({})
 
   function addParams() {
-    params.value = ''
-    params.value = filterList
-      .map((filter) => `${filter.type}=${getParamsValue(filter)}${divide}`)
-      .join('')
-      .slice(0, -1)
-  }
-
-  function getValue({ value }: { label: string; value: string | number }) {
-    return value
-  }
-
-  function getParamsValue(filter: Filter) {
-    return filter.selectedItems.map(getValue)
+    filterList.map((filter) => {
+      const { type, selectedItems } = filter
+      requestParams[type] = selectedItems
+    })
   }
 
   watch(filterList, () => addParams())
 
   return {
-    params,
     addParams
   }
 }

@@ -7,6 +7,7 @@ import type { FilterType } from '../types'
 
 import Checkbox from './FilterType/Checkbox.vue'
 import Datepicker from './FilterType/Datepicker.vue'
+import RangeDatePicker from './FilterType/RangeDatePicker.vue'
 import Select from './FilterType/Select.vue'
 import Radio from './FilterType/Radio.vue'
 
@@ -27,6 +28,7 @@ const onFilter = (): void => {
 const filterTypeComponents: Record<FilterType, Component> = {
   checkbox: Checkbox,
   datepicker: Datepicker,
+  rangeDatePicker: RangeDatePicker,
   select: Select,
   radio: Radio
 }

@@ -1,8 +1,8 @@
 <script lang="ts" setup name="FilterRadio">
-import { toRefs } from 'vue'
+import { toRefs, ref } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import { watch } from 'vue'
 import type { Filter } from '../../types'
-import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 
 const props = defineProps({
   item: {
@@ -10,23 +10,33 @@ const props = defineProps({
     default: () => {}
   }
 })
+
 const { type, options, selectedItems } = toRefs(props.item)
 const { setSelectedFilterData } = useTableFilterStore()
+const selectedOption = ref<boolean>(false)
 
-const onChange = (options: LabelInValueType[]): void => {
+const onChange = (options: LabelValueType) => {
   setSelectedFilterData(type.value, [options])
 }
+
+watch(selectedItems, () => {
+  selectedOption.value = selectedItems.value.length
+    ? (selectedItems.value[0].value as boolean)
+    : false
+})
 </script>
+
 <template>
   <a-radio-group
-    v-for="{ label, value: item } in options"
-    @change="onChange({ label, value })"
-    v-model:value="selectedItems"
+    v-for="{ label, value } in options"
+    v-model:value="selectedOption"
+    @change="onChange({ label, value: value as boolean })"
   >
-    <a-radio :value="item">{{ label }}</a-radio>
+    <a-radio :value="value">{{ label }}</a-radio>
   </a-radio-group>
   <a-divider />
 </template>
+
 <style lang="scss" scoped>
 .ant-radio-group {
   margin: 0 1rem;

@@ -1,8 +1,8 @@
 <script lang="ts" setup name="FilterCheckbox">
-import { toRefs } from 'vue'
+import { toRefs, ref, computed } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import type { Filter } from '../../types'
-import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
+import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 
 const props = defineProps({
   item: {
@@ -13,21 +13,28 @@ const props = defineProps({
 
 const { type, options, selectedItems } = toRefs(props.item)
 const { setSelectedFilterData } = useTableFilterStore()
+const inputValue = ref<string | undefined>()
 
-const onSelect = (options: LabelInValueType[]) => {
+const onSelect = (options: LabelValueType[]) => {
   setSelectedFilterData(type.value, options)
 }
+
+const filterOption = computed<LabelValue[]>(() =>
+  inputValue.value
+    ? options.value.filter((option) => option.label.includes(inputValue.value as string))
+    : options.value
+)
 </script>
 <template>
   <div class="filter-input">
-    <a-input placeholder="search">
-      <template #prefix>
+    <a-input placeholder="search" v-model:value="inputValue">
+      <template #suffix>
         <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" />
       </template>
     </a-input>
   </div>
   <a-checkbox-group v-model:value="selectedItems" @change="onSelect" name="checkboxgroup">
-    <template v-for="option in options">
+    <template v-for="option in filterOption">
       <a-col>
         <a-checkbox :value="option">{{ option.label }}</a-checkbox>
       </a-col>

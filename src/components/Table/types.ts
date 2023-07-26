@@ -1,7 +1,6 @@
 import type { PaginationProps } from 'ant-design-vue/lib/pagination'
 import type { DefaultRecordType } from 'ant-design-vue/lib/vc-table/interface'
-import type { SelectValue } from 'ant-design-vue/es/select'
-import type { Dayjs } from 'dayjs'
+
 type PaginationPositon =
   | 'topLeft'
   | 'topCenter'
@@ -38,6 +37,7 @@ export interface TableEmits {}
 export const FilterTypes = {
   SELECT: 'select',
   DATEPICKER: 'datepicker',
+  RANGEDATEPICKER: 'rangeDatePicker',
   CHECKBOX: 'checkbox',
   RADIO: 'radio'
 } as const
@@ -49,5 +49,5 @@ export interface Filter {
   title: string
   open: boolean
   options: LabelValue[]
-  selectedItems: []
+  selectedItems: LabelValue[]
 }

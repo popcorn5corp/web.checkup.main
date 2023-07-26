@@ -11,20 +11,17 @@ const props = defineProps({
     default: () => {}
   }
 })
+
 const { type, options, selectedItems } = toRefs(props.item)
 const { setSelectedFilterData } = useTableFilterStore()
 
-const onSelect = (value: RawValueType | LabelInValueType, option: LabelInValueType) => {
+const onSelect = (value: RawValueType | LabelInValueType, option: LabelValueType) => {
   setSelectedFilterData(type.value, [option])
 }
 </script>
 <template>
-  <a-select
-    @select="onSelect"
-    v-model:value="selectedItems"
-    placeholder="Select"
-    :options="options"
-  />
+  <a-select @select="onSelect" v-model:value="selectedItems" :options="options" />
+
   <a-divider />
 </template>
 <style lang="scss" scoped>
