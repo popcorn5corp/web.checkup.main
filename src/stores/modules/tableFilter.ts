@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import { filterList } from '@/components/Table/mock'
 import { useTable } from '@/hooks/useTable'
 
-import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 import type { TableFilterState } from '../interface'
 import type { Filter } from '@/components/Table/types'
 
@@ -15,12 +14,12 @@ export const useTableFilterStore = defineStore('tableFilter', () => {
   })
 
   // action
-  function setSelectedFilterData(type: string, options: LabelInValueType[]) {
+  function setSelectedFilterData(type: string, options: LabelValueType[]) {
     Object.values(state.filterList).forEach((filter) => {
       filter.type === type && (filter.selectedItems = options as [])
     })
-    const { addParams } = useTable()
 
+    const { addParams } = useTable()
     addParams()
   }
 

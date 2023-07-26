@@ -30,3 +30,7 @@ declare interface LabelValue<T = string | number | boolean> {
   label: string
   value: T
 }
+
+declare interface LabelValueType extends LabelValue<T> {
+  type?: string
+}
