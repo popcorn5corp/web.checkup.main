@@ -1,12 +1,13 @@
 import { fileURLToPath, URL } from 'node:url'
 import { resolve, dirname } from 'node:path'
 
-import { defineConfig, type UserConfig } from 'vite'
+import { defineConfig, type UserConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+import { createHtmlPlugin } from 'vite-plugin-html'
 import pkg from './package.json'
 import dayjs from 'dayjs'
 
@@ -19,9 +20,19 @@ const __APP_INFO__ = {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
+  const env = loadEnv(mode, process.cwd())
+
   return {
     plugins: [
       vue(),
+      createHtmlPlugin({
+        minify: true,
+        inject: {
+          data: {
+            title: env.VITE_GLOB_APP_TITLE
+          }
+        }
+      }),
       VueI18nPlugin({
         include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/lang/*/**') // provide a path to the folder where you'll store translation data (see below)
       }),
