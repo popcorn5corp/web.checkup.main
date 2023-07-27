@@ -17,6 +17,7 @@ const onChangeLang = async (locale: LocaleType) => {
 
   Modal.confirm({
     content: t('common.message.changeLang'),
+    width: 450,
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
       prevLocale = locale
@@ -31,15 +32,9 @@ const onChangeLang = async (locale: LocaleType) => {
 <template>
   <Descriptions :title="t('layout.header.settings.tabLang')" :column="5">
     <Descriptions.Item>
-      <Select
-        v-model:value="selectedLocale"
-        ref="select"
-        style="width: 200px"
-        @change="onChangeLang(selectedLocale)"
-      >
-        <Option v-for="locale in localeList" :key="locale.lang" :value="locale.lang"
-          >{{ locale.label }}{{ locale.icon }}</Option
-        >
+      <Select v-model:value="selectedLocale" ref="select" style="width: 200px" @change="onChangeLang(selectedLocale)">
+        <Option v-for="locale in localeList" :key="locale.lang" :value="locale.lang">{{ locale.label }}{{ locale.icon }}
+        </Option>
       </Select>
     </Descriptions.Item>
   </Descriptions>

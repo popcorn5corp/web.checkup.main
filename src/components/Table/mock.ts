@@ -33,13 +33,13 @@ export const filterList: Filter[] = [
     options: [],
     selectedItems: []
   },
-  {
-    type: FilterTypes.RANGEDATEPICKER,
-    title: '조회날짜',
-    open: true,
-    options: [],
-    selectedItems: []
-  },
+  // {
+  //   type: FilterTypes.RANGEDATEPICKER,
+  //   title: '조회날짜',
+  //   open: true,
+  //   options: [],
+  //   selectedItems: []
+  // },
   {
     type: FilterTypes.SELECT,
     title: '반입장비',

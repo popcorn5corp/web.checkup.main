@@ -12,6 +12,7 @@ import { useTable } from './hooks/useTable';
 const emits = defineEmits(['rowClick', 'change', 'search'])
 const props = withDefaults(defineProps<DynamicTableProps>(), {
   columns: () => [],
+  mode: 'dynamic',
   rowKey: 'id',
   options: () => ({
     pointer: true,
@@ -25,12 +26,14 @@ const showFilter = ref(true)
 const cursor = ref(props.options.pointer && 'pointer');
 const tableColumns = ref(props.columns)
 let isTableChangedFlag = false // 테이블 변경, 검색 조건 변경 구분을 위한 flag
-const { dataSource, getDataSource, pagination, total, changeTable, getRecordNo } = useTable(props.request, props.initParam, props.options.isPagination, props.dataCallback);
+const { dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading, refetch } = useTable(props.request, props.initParam, props.options.isPagination, props.dataCallback);
 
 watch(() => props.initParam, getDataSource, {
   immediate: true,
   deep: true
 })
+
+
 
 if (props.options.isShowNo) {
   setNoColumns()
@@ -75,7 +78,8 @@ const customRow = (record: object) => ({
 })
 
 defineExpose({
-  getDataSource
+  // getDataSource,
+  refetch
 })
 
 </script>
@@ -94,7 +98,9 @@ defineExpose({
       </div>
 
       <div class="table-btns">
-        <Button class="table-btn" :label="$t('common.filterText')" size="large" @click="showFilter = !showFilter" />
+        <slot name="tableBtns"></slot>
+
+        <Button type="primary" :label="$t('common.filterText')" size="large" @click="showFilter = !showFilter" />
       </div>
     </div>
 
@@ -107,7 +113,7 @@ defineExpose({
         <div class="table-content" :style="{ flex: showFilter ? 0.7 : 1 }">
           <TableTags />
 
-          <Table :columns="tableColumns" :dataSource="dataSource" :loading="loading" :total="total" :size="size"
+          <Table :columns="tableColumns" :dataSource="dataSource" :loading="isLoading" :total="total" :size="size"
             :customRow="customRow" :pagination="props.options.isPagination && pagination" @change="changeTable">
             <template #bodyCell="{ record, column, index, text }">
               <template v-if="column.key === 'index'">
@@ -145,18 +151,17 @@ defineExpose({
       }
 
       :deep(.ant-select) {
-        width: 100%;
+        // width: 100%;
       }
     }
 
-    .table-btns {
-      :deep(.ant-btn) {}
+    :deep(.table-btns) {
+      .ant-btn {
+        margin-left: 0.5rem;
+        font-weight: 600;
+      }
     }
 
-    .table-btn {
-      margin-left: 0.5rem;
-      font-weight: 600;
-    }
   }
 
   .table-body {

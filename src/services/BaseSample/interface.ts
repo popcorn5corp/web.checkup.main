@@ -1,6 +1,7 @@
 export interface IBaseSampleService {
-  getAll: (params: IBaseSample.BaseSamplesParam) => Promise<IBaseSample.BaseSamples>
-  getOneById?: (id: string) => Promise<IBaseSample.BaseSample>
+  getAll: (param: IBaseSample.BaseSamplesParam) => Promise<IBaseSample.BaseSamples>
+  getOneById: (id: string) => Promise<IBaseSample.BaseSample>
+  updateOne: (param: ) => Promise<IBaseSample.BaseSample>
   createPost?: () => IBaseSample.Content
 }
 
@@ -65,5 +66,9 @@ export namespace IBaseSample {
     size: number
     page: number
     division: 'PRIVATE' | 'PUBLIC' | ''
+  }
+
+  export interface BaseSampleUpdateParam extends BaseSample{
+
   }
 }

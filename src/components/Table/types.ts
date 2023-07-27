@@ -70,10 +70,12 @@ interface RequestParam extends RequestPagination {}
 
 export interface DynamicTableProps extends TableProps {
   mode?: 'basic' | 'dynamic'
-  request?: (params: any) => Promise<any> // 테이블 데이터 API
+  request?: (params: any) => Promise<any> // 테이블 데이터 API 처리
   dataCallback?: (data: any) => any // 데이터를 후처리 할 수 있는 callback 함수 제공
   initParam?: RequestParam // API 호출을 위한 초기 Request Parameter
   rowKey?: string | 'id' // 데이터 테이블 랜던링에 사용되는 key
+  // refetch?: boolean // request 재요청 여부
+  refetch?: () => Promise<void>
 }
 
 export interface DynamicTableEmits {}

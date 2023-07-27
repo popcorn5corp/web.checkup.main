@@ -1,4 +1,4 @@
-import { computed, reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs, watch } from 'vue'
 import type { DynamicTableProps, TablePagination } from '../types'
 
 interface State {
@@ -6,6 +6,7 @@ interface State {
   pagination: TablePagination
   total: number
   requestParam: Object
+  isLoading: boolean
 }
 
 function getDefaultPagination(): TablePagination {
@@ -36,7 +37,8 @@ export const useTable = (
       current: initParam.page
     },
     total: 0,
-    requestParam: {}
+    requestParam: {},
+    isLoading: false
   })
 
   const paginationParam = computed({
@@ -55,6 +57,7 @@ export const useTable = (
     if (!request) return
 
     try {
+      state.isLoading = true
       let dataSource = []
       let requestParam = {
         ...state.requestParam,
@@ -81,7 +84,13 @@ export const useTable = (
     } catch (e) {
       console.log(e)
     }
+
+    state.isLoading = false
   }
+
+  // watch(refetch, () => {
+  //   console.log('asdasd')
+  // })
 
   const changeTable = (param: any) => {
     const { pageSize, current } = param
@@ -106,6 +115,10 @@ export const useTable = (
     if (pageSize && current) {
       return index + 1 + pageSize * (current - 1)
     }
+  }
+
+  const refetch = () => {
+    getDataSource()
   }
 
   // /**
@@ -149,6 +162,7 @@ export const useTable = (
     ...toRefs(state),
     getDataSource,
     changeTable,
-    getRecordNo
+    getRecordNo,
+    refetch
   }
 }

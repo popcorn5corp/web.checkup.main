@@ -28,7 +28,7 @@ const onFilter = (): void => {
 const filterTypeComponents: Record<FilterType, Component> = {
   checkbox: Checkbox,
   datepicker: Datepicker,
-  rangeDatePicker: RangeDatePicker,
+  // rangeDatePicker: RangeDatePicker,
   select: Select,
   radio: Radio
 }
@@ -85,6 +85,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
 .filter-list {
   width: 100%;
   background: white;
+
   .mobile-header,
   .mobile-footer {
     display: none;
@@ -98,10 +99,12 @@ const filterTypeComponents: Record<FilterType, Component> = {
     position: fixed;
     bottom: 0px;
     width: 100%;
+
     .btn-group {
       display: flex;
       justify-content: space-around;
       margin-bottom: 10px;
+
       button {
         width: 47%;
         height: 54px;
@@ -115,6 +118,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
       display: block;
       font-size: 20px;
       font-weight: 700;
+
       .xmark {
         position: absolute;
         top: 41px;
@@ -132,6 +136,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
       -webkit-animation-name: slideUp;
       animation-name: slideUp;
     }
+
     @-webkit-keyframes slideUp {
       0% {
         -webkit-transform-origin: 0 0;
@@ -147,6 +152,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
         transform: translateY(-100%);
       }
     }
+
     @keyframes slideUp {
       0% {
         -webkit-transform-origin: 0 0;
@@ -174,23 +180,26 @@ const filterTypeComponents: Record<FilterType, Component> = {
     height: 101vh;
   }
 
-  > ul {
+  >ul {
     padding: 0 1rem;
 
-    > li {
+    >li {
       display: flex;
       align-items: center;
       font-size: 16px;
       font-weight: 600;
       background: rgb(255, 255, 255);
-      > div {
+
+      >div {
         display: flex;
         flex-direction: column;
         width: 100%;
-        > div.filter-title {
+
+        >div.filter-title {
           display: flex;
           justify-content: space-between;
           padding: 1rem;
+
           &:hover {
             background: rgba(229, 232, 235, 0.2);
             border-radius: 10px;
@@ -205,6 +214,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
 :deep(.ant-divider) {
   margin: 0 0 10px 0;
 }
+
 .flex-direction-columns {
   flex-direction: column;
 }
