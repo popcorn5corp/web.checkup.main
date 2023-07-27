@@ -186,12 +186,12 @@ export const staticRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: 'sample',
-        name: 'sample-table',
+        path: 'dynamic-table',
+        name: 'simple-dynamic-table',
         component: () =>
           import(/* webpackChunkName: "setting-table" */ '@/views/Sample/TableSample/index.vue'),
         meta: {
-          title: '테이블 샘플'
+          title: 'Dynamic Table'
         }
       }
     ]

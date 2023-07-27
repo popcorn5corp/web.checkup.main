@@ -273,14 +273,14 @@ export const menus: any = [
     },
     children: [
       {
-        path: 'table',
-        name: 'sample-table',
+        path: 'dynamic-table',
+        name: 'simple-dynamic-table',
         meta: {
           // title: 'routes.dashboard.workbench',
-          title: 'Table Sample',
+          title: 'Dynamic Table',
           icon: 'icon-shouye',
-          namePath: ['sample', 'sample-table'],
-          fullPath: '/sample/table'
+          namePath: ['sample', 'simple-dynamic-table'],
+          fullPath: '/sample/dynamic-table'
         }
       }
     ]
