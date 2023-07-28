@@ -1,43 +1,63 @@
 <script setup lang="ts" name="TableSample">
-import { computed, createVNode, reactive, ref, type UnwrapRef, nextTick } from 'vue'
+import { computed, createVNode, ref, watch } from 'vue'
 import { Spin, Modal, message } from 'ant-design-vue'
-import DynamicTable from '@/components/Table'
-import { columns } from '@/components/Table/mock'
+import { useI18n } from 'vue-i18n'
+import _ from 'lodash-es'
+
 import BaseSampleService from '@/services/BaseSample/index'
 import type { IBaseSample } from '@/services/BaseSample/interface'
-import { FilterTable } from '@/components/Table'
-import PostDetail from './components/PostDetail.vue'
-import { useI18n } from 'vue-i18n'
+
+import DynamicTable from '@/components/Table'
+import { columns } from '@/components/Table/mock'
 import { QuestionCircleTwoTone } from '@/components/Icon'
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
-import _ from 'lodash-es'
+import PostDetail from './components/PostDetail.vue'
+import { contentModes as modes } from '@/constants/content'
+import { getDefaultPost } from './constant';
+
+const DEFAULT_MODE = modes.R;
+
 
 const { t } = useI18n()
 const postDetailRef = ref();
 const isOpen = ref(false);
 const isLoading = ref(false);
-const isEdit = ref(false);
-const title = computed(() => isEdit.value ? t('common.postModify') : t('common.postRead'));
+const mode = ref<ContentMode>(DEFAULT_MODE);
+const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U);
+const title = computed(() => {
+  if (mode.value === modes.C) {
+    return t('common.postRegist');
+  } else if (mode.value === modes.U) {
+    return t('common.postModify')
+  } else {
+    return t('common.postRead')
+  }
+});
+
 const initParam = ref<IBaseSample.BaseSamplesParam>({
   searchEndDate: '',
   searchStartDate: '',
   searchWord: '',
-  size: 5,
+  size: 10,
   page: 1,
-  division: ''
+  division: 'PUBLIC'
 })
 let searchParam: IBaseSample.BaseSamplesParam = {
   ...initParam.value
 }
 
-const selectedContent = ref<IBaseSample.BaseSample>()
+const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
+
+/**
+ * @description 데이터 테이블 Record 선택 후, 게시물 상세 조회 
+ * @param row 
+ */
 const onClickRow = (row: IBaseSample.Content) => {
   isOpen.value = true;
   isLoading.value = true;
+  mode.value = DEFAULT_MODE;
 
   BaseSampleService.getOneById(row.boardId).then(content => {
-    selectedContent.value = content;
+    selectedPost.value = content;
 
     setTimeout(() => {
       isLoading.value = false;
@@ -45,29 +65,42 @@ const onClickRow = (row: IBaseSample.Content) => {
   })
 }
 
+/**
+ * @description 데이터 테이블이 제공하는 기능으로, 리스트 조회 API 를 리턴하여 넘긴다
+ * @param param 
+ */
 const getDataSource = (param: IBaseSample.BaseSamplesParam) => {
   searchParam = param;
   return BaseSampleService.getAll(param);
 }
 
+/**
+ * @description 데이터 테이블 조회 이후 테이블에 바인딩하기 전, 데이터에 대한 전치리
+ * @param data 
+ */
 const dataCallback = (data: IBaseSample.BaseSamples['posts']['content']) => {
   return data;
 }
 
-const onSavePost = async () => {
+/**
+ * @description 게시물 수정
+ */
+const onOpenSaveModal = async () => {
   Modal.confirm({
-    content: t('common.message.modalEditCheck'),
+    content: t('common.message.modalSaveCheck'),
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
-      const postDetail = postDetailRef.value.getPostDetail();
+      postDetailRef.value.onSubmit().then((valid: any) => {
+        console.log('valid', valid);
 
-      BaseSampleService.updateOne(postDetail).then(response => {
-        initState();
-        initParam.value = searchParam;
+        callServiceByMode(() => {
+          initParam.value = searchParam;
+          initState();
 
-        setTimeout(() => {
-          message.success(t('common.message.saveSuccess'), 1);
-        }, 300)
+          setTimeout(() => {
+            message.success(t('common.message.saveSuccess'), 1);
+          }, 300)
+        })
       })
     },
     async onCancel() {
@@ -76,6 +109,29 @@ const onSavePost = async () => {
   });
 }
 
+/**
+ * @description Content Mode에 따른 API 호출
+ * @param callback 
+ */
+const callServiceByMode = (callback: Function) => {
+  const postDetail: IBaseSample.BaseSample = postDetailRef.value.getPostDetail();
+
+  if (mode.value === modes.C) {
+    const { boardId, ...param } = postDetail;
+
+    BaseSampleService.createOne(param).then((response) => {
+      callback()
+    })
+  } else {
+    BaseSampleService.updateOne(postDetail).then(response => {
+      callback()
+    })
+  }
+}
+
+/**
+ * @description 상세 모달 Close
+ */
 const onCloseModal = () => {
   if (isEdit.value) {
     Modal.confirm({
@@ -94,19 +150,25 @@ const onCloseModal = () => {
   }
 }
 
+/**
+ * @description 수정모드에서 취소할 경우, 이전 정보로 Rollback
+ */
 const onCancel = () => {
-  isEdit.value = false;
+  mode.value = DEFAULT_MODE;
   postDetailRef.value.rollbackPost();
 }
 
 const initState = () => {
   isOpen.value = false;
-  isEdit.value = false;
+  mode.value = DEFAULT_MODE;
 }
 
-const onEditPost = () => {
-  isEdit.value = true;
+const onClickRegist = () => {
+  isOpen.value = true;
+  mode.value = modes.C;
+  selectedPost.value = getDefaultPost();
 }
+
 
 const onRemovePost = () => {
 
@@ -119,21 +181,21 @@ const onRemovePost = () => {
     @rowClick="onClickRow">
     <template #tableBtns>
       <Button :label="$t('common.delete')" size="large" />
-      <Button :label="$t('common.registration')" size="large" />
+      <Button :label="$t('common.registration')" size="large" @click="onClickRegist" />
     </template>
   </DynamicTable>
 
-  <Modal v-model:open="isOpen" :title="title" :width="650">
+  <Modal v-model:open="isOpen" :title="title" :width="650" destroyOnClose>
     <Spin :spinning="isLoading">
-      <PostDetail ref="postDetailRef" v-if="selectedContent" :data="selectedContent" :isEdit="isEdit" />
+      <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
     </Spin>
 
     <template #footer>
       <template v-if="isEdit">
-        <Button key="cancel" @click="onCancel" label="취소" />
-        <Button key="save" type="primary" @click="onSavePost" label="저장" />
+        <Button v-if="mode === modes.U" key="cancel" @click="onCancel" label="취소" />
+        <Button key="save" type="primary" @click="onOpenSaveModal" label="저장" />
       </template>
-      <Button v-else key="edit" type="primary" @click="onEditPost" label="수정" />
+      <Button v-else key="edit" type="primary" @click="mode = modes.U" label="수정" />
       <Button key="close" @click="onCloseModal" label="닫기" />
     </template>
   </Modal>

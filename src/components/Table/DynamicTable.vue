@@ -1,6 +1,6 @@
 <script setup lang="ts" name="LayoutFilter">
 import { ref, watch } from 'vue'
-import { Table } from 'ant-design-vue'
+import { Table, Space } from 'ant-design-vue'
 
 import Filter from './components/Filter.vue'
 import { Button } from '@/components/Button'
@@ -21,10 +21,10 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
   })
 })
 
-
+const tableContentWrapperRef = ref();
 const showFilter = ref(true)
 const cursor = ref(props.options.pointer && 'pointer');
-const tableColumns = ref(props.columns)
+const tableColumns = ref([...props.columns])
 let isTableChangedFlag = false // 테이블 변경, 검색 조건 변경 구분을 위한 flag
 const { dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading, refetch } = useTable(props.request, props.initParam, props.options.isPagination, props.dataCallback);
 
@@ -87,28 +87,32 @@ defineExpose({
 <template>
   <div class="dynamic-table-containter">
     <div class="table-header">
-      <div class="table-header-search">
-        <a-input :placeholder="$t('common.searchPlaceholder')">
-          <template #suffix>
-            <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" />
-          </template>
-        </a-input>
+      <Space>
+        <span v-if="dataSource.length !== null">{{
+          $t('common.tableTotalText', { count: dataSource.length })
+        }}</span>
 
-        <TableSegmentButton />
-      </div>
+        <div class="table-search">
+          <a-input :placeholder="$t('common.searchPlaceholder')">
+            <template #suffix>
+              <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" />
+            </template>
+          </a-input>
+        </div>
 
-      <div class="table-btns">
-        <slot name="tableBtns"></slot>
 
-        <Button type="primary" :label="$t('common.filterText')" size="large" @click="showFilter = !showFilter" />
-      </div>
+        <div class="table-btns">
+          <Space>
+            <TableSegmentButton />
+            <slot name="tableBtns"></slot>
+
+            <Button type="primary" :label="$t('common.filterText')" size="large" @click="showFilter = !showFilter" />
+          </Space>
+        </div>
+      </Space>
     </div>
 
     <div class="table-body">
-      <span v-if="dataSource.length !== null">{{
-        $t('common.tableTotalText', { count: dataSource.length })
-      }}</span>
-
       <div class="table-content-wrapper">
         <div class="table-content" :style="{ flex: showFilter ? 0.7 : 1 }">
           <TableTags />
@@ -133,35 +137,43 @@ defineExpose({
 <style lang="scss" scoped>
 .dynamic-table-containter {
   .table-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
     margin: 1rem 0 1.5rem 0;
 
-    .table-header-search {
+    :deep(.ant-space) {
       display: flex;
-      flex: 1;
-      gap: 10px;
+      width: 100%;
+      justify-content: space-between;
 
-      :deep(.ant-select-selector) {
-        flex: 0.5;
-        height: 44px;
-        align-items: center;
-        border-radius: 9px;
+
+      .table-search {
+        display: flex;
+        flex: 1;
+        gap: 10px;
+        height: 40px;
+        width: 500px;
+
+        :deep(.ant-input-affix-wrapper) {
+          height: 100%;
+        }
+
+        :deep(.ant-select-selector) {
+          flex: 0.5;
+          height: 44px;
+          align-items: center;
+          border-radius: 9px;
+        }
       }
 
-      :deep(.ant-select) {
-        // width: 100%;
+      :deep(.table-btns) {
+        // .ant-btn {
+        //   margin-left: 0.5rem;
+        //   font-weight: 600;
+        // }
       }
     }
-
-    :deep(.table-btns) {
-      .ant-btn {
-        margin-left: 0.5rem;
-        font-weight: 600;
-      }
-    }
-
   }
 
   .table-body {
@@ -179,6 +191,8 @@ defineExpose({
         flex: 0.7;
 
         :deep(.ant-table) {
+          // overflow-y: auto
+          height: calc(100vh - 280px);
           overflow: auto;
 
           .ant-table-thead {
@@ -200,6 +214,8 @@ defineExpose({
 
       .filter-wrapper {
         flex: 0.3;
+        overflow-y: auto;
+        height: calc(100vh - 240px);
       }
     }
   }

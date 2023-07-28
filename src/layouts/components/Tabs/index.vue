@@ -1,13 +1,7 @@
 <template>
   <div class="tabs-container">
-    <Tabs
-      v-model:activeKey="activeKey"
-      hide-add
-      type="editable-card"
-      @change="onChangeTab"
-      @edit="onEditTab"
-      :style="tabsStyle"
-    >
+    <Tabs v-model:activeKey="activeKey" hide-add type="editable-card" @change="onChangeTab" @edit="onEditTab"
+      :style="tabsStyle">
       <TabPane v-for="tab in tabs" :key="tab.fullPath" :tab="tab.meta.title" />
     </Tabs>
 

@@ -1,15 +1,8 @@
 <template>
   <Layout class="layout-default">
     <!-- <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a> -->
-    <Layout.Sider
-      v-if="config.theme.menuPosition === 'sidemenu'"
-      v-model:collapsed="collapsed"
-      :width="asiderWidth"
-      :trigger="null"
-      collapsible
-      :theme="getTheme"
-      class="layout-sider"
-    >
+    <Layout.Sider v-if="config.theme.menuPosition === 'sidemenu'" v-model:collapsed="collapsed" :width="asiderWidth"
+      :trigger="null" collapsible :theme="getTheme" class="layout-sider">
       <Logo :collapsed="collapsed" />
       <AsideMenu :collapsed="collapsed" :theme="getTheme" />
     </Layout.Sider>
@@ -24,17 +17,15 @@
 
       <PageTabs />
 
+
       <Layout.Content class="layout-content" :class="isRealDarkClass">
-        <slot></slot
-      ></Layout.Content>
+        <slot></slot>
+      </Layout.Content>
       <PageFooter />
     </Layout>
 
     <div id="circularMenu" class="circular-menu circular-menu-left">
-      <a
-        class="floating-btn"
-        onclick="document.getElementById('circularMenu').classList.toggle('active');"
-      >
+      <a class="floating-btn" onclick="document.getElementById('circularMenu').classList.toggle('active');">
         <font-awesome-icon icon="fa-solid fa-circle-info" beat size="xl" />
       </a>
 
@@ -214,6 +205,7 @@ onMounted(() => {
 .circular-menu.circular-menu-left.active .menu-item:nth-child(4) {
   transform: translate3d(7em, 1em, 0);
 }
+
 .layout-default {
   display: flex;
   height: 100vh;

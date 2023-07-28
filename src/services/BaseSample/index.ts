@@ -12,7 +12,9 @@ class BaseSampleService implements IBaseSampleService {
     const { boardId, ...rest } = param
     return service.put(`/sample-board/posts/${boardId}`, rest)
   }
-  // createPost(): IBaseSample.Content {}
+  createOne(param: IBaseSample.BaseSampleCreateParam): Promise<IBaseSample.Content> {
+    return service.post('/sample-board/post', param)
+  }
 }
 
 export default new BaseSampleService()

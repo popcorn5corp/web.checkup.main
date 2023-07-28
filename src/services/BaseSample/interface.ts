@@ -1,8 +1,8 @@
 export interface IBaseSampleService {
   getAll: (param: IBaseSample.BaseSamplesParam) => Promise<IBaseSample.BaseSamples>
   getOneById: (id: string) => Promise<IBaseSample.BaseSample>
-  updateOne: (param: ) => Promise<IBaseSample.BaseSample>
-  createPost?: () => IBaseSample.Content
+  updateOne: (param: IBaseSample.BaseSampleUpdateParam) => Promise<IBaseSample.BaseSample>
+  createOne: (param: IBaseSample.BaseSampleCreateParam) => Promise<IBaseSample.Content>
 }
 
 export namespace IBaseSample {
@@ -65,10 +65,9 @@ export namespace IBaseSample {
     searchWord: string
     size: number
     page: number
-    division: 'PRIVATE' | 'PUBLIC' | ''
+    division: 'PRIVATE' | 'PUBLIC'
   }
 
-  export interface BaseSampleUpdateParam extends BaseSample{
-
-  }
+  export interface BaseSampleUpdateParam extends BaseSample {}
+  export interface BaseSampleCreateParam extends Omit<BaseSample, 'boardId'>
 }

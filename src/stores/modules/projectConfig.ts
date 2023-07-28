@@ -88,7 +88,7 @@ export const useProjectConfigStore = defineStore('projectConfig', () => {
   function setLogo() {
     let logoFileName = `${config.value.theme.title}_logo${
       config.value.isCollapse ? '_simple' : ''
-    }_${navTheme}.png`
+    }_${config.value.theme.navTheme}.png`
 
     setTheme({ logoFileName })
   }

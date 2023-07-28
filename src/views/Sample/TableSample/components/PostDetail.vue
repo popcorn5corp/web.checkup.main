@@ -1,11 +1,13 @@
 <script setup lang="ts" name="PostDetail">
-import { type UnwrapRef, computed, reactive, toRefs, watch } from 'vue';
+import { type UnwrapRef, computed, reactive, toRefs, watch, ref, onMounted } from 'vue';
 import type { IBaseSample } from '@/services/BaseSample/interface';
 import _ from 'lodash-es';
+import { getDefaultPost } from '../constant';
 
 interface PostDetailProps {
   data: IBaseSample.BaseSample
   isEdit: boolean;
+  mode: ContentMode
 }
 
 const props = withDefaults(defineProps<PostDetailProps>(), {
@@ -18,12 +20,20 @@ interface FormState {
   clonePost: PostDetailProps['data']
 }
 
+const formRef = ref();
 const formState: UnwrapRef<FormState> = reactive({
   layout: 'horizontal',
-  post: props.data,
-  clonePost: _.cloneDeep(props.data)
+  post: getDefaultPost(),
+  clonePost: getDefaultPost(),
 });
 
+watch(() => props.data, (post) => {
+  formState.post = post;
+  formState.clonePost = _.cloneDeep(post);
+},
+  {
+    immediate: true
+  })
 
 const rollbackPost = () => {
   formState.post = _.cloneDeep(formState.clonePost)
@@ -51,9 +61,14 @@ const buttonItemLayout = computed(() => {
     : {};
 });
 
+const onSubmit = async () => {
+  return formRef.value.validate()
+}
+
 defineExpose({
   getPostDetail,
-  rollbackPost
+  rollbackPost,
+  onSubmit
 })
 </script>
 <template>
@@ -82,8 +97,8 @@ defineExpose({
     </a-form>
 
 
-    <a-form v-else :layout="formState.layout" :model="formState" v-bind="formItemLayout">
-      <a-form-item label="게시물 제목">
+    <a-form v-else ref="formRef" :layout="formState.layout" :model="formState" v-bind="formItemLayout">
+      <a-form-item label="게시물 제목" name="boardTitle">
         <a-input v-model:value="formState.post.boardTitle" />
       </a-form-item>
       <a-form-item label="게시물 내용">

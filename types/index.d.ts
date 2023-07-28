@@ -34,3 +34,5 @@ declare interface LabelValue<T = string | number | boolean> {
 declare interface LabelValueType extends LabelValue<T> {
   type?: string
 }
+
+declare type ContentMode = 'CREATE' | 'READ' | 'UPDATE' | 'DELETE'
