@@ -18,6 +18,7 @@ const DEFAULT_MODE = modes.R;
 
 
 const { t } = useI18n()
+const dynamicTable = ref();
 const postDetailRef = ref();
 const isOpen = ref(false);
 const isLoading = ref(false);
@@ -33,17 +34,18 @@ const title = computed(() => {
   }
 });
 
+BaseSampleService.getSortableCodes().then(res => {
+  console.log('getSortableCodes :: ', res);
+})
+
 const initParam = ref<IBaseSample.BaseSamplesParam>({
   searchEndDate: '',
   searchStartDate: '',
   searchWord: '',
   size: 10,
   page: 1,
-  division: 'PUBLIC'
+  division: 'PUBLIC',
 })
-let searchParam: IBaseSample.BaseSamplesParam = {
-  ...initParam.value
-}
 
 const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
 
@@ -70,7 +72,6 @@ const onClickRow = (row: IBaseSample.Content) => {
  * @param param 
  */
 const getDataSource = (param: IBaseSample.BaseSamplesParam) => {
-  searchParam = param;
   return BaseSampleService.getAll(param);
 }
 
@@ -94,7 +95,7 @@ const onOpenSaveModal = async () => {
         console.log('valid', valid);
 
         callServiceByMode(() => {
-          initParam.value = searchParam;
+          dynamicTable.value.getDataSource();
           initState();
 
           setTimeout(() => {
@@ -107,6 +108,31 @@ const onOpenSaveModal = async () => {
 
     }
   });
+}
+
+/**
+ * @description 게시물 삭제
+ * @param selectedRows 
+ */
+const onRemovePost = (selectedRows: IBaseSample.Content[]) => {
+  Modal.confirm({
+    content: t('common.message.modalDeleteCheck'),
+    // width: 600,
+    icon: createVNode(QuestionCircleTwoTone),
+    onOk() {
+      BaseSampleService.deleteOne(selectedRows[0].boardId).then(res => {
+        dynamicTable.value.getDataSource();
+
+        setTimeout(() => {
+          message.success(t('common.message.deleteSuccess'), 1);
+        }, 300)
+      })
+      initState();
+    },
+    async onCancel() {
+
+    }
+  })
 }
 
 /**
@@ -169,19 +195,15 @@ const onClickRegist = () => {
   selectedPost.value = getDefaultPost();
 }
 
-
-const onRemovePost = () => {
-
-}
-
 </script>
 
 <template>
-  <DynamicTable :columns="columns" :request="getDataSource" :dataCallback="dataCallback" :initParam="initParam"
-    @rowClick="onClickRow">
-    <template #tableBtns>
-      <Button :label="$t('common.delete')" size="large" />
-      <Button :label="$t('common.registration')" size="large" @click="onClickRegist" />
+  <DynamicTable :rowKey="'boardId'" ref="dynamicTable" :columns="columns" :request="getDataSource"
+    :dataCallback="dataCallback" :initParam="initParam" @rowClick="onClickRow" @rowSelect="onRemovePost"
+    @rowAdd="onClickRegist">
+    <template #tableBtns="scope">
+      <!-- <Button :label="$t('common.delete')" size="large" />
+      <Button :label="$t('common.registration')" size="large" @click="onClickRegist" /> -->
     </template>
   </DynamicTable>
 

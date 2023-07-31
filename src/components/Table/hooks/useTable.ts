@@ -1,12 +1,19 @@
 import { computed, reactive, toRefs, watch } from 'vue'
 import type { DynamicTableProps, TablePagination } from '../types'
+import type {
+  TableCurrentDataSource,
+  TableCurrentDataSource,
+  TableRowSelection
+} from 'ant-design-vue/es/table/interface'
+import type { TableFilterState } from '@/stores/interface'
 
 interface State {
-  dataSource: Object[]
+  dataSource: any[]
   pagination: TablePagination
   total: number
   requestParam: Object
   isLoading: boolean
+  selectedRowKeys: Key[]
 }
 
 function getDefaultPagination(): TablePagination {
@@ -38,7 +45,8 @@ export const useTable = (
     },
     total: 0,
     requestParam: {},
-    isLoading: false
+    isLoading: false,
+    selectedRowKeys: []
   })
 
   const paginationParam = computed({
@@ -75,6 +83,11 @@ export const useTable = (
         posts: { content, totalElements }
       } = await request(requestParam)
 
+      // index 설정
+      content.map((record: Record<string, any>, i: number) => {
+        record['key'] = i
+      })
+
       if (dataCallback) {
         dataSource = dataCallback(content)
       }
@@ -92,20 +105,27 @@ export const useTable = (
   //   console.log('asdasd')
   // })
 
-  const changeTable = (param: any) => {
-    const { pageSize, current } = param
-    // 페이지 사이즈 변경 시, 첫 페이지로 이동
-    // const isChangePageSize = tablePagination.value.pageSize !== pageSize
+  const changeTable = (
+    pagination: TablePagination,
+    filters: TableFilterState,
+    sorters: any,
+    extra: TableCurrentDataSource
+  ) => {
+    console.log('changeTable :: ', sorters, extra)
 
-    // tablePagination.value.pageSize = pageSize
-    // tablePagination.value.current = isChangePageSize ? 1 : current
-    state.pagination = {
-      ...state.pagination,
-      pageSize,
-      current
-    }
+    const { pageSize, current } = pagination
+    // // 페이지 사이즈 변경 시, 첫 페이지로 이동
+    // // const isChangePageSize = tablePagination.value.pageSize !== pageSize
 
-    getDataSource()
+    // // tablePagination.value.pageSize = pageSize
+    // // tablePagination.value.current = isChangePageSize ? 1 : current
+    // state.pagination = {
+    //   ...state.pagination,
+    //   pageSize,
+    //   current
+    // }
+
+    // getDataSource()
   }
 
   const getRecordNo = (index: number) => {
@@ -120,6 +140,17 @@ export const useTable = (
   const refetch = () => {
     getDataSource()
   }
+
+  const rowSelection = computed<TableRowSelection>(() => {
+    return {
+      selectedRowKeys: state.selectedRowKeys,
+      onChange: (changableRowKeys: Key[]) => {
+        console.log('selectedRowKeys changed: ', changableRowKeys)
+        state.selectedRowKeys = changableRowKeys
+      }
+      // hideDefaultSelections: true,
+    }
+  })
 
   // /**
   //  * 테이블 Change 이벤트
@@ -163,6 +194,7 @@ export const useTable = (
     getDataSource,
     changeTable,
     getRecordNo,
-    refetch
+    refetch,
+    rowSelection
   }
 }
