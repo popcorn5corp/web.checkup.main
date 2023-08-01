@@ -6,7 +6,11 @@ export const columns = ref<TableColumnsType>([
   {
     title: '게시물 제목',
     dataIndex: 'boardTitle',
-    key: 'boardTitle'
+    key: 'boardTitle',
+    sorter: {
+      compare: (a, b) => a.boardTitle - b.boardTitle,
+      multiple: 1
+    }
   },
   {
     title: '게시물 내용',
@@ -21,7 +25,11 @@ export const columns = ref<TableColumnsType>([
   {
     title: '게시물 구분',
     dataIndex: 'division',
-    key: 'division'
+    key: 'division',
+    sorter: {
+      compare: (a, b) => a.division - b.division,
+      multiple: 2
+    }
   }
 ])
 

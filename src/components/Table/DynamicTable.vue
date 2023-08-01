@@ -1,6 +1,6 @@
 <script setup lang="ts" name="LayoutFilter">
-import { ref, watch } from 'vue'
-import { Table, Space } from 'ant-design-vue'
+import { ref, unref, watch } from 'vue'
+import { Table, Space, type TableProps } from 'ant-design-vue'
 
 import Filter from './components/Filter.vue'
 import { Button } from '@/components/Button'
@@ -8,12 +8,13 @@ import type { DynamicTableProps, DynamicTableEmits, TablePagination } from './ty
 import TableTags from './components/TableTags.vue'
 import TableSegmentButton from './components/TableSegmentButton.vue'
 import { useTable } from './hooks/useTable';
+import { useSelection } from './hooks/useSelection'
 
-const emits = defineEmits(['rowClick', 'change', 'search'])
+const emits = defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
 const props = withDefaults(defineProps<DynamicTableProps>(), {
   columns: () => [],
+  rowKey: 'key',
   mode: 'dynamic',
-  rowKey: 'id',
   options: () => ({
     pointer: true,
     isPagination: true,
@@ -21,22 +22,43 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
   })
 })
 
-const tableContentWrapperRef = ref();
 const showFilter = ref(true)
 const cursor = ref(props.options.pointer && 'pointer');
 const tableColumns = ref([...props.columns])
 let isTableChangedFlag = false // 테이블 변경, 검색 조건 변경 구분을 위한 flag
-const { dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading, refetch } = useTable(props.request, props.initParam, props.options.isPagination, props.dataCallback);
+
+/**
+ * Table 기능에 대한 Hooks
+ */
+const {
+  dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading, refetch }
+  = useTable(props.request, props.initParam, props.options.isPagination, props.dataCallback);
+
+/**
+ * Table Selection 기능에 대한 Hooks
+ */
+const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource);
+
 
 watch(() => props.initParam, getDataSource, {
   immediate: true,
   deep: true
 })
 
-
-
 if (props.options.isShowNo) {
   setNoColumns()
+}
+
+/**
+ * 테이블 칼럼 세팅 ('NO' 칼럼 추가)
+ */
+function setNoColumns() {
+  tableColumns.value.unshift({
+    title: 'No',
+    align: 'center',
+    dataIndex: 'index',
+    key: 'index'
+  })
 }
 
 // watch(
@@ -55,18 +77,6 @@ if (props.options.isShowNo) {
 // )
 
 /**
- * 테이블 칼럼 세팅 ('NO' 칼럼 추가)
- */
-function setNoColumns() {
-  tableColumns.value.unshift({
-    title: 'No',
-    align: 'center',
-    dataIndex: 'index',
-    key: 'index'
-  })
-}
-
-/**
  * 테이블 Row에 대한 이벤트를 제공하는 함수
  * @param {Object} record
  * @returns {{ onClick: () => void }}
@@ -77,8 +87,13 @@ const customRow = (record: object) => ({
   }
 })
 
+
+const onDeleteRow = () => {
+  emits('rowSelect', unref(selectedRows));
+}
+
 defineExpose({
-  // getDataSource,
+  getDataSource,
   refetch
 })
 
@@ -106,6 +121,9 @@ defineExpose({
             <TableSegmentButton />
             <slot name="tableBtns"></slot>
 
+            <Button :label="$t('common.delete')" size="large" @click="onDeleteRow" />
+            <Button :label="$t('common.registration')" size="large" @click="$emit('rowAdd')" />
+
             <Button type="primary" :label="$t('common.filterText')" size="large" @click="showFilter = !showFilter" />
           </Space>
         </div>
@@ -117,8 +135,9 @@ defineExpose({
         <div class="table-content" :style="{ flex: showFilter ? 0.7 : 1 }">
           <TableTags />
 
-          <Table :columns="tableColumns" :dataSource="dataSource" :loading="isLoading" :total="total" :size="size"
-            :customRow="customRow" :pagination="props.options.isPagination && pagination" @change="changeTable">
+          <Table :rowKey="rowKey" :columns="tableColumns" :rowSelection="rowSelection" :dataSource="dataSource"
+            :loading="isLoading" :total="total" :size="size" :customRow="customRow"
+            :pagination="props.options.isPagination && pagination" @change="changeTable">
             <template #bodyCell="{ record, column, index, text }">
               <template v-if="column.key === 'index'">
                 {{ getRecordNo(index) }}

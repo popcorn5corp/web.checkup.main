@@ -3,6 +3,8 @@ export interface IBaseSampleService {
   getOneById: (id: string) => Promise<IBaseSample.BaseSample>
   updateOne: (param: IBaseSample.BaseSampleUpdateParam) => Promise<IBaseSample.BaseSample>
   createOne: (param: IBaseSample.BaseSampleCreateParam) => Promise<IBaseSample.Content>
+  deleteOne: (id: string) => Promise<any>
+  getSortableCodes: () => Promise<any>
 }
 
 export namespace IBaseSample {
@@ -18,6 +20,7 @@ export namespace IBaseSample {
   }
 
   export interface Content {
+    key: Key;
     boardId: string // 샘플 게시판 아이디
     boardTitle: string // 샘플 게시판 제목
     boardContent: string // 샘플 게시판 내용

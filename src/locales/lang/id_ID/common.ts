@@ -10,7 +10,9 @@ export default {
   message: {
     changeLang: 'Apakah Anda ingin mengubah ke bahasa negara Anda?',
     modalEditCloseCheck: 'Tidak ada modifikasi yang akan disimpan. Apakah Anda ingin menutupnya?',
+    modalDeleteCheck: 'Anda yakin ingin menghapus item yang dipilih?',
     modalSaveCheck: 'Apakah Anda ingin menyimpan konten ini?',
-    saveSuccess: 'Simpananmu sudah selesai.'
+    saveSuccess: 'Simpananmu sudah selesai.',
+    deleteSuccess: 'Penghapusan selesai.'
   }
 }
