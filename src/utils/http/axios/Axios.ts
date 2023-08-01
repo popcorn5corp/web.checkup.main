@@ -47,7 +47,7 @@ export class AxiosHttpClient {
         return response.data
       },
       (error: AxiosError) => {
-        console.log('[repose error]', error)
+        console.log('[reponse error]', error)
         return Promise.reject(error)
       }
     )

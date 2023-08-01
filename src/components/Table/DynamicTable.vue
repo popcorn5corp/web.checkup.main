@@ -1,14 +1,17 @@
 <script setup lang="ts" name="LayoutFilter">
-import { ref, unref, watch } from 'vue'
-import { Table, Space, type TableProps } from 'ant-design-vue'
-
-import Filter from './components/Filter.vue'
+import { onMounted, ref, unref, watch } from 'vue'
+import { Table, Space } from 'ant-design-vue'
 import { Button } from '@/components/Button'
-import type { DynamicTableProps, DynamicTableEmits, TablePagination } from './types'
-import TableTags from './components/TableTags.vue'
+import { DownloadOutlined, ReloadOutlined } from '@/components/Icon'
 import TableSegmentButton from './components/TableSegmentButton.vue'
+import Filter from './components/Filter.vue'
+import TableTags from './components/TableTags.vue'
+
 import { useTable } from './hooks/useTable';
 import { useSelection } from './hooks/useSelection'
+import { useColumns } from './hooks/useColumns'
+
+import type { DynamicTableProps } from './types'
 
 const emits = defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
 const props = withDefaults(defineProps<DynamicTableProps>(), {
@@ -24,42 +27,42 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
 
 const showFilter = ref(true)
 const cursor = ref(props.options.pointer && 'pointer');
-const tableColumns = ref([...props.columns])
+const tableColumns = ref([])
+
 let isTableChangedFlag = false // 테이블 변경, 검색 조건 변경 구분을 위한 flag
 
 /**
- * Table 기능에 대한 Hooks
+ * Table 관련 기능에 대한 Hooks
  */
 const {
-  dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading, refetch }
-  = useTable(props.request, props.initParam, props.options.isPagination, props.dataCallback);
+  dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading }
+  = useTable(props.dataRequest, props.initParam, props.options.isPagination, props.dataCallback);
 
 /**
- * Table Selection 기능에 대한 Hooks
+ * Table Selection 관련 기능에 대한 Hooks
  */
 const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource);
 
+/**
+ * Table Columns 관련 기능에 대한 Hooks
+ */
+const { getColumns, columns } = useColumns(props.columnRequest, props.initColumns, props.options.isShowNo);
+
+
+
+watch(() => props.initColumns, async () => {
+  await getColumns();
+  getDataSource();
+}, {
+  immediate: true,
+  deep: true
+})
 
 watch(() => props.initParam, getDataSource, {
   immediate: true,
   deep: true
 })
 
-if (props.options.isShowNo) {
-  setNoColumns()
-}
-
-/**
- * 테이블 칼럼 세팅 ('NO' 칼럼 추가)
- */
-function setNoColumns() {
-  tableColumns.value.unshift({
-    title: 'No',
-    align: 'center',
-    dataIndex: 'index',
-    key: 'index'
-  })
-}
 
 // watch(
 //   () => dataSource?.value,
@@ -94,7 +97,7 @@ const onDeleteRow = () => {
 
 defineExpose({
   getDataSource,
-  refetch
+  getColumns
 })
 
 </script>
@@ -115,7 +118,6 @@ defineExpose({
           </a-input>
         </div>
 
-
         <div class="table-btns">
           <Space>
             <TableSegmentButton />
@@ -135,7 +137,28 @@ defineExpose({
         <div class="table-content" :style="{ flex: showFilter ? 0.7 : 1 }">
           <TableTags />
 
-          <Table :rowKey="rowKey" :columns="tableColumns" :rowSelection="rowSelection" :dataSource="dataSource"
+          <div class="table-toolbar">
+            <Space>
+              <a-button>
+                <template #icon>
+                  <ReloadOutlined />
+                </template>
+              </a-button>
+              <a-button>
+                <template #icon>
+                  <DownloadOutlined />
+                </template>
+              </a-button>
+            </Space>
+          </div>
+
+          <!-- <a-divider></a-divider> -->
+          <!-- <Space>
+            <Button :label="$t('common.delete')" size="large" @click="onDeleteRow" />
+            <Button :label="$t('common.registration')" size="large" @click="$emit('rowAdd')" />
+            <Button type="primary" :label="$t('common.filterText')" size="large" @click="showFilter = !showFilter" />
+          </Space> -->
+          <Table :scrollY="530" :rowKey="rowKey" :columns="columns" :rowSelection="rowSelection" :dataSource="dataSource"
             :loading="isLoading" :total="total" :size="size" :customRow="customRow"
             :pagination="props.options.isPagination && pagination" @change="changeTable">
             <template #bodyCell="{ record, column, index, text }">
@@ -165,7 +188,6 @@ defineExpose({
       display: flex;
       width: 100%;
       justify-content: space-between;
-
 
       .table-search {
         display: flex;
@@ -207,7 +229,12 @@ defineExpose({
       display: flex;
 
       .table-content {
-        flex: 0.7;
+        flex: 1;
+
+        .table-toolbar {
+          display: flex;
+          justify-content: end;
+        }
 
         :deep(.ant-table) {
           // overflow-y: auto

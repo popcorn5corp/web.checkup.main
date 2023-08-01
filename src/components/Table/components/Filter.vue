@@ -80,6 +80,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  margin-top: -10px;
 }
 
 .filter-list {
@@ -180,22 +181,22 @@ const filterTypeComponents: Record<FilterType, Component> = {
     height: 101vh;
   }
 
-  > ul {
+  >ul {
     padding: 0 1rem;
 
-    > li {
+    >li {
       display: flex;
       align-items: center;
       font-size: 16px;
       font-weight: 600;
       background: rgb(255, 255, 255);
 
-      > div {
+      >div {
         display: flex;
         flex-direction: column;
         width: 100%;
 
-        > div.filter-title {
+        >div.filter-title {
           display: flex;
           justify-content: space-between;
           padding: 1rem;

@@ -1,6 +1,5 @@
 import { service } from '@/utils/service'
-import type { IBaseSample, IBaseSampleService } from './interface'
-import type { AnyARecord } from 'dns'
+import type { IBaseSample, IBaseSampleService, SortCodesResponse } from './interface'
 
 class BaseSampleService implements IBaseSampleService {
   readonly PATH: string = '/sample-board'
@@ -21,8 +20,11 @@ class BaseSampleService implements IBaseSampleService {
   deleteOne(boardId: string): Promise<any> {
     return service.delete(`/sample-board/posts/${boardId}`)
   }
-  getSortableCodes(): Promise<AnyARecord> {
+  getSortableCodes(): Promise<SortCodesResponse> {
     return service.get('/sample-board/posts/sortable-codes')
+  }
+  fileDwonload(): Promise<any> {
+    return service.download('/file/download')
   }
 }
 

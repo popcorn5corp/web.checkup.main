@@ -6,7 +6,7 @@ import type { Filter } from '../../types'
 const props = defineProps({
   item: {
     type: Object as PropType<Filter>,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -33,7 +33,7 @@ const onKeyup = (e: any) => {
 
   timer.value = setTimeout(() => {
     filterOption()
-  }, 200)
+  }, 500)
 }
 </script>
 <template>
@@ -56,10 +56,12 @@ const onKeyup = (e: any) => {
 <style lang="scss" scoped>
 .filter-input {
   margin: 9px 16px -13px;
+
   :deep(.ant-input) {
     height: 28px;
   }
 }
+
 .ant-checkbox-group {
   width: 80%;
   padding: 1rem 0;

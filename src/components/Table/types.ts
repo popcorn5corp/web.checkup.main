@@ -21,6 +21,21 @@ export interface TablePagination {
   pageSizeOptions: string[]
 }
 
+export interface TableSorter {
+  column: {
+    key: string
+    title: string
+    dataIndex: string
+    sorter: {
+      compare: () => boolean
+      multiple: number
+    }
+  }
+  columnKey: string
+  field: string
+  order: 'ascend' | 'descend'
+}
+
 // export interface TablePagination extends PaginationProps {
 //   position: PaginationPositon[]
 // }
@@ -71,12 +86,13 @@ interface RequestParam extends RequestPagination {}
 
 export interface DynamicTableProps extends TableProps {
   mode?: 'basic' | 'dynamic'
-  request?: (params: any) => Promise<any> // 테이블 데이터 API 처리
+  dataRequest?: (params: any) => Promise<any> // 테이블 데이터 API 처리
   dataCallback?: (data: any) => any // 데이터를 후처리 할 수 있는 callback 함수 제공
+  columnRequest?: () => Promise<any> // 테이블 칼럼 정보에 대한 API
   initParam?: RequestParam // API 호출을 위한 초기 Request Parameter
+  initColumns?: TableColumnType[] // 정적으로 정의된 테이블 칼럼 정보
   rowKey?: string | 'id' // 데이터 테이블 랜던링에 사용되는 key
-  // refetch?: boolean // request 재요청 여부
-  refetch?: () => Promise<void>
+  showToolbar?: boolean // 데이터 테이블 Toolbar 노출 여부
 }
 
 export interface DynamicTableEmits {}

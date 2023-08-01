@@ -4,7 +4,21 @@ export interface IBaseSampleService {
   updateOne: (param: IBaseSample.BaseSampleUpdateParam) => Promise<IBaseSample.BaseSample>
   createOne: (param: IBaseSample.BaseSampleCreateParam) => Promise<IBaseSample.Content>
   deleteOne: (id: string) => Promise<any>
-  getSortableCodes: () => Promise<any>
+  getSortableCodes: () => Promise<SortCodesResponse>
+  fileDwonload: () => Promise<any>
+}
+
+export interface ConditionParam {
+  sort?: string;
+  filter?: string;
+}
+
+export interface SortCodesResponse {
+  isSortable: boolean;
+  enabledSortCodes: Array<{
+    sortCode: string;
+    description: string;
+  }>
 }
 
 export namespace IBaseSample {
@@ -62,7 +76,7 @@ export namespace IBaseSample {
     }>
   }
 
-  export interface BaseSamplesParam {
+  export interface BaseSamplesParam extends ConditionParam{
     searchEndDate: string
     searchStartDate: string
     searchWord: string

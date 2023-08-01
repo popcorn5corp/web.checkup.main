@@ -1,10 +1,6 @@
 import { computed, reactive, toRefs, watch } from 'vue'
-import type { DynamicTableProps, TablePagination } from '../types'
-import type {
-  TableCurrentDataSource,
-  TableCurrentDataSource,
-  TableRowSelection
-} from 'ant-design-vue/es/table/interface'
+import type { DynamicTableProps, TablePagination, TableSorter } from '../types'
+import type { TableCurrentDataSource, TableRowSelection } from 'ant-design-vue/es/table/interface'
 import type { TableFilterState } from '@/stores/interface'
 
 interface State {
@@ -28,7 +24,7 @@ function getDefaultPagination(): TablePagination {
 }
 
 export const useTable = (
-  request?: DynamicTableProps['request'],
+  request?: DynamicTableProps['dataRequest'],
   initParam: DynamicTableProps['initParam'] = {
     size: 0,
     page: 1
@@ -95,7 +91,7 @@ export const useTable = (
       state.dataSource = content
       state.pagination.total = totalElements
     } catch (e) {
-      console.log(e)
+      console.log('ee', e)
     }
 
     state.isLoading = false
@@ -108,24 +104,24 @@ export const useTable = (
   const changeTable = (
     pagination: TablePagination,
     filters: TableFilterState,
-    sorters: any,
+    sorters: TableSorter | TableSorter[],
     extra: TableCurrentDataSource
   ) => {
-    console.log('changeTable :: ', sorters, extra)
+    // console.log('changeTable :: ', sorters, extra)
 
     const { pageSize, current } = pagination
     // // 페이지 사이즈 변경 시, 첫 페이지로 이동
     // // const isChangePageSize = tablePagination.value.pageSize !== pageSize
 
-    // // tablePagination.value.pageSize = pageSize
-    // // tablePagination.value.current = isChangePageSize ? 1 : current
-    // state.pagination = {
-    //   ...state.pagination,
-    //   pageSize,
-    //   current
-    // }
+    // tablePagination.value.pageSize = pageSize
+    // tablePagination.value.current = isChangePageSize ? 1 : current
+    state.pagination = {
+      ...state.pagination,
+      pageSize,
+      current
+    }
 
-    // getDataSource()
+    getDataSource()
   }
 
   const getRecordNo = (index: number) => {

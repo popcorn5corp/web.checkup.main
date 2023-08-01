@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 import _ from 'lodash-es'
 
 import BaseSampleService from '@/services/BaseSample/index'
-import type { IBaseSample } from '@/services/BaseSample/interface'
+import type { IBaseSample, SortCodesResponse } from '@/services/BaseSample/interface'
 
 import DynamicTable from '@/components/Table'
 import { columns } from '@/components/Table/mock'
@@ -15,7 +15,6 @@ import { contentModes as modes } from '@/constants/content'
 import { getDefaultPost } from './constant';
 
 const DEFAULT_MODE = modes.R;
-
 
 const { t } = useI18n()
 const dynamicTable = ref();
@@ -34,9 +33,9 @@ const title = computed(() => {
   }
 });
 
-BaseSampleService.getSortableCodes().then(res => {
-  console.log('getSortableCodes :: ', res);
-})
+// BaseSampleService.getSortableCodes().then(res => {
+//   console.log('getSortableCodes :: ', res);
+// })
 
 const initParam = ref<IBaseSample.BaseSamplesParam>({
   searchEndDate: '',
@@ -45,6 +44,7 @@ const initParam = ref<IBaseSample.BaseSamplesParam>({
   size: 10,
   page: 1,
   division: 'PUBLIC',
+  sort: '-boardTitle,boardContent',
 })
 
 const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
@@ -72,7 +72,7 @@ const onClickRow = (row: IBaseSample.Content) => {
  * @param param 
  */
 const getDataSource = (param: IBaseSample.BaseSamplesParam) => {
-  return BaseSampleService.getAll(param);
+  return BaseSampleService.getAll(param)
 }
 
 /**
@@ -84,16 +84,21 @@ const dataCallback = (data: IBaseSample.BaseSamples['posts']['content']) => {
 }
 
 /**
+ * 
+ */
+const getColumns = (): Promise<SortCodesResponse> => {
+  return BaseSampleService.getSortableCodes();
+}
+
+/**
  * @description 게시물 수정
  */
-const onOpenSaveModal = async () => {
+const onOpenSaveModal = (): void => {
   Modal.confirm({
     content: t('common.message.modalSaveCheck'),
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
       postDetailRef.value.onSubmit().then((valid: any) => {
-        console.log('valid', valid);
-
         callServiceByMode(() => {
           dynamicTable.value.getDataSource();
           initState();
@@ -114,7 +119,7 @@ const onOpenSaveModal = async () => {
  * @description 게시물 삭제
  * @param selectedRows 
  */
-const onRemovePost = (selectedRows: IBaseSample.Content[]) => {
+const onRemovePost = (selectedRows: IBaseSample.Content[]): void => {
   Modal.confirm({
     content: t('common.message.modalDeleteCheck'),
     // width: 600,
@@ -139,7 +144,7 @@ const onRemovePost = (selectedRows: IBaseSample.Content[]) => {
  * @description Content Mode에 따른 API 호출
  * @param callback 
  */
-const callServiceByMode = (callback: Function) => {
+const callServiceByMode = (callback: Function): void => {
   const postDetail: IBaseSample.BaseSample = postDetailRef.value.getPostDetail();
 
   if (mode.value === modes.C) {
@@ -158,7 +163,7 @@ const callServiceByMode = (callback: Function) => {
 /**
  * @description 상세 모달 Close
  */
-const onCloseModal = () => {
+const onCloseModal = (): void => {
   if (isEdit.value) {
     Modal.confirm({
       content: t('common.message.modalEditCloseCheck'),
@@ -179,17 +184,17 @@ const onCloseModal = () => {
 /**
  * @description 수정모드에서 취소할 경우, 이전 정보로 Rollback
  */
-const onCancel = () => {
+const onCancel = (): void => {
   mode.value = DEFAULT_MODE;
   postDetailRef.value.rollbackPost();
 }
 
-const initState = () => {
+const initState = (): void => {
   isOpen.value = false;
   mode.value = DEFAULT_MODE;
 }
 
-const onClickRegist = () => {
+const onClickRegist = (): void => {
   isOpen.value = true;
   mode.value = modes.C;
   selectedPost.value = getDefaultPost();
@@ -198,9 +203,9 @@ const onClickRegist = () => {
 </script>
 
 <template>
-  <DynamicTable :rowKey="'boardId'" ref="dynamicTable" :columns="columns" :request="getDataSource"
-    :dataCallback="dataCallback" :initParam="initParam" @rowClick="onClickRow" @rowSelect="onRemovePost"
-    @rowAdd="onClickRegist">
+  <DynamicTable :row-key="'boardId'" ref="dynamicTable" :columns="columns" :data-request="getDataSource"
+    :data-callback="dataCallback" :init-columns="columns" :column-request="getColumns" :init-param="initParam"
+    @row-click="onClickRow" @row-select="onRemovePost" @rowAdd="onClickRegist">
     <template #tableBtns="scope">
       <!-- <Button :label="$t('common.delete')" size="large" />
       <Button :label="$t('common.registration')" size="large" @click="onClickRegist" /> -->
