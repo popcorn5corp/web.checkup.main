@@ -16,13 +16,16 @@ const { setSelectedFilterData } = useTableFilterStore()
 const date = ref<string | Dayjs | undefined>()
 
 const onRangeChange = (value: string | Dayjs, dateString: string) => {
-  const options = [
-    {
-      label: dateString,
-      value: dateString,
-      type: FilterTypes.DATEPICKER
-    }
-  ]
+  const options =
+    dateString === ''
+      ? []
+      : [
+          {
+            label: dateString,
+            value: dateString,
+            type: FilterTypes.DATEPICKER
+          }
+        ]
 
   setSelectedFilterData(type.value, options)
 }
@@ -31,7 +34,7 @@ watch(selectedItems, () => !selectedItems.value.length && (date.value = undefine
 </script>
 
 <template>
-  <a-date-picker :allowClear="false" v-model:value="date" @change="onRangeChange" />
+  <a-date-picker :allowClear="true" v-model:value="date" @change="onRangeChange" />
   <a-divider />
 </template>
 

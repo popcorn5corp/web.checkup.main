@@ -33,25 +33,24 @@ export const filterList: Filter[] = [
     options: [],
     selectedItems: []
   },
-  // {
-  //   type: FilterTypes.RANGEDATEPICKER,
-  //   title: '조회날짜',
-  //   open: true,
-  //   options: [],
-  //   selectedItems: []
-  // },
+  {
+    type: FilterTypes.RANGEDATEPICKER,
+    title: '조회날짜',
+    open: true,
+    options: [],
+    selectedItems: []
+  },
   {
     type: FilterTypes.SELECT,
     title: '반입장비',
     open: true,
     options: [
-      { label: '전체', value: null },
       { label: '고소작업', value: 1 },
       { label: '화기작업', value: 2 },
       { label: '밀폐작업', value: 3 },
       { label: '화기작업', value: 4 }
     ],
-    selectedItems: [{ label: '전체', value: null }]
+    selectedItems: []
   },
   {
     type: FilterTypes.CHECKBOX,

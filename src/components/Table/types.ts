@@ -47,6 +47,7 @@ export interface TableEmits {}
 export const FilterTypes = {
   SELECT: 'select',
   DATEPICKER: 'datepicker',
+  RANGEDATEPICKER: 'rangeDatePicker',
   CHECKBOX: 'checkbox',
   RADIO: 'radio'
 } as const

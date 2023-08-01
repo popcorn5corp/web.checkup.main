@@ -1,8 +1,7 @@
 <script lang="ts" setup name="FilterCheckbox">
-import { toRefs, ref, computed } from 'vue'
+import { toRefs, ref, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import type { Filter } from '../../types'
-import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 
 const props = defineProps({
   item: {
@@ -13,28 +12,40 @@ const props = defineProps({
 
 const { type, options, selectedItems } = toRefs(props.item)
 const { setSelectedFilterData } = useTableFilterStore()
+const checkboxOptions = ref([...options.value])
 const inputValue = ref<string | undefined>()
+const timer = ref()
 
-const onSelect = (options: LabelValueType[]) => {
-  setSelectedFilterData(type.value, options)
-}
+const onChange = (options: LabelValueType[]) => setSelectedFilterData(type.value, options)
 
-const filterOption = computed<LabelValue[]>(() =>
-  inputValue.value
+const filterOption = () => {
+  checkboxOptions.value = inputValue.value
     ? options.value.filter((option) => option.label.includes(inputValue.value as string))
     : options.value
-)
+}
+
+const onKeyup = (e: any) => {
+  inputValue.value = e.target.value
+
+  if (timer.value) {
+    clearTimeout(timer.value)
+  }
+
+  timer.value = setTimeout(() => {
+    filterOption()
+  }, 200)
+}
 </script>
 <template>
   <div class="filter-input">
-    <a-input placeholder="search" v-model:value="inputValue">
+    <a-input placeholder="search" v-model:value="inputValue" @keyup="onKeyup">
       <template #suffix>
         <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" />
       </template>
     </a-input>
   </div>
-  <a-checkbox-group v-model:value="selectedItems" @change="onSelect" name="checkboxgroup">
-    <template v-for="option in filterOption">
+  <a-checkbox-group v-model:value="selectedItems" @change="onChange" name="checkboxgroup">
+    <template v-for="option in checkboxOptions">
       <a-col>
         <a-checkbox :value="option">{{ option.label }}</a-checkbox>
       </a-col>

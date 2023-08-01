@@ -20,7 +20,13 @@ const onSelect = (value: RawValueType | LabelInValueType, option: LabelValueType
 }
 </script>
 <template>
-  <a-select @select="onSelect" v-model:value="selectedItems" :options="options" />
+  <a-select
+    :allowClear="true"
+    @select="onSelect"
+    v-model:value="selectedItems"
+    :options="options"
+    placeholder="전체"
+  />
 
   <a-divider />
 </template>

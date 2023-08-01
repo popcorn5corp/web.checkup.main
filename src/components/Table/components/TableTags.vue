@@ -1,26 +1,32 @@
 <script setup lang="ts" name="TableTags">
-import { computed } from 'vue';
-import { useTag } from '@/hooks/useTag';
-import { useProjectConfigStore } from '@/stores/modules/projectConfig';
+import { computed } from 'vue'
+import { useTag } from '@/hooks/useTag'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 
-const { config } = useProjectConfigStore();
-const { tags, removeTag } = useTag()
+const { config } = useProjectConfigStore()
+const { tags, removeTag, initTag } = useTag()
 const isRealDarkClass = computed(() => ({ 'tags-dark-mode': config.theme.navTheme === 'realDark' }))
 
 const onClose = (options: LabelValueOptions, type = null) => {
   removeTag(options, type)
 }
 
+const onClick = () => initTag()
 </script>
 <template>
   <div class="table-tags">
     <template v-for="tag in tags">
       <template v-for="{ label, value, type } in tag">
-        <p v-if="value !== null" :class="isRealDarkClass">
+        <p v-if="value !== null" class="table-tag" :class="isRealDarkClass">
           <span>{{ label }}</span>
-          <span @click="onClose({ label, value }, type)"><font-awesome-icon :icon="['fas', 'xmark']" /></span>
+          <span @click="onClose({ label, value }, type)"
+            ><font-awesome-icon :icon="['fas', 'xmark']"
+          /></span>
         </p>
       </template>
+    </template>
+    <template v-if="tags.length">
+      <a-button class="table-tag" @click="onClick">초기화</a-button>
     </template>
   </div>
 </template>
@@ -29,7 +35,7 @@ const onClose = (options: LabelValueOptions, type = null) => {
   display: flex;
   flex-wrap: wrap;
 
-  p {
+  .table-tag {
     display: flex;
     justify-content: space-between;
     align-items: center;

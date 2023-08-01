@@ -45,9 +45,7 @@ const options = ref([
   }
 ])
 
-const onClose = (options: LabelValueOptions, type = null) => {
-  removeTag(options, type)
-}
+const onClose = (options: LabelValueOptions, type = null) => removeTag(options, type)
 </script>
 
 <template>
@@ -100,6 +98,10 @@ const onClose = (options: LabelValueOptions, type = null) => {
                     ><font-awesome-icon :icon="['fas', 'xmark']"
                   /></span>
                 </p>
+              </template>
+
+              <template v-if="tag">
+                <a-button>AllClear</a-button>
               </template>
             </template>
           </div>
