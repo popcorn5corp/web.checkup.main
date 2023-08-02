@@ -19,6 +19,6 @@ export default {
     }
   },
   menu: {
-    newProject: 'Creat New Project'
+    newProject: 'Create New Project'
   }
 }

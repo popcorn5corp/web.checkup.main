@@ -34,17 +34,7 @@ export const useSelection = (rowKey: string = 'id', dataSource: Ref<any[]>) => {
       onChange: (changableRowKeys: Key[], changableRows: any[]) => {
         state.selectedRowKeys = changableRowKeys
         state.selectedRows = changableRows
-
-        // let selectedRows = []
-        // if (rowKey) {
-        //   const selectedRows = dataSource.value.find(r => r[rowKey] === state.selectedRowKeys[0])
-        //   // emits('rowSelect', selectedRow || null);
-        // } else {
-        //   selectedRow = dataSource.value[selectedRowKeys.value[0] as number]
-        //   emits('rowSelect', selectedRow);
-        // }
       }
-      // hideDefaultSelections: true,
     }
   })
 

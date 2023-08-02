@@ -80,12 +80,13 @@ const filterTypeComponents: Record<FilterType, Component> = {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-top: -10px;
+  // margin-top: -10px;
 }
 
 .filter-list {
   width: 100%;
   background: white;
+  z-index: 1;
 
   .mobile-header,
   .mobile-footer {

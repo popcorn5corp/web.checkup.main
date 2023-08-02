@@ -11,7 +11,7 @@ export function setLoadLocalePool(cb: (loadLocalePool: LocaleType[]) => void) {
   cb(loadLocalePool)
 }
 
-export function genMessage(langs: Record<string, Record<string, any>>, prefix = 'lang') {
+export function genMessage(langs: Recordable<Recordable>, prefix = 'lang') {
   const obj: Recordable = {}
 
   Object.keys(langs).forEach((key) => {

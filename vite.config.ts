@@ -55,6 +55,15 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+            @import "./src/styles/base/_variables.scss";
+          `
+        }
+      }
+    },
     server: {
       cors: true,
       proxy: {
@@ -63,6 +72,9 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
         }
+      },
+      hmr: {
+        overlay: false
       }
     },
     build: {

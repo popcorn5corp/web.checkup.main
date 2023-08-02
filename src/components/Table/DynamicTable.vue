@@ -2,7 +2,7 @@
 import { onMounted, ref, unref, watch } from 'vue'
 import { Table, Space } from 'ant-design-vue'
 import { Button } from '@/components/Button'
-import { DownloadOutlined, ReloadOutlined } from '@/components/Icon'
+import { DownloadOutlined } from '@/components/Icon'
 import TableSegmentButton from './components/TableSegmentButton.vue'
 import Filter from './components/Filter.vue'
 import TableTags from './components/TableTags.vue'
@@ -10,6 +10,7 @@ import TableTags from './components/TableTags.vue'
 import { useTable } from './hooks/useTable';
 import { useSelection } from './hooks/useSelection'
 import { useColumns } from './hooks/useColumns'
+import { useTag } from '@/hooks/useTag'
 
 import type { DynamicTableProps } from './types'
 
@@ -26,58 +27,78 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
 })
 
 const showFilter = ref(true)
+const isReload = ref(false);
 const cursor = ref(props.options.pointer && 'pointer');
-const tableColumns = ref([])
-
+const searchWord = ref('');
 let isTableChangedFlag = false // 테이블 변경, 검색 조건 변경 구분을 위한 flag
 
+
 /**
- * Table 관련 기능에 대한 Hooks
+ * @description Table 관련 기능에 대한 Hooks
  */
 const {
   dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading }
   = useTable(props.dataRequest, props.initParam, props.options.isPagination, props.dataCallback);
 
 /**
- * Table Selection 관련 기능에 대한 Hooks
+ * @description Table Selection 관련 기능에 대한 Hooks
  */
 const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource);
 
 /**
- * Table Columns 관련 기능에 대한 Hooks
+ * @description Table Columns 관련 기능에 대한 Hooks
  */
 const { getColumns, columns } = useColumns(props.columnRequest, props.initColumns, props.options.isShowNo);
 
+/**
+ * @description Table Tag 관련 기능에 대한 Hooks
+ */
+const { tags, initTag } = useTag();
 
+watch(() => tags.value, () => {
+  isLoading.value = true;
+
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 300)
+})
+
+onMounted(() => {
+  // temp code
+  isReload.value = true;
+
+  setTimeout(() => {
+    isReload.value = false;
+  }, 1000);
+});
 
 watch(() => props.initColumns, async () => {
   await getColumns();
+  // getDataSource();
+}, {
+  immediate: true,
+  deep: true
+})
+
+watch(() => props.initParam, () => {
   getDataSource();
 }, {
   immediate: true,
   deep: true
 })
 
-watch(() => props.initParam, getDataSource, {
-  immediate: true,
-  deep: true
-})
+const onReload = () => {
+  isReload.value = true;
+  unref(searchWord) && (searchWord.value = '')
+  getDataSource({ isReset: true });
+  initTag();
 
+  setTimeout(() => {
+    isReload.value = false;
+  }, 1000);
+}
 
-// watch(
-//   () => dataSource?.value,
-//   () => {
-//     // pagination 사용하는 경우
-//     if (options.value.isPagination) {
-//       // 검색조건 변경일 경우, current 초기화
-//       if (isTableChangedFlag) {
-//         isTableChangedFlag = false
-//       } else {
-//         tablePagination.value.current = 1
-//       }
-//     }
-//   }
-// )
+const refetch = (param: any) => getDataSource(param);
 
 /**
  * 테이블 Row에 대한 이벤트를 제공하는 함수
@@ -90,14 +111,18 @@ const customRow = (record: object) => ({
   }
 })
 
-
 const onDeleteRow = () => {
   emits('rowSelect', unref(selectedRows));
 }
 
+const onSearch = () => {
+  getDataSource({ param: { searchWord: unref(searchWord) } });
+}
+
 defineExpose({
   getDataSource,
-  getColumns
+  getColumns,
+  refetch
 })
 
 </script>
@@ -106,26 +131,39 @@ defineExpose({
   <div class="dynamic-table-containter">
     <div class="table-header">
       <Space>
-        <span v-if="dataSource.length !== null">{{
+        <span class="total-count" v-if="dataSource.length !== null">{{
           $t('common.tableTotalText', { count: dataSource.length })
         }}</span>
 
         <div class="table-search">
-          <a-input :placeholder="$t('common.searchPlaceholder')">
+          <a-input v-model:value="searchWord" :placeholder="$t('common.searchPlaceholder')" @press-enter="onSearch"
+            allow-clear>
             <template #suffix>
-              <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" />
+              <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" @click="onSearch" />
             </template>
           </a-input>
         </div>
-
         <div class="table-btns">
           <Space>
-            <TableSegmentButton />
+            <!-- <TableSegmentButton /> -->
             <slot name="tableBtns"></slot>
 
-            <Button :label="$t('common.delete')" size="large" @click="onDeleteRow" />
+            <Button v-if="selectedRows.length" :label="$t('common.delete')" size="large" @click="onDeleteRow" />
+            <div v-else :style="{ width: '56px' }"></div>
             <Button :label="$t('common.registration')" size="large" @click="$emit('rowAdd')" />
 
+            <Button :label="''" size="large" @click="onReload">
+              <template #icon>
+                <font-awesome-icon icon="rotate" :class="[isReload && 'rotating']" />
+                <!-- <font-awesome-icon icon="arrow-rotate-right" :class="[isReload && 'rotating']" /> -->
+              </template>
+            </Button>
+            <Button :label="''" size="large">
+              <template #icon>
+                <DownloadOutlined />
+              </template>
+            </Button>
+            <TableSegmentButton />
             <Button type="primary" :label="$t('common.filterText')" size="large" @click="showFilter = !showFilter" />
           </Space>
         </div>
@@ -137,7 +175,7 @@ defineExpose({
         <div class="table-content" :style="{ flex: showFilter ? 0.7 : 1 }">
           <TableTags />
 
-          <div class="table-toolbar">
+          <!-- <div class="table-toolbar">
             <Space>
               <a-button>
                 <template #icon>
@@ -150,7 +188,7 @@ defineExpose({
                 </template>
               </a-button>
             </Space>
-          </div>
+          </div> -->
 
           <!-- <a-divider></a-divider> -->
           <!-- <Space>
@@ -183,6 +221,11 @@ defineExpose({
     // align-items: center;
     // justify-content: space-between;
     margin: 1rem 0 1.5rem 0;
+
+    .total-count {
+      font-size: 14px;
+      font-weight: 400;
+    }
 
     :deep(.ant-space) {
       display: flex;
@@ -242,7 +285,7 @@ defineExpose({
           overflow: auto;
 
           .ant-table-thead {
-            color: rgb(4, 17, 29) !important;
+            color: $color-dark !important;
 
             th {
               background: transparent !important;
@@ -264,6 +307,20 @@ defineExpose({
         height: calc(100vh - 240px);
       }
     }
+  }
+
+  @-webkit-keyframes rotating {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  .rotating {
+    -webkit-animation: rotating 0.5s linear infinite;
   }
 }
 </style>

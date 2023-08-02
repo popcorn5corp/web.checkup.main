@@ -4,6 +4,8 @@ import type { IBaseSample, IBaseSampleService, SortCodesResponse } from './inter
 class BaseSampleService implements IBaseSampleService {
   readonly PATH: string = '/sample-board'
 
+  constructor() {}
+
   getAll(param: IBaseSample.BaseSamplesParam) {
     return service.get<IBaseSample.BaseSamples>(`/sample-board/posts`, param)
   }

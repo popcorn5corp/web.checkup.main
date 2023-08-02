@@ -2,6 +2,7 @@ import { reactive, toRefs } from 'vue'
 import type { DynamicTableProps } from '../types'
 import type { TableColumnType } from 'ant-design-vue'
 import type { SortCodesResponse } from '@/services/BaseSample/interface'
+import { cloneDeep } from 'lodash-es'
 
 interface State {
   columns: TableColumnType[]
@@ -28,13 +29,11 @@ export const useColumns = (
 
     const response: SortCodesResponse = await request()
 
-    console.log('response : ', response)
-
     if (response) {
       const { isSortable, enabledSortCodes } = response
 
       if (isSortable && initColumns) {
-        let columns: TableColumnType[] = JSON.parse(JSON.stringify(initColumns))
+        let columns: TableColumnType[] = cloneDeep(initColumns)
 
         columns.map((column) => {
           const index = enabledSortCodes.findIndex((r) => r.sortCode === column.key)
@@ -59,13 +58,6 @@ export const useColumns = (
       }
     }
   }
-
-  const oColumn = () => ({
-    title: 'No',
-    align: 'center',
-    dataIndex: 'index',
-    key: 'index'
-  })
 
   return {
     ...toRefs(state),

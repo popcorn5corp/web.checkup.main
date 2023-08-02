@@ -17,7 +17,7 @@ import { getDefaultPost } from './constant';
 const DEFAULT_MODE = modes.R;
 
 const { t } = useI18n()
-const dynamicTable = ref();
+const dynamicTableInstance = ref();
 const postDetailRef = ref();
 const isOpen = ref(false);
 const isLoading = ref(false);
@@ -33,10 +33,6 @@ const title = computed(() => {
   }
 });
 
-// BaseSampleService.getSortableCodes().then(res => {
-//   console.log('getSortableCodes :: ', res);
-// })
-
 const initParam = ref<IBaseSample.BaseSamplesParam>({
   searchEndDate: '',
   searchStartDate: '',
@@ -44,7 +40,7 @@ const initParam = ref<IBaseSample.BaseSamplesParam>({
   size: 10,
   page: 1,
   division: 'PUBLIC',
-  sort: '-boardTitle,boardContent',
+  sort: undefined,
 })
 
 const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
@@ -98,9 +94,9 @@ const onOpenSaveModal = (): void => {
     content: t('common.message.modalSaveCheck'),
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
-      postDetailRef.value.onSubmit().then((valid: any) => {
+      postDetailRef.value.onSubmit().then(() => {
         callServiceByMode(() => {
-          dynamicTable.value.getDataSource();
+          dynamicTableInstance.value.refetch({ isReset: true });
           initState();
 
           setTimeout(() => {
@@ -125,8 +121,8 @@ const onRemovePost = (selectedRows: IBaseSample.Content[]): void => {
     // width: 600,
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
-      BaseSampleService.deleteOne(selectedRows[0].boardId).then(res => {
-        dynamicTable.value.getDataSource();
+      BaseSampleService.deleteOne(selectedRows[0].boardId).then(response => {
+        dynamicTableInstance.value.refetch({ isReset: true });
 
         setTimeout(() => {
           message.success(t('common.message.deleteSuccess'), 1);
@@ -203,7 +199,7 @@ const onClickRegist = (): void => {
 </script>
 
 <template>
-  <DynamicTable :row-key="'boardId'" ref="dynamicTable" :columns="columns" :data-request="getDataSource"
+  <DynamicTable :row-key="'boardId'" ref="dynamicTableInstance" :columns="columns" :data-request="getDataSource"
     :data-callback="dataCallback" :init-columns="columns" :column-request="getColumns" :init-param="initParam"
     @row-click="onClickRow" @row-select="onRemovePost" @rowAdd="onClickRegist">
     <template #tableBtns="scope">

@@ -1,7 +1,8 @@
-import { computed, reactive, toRefs, watch } from 'vue'
+import { computed, reactive, toRefs } from 'vue'
 import type { DynamicTableProps, TablePagination, TableSorter } from '../types'
 import type { TableCurrentDataSource, TableRowSelection } from 'ant-design-vue/es/table/interface'
 import type { TableFilterState } from '@/stores/interface'
+import { isArray, isEmpty } from '@/utils/is'
 
 interface State {
   dataSource: any[]
@@ -10,6 +11,11 @@ interface State {
   requestParam: Object
   isLoading: boolean
   selectedRowKeys: Key[]
+  sorter: Array<{
+    columnKey: string
+    order: 'descend' | 'ascend'
+  }>
+  searchWord: string
 }
 
 function getDefaultPagination(): TablePagination {
@@ -34,17 +40,20 @@ export const useTable = (
 ) => {
   const state = reactive<State>({
     dataSource: [],
+    total: 0,
+    requestParam: {},
+    isLoading: false,
+    selectedRowKeys: [],
     pagination: {
       ...getDefaultPagination(),
       pageSize: initParam.size,
       current: initParam.page
     },
-    total: 0,
-    requestParam: {},
-    isLoading: false,
-    selectedRowKeys: []
+    sorter: [],
+    searchWord: ''
   })
 
+  const isSorting = computed(() => state.sorter.length)
   const paginationParam = computed({
     get: () => {
       return {
@@ -52,35 +61,71 @@ export const useTable = (
         size: state.pagination.pageSize
       }
     },
-    set: (newVal) => {
-      console.log(newVal)
-    }
+    set: (newVal) => {}
   })
 
-  const getDataSource = async () => {
+  // TODO
+  const sorterParam = computed({
+    get: () => {
+      let param = ''
+      state.sorter.map((r, i) => {
+        param =
+          param + `${i !== 0 ? ',' : ''}` + `${r.order === 'descend' ? '-' : ''}${r.columnKey}`
+      })
+
+      return {
+        sort: param === '' ? undefined : param
+      }
+    },
+    set: (newVal) => {}
+  })
+
+  const getDataSource = async (options?: {
+    isReset?: boolean
+    param?: { searchWord?: string }
+  }): Promise<void> => {
     if (!request) return
 
     try {
       state.isLoading = true
       let dataSource = []
-      let requestParam = {
-        ...state.requestParam,
-        ...initParam
+      let requestParam: State['requestParam'] = {}
+
+      if (!options?.isReset) {
+        requestParam = {
+          ...initParam,
+          ...state.requestParam,
+          searchWord: state.searchWord
+        }
+
+        // TODO
+        if (options?.param!.searchWord || options?.param!.searchWord === '') {
+          requestParam = {
+            ...requestParam,
+            searchWord: options.param.searchWord
+          }
+
+          state.searchWord = options.param.searchWord
+          state.pagination.current = getDefaultPagination().current
+        }
+      } else {
+        requestParam = {
+          ...initParam
+        }
+
+        state.pagination = getDefaultPagination()
+        state.sorter = []
       }
 
-      if (isPagination) {
-        requestParam = {
-          ...requestParam,
-          ...paginationParam.value
-        }
-      }
+      isPagination && Object.assign(requestParam, paginationParam.value)
+      isSorting && Object.assign(requestParam, sorterParam.value)
 
       const {
         posts: { content, totalElements }
       } = await request(requestParam)
 
       // index 설정
-      content.map((record: Record<string, any>, i: number) => {
+      content.map((record: Recordable, i: number) => {
         record['key'] = i
       })
 
@@ -91,24 +136,20 @@ export const useTable = (
       state.dataSource = content
       state.pagination.total = totalElements
     } catch (e) {
-      console.log('ee', e)
+      console.log(e)
     }
 
-    state.isLoading = false
+    setTimeout(() => {
+      state.isLoading = false
+    }, 300)
   }
-
-  // watch(refetch, () => {
-  //   console.log('asdasd')
-  // })
 
   const changeTable = (
     pagination: TablePagination,
-    filters: TableFilterState,
-    sorters: TableSorter | TableSorter[],
+    filter: TableFilterState,
+    sorter: TableSorter | TableSorter[],
     extra: TableCurrentDataSource
   ) => {
-    // console.log('changeTable :: ', sorters, extra)
-
     const { pageSize, current } = pagination
     // // 페이지 사이즈 변경 시, 첫 페이지로 이동
     // // const isChangePageSize = tablePagination.value.pageSize !== pageSize
@@ -119,6 +160,11 @@ export const useTable = (
       ...state.pagination,
       pageSize,
       current
+    }
+
+    // case: '{}' / column: undefined
+    if (!isEmpty(sorter)) {
+      state.sorter = isArray(sorter) ? sorter : !(sorter as TableSorter).column ? [] : [sorter]
     }
 
     getDataSource()
@@ -133,18 +179,14 @@ export const useTable = (
     }
   }
 
-  const refetch = () => {
-    getDataSource()
-  }
-
   const rowSelection = computed<TableRowSelection>(() => {
     return {
       selectedRowKeys: state.selectedRowKeys,
       onChange: (changableRowKeys: Key[]) => {
         console.log('selectedRowKeys changed: ', changableRowKeys)
         state.selectedRowKeys = changableRowKeys
-      }
-      // hideDefaultSelections: true,
+      },
+      hideDefaultSelections: true
     }
   })
 
@@ -185,12 +227,26 @@ export const useTable = (
   //   })
   // }
 
+  // watch(
+  //   () => dataSource?.value,
+  //   () => {
+  //     // pagination 사용하는 경우
+  //     if (options.value.isPagination) {
+  //       // 검색조건 변경일 경우, current 초기화
+  //       if (isTableChangedFlag) {
+  //         isTableChangedFlag = false
+  //       } else {
+  //         tablePagination.value.current = 1
+  //       }
+  //     }
+  //   }
+  // )
+
   return {
     ...toRefs(state),
     getDataSource,
     changeTable,
     getRecordNo,
-    refetch,
     rowSelection
   }
 }

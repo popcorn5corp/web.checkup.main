@@ -85,13 +85,13 @@ interface RequestPagination {
 interface RequestParam extends RequestPagination {}
 
 export interface DynamicTableProps extends TableProps {
-  mode?: 'basic' | 'dynamic'
-  dataRequest?: (params: any) => Promise<any> // 테이블 데이터 API 처리
+  rowKey?: string | 'key' // 데이터 테이블 리스트 랜던링에 사용되는 key
+  mode?: 'basic' | 'dynamic' // 데이터 테이블 Mode
+  dataRequest: (params: any) => Promise<any> // 테이블 데이터 API 처리
   dataCallback?: (data: any) => any // 데이터를 후처리 할 수 있는 callback 함수 제공
-  columnRequest?: () => Promise<any> // 테이블 칼럼 정보에 대한 API
-  initParam?: RequestParam // API 호출을 위한 초기 Request Parameter
-  initColumns?: TableColumnType[] // 정적으로 정의된 테이블 칼럼 정보
-  rowKey?: string | 'id' // 데이터 테이블 랜던링에 사용되는 key
+  columnRequest: () => Promise<any> // 테이블 칼럼 정보에 대한 API
+  initParam: RequestParam // API 호출을 위한 초기 Request Parameter
+  initColumns: TableColumnType[] // 정적으로 정의된 테이블 칼럼 정보
   showToolbar?: boolean // 데이터 테이블 Toolbar 노출 여부
 }
 

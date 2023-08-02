@@ -64,7 +64,9 @@ const onClose = (options: LabelValueOptions, type = null) => removeTag(options, 
             <div style="padding: 4px 4px">
               <template v-if="payload.icon">
                 <a-avatar>
-                  <template #icon><component :is="payload.icon" /></template>
+                  <template #icon>
+                    <component :is="payload.icon" />
+                  </template>
                 </a-avatar>
               </template>
             </div>
@@ -73,12 +75,8 @@ const onClose = (options: LabelValueOptions, type = null) => removeTag(options, 
       </div>
 
       <div>
-        <Button
-          class="table-btn"
-          :label="$t('common.filterText')"
-          size="large"
-          @click="showFilter = showFilter ? false : true"
-        />
+        <Button class="table-btn" :label="$t('common.filterText')" size="large"
+          @click="showFilter = showFilter ? false : true" />
       </div>
     </div>
 
@@ -94,9 +92,7 @@ const onClose = (options: LabelValueOptions, type = null) => removeTag(options, 
               <template v-for="{ label, value, type } in tag">
                 <p v-if="value !== null" :class="isRealDarkClass">
                   <span>{{ label }}</span>
-                  <span @click="onClose({ label, value }, type)"
-                    ><font-awesome-icon :icon="['fas', 'xmark']"
-                  /></span>
+                  <span @click="onClose({ label, value }, type)"><font-awesome-icon :icon="['fas', 'xmark']" /></span>
                 </p>
               </template>
 
@@ -105,18 +101,9 @@ const onClose = (options: LabelValueOptions, type = null) => removeTag(options, 
               </template>
             </template>
           </div>
-          <Table
-            :columns="columns"
-            :dataSource="dataSource"
-            :total="dataSource.length"
-            :options="options"
-          />
+          <Table :columns="columns" :dataSource="dataSource" :total="dataSource.length" :options="options" />
         </div>
-        <Filter
-          class="table-filter"
-          v-if="showFilter"
-          @showFilter="(flag: boolean) => (showFilter = flag)"
-        />
+        <Filter class="table-filter" v-if="showFilter" @showFilter="(flag: boolean) => (showFilter = flag)" />
       </div>
     </div>
   </div>
@@ -140,6 +127,7 @@ const onClose = (options: LabelValueOptions, type = null) => removeTag(options, 
       align-items: center;
       border-radius: 9px;
     }
+
     :deep(.ant-select) {
       width: 100%;
     }
@@ -154,13 +142,15 @@ const onClose = (options: LabelValueOptions, type = null) => removeTag(options, 
 .table-body {
   display: flex;
   flex-direction: column;
-  > span {
+
+  >span {
     margin-bottom: 16px;
   }
 
   .table-content-wrapper {
     display: flex;
   }
+
   .table-content {
     flex: 0.7;
 
@@ -171,6 +161,7 @@ const onClose = (options: LabelValueOptions, type = null) => removeTag(options, 
     .table-tags {
       display: flex;
       flex-wrap: wrap;
+
       p {
         display: flex;
         justify-content: space-between;
@@ -186,6 +177,7 @@ const onClose = (options: LabelValueOptions, type = null) => removeTag(options, 
         font-weight: 500;
         font-size: 14px;
         gap: 14px;
+
         :nth-child(2) {
           cursor: pointer;
         }
@@ -206,7 +198,7 @@ const onClose = (options: LabelValueOptions, type = null) => removeTag(options, 
 
 :deep(.ant-avatar) {
   background: transparent;
-  color: rgb(4, 17, 29);
+  color: $color-dark;
   font-size: 17px !important;
 }
 
@@ -214,6 +206,7 @@ const onClose = (options: LabelValueOptions, type = null) => removeTag(options, 
 :deep(.ant-input-affix-wrapper) {
   border-radius: 9px !important;
 }
+
 :deep(.ant-segmented-item-selected, ) {
   border-radius: 7px;
 }
