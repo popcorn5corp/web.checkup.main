@@ -15,7 +15,10 @@ export function useTag() {
 
   function removeTag(options: LabelValueOptions, type: FilterType | null) {
     filterList.map((filter) => {
-      if (filter.type === FilterTypes.DATEPICKER || filter.type === FilterTypes.RANGEDATEPICKER) {
+      if (
+        filter.type === FilterTypes.DATE_PICKER ||
+        filter.type === FilterTypes.RANGE_DATE_PICKER
+      ) {
         type === filter.type && (filter.selectedItems = [])
       } else {
         filter.selectedItems = filter.selectedItems.filter(

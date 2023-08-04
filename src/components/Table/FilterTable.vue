@@ -3,7 +3,7 @@ import { ref, type PropType, computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Segmented } from 'ant-design-vue'
 import { UnorderedListOutlined, TableOutlined } from '@ant-design/icons-vue'
-import { useTag } from '@/hooks/useTag'
+import { useTag } from './hooks/useTag'
 
 import Filter from './components/Filter.vue'
 import { Table } from './index'

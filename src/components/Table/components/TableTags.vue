@@ -1,6 +1,6 @@
 <script setup lang="ts" name="TableTags">
 import { computed } from 'vue'
-import { useTag } from '@/hooks/useTag'
+import { useTag } from '../hooks/useTag'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 
 const { config } = useProjectConfigStore()
@@ -19,9 +19,7 @@ const onClick = () => initTag()
       <template v-for="{ label, value, type } in tag">
         <p v-if="value !== null" class="table-tag" :class="isRealDarkClass">
           <span>{{ label }}</span>
-          <span @click="onClose({ label, value }, type)"
-            ><font-awesome-icon :icon="['fas', 'xmark']"
-          /></span>
+          <span @click="onClose({ label, value }, type)"><font-awesome-icon :icon="['fas', 'xmark']" /></span>
         </p>
       </template>
     </template>

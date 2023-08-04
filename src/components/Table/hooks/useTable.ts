@@ -1,8 +1,9 @@
-import { computed, reactive, toRefs } from 'vue'
-import type { DynamicTableProps, TablePagination, TableSorter } from '../types'
-import type { TableCurrentDataSource, TableRowSelection } from 'ant-design-vue/es/table/interface'
-import type { TableFilterState } from '@/stores/interface'
+import { computed, reactive, toRefs, ref, watch } from 'vue'
+import type { DynamicTableProps, FilterType, TablePagination, TableSorter } from '../types'
+import type { TableRowSelection } from 'ant-design-vue/es/table/interface'
 import { isArray, isEmpty } from '@/utils/is'
+import type { TableProps } from 'ant-design-vue'
+import { useTableFilterStore } from '@/stores/modules/tableFilter'
 
 interface State {
   dataSource: any[]
@@ -38,6 +39,18 @@ export const useTable = (
   isPagination: boolean = true,
   dataCallback?: DynamicTableProps['dataCallback']
 ) => {
+  const { filterList } = useTableFilterStore()
+  const requestParams = ref()
+
+  // function addParams() {
+  //   filterList.map((filter) => {
+  //     const { type, selectedItems } = filter
+  //     requestParams.value[type] = selectedItems
+  //   })
+  // }
+
+  // watch(filterList, () => addParams())
+
   const state = reactive<State>({
     dataSource: [],
     total: 0,
@@ -63,8 +76,6 @@ export const useTable = (
     },
     set: (newVal) => {}
   })
-
-  // TODO
   const sorterParam = computed({
     get: () => {
       let param = ''
@@ -98,7 +109,6 @@ export const useTable = (
           searchWord: state.searchWord
         }
 
-        // TODO
         if (options?.param!.searchWord || options?.param!.searchWord === '') {
           requestParam = {
             ...requestParam,
@@ -144,12 +154,7 @@ export const useTable = (
     }, 300)
   }
 
-  const changeTable = (
-    pagination: TablePagination,
-    filter: TableFilterState,
-    sorter: TableSorter | TableSorter[],
-    extra: TableCurrentDataSource
-  ) => {
+  const changeTable: TableProps['onChange'] = (pagination, filters, sorter, extra) => {
     const { pageSize, current } = pagination
     // // 페이지 사이즈 변경 시, 첫 페이지로 이동
     // // const isChangePageSize = tablePagination.value.pageSize !== pageSize
@@ -158,8 +163,8 @@ export const useTable = (
     // tablePagination.value.current = isChangePageSize ? 1 : current
     state.pagination = {
       ...state.pagination,
-      pageSize,
-      current
+      pageSize: pageSize as number,
+      current: current as number
     }
 
     // case: '{}' / column: undefined
@@ -248,5 +253,6 @@ export const useTable = (
     changeTable,
     getRecordNo,
     rowSelection
+    // addParams
   }
 }

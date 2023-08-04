@@ -45,7 +45,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
       <ul :class="isRealDarkClass">
         <li :class="isRealDarkClass" class="flex-direction-columns">
           <div v-for="(item, index) in filterList" :key="index">
-            <div class="filter-title" @click="() => (item.open = item.open ? false : true)">
+            <div class="filter-title" @click="() => (item.open = !item.open)">
               <h3>{{ item.title }}</h3>
 
               <template v-if="item.open">
@@ -86,7 +86,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
 .filter-list {
   width: 100%;
   background: white;
-  z-index: 1;
+  z-index: 10;
 
   .mobile-header,
   .mobile-footer {
@@ -174,7 +174,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
 
     animation: slideUp 0.5s;
 
-    background: #ffffff;
+    background: $color-white;
     position: absolute;
     top: -7px;
     left: 0px;
@@ -190,7 +190,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
       align-items: center;
       font-size: 16px;
       font-weight: 600;
-      background: rgb(255, 255, 255);
+      background: $color-white;
 
       >div {
         display: flex;
@@ -222,7 +222,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
 }
 
 .dark-mode {
-  background: #001529 !important;
-  color: white !important;
+  background: $color-dark !important;
+  color: $color-white !important;
 }
 </style>

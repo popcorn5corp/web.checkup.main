@@ -7,11 +7,11 @@ export const columns = ref<TableColumnsType>([
   {
     title: '게시물 제목',
     dataIndex: 'boardTitle',
-    key: 'boardTitle',
-    sorter: {
-      compare: (a, b) => a.boardTitle - b.boardTitle,
-      multiple: 1
-    }
+    key: 'boardTitle'
+    // sorter: {
+    //   compare: (a, b) => a.boardTitle - b.boardTitle,
+    //   multiple: 1
+    // }
   },
   {
     title: '게시물 내용',
@@ -26,24 +26,20 @@ export const columns = ref<TableColumnsType>([
   {
     title: '게시물 구분',
     dataIndex: 'division',
-    key: 'division',
-    sorter: {
-      compare: (a, b) => a.division - b.division,
-      multiple: 2
-    }
+    key: 'division'
   }
 ])
 
 export const filterList: Filter[] = [
   {
-    type: FilterTypes.DATEPICKER,
+    type: FilterTypes.DATE_PICKER,
     title: '조회날짜',
     open: true,
     options: [],
     selectedItems: []
   },
   {
-    type: FilterTypes.RANGEDATEPICKER,
+    type: FilterTypes.RANGE_DATE_PICKER,
     title: '조회날짜',
     open: true,
     options: [],

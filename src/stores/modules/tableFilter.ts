@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { filterList } from '@/components/Table/mock'
-import { useTable } from '@/hooks/useTable'
+import { useTable } from '@/components/Table/hooks/useTable'
 
 import type { TableFilterState } from '../interface'
 import type { Filter } from '@/components/Table/types'
@@ -19,8 +19,8 @@ export const useTableFilterStore = defineStore('tableFilter', () => {
       filter.type === type && (filter.selectedItems = options as [])
     })
 
-    const { addParams } = useTable()
-    addParams()
+    // const { addParams } = useTable()
+    // addParams()
   }
 
   function setFilterList(newFilterList: Filter[]) {

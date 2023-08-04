@@ -1,7 +1,7 @@
 <script setup lang="ts" name="PostDetail">
 import { type UnwrapRef, computed, reactive, toRefs, watch, ref, onMounted } from 'vue';
 import type { IBaseSample } from '@/services/BaseSample/interface';
-import _ from 'lodash-es';
+import { cloneDeep } from 'lodash-es';
 import { getDefaultPost } from '../constant';
 
 interface PostDetailProps {
@@ -29,14 +29,14 @@ const formState: UnwrapRef<FormState> = reactive({
 
 watch(() => props.data, (post) => {
   formState.post = post;
-  formState.clonePost = _.cloneDeep(post);
+  formState.clonePost = cloneDeep(post);
 },
   {
     immediate: true
   })
 
 const rollbackPost = () => {
-  formState.post = _.cloneDeep(formState.clonePost)
+  formState.post = cloneDeep(formState.clonePost)
 }
 
 const getPostDetail = () =>

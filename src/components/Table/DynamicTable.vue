@@ -10,7 +10,7 @@ import TableTags from './components/TableTags.vue'
 import { useTable } from './hooks/useTable';
 import { useSelection } from './hooks/useSelection'
 import { useColumns } from './hooks/useColumns'
-import { useTag } from '@/hooks/useTag'
+import { useTag } from './hooks/useTag'
 
 import type { DynamicTableProps } from './types'
 
@@ -55,13 +55,17 @@ const { getColumns, columns } = useColumns(props.columnRequest, props.initColumn
  */
 const { tags, initTag } = useTag();
 
-watch(() => tags.value, () => {
-  isLoading.value = true;
 
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 300)
-})
+
+// watch(() => tags.value, () => {
+//   isLoading.value = true;
+
+//   setTimeout(() => {
+//     isLoading.value = false;
+//   }, 300)
+// }, {
+//   deep: false
+// })
 
 onMounted(() => {
   // temp code
@@ -74,7 +78,6 @@ onMounted(() => {
 
 watch(() => props.initColumns, async () => {
   await getColumns();
-  // getDataSource();
 }, {
   immediate: true,
   deep: true
@@ -98,7 +101,6 @@ const onReload = () => {
   }, 1000);
 }
 
-const refetch = (param: any) => getDataSource(param);
 
 /**
  * 테이블 Row에 대한 이벤트를 제공하는 함수
@@ -111,13 +113,12 @@ const customRow = (record: object) => ({
   }
 })
 
-const onDeleteRow = () => {
-  emits('rowSelect', unref(selectedRows));
-}
-
 const onSearch = () => {
   getDataSource({ param: { searchWord: unref(searchWord) } });
 }
+
+const refetch = (param: any) => getDataSource(param);
+
 
 defineExpose({
   getDataSource,
@@ -148,7 +149,8 @@ defineExpose({
             <!-- <TableSegmentButton /> -->
             <slot name="tableBtns"></slot>
 
-            <Button v-if="selectedRows.length" :label="$t('common.delete')" size="large" @click="onDeleteRow" />
+            <Button v-if="selectedRows.length" :label="$t('common.delete')" size="large"
+              @click="$emit('rowSelect', unref(selectedRows))" />
             <div v-else :style="{ width: '56px' }"></div>
             <Button :label="$t('common.registration')" size="large" @click="$emit('rowAdd')" />
 
@@ -281,7 +283,7 @@ defineExpose({
 
         :deep(.ant-table) {
           // overflow-y: auto
-          height: calc(100vh - 280px);
+          height: calc(100vh - 320px);
           overflow: auto;
 
           .ant-table-thead {

@@ -87,7 +87,7 @@ const getColumns = (): Promise<SortCodesResponse> => {
 }
 
 /**
- * @description 게시물 수정
+ * @description 게시물 등록 및 수정
  */
 const onOpenSaveModal = (): void => {
   Modal.confirm({

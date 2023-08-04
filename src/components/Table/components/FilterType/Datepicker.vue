@@ -7,7 +7,7 @@ import type { Dayjs } from 'dayjs'
 const props = defineProps({
   item: {
     type: Object as PropType<Filter>,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -20,12 +20,12 @@ const onRangeChange = (value: string | Dayjs, dateString: string) => {
     dateString === ''
       ? []
       : [
-          {
-            label: dateString,
-            value: dateString,
-            type: FilterTypes.DATEPICKER
-          }
-        ]
+        {
+          label: dateString,
+          value: dateString,
+          type: FilterTypes.DATE_PICKER
+        }
+      ]
 
   setSelectedFilterData(type.value, options)
 }

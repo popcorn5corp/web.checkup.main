@@ -8,6 +8,15 @@
           </span>
         </Space>
       </slot>
+      <div>
+        <div class="scroller">
+          <span>
+            [공지사항] 체크업서비스 사용법 안내 <br />
+            [공지사항] 체크업서비스 EMS 신규메뉴가 추가되었습니다.<a-tag color="yellow">new</a-tag><br />
+            [공지사항] 서비스 업그레이드를 통해 더 많은 기능을 이용해보세요. <br />
+          </span>
+        </div>
+      </div>
     </Space>
     <Space :size="20">
       <UserDropdown />
@@ -62,6 +71,40 @@ const headerStyle = computed<CSSProperties>(() => {
 
   * {
     cursor: pointer;
+  }
+
+  .scroller {
+    height: 1.5em;
+    line-height: 1.2em;
+    position: relative;
+    overflow: hidden;
+    width: 500px;
+  }
+
+  .scroller>span {
+    position: absolute;
+    top: 0;
+    animation: slide 10s infinite;
+    font-weight: 500;
+
+  }
+
+  @keyframes slide {
+    0% {
+      top: 0;
+    }
+
+    25% {
+      top: -1.2em;
+    }
+
+    50% {
+      top: -2.4em;
+    }
+
+    // 75% {
+    //   top: -3.6em;
+    // }
   }
 }
 </style>
