@@ -8,15 +8,13 @@
           </span>
         </Space>
       </slot>
-      <div>
-        <div class="scroller">
-          <span>
-            [공지사항] 체크업서비스 사용법 안내 <br />
-            [공지사항] 체크업서비스 EMS 신규메뉴가 추가되었습니다.<a-tag color="yellow">new</a-tag><br />
-            [공지사항] 서비스 업그레이드를 통해 더 많은 기능을 이용해보세요. <br />
-          </span>
-        </div>
-      </div>
+
+      <rolling-text :list="rollingList" :width="400">
+        <template #default="{ marquee }">
+          <span>{{ marquee.title }} <a-tag v-if="marquee.isNew" color="#ffc53d">New</a-tag> </span>
+        </template>
+      </rolling-text>
+
     </Space>
     <Space :size="20">
       <UserDropdown />
@@ -25,11 +23,13 @@
 </template>
 
 <script lang="ts" setup name="Header">
-import { computed, type CSSProperties, type PropType } from 'vue'
+import { computed, ref, type CSSProperties, type PropType, watch } from 'vue'
 import { Layout, Space, type MenuTheme } from 'ant-design-vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/Icon'
 import UserDropdown from './components/UserDropdown.vue'
+import RollingText from './components/RollingText.vue'
+import { rollingList } from './data/index';
 
 const emit = defineEmits(['update:collapsed'])
 const props = defineProps({
@@ -47,15 +47,16 @@ const headerStyle = computed<CSSProperties>(() => {
   const {
     theme: { navTheme, menuPosition }
   } = config
-  // const isDark = navTheme === 'dark' && menuPosition === 'topmenu'
-  // const isDark = navTheme === 'dark'
+
   return {
     backgroundColor:
       navTheme === 'realDark' || (navTheme === 'dark' && menuPosition === 'topmenu')
         ? ''
-        : 'rgba(255, 255, 255, 0.85)'
+        : 'rgba(255, 255, 255, 0.85)',
+    color: (navTheme === 'dark' && menuPosition === 'topmenu') ? 'rgba(255, 255, 255, 0.85)' : ''
   }
 })
+
 </script>
 
 <style lang="scss" scoped>
