@@ -9,11 +9,11 @@
         </Space>
       </slot>
 
-      <rolling-text :list="rollingList" :width="400">
+      <RollingText :list="rollingList" :width="400">
         <template #default="{ marquee }">
           <span>{{ marquee.title }} <a-tag v-if="marquee.isNew" color="#ffc53d">New</a-tag> </span>
         </template>
-      </rolling-text>
+      </RollingText>
 
     </Space>
     <Space :size="20">

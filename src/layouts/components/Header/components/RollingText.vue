@@ -15,16 +15,16 @@ interface Props {
     title: string
     isNew: boolean;
   }>
-  width: number;
-  height: number;
-  duration: number;
-  speed: number;
+  width?: number;
+  height?: number;
+  duration?: number;
+  speed?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   width: 200,
   height: 35,
-  duration: 1000,
+  duration: 5000,
   speed: 1000
 })
 
