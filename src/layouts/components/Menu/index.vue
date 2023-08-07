@@ -9,14 +9,8 @@
     <!-- <hr style="border-top: 3px solid #bbb" /> -->
 
     <div class="menu-content" :class="{ 'is-side-menu': isSideMenu }">
-      <Menu
-        v-model:selected-keys="state.selectedKeys"
-        :open-keys="isSideMenu ? state.openKeys : []"
-        :mode="isSideMenu ? 'inline' : 'horizontal'"
-        :theme="theme"
-        :collapsed="props.collapsed"
-        @click="onClickMenuItem"
-      >
+      <Menu v-model:selected-keys="state.selectedKeys" :open-keys="isSideMenu ? state.openKeys : []"
+        :mode="isSideMenu ? 'inline' : 'horizontal'" :theme="theme" :collapsed="props.collapsed" @click="onClickMenuItem">
         <MenuItem :menus="menuList" />
       </Menu>
     </div>
@@ -140,6 +134,7 @@ const onClickMenuItem = ({ key }: any) => {
     -webkit-box-shadow: 1px 1px 4px #0c1e35;
     box-shadow: 1px 1px 4px #0c1e35;
   }
+
   // .text-divider {
   //   --text-divider-gap: 1rem;
   //   display: flex;
@@ -172,8 +167,9 @@ const onClickMenuItem = ({ key }: any) => {
 
     :deep(.ant-menu) {
       height: 100%;
+
       &.ant-menu-root {
-        margin-top: 10px;
+        // margin-top: 10px;
       }
 
       .ant-menu-sub-menu {

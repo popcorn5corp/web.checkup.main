@@ -12,7 +12,8 @@ import { useSelection } from './hooks/useSelection'
 import { useColumns } from './hooks/useColumns'
 import { useTag } from './hooks/useTag'
 
-import type { DynamicTableProps } from './types'
+import type { DynamicTableProps } from './interface'
+import { useI18n } from 'vue-i18n';
 
 const emits = defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
 const props = withDefaults(defineProps<DynamicTableProps>(), {
@@ -77,7 +78,7 @@ onMounted(() => {
 });
 
 watch(() => props.initColumns, async () => {
-  await getColumns();
+  getColumns()
 }, {
   immediate: true,
   deep: true
@@ -100,7 +101,6 @@ const onReload = () => {
     isReload.value = false;
   }, 1000);
 }
-
 
 /**
  * 테이블 Row에 대한 이벤트를 제공하는 함수

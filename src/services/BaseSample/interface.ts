@@ -1,12 +1,12 @@
-export interface IBaseSampleService {
-  getAll: (param: IBaseSample.BaseSamplesParam) => Promise<IBaseSample.BaseSamples>
-  getOneById: (id: string) => Promise<IBaseSample.BaseSample>
-  updateOne: (param: IBaseSample.BaseSampleUpdateParam) => Promise<IBaseSample.BaseSample>
-  createOne: (param: IBaseSample.BaseSampleCreateParam) => Promise<IBaseSample.Content>
-  deleteOne: (id: string) => Promise<any>
-  getSortableCodes: () => Promise<SortCodesResponse>
-  fileDwonload: () => Promise<any>
-}
+// export interface IBaseSampleService {
+//   getAll: (param: IBaseSample.BaseSamplesParam) => Promise<IBaseSample.BaseSamples>
+//   getOneById: (id: string) => Promise<IBaseSample.BaseSample>
+//   updateOne: (param: IBaseSample.BaseSampleUpdateParam) => Promise<IBaseSample.BaseSample>
+//   createOne: (param: IBaseSample.BaseSampleCreateParam) => Promise<IBaseSample.Content>
+//   deleteOne: (id: string) => Promise<any>
+//   getSortableCodes: () => Promise<SortCodesResponse>
+//   fileDwonload: () => Promise<any>
+// }
 
 export interface ConditionParam {
   sort?: string;

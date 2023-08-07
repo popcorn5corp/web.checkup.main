@@ -53,49 +53,22 @@ export class AxiosHttpClient {
     )
   }
 
-  /**
-   * @description Rest APIs
-   */
-  public get<T>(url: string, params?: object, _object = {}): Promise<T> {
-    return this.axiosInstance.get(url, { params, ..._object })
-  }
-  public post<T>(url: string, params?: object | string, _object = {}): Promise<T> {
-    return this.axiosInstance.post(url, params, _object)
-  }
-  public put<T>(url: string, params?: object, _object = {}): Promise<T> {
-    return this.axiosInstance.put(url, params, _object)
-  }
-  public delete<T>(url: string, params?: any, _object = {}): Promise<T> {
-    return this.axiosInstance.delete(url, { params, ..._object })
-  }
-  public download(url: string, params?: object, _object = {}): Promise<BlobPart> {
-    return this.axiosInstance.post(url, params, { ..._object, responseType: 'blob' })
-  }
-  public uploadFile(url: string, params?: object, _object = {}) {
-    return this.axiosInstance.post(url, params, {
-      ..._object,
-      headers: {
-        'Content-type': ContentTypeEnum.FORM_DATA
-      }
-    })
-  }
-
-  // get<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
+  // public get<T>(url: string, params?: object, _object = {}): Promise<T> {
   //   return this.axiosInstance.get(url, { params, ..._object })
   // }
-  // post<T>(url: string, params?: object | string, _object = {}): Promise<ResultData<T>> {
+  // public post<T>(url: string, params?: object | string, _object = {}): Promise<T> {
   //   return this.axiosInstance.post(url, params, _object)
   // }
-  // put<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
+  // public put<T>(url: string, params?: object, _object = {}): Promise<T> {
   //   return this.axiosInstance.put(url, params, _object)
   // }
-  // delete<T>(url: string, params?: any, _object = {}): Promise<ResultData<T>> {
+  // public delete<T>(url: string, params?: any, _object = {}): Promise<T> {
   //   return this.axiosInstance.delete(url, { params, ..._object })
   // }
-  // download(url: string, params?: object, _object = {}): Promise<BlobPart> {
+  // public download(url: string, params?: object, _object = {}): Promise<BlobPart> {
   //   return this.axiosInstance.post(url, params, { ..._object, responseType: 'blob' })
   // }
-  // uploadFile(url: string, params?: object, _object = {}) {
+  // public uploadFile(url: string, params?: object, _object = {}) {
   //   return this.axiosInstance.post(url, params, {
   //     ..._object,
   //     headers: {
@@ -103,4 +76,31 @@ export class AxiosHttpClient {
   //     }
   //   })
   // }
+
+  /**
+   * @description Rest APIs
+   */
+  get<T>(url: string, params?: object, _object = {}): Promise<API.ResponseData<T>> {
+    return this.axiosInstance.get(url, { params, ..._object })
+  }
+  post<T>(url: string, params?: object | string, _object = {}): Promise<API.ResponseData<T>> {
+    return this.axiosInstance.post(url, params, _object)
+  }
+  put<T>(url: string, params?: object, _object = {}): Promise<API.ResponseData<T>> {
+    return this.axiosInstance.put(url, params, _object)
+  }
+  delete<T>(url: string, params?: any, _object = {}): Promise<API.ResponseData<T>> {
+    return this.axiosInstance.delete(url, { params, ..._object })
+  }
+  download(url: string, params?: object, _object = {}): Promise<BlobPart> {
+    return this.axiosInstance.post(url, params, { ..._object, responseType: 'blob' })
+  }
+  uploadFile(url: string, params?: object, _object = {}) {
+    return this.axiosInstance.post(url, params, {
+      ..._object,
+      headers: {
+        'Content-type': ContentTypeEnum.FORM_DATA
+      }
+    })
+  }
 }

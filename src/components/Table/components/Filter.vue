@@ -3,7 +3,7 @@ import { ref, computed, type Component } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { Button } from '../../Button'
-import type { FilterType } from '../types'
+import type { FilterType } from '../interface'
 
 import Checkbox from './FilterType/Checkbox.vue'
 import Datepicker from './FilterType/Datepicker.vue'

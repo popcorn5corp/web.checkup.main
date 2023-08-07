@@ -1,13 +1,12 @@
 <script setup lang="ts" name="TableSample">
-import { computed, createVNode, ref, watch } from 'vue'
+import { computed, createVNode, ref } from 'vue'
 import { Spin, Modal, message } from 'ant-design-vue'
 import { useI18n } from 'vue-i18n'
-import _ from 'lodash-es'
 
-import BaseSampleService from '@/services/BaseSample/index'
-import type { IBaseSample, SortCodesResponse } from '@/services/BaseSample/interface'
+import { BaseSampleService } from '@/services'
+import type { IBaseSample } from '@/services/BaseSample/interface'
 
-import DynamicTable from '@/components/Table'
+import { DynamicTable } from '@/components/Table'
 import { columns } from '@/components/Table/mock'
 import { QuestionCircleTwoTone } from '@/components/Icon'
 import PostDetail from './components/PostDetail.vue'
@@ -54,8 +53,10 @@ const onClickRow = (row: IBaseSample.Content) => {
   isLoading.value = true;
   mode.value = DEFAULT_MODE;
 
-  BaseSampleService.getOneById(row.boardId).then(content => {
-    selectedPost.value = content;
+  BaseSampleService.getOneById(row.boardId).then(({ success, data }) => {
+    if (success) {
+      selectedPost.value = data;
+    }
 
     setTimeout(() => {
       isLoading.value = false;
@@ -79,10 +80,7 @@ const dataCallback = (data: IBaseSample.BaseSamples['posts']['content']) => {
   return data;
 }
 
-/**
- * 
- */
-const getColumns = (): Promise<SortCodesResponse> => {
+const getColumns = () => {
   return BaseSampleService.getSortableCodes();
 }
 
@@ -146,12 +144,12 @@ const callServiceByMode = (callback: Function): void => {
   if (mode.value === modes.C) {
     const { boardId, ...param } = postDetail;
 
-    BaseSampleService.createOne(param).then((response) => {
-      callback()
+    BaseSampleService.createOne(param).then(({ success }) => {
+      success && callback()
     })
   } else {
-    BaseSampleService.updateOne(postDetail).then(response => {
-      callback()
+    BaseSampleService.updateOne(postDetail).then(({ success }) => {
+      success && callback()
     })
   }
 }

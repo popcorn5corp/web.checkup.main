@@ -1,7 +1,7 @@
 <script lang="ts" setup name="FilterDatepicker">
 import { toRefs, ref, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { FilterTypes, type Filter } from '../../types'
+import { FilterTypes, type Filter } from '../../interface'
 import type { Dayjs } from 'dayjs'
 
 const props = defineProps({

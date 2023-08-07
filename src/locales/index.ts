@@ -1,8 +1,6 @@
-import type { App } from 'vue'
-import type { I18n, I18nOptions } from 'vue-i18n'
-
 import { createI18n } from 'vue-i18n'
-import { setHtmlPageLang, setLoadLocalePool } from '@/helpers/locale'
+// import type { I18n, I18nOptions } from 'vue-i18n'
+// import { setHtmlPageLang, setLoadLocalePool } from '@/helpers/locale'
 import { useLocaleStoreWithOut } from '@/stores/modules/locale'
 import { localeMap } from './config'
 import ko_KR from './lang/ko_KR'
@@ -14,6 +12,7 @@ const locale = localeStore.getLocale()
 
 const i18n = createI18n({
   legacy: false,
+  allowComposition: true,
   locale,
   fallbackLocale: localeMap.ko_KR,
   messages: {
@@ -30,4 +29,4 @@ const i18n = createI18n({
   globalInjection: true
 })
 
-export default i18n;
+export default i18n

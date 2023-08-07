@@ -1,5 +1,5 @@
 import { computed, reactive, toRefs, ref, watch } from 'vue'
-import type { DynamicTableProps, FilterType, TablePagination, TableSorter } from '../types'
+import type { DynamicTableProps, FilterType, TablePagination, TableSorter } from '../interface'
 import type { TableRowSelection } from 'ant-design-vue/es/table/interface'
 import { isArray, isEmpty } from '@/utils/is'
 import type { TableProps } from 'ant-design-vue'
@@ -130,21 +130,19 @@ export const useTable = (
       isPagination && Object.assign(requestParam, paginationParam.value)
       isSorting && Object.assign(requestParam, sorterParam.value)
 
-      const {
-        posts: { content, totalElements }
-      } = await request(requestParam)
+      const { data, success } = await request(requestParam)
 
-      // index 설정
-      content.map((record: Recordable, i: number) => {
-        record['key'] = i
-      })
-
-      if (dataCallback) {
-        dataSource = dataCallback(content)
+      if (success) {
+        const {
+          posts: { content, totalElements }
+        } = data
+        // index 설정
+        content.map((record: Recordable, i: number) => {
+          record['key'] = i
+        })
+        state.dataSource = dataCallback ? dataCallback(content) : content
+        state.pagination.total = totalElements
       }
-
-      state.dataSource = content
-      state.pagination.total = totalElements
     } catch (e) {
       console.log(e)
     }
@@ -188,7 +186,7 @@ export const useTable = (
     return {
       selectedRowKeys: state.selectedRowKeys,
       onChange: (changableRowKeys: Key[]) => {
-        console.log('selectedRowKeys changed: ', changableRowKeys)
+        // console.log('selectedRowKeys changed: ', changableRowKeys)
         state.selectedRowKeys = changableRowKeys
       },
       hideDefaultSelections: true

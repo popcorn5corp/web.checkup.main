@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { FilterTypes, type Filter } from './types'
+import { FilterTypes, type Filter } from './interface'
 import type { TableColumnsType } from 'ant-design-vue'
 // import i18n from '@/locales';
 

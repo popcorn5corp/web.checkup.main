@@ -1,5 +1,5 @@
 import { reactive, toRefs } from 'vue'
-import type { DynamicTableProps } from '../types'
+import type { DynamicTableProps } from '../interface'
 import type { TableColumnType } from 'ant-design-vue'
 import type { SortCodesResponse } from '@/services/BaseSample/interface'
 import { cloneDeep } from 'lodash-es'
@@ -27,10 +27,10 @@ export const useColumns = (
   const getColumns = async (): Promise<void> => {
     if (!request) return
 
-    const response: SortCodesResponse = await request()
+    const { success, data } = await request()
 
-    if (response) {
-      const { isSortable, enabledSortCodes } = response
+    if (success) {
+      const { isSortable, enabledSortCodes } = data
 
       if (isSortable && initColumns) {
         let columns: TableColumnType[] = cloneDeep(initColumns)

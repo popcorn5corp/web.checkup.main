@@ -2,8 +2,11 @@
   "extends": "@tsconfig/node18/tsconfig.json",
   "include": ["vite.config.*", "vitest.config.*", "cypress.config.*", "playwright.config.*"],
   "compilerOptions": {
-    "composite": true,
+    "target": "ESNext",
     "module": "ESNext",
-    "types": ["node"]
+    "composite": true,
+    "types": ["node", "vite/client"],
+    "useDefineForClassFields": true,
+    "resolveJsonModule": true
   }
 }

@@ -1,6 +1,6 @@
 import { watch, ref } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { type FilterType, FilterTypes } from '@/components/Table/types'
+import { type FilterType, FilterTypes } from '@/components/Table/interface'
 
 export function useTag() {
   const { filterList, setFilterList } = useTableFilterStore()
@@ -22,7 +22,7 @@ export function useTag() {
         type === filter.type && (filter.selectedItems = [])
       } else {
         filter.selectedItems = filter.selectedItems.filter(
-          (item) => Object.entries(item).toString() !== Object.entries(options).toString()
+          (item: any) => Object.entries(item).toString() !== Object.entries(options).toString()
         ) as []
       }
     })
