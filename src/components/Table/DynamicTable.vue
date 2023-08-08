@@ -4,16 +4,16 @@ import { Table, Space } from 'ant-design-vue'
 import { Button } from '@/components/Button'
 import { DownloadOutlined } from '@/components/Icon'
 import TableSegmentButton from './components/TableSegmentButton.vue'
-import Filter from './components/Filter.vue'
+import TableFilter from './components/TableFilter.vue'
 import TableTags from './components/TableTags.vue'
 
-import { useTable } from './hooks/useTable';
+import { useTable } from './hooks/useTable'
 import { useSelection } from './hooks/useSelection'
 import { useColumns } from './hooks/useColumns'
 import { useTag } from './hooks/useTag'
 
 import type { DynamicTableProps } from './interface'
-import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n'
 
 const emits = defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
 const props = withDefaults(defineProps<DynamicTableProps>(), {
@@ -28,35 +28,35 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
 })
 
 const showFilter = ref(true)
-const isReload = ref(false);
-const cursor = ref(props.options.pointer && 'pointer');
-const searchWord = ref('');
+const isReload = ref(false)
+const cursor = ref(props.options.pointer && 'pointer')
+const searchWord = ref('')
 let isTableChangedFlag = false // 테이블 변경, 검색 조건 변경 구분을 위한 flag
-
 
 /**
  * @description Table 관련 기능에 대한 Hooks
  */
-const {
-  dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading }
-  = useTable(props.dataRequest, props.initParam, props.options.isPagination, props.dataCallback);
+const { dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading } =
+  useTable(props.dataRequest, props.initParam, props.options.isPagination, props.dataCallback)
 
 /**
  * @description Table Selection 관련 기능에 대한 Hooks
  */
-const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource);
+const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource)
 
 /**
  * @description Table Columns 관련 기능에 대한 Hooks
  */
-const { getColumns, columns } = useColumns(props.columnRequest, props.initColumns, props.options.isShowNo);
+const { getColumns, columns } = useColumns(
+  props.columnRequest,
+  props.initColumns,
+  props.options.isShowNo
+)
 
 /**
  * @description Table Tag 관련 기능에 대한 Hooks
  */
-const { tags, initTag } = useTag();
-
-
+const { tags, initTag } = useTag()
 
 // watch(() => tags.value, () => {
 //   isLoading.value = true;
@@ -70,36 +70,44 @@ const { tags, initTag } = useTag();
 
 onMounted(() => {
   // temp code
-  isReload.value = true;
+  isReload.value = true
 
   setTimeout(() => {
-    isReload.value = false;
-  }, 1000);
-});
-
-watch(() => props.initColumns, async () => {
-  getColumns()
-}, {
-  immediate: true,
-  deep: true
+    isReload.value = false
+  }, 1000)
 })
 
-watch(() => props.initParam, () => {
-  getDataSource();
-}, {
-  immediate: true,
-  deep: true
-})
+watch(
+  () => props.initColumns,
+  async () => {
+    getColumns()
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
+
+watch(
+  () => props.initParam,
+  () => {
+    getDataSource()
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
 
 const onReload = () => {
-  isReload.value = true;
+  isReload.value = true
   unref(searchWord) && (searchWord.value = '')
-  getDataSource({ isReset: true });
-  initTag();
+  getDataSource({ isReset: true })
+  initTag()
 
   setTimeout(() => {
-    isReload.value = false;
-  }, 1000);
+    isReload.value = false
+  }, 1000)
 }
 
 /**
@@ -114,18 +122,16 @@ const customRow = (record: object) => ({
 })
 
 const onSearch = () => {
-  getDataSource({ param: { searchWord: unref(searchWord) } });
+  getDataSource({ param: { searchWord: unref(searchWord) } })
 }
 
-const refetch = (param: any) => getDataSource(param);
-
+const refetch = (param: any) => getDataSource(param)
 
 defineExpose({
   getDataSource,
   getColumns,
   refetch
 })
-
 </script>
 
 <template>
@@ -137,10 +143,18 @@ defineExpose({
         }}</span>
 
         <div class="table-search">
-          <a-input v-model:value="searchWord" :placeholder="$t('common.searchPlaceholder')" @press-enter="onSearch"
-            allow-clear>
+          <a-input
+            v-model:value="searchWord"
+            :placeholder="$t('common.searchPlaceholder')"
+            @press-enter="onSearch"
+            allow-clear
+          >
             <template #suffix>
-              <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" @click="onSearch" />
+              <font-awesome-icon
+                style="color: #d9d9d9"
+                :icon="['fas', 'magnifying-glass']"
+                @click="onSearch"
+              />
             </template>
           </a-input>
         </div>
@@ -149,8 +163,12 @@ defineExpose({
             <!-- <TableSegmentButton /> -->
             <slot name="tableBtns"></slot>
 
-            <Button v-if="selectedRows.length" :label="$t('common.delete')" size="large"
-              @click="$emit('rowSelect', unref(selectedRows))" />
+            <Button
+              v-if="selectedRows.length"
+              :label="$t('common.delete')"
+              size="large"
+              @click="$emit('rowSelect', unref(selectedRows))"
+            />
             <div v-else :style="{ width: '56px' }"></div>
             <Button :label="$t('common.registration')" size="large" @click="$emit('rowAdd')" />
 
@@ -166,7 +184,12 @@ defineExpose({
               </template>
             </Button>
             <TableSegmentButton />
-            <Button type="primary" :label="$t('common.filterText')" size="large" @click="showFilter = !showFilter" />
+            <Button
+              type="primary"
+              :label="$t('common.filterText')"
+              size="large"
+              @click="showFilter = !showFilter"
+            />
           </Space>
         </div>
       </Space>
@@ -198,9 +221,19 @@ defineExpose({
             <Button :label="$t('common.registration')" size="large" @click="$emit('rowAdd')" />
             <Button type="primary" :label="$t('common.filterText')" size="large" @click="showFilter = !showFilter" />
           </Space> -->
-          <Table :scrollY="530" :rowKey="rowKey" :columns="columns" :rowSelection="rowSelection" :dataSource="dataSource"
-            :loading="isLoading" :total="total" :size="size" :customRow="customRow"
-            :pagination="props.options.isPagination && pagination" @change="changeTable">
+          <Table
+            :scrollY="530"
+            :rowKey="rowKey"
+            :columns="columns"
+            :rowSelection="rowSelection"
+            :dataSource="dataSource"
+            :loading="isLoading"
+            :total="total"
+            :size="size"
+            :customRow="customRow"
+            :pagination="props.options.isPagination && pagination"
+            @change="changeTable"
+          >
             <template #bodyCell="{ record, column, index, text }">
               <template v-if="column.key === 'index'">
                 {{ getRecordNo(index) }}
@@ -210,7 +243,7 @@ defineExpose({
           </Table>
         </div>
 
-        <Filter v-if="showFilter" @showFilter="(flag: boolean) => (showFilter = flag)" />
+        <TableFilter v-if="showFilter" @showFilter="(flag: boolean) => (showFilter = flag)" />
       </div>
     </div>
   </div>
@@ -266,7 +299,7 @@ defineExpose({
     display: flex;
     flex-direction: column;
 
-    >span {
+    > span {
       margin-bottom: 16px;
     }
 
@@ -298,7 +331,7 @@ defineExpose({
           }
 
           .ant-table-row {
-            cursor: v-bind(cursor)
+            cursor: v-bind(cursor);
           }
         }
       }

@@ -11,7 +11,7 @@
 
       <RollingText :list="rollingList" :width="400">
         <template #default="{ marquee }">
-          <span>{{ marquee.title }} <a-tag v-if="marquee.isNew" color="#ffc53d">New</a-tag> </span>
+          <span>{{ marquee.title }} <a-tag v-if="marquee.isNew" color="yellow">New</a-tag> </span>
         </template>
       </RollingText>
 

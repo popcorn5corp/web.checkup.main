@@ -8,6 +8,8 @@
 //   fileDwonload: () => Promise<any>
 // }
 
+import type { Dayjs } from "dayjs";
+
 export interface ConditionParam {
   sort?: string;
   filter?: string;
@@ -38,7 +40,7 @@ export namespace IBaseSample {
     boardId: string // 샘플 게시판 아이디
     boardTitle: string // 샘플 게시판 제목
     boardContent: string // 샘플 게시판 내용
-    createdAt: string // 생성일
+    createdAt: string | Dayjs // 생성일
     division: 'PRIVATE' | 'PUBLIC' // 샘플 게시판 구분
   }
 

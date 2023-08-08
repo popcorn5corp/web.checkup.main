@@ -4,7 +4,7 @@ import { filterList } from '@/components/Table/mock'
 import { useTable } from '@/components/Table/hooks/useTable'
 
 import type { TableFilterState } from '../interface'
-import type { Filter } from '@/components/Table/types'
+import type { Filter } from '@/components/Table/interface'
 
 export const useTableFilterStore = defineStore('tableFilter', () => {
   // state

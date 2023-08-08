@@ -1,4 +1,4 @@
-<script setup lang="ts" name="Filter">
+<script setup lang="ts" name="TableFilter">
 import { ref, computed, type Component } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
@@ -16,12 +16,12 @@ const emit = defineEmits(['showFilter'])
 const { config } = useProjectConfigStore()
 const { filterList } = useTableFilterStore()
 
-const isRealDarkClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
+const getDarkModeStyle = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
 
 const showFilter = ref<Boolean>(true)
 
 const onFilter = (): void => {
-  showFilter.value = showFilter ? false : true
+  showFilter.value = showFilter.value ? false : true
   emit('showFilter', showFilter.value)
 }
 
@@ -35,18 +35,18 @@ const filterTypeComponents: Record<FilterType, Component> = {
 </script>
 <template>
   <div class="filter-wrapper">
-    <div class="filter-list" :class="isRealDarkClass" v-if="showFilter">
+    <div class="filter-list" :class="getDarkModeStyle" v-if="showFilter">
       <!-- 모바일 버전 헤더 -->
       <div class="mobile-header">
         <h3>{{ $t('common.filterText') }}</h3>
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
 
-      <ul :class="isRealDarkClass">
-        <li :class="isRealDarkClass" class="flex-direction-columns">
+      <ul :class="getDarkModeStyle">
+        <li :class="getDarkModeStyle">
           <div v-for="(item, index) in filterList" :key="index">
             <div class="filter-title" @click="() => (item.open = !item.open)">
-              <h3>{{ item.title }}</h3>
+              <span>{{ item.title }}</span>
 
               <template v-if="item.open">
                 <font-awesome-icon :icon="['fas', 'angle-up']" />
@@ -64,7 +64,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
         </li>
       </ul>
 
-      <div :class="isRealDarkClass" class="mobile-footer">
+      <div :class="getDarkModeStyle" class="mobile-footer">
         <a-divider></a-divider>
         <div class="btn-group">
           <Button label="Clear all" size="large" @click="onFilter" />
@@ -80,7 +80,6 @@ const filterTypeComponents: Record<FilterType, Component> = {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  // margin-top: -10px;
 }
 
 .filter-list {
@@ -88,16 +87,13 @@ const filterTypeComponents: Record<FilterType, Component> = {
   background: white;
   z-index: 10;
 
-  .mobile-header,
-  .mobile-footer {
-    display: none;
-  }
-
   .mobile-header {
+    display: none;
     text-align: center;
   }
 
   .mobile-footer {
+    display: none;
     position: fixed;
     bottom: 0px;
     width: 100%;
@@ -182,22 +178,23 @@ const filterTypeComponents: Record<FilterType, Component> = {
     height: 101vh;
   }
 
-  >ul {
+  > ul {
     padding: 0 1rem;
 
-    >li {
+    > li {
       display: flex;
       align-items: center;
       font-size: 16px;
       font-weight: 600;
       background: $color-white;
+      flex-direction: column;
 
-      >div {
+      > div {
         display: flex;
         flex-direction: column;
         width: 100%;
 
-        >div.filter-title {
+        > div.filter-title {
           display: flex;
           justify-content: space-between;
           padding: 1rem;
@@ -215,10 +212,6 @@ const filterTypeComponents: Record<FilterType, Component> = {
 
 :deep(.ant-divider) {
   margin: 0 0 10px 0;
-}
-
-.flex-direction-columns {
-  flex-direction: column;
 }
 
 .dark-mode {

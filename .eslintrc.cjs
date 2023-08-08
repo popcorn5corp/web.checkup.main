@@ -7,11 +7,11 @@ module.exports = {
   },
   extends: [
     'plugin:vue/vue3-essential',
-    'eslint:recommended',
+    // 'eslint:recommended',
     '@vue/eslint-config-typescript',
     '@vue/eslint-config-prettier/skip-formatting',
-    'plugin:storybook/recommended',
-    'prettier/vue'
+    '@vue/prettier',
+    'plugin:storybook/recommended'
   ],
   overrides: [
     {
@@ -27,8 +27,18 @@ module.exports = {
     'vue/multi-word-component-names': [
       'error',
       {
-        ignores: ['index']
+        ignores: ['index'],
+        // $schema: 'https://json.schemastore.org/prettierrc',
+        // semi: false,
+        // tabWidth: 2,
+        // singleQuote: true,
+        // printWidth: 100,
+        // trailingComma: 'none'
+        // printWidth: 10
+        // trailingComma: 'none'
       }
-    ]
+    ],
+    'no-unused-vars': 'off',
+    'vue/no-unused-vars': 'off'
   }
 }

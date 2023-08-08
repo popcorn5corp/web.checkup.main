@@ -33,14 +33,14 @@ export const columns = ref<TableColumnsType>([
 export const filterList: Filter[] = [
   {
     type: FilterTypes.DATE_PICKER,
-    title: '조회날짜',
+    title: '날짜선택',
     open: true,
     options: [],
     selectedItems: []
   },
   {
     type: FilterTypes.RANGE_DATE_PICKER,
-    title: '조회날짜',
+    title: '조회기간',
     open: true,
     options: [],
     selectedItems: []

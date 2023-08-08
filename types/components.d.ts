@@ -5,11 +5,17 @@
 // Read more: https://github.com/vuejs/core/pull/3399
 import '@vue/runtime-core'
 
-export {}
+import { useI18n } from 'vue-i18n'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    $t(key: string): string
+    $t: VueI18nTranslation<
+      Messages,
+      Locales,
+      RemoveIndexSignature<{
+        [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+      }>
+    >
   }
 
   export interface GlobalComponents {

@@ -1,4 +1,5 @@
 import type { IBaseSample } from '@/services/BaseSample/interface'
+import dayjs from 'dayjs'
 
 export const getDefaultPost = (): IBaseSample.BaseSample => ({
   key: '',
@@ -6,6 +7,6 @@ export const getDefaultPost = (): IBaseSample.BaseSample => ({
   boardFiles: [],
   boardId: '',
   boardTitle: '',
-  createdAt: '',
+  createdAt: dayjs(),
   division: 'PUBLIC'
 })
