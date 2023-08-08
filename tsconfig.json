@@ -12,6 +12,7 @@
     }
   ],
   "compilerOptions": {
-    "declaration": false
+    "declaration": false,
+    "jsx": "preserve"
   }
 }
