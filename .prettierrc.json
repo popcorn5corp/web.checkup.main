@@ -4,5 +4,23 @@
   "tabWidth": 2,
   "singleQuote": true,
   "printWidth": 100,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "importOrder": [
+    "^@/services/(.*)$",
+    "^@/stores/(.*)$",
+    "^@/utils/(.*)$",
+    "^@/helpers/(.*)$",
+    "^@/plugins/(.*)$",
+    "^@/styles/(.*)$",
+    "^@/locales/(.*)$",
+    "^@/hooks/(.*)$",
+    "^@/views/(.*)$",
+    "^@/components/(.*)$",
+    "^@/enums/(.*)$",
+    "^@/constants/(.*)$",
+    "^@/config/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": false,
+  "importOrderSortSpecifiers": true
 }

@@ -1,16 +1,14 @@
 <script setup lang="ts" name="TableSample">
-import { computed, createVNode, ref } from 'vue'
-import { Spin, Modal, message } from 'ant-design-vue'
-import { useI18n } from 'vue-i18n'
-
 import { BaseSampleService } from '@/services'
+import { Modal, Spin, message } from 'ant-design-vue'
+import { computed, createVNode, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { IBaseSample } from '@/services/BaseSample/interface'
-
+import { QuestionCircleTwoTone } from '@/components/Icon'
 import { DynamicTable } from '@/components/Table'
 import { columns } from '@/components/Table/mock'
-import { QuestionCircleTwoTone } from '@/components/Icon'
-import PostDetail from './components/PostDetail.vue'
 import { contentModes as modes } from '@/constants/content'
+import PostDetail from './components/PostDetail.vue'
 import { getDefaultPost } from './constant'
 
 const DEFAULT_MODE = modes.R

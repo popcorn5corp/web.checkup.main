@@ -1,19 +1,17 @@
 <script setup lang="ts" name="LayoutFilter">
+import { Space, Table } from 'ant-design-vue'
 import { onMounted, ref, unref, watch } from 'vue'
-import { Table, Space } from 'ant-design-vue'
+import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/Button'
 import { DownloadOutlined } from '@/components/Icon'
-import TableSegmentButton from './components/TableSegmentButton.vue'
 import TableFilter from './components/TableFilter.vue'
+import TableSegmentButton from './components/TableSegmentButton.vue'
 import TableTags from './components/TableTags.vue'
-
-import { useTable } from './hooks/useTable'
-import { useSelection } from './hooks/useSelection'
 import { useColumns } from './hooks/useColumns'
+import { useSelection } from './hooks/useSelection'
+import { useTable } from './hooks/useTable'
 import { useTag } from './hooks/useTag'
-
 import type { DynamicTableProps } from './interface'
-import { useI18n } from 'vue-i18n'
 
 const emits = defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
 const props = withDefaults(defineProps<DynamicTableProps>(), {

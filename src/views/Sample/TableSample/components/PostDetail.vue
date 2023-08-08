@@ -1,11 +1,12 @@
 <script setup lang="tsx" name="PostDetail">
-import { type UnwrapRef, computed, reactive, watch, ref } from 'vue'
-import { Form, Input, Select } from 'ant-design-vue'
-import type { IBaseSample } from '@/services/BaseSample/interface'
-import { cloneDeep } from 'lodash-es'
-import { getDefaultPost } from '../constant'
+import { Form, Input, Select, type SelectProps } from 'ant-design-vue'
 import dayjs, { Dayjs } from 'dayjs'
-import type { SelectProps } from 'ant-design-vue'
+import { cloneDeep } from 'lodash-es'
+import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
+import type { IBaseSample } from '@/services/BaseSample/interface'
+import { FileUploader } from '@/components/FileUploader'
+import { getDefaultPost } from '../constant'
+
 const { Item } = Form
 
 type Post = IBaseSample.BaseSample
@@ -125,6 +126,9 @@ defineExpose({
       </Item>
       <Item label="게시물 구분">
         <Select v-model:value="formState.post.division" :options="divisionOptions"></Select>
+      </Item>
+      <Item label="게시물 첩부파일">
+        <FileUploader />
       </Item>
     </Form>
   </div>

@@ -4,8 +4,8 @@
   </div>
 </template>
 <script setup lang="ts" name="FileUploader">
-import { ref } from 'vue'
 import { Upload, type UploadProps } from 'ant-design-vue'
+import { ref } from 'vue'
 
 const files = ref([])
 </script>

@@ -22,7 +22,18 @@
     "baseUrl": ".",
     "paths": {
       "@": ["src"],
-      "@/*": ["./src/*"]
-    },
+      "@/*": ["./src/*"],
+      // "@components/*": ["components/*"],
+      // "@services/*": ["services/*"],
+      // "@stores/*": ["stores/*"],
+      // "@utils/*": ["utils/*"],
+      // "@helpers/*": ["helpers/*"],
+      // "@plugins/*": ["plugins/*"],
+      // "@hooks/*": ["hooks/*"],
+      // "@enums/*": ["enums/*"],
+      // "@constants/*": ["constants/*"],
+      // "@styles/*": ["styles/*"],
+      // "@config/*": ["config/*"]
+    }
   }
 }
