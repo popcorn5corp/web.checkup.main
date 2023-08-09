@@ -2,7 +2,7 @@
 import { ref, toRefs } from 'vue'
 import { watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import type { Filter } from '../../types'
+import type { Filter } from '../../interface'
 
 const props = defineProps({
   item: {
@@ -28,8 +28,9 @@ watch(selectedItems, () => {
 
 <template>
   <a-radio-group
-    v-for="{ label, value } in options"
+    v-for="({ label, value }, index) in options"
     v-model:value="selectedOption"
+    :key="index"
     @change="onChange({ label, value: value as boolean })"
   >
     <a-radio :value="value">{{ label }}</a-radio>

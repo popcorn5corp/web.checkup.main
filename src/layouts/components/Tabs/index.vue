@@ -8,7 +8,14 @@
       @edit="onEditTab"
       :style="tabsStyle"
     >
-      <TabPane v-for="tab in tabs" :key="tab.fullPath" :tab="tab.meta.title" />
+      <TabPane v-for="tab in tabs" :key="tab.fullPath">
+        <template #tab>
+          <span>
+            <LaptopOutlined />
+            {{ tab.meta.title }}
+          </span>
+        </template>
+      </TabPane>
     </Tabs>
 
     <!-- <div class="tabs-content">
@@ -38,6 +45,7 @@ import type { RouteItem } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTabsLayoutStore } from '@/stores/modules/tabsLayout'
 import { Storage } from '@/utils/storage'
+import { LaptopOutlined } from '@/components/Icon'
 import { TABS_ROUTES_KEY } from '@/enums/cacheKeyEnum'
 
 const { TabPane } = Tabs

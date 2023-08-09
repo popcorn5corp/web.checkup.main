@@ -69,6 +69,7 @@ export namespace IBaseSample {
 
   export interface BaseSample extends Content {
     boardFiles: Array<{
+      uid: string
       extension: string
       fileId: string
       fileOriginName: string

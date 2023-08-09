@@ -25,7 +25,9 @@
       <PageTabs />
 
       <Layout.Content class="layout-content" :class="getDarkModeClass">
-        <div>Dynamic Table</div>
+        <div class="title">{{ $route.meta.title }}</div>
+
+        <a-divider></a-divider>
         <slot></slot>
       </Layout.Content>
       <PageFooter />
@@ -105,6 +107,11 @@ onMounted(() => {
     flex: none;
     height: calc(100vh - 90px);
     background: $color-white;
+
+    .title {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
   }
 
   .dark-mode {

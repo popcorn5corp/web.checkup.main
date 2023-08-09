@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
 import type { IBaseSample } from '@/services/BaseSample/interface'
 import { FileUploader } from '@/components/FileUploader'
+import { fileTypes } from '@/constants/file'
 import { getDefaultPost } from '../constant'
 
 const { Item } = Form
@@ -36,6 +37,8 @@ const divisionOptions = ref<SelectProps['options']>([
     label: 'PUBLIC'
   }
 ])
+
+const SAMPLE_FILE_TYPE = fileTypes.TEST
 
 const formRef = ref()
 const formState: UnwrapRef<FormState> = reactive({
@@ -79,6 +82,8 @@ watch(
       createdAt: dayjs(post.createdAt)
     }
     formState.clonePost = cloneDeep(post)
+
+    console.log('post :: ', post)
   },
   {
     immediate: true
@@ -106,6 +111,9 @@ defineExpose({
       <Item label="게시물 구분">
         {{ formState.post.division }}
       </Item>
+      <Item label="게시물 첩부파일">
+        <FileUploader :files="formState.post.boardFiles" readonly />
+      </Item>
     </Form>
 
     <Form
@@ -128,7 +136,7 @@ defineExpose({
         <Select v-model:value="formState.post.division" :options="divisionOptions"></Select>
       </Item>
       <Item label="게시물 첩부파일">
-        <FileUploader />
+        <FileUploader :files="formState.post.boardFiles" :type="SAMPLE_FILE_TYPE" />
       </Item>
     </Form>
   </div>

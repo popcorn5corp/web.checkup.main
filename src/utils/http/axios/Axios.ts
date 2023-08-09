@@ -95,7 +95,7 @@ export class AxiosHttpClient {
   download(url: string, params?: object, _object = {}): Promise<BlobPart> {
     return this.axiosInstance.post(url, params, { ..._object, responseType: 'blob' })
   }
-  uploadFile(url: string, params?: object, _object = {}) {
+  upload<T>(url: string, params?: object, _object = {}): Promise<API.ResponseData<T>> {
     return this.axiosInstance.post(url, params, {
       ..._object,
       headers: {

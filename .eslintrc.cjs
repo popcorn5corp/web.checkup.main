@@ -31,6 +31,7 @@ module.exports = {
     //   }
     // ],
     'vue/multi-word-component-names': 'off',
+    'vue/no-dupe-keys': 'off',
     'no-unused-vars': 'off',
     'vue/no-unused-vars': 'off'
   }
