@@ -1,5 +1,5 @@
+import { userEvent, within } from '@storybook/testing-library'
 import type { Meta, StoryObj } from '@storybook/vue3'
-import { within, userEvent } from '@storybook/testing-library'
 import MyPage from './Page.vue'
 
 const meta = {

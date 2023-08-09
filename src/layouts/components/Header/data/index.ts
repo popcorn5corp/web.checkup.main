@@ -1,6 +1,6 @@
 import { createVNode } from 'vue'
-import {} from '@/components/Icon'
 import { Badge } from '@/components/Badge'
+import '@/components/Icon'
 
 export const rollingList = [
   {

@@ -12,10 +12,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, type CSSProperties } from 'vue'
+import { type CSSProperties, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/Button'
 import { PlusCircleFilled } from '@/components/Icon'
-import { useI18n } from 'vue-i18n'
 
 defineOptions({
   name: 'MenuHeader'

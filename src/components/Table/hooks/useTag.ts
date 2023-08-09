@@ -1,4 +1,4 @@
-import { watch, ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { type FilterType, FilterTypes } from '@/components/Table/interface'
 

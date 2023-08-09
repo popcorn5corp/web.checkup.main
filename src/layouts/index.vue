@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts" name="Layout">
-import { computed, type Component } from 'vue'
+import { type Component, computed } from 'vue'
 import type { LayoutType } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 // import ThemeDrawer from './components/ThemeDrawer/index.vue'

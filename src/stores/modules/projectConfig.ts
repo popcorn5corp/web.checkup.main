@@ -1,14 +1,14 @@
-import { ref, watch, toRefs, unref } from 'vue'
 import { defineStore } from 'pinia'
+import { ref, toRefs, unref, watch } from 'vue'
+import { Storage } from '@/utils/storage'
+import { THEME_KEY } from '@/enums/cacheKeyEnum'
+import { DEFAULT_PRIMARY } from '@/constants/settings'
 import {
+  DeviceTypeEnum,
   type ProjectConfigState,
   type ThemeConfig,
-  DeviceTypeEnum,
   type ThemeName
 } from '../interface'
-import { DEFAULT_PRIMARY } from '@/constants/settings'
-import { THEME_KEY } from '@/enums/cacheKeyEnum'
-import { Storage } from '@/utils/storage'
 
 const defaultConfig: ProjectConfigState = {
   layout: 'default',
@@ -86,7 +86,7 @@ export const useProjectConfigStore = defineStore('projectConfig', () => {
   )
 
   function setLogo() {
-    let logoFileName = `${config.value.theme.title}_logo${
+    const logoFileName = `${config.value.theme.title}_logo${
       config.value.isCollapse ? '_simple' : ''
     }_${config.value.theme.navTheme}.png`
 

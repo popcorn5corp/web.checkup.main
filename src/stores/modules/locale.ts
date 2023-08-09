@@ -1,10 +1,10 @@
+import i18n from '@/locales'
+import { store } from '@/stores'
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
 import { Storage } from '@/utils/storage'
+import { type LocaleType, localeMap } from '@/locales/config'
 import { LOCALE_KEY } from '@/enums/cacheKeyEnum'
-import { localeMap, type LocaleType } from '@/locales/config'
-import { store } from '@/stores'
-import i18n from '@/locales'
 
 interface LocaleState {
   locale: LocaleType

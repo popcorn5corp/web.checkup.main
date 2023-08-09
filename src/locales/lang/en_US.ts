@@ -1,6 +1,6 @@
 import antdLocale from 'ant-design-vue/es/locale/en_US'
 import { genMessage } from '@/helpers/locale'
-import { localeMap, type LocaleType } from '../config'
+import { type LocaleType, localeMap } from '../config'
 
 const locale: LocaleType = localeMap.en_US
 const modulesFiles = import.meta.glob<Recordable>(`./en_US/**/*.ts`, { eager: true })

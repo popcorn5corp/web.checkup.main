@@ -15,7 +15,6 @@ declare global {
 }
 export {}
 
-
 // declare const __APP_INFO__: {
 //   pkg: {
 //     name: string;

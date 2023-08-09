@@ -19,10 +19,10 @@
 </template>
 
 <script setup lang="ts" name="MenuItem">
-import { computed } from 'vue'
 import { Menu } from 'ant-design-vue'
-import MenuItemContent from './MenuItemContent.vue'
+import { computed } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
+import MenuItemContent from './MenuItemContent.vue'
 
 interface Props {
   menus: RouteRecordRaw[]

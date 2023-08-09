@@ -1,6 +1,6 @@
 import type { TableColumnType } from 'ant-design-vue'
+import type { ColumnType, TableRowSelection } from 'ant-design-vue/es/table/interface'
 import type { DefaultRecordType } from 'ant-design-vue/lib/vc-table/interface'
-import type { TableRowSelection, ColumnType } from 'ant-design-vue/es/table/interface'
 import type { SortCodesResponse } from '@/services/BaseSample/interface'
 
 type PaginationPositon =

@@ -14,7 +14,6 @@
           <span>{{ marquee.title }} <a-tag v-if="marquee.isNew" color="yellow">New</a-tag> </span>
         </template>
       </RollingText>
-
     </Space>
     <Space :size="20">
       <UserDropdown />
@@ -23,13 +22,13 @@
 </template>
 
 <script lang="ts" setup name="Header">
-import { computed, ref, type CSSProperties, type PropType, watch } from 'vue'
-import { Layout, Space, type MenuTheme } from 'ant-design-vue'
+import { Layout, type MenuTheme, Space } from 'ant-design-vue'
+import { type CSSProperties, type PropType, computed, ref, watch } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/Icon'
-import UserDropdown from './components/UserDropdown.vue'
 import RollingText from './components/RollingText.vue'
-import { rollingList } from './data/index';
+import UserDropdown from './components/UserDropdown.vue'
+import { rollingList } from './data/index'
 
 const emit = defineEmits(['update:collapsed'])
 const props = defineProps({
@@ -53,10 +52,9 @@ const headerStyle = computed<CSSProperties>(() => {
       navTheme === 'realDark' || (navTheme === 'dark' && menuPosition === 'topmenu')
         ? ''
         : 'rgba(255, 255, 255, 0.85)',
-    color: (navTheme === 'dark' && menuPosition === 'topmenu') ? 'rgba(255, 255, 255, 0.85)' : ''
+    color: navTheme === 'dark' && menuPosition === 'topmenu' ? 'rgba(255, 255, 255, 0.85)' : ''
   }
 })
-
 </script>
 
 <style lang="scss" scoped>
@@ -82,12 +80,11 @@ const headerStyle = computed<CSSProperties>(() => {
     width: 500px;
   }
 
-  .scroller>span {
+  .scroller > span {
     position: absolute;
     top: 0;
     animation: slide 10s infinite;
     font-weight: 500;
-
   }
 
   @keyframes slide {

@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, unref, createVNode } from 'vue'
-import { Descriptions, Select, Modal } from 'ant-design-vue'
-import { localeList } from '@/locales/config'
-import { useLocale } from '@/locales/useLocale'
-import type { LocaleType } from '@/locales/config'
+import { Descriptions, Modal, Select } from 'ant-design-vue'
+import { createVNode, ref, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { localeList } from '@/locales/config'
+import type { LocaleType } from '@/locales/config'
+import { useLocale } from '@/locales/useLocale'
 import { QuestionCircleTwoTone } from '@/components/Icon'
+
 const { Option } = Select
 const { t } = useI18n()
 const { setLocale, getLocale } = useLocale()
@@ -32,8 +33,14 @@ const onChangeLang = async (locale: LocaleType) => {
 <template>
   <Descriptions :title="t('layout.header.settings.tabLang')" :column="5">
     <Descriptions.Item>
-      <Select v-model:value="selectedLocale" ref="select" style="width: 200px" @change="onChangeLang(selectedLocale)">
-        <Option v-for="locale in localeList" :key="locale.lang" :value="locale.lang">{{ locale.label }}{{ locale.icon }}
+      <Select
+        v-model:value="selectedLocale"
+        ref="select"
+        style="width: 200px"
+        @change="onChangeLang(selectedLocale)"
+      >
+        <Option v-for="locale in localeList" :key="locale.lang" :value="locale.lang"
+          >{{ locale.label }}{{ locale.icon }}
         </Option>
       </Select>
     </Descriptions.Item>

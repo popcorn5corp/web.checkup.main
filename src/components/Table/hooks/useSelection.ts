@@ -1,5 +1,5 @@
 import type { TableRowSelection } from 'ant-design-vue/es/table/interface'
-import { computed, reactive, toRefs, watch, type Ref } from 'vue'
+import { type Ref, computed, reactive, toRefs, watch } from 'vue'
 
 interface State {
   isSelected: boolean

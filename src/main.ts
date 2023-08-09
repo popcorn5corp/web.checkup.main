@@ -1,10 +1,9 @@
-import '@/styles/main.scss'
-
+import { setupAssets, setupFontAwesome, setupI18n } from '@/plugins'
+import { setupStore } from '@/stores'
 import { createApp } from 'vue'
+import '@/styles/main.scss'
 import App from './App.vue'
 import { setupRouter } from './router'
-import { setupStore } from '@/stores'
-import { setupFontAwesome, setupAssets, setupI18n } from '@/plugins'
 
 const app = createApp(App)
 

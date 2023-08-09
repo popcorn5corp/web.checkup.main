@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts" name="MenuItemContent">
+import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons-vue'
 import type { RouteRecordRaw } from 'vue-router'
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue'
 
 defineOptions({
   name: 'MenuItemContent'

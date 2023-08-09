@@ -8,17 +8,17 @@
   </div>
 </template>
 <script setup lang="ts" name="RollingText">
-import { ref, type CSSProperties, computed, onMounted } from 'vue';
+import { type CSSProperties, computed, onMounted, ref } from 'vue'
 
 interface Props {
   list: Array<{
     title: string
-    isNew: boolean;
+    isNew: boolean
   }>
-  width?: number;
-  height?: number;
-  duration?: number;
-  speed?: number;
+  width?: number
+  height?: number
+  duration?: number
+  speed?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -28,20 +28,20 @@ const props = withDefaults(defineProps<Props>(), {
   speed: 1000
 })
 
-const marqueeList = ref([...props.list, props.list[0]]);
-const rollDistance = ref(0);
-const marqueeIndex = ref(0);
-const transitionSpeed = ref(0);
-const rollIntervalTimer = ref();
-const rollTimeoutTimer = ref();
+const marqueeList = ref([...props.list, props.list[0]])
+const rollDistance = ref(0)
+const marqueeIndex = ref(0)
+const transitionSpeed = ref(0)
+const rollIntervalTimer = ref()
+const rollTimeoutTimer = ref()
 
-const marqueeListLength = computed(() => marqueeList.value.length || 0);
+const marqueeListLength = computed(() => marqueeList.value.length || 0)
 const marqueeStyle = computed<CSSProperties>(() => {
   return {
     transform: `translateY(${rollDistance.value}px)`,
-    transitionDuration: `${transitionSpeed.value}ms`,
-  };
-});
+    transitionDuration: `${transitionSpeed.value}ms`
+  }
+})
 
 const getSize = computed<CSSProperties>(() => {
   return {
@@ -51,43 +51,43 @@ const getSize = computed<CSSProperties>(() => {
 })
 
 onMounted(() => {
-  resetRoll();
-  startToRoll();
-});
+  resetRoll()
+  startToRoll()
+})
 
 const onRolling = (height: number, speed: number): void => {
-  rollDistance.value = height;
-  transitionSpeed.value = speed;
-};
+  rollDistance.value = height
+  transitionSpeed.value = speed
+}
 
 const resetRoll = (): void => {
-  marqueeIndex.value = 0;
-  rollDistance.value = 0;
+  marqueeIndex.value = 0
+  rollDistance.value = 0
 
-  if (rollIntervalTimer.value) clearInterval(rollIntervalTimer.value);
-  if (rollTimeoutTimer.value) clearTimeout(rollTimeoutTimer.value);
-};
+  if (rollIntervalTimer.value) clearInterval(rollIntervalTimer.value)
+  if (rollTimeoutTimer.value) clearTimeout(rollTimeoutTimer.value)
+}
 
 const startToRoll = (): void => {
   rollIntervalTimer.value = setInterval(() => {
-    onRolling(++marqueeIndex.value * -props.height, props.speed);
+    onRolling(++marqueeIndex.value * -props.height, props.speed)
 
     if (marqueeIndex.value === marqueeListLength.value - 1) {
       rollTimeoutTimer.value = setTimeout(() => {
-        onRolling(0, 0);
-        marqueeIndex.value = 0;
-      }, props.speed);
+        onRolling(0, 0)
+        marqueeIndex.value = 0
+      }, props.speed)
     }
-  }, props.duration);
-};
+  }, props.duration)
+}
 
 const onMouseOver = (): void => {
-  rollIntervalTimer.value && clearInterval(rollIntervalTimer.value);
-};
+  rollIntervalTimer.value && clearInterval(rollIntervalTimer.value)
+}
 
 const onMouseLeave = (): void => {
-  startToRoll();
-};
+  startToRoll()
+}
 
 // watch(
 //   () => props.list,
@@ -120,7 +120,6 @@ const onMouseLeave = (): void => {
 //     marqueeIndex.value = 0;
 //   }
 // };
-
 </script>
 <style lang="scss" scoped>
 .rolling-text-wrapper {

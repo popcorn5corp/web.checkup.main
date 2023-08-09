@@ -1,3 +1,3 @@
-import axios from "@/utils/http/axios";
+import axios from '@/utils/http/axios'
 
-export const service = axios;
+export const service = axios

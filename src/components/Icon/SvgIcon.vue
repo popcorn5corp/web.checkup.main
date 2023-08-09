@@ -5,7 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, type CSSProperties } from 'vue'
+import { type CSSProperties, computed } from 'vue'
+
 defineOptions({
   name: 'SvgIcon'
 })

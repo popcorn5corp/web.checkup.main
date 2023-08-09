@@ -24,20 +24,13 @@ module.exports = {
   },
   plugins: ['prettier', '@typescript-eslint'],
   rules: {
-    'vue/multi-word-component-names': [
-      'error',
-      {
-        ignores: ['index'],
-        // $schema: 'https://json.schemastore.org/prettierrc',
-        // semi: false,
-        // tabWidth: 2,
-        // singleQuote: true,
-        // printWidth: 100,
-        // trailingComma: 'none'
-        // printWidth: 10
-        // trailingComma: 'none'
-      }
-    ],
+    // 'vue/multi-word-component-names': [
+    //   'error',
+    //   {
+    //     ignores: ['index']
+    //   }
+    // ],
+    'vue/multi-word-component-names': 'off',
     'no-unused-vars': 'off',
     'vue/no-unused-vars': 'off'
   }

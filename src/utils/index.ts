@@ -1,4 +1,4 @@
-import { mergeWith, isObject } from 'lodash-es'
+import { isObject, mergeWith } from 'lodash-es'
 
 export function deepMerge<T extends object | null | undefined, U extends object | null | undefined>(
   target: T,

@@ -1,22 +1,21 @@
 <script setup lang="ts" name="TableFilter">
-import { ref, computed, type Component } from 'vue'
+import { type Component, computed, ref } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { Button } from '../../Button'
 import type { FilterType } from '../interface'
-
 import Checkbox from './FilterType/Checkbox.vue'
 import Datepicker from './FilterType/Datepicker.vue'
+import Radio from './FilterType/Radio.vue'
 import RangeDatePicker from './FilterType/RangeDatePicker.vue'
 import Select from './FilterType/Select.vue'
-import Radio from './FilterType/Radio.vue'
 
 const emit = defineEmits(['showFilter'])
 
 const { config } = useProjectConfigStore()
 const { filterList } = useTableFilterStore()
 
-const getDarkModeStyle = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
+const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
 
 const showFilter = ref<Boolean>(true)
 
@@ -35,15 +34,15 @@ const filterTypeComponents: Record<FilterType, Component> = {
 </script>
 <template>
   <div class="filter-wrapper">
-    <div class="filter-list" :class="getDarkModeStyle" v-if="showFilter">
+    <div class="filter-list" :class="getDarkModeClass" v-if="showFilter">
       <!-- 모바일 버전 헤더 -->
       <div class="mobile-header">
         <h3>{{ $t('common.filterText') }}</h3>
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
 
-      <ul :class="getDarkModeStyle">
-        <li :class="getDarkModeStyle">
+      <ul :class="getDarkModeClass">
+        <li :class="getDarkModeClass">
           <div v-for="(item, index) in filterList" :key="index">
             <div class="filter-title" @click="() => (item.open = !item.open)">
               <span>{{ item.title }}</span>
@@ -64,7 +63,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
         </li>
       </ul>
 
-      <div :class="getDarkModeStyle" class="mobile-footer">
+      <div :class="getDarkModeClass" class="mobile-footer">
         <a-divider></a-divider>
         <div class="btn-group">
           <Button label="Clear all" size="large" @click="onFilter" />

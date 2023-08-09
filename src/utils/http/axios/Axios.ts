@@ -1,4 +1,3 @@
-import { ContentTypeEnum } from '@/enums/httpEnum'
 import axios from 'axios'
 import type {
   AxiosError,
@@ -7,6 +6,7 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig
 } from 'axios'
+import { ContentTypeEnum } from '@/enums/httpEnum'
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   noLoading?: boolean

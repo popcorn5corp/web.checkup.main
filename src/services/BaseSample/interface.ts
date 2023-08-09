@@ -7,19 +7,18 @@
 //   getSortableCodes: () => Promise<SortCodesResponse>
 //   fileDwonload: () => Promise<any>
 // }
-
-import type { Dayjs } from "dayjs";
+import type { Dayjs } from 'dayjs'
 
 export interface ConditionParam {
-  sort?: string;
-  filter?: string;
+  sort?: string
+  filter?: string
 }
 
 export interface SortCodesResponse {
-  isSortable: boolean;
+  isSortable: boolean
   enabledSortCodes: Array<{
-    sortCode: string;
-    description: string;
+    sortCode: string
+    description: string
   }>
 }
 
@@ -36,7 +35,7 @@ export namespace IBaseSample {
   }
 
   export interface Content {
-    key: Key;
+    key: Key
     boardId: string // 샘플 게시판 아이디
     boardTitle: string // 샘플 게시판 제목
     boardContent: string // 샘플 게시판 내용
@@ -78,7 +77,7 @@ export namespace IBaseSample {
     }>
   }
 
-  export interface BaseSamplesParam extends ConditionParam{
+  export interface BaseSamplesParam extends ConditionParam {
     searchEndDate: string
     searchStartDate: string
     searchWord: string
@@ -88,5 +87,5 @@ export namespace IBaseSample {
   }
 
   export interface BaseSampleUpdateParam extends BaseSample {}
-  export interface BaseSampleCreateParam extends Omit<BaseSample, 'boardId'>
+  export interface BaseSampleCreateParam extends Omit<BaseSample, 'boardId'> {}
 }

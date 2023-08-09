@@ -1,12 +1,12 @@
-import packageJSON from '../package.json'
 import type {
   ComponentRenderProxy,
+  EmitsOptions,
+  SetupContext,
   VNode,
   VNodeChild,
-  SetupContext,
-  EmitsOptions,
   PropType as VuePropType
 } from 'vue'
+import packageJSON from '../package.json'
 
 declare global {
   const __APP_INFO__: {

@@ -1,9 +1,9 @@
 <script lang="ts" setup name="FilterSelect">
+import type { RawValueType } from 'ant-design-vue/es/vc-select/BaseSelect'
+import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 import { toRefs } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import type { Filter } from '../../types'
-import type { RawValueType } from 'ant-design-vue/es/vc-select/BaseSelect'
-import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 
 const props = defineProps({
   item: {

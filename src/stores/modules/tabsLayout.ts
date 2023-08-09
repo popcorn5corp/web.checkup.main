@@ -1,8 +1,8 @@
-import { reactive, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
-import type { TabsLayoutState, RouteItem } from '../interface'
-import { LOGIN_NAME, REDIRECT_NAME, PAGE_NOT_FOUND_NAME } from '@/router/constant'
+import { computed, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { LOGIN_NAME, PAGE_NOT_FOUND_NAME, REDIRECT_NAME } from '@/router/constant'
+import type { RouteItem, TabsLayoutState } from '../interface'
 
 export const blackList = [REDIRECT_NAME, LOGIN_NAME, PAGE_NOT_FOUND_NAME] as const
 

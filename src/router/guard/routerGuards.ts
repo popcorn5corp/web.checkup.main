@@ -1,8 +1,8 @@
 import { isNavigationFailure } from 'vue-router'
+import type { RouteLocationNormalized, Router } from 'vue-router'
+import type { WhiteNameList } from '@/router/constant'
 // import NProgress from 'nprogress' // progress bar
 import { RouteNameEnum } from '@/router/interface/index'
-import type { WhiteNameList } from '@/router/constant'
-import type { Router, RouteLocationNormalized } from 'vue-router'
 
 const defaultRoutePath = '/dashboard/welcome'
 

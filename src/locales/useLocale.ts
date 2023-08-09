@@ -1,9 +1,9 @@
-import { computed, unref, nextTick } from 'vue'
-import { loadLocalePool, setHtmlPageLang } from '@/helpers/locale'
-import { useLocaleStoreWithOut } from '@/stores/modules/locale'
-import type { LocaleType } from '@/locales/config'
 import type { Locale } from 'ant-design-vue/es/locale-provider'
+import { computed, nextTick, unref } from 'vue'
+import { useLocaleStoreWithOut } from '@/stores/modules/locale'
+import { loadLocalePool, setHtmlPageLang } from '@/helpers/locale'
 import i18n from '@/locales/'
+import type { LocaleType } from '@/locales/config'
 
 interface LangModule {
   message: Recordable

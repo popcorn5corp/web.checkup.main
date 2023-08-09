@@ -1,6 +1,7 @@
+import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { RouteLocation } from 'vue-router'
 import { type Filter } from '@/components/Table/interface'
-import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
+
 // export type LayoutType = 'default' | 'vertical' | 'transverse' | 'columns'
 export type AssemblySizeType = 'large' | 'default' | 'small'
 export type LanguageType = 'zh' | 'en' | null

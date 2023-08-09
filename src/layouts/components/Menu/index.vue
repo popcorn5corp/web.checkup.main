@@ -1,16 +1,16 @@
 <template>
   <div class="menu-container">
-    <!-- <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a> -->
     <MenuHeader v-if="isSideMenu" :collapsed="collapsed" />
 
-    <!-- <a-divider style="height: 2px" /> -->
-    <!-- <a-divider orientation="left">FMS</a-divider> -->
-    <!-- <a-divider orientation="left" style="height: 2px; background: silver" plain>FMS</a-divider> -->
-    <!-- <hr style="border-top: 3px solid #bbb" /> -->
-
     <div class="menu-content" :class="{ 'is-side-menu': isSideMenu }">
-      <Menu v-model:selected-keys="state.selectedKeys" :open-keys="isSideMenu ? state.openKeys : []"
-        :mode="isSideMenu ? 'inline' : 'horizontal'" :theme="theme" :collapsed="props.collapsed" @click="onClickMenuItem">
+      <Menu
+        v-model:selected-keys="state.selectedKeys"
+        :open-keys="isSideMenu ? state.openKeys : []"
+        :mode="isSideMenu ? 'inline' : 'horizontal'"
+        :theme="theme"
+        :collapsed="props.collapsed"
+        @click="onClickMenuItem"
+      >
         <MenuItem :menus="menuList" />
       </Menu>
     </div>
@@ -20,13 +20,13 @@
 </template>
 
 <script setup lang="ts" name="Menu">
-import { reactive, computed, watch, type PropType } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import Menu, { type MenuTheme } from 'ant-design-vue/es/menu'
-import MenuItem from './components/MenuItem.vue'
+import { type PropType, computed, reactive, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { RouteNameEnum } from '@/router/interface'
 import MenuHeader from './components/MenuHeader.vue'
+import MenuItem from './components/MenuItem.vue'
 import { menus } from './mock'
 
 const props = defineProps({

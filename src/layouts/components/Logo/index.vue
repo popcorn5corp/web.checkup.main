@@ -7,6 +7,7 @@
 import { computed } from 'vue'
 import type { CSSProperties } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+
 defineOptions({
   name: 'Logo'
 })

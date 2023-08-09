@@ -1,9 +1,9 @@
-import { computed, reactive, toRefs, ref, watch } from 'vue'
-import type { DynamicTableProps, FilterType, TablePagination, TableSorter } from '../interface'
-import type { TableRowSelection } from 'ant-design-vue/es/table/interface'
-import { isArray, isEmpty } from '@/utils/is'
 import type { TableProps } from 'ant-design-vue'
+import type { TableRowSelection } from 'ant-design-vue/es/table/interface'
+import { computed, reactive, ref, toRefs, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import { isArray, isEmpty } from '@/utils/is'
+import type { DynamicTableProps, FilterType, TablePagination, TableSorter } from '../interface'
 
 interface State {
   dataSource: any[]
@@ -99,7 +99,7 @@ export const useTable = (
 
     try {
       state.isLoading = true
-      let dataSource = []
+      const dataSource = []
       let requestParam: State['requestParam'] = {}
 
       if (!options?.isReset) {
@@ -128,7 +128,7 @@ export const useTable = (
       }
 
       isPagination && Object.assign(requestParam, paginationParam.value)
-      isSorting && Object.assign(requestParam, sorterParam.value)
+      isSorting.value && Object.assign(requestParam, sorterParam.value)
 
       const { data, success } = await request(requestParam)
 

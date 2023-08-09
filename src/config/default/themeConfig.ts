@@ -1,12 +1,12 @@
-import {
-  layoutFontSizes,
-  themeNames,
-  menuPositions,
-  type ThemeName,
-  type MenuPosition,
-  type LayoutFontSize
-} from '@/stores/interface'
 import i18n from '@/locales'
+import {
+  type LayoutFontSize,
+  type MenuPosition,
+  type ThemeName,
+  layoutFontSizes,
+  menuPositions,
+  themeNames
+} from '@/stores/interface'
 
 export const themeStyle: ReadonlyArray<LabelValue<ThemeName>> = [
   {

@@ -1,6 +1,7 @@
-import { ref } from 'vue'
-import { FilterTypes, type Filter } from './interface'
 import type { TableColumnsType } from 'ant-design-vue'
+import { ref } from 'vue'
+import { type Filter, FilterTypes } from './interface'
+
 // import i18n from '@/locales';
 
 export const columns = ref<TableColumnsType>([

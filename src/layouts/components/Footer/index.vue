@@ -3,6 +3,7 @@
 </template>
 <script setup lang="ts" name="Footer">
 import { Layout } from 'ant-design-vue'
+
 const { Footer } = Layout
 </script>
 <style lang="scss" scoped>

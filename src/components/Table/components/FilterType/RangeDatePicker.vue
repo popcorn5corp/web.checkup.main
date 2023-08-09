@@ -1,8 +1,8 @@
 <script lang="ts" setup name="FilterRangeDatepicker">
-import { toRefs, ref, watch } from 'vue'
+import type { Dayjs } from 'dayjs'
+import { ref, toRefs, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { type Filter } from '../../types'
-import type { Dayjs } from 'dayjs'
 
 const props = defineProps({
   item: {

@@ -3,9 +3,9 @@ import { createI18n } from 'vue-i18n'
 // import { setHtmlPageLang, setLoadLocalePool } from '@/helpers/locale'
 import { useLocaleStoreWithOut } from '@/stores/modules/locale'
 import { localeMap } from './config'
-import ko_KR from './lang/ko_KR'
-import id_ID from './lang/id_ID'
 import en_US from './lang/en_US'
+import id_ID from './lang/id_ID'
+import ko_KR from './lang/ko_KR'
 
 const localeStore = useLocaleStoreWithOut()
 const locale = localeStore.getLocale()

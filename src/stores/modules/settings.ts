@@ -1,5 +1,5 @@
-import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 import { layoutSettings } from '@/config/default/layoutConfig'
 
 export const useSettingsStore = defineStore('settings', () => {

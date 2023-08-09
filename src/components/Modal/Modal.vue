@@ -1,8 +1,10 @@
-<template></template>
+<template>
+  <div></div>
+</template>
 
 <script lang="ts" setup name="Modal">
-import { computed } from 'vue'
 import { Modal } from 'ant-design-vue'
+import { computed } from 'vue'
 
 interface Props {
   label: string

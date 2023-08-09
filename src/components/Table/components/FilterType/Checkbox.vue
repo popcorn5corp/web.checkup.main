@@ -1,12 +1,12 @@
 <script lang="ts" setup name="FilterCheckbox">
-import { toRefs, ref, watch } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import type { Filter } from '../../types'
+import type { Filter } from '../../interface'
 
 const props = defineProps({
   item: {
     type: Object as PropType<Filter>,
-    default: () => { }
+    default: () => {}
   }
 })
 
@@ -45,7 +45,7 @@ const onKeyup = (e: any) => {
     </a-input>
   </div>
   <a-checkbox-group v-model:value="selectedItems" @change="onChange" name="checkboxgroup">
-    <template v-for="option in checkboxOptions">
+    <template v-for="(option, index) in checkboxOptions" :key="index">
       <a-col>
         <a-checkbox :value="option">{{ option.label }}</a-checkbox>
       </a-col>

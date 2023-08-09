@@ -258,6 +258,8 @@ defineExpose({
     .total-count {
       font-size: 14px;
       font-weight: 400;
+      display: inline-block;
+      width: 80px;
     }
 
     :deep(.ant-space) {

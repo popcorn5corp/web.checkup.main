@@ -1,7 +1,7 @@
 <script lang="ts" setup name="FilterRadio">
-import { toRefs, ref } from 'vue'
-import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import { ref, toRefs } from 'vue'
 import { watch } from 'vue'
+import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import type { Filter } from '../../types'
 
 const props = defineProps({

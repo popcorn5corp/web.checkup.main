@@ -1,7 +1,13 @@
 <template>
   <div class="tabs-container">
-    <Tabs v-model:activeKey="activeKey" hide-add type="editable-card" @change="onChangeTab" @edit="onEditTab"
-      :style="tabsStyle">
+    <Tabs
+      v-model:activeKey="activeKey"
+      hide-add
+      type="editable-card"
+      @change="onChangeTab"
+      @edit="onEditTab"
+      :style="tabsStyle"
+    >
       <TabPane v-for="tab in tabs" :key="tab.fullPath" :tab="tab.meta.title" />
     </Tabs>
 
@@ -24,15 +30,16 @@
 </template>
 
 <script setup lang="ts" name="Tabs">
-import { ref, watch, computed, onUnmounted, unref, onMounted, type CSSProperties } from 'vue'
+import router from '@/router'
 import { Tabs } from 'ant-design-vue'
-import { useRoute, type RouteLocationNormalized } from 'vue-router'
-import { useTabsLayoutStore } from '@/stores/modules/tabsLayout'
+import { type CSSProperties, computed, onMounted, onUnmounted, ref, unref, watch } from 'vue'
+import { type RouteLocationNormalized, useRoute } from 'vue-router'
 import type { RouteItem } from '@/stores/interface'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useTabsLayoutStore } from '@/stores/modules/tabsLayout'
 import { Storage } from '@/utils/storage'
 import { TABS_ROUTES_KEY } from '@/enums/cacheKeyEnum'
-import router from '@/router'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+
 const { TabPane } = Tabs
 
 const route = useRoute()

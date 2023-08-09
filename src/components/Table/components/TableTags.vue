@@ -1,11 +1,13 @@
 <script setup lang="ts" name="TableTags">
 import { computed } from 'vue'
-import { useTag } from '../hooks/useTag'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useTag } from '../hooks/useTag'
 
 const { config } = useProjectConfigStore()
 const { tags, removeTag, initTag } = useTag()
-const isRealDarkClass = computed(() => ({ 'tags-dark-mode': config.theme.navTheme === 'realDark' }))
+const getDarkModeClass = computed(() => ({
+  'tags-dark-mode': config.theme.navTheme === 'realDark'
+}))
 
 const onClose = (options: LabelValueOptions, type = null) => {
   removeTag(options, type)
@@ -17,9 +19,11 @@ const onClick = () => initTag()
   <div class="table-tags">
     <template v-for="tag in tags">
       <template v-for="{ label, value, type } in tag">
-        <p v-if="value !== null" class="table-tag" :class="isRealDarkClass">
+        <p v-if="value !== null" class="table-tag" :class="getDarkModeClass">
           <span>{{ label }}</span>
-          <span @click="onClose({ label, value }, type)"><font-awesome-icon :icon="['fas', 'xmark']" /></span>
+          <span @click="onClose({ label, value }, type)"
+            ><font-awesome-icon :icon="['fas', 'xmark']"
+          /></span>
         </p>
       </template>
     </template>
@@ -56,7 +60,7 @@ const onClick = () => initTag()
 
   .tags-dark-mode {
     background: transparent !important;
-    color: white !important;
+    color: $color-white !important;
     border: 1px solid #666666 !important;
   }
 }

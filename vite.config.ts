@@ -1,16 +1,15 @@
-import { fileURLToPath, URL } from 'node:url'
-import { resolve, dirname } from 'node:path'
-
-import { defineConfig, type UserConfig, loadEnv } from 'vite'
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import Components from 'unplugin-vue-components/vite'
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
-import { createHtmlPlugin } from 'vite-plugin-html'
-import pkg from './package.json'
 import dayjs from 'dayjs'
+import { dirname, resolve } from 'node:path'
+import { URL, fileURLToPath } from 'node:url'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
+import { type UserConfig, defineConfig, loadEnv } from 'vite'
+import { createHtmlPlugin } from 'vite-plugin-html'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import pkg from './package.json'
 
 const CWD = process.cwd()
 const { dependencies, devDependencies, name, version } = pkg

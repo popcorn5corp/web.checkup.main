@@ -1,7 +1,7 @@
 <script setup lang="ts" name="TableSegmentButton">
-import { ref, type CSSProperties } from 'vue';
+import { TableOutlined, UnorderedListOutlined } from '@ant-design/icons-vue'
 import { Segmented } from 'ant-design-vue'
-import { UnorderedListOutlined, TableOutlined } from '@ant-design/icons-vue'
+import { type CSSProperties, ref } from 'vue'
 
 const value = ref('table')
 const options = ref([

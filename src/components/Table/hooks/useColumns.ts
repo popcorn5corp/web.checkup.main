@@ -1,8 +1,8 @@
-import { reactive, toRefs } from 'vue'
-import type { DynamicTableProps } from '../interface'
 import type { TableColumnType } from 'ant-design-vue'
-import type { SortCodesResponse } from '@/services/BaseSample/interface'
 import { cloneDeep } from 'lodash-es'
+import { reactive, toRefs } from 'vue'
+import type { SortCodesResponse } from '@/services/BaseSample/interface'
+import type { DynamicTableProps } from '../interface'
 
 interface State {
   columns: TableColumnType[]
@@ -33,7 +33,7 @@ export const useColumns = (
       const { isSortable, enabledSortCodes } = data
 
       if (isSortable && initColumns) {
-        let columns: TableColumnType[] = cloneDeep(initColumns)
+        const columns: TableColumnType[] = cloneDeep(initColumns)
 
         columns.map((column) => {
           const index = enabledSortCodes.findIndex((r) => r.sortCode === column.key)
