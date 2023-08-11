@@ -37,11 +37,11 @@ declare interface LabelValueType extends LabelValue<T> {
 
 declare type ContentMode = 'CREATE' | 'READ' | 'UPDATE' | 'DELETE'
 
-declare interface FileContent {
-  extension: string
-  fileId: string
-  fileOriginName: string
-  fileUrl: string
-  size: number
-  uid: string
-}
+// declare interface FileContent {
+//   extension: string
+//   fileId: string
+//   fileOriginName: string
+//   fileUrl: string
+//   size: number
+//   // uid?: string
+// }

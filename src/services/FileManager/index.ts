@@ -1,10 +1,16 @@
+import type { UploadProgressEvent } from 'ant-design-vue/es/vc-upload/interface'
 import { service } from '@/utils/service'
+import type { IFileManager } from './interface'
 
 class FileManageService {
   constructor() {}
 
-  upload(params: any) {
-    return service.upload('/file/multi/upload', params)
+  upload(formData: FormData, config: any) {
+    return service.upload<IFileManager.UploadResponse>('/file/multi/upload', formData, config)
+  }
+
+  download(params: any) {
+    return service.download('/file/download', params)
   }
 }
 

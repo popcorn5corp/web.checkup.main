@@ -41,6 +41,7 @@ const divisionOptions = ref<SelectProps['options']>([
 const SAMPLE_FILE_TYPE = fileTypes.TEST
 
 const formRef = ref()
+const fileUploader = ref()
 const formState: UnwrapRef<FormState> = reactive({
   layout: 'horizontal',
   post: getDefaultPost(),
@@ -50,10 +51,15 @@ const formState: UnwrapRef<FormState> = reactive({
 const onSubmit = async () => formRef.value.validate()
 const formattedDate = (date: Dayjs | string) => dayjs(date).format('YYYY-MM-DD')
 const rollbackPost = () => (formState.post = cloneDeep(formState.clonePost))
-const getPostDetail = (): Post => ({
-  ...formState.post
-  // createdAt: dayjs(formState.post.createdAt).format('YYYY-MM-DD')
-})
+const getPostDetail = (): Post => {
+  const files = fileUploader.value.getFiles()
+
+  return {
+    ...formState.post,
+    boardFiles: files
+    // createdAt: dayjs(formState.post.createdAt).format('YYYY-MM-DD')
+  }
+}
 
 const formItemLayout = computed(() => {
   const { layout } = formState
@@ -136,7 +142,11 @@ defineExpose({
         <Select v-model:value="formState.post.division" :options="divisionOptions"></Select>
       </Item>
       <Item label="게시물 첩부파일">
-        <FileUploader :files="formState.post.boardFiles" :type="SAMPLE_FILE_TYPE" />
+        <FileUploader
+          ref="fileUploader"
+          :files="formState.post.boardFiles"
+          :type="SAMPLE_FILE_TYPE"
+        />
       </Item>
     </Form>
   </div>

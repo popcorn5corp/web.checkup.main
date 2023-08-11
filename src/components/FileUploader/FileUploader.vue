@@ -15,6 +15,7 @@
       }"
       @download="onDownload"
       @remove="onRemove"
+      @change="onChange"
     >
       <Button v-if="!readonly" label="Upload">
         <template #icon>
@@ -27,8 +28,10 @@
 <script setup lang="ts" name="FileUploader">
 import { FileManagerService } from '@/services'
 import { Upload, type UploadFile, type UploadProps } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
+import type { UploadProgressEvent } from 'ant-design-vue/es/vc-upload/interface'
 import { ref, watch } from 'vue'
-import type { IFileManager } from '@/services/Upload/interface'
+import type { IFileManager } from '@/services/FileManager/interface'
 import { Button } from '@/components/Button'
 import { UploadOutlined } from '@/components/Icon'
 
@@ -51,14 +54,15 @@ const props = withDefaults(defineProps<FileUploaderProps>(), {
 })
 
 const fileList = ref<UploadProps['fileList']>([])
-const newFileList = ref<UploadProps['fileList']>([])
+const newFileList = ref<FileUploaderProps['files']>([])
+// const newFileList = ref<UploadProps['fileList']>([])
 
 watch(
   () => props.files,
   (_files) => {
     fileList.value = _files.map((file) => {
       return {
-        uid: file.uid,
+        uid: file.fileId,
         name: file.fileOriginName,
         status: 'done'
       }
@@ -72,35 +76,60 @@ watch(
 const onUpload: UploadProps['customRequest'] = async (options) => {
   const { onSuccess, onError, file, onProgress } = options
 
-  console.log('fileList ', newFileList.value)
-  console.log('file ', file)
+  // // For Multiple FormData
+  // const formData = new FormData()
+  // newFileList.value!.forEach((_file, i) => {
+  //   formData.append(`files[${i}].file`, _file as any)
+  //   formData.append(`files[${i}].type`, props.type)
+  // })
 
   const formData = new FormData()
-  newFileList.value!.forEach((_file, i) => {
-    formData.append(`files[${i}].file`, _file as any)
-    formData.append(`files[${i}].type`, props.type)
-  })
+  formData.append('files[0].file', file as any)
+  formData.append('files[0].type', props.type)
 
-  const result = await FileManagerService.upload(formData)
-  console.log('result :: ', result)
+  try {
+    const { data, success } = await FileManagerService.upload(formData, {})
+    if (success) {
+      message.success('upload successfully.')
+      const { files } = data
+
+      fileList.value?.push({
+        uid: files[0].fileId,
+        name: files[0].fileOriginName,
+        status: 'done'
+      })
+
+      newFileList.value = [...(newFileList.value || []), files[0]]
+    } else {
+      message.error('upload failed.')
+    }
+  } catch (e) {
+    console.log(e)
+    message.error('upload failed.')
+  }
 }
 
 const onDownload: UploadProps['onDownload'] = (file) => {
   console.log('onDownload :: ', file)
 }
 
-const onRemove: UploadProps['onRemove'] = (file) => {}
+const onChange: UploadProps['onChange'] = (info) => {}
+
+const onRemove: UploadProps['onRemove'] = (file) => {
+  fileList.value = fileList.value?.filter((_file) => _file.uid !== file.uid)
+}
 
 const onBeforeUpload: UploadProps['beforeUpload'] = (file) => {
-  newFileList.value = [...(newFileList.value || []), file]
-  // const isLt2M = file.size / 1024 / 1024 < 2;
-  // if (!isLt2M) {
-  //   message.error('Image must smaller than 2MB!');
-  // }
-  // return isJpgOrPng && isLt2M;
-
-  // fileList.value = [...(fileList.value || []), file]
+  // newFileList.value = [...(newFileList.value || []), file]
 }
+
+const getFiles = () => {
+  return props.files.concat(newFileList.value)
+}
+
+defineExpose({
+  getFiles
+})
 </script>
 
 <style lang="scss" scoped>

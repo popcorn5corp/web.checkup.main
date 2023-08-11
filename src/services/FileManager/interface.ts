@@ -7,8 +7,11 @@ export namespace IFileManager {
     fileOriginName: string
     fileUrl: string
     size: number
-    uid: string
   }
 
   export type FileType = (typeof fileTypes)[keyof typeof fileTypes]
+
+  export interface UploadResponse {
+    files: FileContent[]
+  }
 }
