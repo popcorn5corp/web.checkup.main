@@ -1,6 +1,7 @@
 <template>
   <div class="tabs-container">
     <Tabs
+      ref="tabsRef"
       v-model:activeKey="activeKey"
       hide-add
       type="editable-card"
@@ -17,7 +18,6 @@
         </template>
       </TabPane>
     </Tabs>
-
     <!-- <div class="tabs-content">
       <router-view v-slot="{ Component }">
         <template v-if="Component">
@@ -39,6 +39,7 @@
 <script setup lang="ts" name="Tabs">
 import router from '@/router'
 import { Tabs } from 'ant-design-vue'
+import Sortable from 'sortablejs'
 import { type CSSProperties, computed, onMounted, onUnmounted, ref, unref, watch } from 'vue'
 import { type RouteLocationNormalized, useRoute } from 'vue-router'
 import type { RouteItem } from '@/stores/interface'
@@ -58,8 +59,7 @@ const {
 const tabs = computed(() => tabsLyoutStore.getTabs())
 const activeKey = ref(route.fullPath)
 const newTabIndex = ref(0)
-
-initTabs()
+const tabsRef = ref()
 
 const activeTabBorderColor = computed(() => theme.primaryColor)
 const tabsStyle = computed<CSSProperties>(() => {
@@ -67,6 +67,19 @@ const tabsStyle = computed<CSSProperties>(() => {
     backgroundColor: theme.navTheme !== 'realDark' ? 'rgba(255, 255, 255, 0.85)' : ''
   }
 })
+
+onMounted(() => {
+  initTabs()
+  tabsDrop()
+})
+
+const tabsDrop = () => {
+  Sortable.create(tabsRef.value.$el.querySelector('.ant-tabs-nav-list') as HTMLElement, {
+    draggable: 'ant-tabs-tab',
+    animation: 300
+    // onEnd({ newIndex, oldIndex }) {}
+  })
+}
 
 watch(
   () => route.fullPath,
@@ -89,8 +102,8 @@ function getSimpleRoute(route: RouteLocationNormalized): RouteItem {
   return { fullPath, hash, meta, name, params, path, query }
 }
 
-function onChangeTab(key: string): void {
-  Object.is(route.fullPath, key) || router.push(key)
+function onChangeTab(activeKey: Key): void {
+  Object.is(route.fullPath, activeKey) || router.push(activeKey as string)
 }
 
 function removeTab(route: RouteItem): void {
@@ -101,9 +114,9 @@ function saveTabs(): void {
   Storage.set(TABS_ROUTES_KEY, JSON.stringify(unref(tabs)))
 }
 
-function onEditTab(key: string, action: string): void {
+function onEditTab(e: Key | MouseEvent | KeyboardEvent, action: 'add' | 'remove'): void {
   if (action === 'remove') {
-    const selectedTab = tabs.value.find((item) => item.fullPath === key)
+    const selectedTab = tabs.value.find((item) => item.fullPath === e)
     removeTab(selectedTab!)
   }
 }
@@ -130,6 +143,7 @@ onUnmounted(() => {
         line-height: 0px;
 
         .ant-tabs-tab {
+          border-radius: 0;
           transition: all 0s cubic-bezier(0.645, 0.045, 0.355, 1);
 
           .ant-tabs-tab-remove {

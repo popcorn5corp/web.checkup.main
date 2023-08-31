@@ -35,11 +35,11 @@ export namespace IBaseSample {
   }
 
   export interface Content {
-    key: Key
+    // key: Key
     boardId: string // 샘플 게시판 아이디
     boardTitle: string // 샘플 게시판 제목
     boardContent: string // 샘플 게시판 내용
-    createdAt: string | Dayjs // 생성일
+    createdAt: number // 생성일
     division: 'PRIVATE' | 'PUBLIC' // 샘플 게시판 구분
   }
 
@@ -69,12 +69,13 @@ export namespace IBaseSample {
 
   export interface BaseSample extends Content {
     boardFiles: Array<{
-      uid: string
-      extension: string
+      ext: string
       fileId: string
-      fileOriginName: string
-      fileUrl: string
+      name: string
+      originName: string
+      path: string
       size: number
+      url: string // domain + path
     }>
   }
 
@@ -87,6 +88,6 @@ export namespace IBaseSample {
     division: 'PRIVATE' | 'PUBLIC'
   }
 
-  export interface BaseSampleUpdateParam extends BaseSample {}
-  export interface BaseSampleCreateParam extends Omit<BaseSample, 'boardId'> {}
+  export interface BaseSampleUpdateParam extends Omit<BaseSample, 'createdAt'> {}
+  export interface BaseSampleCreateParam extends Omit<BaseSample, 'boardId' | 'createdAt'> {}
 }

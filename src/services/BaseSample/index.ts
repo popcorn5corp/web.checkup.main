@@ -13,8 +13,8 @@ class BaseSampleService {
     return service.get<IBaseSample.BaseSample>(`/sample-board/posts/${boardId}`)
   }
   updateOne(param: IBaseSample.BaseSampleUpdateParam) {
-    const { boardId, ...rest } = param
-    return service.put(`/sample-board/posts/${boardId}`, rest)
+    const { boardId } = param
+    return service.put(`/sample-board/posts/${boardId}`, param)
   }
   createOne(param: IBaseSample.BaseSampleCreateParam) {
     return service.post<IBaseSample.Content>('/sample-board/post', param)

@@ -136,17 +136,20 @@ const onRemovePost = (selectedRows: IBaseSample.Content[]): void => {
  */
 const callServiceByMode = (callback: Function): void => {
   const postDetail: IBaseSample.BaseSample = postDetailRef.value.getPostDetail()
+  const { boardId, boardContent, boardFiles, boardTitle, division } = postDetail
 
   if (mode.value === modes.C) {
-    const { boardId, ...param } = postDetail
-
-    BaseSampleService.createOne(param).then(({ success }) => {
-      success && callback()
-    })
+    BaseSampleService.createOne({ boardContent, boardFiles, boardTitle, division }).then(
+      ({ success }) => {
+        success && callback()
+      }
+    )
   } else {
-    BaseSampleService.updateOne(postDetail).then(({ success }) => {
-      success && callback()
-    })
+    BaseSampleService.updateOne({ boardId, boardContent, boardFiles, boardTitle, division }).then(
+      ({ success }) => {
+        success && callback()
+      }
+    )
   }
 }
 

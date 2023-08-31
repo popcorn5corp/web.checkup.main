@@ -49,7 +49,7 @@ const formState: UnwrapRef<FormState> = reactive({
 })
 
 const onSubmit = async () => formRef.value.validate()
-const formattedDate = (date: Dayjs | string) => dayjs(date).format('YYYY-MM-DD')
+const formattedDate = (timestamp: number) => dayjs.unix(timestamp).format('YYYY-MM-DD')
 const rollbackPost = () => (formState.post = cloneDeep(formState.clonePost))
 const getPostDetail = (): Post => {
   const files = fileUploader.value.getFiles()
@@ -57,7 +57,6 @@ const getPostDetail = (): Post => {
   return {
     ...formState.post,
     boardFiles: files
-    // createdAt: dayjs(formState.post.createdAt).format('YYYY-MM-DD')
   }
 }
 
@@ -84,12 +83,9 @@ watch(
   () => props.data,
   (post) => {
     formState.post = {
-      ...post,
-      createdAt: dayjs(post.createdAt)
+      ...post
     }
     formState.clonePost = cloneDeep(post)
-
-    console.log('post :: ', post)
   },
   {
     immediate: true

@@ -5,11 +5,11 @@ import type { IFileManager } from './interface'
 class FileManageService {
   constructor() {}
 
-  upload(formData: FormData, config: any) {
-    return service.upload<IFileManager.UploadResponse>('/file/multi/upload', formData, config)
+  upload(formData: IFileManager.FileUploadParam, config: any) {
+    return service.upload<IFileManager.FileUploadResponse>('/file/upload', formData, config)
   }
 
-  download(params: any) {
+  download(params: IFileManager.DownloadParam) {
     return service.download('/file/download', params)
   }
 }

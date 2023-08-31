@@ -19,3 +19,10 @@ declare module 'virtual:*' {
   const result: any
   export default result
 }
+
+declare module 'file-saver' {
+  import { saveAs } from 'file-saver'
+  export { saveAs }
+}
+
+declare module 'sortablejs'

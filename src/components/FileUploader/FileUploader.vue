@@ -29,7 +29,8 @@
 import { FileManagerService } from '@/services'
 import { Upload, type UploadFile, type UploadProps } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
-import type { UploadProgressEvent } from 'ant-design-vue/es/vc-upload/interface'
+import type { RcFile, UploadProgressEvent } from 'ant-design-vue/es/vc-upload/interface'
+import { saveAs } from 'file-saver'
 import { ref, watch } from 'vue'
 import type { IFileManager } from '@/services/FileManager/interface'
 import { Button } from '@/components/Button'
@@ -46,24 +47,25 @@ interface FileUploaderEmits {
   (event: 'remove'): void
 }
 
-const emits = defineEmits<FileUploaderEmits>()
+defineEmits<FileUploaderEmits>()
 const props = withDefaults(defineProps<FileUploaderProps>(), {
   files: () => [],
   readonly: false,
   type: 'TEST'
 })
 
-const fileList = ref<UploadProps['fileList']>([])
-const newFileList = ref<FileUploaderProps['files']>([])
-// const newFileList = ref<UploadProps['fileList']>([])
+const IMG_SERVER_URL: Readonly<string> = 'https://sawork-prod.s3.ap-northeast-2.amazonaws.com/'
+const fileList = ref<UploadFile[]>([]) // for upload component binding
+const newFileList = ref<IFileManager.UpdateFileContent[]>([]) // for file contents update
 
 watch(
   () => props.files,
   (_files) => {
     fileList.value = _files.map((file) => {
       return {
-        uid: file.fileId,
-        name: file.fileOriginName,
+        uid: file.fileId as string,
+        name: file.originName,
+        url: file.url,
         status: 'done'
       }
     })
@@ -84,7 +86,7 @@ const onUpload: UploadProps['customRequest'] = async (options) => {
   // })
 
   const formData = new FormData()
-  formData.append('files[0].file', file as any)
+  formData.append('files[0].file', file)
   formData.append('files[0].type', props.type)
 
   try {
@@ -92,14 +94,23 @@ const onUpload: UploadProps['customRequest'] = async (options) => {
     if (success) {
       message.success('upload successfully.')
       const { files } = data
+      const responseFile = files[0]
 
       fileList.value?.push({
-        uid: files[0].fileId,
-        name: files[0].fileOriginName,
+        uid: (file as RcFile).uid,
+        name: responseFile.originName,
+        url: responseFile.url,
         status: 'done'
       })
 
-      newFileList.value = [...(newFileList.value || []), files[0]]
+      // 업데이트 가능한 File 형식에 맞도록 Response File 기준으로 세팅
+      newFileList.value = [
+        ...(newFileList.value || []),
+        {
+          ...responseFile,
+          remove: false
+        }
+      ]
     } else {
       message.error('upload failed.')
     }
@@ -109,8 +120,16 @@ const onUpload: UploadProps['customRequest'] = async (options) => {
   }
 }
 
+// TODO
 const onDownload: UploadProps['onDownload'] = (file) => {
-  console.log('onDownload :: ', file)
+  const { name, url } = file
+
+  FileManagerService.download({
+    fileName: name,
+    fileUrl: url?.replace(IMG_SERVER_URL, '') as string
+  }).then((blob) => {
+    saveAs(blob, file.name)
+  })
 }
 
 const onChange: UploadProps['onChange'] = (info) => {}
@@ -124,7 +143,17 @@ const onBeforeUpload: UploadProps['beforeUpload'] = (file) => {
 }
 
 const getFiles = () => {
-  return props.files.concat(newFileList.value)
+  // fileList에 존재하는 props files 목록만 필터
+  const filterdPropFiles: IFileManager.UpdateFileContent[] = props.files.map((propFile) => {
+    const file = fileList.value?.find((f) => f.uid === propFile.fileId)
+
+    return {
+      ...propFile,
+      remove: !file
+    }
+  })
+
+  return filterdPropFiles.concat(newFileList.value)
 }
 
 defineExpose({
@@ -134,5 +163,13 @@ defineExpose({
 
 <style lang="scss" scoped>
 .file-uplaod-wrapper {
+  :deep(.ant-upload-list) {
+    height: 200px;
+    overflow-y: auto;
+
+    .ant-upload-list-item-actions {
+      width: 55px;
+    }
+  }
 }
 </style>

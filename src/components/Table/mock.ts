@@ -1,4 +1,5 @@
 import type { TableColumnsType } from 'ant-design-vue'
+import dayjs from 'dayjs'
 import { ref } from 'vue'
 import { type Filter, FilterTypes } from './interface'
 
@@ -22,7 +23,10 @@ export const columns = ref<TableColumnsType>([
   {
     title: '생성일',
     dataIndex: 'createdAt',
-    key: 'createdAt'
+    key: 'createdAt',
+    customRender: ({ text }) => {
+      return dayjs.unix(text).format('YYYY-MM-DD')
+    }
   },
   {
     title: '게시물 구분',

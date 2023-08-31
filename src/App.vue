@@ -16,9 +16,9 @@
 import LayoutContainer from '@/layouts/index.vue'
 import { ConfigProvider } from 'ant-design-vue'
 import { theme } from 'ant-design-vue'
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { useLocale } from '@/hooks/useLocale'
+import { useLocale } from '@/locales/hooks/useLocale'
 
 defineOptions({
   name: 'App'

@@ -8,6 +8,8 @@ import {
   themeNames
 } from '@/stores/interface'
 
+const { t } = i18n.global
+
 export const themeStyle: ReadonlyArray<LabelValue<ThemeName>> = [
   {
     label: 'Light',
@@ -36,15 +38,15 @@ export const menuLayouts: ReadonlyArray<LabelValue<MenuPosition>> = [
 
 export const layoutFonts: ReadonlyArray<LabelValue<LayoutFontSize>> = [
   {
-    label: i18n.global.t('layout.header.settings.fontSizeSmall'),
+    label: t('layout.header.settings.fontSizeSmall'),
     value: layoutFontSizes.small
   },
   {
-    label: '중간',
+    label: t('layout.header.settings.fontSizeMedium'),
     value: layoutFontSizes.medium
   },
   {
-    label: '크게',
+    label: t('layout.header.settings.fontSizeLarge'),
     value: layoutFontSizes.large
   }
 ] as const

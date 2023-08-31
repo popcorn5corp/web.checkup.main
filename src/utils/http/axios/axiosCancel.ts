@@ -13,7 +13,6 @@ export class AxiosCanceler {
     const controller = new AbortController()
     config.signal = config.signal || controller.signal
     if (!pendingMap.has(url)) {
-      // 如果当前请求不在等待中，将其添加到等待中
       pendingMap.set(url, controller)
     }
   }
@@ -30,7 +29,6 @@ export class AxiosCanceler {
   public removePending(config: AxiosRequestConfig): void {
     const url = getPendingUrl(config)
     if (pendingMap.has(url)) {
-      // 如果当前请求在等待中，取消它并将其从等待中移除
       const abortController = pendingMap.get(url)
       if (abortController) {
         abortController.abort(url)

@@ -42,6 +42,8 @@ declare global {
     [P in keyof T]?: DeepPartial<T[P]>
   }
 
+  declare type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
   declare type TimeoutHandle = ReturnType<typeof setTimeout>
   declare type IntervalHandle = ReturnType<typeof setInterval>
 

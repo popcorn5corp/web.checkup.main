@@ -1,3 +1,11 @@
 <script setup lang="ts" name="ParnerSearch"></script>
 
-<template>파트너 검색</template>
+<template>
+  <div id="grid1">
+    <iframe
+      height="900px"
+      width="100%"
+      src="http://dev.checkup-api.co.kr/base/swagger-ui/#/"
+    ></iframe>
+  </div>
+</template>

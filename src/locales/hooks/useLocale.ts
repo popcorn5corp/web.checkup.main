@@ -11,32 +11,34 @@ interface LangModule {
   dateLocaleName: string
 }
 
-function setI18nLanguage(locale: LocaleType) {
-  const localeStore = useLocaleStoreWithOut()
-  i18n.global.locale.value = locale
-  setHtmlPageLang(locale)
-  localeStore.setLocale(locale)
-}
-
-async function loadLocaleMessages(locale: LocaleType) {
-  const globalI18n = i18n.global
-
-  if (!globalI18n.availableLocales.includes(locale)) {
-    const langModule = ((await import(`./lang/${locale}.ts`)) as any).default as LangModule
-    if (!langModule) return
-    const { message } = langModule
-    globalI18n.setLocaleMessage(locale, message as any)
-  }
-
-  return nextTick()
-}
-
-export function useLocale() {
+export const useLocale = () => {
   const localeStore = useLocaleStoreWithOut()
   const getLocale = computed(() => localeStore.getLocale())
   const getAntdLocale = computed<Locale>(() => {
     return (i18n.global.getLocaleMessage(unref(getLocale)) as any).antdLocale
   })
+
+  async function _loadLocaleMessages(locale: LocaleType) {
+    const globalI18n = i18n.global
+
+    if (!globalI18n.availableLocales.includes(locale)) {
+      const langModule = ((await import(`./lang/${locale}.ts`)) as any).default as LangModule
+      if (!langModule) return
+      const { message } = langModule
+      globalI18n.setLocaleMessage(locale, message as any)
+    }
+
+    return nextTick()
+  }
+
+  function setI18nLanguage(locale: LocaleType) {
+    _loadLocaleMessages(locale)
+
+    const localeStore = useLocaleStoreWithOut()
+    i18n.global.locale.value = locale
+    setHtmlPageLang(locale)
+    localeStore.setLocale(locale)
+  }
 
   async function setLocale(locale: LocaleType) {
     const globalI18n = i18n.global
@@ -50,15 +52,21 @@ export function useLocale() {
       return locale
     }
 
-    loadLocaleMessages(locale)
+    // loadLocaleMessages(locale)
     loadLocalePool.push(locale)
     setI18nLanguage(locale)
     return locale
   }
 
+  function setPersistedLocale(locale: LocaleType) {
+    localeStore.setPersistedLocale(locale)
+  }
+
   return {
     getLocale,
     getAntdLocale,
-    setLocale
+    setLocale,
+    setPersistedLocale,
+    setI18nLanguage
   }
 }

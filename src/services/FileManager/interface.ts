@@ -2,16 +2,28 @@ import { fileTypes } from '@/constants/file'
 
 export namespace IFileManager {
   export interface FileContent {
-    extension: string
     fileId: string
-    fileOriginName: string
-    fileUrl: string
+    ext: string
+    name: string
+    originName: string
+    path: string
     size: number
+    url: string // domain + path
+  }
+
+  export type UpdateFileContent = PartialBy<FileContent, 'fileId'> & {
+    remove?: boolean
   }
 
   export type FileType = (typeof fileTypes)[keyof typeof fileTypes]
 
-  export interface UploadResponse {
+  export type FileUploadParam = FormData
+  export interface FileUploadResponse {
     files: FileContent[]
+  }
+
+  export interface DownloadParam {
+    fileName: string
+    fileUrl: string
   }
 }
