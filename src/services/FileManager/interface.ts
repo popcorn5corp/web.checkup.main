@@ -17,7 +17,7 @@ export namespace IFileManager {
 
   export type FileType = (typeof fileTypes)[keyof typeof fileTypes]
 
-  export type FileUploadParam = FormData
+  export type UploadParam = FormData
   export interface FileUploadResponse {
     files: FileContent[]
   }

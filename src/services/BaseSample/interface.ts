@@ -7,8 +7,6 @@
 //   getSortableCodes: () => Promise<SortCodesResponse>
 //   fileDwonload: () => Promise<any>
 // }
-import type { Dayjs } from 'dayjs'
-
 export interface ConditionParam {
   sort?: string
   filter?: string

@@ -108,7 +108,7 @@ export const Square: Story = {
   args: {
     text: 'Grapic Design',
     theme: 'default',
-    shape: 'square'
+    shape: 'squared'
   }
 }
 

@@ -11,7 +11,7 @@ type PaginationPositon =
   | 'bottomCenter'
   | 'bottomRight'
 
-type TableSize = 'middle' | 'small' | 'large'
+type TableSize = 'small' | 'middle' | 'large'
 
 export interface TablePagination {
   total: number

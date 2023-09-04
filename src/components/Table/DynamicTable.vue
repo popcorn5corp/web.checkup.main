@@ -22,7 +22,8 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
     pointer: true,
     isPagination: true,
     isShowNo: true
-  })
+  }),
+  size: 'middle'
 })
 
 const showFilter = ref(true)
