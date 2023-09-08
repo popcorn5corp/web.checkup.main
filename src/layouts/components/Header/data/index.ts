@@ -1,7 +1,3 @@
-import { createVNode } from 'vue'
-import { Badge } from '@/components/Badge'
-import '@/components/Icon'
-
 export const rollingList = [
   {
     title: '[공지사항] 체크업서비스 사용법 안내',

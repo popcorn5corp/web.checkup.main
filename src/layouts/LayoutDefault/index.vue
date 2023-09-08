@@ -27,7 +27,7 @@
       <Layout.Content class="layout-content" :class="getDarkModeClass">
         <div class="title">{{ $route.meta.title }}</div>
 
-        <a-divider></a-divider>
+        <Divider />
         <slot></slot>
       </Layout.Content>
       <PageFooter />
@@ -36,8 +36,8 @@
     <CircularMenu />
   </Layout>
 </template>
-<script setup lang="ts" name="Layout">
-import { Layout } from 'ant-design-vue'
+<script setup lang="ts" name="LayoutDefault">
+import { Divider, Layout } from 'ant-design-vue'
 import { computed, onMounted } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import PageFooter from '../components/Footer/index.vue'

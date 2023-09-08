@@ -41,64 +41,19 @@
     width="800px"
   >
     <div class="modal-content">
-      <Tabs v-model:active-key="activeKey" :tab-position="'left'">
-        <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')"></TabPane>
+      <Tabs :tabs="tabList" :tabPosition="'left'" />
+
+      <!-- <Tabs v-model:active-key="activeKey" :tab-position="'left'">
+        <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')">
+          <UserAccount />
+        </TabPane>
         <TabPane key="2" :tab="$t('layout.header.settings.tabDisplaySetting')" force-render>
-          <!-- <a-switch size="small" v-model:checked="isDarkMode" /> -->
-          <Descriptions :title="$t('layout.header.settings.displaySettingTheme')" :column="5">
-            <Descriptions.Item v-for="theme in themeStyle" :key="theme.value">
-              <Tooltip :title="theme.label">
-                <div
-                  class="check-item"
-                  :class="{ active: config.theme.navTheme === theme.value }"
-                  @click="setNavTheme(theme.value)"
-                >
-                  <SvgIcon :name="theme.value" size="50" />
-                </div>
-              </Tooltip>
-            </Descriptions.Item>
-          </Descriptions>
-          <Descriptions
-            :title="$t('layout.header.settings.displaySettingMenuPosition')"
-            :column="5"
-          >
-            <Descriptions.Item v-for="item in menuLayouts" :key="item.value">
-              <Tooltip :title="item.label">
-                <div
-                  class="check-item"
-                  :class="{ active: config.theme.menuPosition === item.value }"
-                  @click="setMenuPosition(item.value)"
-                >
-                  <SvgIcon :name="item.value" size="50" />
-                </div>
-              </Tooltip>
-            </Descriptions.Item>
-          </Descriptions>
-          <Descriptions :title="$t('layout.header.settings.displaySettingColor')" :column="9">
-            <Descriptions.Item v-for="item in themeColors" :key="item.value">
-              <div class="check-item">
-                <Tooltip :title="item.label">
-                  <Tag :color="item.value" @click="setThemeColor(item.value)">
-                    <span :style="{ visibility: getThemeColorVisible(item.value) }"> ✔ </span>
-                  </Tag>
-                </Tooltip>
-              </div>
-            </Descriptions.Item>
-          </Descriptions>
-          <Descriptions :title="$t('layout.header.settings.displaySettingFontSize')" :column="5">
-            <Descriptions.Item>
-              <a-radio-group v-model:value="config.theme.fontSize" @change="setLayoutFontSize">
-                <a-radio v-for="(item, i) in layoutFonts" :key="i" :value="item.value">{{
-                  item.label
-                }}</a-radio>
-              </a-radio-group>
-            </Descriptions.Item>
-          </Descriptions>
+          <DisplaySetting />
         </TabPane>
         <TabPane key="3" :tab="$t('layout.header.settings.tabLang')">
           <LanguageSetting />
         </TabPane>
-      </Tabs>
+      </Tabs> -->
     </div>
   </Modal>
 </template>
@@ -106,66 +61,55 @@
 import {
   Avatar,
   Badge,
-  Descriptions, // Button,
   Dropdown,
   Menu,
   MenuItem,
   type MenuProps,
-  Modal,
-  type RadioChangeEvent,
-  Select,
-  Tabs,
-  Tag,
-  Tooltip
+  Modal // Tabs
 } from 'ant-design-vue'
-import { computed, ref } from 'vue'
-import type { ThemeConfig } from '@/stores/interface'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/Button'
-import {
-  CaretDownOutlined,
-  LogoutOutlined,
-  SettingOutlined,
-  SvgIcon,
-  UserOutlined
-} from '@/components/Icon'
-import { layoutFonts, menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'
+import { CaretDownOutlined, LogoutOutlined, SettingOutlined, UserOutlined } from '@/components/Icon'
+import { type TabList, Tabs } from '@/components/tabs'
+import DisplaySetting from './DisplaySetting.vue'
 import LanguageSetting from './LanguageSetting.vue'
+import UserAccount from './UserAccount.vue'
 
-const { TabPane } = Tabs
-const { Option } = Select
-
-const { config, setTheme } = useProjectConfigStore()
+// const { TabPane } = Tabs
 const activeKey = ref('2')
 const isOpen = ref(false)
+const { t } = useI18n()
 
-const isDarkMode = computed({
-  get() {
-    return config.theme.isDark
+// const isDarkMode = computed({
+//   get() {
+//     return config.theme.isDark
+//   },
+//   set(isDark) {
+//     setTheme({ navTheme: isDark ? 'dark' : 'light', isDark })
+//   }
+// })
+
+const tabList: TabList = [
+  {
+    key: '1',
+    title: t('layout.header.settings.tabAccount'),
+    component: UserAccount,
+    closable: false
   },
-  set(isDark) {
-    setTheme({ navTheme: isDark ? 'dark' : 'light', isDark })
+  {
+    key: '2',
+    title: t('layout.header.settings.tabDisplaySetting'),
+    component: DisplaySetting,
+    closable: false
+  },
+  {
+    key: '3',
+    title: t('layout.header.settings.tabLang'),
+    component: LanguageSetting,
+    closable: false
   }
-})
-
-const getThemeColorVisible = (color: string) =>
-  config.theme.primaryColor === color ? 'visible' : 'hidden'
-
-function setNavTheme(themeName: ThemeConfig['navTheme']) {
-  setTheme({ navTheme: themeName })
-}
-
-function setThemeColor(primaryColor: string) {
-  setTheme({ primaryColor })
-}
-
-function setMenuPosition(menuPosition: ThemeConfig['menuPosition']) {
-  setTheme({ menuPosition })
-}
-
-function setLayoutFontSize({ target: { value } }: RadioChangeEvent) {
-  setTheme({ fontSize: value })
-}
+]
 
 const onClickMenu: MenuProps['onClick'] = (e) => {
   if (e.key === '3') {
