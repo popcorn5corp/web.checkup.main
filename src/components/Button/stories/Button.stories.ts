@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import Button from './Button.vue'
+import Button from '../Button.vue'
 
 const meta = {
   title: 'checkupuikit/Atoms/Button',
@@ -82,6 +82,23 @@ const meta = {
 
 export default meta
 type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+  render: (args) => ({
+    components: { Button },
+    setup() {
+      return {
+        args: {
+          label: 'Default'
+        }
+      }
+    },
+    template: '<Button v-bind="args"></Button>'
+  })
+  // args: {
+  //   label: 'Default'
+  // }
+}
 
 export const Primary: Story = {
   args: {

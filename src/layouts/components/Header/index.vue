@@ -25,7 +25,7 @@
 import { Layout, type MenuTheme, Space } from 'ant-design-vue'
 import { type CSSProperties, type PropType, computed, ref, watch } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/Icon'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/icons'
 import RollingText from './components/RollingText.vue'
 import UserDropdown from './components/UserDropdown.vue'
 import { rollingList } from './data/index'

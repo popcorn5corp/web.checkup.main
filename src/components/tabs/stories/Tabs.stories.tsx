@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import type { ComponentProps } from 'vue-component-type-helpers'
-import { Button } from '@/components/Button'
-import { CloudOutlined, DownloadOutlined, PhoneFilled } from '@/components/Icon'
+import { Button } from '@/components/button'
+import { CloudOutlined, DownloadOutlined, PhoneFilled } from '@/components/icons'
 import { Tabs } from '..'
 
 const meta: Meta<ComponentProps<typeof Tabs>> = {

@@ -4,7 +4,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
 import type { IBaseSample } from '@/services/BaseSample/interface'
-import { FileUploader } from '@/components/FileUploader'
+import { FileUploader } from '@/components/file-uploader'
 import { fileTypes } from '@/constants/file'
 import { getDefaultPost } from '../constant'
 

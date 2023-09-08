@@ -6,7 +6,7 @@ import { useRouter } from 'vue-router'
 import { localeList } from '@/locales/config'
 import type { LocaleType } from '@/locales/config'
 import { useLocale } from '@/locales/hooks/useLocale'
-import { QuestionCircleTwoTone } from '@/components/Icon'
+import { QuestionCircleTwoTone } from '@/components/icons'
 
 const { Option } = Select
 

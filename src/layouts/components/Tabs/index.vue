@@ -46,7 +46,7 @@ import type { RouteItem } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTabsLayoutStore } from '@/stores/modules/tabsLayout'
 import { Storage } from '@/utils/storage'
-import { LaptopOutlined } from '@/components/Icon'
+import { LaptopOutlined } from '@/components/icons'
 import { TABS_ROUTES_KEY } from '@/enums/cacheKeyEnum'
 
 const { TabPane } = Tabs

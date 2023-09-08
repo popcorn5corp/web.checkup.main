@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Button } from '@/components/Button'
+import { Button } from '@/components/button'
 import './header.css'
 
 defineProps<{ user: { name: string } | null }>()

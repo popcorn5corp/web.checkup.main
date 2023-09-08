@@ -69,8 +69,13 @@ import {
 } from 'ant-design-vue'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Button } from '@/components/Button'
-import { CaretDownOutlined, LogoutOutlined, SettingOutlined, UserOutlined } from '@/components/Icon'
+import { Button } from '@/components/button'
+import {
+  CaretDownOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined
+} from '@/components/icons'
 import { type TabList, Tabs } from '@/components/tabs'
 import DisplaySetting from './DisplaySetting.vue'
 import LanguageSetting from './LanguageSetting.vue'

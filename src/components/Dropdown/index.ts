@@ -1,3 +1,1 @@
-import Dropdown from './Dropdown.vue'
-
-export { Dropdown }
+export { default as Dropdown } from './Dropdown.vue'

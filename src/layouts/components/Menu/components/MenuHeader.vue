@@ -14,8 +14,8 @@
 <script setup lang="ts">
 import { type CSSProperties, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Button } from '@/components/Button'
-import { PlusCircleFilled } from '@/components/Icon'
+import { Button } from '@/components/button'
+import { PlusCircleFilled } from '@/components/icons'
 
 defineOptions({
   name: 'MenuHeader'
