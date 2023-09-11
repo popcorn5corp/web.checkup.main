@@ -41,9 +41,7 @@
     width="800px"
   >
     <div class="modal-content">
-      <Tabs :tabs="tabList" :tabPosition="'left'" />
-
-      <!-- <Tabs v-model:active-key="activeKey" :tab-position="'left'">
+      <Tabs :tabPosition="'left'">
         <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')">
           <UserAccount />
         </TabPane>
@@ -53,7 +51,7 @@
         <TabPane key="3" :tab="$t('layout.header.settings.tabLang')">
           <LanguageSetting />
         </TabPane>
-      </Tabs> -->
+      </Tabs>
     </div>
   </Modal>
 </template>
@@ -77,6 +75,7 @@ import {
   UserOutlined
 } from '@/components/icons'
 import { type TabList, Tabs } from '@/components/tabs'
+import { TabPane } from '@/components/tabs'
 import DisplaySetting from './DisplaySetting.vue'
 import LanguageSetting from './LanguageSetting.vue'
 import UserAccount from './UserAccount.vue'
