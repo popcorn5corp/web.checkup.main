@@ -1,31 +1,25 @@
 <template>
   <div class="tabs-container">
-    <Tabs
-      v-if="tabs"
-      v-model:activeKey="activeKey"
-      :tabPosition="tabPosition"
-      :type="type"
-      @edit="onEdit"
-    >
-      <template v-for="pane in tabList" :key="pane.key">
-        <TabPane :closable="pane.closable">
-          <template #tab>
-            <span>
-              <component :is="pane.icon" />
-              {{ pane.title }}
-            </span>
-          </template>
+    <Tabs v-model:activeKey="activeKey" :tabPosition="tabPosition" :type="type" @edit="onEdit">
+      <template v-if="tabs">
+        <template v-for="pane in tabList" :key="pane.key">
+          <TabPane :closable="pane.closable">
+            <template #tab>
+              <span>
+                <component :is="pane.icon" />
+                {{ pane.title }}
+              </span>
+            </template>
 
-          <!-- Component -->
-          <component v-if="pane.component" :is="pane.component" />
+            <!-- Component -->
+            <component v-if="pane.component" :is="pane.component" />
 
-          <!-- Content: Text... -->
-          <div v-if="pane.content">{{ pane.content }}</div>
-        </TabPane>
+            <!-- Content: Text... -->
+            <div v-if="pane.content">{{ pane.content }}</div>
+          </TabPane>
+        </template>
       </template>
-    </Tabs>
-    <Tabs v-else>
-      <slot />
+      <slot v-else />
     </Tabs>
   </div>
 </template>
@@ -39,6 +33,7 @@ const props = withDefaults(defineProps<TabsProps>(), {
   tabPosition: 'top',
   type: 'line'
 })
+
 const tabList = ref<TabList>([])
 const activeKey = ref()
 const newTabIndex = ref(0)

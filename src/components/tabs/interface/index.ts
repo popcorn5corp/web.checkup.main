@@ -15,7 +15,7 @@ export type TabList = Tab[]
 export type TabsType = 'line' | 'card' | 'editable-card'
 
 export interface TabsProps {
-  tabs: TabList
+  tabs?: TabList
   tabPosition?: TabPosition
   type?: TabsType
 }
