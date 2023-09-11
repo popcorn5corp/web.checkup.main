@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { type FilterType, FilterTypes } from '@/components/table/interface'
+import { type FilterType, FilterTypes } from '../interface'
 
 export function useTag() {
   const { filterList, setFilterList } = useTableFilterStore()

@@ -1,9 +1,15 @@
 <script setup lang="ts" name="antd">
 import { type Component } from 'vue'
-import { Checkbox, Datepicker, Radio, RangeDatePicker, Select } from '@/components/Table/components'
-import type { FilterType } from '@/components/Table/interface'
-import { filterList } from '@/components/Table/mock'
 import { Accordion, AccordionPanel } from '@/components/accordion'
+import type { FilterType } from '@/components/dynamic-table/interface'
+import {
+  Checkbox,
+  Datepicker,
+  Radio,
+  RangeDatePicker,
+  Select
+} from '@/components/dynamic-table/src/components'
+import { filterList } from '@/components/dynamic-table/src/components/mock'
 
 const filterTypeComponents: Record<FilterType, Component> = {
   checkbox: Checkbox,

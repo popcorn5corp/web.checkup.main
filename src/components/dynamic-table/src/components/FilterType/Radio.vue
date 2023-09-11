@@ -2,7 +2,7 @@
 import { ref, toRefs } from 'vue'
 import { watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import type { Filter } from '../../interface'
+import type { Filter } from '../../../interface'
 
 const props = defineProps({
   item: {
@@ -35,12 +35,10 @@ watch(selectedItems, () => {
   >
     <a-radio :value="value">{{ label }}</a-radio>
   </a-radio-group>
-  <a-divider />
 </template>
 
 <style lang="scss" scoped>
 .ant-radio-group {
-  margin: 0 1rem;
   width: 100%;
   display: flex;
   flex-direction: column;

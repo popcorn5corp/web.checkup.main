@@ -3,7 +3,7 @@ import type { RawValueType } from 'ant-design-vue/es/vc-select/BaseSelect'
 import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 import { toRefs } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import type { Filter } from '../../types'
+import type { Filter } from '../../../interface'
 
 const props = defineProps({
   item: {
@@ -27,12 +27,10 @@ const onSelect = (value: RawValueType | LabelInValueType, option: LabelValueType
     :options="options"
     placeholder="전체"
   />
-
-  <a-divider />
 </template>
 <style lang="scss" scoped>
 .ant-select {
-  margin: 1rem;
+  width: 100%;
   :deep(.ant-select-selector) {
     height: 40px !important;
     display: flex;

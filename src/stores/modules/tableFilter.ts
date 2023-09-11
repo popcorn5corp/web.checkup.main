@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
-import { useTable } from '@/components/table/hooks/useTable'
-import type { Filter } from '@/components/table/interface'
-import { filterList } from '@/components/table/mock'
+// import { useTable } from '@/components/table/hooks/useTable'
+import type { Filter } from '@/components/dynamic-table/interface'
+import { filterList } from '@/components/dynamic-table/src/components/mock'
 import type { TableFilterState } from '../interface'
 
 export const useTableFilterStore = defineStore('tableFilter', () => {

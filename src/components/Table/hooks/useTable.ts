@@ -1,9 +1,7 @@
-import type { TableProps } from 'ant-design-vue'
-import type { TableRowSelection } from 'ant-design-vue/es/table/interface'
-import { computed, reactive, ref, toRefs, watch } from 'vue'
+import { computed, reactive, ref, toRefs } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { isArray, isEmpty } from '@/utils/is'
-import type { DynamicTableProps, FilterType, TablePagination, TableSorter } from '../interface'
+import type { TablePagination, TableProps, TableSorter } from '../interface'
 
 interface State {
   dataSource: any[]
@@ -31,13 +29,13 @@ function getDefaultPagination(): TablePagination {
 }
 
 export const useTable = (
-  request?: DynamicTableProps['dataRequest'],
-  initParam: DynamicTableProps['initParam'] = {
+  request?: TableProps['dataRequest'],
+  initParam: TableProps['initParam'] = {
     size: 0,
     page: 1
   },
   isPagination: boolean = true,
-  dataCallback?: DynamicTableProps['dataCallback']
+  dataCallback?: TableProps['dataCallback']
 ) => {
   const { filterList } = useTableFilterStore()
   const requestParams = ref()
@@ -182,7 +180,7 @@ export const useTable = (
     }
   }
 
-  const rowSelection = computed<TableRowSelection>(() => {
+  const rowSelection = computed<TableProps['rowSelection']>(() => {
     return {
       selectedRowKeys: state.selectedRowKeys,
       onChange: (changableRowKeys: Key[]) => {

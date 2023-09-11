@@ -2,7 +2,7 @@
 import type { Dayjs } from 'dayjs'
 import { ref, toRefs, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { type Filter } from '../../types'
+import { type Filter } from '../../../interface'
 
 const props = defineProps({
   item: {
@@ -29,12 +29,11 @@ watch(selectedItems, () => !selectedItems.value.length && (dates.value = undefin
 
 <template>
   <a-range-picker :allowClear="false" v-model:value="dates" @change="onRangeChange" />
-  <a-divider />
 </template>
 
 <style lang="scss" scoped>
 .ant-picker-range {
-  margin: 1rem;
+  width: 100%;
   height: 40px;
 }
 </style>

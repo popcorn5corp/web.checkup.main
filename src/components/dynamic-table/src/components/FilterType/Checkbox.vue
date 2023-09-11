@@ -1,7 +1,7 @@
 <script lang="ts" setup name="FilterCheckbox">
 import { ref, toRefs, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import type { Filter } from '../../interface'
+import type { Filter } from '../../../interface'
 
 const props = defineProps({
   item: {
@@ -51,12 +51,10 @@ const onKeyup = (e: any) => {
       </a-col>
     </template>
   </a-checkbox-group>
-  <a-divider />
 </template>
 <style lang="scss" scoped>
 .filter-input {
-  margin: 9px 16px -13px;
-
+  width: 100%;
   :deep(.ant-input) {
     height: 28px;
   }

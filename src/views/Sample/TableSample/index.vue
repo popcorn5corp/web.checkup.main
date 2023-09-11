@@ -4,12 +4,12 @@ import { Modal, Spin, message } from 'ant-design-vue'
 import { computed, createVNode, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IBaseSample } from '@/services/BaseSample/interface'
+import { DynamicTable } from '@/components/dynamic-table'
 import { QuestionCircleTwoTone } from '@/components/icons'
-import { DynamicTable } from '@/components/table'
-import { columns } from '@/components/table/mock'
 import { contentModes as modes } from '@/constants/content'
 import PostDetail from './components/PostDetail.vue'
 import { getDefaultPost } from './constant'
+import { columns } from './mock'
 
 const DEFAULT_MODE = modes.R
 

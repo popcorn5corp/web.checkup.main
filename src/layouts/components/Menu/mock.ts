@@ -261,37 +261,58 @@ export const menus: any = [
     ]
   },
   {
-    path: '/sample',
-    name: 'sample',
+    path: '/samples',
+    name: 'samples',
     // redirect: '/dashboard/welcome',
     meta: {
       // title: 'routes.dashboard.dashboard',
       title: 'Samples',
       icon: 'icon-yibiaopan',
-      namePath: ['sample'],
-      fullPath: '/sample'
+      namePath: ['samples'],
+      fullPath: '/samples'
     },
     children: [
       {
         path: 'dynamic-table',
-        name: 'simple-dynamic-table',
+        name: 'samples-dynamic-table',
         meta: {
           // title: 'routes.dashboard.workbench',
           title: 'Dynamic Table',
           icon: 'icon-shouye',
-          namePath: ['sample', 'simple-dynamic-table'],
-          fullPath: '/sample/dynamic-table'
+          namePath: ['samples', 'samples-dynamic-table'],
+          fullPath: '/samples/dynamic-table'
+        }
+      }
+    ]
+  },
+  {
+    path: '/components',
+    name: 'components',
+    meta: {
+      title: 'UI Components',
+      icon: 'icon-yibiaopan',
+      namePath: ['components'],
+      fullPath: '/components'
+    },
+    children: [
+      {
+        path: 'table',
+        name: 'components-table',
+        meta: {
+          title: 'Table',
+          icon: 'icon-shouye',
+          namePath: ['components', 'components-table'],
+          fullPath: '/components/table'
         }
       },
       {
         path: 'accordion',
-        name: 'simple-accordion',
+        name: 'components-accordion',
         meta: {
-          // title: 'routes.dashboard.workbench',
           title: 'Accordion',
           icon: 'icon-shouye',
-          namePath: ['sample', 'simple-accordion'],
-          fullPath: '/sample/accordion'
+          namePath: ['components', 'components-accordion'],
+          fullPath: '/components/accordion'
         }
       }
     ]

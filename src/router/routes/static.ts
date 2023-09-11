@@ -179,26 +179,57 @@ export const staticRoutes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: '/sample',
-    name: 'sample',
+    path: '/samples',
+    name: 'samples',
     meta: {
       layout: layoutTypes.default
     },
     children: [
       {
         path: 'dynamic-table',
-        name: 'simple-dynamic-table',
+        name: 'samples-dynamic-table',
         component: () =>
-          import(/* webpackChunkName: "setting-table" */ '@/views/Sample/TableSample/index.vue'),
+          import(
+            /* webpackChunkName: "simple-dynamic-table" */ '@/views/Sample/TableSample/index.vue'
+          ),
         meta: {
           title: 'Dynamic Table'
+        }
+      }
+      // {
+      //   path: 'accordion',
+      //   name: 'samples-accordion',
+      //   component: () =>
+      //     import(/* webpackChunkName: "setting-table" */ '@/views/Sample/Accordian/index.vue'),
+      //   meta: {
+      //     title: 'Accordian'
+      //   }
+      // }
+    ]
+  },
+  {
+    path: '/components',
+    name: 'components',
+    meta: {
+      layout: layoutTypes.default
+    },
+    children: [
+      {
+        path: 'table',
+        name: 'components-table',
+        component: () =>
+          import(/* webpackChunkName: "components-table" */ '@/views/Components/Table/index.vue'),
+        meta: {
+          title: 'Table'
         }
       },
       {
         path: 'accordion',
-        name: 'simple-accordion',
+        name: 'components-accordion',
         component: () =>
-          import(/* webpackChunkName: "setting-table" */ '@/views/Sample/Accordian/index.vue'),
+          import(
+            /* webpackChunkName: "components-accordion" */ '@/views/Components/Accordian/index.vue'
+          ),
         meta: {
           title: 'Accordian'
         }

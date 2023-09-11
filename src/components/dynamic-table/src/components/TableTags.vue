@@ -1,7 +1,7 @@
 <script setup lang="ts" name="TableTags">
 import { computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { useTag } from '../hooks/useTag'
+import { useTag } from '../../hooks/useTag'
 
 const { config } = useProjectConfigStore()
 const { tags, removeTag, initTag } = useTag()
