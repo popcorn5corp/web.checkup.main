@@ -282,6 +282,17 @@ export const menus: any = [
           namePath: ['sample', 'simple-dynamic-table'],
           fullPath: '/sample/dynamic-table'
         }
+      },
+      {
+        path: 'accordion',
+        name: 'simple-accordion',
+        meta: {
+          // title: 'routes.dashboard.workbench',
+          title: 'Accordion',
+          icon: 'icon-shouye',
+          namePath: ['sample', 'simple-accordion'],
+          fullPath: '/sample/accordion'
+        }
       }
     ]
   }

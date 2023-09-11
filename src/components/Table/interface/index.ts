@@ -73,7 +73,6 @@ export type FilterType = (typeof FilterTypes)[keyof typeof FilterTypes]
 export interface Filter {
   type: FilterType
   title: string
-  open: boolean
   options: LabelValue[]
   selectedItems: any[]
 }

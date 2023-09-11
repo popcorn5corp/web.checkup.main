@@ -27,12 +27,10 @@ const onSelect = (value: RawValueType | LabelInValueType, option: LabelValueType
     :options="options"
     placeholder="전체"
   />
-
-  <a-divider />
 </template>
 <style lang="scss" scoped>
 .ant-select {
-  margin: 1rem;
+  width: 100%;
   :deep(.ant-select-selector) {
     height: 40px !important;
     display: flex;

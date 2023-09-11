@@ -3,13 +3,10 @@ import { Divider } from 'ant-design-vue'
 import { type Component, computed, ref } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import { Checkbox, Datepicker, Radio, RangeDatePicker, Select } from '@/components/Table/components'
+import { Accordion } from '@/components/accordion'
 import { Button } from '../../Button'
 import type { FilterType } from '../interface'
-import Checkbox from './FilterType/Checkbox.vue'
-import Datepicker from './FilterType/Datepicker.vue'
-import Radio from './FilterType/Radio.vue'
-import RangeDatePicker from './FilterType/RangeDatePicker.vue'
-import Select from './FilterType/Select.vue'
 
 const emit = defineEmits(['showFilter'])
 
@@ -32,6 +29,8 @@ const filterTypeComponents: Record<FilterType, Component> = {
   select: Select,
   radio: Radio
 }
+
+const customStyle = '  font-weight: bold; font-size: 16px'
 </script>
 <template>
   <div class="filter-wrapper">
@@ -42,27 +41,13 @@ const filterTypeComponents: Record<FilterType, Component> = {
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
 
-      <ul :class="getDarkModeClass">
-        <li :class="getDarkModeClass">
-          <div v-for="(item, index) in filterList" :key="index">
-            <div class="filter-title" @click="() => (item.open = !item.open)">
-              <span>{{ item.title }}</span>
-
-              <template v-if="item.open">
-                <font-awesome-icon :icon="['fas', 'angle-up']" />
-              </template>
-              <template v-else>
-                <font-awesome-icon :icon="['fas', 'angle-down']" />
-              </template>
-            </div>
-            <template v-if="item.open">
-              <keep-alive>
-                <component :is="filterTypeComponents[item.type as FilterType]" :item="item" />
-              </keep-alive>
-            </template>
-          </div>
-        </li>
-      </ul>
+      <Accordion :items="filterList" :style="customStyle" ghost>
+        <template #content="{ item }">
+          <keep-alive>
+            <component :is="filterTypeComponents[item.type as FilterType]" :item="item" />
+          </keep-alive>
+        </template>
+      </Accordion>
 
       <div :class="getDarkModeClass" class="mobile-footer">
         <Divider />

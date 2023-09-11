@@ -51,12 +51,10 @@ const onKeyup = (e: any) => {
       </a-col>
     </template>
   </a-checkbox-group>
-  <a-divider />
 </template>
 <style lang="scss" scoped>
 .filter-input {
-  margin: 9px 16px -13px;
-
+  width: 100%;
   :deep(.ant-input) {
     height: 28px;
   }

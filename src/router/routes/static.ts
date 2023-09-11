@@ -193,6 +193,15 @@ export const staticRoutes: RouteRecordRaw[] = [
         meta: {
           title: 'Dynamic Table'
         }
+      },
+      {
+        path: 'accordion',
+        name: 'simple-accordion',
+        component: () =>
+          import(/* webpackChunkName: "setting-table" */ '@/views/Sample/Accordian/index.vue'),
+        meta: {
+          title: 'Accordian'
+        }
       }
     ]
   }

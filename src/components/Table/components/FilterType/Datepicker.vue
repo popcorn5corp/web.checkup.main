@@ -35,12 +35,11 @@ watch(selectedItems, () => !selectedItems.value.length && (date.value = undefine
 
 <template>
   <a-date-picker :allowClear="true" v-model:value="date" @change="onRangeChange" />
-  <a-divider />
 </template>
 
 <style lang="scss" scoped>
 .ant-picker {
-  margin: 1rem;
+  width: 100%;
   height: 40px;
 }
 </style>
