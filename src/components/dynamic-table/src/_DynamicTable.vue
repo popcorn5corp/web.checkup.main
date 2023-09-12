@@ -1,37 +1,71 @@
-<script setup lang="ts" name="DynamicTable">
-import { Input, Space } from 'ant-design-vue'
-import { onMounted, ref, unref } from 'vue'
+<script setup lang="ts" name="LayoutFilter">
+import { Space, Table } from 'ant-design-vue'
+import { onMounted, ref, unref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/button'
 import { DownloadOutlined } from '@/components/icons'
-import { Table } from '@/components/table'
+import { useColumns } from '../hooks/useColumns'
+import { useSelection } from '../hooks/useSelection'
+import { useTable } from '../hooks/useTable'
 import { useTag } from '../hooks/useTag'
-import type { DynamicTableEmits, DynamicTableProps } from '../interface'
+import type { DynamicTableProps } from '../interface'
 import TableFilter from './components/TableFilter.vue'
 import TableSegmentButton from './components/TableSegmentButton.vue'
 import TableTags from './components/TableTags.vue'
 
-defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
+const emits = defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
 const props = withDefaults(defineProps<DynamicTableProps>(), {
-  rowKey: 'key',
   columns: () => [],
+  rowKey: 'key',
+  mode: 'dynamic',
   options: () => ({
     pointer: true,
     isPagination: true,
     isShowNo: true
   }),
-  size: 'middle',
-  showToolbar: false
+  size: 'middle'
 })
 
-const tableInstance = ref<InstanceType<typeof Table>>()
 const showFilter = ref(true)
 const isReload = ref(false)
+const cursor = ref(props.options.pointer && 'pointer')
 const searchWord = ref('')
+let isTableChangedFlag = false // 테이블 변경, 검색 조건 변경 구분을 위한 flag
+
+/**
+ * @description Table 관련 기능에 대한 Hooks
+ */
+const { dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading } =
+  useTable(props.dataRequest, props.initParam, props.options.isPagination, props.dataCallback)
+
+/**
+ * @description Table Selection 관련 기능에 대한 Hooks
+ */
+const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource)
+
+/**
+ * @description Table Columns 관련 기능에 대한 Hooks
+ */
+const { getColumns, columns } = useColumns(
+  props.columnRequest,
+  props.initColumns,
+  props.options.isShowNo
+)
 
 /**
  * @description Table Tag 관련 기능에 대한 Hooks
  */
 const { tags, initTag } = useTag()
+
+// watch(() => tags.value, () => {
+//   isLoading.value = true;
+
+//   setTimeout(() => {
+//     isLoading.value = false;
+//   }, 300)
+// }, {
+//   deep: false
+// })
 
 onMounted(() => {
   // temp code
@@ -42,10 +76,32 @@ onMounted(() => {
   }, 1000)
 })
 
-const onReload = (): void => {
+watch(
+  () => props.initColumns,
+  async () => {
+    getColumns()
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
+
+watch(
+  () => props.initParam,
+  () => {
+    getDataSource()
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
+
+const onReload = () => {
   isReload.value = true
   unref(searchWord) && (searchWord.value = '')
-  tableInstance.value?.getDataSource({ isReset: true })
+  getDataSource({ isReset: true })
   initTag()
 
   setTimeout(() => {
@@ -53,17 +109,26 @@ const onReload = (): void => {
   }, 1000)
 }
 
-const onSearch = (): void => {
-  tableInstance.value?.getDataSource({ param: { searchWord: unref(searchWord) } })
+/**
+ * 테이블 Row에 대한 이벤트를 제공하는 함수
+ * @param {Object} record
+ * @returns {{ onClick: () => void }}
+ */
+const customRow = (record: object) => ({
+  onClick: () => {
+    emits('rowClick', record)
+  }
+})
+
+const onSearch = () => {
+  getDataSource({ param: { searchWord: unref(searchWord) } })
 }
 
-const refetch = (options: { isReset?: boolean }) => {
-  tableInstance.value?.getDataSource(options)
-}
+const refetch = (param: any) => getDataSource(param)
 
 defineExpose({
-  getDataSource: tableInstance.value?.getDataSource,
-  getColumns: tableInstance.value?.getColumns,
+  getDataSource,
+  getColumns,
   refetch
 })
 </script>
@@ -72,12 +137,12 @@ defineExpose({
   <div class="dynamic-table-containter">
     <div class="table-header">
       <Space>
-        <span class="total-count" v-if="tableInstance?.total !== null">{{
-          $t('common.tableTotalText', { count: tableInstance?.total })
+        <span class="total-count" v-if="dataSource.length !== null">{{
+          $t('common.tableTotalText', { count: dataSource.length })
         }}</span>
 
         <div class="table-search">
-          <Input
+          <a-input
             v-model:value="searchWord"
             :placeholder="$t('common.searchPlaceholder')"
             @press-enter="onSearch"
@@ -90,13 +155,21 @@ defineExpose({
                 @click="onSearch"
               />
             </template>
-          </Input>
+          </a-input>
         </div>
         <div class="table-btns">
           <Space>
             <slot name="tableBtns"></slot>
 
+            <Button
+              v-if="selectedRows.length"
+              :label="$t('common.delete')"
+              size="large"
+              @click="$emit('rowSelect', unref(selectedRows))"
+            />
+            <div v-else :style="{ width: '56px' }"></div>
             <Button :label="$t('common.registration')" size="large" @click="$emit('rowAdd')" />
+
             <Button :label="''" size="large" @click="onReload">
               <template #icon>
                 <font-awesome-icon icon="rotate" :class="[isReload && 'rotating']" />
@@ -125,12 +198,25 @@ defineExpose({
           <TableTags />
 
           <Table
-            ref="tableInstance"
-            v-bind="{ ...props }"
-            @row-add="$emit('rowAdd', $event)"
-            @row-click="$emit('rowClick', $event)"
-            @row-select="$emit('rowSelect', $event)"
-          />
+            :scrollY="530"
+            :rowKey="rowKey"
+            :columns="columns"
+            :rowSelection="rowSelection"
+            :dataSource="dataSource"
+            :loading="isLoading"
+            :total="total"
+            :size="size"
+            :customRow="customRow"
+            :pagination="props.options.isPagination && pagination"
+            @change="changeTable"
+          >
+            <template #bodyCell="{ record, column, index, text }">
+              <template v-if="column.key === 'index'">
+                {{ getRecordNo(index) }}
+              </template>
+              <slot name="bodyCell" :record="record" :column="column" :index="index" :text="text" />
+            </template>
+          </Table>
         </div>
 
         <TableFilter v-if="showFilter" @showFilter="(flag: boolean) => (showFilter = flag)" />
@@ -142,6 +228,9 @@ defineExpose({
 <style lang="scss" scoped>
 .dynamic-table-containter {
   .table-header {
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
     margin: 1rem 0 1.5rem 0;
 
     .total-count {
@@ -174,6 +263,13 @@ defineExpose({
           border-radius: 9px;
         }
       }
+
+      :deep(.table-btns) {
+        // .ant-btn {
+        //   margin-left: 0.5rem;
+        //   font-weight: 600;
+        // }
+      }
     }
   }
 
@@ -194,6 +290,27 @@ defineExpose({
         .table-toolbar {
           display: flex;
           justify-content: end;
+        }
+
+        :deep(.ant-table) {
+          // overflow-y: auto
+          height: calc(100vh - 320px);
+          overflow: auto;
+
+          .ant-table-thead {
+            color: $color-dark !important;
+
+            th {
+              background: transparent !important;
+              border-bottom: 1px solid rgb(229, 232, 235) !important;
+              // font-weight: 400 !important;
+              font-size: 14px !important;
+            }
+          }
+
+          .ant-table-row {
+            cursor: v-bind(cursor);
+          }
         }
       }
 

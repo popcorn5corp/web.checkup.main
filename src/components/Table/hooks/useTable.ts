@@ -140,6 +140,7 @@ export const useTable = (
         })
         state.dataSource = dataCallback ? dataCallback(content) : content
         state.pagination.total = totalElements
+        state.total = totalElements
       }
     } catch (e) {
       console.log(e)

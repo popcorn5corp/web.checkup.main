@@ -14,7 +14,7 @@ import { columns } from './mock'
 const DEFAULT_MODE = modes.R
 
 const { t } = useI18n()
-const dynamicTableInstance = ref()
+const dynamicTableInstance = ref<InstanceType<typeof DynamicTable>>()
 const postDetailRef = ref()
 const isOpen = ref(false)
 const isLoading = ref(false)
@@ -46,7 +46,7 @@ const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
  * @description 데이터 테이블 Record 선택 후, 게시물 상세 조회
  * @param row
  */
-const onClickRow = (row: IBaseSample.Content) => {
+const onClickRow = (row: IBaseSample.Content): void => {
   isOpen.value = true
   isLoading.value = true
   mode.value = DEFAULT_MODE
@@ -92,7 +92,7 @@ const onOpenSaveModal = (): void => {
     onOk() {
       postDetailRef.value.onSubmit().then(() => {
         callServiceByMode(() => {
-          dynamicTableInstance.value.refetch({ isReset: true })
+          dynamicTableInstance.value?.refetch({ isReset: true })
           initState()
 
           setTimeout(() => {
@@ -117,7 +117,7 @@ const onRemovePost = (selectedRows: IBaseSample.Content[]): void => {
     onOk() {
       BaseSampleService.deleteOne(selectedRows[0].boardId).then(({ success }) => {
         if (success) {
-          dynamicTableInstance.value.refetch({ isReset: true })
+          dynamicTableInstance.value?.refetch({ isReset: true })
 
           setTimeout(() => {
             message.success(t('common.message.deleteSuccess'), 1)

@@ -26,9 +26,9 @@ import { ref, watch } from 'vue'
 import { useColumns } from '../hooks/useColumns'
 import { useSelection } from '../hooks/useSelection'
 import { useTable } from '../hooks/useTable'
-import type { TableProps } from '../interface'
+import type { TableEmits, TableProps } from '../interface'
 
-const emits = defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
+const emits = defineEmits<TableEmits>()
 const props = withDefaults(defineProps<TableProps>(), {
   rowKey: 'key',
   columns: () => [],
@@ -98,12 +98,16 @@ const customRow = (record: object) => ({
   }
 })
 
-const refetch = (param: any) => getDataSource(param)
+const refetch = (options: { isReset?: boolean }) => {
+  getDataSource(options)
+}
 
 defineExpose({
   getDataSource,
   getColumns,
-  refetch
+  refetch,
+  selectedRows,
+  total
 })
 </script>
 <style lang="scss" scoped>

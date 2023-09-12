@@ -5,7 +5,7 @@ import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { Accordion } from '@/components/accordion'
 import { Button } from '@/components/button'
-import type { FilterType } from '../../interface'
+import type { FilterType } from '../components/FilterType/types'
 import { Checkbox, Datepicker, Radio, RangeDatePicker, Select } from './'
 
 const emit = defineEmits(['showFilter'])

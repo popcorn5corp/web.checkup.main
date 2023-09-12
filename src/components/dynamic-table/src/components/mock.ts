@@ -1,4 +1,4 @@
-import { type Filter, FilterTypes } from '../../interface'
+import { type Filter, FilterTypes } from '../components/FilterType/types'
 
 export const filterList: Filter[] = [
   {
