@@ -1,8 +1,8 @@
 <script setup lang="ts" name="antd">
 import { SettingOutlined } from '@ant-design/icons-vue'
+import type { CollapseProps } from 'ant-design-vue/es/collapse/Collapse'
 import { type CSSProperties, type Component, ref } from 'vue'
 import { Accordion, AccordionPanel } from '@/components/accordion'
-import type { FilterType } from '@/components/dynamic-table/interface'
 import {
   Checkbox,
   Datepicker,
@@ -11,6 +11,7 @@ import {
   Select
 } from '@/components/dynamic-table/src/components'
 import { filterList } from '@/components/dynamic-table/src/components/mock'
+import type { FilterType } from '@/components/dynamic-table/types'
 
 const filterTypeComponents: Record<FilterType, Component> = {
   checkbox: Checkbox,
@@ -20,7 +21,11 @@ const filterTypeComponents: Record<FilterType, Component> = {
   radio: Radio
 }
 
-const customStyle: CSSProperties = 'width: 30%; font-weight: bold; font-size: 16px'
+const customStyle: CSSProperties = {
+  ['width']: '30%',
+  ['font-weight']: 'bold',
+  ['font-size']: '16px'
+}
 
 const expandIconPosition = ref<CollapseProps['expandIconPosition']>('end')
 </script>
