@@ -233,6 +233,15 @@ export const staticRoutes: RouteRecordRaw[] = [
         meta: {
           title: 'Accordian'
         }
+      },
+      {
+        path: 'modal',
+        name: 'components-modal',
+        component: () =>
+          import(/* webpackChunkName: "components-modal" */ '@/views/Components/Modal/index.vue'),
+        meta: {
+          title: 'Modal'
+        }
       }
     ]
   }

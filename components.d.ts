@@ -47,7 +47,7 @@ declare module '@vue/runtime-core' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
-    Modal: typeof import('./src/components/Modal/Modal.vue')['default']
+    Modal: typeof import('./src/components/modal/src/Modal.vue')['default']
     Radio: typeof import('./src/components/dynamic-table/src/components/FilterType/Radio.vue')['default']
     RadioSelectFilter: typeof import('./src/components/filter-form/src/components/RadioSelectFilter.vue')['default']
     RangeDateFilter: typeof import('./src/components/filter-form/src/components/RangeDateFilter.vue')['default']

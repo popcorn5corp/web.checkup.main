@@ -314,6 +314,16 @@ export const menus: any = [
           namePath: ['components', 'components-accordion'],
           fullPath: '/components/accordion'
         }
+      },
+      {
+        path: 'modal',
+        name: 'components-modal',
+        meta: {
+          title: 'Modal',
+          icon: 'icon-shouye',
+          namePath: ['components', 'components-modal'],
+          fullPath: '/components/modal'
+        }
       }
     ]
   }
