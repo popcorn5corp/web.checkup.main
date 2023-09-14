@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Collapse } from 'ant-design-vue'
 import { ref } from 'vue'
-import type { AccordionProps } from '../interface'
+import type { AccordionProps } from '../types'
 import AccordionPanel from './AccordionPanel.vue'
 
 const props = defineProps<AccordionProps>()
@@ -14,7 +14,7 @@ const onChange = (key: Key | Key[]) => {
 </script>
 
 <template>
-  <div>
+  <div :style="style">
     <template v-if="items">
       <Collapse
         v-for="(item, index) in items"
@@ -23,11 +23,11 @@ const onChange = (key: Key | Key[]) => {
         :key="index"
         :bordered="bordered"
         :ghost="ghost"
-        :style="style"
         @change="onChange"
       >
         <AccordionPanel :key="index" :header="item.title">
           <slot name="content" :item="item"></slot>
+          <template #extra><slot name="extra"></slot></template>
         </AccordionPanel>
       </Collapse>
     </template>
@@ -38,9 +38,9 @@ const onChange = (key: Key | Key[]) => {
       :expand-icon-position="expandIconPosition"
       :bordered="bordered"
       :ghost="ghost"
-      :style="style"
     >
       <slot></slot>
     </Collapse>
   </div>
 </template>
+../types

@@ -2130,7 +2130,7 @@
     memoizerific "^1.11.3"
     prop-types "^15.7.2"
 
-"@storybook/blocks@^7.4.0", "@storybook/blocks@7.4.0":
+"@storybook/blocks@^7.0.27", "@storybook/blocks@^7.4.0", "@storybook/blocks@7.4.0":
   version "7.4.0"
   resolved "https://registry.npmjs.org/@storybook/blocks/-/blocks-7.4.0.tgz"
   integrity sha512-YQznNjJm+l32fCfPxrZso9+MbcyG0pWZSpx3RKI1+pxDMsAs4mbXsIw4//jKfjoDP/6/Cz/FJcSx8LT7i4BJ2w==
@@ -2291,7 +2291,7 @@
     prettier "^2.8.0"
     recast "^0.23.1"
 
-"@storybook/components@7.4.0":
+"@storybook/components@^7.0.27", "@storybook/components@7.4.0":
   version "7.4.0"
   resolved "https://registry.npmjs.org/@storybook/components/-/components-7.4.0.tgz"
   integrity sha512-GGnQrI4NXwri/PqNjhO1vNv4tC7RBjY87ce9WHBq1ueat3kBakdqV97NzScoldXarkkKK6grBqmhw9jE5PfzhQ==
@@ -2343,7 +2343,7 @@
     resolve-from "^5.0.0"
     ts-dedent "^2.0.0"
 
-"@storybook/core-events@7.4.0":
+"@storybook/core-events@^7.0.27", "@storybook/core-events@7.4.0":
   version "7.4.0"
   resolved "https://registry.npmjs.org/@storybook/core-events/-/core-events-7.4.0.tgz"
   integrity sha512-JavEo4dw7TQdF5pSKjk4RtqLgsG2R/eWRI8vZ3ANKa0ploGAnQR/eMTfSxf6TUH3ElBWLJhi+lvUCkKXPQD+dw==
@@ -2514,7 +2514,7 @@
   resolved "https://registry.npmjs.org/@storybook/preset-scss/-/preset-scss-1.0.3.tgz"
   integrity sha512-o9Iz6wxPeNENrQa2mKlsDKynBfqU2uWaRP80HeWp4TkGgf7/x3DVF2O7yi9N0x/PI1qzzTTpxlQ90D62XmpiTw==
 
-"@storybook/preview-api@7.4.0":
+"@storybook/preview-api@^7.0.27", "@storybook/preview-api@7.4.0":
   version "7.4.0"
   resolved "https://registry.npmjs.org/@storybook/preview-api/-/preview-api-7.4.0.tgz"
   integrity sha512-ndXO0Nx+eE7ktVE4EqHpQZ0guX7yYBdruDdJ7B739C0+OoPWsJN7jAzUqq0NXaBcYrdaU5gTy+KnWJUt8R+OyA==
@@ -2576,7 +2576,7 @@
     "@testing-library/user-event" "^14.0.0"
     ts-dedent "^2.2.0"
 
-"@storybook/theming@^7.4.0", "@storybook/theming@7.4.0":
+"@storybook/theming@^7.0.27", "@storybook/theming@^7.4.0", "@storybook/theming@7.4.0":
   version "7.4.0"
   resolved "https://registry.npmjs.org/@storybook/theming/-/theming-7.4.0.tgz"
   integrity sha512-eLjEf6G3cqlegfutF/iUrec9LrUjKDj7K4ZhGdACWrf7bQcODs99EK62e9/d8GNKr4b+QMSEuM6XNGaqdPnuzQ==
@@ -2586,7 +2586,7 @@
     "@storybook/global" "^5.0.0"
     memoizerific "^1.11.3"
 
-"@storybook/types@7.4.0":
+"@storybook/types@^7.0.27", "@storybook/types@7.4.0":
   version "7.4.0"
   resolved "https://registry.npmjs.org/@storybook/types/-/types-7.4.0.tgz"
   integrity sha512-XyzYkmeklywxvElPrIWLczi/PWtEdgTL6ToT3++FVxptsC2LZKS3Ue+sBcQ9xRZhkRemw4HQHwed5EW3dO8yUg==
@@ -2609,7 +2609,7 @@
     magic-string "^0.30.0"
     vue-docgen-api "^4.40.0"
 
-"@storybook/vue3@^7.4.0", "@storybook/vue3@7.4.0":
+"@storybook/vue3@^7.0.27", "@storybook/vue3@^7.4.0", "@storybook/vue3@7.4.0":
   version "7.4.0"
   resolved "https://registry.npmjs.org/@storybook/vue3/-/vue3-7.4.0.tgz"
   integrity sha512-bdg2UDXJ/SGlA8h/D0ACK+BixFytMXxuYIvj/kLDlYIzOS8FCWr6vSkWbU6LPcChm+Oj5t5Yac0SWjPCsBMrag==
@@ -9494,7 +9494,7 @@ react-colorful@^5.1.2:
   resolved "https://registry.npmjs.org/react-colorful/-/react-colorful-5.6.1.tgz"
   integrity sha512-1exovf0uGTGyq5mXQT0zgQ80uvj2PCwvF8zY1RN9/vbJVSjSo3fsB/4L3ObbF7u70NduSiK4xu4Y6q1MHoUGEw==
 
-"react-dom@^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", react-dom@^18.2.0, react-dom@>=16.8.0, "react-dom@16.8.0 - 18":
+"react-dom@^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8.0 || ^17.0.27 || ^18.0.0", react-dom@^18.2.0, react-dom@>=16.8.0, "react-dom@16.8.0 - 18":
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -9552,7 +9552,7 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
-"react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.4 || ^17.0.0 || ^18.0.0", react@^18.2.0, "react@>= 0.14.0", react@>=16, react@>=16.8.0, "react@16.8.0 - 18":
+"react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.27 || ^18.0.0", "react@^16.8.4 || ^17.0.0 || ^18.0.0", react@^18.2.0, "react@>= 0.14.0", react@>=16, react@>=16.8.0, "react@16.8.0 - 18":
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -10418,6 +10418,11 @@ store2@^2.14.2:
   version "2.14.2"
   resolved "https://registry.npmjs.org/store2/-/store2-2.14.2.tgz"
   integrity sha512-siT1RiqlfQnGqgT/YzXVUNsom9S0H1OX+dpdGN1xkyYATo4I6sep5NmsRD/40s3IIOvlCq6akxkqG82urIZW1w==
+
+storybook-addon-vue-slots@^0.9.21:
+  version "0.9.21"
+  resolved "https://registry.npmjs.org/storybook-addon-vue-slots/-/storybook-addon-vue-slots-0.9.21.tgz"
+  integrity sha512-t4ii2mAMknF/fDVsVMbl6JBWiZVceAkuEyfW/JOlOEQlUbLGwxKAK+iB+/+z5DloR6PmIXrIvC+qa0bQkg8npA==
 
 storybook@^7.4.0:
   version "7.4.0"
@@ -11529,7 +11534,7 @@ vue-types@^3.0.0:
   dependencies:
     is-plain-object "3.0.1"
 
-"vue@^2.0.0 || >=3.0.0", "vue@^2.6.14 || ^3.3.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.0.1, vue@^3.2.0, vue@^3.2.25, vue@^3.3.2, "vue@>= 3.0.0 < 4", vue@>=2, vue@>=3.0.3, vue@>=3.2.0, "vue@2 || 3", vue@3.3.4:
+"vue@^2.0.0 || >=3.0.0", "vue@^2.6.14 || ^3.3.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.0.1, vue@^3.2.0, vue@^3.2.25, vue@^3.3.2, vue@^3.3.4, "vue@>= 3.0.0 < 4", vue@>=2, vue@>=3.0.3, vue@>=3.2.0, "vue@2 || 3", vue@3.3.4:
   version "3.3.4"
   resolved "https://registry.npmjs.org/vue/-/vue-3.3.4.tgz"
   integrity sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==

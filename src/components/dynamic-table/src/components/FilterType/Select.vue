@@ -26,7 +26,9 @@ const onSelect = (value: RawValueType | LabelInValueType, option: LabelValueType
     v-model:value="selectedItems"
     :options="options"
     placeholder="전체"
-  />
+  >
+    <slot></slot>
+  </a-select>
 </template>
 <style lang="scss" scoped>
 .ant-select {
