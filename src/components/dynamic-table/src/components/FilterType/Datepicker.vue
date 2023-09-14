@@ -2,7 +2,7 @@
 import type { Dayjs } from 'dayjs'
 import { ref, toRefs, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { type Filter, FilterTypes } from '../../../interface'
+import { type Filter, FilterTypes } from './types'
 
 const props = defineProps({
   item: {

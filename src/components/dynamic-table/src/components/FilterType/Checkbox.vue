@@ -44,6 +44,7 @@ const onKeyup = (e: any) => {
       </template>
     </a-input>
   </div>
+  <!-- @vue-skip -->
   <a-checkbox-group v-model:value="selectedItems" @change="onChange" name="checkboxgroup">
     <template v-for="(option, index) in checkboxOptions" :key="index">
       <a-col>

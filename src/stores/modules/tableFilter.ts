@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 // import { useTable } from '@/components/table/hooks/useTable'
-import type { Filter } from '@/components/dynamic-table/interface'
+import type { Filter } from '@/components/dynamic-table/src/components/FilterType/types'
 import { filterList } from '@/components/dynamic-table/src/components/mock'
 import type { TableFilterState } from '../interface'
 

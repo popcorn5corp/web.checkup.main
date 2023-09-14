@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    _DynamicTable: typeof import('./src/components/dynamic-table/src/_DynamicTable.vue')['default']
     AButton: typeof import('ant-design-vue/es')['Button']
     Accordion: typeof import('./src/components/accordion/src/Accordion.vue')['default']
     AccordionPanel: typeof import('./src/components/accordion/src/AccordionPanel.vue')['default']
