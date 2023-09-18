@@ -77,7 +77,11 @@ const meta = {
       }
     }
   },
-  args: { loading: false, disabled: false } // default value
+  args: { loading: false, disabled: false }, // default value
+  parameters: {
+    componentSubtitle:
+      'Button 컴포넌트의 클릭이벤트를 활용하여 다양한 비즈니스 로직을 수행할 수 있습니다.'
+  }
 } satisfies Meta<typeof Button>
 
 export default meta

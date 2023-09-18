@@ -1,6 +1,6 @@
 <script setup lang="ts" name="DynamicTable">
 import { Input, Space } from 'ant-design-vue'
-import { onMounted, ref, unref } from 'vue'
+import { onMounted, ref, unref, useSlots } from 'vue'
 import { Button } from '@/components/button'
 import { DownloadOutlined } from '@/components/icons'
 import { Table } from '@/components/table'
@@ -11,15 +11,8 @@ import TableSegmentButton from './components/TableSegmentButton.vue'
 import TableTags from './components/TableTags.vue'
 
 defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
+const slots = useSlots()
 const props = withDefaults(defineProps<DynamicTableProps>(), {
-  rowKey: 'key',
-  columns: () => [],
-  options: () => ({
-    pointer: true,
-    isPagination: true,
-    isShowNo: true
-  }),
-  size: 'middle',
   showToolbar: false
 })
 
@@ -130,7 +123,9 @@ defineExpose({
             @row-add="$emit('rowAdd', $event)"
             @row-click="$emit('rowClick', $event)"
             @row-select="$emit('rowSelect', $event)"
-          />
+          >
+            <slot />
+          </Table>
         </div>
 
         <TableFilter v-if="showFilter" @showFilter="(flag: boolean) => (showFilter = flag)" />

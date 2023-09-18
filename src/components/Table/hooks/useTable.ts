@@ -1,7 +1,7 @@
-import { computed, reactive, ref, toRefs } from 'vue'
-import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import { computed, reactive, toRefs } from 'vue'
 import { isArray, isEmpty } from '@/utils/is'
 import type { TablePagination, TableProps, TableSorter } from '../interface'
+import { defaultPaginaton } from '../interface'
 
 interface State {
   dataSource: any[]
@@ -17,38 +17,17 @@ interface State {
   searchWord: string
 }
 
-function getDefaultPagination(): TablePagination {
-  return {
-    total: 0,
-    current: 1,
-    pageSize: 10,
-    showSizeChanger: true,
-    position: ['bottomRight'],
-    pageSizeOptions: ['10', '30', '50']
-  }
-}
-
 export const useTable = (
   request?: TableProps['dataRequest'],
+  dataCallback?: TableProps['dataCallback'],
+  dataSource?: TableProps['dataSource'],
   initParam: TableProps['initParam'] = {
     size: 0,
     page: 1
   },
   isPagination: boolean = true,
-  dataCallback?: TableProps['dataCallback']
+  pagination?: TableProps['pagination']
 ) => {
-  const { filterList } = useTableFilterStore()
-  const requestParams = ref()
-
-  // function addParams() {
-  //   filterList.map((filter) => {
-  //     const { type, selectedItems } = filter
-  //     requestParams.value[type] = selectedItems
-  //   })
-  // }
-
-  // watch(filterList, () => addParams())
-
   const state = reactive<State>({
     dataSource: [],
     total: 0,
@@ -56,9 +35,8 @@ export const useTable = (
     isLoading: false,
     selectedRowKeys: [],
     pagination: {
-      ...getDefaultPagination(),
-      pageSize: initParam.size,
-      current: initParam.page
+      ...defaultPaginaton,
+      ...pagination
     },
     sorter: [],
     searchWord: ''
@@ -72,8 +50,9 @@ export const useTable = (
         size: state.pagination.pageSize
       }
     },
-    set: (newVal) => {}
+    set: () => {}
   })
+
   const sorterParam = computed({
     get: () => {
       let param = ''
@@ -86,18 +65,21 @@ export const useTable = (
         sort: param === '' ? undefined : param
       }
     },
-    set: (newVal) => {}
+    set: () => {}
   })
 
   const getDataSource = async (options?: {
     isReset?: boolean
     param?: { searchWord?: string }
   }): Promise<void> => {
-    if (!request) return
+    let _dataSource = []
 
-    try {
+    if (!request) {
+      if (dataSource) {
+        _dataSource = dataSource
+      }
+    } else {
       state.isLoading = true
-      const dataSource = []
       let requestParam: State['requestParam'] = {}
 
       if (!options?.isReset) {
@@ -114,37 +96,42 @@ export const useTable = (
           }
 
           state.searchWord = options.param.searchWord
-          state.pagination.current = getDefaultPagination().current
+          state.pagination.current = defaultPaginaton.current
         }
       } else {
         requestParam = {
           ...initParam
         }
 
-        state.pagination = getDefaultPagination()
+        state.pagination = defaultPaginaton
         state.sorter = []
       }
 
       isPagination && Object.assign(requestParam, paginationParam.value)
       isSorting.value && Object.assign(requestParam, sorterParam.value)
 
-      const { data, success } = await request(requestParam)
+      try {
+        const { data, success } = await request(requestParam)
 
-      if (success) {
-        const {
-          posts: { content, totalElements }
-        } = data
-        // index 설정
-        content.map((record: Recordable, i: number) => {
-          record['key'] = i
-        })
-        state.dataSource = dataCallback ? dataCallback(content) : content
-        state.pagination.total = totalElements
-        state.total = totalElements
+        if (success) {
+          const {
+            posts: { content, totalElements }
+          } = data
+
+          // key 설정
+          content.map((record: Recordable, i: number) => {
+            record['key'] = i
+          })
+          _dataSource = dataCallback ? dataCallback(content) : content
+          state.pagination.total = totalElements
+          state.total = totalElements
+        }
+      } catch (e) {
+        console.log(e)
       }
-    } catch (e) {
-      console.log(e)
     }
+
+    state.dataSource = _dataSource
 
     setTimeout(() => {
       state.isLoading = false
@@ -176,73 +163,20 @@ export const useTable = (
     if (!isPagination) return index + 1
 
     const { pageSize, current } = state.pagination
-    if (pageSize && current) {
-      return index + 1 + pageSize * (current - 1)
-    }
+    // if (pageSize && current) {
+    return index + 1 + pageSize * (current - 1)
+    // }
   }
 
   const rowSelection = computed<TableProps['rowSelection']>(() => {
     return {
       selectedRowKeys: state.selectedRowKeys,
       onChange: (changableRowKeys: Key[]) => {
-        // console.log('selectedRowKeys changed: ', changableRowKeys)
         state.selectedRowKeys = changableRowKeys
       },
       hideDefaultSelections: true
     }
   })
-
-  // /**
-  //  * 테이블 Change 이벤트
-  //  * @param {{total: number, current: number, pageSize: number, showSizeChanger: boolean, position: string[], pageSizeOptions: string[]}} event
-  //  */
-  // const onChange = (event: { pageSize: number; current: number }) => {
-  //   const { pageSize, current } = event
-  //   // 페이지 사이즈 변경 시, 첫 페이지로 이동
-  //   const isChangePageSize = tablePagination.value.pageSize !== pageSize
-
-  //   tablePagination.value.pageSize = pageSize
-  //   tablePagination.value.current = isChangePageSize ? 1 : current
-
-  //   emits('change', {
-  //     ...event,
-  //     page: isChangePageSize ? 1 : current,
-  //     size: pageSize
-  //   })
-
-  //   isTableChangedFlag = true
-  // }
-
-  // const handleSearch = (selectedKeys: string[], dataIndex: string, confirm: () => void) => {
-  //   emits('search', {
-  //     key: dataIndex,
-  //     value: selectedKeys[0]
-  //   })
-  //   confirm()
-  // }
-
-  // const handleReset = (selectedKeys: string[], dataIndex: string, clearFilters: Function) => {
-  //   clearFilters({ confirm: true })
-  //   emits('search', {
-  //     key: dataIndex,
-  //     value: selectedKeys[0]
-  //   })
-  // }
-
-  // watch(
-  //   () => dataSource?.value,
-  //   () => {
-  //     // pagination 사용하는 경우
-  //     if (options.value.isPagination) {
-  //       // 검색조건 변경일 경우, current 초기화
-  //       if (isTableChangedFlag) {
-  //         isTableChangedFlag = false
-  //       } else {
-  //         tablePagination.value.current = 1
-  //       }
-  //     }
-  //   }
-  // )
 
   return {
     ...toRefs(state),
@@ -250,6 +184,5 @@ export const useTable = (
     changeTable,
     getRecordNo,
     rowSelection
-    // addParams
   }
 }

@@ -2,7 +2,7 @@
   <div class="tabs-container">
     <Tabs v-model:activeKey="activeKey" :tabPosition="tabPosition" :type="type" @edit="onEdit">
       <template v-if="tabs">
-        <template v-for="pane in tabList" :key="pane.key">
+        <template v-for="pane in tabs" :key="pane.key">
           <TabPane :closable="pane.closable">
             <template #tab>
               <span>

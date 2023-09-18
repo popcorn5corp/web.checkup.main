@@ -56,7 +56,10 @@ const meta = {
       }
     }
   },
-  args: { shape: 'squared', size: 'medium' } // default value
+  args: { shape: 'squared', size: 'medium' }, // default value
+  parameters: {
+    componentSubtitle: 'Label을 사용하여 콘텐츠에 대한 분류를 표시할 수 있습니다.'
+  }
 } satisfies Meta<typeof Badge>
 
 export default meta

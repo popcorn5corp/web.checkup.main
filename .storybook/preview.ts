@@ -1,7 +1,8 @@
-import { type Preview, setup } from '@storybook/vue3'
+import { type Preview, setup, StoryContext } from '@storybook/vue3'
 import type { App } from 'vue';
 import { createPinia } from 'pinia';
-// import router from 'vue-router';
+// @ts-ignore
+import { setupI18n, setupFontAwesome } from '@/plugins'
 // import { themes } from '@storybook/theming';
 import './index.scss'
 
@@ -9,6 +10,8 @@ const pinia = createPinia();
 
 setup((app: App) => {
   app.use(pinia);
+  setupI18n(app)
+  setupFontAwesome(app)
 })
 
 const preview: Preview = {
@@ -24,7 +27,7 @@ const preview: Preview = {
     //   theme: themes.dark
     // }
     decorators: [
-      (story) => ({
+      (story: StoryContext['component']) => ({
         components: { story },
         template: '<div style="margin: 3em;"><story /></div>'
       })
