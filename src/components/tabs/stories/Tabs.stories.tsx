@@ -7,7 +7,26 @@ import { Tabs } from '..'
 const meta: Meta<ComponentProps<typeof Tabs>> = {
   title: 'checkupuikit/Atoms/Tabs',
   component: Tabs,
-  tags: ['autodocs']
+  tags: ['autodocs'],
+  argTypes: {
+    tabs: {
+      description: '탭 목록'
+    },
+    tabPosition: {
+      description: '탭 위치'
+    },
+    type: {
+      description: '탭 기본 스타일'
+    }
+  },
+  parameters: {
+    componentSubtitle: 'Tabs 컴포넌트는 콘텐츠 영역을 접거나 펼칠 수 있도록 합니다.',
+    docs: {
+      description: {
+        component: `Tabs 컴포넌트는 **Children 컴포넌트**로 **<code>&lt;TabPane/&gt; </code>**를 사용할 수 있습니다.`
+      }
+    }
+  }
 }
 
 export default meta

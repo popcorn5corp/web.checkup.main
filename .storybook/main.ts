@@ -1,13 +1,16 @@
 import type { StorybookConfig } from '@storybook/vue3-vite'
+import { mergeConfig, loadConfigFromFile, ConfigEnv, UserConfig } from 'vite';
+import path from 'path';
 
 const config: StorybookConfig = {
+  framework: {
+    name: '@storybook/vue3-vite',
+    options: {}
+  },
   stories: [
     '../src/components/**/stories/*.stories.@(js|jsx|ts|tsx)',
     '../src/components/**/docs/*.mdx'
   ],
-  // stories: ['../src/components/**/*.stories.@(js|jsx|ts|tsx)'],
-  // stories: ['../src/**/*.mdx', '../src/**/**/*.stories.@(js|jsx|ts|tsx)'],
-  // stories: ["../src/components/**/*.stories.mdx", "../src/components/**/*.stories.@(js|jsx|ts|tsx)"],
   staticDirs: ['../public'],
   addons: [
     '@storybook/addon-links',
@@ -17,12 +20,31 @@ const config: StorybookConfig = {
     '@storybook/addon-mdx-gfm',
     '@storybook/preset-scss'
   ],
-  framework: {
-    name: '@storybook/vue3-vite',
-    options: {}
-  },
   docs: {
     autodocs: 'tag'
-  }
+  },
+  core: {
+    builder: '@storybook/builder-vite', // 👈 The builder enabled here.
+  },
+  async viteFinal(config, options) {
+    // const viteConfig = await loadConfigFromFile(
+    //   path.resolve(__dirname, "../vite.config.ts") as any
+    // )
+
+    // const userConfig = viteConfig?.config as UserConfig;
+
+    // return mergeConfig(config, {
+    //   ...userConfig,
+    //   resolve: {
+    //     alias: [
+    //       {
+    //         find: "@",
+    //         replacement: path.resolve(__dirname, "../src"),
+    //       },
+    //     ],
+    //   },
+    // });
+    return config;
+  },
 }
 export default config

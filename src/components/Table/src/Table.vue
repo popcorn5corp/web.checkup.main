@@ -1,102 +1,104 @@
 <template>
   <Table
+    ref="tableInstance"
     :scrollY="530"
-    :rowKey="rowKey"
+    :row-key="rowKey"
+    :data-source="dataSource"
     :columns="columns"
-    :rowSelection="rowSelection"
-    :dataSource="dataSource"
+    :row-selection="props.options.isSelection ? _rowSelection : undefined"
     :loading="isLoading"
-    :total="total"
     :size="size"
-    :customRow="customRow"
+    :custom-row="
+      (record) => ({
+        onClick: () => {
+          $emit('rowClick', record)
+        }
+      })
+    "
     :pagination="props.options.isPagination && pagination"
     @change="changeTable"
   >
     <template #bodyCell="{ record, column, index, text }">
-      <template v-if="column.key === 'index'">
-        {{ getRecordNo(index) }}
+      <template v-if="column">
+        <template v-if="column.key === 'index'">
+          {{ getRecordNo(index) }}
+        </template>
       </template>
+
       <slot name="bodyCell" :record="record" :column="column" :index="index" :text="text" />
     </template>
   </Table>
 </template>
 <script setup lang="ts" name="Table">
 import { Table } from 'ant-design-vue'
-import { ref, watch } from 'vue'
+import { computed, ref } from 'vue'
+import type { CSSProperties } from 'vue'
 import { useColumns } from '../hooks/useColumns'
 import { useSelection } from '../hooks/useSelection'
 import { useTable } from '../hooks/useTable'
-import type { TableEmits, TableProps } from '../interface'
+import { type TableEmits, type TableProps, defaultOptions, defaultPaginaton } from '../interface'
 
-const emits = defineEmits<TableEmits>()
+defineEmits<TableEmits>()
 const props = withDefaults(defineProps<TableProps>(), {
   rowKey: 'key',
-  columns: () => [],
-  dataSource: () => [],
   loading: false,
-  total: 0,
   size: 'middle',
-  options: () => ({
-    pointer: true,
-    isPagination: true,
-    isShowNo: true
-  })
+  options: () => defaultOptions,
+  pagination: () => defaultPaginaton
 })
 
-const cursor = ref(props.options.pointer && 'pointer')
+const dataSource = computed(() => _dataSource.value)
+const columns = computed(() => _columns.value)
+const styles = ref<CSSProperties>({
+  cursor: props.options.pointer ? 'pointer' : ''
+})
 
 /**
  * @description Table 관련 기능에 대한 Hooks
  */
-const { dataSource, getDataSource, pagination, total, changeTable, getRecordNo, isLoading } =
-  useTable(props.dataRequest, props.initParam, props.options.isPagination, props.dataCallback)
+const {
+  dataSource: _dataSource,
+  getDataSource,
+  pagination,
+  total,
+  changeTable,
+  getRecordNo,
+  isLoading
+} = useTable(
+  props.dataRequest,
+  props.dataCallback,
+  props.dataSource,
+  props.initParam,
+  props.options.isPagination,
+  props.pagination
+)
 
 /**
  * @description Table Columns 관련 기능에 대한 Hooks
  */
-const { getColumns, columns } = useColumns(
+const { getColumns, columns: _columns } = useColumns(
+  props.columns,
   props.columnRequest,
-  props.initColumns,
   props.options.isShowNo
 )
 
 /**
  * @description Table Selection 관련 기능에 대한 Hooks
  */
-const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource)
-
-watch(
-  () => props.initColumns,
-  async () => {
-    getColumns()
-  },
-  {
-    immediate: true,
-    deep: true
-  }
-)
-
-watch(
-  () => props.initParam,
-  () => {
-    getDataSource()
-  },
-  {
-    immediate: true,
-    deep: true
-  }
-)
+const { rowSelection: _rowSelection, selectedRows } = useSelection(props.rowKey, dataSource)
 
 /**
- * 테이블 Row에 대한 이벤트를 제공하는 함수
- * @param {Object} record
- * @returns {{ onClick: () => void }}
+ * @description Table 컴포넌트 초기 세팅
  */
-const customRow = (record: object) => ({
-  onClick: () => {
-    emits('rowClick', record)
+;(async () => {
+  if (props.initParam || props.dataSource) {
+    await getDataSource()
   }
-})
+
+  if (props.columns) {
+    await getColumns()
+  }
+})()
 
 const refetch = (options: { isReset?: boolean }) => {
   getDataSource(options)
@@ -112,8 +114,7 @@ defineExpose({
 </script>
 <style lang="scss" scoped>
 :deep(.ant-table) {
-  // overflow-y: auto
-  height: calc(100vh - 320px);
+  height: calc(100vh - 350px);
   overflow: auto;
 
   .ant-table-thead {
@@ -121,12 +122,11 @@ defineExpose({
       background: transparent !important;
       border-bottom: 1px solid rgb(229, 232, 235) !important;
       font-size: 14px !important;
-      // font-weight: 400 !important;
     }
   }
 
   .ant-table-row {
-    cursor: v-bind(cursor);
+    cursor: v-bind('styles.cursor');
   }
 }
 </style>

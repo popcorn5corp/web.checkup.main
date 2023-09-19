@@ -41,8 +41,8 @@
     width="800px"
   >
     <div class="modal-content">
-      <Tabs :tabPosition="'left'">
-        <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')">
+      <Tabs :tabs="tabList" :tabPosition="'left'">
+        <!-- <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')">
           <UserAccount />
         </TabPane>
         <TabPane key="2" :tab="$t('layout.header.settings.tabDisplaySetting')" force-render>
@@ -50,7 +50,7 @@
         </TabPane>
         <TabPane key="3" :tab="$t('layout.header.settings.tabLang')">
           <LanguageSetting />
-        </TabPane>
+        </TabPane> -->
       </Tabs>
     </div>
   </Modal>
