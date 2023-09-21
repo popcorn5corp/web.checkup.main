@@ -6,7 +6,7 @@
     :data-source="dataSource"
     :columns="columns"
     :row-selection="props.options.isSelection ? _rowSelection : undefined"
-    :loading="isLoading"
+    :loading="loading"
     :size="size"
     :custom-row="
       (record) => ({
@@ -27,16 +27,21 @@
 
       <slot name="bodyCell" :record="record" :column="column" :index="index" :text="text" />
     </template>
+
+    <template #emptyText>
+      <img src="./images/no_data_2.png" style="width: 200px" />
+      <div>{{ $t('common.message.noData') }}</div>
+    </template>
   </Table>
 </template>
 <script setup lang="ts" name="Table">
 import { Table } from 'ant-design-vue'
-import { computed, ref } from 'vue'
+import { computed, ref, toRefs, watch } from 'vue'
 import type { CSSProperties } from 'vue'
 import { useColumns } from '../hooks/useColumns'
 import { useSelection } from '../hooks/useSelection'
 import { useTable } from '../hooks/useTable'
-import { type TableEmits, type TableProps, defaultOptions, defaultPaginaton } from '../interface'
+import { type TableEmits, type TableProps, defaultOptions, defaultPaginaton } from '../types'
 
 defineEmits<TableEmits>()
 const props = withDefaults(defineProps<TableProps>(), {
@@ -46,12 +51,19 @@ const props = withDefaults(defineProps<TableProps>(), {
   options: () => defaultOptions,
   pagination: () => defaultPaginaton
 })
-
-const dataSource = computed(() => _dataSource.value)
+const loading = computed(() => props.loading || _loading.value)
+const dataSource = computed(() => props.dataSource || _dataSource.value)
 const columns = computed(() => _columns.value)
 const styles = ref<CSSProperties>({
   cursor: props.options.pointer ? 'pointer' : ''
 })
+
+// watch(
+//   () => g?.value,
+//   (d) => {
+//     console.log('ddddd ', d)
+//   }
+// )
 
 /**
  * @description Table 관련 기능에 대한 Hooks
@@ -63,7 +75,7 @@ const {
   total,
   changeTable,
   getRecordNo,
-  isLoading
+  loading: _loading
 } = useTable(
   props.dataRequest,
   props.dataCallback,

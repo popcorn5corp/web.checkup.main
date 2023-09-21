@@ -105,6 +105,7 @@ const onClickMenuItem = ({ key }: any) => {
 <style lang="scss" scoped>
 .menu-container {
   overflow: auto;
+  max-width: 500px;
 
   .sidebar-collapser {
     -webkit-transition: left, right, 0.3s;

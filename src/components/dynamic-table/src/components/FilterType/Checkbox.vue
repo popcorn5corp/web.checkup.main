@@ -1,7 +1,7 @@
 <script lang="ts" setup name="FilterCheckbox">
 import { ref, toRefs, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import type { Filter } from '../../../interface'
+import type { Filter } from '../../../types'
 
 const props = defineProps({
   item: {

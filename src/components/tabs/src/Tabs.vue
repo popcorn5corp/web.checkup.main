@@ -26,7 +26,7 @@
 <script lang="ts" setup name="Tabs">
 import { Tabs } from 'ant-design-vue'
 import { ref, watch } from 'vue'
-import type { TabList, TabsProps } from '../interface'
+import type { TabList, TabsProps } from '../types'
 import TabPane from './TabPane.vue'
 
 const props = withDefaults(defineProps<TabsProps>(), {

@@ -13,6 +13,7 @@ export default {
     modalDeleteCheck: 'Anda yakin ingin menghapus item yang dipilih?',
     modalSaveCheck: 'Apakah Anda ingin menyimpan konten ini?',
     saveSuccess: 'Simpananmu sudah selesai.',
-    deleteSuccess: 'Penghapusan selesai.'
+    deleteSuccess: 'Penghapusan selesai.',
+    noData: 'Tidak ada informasi yang cocok dengan kriteria.'
   }
 }

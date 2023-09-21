@@ -2,7 +2,7 @@ import type { TableColumnType } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { reactive, toRefs } from 'vue'
 import type { SortCodesResponse } from '@/services/BaseSample/interface'
-import type { TableProps } from '../interface'
+import type { TableProps } from '../types'
 
 interface State {
   columns: TableProps['columns']

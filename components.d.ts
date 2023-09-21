@@ -38,7 +38,7 @@ declare module '@vue/runtime-core' {
     Dropdown: typeof import('./src/components/dropdown/Dropdown.vue')['default']
     DropdownButton: typeof import('./src/components/button/DropdownButton.vue')['default']
     DynamicTable: typeof import('./src/components/dynamic-table/src/DynamicTable.vue')['default']
-    FileUploader: typeof import('./src/components/file-uploader/FileUploader.vue')['default']
+    FileUploader: typeof import('./src/components/file-uploader/src/FileUploader.vue')['default']
     Filter: typeof import('./src/components/Table/components/Filter.vue')['default']
     FilterForm: typeof import('./src/components/filter-form/index.vue')['default']
     HelloWorld: typeof import('./src/components/example/HelloWorld.vue')['default']

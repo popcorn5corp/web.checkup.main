@@ -3,7 +3,7 @@ import type { RawValueType } from 'ant-design-vue/es/vc-select/BaseSelect'
 import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 import { toRefs } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import type { Filter } from '../../../interface'
+import type { Filter } from '../../../types'
 
 const props = defineProps({
   item: {

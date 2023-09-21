@@ -41,8 +41,8 @@
     width="800px"
   >
     <div class="modal-content">
-      <Tabs :tabs="tabList" :tabPosition="'left'">
-        <!-- <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')">
+      <Tabs :tabPosition="'left'">
+        <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')">
           <UserAccount />
         </TabPane>
         <TabPane key="2" :tab="$t('layout.header.settings.tabDisplaySetting')" force-render>
@@ -50,21 +50,13 @@
         </TabPane>
         <TabPane key="3" :tab="$t('layout.header.settings.tabLang')">
           <LanguageSetting />
-        </TabPane> -->
+        </TabPane>
       </Tabs>
     </div>
   </Modal>
 </template>
 <script setup lang="ts" name="UserDropdown">
-import {
-  Avatar,
-  Badge,
-  Dropdown,
-  Menu,
-  MenuItem,
-  type MenuProps,
-  Modal // Tabs
-} from 'ant-design-vue'
+import { Avatar, Badge, Dropdown, Menu, MenuItem, type MenuProps, Modal } from 'ant-design-vue'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/button'
@@ -80,8 +72,6 @@ import DisplaySetting from './DisplaySetting.vue'
 import LanguageSetting from './LanguageSetting.vue'
 import UserAccount from './UserAccount.vue'
 
-// const { TabPane } = Tabs
-const activeKey = ref('2')
 const isOpen = ref(false)
 const { t } = useI18n()
 
@@ -94,26 +84,26 @@ const { t } = useI18n()
 //   }
 // })
 
-const tabList: TabList = [
-  {
-    key: '1',
-    title: t('layout.header.settings.tabAccount'),
-    component: UserAccount,
-    closable: false
-  },
-  {
-    key: '2',
-    title: t('layout.header.settings.tabDisplaySetting'),
-    component: DisplaySetting,
-    closable: false
-  },
-  {
-    key: '3',
-    title: t('layout.header.settings.tabLang'),
-    component: LanguageSetting,
-    closable: false
-  }
-]
+// const tabList: TabList = [
+//   {
+//     key: '1',
+//     title: t('layout.header.settings.tabAccount'),
+//     component: UserAccount,
+//     closable: false
+//   },
+//   {
+//     key: '2',
+//     title: t('layout.header.settings.tabDisplaySetting'),
+//     component: DisplaySetting,
+//     closable: false
+//   },
+//   {
+//     key: '3',
+//     title: t('layout.header.settings.tabLang'),
+//     component: LanguageSetting,
+//     closable: false
+//   }
+// ]
 
 const onClickMenu: MenuProps['onClick'] = (e) => {
   if (e.key === '3') {

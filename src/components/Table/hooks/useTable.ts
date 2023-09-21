@@ -1,14 +1,14 @@
-import { computed, reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs, watch } from 'vue'
 import { isArray, isEmpty } from '@/utils/is'
-import type { TablePagination, TableProps, TableSorter } from '../interface'
-import { defaultPaginaton } from '../interface'
+import type { TablePagination, TableProps, TableSorter } from '../types'
+import { defaultPaginaton } from '../types'
 
 interface State {
   dataSource: any[]
   pagination: TablePagination
   total: number
   requestParam: Object
-  isLoading: boolean
+  loading: boolean
   selectedRowKeys: Key[]
   sorter: Array<{
     columnKey: string
@@ -32,7 +32,7 @@ export const useTable = (
     dataSource: [],
     total: 0,
     requestParam: {},
-    isLoading: false,
+    loading: false,
     selectedRowKeys: [],
     pagination: {
       ...defaultPaginaton,
@@ -41,6 +41,13 @@ export const useTable = (
     sorter: [],
     searchWord: ''
   })
+
+  watch(
+    () => dataSource,
+    (b) => {
+      console.log('watch :: ', b)
+    }
+  )
 
   const isSorting = computed(() => state.sorter.length)
   const paginationParam = computed({
@@ -73,13 +80,15 @@ export const useTable = (
     param?: { searchWord?: string }
   }): Promise<void> => {
     let _dataSource = []
+    let _total = 0
 
     if (!request) {
       if (dataSource) {
         _dataSource = dataSource
+        _total = dataSource.length
       }
     } else {
-      state.isLoading = true
+      state.loading = true
       let requestParam: State['requestParam'] = {}
 
       if (!options?.isReset) {
@@ -124,7 +133,7 @@ export const useTable = (
           })
           _dataSource = dataCallback ? dataCallback(content) : content
           state.pagination.total = totalElements
-          state.total = totalElements
+          _total = totalElements
         }
       } catch (e) {
         console.log(e)
@@ -132,9 +141,10 @@ export const useTable = (
     }
 
     state.dataSource = _dataSource
+    state.total = _total
 
     setTimeout(() => {
-      state.isLoading = false
+      state.loading = false
     }, 300)
   }
 

@@ -1,10 +1,13 @@
 import { type Preview, setup, StoryContext } from '@storybook/vue3'
+import withAxiosDecorator from 'storybook-axios';
 import type { App } from 'vue';
 import { createPinia } from 'pinia';
 // @ts-ignore
 import { setupI18n, setupFontAwesome } from '@/plugins'
-// import { themes } from '@storybook/theming';
+// @ts-ignore
+import service from '@/utls/service';
 import './index.scss'
+// import { themes } from '@storybook/theming';
 
 const pinia = createPinia();
 
@@ -30,7 +33,8 @@ const preview: Preview = {
       (story: StoryContext['component']) => ({
         components: { story },
         template: '<div style="margin: 3em;"><story /></div>'
-      })
+      }),
+      // withAxiosDecorator(service)
     ]
   }
 }

@@ -11,7 +11,7 @@
 <script setup lang="ts" name="TabPane">
 import { TabPane } from 'ant-design-vue'
 // import { useAttrs } from 'vue'
-import type { TabPaneProps } from '../interface'
+import type { TabPaneProps } from '../types'
 
 defineOptions({
   inheritAttrs: true

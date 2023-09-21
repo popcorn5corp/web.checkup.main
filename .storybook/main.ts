@@ -18,7 +18,7 @@ const config: StorybookConfig = {
     '@storybook/addon-interactions',
     '@storybook/addon-a11y',
     '@storybook/addon-mdx-gfm',
-    '@storybook/preset-scss'
+    '@storybook/preset-scss',
   ],
   docs: {
     autodocs: 'tag'

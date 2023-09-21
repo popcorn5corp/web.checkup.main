@@ -202,6 +202,8 @@ const onClickRegist = (): void => {
     :init-columns="columns"
     :column-request="getColumns"
     :init-param="initParam"
+    :show-filter="true"
+    :show-toolbar="true"
     @row-click="onClickRow"
     @row-select="onRemovePost"
     @rowAdd="onClickRegist"

@@ -13,6 +13,7 @@ export default {
     modalDeleteCheck: 'Are you sure you want to delete the selected items?',
     modalSaveCheck: 'Do you want to save this content?',
     saveSuccess: 'Your save is complete.',
-    deleteSuccess: 'Deletion completed.'
+    deleteSuccess: 'Deletion completed.',
+    noData: 'No information matches the criteria.'
   }
 }

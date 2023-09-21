@@ -5,7 +5,7 @@ import { Button } from '@/components/button'
 import { DownloadOutlined } from '@/components/icons'
 import { Table } from '@/components/table'
 import { useTag } from '../hooks/useTag'
-import type { DynamicTableEmits, DynamicTableProps } from '../interface'
+import type { DynamicTableEmits, DynamicTableProps } from '../types'
 import TableFilter from './components/TableFilter.vue'
 import TableSegmentButton from './components/TableSegmentButton.vue'
 import TableTags from './components/TableTags.vue'
@@ -13,11 +13,12 @@ import TableTags from './components/TableTags.vue'
 defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
 const slots = useSlots()
 const props = withDefaults(defineProps<DynamicTableProps>(), {
-  showToolbar: false
+  showToolbar: false,
+  showFilter: false
 })
 
 const tableInstance = ref<InstanceType<typeof Table>>()
-const showFilter = ref(true)
+const _showFilter = ref(false)
 const isReload = ref(false)
 const searchWord = ref('')
 
@@ -63,7 +64,7 @@ defineExpose({
 
 <template>
   <div class="dynamic-table-containter">
-    <div class="table-header">
+    <div v-if="props.showToolbar" class="table-header">
       <Space>
         <span class="total-count" v-if="tableInstance?.total !== null">{{
           $t('common.tableTotalText', { count: tableInstance?.total })
@@ -101,11 +102,14 @@ defineExpose({
               </template>
             </Button>
             <TableSegmentButton />
+
+            <!-- 필터 버튼 -->
             <Button
+              v-if="showFilter"
               type="primary"
               :label="$t('common.filterText')"
               size="large"
-              @click="showFilter = !showFilter"
+              @click="_showFilter = !_showFilter"
             />
           </Space>
         </div>
@@ -114,7 +118,7 @@ defineExpose({
 
     <div class="table-body">
       <div class="table-content-wrapper">
-        <div class="table-content" :style="{ flex: showFilter ? 0.7 : 1 }">
+        <div class="table-content" :style="{ flex: props.showToolbar && _showFilter ? 0.7 : 1 }">
           <TableTags />
 
           <Table
@@ -128,7 +132,10 @@ defineExpose({
           </Table>
         </div>
 
-        <TableFilter v-if="showFilter" @showFilter="(flag: boolean) => (showFilter = flag)" />
+        <TableFilter
+          v-if="props.showToolbar && _showFilter"
+          @showFilter="(flag: boolean) => (_showFilter = flag)"
+        />
       </div>
     </div>
   </div>

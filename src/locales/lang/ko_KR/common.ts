@@ -13,6 +13,7 @@ export default {
     modalDeleteCheck: '선택된 항목을 삭제하시겠습니까?',
     modalSaveCheck: '해당 내용을 저장하시겠습니까?',
     saveSuccess: '저장이 완료되었습니다.',
-    deleteSuccess: '삭제가 완료되었습니다.'
+    deleteSuccess: '삭제가 완료되었습니다.',
+    noData: '해당 조건에 일치하는 정보가 없습니다.'
   }
 }
