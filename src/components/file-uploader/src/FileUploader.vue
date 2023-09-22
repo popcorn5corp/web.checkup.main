@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<FileUploaderProps>(), {
   readonly: false,
   type: 'TEST',
   showDownload: true,
-  showRemove: true,
+  showRemove: false,
   showPreview: true
 })
 

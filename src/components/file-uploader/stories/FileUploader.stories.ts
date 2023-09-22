@@ -52,7 +52,7 @@ const meta: Meta<ComponentProps<typeof FileUploader>> = {
     readonly: false,
     type: 'TEST',
     showDownload: true,
-    showRemove: true,
+    showRemove: false,
     showPreview: true
   }
 }

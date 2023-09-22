@@ -131,22 +131,3 @@ export const FetchData: Story = {
   //   }
   // ]
 }
-
-// export const FetchData: Story = {
-//   render: (args, { loaded }) => ({
-//     components: { DynamicTable, Button, TableSample },
-//     setup() {
-//       const data = ref([])
-//       const columns = a
-
-//       const fetchData = () => {
-//         data.value = loaded.dataSource.data.posts.content
-//       }
-
-//       return { args, data, columns, fetchData }
-//     },
-//     template: `
-//       <TableSample />
-//       `
-//   })
-// }
