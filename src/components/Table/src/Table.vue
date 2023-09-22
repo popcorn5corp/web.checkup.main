@@ -58,13 +58,6 @@ const styles = ref<CSSProperties>({
   cursor: props.options.pointer ? 'pointer' : ''
 })
 
-// watch(
-//   () => g?.value,
-//   (d) => {
-//     console.log('ddddd ', d)
-//   }
-// )
-
 /**
  * @description Table 관련 기능에 대한 Hooks
  */

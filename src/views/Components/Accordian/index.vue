@@ -10,8 +10,8 @@ import {
   RangeDatePicker,
   Select
 } from '@/components/dynamic-table/src/components'
+import type { FilterType } from '@/components/dynamic-table/src/components/FilterType/types'
 import { filterList } from '@/components/dynamic-table/src/components/mock'
-import type { FilterType } from '@/components/dynamic-table/types'
 
 const filterTypeComponents: Record<FilterType, Component> = {
   checkbox: Checkbox,

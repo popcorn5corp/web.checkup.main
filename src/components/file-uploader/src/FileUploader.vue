@@ -9,9 +9,9 @@
       :custom-request="onUpload"
       :before-upload="onBeforeUpload"
       :show-upload-list="{
-        showDownloadIcon: true,
-        showRemoveIcon: !readonly,
-        showPreviewIcon: true
+        showDownloadIcon: showDownload,
+        showRemoveIcon: !readonly || showRemove,
+        showPreviewIcon: showPreview
       }"
       @download="onDownload"
       @remove="onRemove"
@@ -27,36 +27,35 @@
 </template>
 <script setup lang="ts" name="FileUploader">
 import { FileManagerService } from '@/services'
-import { Upload, type UploadFile, type UploadProps } from 'ant-design-vue'
+import { Upload } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
-import type { RcFile, UploadProgressEvent } from 'ant-design-vue/es/vc-upload/interface'
 import { saveAs } from 'file-saver'
 import { ref, watch } from 'vue'
-import type { IFileManager } from '@/services/FileManager/interface'
 import { Button } from '@/components/button'
 import { UploadOutlined } from '@/components/icons'
-
-interface FileUploaderProps {
-  files: IFileManager.FileContent[] // File List
-  type?: IFileManager.FileType
-  readonly?: boolean // Only Read Mode
-}
-
-interface FileUploaderEmits {
-  (event: 'change'): void
-  (event: 'remove'): void
-}
+import type {
+  FileUploaderEmits,
+  FileUploaderProps,
+  RcFile,
+  UpdateFileContent,
+  UploadFile,
+  UploadProgressEvent,
+  UploadProps
+} from '../types'
 
 defineEmits<FileUploaderEmits>()
 const props = withDefaults(defineProps<FileUploaderProps>(), {
   files: () => [],
   readonly: false,
-  type: 'TEST'
+  type: 'TEST',
+  showDownload: true,
+  showRemove: true,
+  showPreview: true
 })
 
 const IMG_SERVER_URL: Readonly<string> = 'https://sawork-prod.s3.ap-northeast-2.amazonaws.com/'
 const fileList = ref<UploadFile[]>([]) // for upload component binding
-const newFileList = ref<IFileManager.UpdateFileContent[]>([]) // for file contents update
+const newFileList = ref<UpdateFileContent[]>([]) // for file contents update
 
 watch(
   () => props.files,
@@ -144,7 +143,7 @@ const onBeforeUpload: UploadProps['beforeUpload'] = (file) => {
 
 const getFiles = () => {
   // fileList에 존재하는 props files 목록만 필터
-  const filterdPropFiles: IFileManager.UpdateFileContent[] = props.files.map((propFile) => {
+  const filterdPropFiles: UpdateFileContent[] = props.files.map((propFile) => {
     const file = fileList.value?.find((f) => f.uid === propFile.fileId)
 
     return {

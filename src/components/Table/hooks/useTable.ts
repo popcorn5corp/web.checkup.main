@@ -42,13 +42,6 @@ export const useTable = (
     searchWord: ''
   })
 
-  watch(
-    () => dataSource,
-    (b) => {
-      console.log('watch :: ', b)
-    }
-  )
-
   const isSorting = computed(() => state.sorter.length)
   const paginationParam = computed({
     get: () => {

@@ -38,16 +38,23 @@
   </Descriptions>
   <Descriptions :title="$t('layout.header.settings.displaySettingFontSize')" :column="5">
     <Descriptions.Item>
-      <a-radio-group v-model:value="config.theme.fontSize" @change="setLayoutFontSize">
-        <a-radio v-for="(item, i) in layoutFonts" :key="i" :value="item.value">{{
+      <RadioGroup v-model:value="config.theme.fontSize" @change="setLayoutFontSize">
+        <Radio v-for="(item, i) in layoutFonts" :key="i" :value="item.value">{{
           item.label
-        }}</a-radio>
-      </a-radio-group>
+        }}</Radio>
+      </RadioGroup>
     </Descriptions.Item>
   </Descriptions>
 </template>
 <script lang="ts" setup name="DisplaySetting">
-import { Descriptions, type RadioChangeEvent, Tag, Tooltip } from 'ant-design-vue'
+import {
+  Descriptions,
+  Radio,
+  type RadioChangeEvent,
+  RadioGroup,
+  Tag,
+  Tooltip
+} from 'ant-design-vue'
 import type { ThemeConfig } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { layoutFonts, menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'

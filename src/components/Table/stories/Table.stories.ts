@@ -12,15 +12,13 @@ const meta: Meta<ComponentProps<typeof Table>> = {
     columns: {
       description: '테이블 칼럼 정보',
       table: {
-        type: { summary: 'ColumnType<RecordType>[]' },
-        defaultValue: { summary: '[]' }
+        type: { summary: 'ColumnType<RecordType>[]' }
       }
     },
     dataSource: {
       description: '테이블 리스트 정보',
       table: {
-        type: { summary: 'RecordType[]' },
-        defaultValue: { summary: '[]' }
+        type: { summary: 'RecordType[]' }
       }
     },
     options: {
@@ -43,6 +41,10 @@ const meta: Meta<ComponentProps<typeof Table>> = {
         type: { summary: 'boolean' }
       }
     }
+  },
+  args: {
+    columns: [],
+    dataSource: []
   },
   parameters: {
     componentSubtitle:

@@ -2,7 +2,7 @@
 import { ref, toRefs } from 'vue'
 import { watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import type { Filter } from '../../../types'
+import type { Filter } from './types'
 
 const props = defineProps({
   item: {
