@@ -11,14 +11,14 @@
       class="layout-sider"
     >
       <Logo :collapsed="collapsed" />
-      <AsideMenu :collapsed="collapsed" :theme="getTheme" />
+      <AsideMenu :items="menus" :collapsed="collapsed" :theme="getTheme" :mode="'inline'" />
     </Layout.Sider>
     <Layout>
       <!-- <PageHeader v-model:collapsed="collapsed" :theme="getTheme"> -->
       <PageHeader :collapsed="collapsed" :theme="getTheme">
         <template v-if="config.theme.menuPosition === 'topmenu'" #default>
           <Logo :collapsed="collapsed" />
-          <AsideMenu :collapsed="collapsed" :theme="getTheme" />
+          <AsideMenu :items="menus" :collapsed="collapsed" :theme="getTheme" />
         </template>
       </PageHeader>
 
@@ -40,10 +40,11 @@
 import { Divider, Layout } from 'ant-design-vue'
 import { computed, onMounted } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { Menu as AsideMenu } from '@/components/menu'
+import { menus } from '@/components/menu/src/mock'
 import PageFooter from '../components/Footer/index.vue'
 import PageHeader from '../components/Header/index.vue'
 import Logo from '../components/Logo/index.vue'
-import AsideMenu from '../components/Menu/index.vue'
 import PageTabs from '../components/Tabs/index.vue'
 import CircularMenu from './components/CircularMenu.vue'
 
@@ -51,8 +52,8 @@ const { config } = useProjectConfigStore()
 const collapsed = computed<boolean>(() => config.isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
-
 const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
+
 onMounted(() => {
   setTimeout(() => {
     document.getElementById('circularMenu')?.classList.add('active')
