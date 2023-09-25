@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import { Layout } from 'ant-design-vue'
+import { Button, Layout } from 'ant-design-vue'
 import { computed, toRefs } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/icons'
 import { Menu } from '../'
 import { menus } from '../src/mock'
 
@@ -45,18 +46,37 @@ const meta: Meta<ComponentProps<typeof Menu>> = {
 export default meta
 type Story = StoryObj<typeof Menu>
 
-const { Sider } = Layout
 export const Default: Story = {
   render: (args) => ({
-    components: { Menu, Sider },
+    components: { Menu, Sider: Layout.Sider, Button, MenuUnfoldOutlined, MenuFoldOutlined },
     setup() {
       const { collapsed, mode, isSide } = toRefs(args)
       const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
       const menuMode = computed(() => (isSide?.value ? 'inline' : mode?.value))
 
-      return { ...args, isSide, collapsed, mode, asiderWidth, menuMode }
+      const toggleCollapsed = () => {
+        collapsed.value = !collapsed.value
+      }
+
+      return {
+        ...args,
+        isSide,
+        mode,
+        asiderWidth,
+        menuMode,
+        collapsed,
+        toggleCollapsed
+      }
     },
     template: `
+      <div>
+      <Button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
+        <MenuUnfoldOutlined v-if="collapsed" />
+        <MenuFoldOutlined v-else />
+      </Button>
+      </div>
+ 
+
       <Sider
         v-if="isSide"
         class="layout-sider"
