@@ -1,29 +1,48 @@
 <template>
   <Layout class="layout-default">
-    <!-- <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a> -->
+    <!-- Page Side 영역 -->
     <Layout.Sider
       v-if="config.theme.menuPosition === 'sidemenu'"
+      class="layout-sider"
       v-model:collapsed="collapsed"
       :width="asiderWidth"
       :trigger="null"
       collapsible
       :theme="getTheme"
-      class="layout-sider"
     >
       <Logo :collapsed="collapsed" />
-      <AsideMenu :items="menus" :collapsed="collapsed" :theme="getTheme" :mode="'inline'" />
+
+      <!-- Side Menu 영역 -->
+      <AsideMenu
+        :items="menus"
+        :collapsed="collapsed"
+        :theme="getTheme"
+        :mode="'inline'"
+        :isSide="isSideMenu"
+      />
     </Layout.Sider>
+
     <Layout>
-      <!-- <PageHeader v-model:collapsed="collapsed" :theme="getTheme"> -->
+      <!-- Page Header 영역 -->
       <PageHeader :collapsed="collapsed" :theme="getTheme">
         <template v-if="config.theme.menuPosition === 'topmenu'" #default>
           <Logo :collapsed="collapsed" />
-          <AsideMenu :items="menus" :collapsed="collapsed" :theme="getTheme" />
+
+          <!-- Header Menu 영역 -->
+          <div class="header-menu">
+            <AsideMenu
+              :items="menus"
+              :collapsed="collapsed"
+              :theme="getTheme"
+              :isSide="isSideMenu"
+            />
+          </div>
         </template>
       </PageHeader>
 
       <PageTabs />
 
+      <!-- Page Content 영역 -->
       <Layout.Content class="layout-content" :class="getDarkModeClass">
         <div class="title">{{ $route.meta.title }}</div>
 
@@ -53,6 +72,7 @@ const collapsed = computed<boolean>(() => config.isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
 const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
+const isSideMenu = computed(() => config.theme.menuPosition === 'sidemenu')
 
 onMounted(() => {
   setTimeout(() => {
@@ -70,37 +90,43 @@ onMounted(() => {
   height: 100vh;
   overflow: hidden;
 
-  .sidebar-collapser {
-    -webkit-transition: left, right, 0.3s;
-    transition: left, right, 0.3s;
-    position: fixed;
-    left: calc(250px - 20px);
-    top: 40px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #00829f;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    font-size: 1.2em;
-    -webkit-transform: translateX(50%);
-    transform: translateX(50%);
-    z-index: 111;
-    cursor: pointer;
-    color: white;
-    -webkit-box-shadow: 1px 1px 4px #0c1e35;
-    box-shadow: 1px 1px 4px #0c1e35;
-  }
+  // .sidebar-collapser {
+  //   -webkit-transition: left, right, 0.3s;
+  //   transition: left, right, 0.3s;
+  //   position: fixed;
+  //   left: calc(250px - 20px);
+  //   top: 40px;
+  //   width: 20px;
+  //   height: 20px;
+  //   border-radius: 50%;
+  //   background-color: #00829f;
+  //   display: -webkit-box;
+  //   display: -ms-flexbox;
+  //   display: flex;
+  //   -ms-flex-align: center;
+  //   -webkit-box-align: center;
+  //   align-items: center;
+  //   -webkit-box-pack: center;
+  //   -ms-flex-pack: center;
+  //   justify-content: center;
+  //   font-size: 1.2em;
+  //   -webkit-transform: translateX(50%);
+  //   transform: translateX(50%);
+  //   z-index: 111;
+  //   cursor: pointer;
+  //   color: white;
+  //   -webkit-box-shadow: 1px 1px 4px #0c1e35;
+  //   box-shadow: 1px 1px 4px #0c1e35;
+  // }
 
   .ant-layout {
     overflow: hidden;
+  }
+
+  .layout-header {
+    .header-menu {
+      max-width: 800px;
+    }
   }
 
   .layout-content {
