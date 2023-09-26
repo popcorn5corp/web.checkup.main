@@ -22,6 +22,9 @@ const __APP_INFO__ = {
 export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
   const env = loadEnv(mode, process.cwd())
 
+  console.log('[env info]', env)
+  console.log('[meta info]', import.meta)
+
   return {
     plugins: [
       vue(),

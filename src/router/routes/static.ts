@@ -218,7 +218,9 @@ export const staticRoutes: RouteRecordRaw[] = [
         path: 'table',
         name: 'components-table',
         component: () =>
-          import(/* webpackChunkName: "components-table" */ '@/views/Components/Table/index.vue'),
+          import(
+            /* webpackChunkName: "components-table" */ '@/views/ComponentsOverview/Table/index.vue'
+          ),
         meta: {
           title: 'Table'
         }
@@ -228,7 +230,7 @@ export const staticRoutes: RouteRecordRaw[] = [
         name: 'components-accordion',
         component: () =>
           import(
-            /* webpackChunkName: "components-accordion" */ '@/views/Components/Accordian/index.vue'
+            /* webpackChunkName: "components-accordion" */ '@/views/ComponentsOverview/Accordian/index.vue'
           ),
         meta: {
           title: 'Accordian'
@@ -238,7 +240,9 @@ export const staticRoutes: RouteRecordRaw[] = [
         path: 'modal',
         name: 'components-modal',
         component: () =>
-          import(/* webpackChunkName: "components-modal" */ '@/views/Components/Modal/index.vue'),
+          import(
+            /* webpackChunkName: "components-modal" */ '@/views/ComponentsOverview/Modal/index.vue'
+          ),
         meta: {
           title: 'Modal'
         }

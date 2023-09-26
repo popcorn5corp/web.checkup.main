@@ -1,4 +1,4 @@
-<script setup lang="ts" name="antd">
+<script setup lang="ts" name="ComponentsOverviewAccordian">
 import { SettingOutlined } from '@ant-design/icons-vue'
 import type { CollapseProps } from 'ant-design-vue/es/collapse/Collapse'
 import { type CSSProperties, type Component, ref } from 'vue'
@@ -79,6 +79,7 @@ const expandIconPosition = ref<CollapseProps['expandIconPosition']>('end')
 
     <div style="display: flex; justify-content: space-evenly; margin-top: 1rem">
       <!-- Accordion case 4 -->
+      <!-- @vue-skip -->
       <Accordion :items="filterList" :style="customStyle" :ghost="false" bordered>
         <template #content="{ item }">
           <keep-alive>
@@ -88,6 +89,7 @@ const expandIconPosition = ref<CollapseProps['expandIconPosition']>('end')
       </Accordion>
 
       <!-- Accordion case 5 -->
+      <!-- @vue-skip -->
       <Accordion :items="filterList" :style="customStyle" ghost>
         <template #content="{ item }">
           <keep-alive>

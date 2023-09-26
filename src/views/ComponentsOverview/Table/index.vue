@@ -1,4 +1,4 @@
-<script setup lang="ts" name="ComponentsTable">
+<script setup lang="ts" name="ComponentsOverviewTable">
 import { BaseSampleService } from '@/services'
 import { ref } from 'vue'
 import type { IBaseSample } from '@/services/BaseSample/interface'

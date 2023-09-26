@@ -28,10 +28,6 @@ interface Props {
   menus: RouteRecordRaw[]
 }
 
-defineOptions({
-  name: 'MenuItem'
-})
-
 const props = withDefaults(defineProps<Props>(), { menus: () => [] })
 const filterMenus = computed(() => {
   return [...props.menus]
