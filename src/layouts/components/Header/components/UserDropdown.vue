@@ -56,9 +56,11 @@
   </Modal>
 </template>
 <script setup lang="ts" name="UserDropdown">
+import router from '@/router'
 import { Avatar, Badge, Dropdown, Menu, MenuItem, type MenuProps, Modal } from 'ant-design-vue'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '@/stores/modules/auth'
 import { Button } from '@/components/button'
 import {
   CaretDownOutlined,
@@ -74,6 +76,7 @@ import UserAccount from './UserAccount.vue'
 
 const isOpen = ref(false)
 const { t } = useI18n()
+const { removeToken } = useAuthStore()
 
 // const isDarkMode = computed({
 //   get() {
@@ -108,6 +111,9 @@ const { t } = useI18n()
 const onClickMenu: MenuProps['onClick'] = (e) => {
   if (e.key === '3') {
     isOpen.value = true
+  } else if (e.key === '5') {
+    removeToken()
+    router.push({ name: 'login' })
   }
 }
 

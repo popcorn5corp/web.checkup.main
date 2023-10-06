@@ -19,6 +19,6 @@ export default {
     }
   },
   menu: {
-    newProject: 'Create New Project'
+    newWorkspace: 'New workspace'
   }
 }

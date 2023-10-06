@@ -15,5 +15,13 @@ export default {
     saveSuccess: 'Your save is complete.',
     deleteSuccess: 'Deletion completed.',
     noData: 'No information matches the criteria.'
-  }
+  },
+  socialLoginText: 'Sign In With { type }',
+  loginText: 'Sign In',
+  createAccount: 'Create an account',
+  newUser: 'New user?',
+  forgotPassword: 'Forgot Password?',
+  idText: 'ID',
+  passwordText: 'Password',
+  checkingLogin: 'Checking your login information.'
 }

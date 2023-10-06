@@ -1,6 +1,7 @@
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { RouteLocation } from 'vue-router'
 import { type Filter } from '@/components/dynamic-table/src/components/FilterType/types'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/enums/cacheKeyEnum'
 
 // export type LayoutType = 'default' | 'vertical' | 'transverse' | 'columns'
 export type AssemblySizeType = 'large' | 'default' | 'small'
@@ -12,14 +13,16 @@ export enum DeviceTypeEnum {
 }
 
 export const layoutTypes = {
-  default: 'default'
+  default: 'default',
+  pure: 'pure'
   // vertical: 'vertical',
   // transverse: 'transverse',
   // columns: 'columns'
 } as const
 
 export const layouts = {
-  default: 'default'
+  default: 'default',
+  pure: 'pure'
   // vertical: 'vertical',
   // transverse: 'transverse',
   // columns: 'columns'
@@ -104,5 +107,7 @@ export interface TableFilterState {
 }
 
 export interface UserState {}
+
+export type TokenKey = typeof ACCESS_TOKEN_KEY | typeof REFRESH_TOKEN_KEY
 
 export interface AuthState {}

@@ -6,6 +6,8 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig
 } from 'axios'
+import { useAuthStore } from '@/stores/modules/auth'
+import { ACCESS_TOKEN_KEY } from '@/enums/cacheKeyEnum'
 import { ContentTypeEnum } from '@/enums/httpEnum'
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -32,6 +34,12 @@ export class AxiosHttpClient {
      */
     this.axiosInstance.interceptors.request.use(
       (config: CustomAxiosRequestConfig) => {
+        const { getToken } = useAuthStore()
+        const accessToken = getToken(ACCESS_TOKEN_KEY)
+        if (accessToken && config.headers) {
+          config.headers['Authorization'] = accessToken
+        }
+
         return config
       },
       (error: AxiosError) => {

@@ -2,7 +2,7 @@
   <div class="menu-header">
     <Button
       type="primary"
-      :label="!collapsed ? $t('layout.menu.newProject') : ''"
+      :label="!collapsed ? $t('layout.menu.newWorkspace') : ''"
       :style="buttonStyle"
     >
       <template #icon>
