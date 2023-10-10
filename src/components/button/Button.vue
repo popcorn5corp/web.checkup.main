@@ -1,26 +1,32 @@
 <template>
-  <a-button
+  <Button
     :class="getButtonClass"
-    v-bind="{
-      ...props,
-      icon: undefined
-    }"
+    :size="size"
+    :type="type"
+    :shape="shape"
+    :loading="loading"
+    style="style"
     @click="$emit('click')"
   >
     <ButtonIcon v-if="icon" :icon="icon" />
     <slot v-else name="icon"></slot>
 
     {{ label }}
-  </a-button>
+  </Button>
 </template>
 
 <script lang="ts" setup>
+import { Button } from 'ant-design-vue'
 import { computed } from 'vue'
 import ButtonIcon from './ButtonIcon.vue'
 import type { ButtonEmits, ButtonProps } from './types'
 
-const props = defineProps<ButtonProps>()
 const emit = defineEmits<ButtonEmits>()
+const props = withDefaults(defineProps<ButtonProps>(), {
+  label: '',
+  size: 'middle',
+  shape: 'default'
+})
 
 const getButtonClass = computed(() => {
   const { size } = props
