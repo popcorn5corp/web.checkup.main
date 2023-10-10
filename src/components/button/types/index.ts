@@ -1,15 +1,15 @@
 import type { CSSProperties } from 'vue'
 
-type ButtonSize = 'small' | 'medium' | 'large'
+type ButtonSize = 'small' | 'middle' | 'large'
 type ButtonType = 'primary' | 'dashed' | 'text' | 'link'
 type ButtonShape = 'default' | 'circle' | 'round'
 export type ButtonIcon = 'download' | 'plusCircle' | 'excel' | 'filter'
 
 export interface ButtonProps {
-  label?: string
-  size?: ButtonSize
+  label: string
+  size: ButtonSize
+  shape: ButtonShape
   type?: ButtonType
-  shape?: ButtonShape
   icon?: ButtonIcon
   loading?: boolean
   disabled?: boolean

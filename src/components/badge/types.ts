@@ -1,4 +1,4 @@
-type BadgeSize = 'small' | 'medium' | 'large'
+type BadgeSize = 'small' | 'middle' | 'large'
 type BadgeShape = 'squared' | 'round' | 'pill'
 type BadgeTheme =
   | 'primary'

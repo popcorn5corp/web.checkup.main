@@ -17,7 +17,8 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_fec61767df74bb7"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -39,6 +40,7 @@
     "pinia-plugin-persist": "^1.0.0",
     "sass": "^1.63.2",
     "sortablejs": "^1.15.0",
+    "string-width": "^6.1.0",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue": "^3.3.2",
@@ -70,6 +72,7 @@
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/test-utils": "^2.3.2",
     "@vue/tsconfig": "^0.4.0",
+    "chromatic": "^7.2.3",
     "cypress": "^12.12.0",
     "eslint": "^8.39.0",
     "eslint-plugin-cypress": "^2.13.3",
@@ -89,5 +92,7 @@
     "vitest": "^0.31.0",
     "vue-tsc": "^1.6.4",
     "webpack-bundle-analyzer": "^4.9.1"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "web.checkup.main@0.0.0"
 }

@@ -9,7 +9,7 @@ const config: StorybookConfig = {
   },
   stories: [
     '../src/components/**/stories/*.stories.@(js|jsx|ts|tsx)',
-    '../src/components/**/docs/*.mdx'
+    '../src/components/introduction/docs/Introduction.stories.mdx'
   ],
   staticDirs: ['../public'],
   addons: [
@@ -19,6 +19,7 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/addon-mdx-gfm',
     '@storybook/preset-scss',
+    '@storybook/addon-docs'
   ],
   docs: {
     autodocs: 'tag'
