@@ -15,7 +15,6 @@ const meta = {
         type: 'text'
       }
     },
-
     type: {
       description: 'can be set button type',
       type: { name: 'string', required: false },
@@ -26,7 +25,6 @@ const meta = {
         defaultValue: { summary: 'default' }
       }
     },
-
     icon: {
       description: 'set the icon of button',
       type: { name: 'string', required: false },
@@ -36,7 +34,6 @@ const meta = {
         type: { summary: 'download | plus | excel' }
       }
     },
-
     size: {
       description: 'set the size of button',
       type: { name: 'string', required: false },
@@ -47,7 +44,6 @@ const meta = {
         defaultValue: { summary: 'medium' }
       }
     },
-
     shape: {
       description: 'can be set button shape',
       type: { name: 'string', required: false },
@@ -58,7 +54,6 @@ const meta = {
         defaultValue: { summary: 'default' }
       }
     },
-
     loading: {
       description: 'set the loading status of button',
       type: { name: 'boolean', required: false },
@@ -67,7 +62,6 @@ const meta = {
         defaultValue: { summary: false }
       }
     },
-
     disabled: {
       description: 'disabled state of button',
       type: { name: 'boolean', required: false },
@@ -99,9 +93,6 @@ export const Default: Story = {
     },
     template: '<Button v-bind="args"></Button>'
   })
-  // args: {
-  //   label: 'Default'
-  // }
 }
 
 export const Primary: Story = {
