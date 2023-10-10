@@ -7,8 +7,8 @@ export type ButtonIcon = 'download' | 'plusCircle' | 'excel' | 'filter'
 
 export interface ButtonProps {
   label: string
-  size: ButtonSize
-  shape: ButtonShape
+  size?: ButtonSize
+  shape?: ButtonShape
   type?: ButtonType
   icon?: ButtonIcon
   loading?: boolean

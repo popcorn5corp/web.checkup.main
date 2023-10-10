@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     ARangePicker: typeof import('ant-design-vue/es')['RangePicker']
     ARow: typeof import('ant-design-vue/es')['Row']
     ASelect: typeof import('ant-design-vue/es')['Select']
+    ATag: typeof import('ant-design-vue/es')['Tag']
     Badge: typeof import('./src/components/badge/Badge.vue')['default']
     Button: typeof import('./src/components/button/src/Button.vue')['default']
     ButtonIcon: typeof import('./src/components/button/src/components/ButtonIcon.vue')['default']
