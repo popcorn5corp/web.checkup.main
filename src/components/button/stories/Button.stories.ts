@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import Button from '../Button.vue'
+import { Button } from '../'
 
 const meta = {
   title: 'checkupuikit/Atoms/Button',

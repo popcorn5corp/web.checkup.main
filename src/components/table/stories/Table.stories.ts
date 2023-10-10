@@ -1,7 +1,7 @@
 import { withActions } from '@storybook/addon-actions/decorator'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import type { ComponentProps } from 'vue-component-type-helpers'
-import { Table } from '..'
+import { Table } from '../'
 import { columns, dataSource, sortedColumns } from './mock'
 
 const meta: Meta<ComponentProps<typeof Table>> = {

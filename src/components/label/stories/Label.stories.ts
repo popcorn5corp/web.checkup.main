@@ -1,18 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import { Badge } from '../'
+import { Label } from '../'
 
 const meta = {
-  title: 'checkupuikit/Atoms/Badge',
-  component: Badge,
+  title: 'checkupuikit/Atoms/Label',
+  component: Label,
   tags: ['autodocs'],
 
   argTypes: {
     text: {
-      description: 'set the title of badge',
+      description: 'set the title of label',
       type: { name: 'string', required: true }
     },
     size: {
-      description: 'set the size of badge',
+      description: 'set the size of label',
       type: { name: 'string', required: false },
       options: ['small', 'middle', 'large'],
       control: 'select',
@@ -22,7 +22,7 @@ const meta = {
       }
     },
     theme: {
-      description: 'set the theme of badge',
+      description: 'set the theme of label',
       type: { name: 'string', required: false },
       options: [
         'primary',
@@ -44,7 +44,7 @@ const meta = {
       }
     },
     shape: {
-      description: 'can be set badge shape',
+      description: 'can be set label shape',
       type: { name: 'string', required: false },
       options: ['squared', 'round', 'pill'],
       control: 'select',
@@ -58,10 +58,9 @@ const meta = {
   },
   args: { shape: 'squared', size: 'middle' }, // default value
   parameters: {
-    componentSubtitle:
-      'Badge를 사용하여 요소(링크)와 연결된 항목 수량을 집계하거나 숫자 값에 대한 빠른 시각적 인식을 도울 수 있습니다.'
+    componentSubtitle: 'Label을 사용하여 콘텐츠에 대한 분류 및 추가적인 정보를 나타낼 수 있습니다.'
   }
-} satisfies Meta<typeof Badge>
+} satisfies Meta<typeof Label>
 
 export default meta
 type Story = StoryObj<typeof meta>

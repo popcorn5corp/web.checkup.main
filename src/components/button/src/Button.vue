@@ -18,8 +18,8 @@
 <script lang="ts" setup>
 import { Button } from 'ant-design-vue'
 import { computed } from 'vue'
-import ButtonIcon from './ButtonIcon.vue'
-import type { ButtonEmits, ButtonProps } from './types'
+import type { ButtonEmits, ButtonProps } from '../types'
+import ButtonIcon from './components/ButtonIcon.vue'
 
 const emit = defineEmits<ButtonEmits>()
 const props = withDefaults(defineProps<ButtonProps>(), {
