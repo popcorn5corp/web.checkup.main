@@ -1,3 +1,10 @@
+import type { MenuTheme } from 'ant-design-vue'
+
+export interface HeaderProps {
+  collapsed?: boolean
+  theme?: MenuTheme
+}
+
 export const rollingList = [
   {
     title: '[공지사항] 체크업서비스 사용법 안내',

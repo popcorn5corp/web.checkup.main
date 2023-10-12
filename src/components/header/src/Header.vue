@@ -23,23 +23,16 @@
 </template>
 
 <script lang="ts" setup name="Header">
-import { Layout, type MenuTheme, Space } from 'ant-design-vue'
-import { type CSSProperties, type PropType, computed, ref, watch } from 'vue'
+import { Layout, Space } from 'ant-design-vue'
+import { type CSSProperties, computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/icons'
+import { HeaderProps, rollingList } from '../types'
 import RollingText from './components/RollingText.vue'
 import UserDropdown from './components/UserDropdown.vue'
-import { rollingList } from './data/index'
 
 const emit = defineEmits(['update:collapsed'])
-const props = defineProps({
-  collapsed: {
-    type: Boolean
-  },
-  theme: {
-    type: String as PropType<MenuTheme>
-  }
-})
+const props = withDefaults(defineProps<HeaderProps>(), {})
 
 const { config, setCollapse } = useProjectConfigStore()
 

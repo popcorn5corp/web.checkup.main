@@ -1,6 +1,6 @@
 import { userEvent, within } from '@storybook/testing-library'
 import type { Meta, StoryObj } from '@storybook/vue3'
-import MyPage from './Page.vue'
+import MyPage from '../Page.vue'
 
 const meta = {
   title: 'checkupuikit/Templates/Page',
