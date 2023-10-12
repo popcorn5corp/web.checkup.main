@@ -19,6 +19,6 @@ export default {
     }
   },
   menu: {
-    newWorkspace: 'New workspace'
+    newWorkspace: 'New Workspace'
   }
 }

@@ -10,7 +10,7 @@
       collapsible
       :theme="getTheme"
     >
-      <Logo :collapsed="collapsed" />
+      <Logo :imgPath="imgPath" />
 
       <!-- Side Menu 영역 -->
       <AsideMenu
@@ -26,7 +26,7 @@
       <!-- Page Header 영역 -->
       <PageHeader :collapsed="collapsed" :theme="getTheme">
         <template v-if="config.theme.menuPosition === 'topmenu'" #default>
-          <Logo :collapsed="collapsed" />
+          <Logo :imgPath="imgPath" />
 
           <!-- Header Menu 영역 -->
           <div class="header-menu">
@@ -57,13 +57,13 @@
 </template>
 <script setup lang="ts" name="LayoutDefault">
 import { Divider, Layout } from 'ant-design-vue'
-import { computed, onMounted } from 'vue'
+import { type CSSProperties, computed, onMounted } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Header as PageHeader } from '@/components/header'
+import { Logo } from '@/components/logo'
 import { Menu as AsideMenu } from '@/components/menu'
 import { menus } from '@/components/menu/src/mock'
 import PageFooter from '../components/Footer/index.vue'
-import Logo from '../components/Logo/index.vue'
 import PageTabs from '../components/Tabs/index.vue'
 import CircularMenu from './components/CircularMenu.vue'
 
@@ -73,6 +73,19 @@ const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
 const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
 const isSideMenu = computed(() => config.theme.menuPosition === 'sidemenu')
+const imgPath = computed(
+  () => new URL(`/src/assets/images/${config.theme.logoFileName}`, import.meta.url).href
+)
+const logoStyles = computed<{ logo: CSSProperties; img: CSSProperties }>(() => {
+  return {
+    logo: {
+      padding: config.isCollapse ? '10px' : ''
+    },
+    img: {
+      width: config.isCollapse ? '60px' : '220px'
+    }
+  }
+})
 
 onMounted(() => {
   setTimeout(() => {
@@ -119,6 +132,15 @@ onMounted(() => {
   //   box-shadow: 1px 1px 4px #0c1e35;
   // }
 
+  :deep(.logo) {
+    padding: v-bind('logoStyles.logo.padding');
+    height: 95px;
+
+    img {
+      width: v-bind('logoStyles.img.width');
+    }
+  }
+
   .ant-layout {
     overflow: hidden;
   }
@@ -138,6 +160,10 @@ onMounted(() => {
     .title {
       font-size: 1.5em;
       font-weight: bold;
+    }
+
+    :deep(.ant-divider) {
+      margin: 15px 0;
     }
   }
 

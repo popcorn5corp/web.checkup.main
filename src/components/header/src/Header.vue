@@ -27,7 +27,7 @@ import { Layout, Space } from 'ant-design-vue'
 import { type CSSProperties, computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/icons'
-import { HeaderProps, rollingList } from '../types'
+import { type HeaderProps, rollingList } from '../types'
 import RollingText from './components/RollingText.vue'
 import UserDropdown from './components/UserDropdown.vue'
 

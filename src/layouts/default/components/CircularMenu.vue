@@ -146,11 +146,11 @@ onMounted(() => {
 }
 
 .circular-menu.circular-menu-left .floating-btn {
-  background-color: v-bind(circularMenuColor);
+  background-color: v-bind('circularMenuColor');
 }
 
 .circular-menu.circular-menu-left:after {
-  background-color: v-bind(circularMenuColor);
+  background-color: v-bind('circularMenuColor');
 }
 
 .circular-menu.circular-menu-left.active .floating-btn i {

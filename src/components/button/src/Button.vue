@@ -5,7 +5,7 @@
     :type="type"
     :shape="shape"
     :loading="loading"
-    style="style"
+    :style="style"
     @click="$emit('click')"
   >
     <ButtonIcon v-if="icon" :icon="icon" />
@@ -39,7 +39,7 @@ const getButtonClass = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-.ant-btn {
+:deep(.ant-btn) {
   // display: flex;
   align-items: center;
   justify-content: center;

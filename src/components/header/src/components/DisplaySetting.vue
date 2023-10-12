@@ -59,7 +59,7 @@ import type { ThemeConfig } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { layoutFonts, menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'
 
-const { config, setTheme } = useProjectConfigStore()
+const { config, setTheme, setCollapse } = useProjectConfigStore()
 const getThemeColorVisible = (color: string) =>
   config.theme.primaryColor === color ? 'visible' : 'hidden'
 
@@ -73,6 +73,10 @@ function setNavTheme(themeName: ThemeConfig['navTheme']) {
 
 function setMenuPosition(menuPosition: ThemeConfig['menuPosition']) {
   setTheme({ menuPosition })
+
+  if (menuPosition === 'topmenu' && config.isCollapse) {
+    setCollapse(false)
+  }
 }
 
 function setLayoutFontSize({ target: { value } }: RadioChangeEvent) {
