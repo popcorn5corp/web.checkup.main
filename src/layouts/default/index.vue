@@ -59,7 +59,7 @@
 import { Divider, Layout } from 'ant-design-vue'
 import { computed, onMounted } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { Header as PageHeader } from '@/components/Header'
+import { Header as PageHeader } from '@/components/header'
 import { Menu as AsideMenu } from '@/components/menu'
 import { menus } from '@/components/menu/src/mock'
 import PageFooter from '../components/Footer/index.vue'
