@@ -1,6 +1,6 @@
 import type { StorybookConfig } from '@storybook/vue3-vite'
-import { mergeConfig, loadConfigFromFile, ConfigEnv, UserConfig } from 'vite';
-import path from 'path';
+// import { mergeConfig, loadConfigFromFile, ConfigEnv, UserConfig } from 'vite';
+// import path from 'path';
 
 const config: StorybookConfig = {
   framework: {
@@ -11,7 +11,7 @@ const config: StorybookConfig = {
   features: {
     // storyStoreV7: false, // 👈 Opt out of on-demand story loading
   },
-  staticDirs: ['../public'],
+  staticDirs: ['./public'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',

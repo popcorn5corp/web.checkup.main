@@ -7,7 +7,9 @@ const meta: Meta<ComponentProps<typeof Logo>> = {
   component: Logo,
   tags: ['autodocs'],
   argTypes: {},
-  args: {},
+  args: {
+    imgPath: 'src/assets/images/checkup_logo_light.png'
+  },
   parameters: {
     componentSubtitle: '사내 로고를 나타냅니다.'
   }
