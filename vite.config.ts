@@ -22,9 +22,6 @@ const __APP_INFO__ = {
 export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
   const env = loadEnv(mode, process.cwd())
 
-  console.log('[env info]', env)
-  console.log('[meta info]', import.meta)
-
   return {
     plugins: [
       vue(),
@@ -73,9 +70,16 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
       cors: true,
       proxy: {
         '^/api': {
-          target: 'https://dev.checkup-api.co.kr/base',
+          target: 'http://dev-auth.checkup-api.co.kr',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
+        },
+        '^/auth': {
+          target: env.VITE_AUTH_SERVER_API_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+          // secure: false,
+          ws: true
         }
       },
       hmr: {
@@ -83,6 +87,7 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
       }
     },
     build: {
+      target: 'modules',
       outDir: 'dist',
       minify: 'esbuild'
     }

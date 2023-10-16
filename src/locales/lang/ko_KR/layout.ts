@@ -19,6 +19,6 @@ export default {
     }
   },
   menu: {
-    newProject: '새 프로젝트 생성'
+    newWorkspace: '새 워크스페이스 생성'
   }
 }

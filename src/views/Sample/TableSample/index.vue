@@ -4,6 +4,7 @@ import { Modal, Spin, message } from 'ant-design-vue'
 import { computed, createVNode, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IBaseSample } from '@/services/BaseSample/interface'
+import { Button } from '@/components/button'
 import { DynamicTable } from '@/components/dynamic-table'
 import { QuestionCircleTwoTone } from '@/components/icons'
 import { contentModes as modes } from '@/constants/content'
@@ -221,11 +222,27 @@ const onClickRegist = (): void => {
 
     <template #footer>
       <template v-if="isEdit">
-        <Button v-if="mode === modes.U" key="cancel" @click="onCancel" label="취소" />
-        <Button key="save" type="primary" @click="onOpenSaveModal" label="저장" />
+        <Button
+          v-if="mode === modes.U"
+          key="cancel"
+          @click="onCancel"
+          :label="$t('component.button.cancel')"
+        />
+        <Button
+          key="save"
+          type="primary"
+          @click="onOpenSaveModal"
+          :label="$t('component.button.save')"
+        />
       </template>
-      <Button v-else key="edit" type="primary" @click="mode = modes.U" label="수정" />
-      <Button key="close" @click="onCloseModal" label="닫기" />
+      <Button
+        v-else
+        key="edit"
+        type="primary"
+        @click="mode = modes.U"
+        :label="$t('component.button.edit')"
+      />
+      <Button key="close" @click="onCloseModal" :label="$t('component.button.close')" />
     </template>
   </Modal>
 </template>

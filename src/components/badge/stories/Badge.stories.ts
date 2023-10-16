@@ -14,11 +14,11 @@ const meta = {
     size: {
       description: 'set the size of badge',
       type: { name: 'string', required: false },
-      options: ['small', 'medium', 'large'],
+      options: ['small', 'middle', 'large'],
       control: 'select',
       table: {
-        type: { summary: 'small | medium | large' },
-        defaultValue: { summary: 'medium' }
+        type: { summary: 'small | middle | large' },
+        defaultValue: { summary: 'middle' }
       }
     },
     theme: {
@@ -56,9 +56,10 @@ const meta = {
       }
     }
   },
-  args: { shape: 'squared', size: 'medium' }, // default value
+  args: { shape: 'squared', size: 'middle' }, // default value
   parameters: {
-    componentSubtitle: 'Label을 사용하여 콘텐츠에 대한 분류를 표시할 수 있습니다.'
+    componentSubtitle:
+      'Badge를 사용하여 요소(링크)와 연결된 항목 수량을 집계하거나 숫자 값에 대한 빠른 시각적 인식을 도울 수 있습니다.'
   }
 } satisfies Meta<typeof Badge>
 

@@ -15,5 +15,13 @@ export default {
     saveSuccess: '저장이 완료되었습니다.',
     deleteSuccess: '삭제가 완료되었습니다.',
     noData: '해당 조건에 일치하는 정보가 없습니다.'
-  }
+  },
+  socialLoginText: '{ type } 계정으로 로그인',
+  loginText: '로그인',
+  createAccount: '회원가입 후 서비스 이용',
+  newUser: '계정이 없으신가요?',
+  forgotPassword: '비밀번호를 잊어버리셨나요?',
+  idText: '아이디',
+  passwordText: '비밀번호',
+  checkingLogin: '로그인 정보를 확인 중입니다.'
 }

@@ -26,11 +26,21 @@ export const staticRoutes: RouteRecordRaw[] = [
     redirect: '/dashboard'
   },
   {
+    path: '/login2',
+    name: 'login2',
+    component: () => import(/* webpackChunkName: "login2" */ '@/views/Login/index2.vue'),
+    meta: {
+      title: 'Login',
+      layout: layoutTypes.pure
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login/index.vue'),
     meta: {
-      title: 'Login'
+      title: 'Login',
+      layout: layoutTypes.pure
     }
   },
   {

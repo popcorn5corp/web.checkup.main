@@ -1,19 +1,27 @@
 export default {
-  filterText: 'Saring',
-  tableTotalText: '{count} hasil',
-  searchPlaceholder: 'Silakan cari judulnya',
-  postRead: 'Detail Post',
-  postModify: 'Sunting Postingan',
-  postRegist: 'Mendaftarkan sebuah pos',
-  registration: 'Pendaftaran',
-  delete: 'Hapus',
+  filterText: 'Filters',
+  tableTotalText: '{count} results',
+  searchPlaceholder: 'Please search for the title.',
+  postRead: 'Post Details',
+  postModify: 'Modify Posts',
+  postRegist: 'Register a post',
+  registration: 'Registration',
+  delete: 'Delete',
   message: {
-    changeLang: 'Apakah Anda ingin mengubah ke bahasa negara Anda?',
-    modalEditCloseCheck: 'Tidak ada modifikasi yang akan disimpan. Apakah Anda ingin menutupnya?',
-    modalDeleteCheck: 'Anda yakin ingin menghapus item yang dipilih?',
-    modalSaveCheck: 'Apakah Anda ingin menyimpan konten ini?',
-    saveSuccess: 'Simpananmu sudah selesai.',
-    deleteSuccess: 'Penghapusan selesai.',
-    noData: 'Tidak ada informasi yang cocok dengan kriteria.'
-  }
+    changeLang: `Would you like to change to your country's language?`,
+    modalEditCloseCheck: 'No modifications will be saved Do you want to close it?',
+    modalDeleteCheck: 'Are you sure you want to delete the selected items?',
+    modalSaveCheck: 'Do you want to save this content?',
+    saveSuccess: 'Your save is complete.',
+    deleteSuccess: 'Deletion completed.',
+    noData: 'No information matches the criteria.'
+  },
+  socialLoginText: 'Sign In With { type }',
+  loginText: 'Sign In',
+  createAccount: 'Create an account',
+  newUser: 'New user?',
+  forgotPassword: 'Forgot Password?',
+  idText: 'ID',
+  passwordText: 'Password',
+  checkingLogin: 'Checking your login information.'
 }
