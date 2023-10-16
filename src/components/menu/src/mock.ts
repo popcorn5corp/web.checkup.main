@@ -324,6 +324,16 @@ export const menus: any = [
           namePath: ['components', 'components-modal'],
           fullPath: '/components/modal'
         }
+      },
+      {
+        path: 'card',
+        name: 'components-card',
+        meta: {
+          title: 'Card',
+          icon: 'icon-shouye',
+          namePath: ['components', 'components-card'],
+          fullPath: '/components/card'
+        }
       }
     ]
   }

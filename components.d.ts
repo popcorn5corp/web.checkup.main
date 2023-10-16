@@ -10,6 +10,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('ant-design-vue/es')['Button']
+    ACardGrid: typeof import('ant-design-vue/es')['CardGrid']
     Accordion: typeof import('./src/components/accordion/src/Accordion.vue')['default']
     AccordionPanel: typeof import('./src/components/accordion/src/AccordionPanel.vue')['default']
     ACheckbox: typeof import('ant-design-vue/es')['Checkbox']
@@ -26,6 +27,7 @@ declare module '@vue/runtime-core' {
     Badge: typeof import('./src/components/badge/Badge.vue')['default']
     Button: typeof import('./src/components/button/Button.vue')['default']
     ButtonIcon: typeof import('./src/components/button/ButtonIcon.vue')['default']
+    Card: typeof import('./src/components/card/src/Card.vue')['default']
     Checkbox: typeof import('./src/components/dynamic-table/src/components/FilterType/Checkbox.vue')['default']
     CheckFilter: typeof import('./src/components/filter-form/src/components/CheckFilter.vue')['default']
     DateFilter: typeof import('./src/components/filter-form/src/components/DateFilter.vue')['default']

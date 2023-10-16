@@ -246,6 +246,17 @@ export const staticRoutes: RouteRecordRaw[] = [
         meta: {
           title: 'Modal'
         }
+      },
+      {
+        path: 'card',
+        name: 'components-card',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-card" */ '@/views/ComponentsOverview/Card/index.vue'
+          ),
+        meta: {
+          title: 'Card'
+        }
       }
     ]
   }
