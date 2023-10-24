@@ -1,71 +1,90 @@
 <template>
   <div class="card-container">
-    <!-- <template v-if="tabList">
-      <Card
-        style="width: 100%"
-        title="Card title"
-        :tab-list="tabList"
-        :active-tab-key="key"
-        @tabChange="(key) => onTabChange(key, 'key')"
-      >
-        <template #customTab="item">
-          <span v-if="item.key === 'tab1'">
-            <component :is="item.icon" />
-            {{ item.key }}
-          </span>
+    <div class="card-box">
+      <div class="card">
+        <template v-if="props.imgUrl">
+          <div class="img-container">
+            <Image :src="props.imgUrl" :preview="props.imgPreview">
+              <template #previewMask v-if="props.imgPreview">
+                <ZoomInOutlined style="font-size: 40px" />
+              </template>
+            </Image>
+          </div>
         </template>
-        <template #extra>
-          <a href="#">More</a>
-        </template>
-        {{ contentList[key] }}
-      </Card>
-    </template> -->
-    <!-- 사이즈, 스타일, 그리드, 이너카드, 로딩카드, 속성(cover, avatar, title and description),
-    타이틀없는, 안에 탭  -->
-    <!-- :loading="isLoading" -->
-    <Card :title="props.title" :size="props.size">
-      <template #extra v-if="props.extraText">
-        <a :href="props.extraUrl || '#'">{{ props.extraText }}</a>
-      </template>
 
-      <template #cover v-if="props.imgUrl">
-        <img alt="cover" :src="props.imgUrl" />
-      </template>
-      <template v-if="props.content">
-        {{ props.content }}
-      </template>
-      <!-- <p>card content</p>
-      <p>card content</p>
-      <p>card content</p> -->
-      <!-- <template>
-          <template v-if="props.gridWidth">
-            <a-card-grid style="width: 25%; text-align: center">{{ props.content }}</a-card-grid>
+        <div class="text-box">
+          <div class="text-header">
+            <template v-if="props.title">
+              <p class="title">{{ props.title }}</p>
+            </template>
+
+            <template v-if="props.tag">
+              <div class="">
+                <p class="tag">{{ props.tag }}</p>
+              </div>
+            </template>
+          </div>
+
+          <template v-if="props.content">
+            <div class="content">
+              <p>
+                {{ props.content }}
+              </p>
+            </div>
           </template>
-          <template v-else>
-            <div>{{ props.content }}</div>
-          </template>
-        </template> -->
-    </Card>
+
+          <component v-if="props.component" :is="props.component" />
+        </div>
+      </div>
+      <!-- hover event -->
+      <div
+        class="card-masking"
+        :style="
+          (checked && 'opacity: 1', (props.goDetailText || props.useCheckbox) && ' display: block')
+        "
+      >
+        <template v-if="props.useCheckbox">
+          <div class="check-container">
+            <Checkbox v-model:checked="checked" />
+          </div>
+        </template>
+
+        <template v-if="props.goDetailText">
+          <a
+            :href="'#'"
+            :class="`go-detail ${props.goDetailType === GoDetailType.MIDDLE ? 'middle' : 'bottom'}`"
+          >
+            <template v-if="props.goDetailType === GoDetailType.MIDDLE">
+              <span>{{ props.goDetailText }}</span>
+            </template>
+            <template v-if="props.goDetailType === GoDetailType.BOTTOM">
+              <div>{{ props.goDetailText }}</div>
+            </template>
+          </a>
+        </template>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Card } from 'ant-design-vue'
-import { ref, watch } from 'vue'
-import type { CardProps } from '../types'
+import { ZoomInOutlined } from '@ant-design/icons-vue'
+import { Checkbox, Image } from 'ant-design-vue'
+import { ref } from 'vue'
+import '../style/card.scss'
+import { type CardProps, GoDetailType } from '../types'
 
 // const props = defineProps<CardProps>()
 const props = withDefaults(defineProps<CardProps>(), {
-  key: '',
-  size: 'default'
+  goDetailType: GoDetailType.MIDDLE,
+  imgPreview: true
 })
-console.log(props)
-
-const isLoading = ref(false)
-
-// watch(
-//   () => props.card
-// )
+const checked = ref(false)
+;(async () => {
+  if (props.goDetailType === GoDetailType.MIDDLE) {
+  }
+})()
 </script>
 
+//
 <style lang="scss" scoped></style>

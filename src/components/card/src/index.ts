@@ -1,2 +1,3 @@
 export { default as Card } from './Card.vue'
-export type { CardProps, CardList } from '../types'
+export { default as CardList } from './CardList.vue'
+export type { CardProps } from '../types'
