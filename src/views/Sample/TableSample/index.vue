@@ -93,7 +93,7 @@ const onOpenSaveModal = (): void => {
     onOk() {
       postDetailRef.value.onSubmit().then(() => {
         callServiceByMode(() => {
-          dynamicTableInstance.value?.refetch({ isReset: true })
+          dynamicTableInstance.value?.reload({ isReset: true })
           initState()
 
           setTimeout(() => {
@@ -118,7 +118,7 @@ const onRemovePost = (selectedRows: IBaseSample.Content[]): void => {
     onOk() {
       BaseSampleService.deleteOne(selectedRows[0].boardId).then(({ success }) => {
         if (success) {
-          dynamicTableInstance.value?.refetch({ isReset: true })
+          dynamicTableInstance.value?.reload({ isReset: true })
 
           setTimeout(() => {
             message.success(t('common.message.deleteSuccess'), 1)

@@ -7,8 +7,8 @@ import type {
   InternalAxiosRequestConfig
 } from 'axios'
 import { useAuthStore } from '@/stores/modules/auth'
-import { ACCESS_TOKEN_KEY } from '@/enums/cacheKeyEnum'
-import { ContentTypeEnum } from '@/enums/httpEnum'
+import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
+import { ContentTypeEnum } from '@/constants/httpEnum'
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   noLoading?: boolean

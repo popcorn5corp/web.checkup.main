@@ -53,5 +53,4 @@ export const createStorage = ({ prefixKey = '', storage = window.localStorage } 
   return new Storage()
 }
 
-export const Storage = createStorage()
-export default Storage
+export const StorageUtil = createStorage()

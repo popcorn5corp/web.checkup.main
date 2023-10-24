@@ -1,4 +1,4 @@
-import { service } from '@/utils/service'
+import { service } from '@/utils/http'
 import type { IBaseSample, SortCodesResponse } from './interface'
 
 class BaseSampleService {

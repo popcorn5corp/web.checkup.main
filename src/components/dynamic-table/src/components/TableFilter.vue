@@ -29,11 +29,9 @@ const filterTypeComponents: Record<FilterType, Component> = {
   select: Select,
   radio: Radio
 }
-
-const customStyle = '  font-weight: bold; font-size: 16px'
 </script>
 <template>
-  <div class="filter-wrapper">
+  <div class="filter-container">
     <div class="filter-list" :class="getDarkModeClass" v-if="showFilter">
       <!-- 모바일 버전 헤더 -->
       <div class="mobile-header">
@@ -41,7 +39,7 @@ const customStyle = '  font-weight: bold; font-size: 16px'
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
 
-      <Accordion :items="filterList" :style="customStyle" ghost>
+      <Accordion :items="filterList" :style="{ fontWeight: 'bold', fontSize: '16px' }" ghost>
         <template #content="{ item }">
           <keep-alive>
             <component :is="filterTypeComponents[item.type as FilterType]" :item="item" />
@@ -49,7 +47,7 @@ const customStyle = '  font-weight: bold; font-size: 16px'
         </template>
       </Accordion>
 
-      <div :class="getDarkModeClass" class="mobile-footer">
+      <div class="mobile-footer" :class="getDarkModeClass">
         <Divider />
         <div class="btn-group">
           <Button label="Clear all" size="large" @click="onFilter" />
@@ -198,10 +196,4 @@ const customStyle = '  font-weight: bold; font-size: 16px'
 :deep(.ant-divider) {
   margin: 0 0 10px 0;
 }
-
-.dark-mode {
-  background: $color-dark !important;
-  color: $color-white !important;
-}
 </style>
-.

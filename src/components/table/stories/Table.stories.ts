@@ -43,7 +43,7 @@ const meta: Meta<ComponentProps<typeof Table>> = {
     }
   },
   args: {
-    columns: [],
+    columns,
     dataSource: []
   },
   parameters: {

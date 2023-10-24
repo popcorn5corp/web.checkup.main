@@ -1,10 +1,10 @@
 import i18n from '@/locales'
 import { store } from '@/stores'
+import { Util } from '@/utils'
 import { defineStore } from 'pinia'
-import { reactive, ref } from 'vue'
-import { Storage } from '@/utils/storage'
-import { type LocaleType, localeMap } from '@/locales/config'
-import { LOCALE_KEY } from '@/enums/cacheKeyEnum'
+import { reactive } from 'vue'
+import { type LocaleType } from '@/locales/config'
+import { LOCALE_KEY } from '@/constants/cacheKeyEnum'
 
 interface LocaleState {
   locale: LocaleType
@@ -21,10 +21,10 @@ const Trans = {
     return i18n.global.locale.value
   },
   set persistedLocale(newLocale) {
-    Storage.set(LOCALE_KEY, newLocale)
+    Util.Storage.set(LOCALE_KEY, newLocale)
   },
   get persistedLocale() {
-    const persistedLocale = Storage.get(LOCALE_KEY)
+    const persistedLocale = Util.Storage.get(LOCALE_KEY)
     return persistedLocale || null
   },
   get browserLanguage() {

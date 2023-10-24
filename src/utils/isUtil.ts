@@ -96,3 +96,28 @@ export function isUrl(path: string): boolean {
   const reg = /^http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?/
   return reg.test(path)
 }
+
+export const IsUtil = {
+  is,
+  isDef,
+  isUnDef,
+  isObject,
+  isEmpty,
+  isDate,
+  isNull,
+  isNullAndUnDef,
+  isNullOrUnDef,
+  isNumber,
+  isPromise,
+  isString,
+  isFunction,
+  isBoolean,
+  isRegExp,
+  isArray,
+  isWindow,
+  isElement,
+  isMap,
+  isServer,
+  isClient,
+  isUrl
+}

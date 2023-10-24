@@ -1,5 +1,5 @@
 import type { UploadProgressEvent } from 'ant-design-vue/es/vc-upload/interface'
-import { service } from '@/utils/service'
+import { service } from '@/utils/http'
 import type { IFileManager } from './interface'
 
 class FileManagerService {

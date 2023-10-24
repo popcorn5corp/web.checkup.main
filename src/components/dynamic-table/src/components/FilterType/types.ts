@@ -15,3 +15,5 @@ export interface Filter {
   options: LabelValue[]
   selectedItems: any[]
 }
+
+export const FilterItem = {}
