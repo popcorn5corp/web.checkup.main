@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig } from 'axios'
-import { ResultEnum } from '@/enums/httpEnum'
+import { ResultEnum } from '@/constants/httpEnum'
 import { AxiosHttpClient } from './Axios'
 
 const config: AxiosRequestConfig = {

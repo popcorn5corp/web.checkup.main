@@ -38,6 +38,7 @@
 
 <script setup lang="ts" name="Tabs">
 import router from '@/router'
+import { Util } from '@/utils'
 import { Tabs } from 'ant-design-vue'
 import Sortable from 'sortablejs'
 import { type CSSProperties, computed, onMounted, onUnmounted, ref, unref, watch } from 'vue'
@@ -45,11 +46,11 @@ import { type RouteLocationNormalized, useRoute } from 'vue-router'
 import type { RouteItem } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTabsLayoutStore } from '@/stores/modules/tabsLayout'
-import { Storage } from '@/utils/storage'
 import { LaptopOutlined } from '@/components/icons'
-import { TABS_ROUTES_KEY } from '@/enums/cacheKeyEnum'
+import { TABS_ROUTES_KEY } from '@/constants/cacheKeyEnum'
 
 const { TabPane } = Tabs
+const { Storage } = Util
 
 const route = useRoute()
 const tabsLyoutStore = useTabsLayoutStore()
@@ -197,3 +198,4 @@ onUnmounted(() => {
   }
 }
 </style>
+@/utils/storageUtil

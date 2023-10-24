@@ -1,132 +1,37 @@
-<script setup lang="ts" name="DynamicTable">
-import { Input, Space } from 'ant-design-vue'
-import { onMounted, ref, unref, useSlots } from 'vue'
-import { Button } from '@/components/button'
-import { DownloadOutlined } from '@/components/icons'
-import { Table } from '@/components/table'
-import { useTag } from '../hooks/useTag'
-import type { DynamicTableEmits, DynamicTableProps } from '../types'
-import TableFilter from './components/TableFilter.vue'
-import TableSegmentButton from './components/TableSegmentButton.vue'
-import TableTags from './components/TableTags.vue'
-
-defineEmits(['rowClick', 'change', 'search', 'rowAdd', 'rowSelect'])
-const slots = useSlots()
-const props = withDefaults(defineProps<DynamicTableProps>(), {
-  showToolbar: false,
-  showFilter: false
-})
-
-const tableInstance = ref<InstanceType<typeof Table>>()
-const _showFilter = ref(false)
-const isReload = ref(false)
-const searchWord = ref('')
-
-/**
- * @description Table Tag 관련 기능에 대한 Hooks
- */
-const { tags, initTag } = useTag()
-
-onMounted(() => {
-  // temp code
-  isReload.value = true
-
-  setTimeout(() => {
-    isReload.value = false
-  }, 1000)
-})
-
-const onReload = (): void => {
-  isReload.value = true
-  unref(searchWord) && (searchWord.value = '')
-  tableInstance.value?.getDataSource({ isReset: true })
-  initTag()
-
-  setTimeout(() => {
-    isReload.value = false
-  }, 1000)
-}
-
-const onSearch = (): void => {
-  tableInstance.value?.getDataSource({ param: { searchWord: unref(searchWord) } })
-}
-
-const refetch = (options: { isReset?: boolean }) => {
-  tableInstance.value?.getDataSource(options)
-}
-
-defineExpose({
-  getDataSource: tableInstance.value?.getDataSource,
-  getColumns: tableInstance.value?.getColumns,
-  refetch
-})
-</script>
-
 <template>
   <div class="dynamic-table-containter">
-    <div v-if="props.showToolbar" class="table-header">
-      <Space>
-        <span class="total-count" v-if="tableInstance?.total !== null">{{
-          $t('common.tableTotalText', { count: tableInstance?.total })
-        }}</span>
+    <div class="header">
+      <TableTags />
 
-        <div class="table-search">
-          <Input
-            v-model:value="searchWord"
-            :placeholder="$t('common.searchPlaceholder')"
-            @press-enter="onSearch"
-            allow-clear
-          >
-            <template #suffix>
-              <font-awesome-icon
-                style="color: #d9d9d9"
-                :icon="['fas', 'magnifying-glass']"
-                @click="onSearch"
-              />
-            </template>
-          </Input>
-        </div>
-        <div class="table-btns">
-          <Space>
-            <slot name="tableBtns"></slot>
+      <div class="table-btns">
+        <Space>
+          <slot name="tableBtns"></slot>
 
-            <Button :label="$t('common.registration')" size="large" @click="$emit('rowAdd')" />
-            <Button :label="''" size="large" @click="onReload">
-              <template #icon>
-                <font-awesome-icon icon="rotate" :class="[isReload && 'rotating']" />
-              </template>
-            </Button>
-            <Button :label="''" size="large">
-              <template #icon>
-                <DownloadOutlined />
-              </template>
-            </Button>
-            <TableSegmentButton />
+          <Button :label="$t('common.registration')" size="large" @click="$emit('row-add')" />
 
-            <!-- 필터 버튼 -->
-            <Button
-              v-if="showFilter"
-              type="primary"
-              :label="$t('common.filterText')"
-              size="large"
-              @click="_showFilter = !_showFilter"
-            />
-          </Space>
-        </div>
-      </Space>
+          <!-- 필터 버튼 -->
+          <Button
+            v-if="showFilter"
+            type="primary"
+            :label="$t('common.filterText')"
+            size="large"
+            @click="_showFilter = !_showFilter"
+          />
+        </Space>
+      </div>
     </div>
 
-    <div class="table-body">
-      <div class="table-content-wrapper">
-        <div class="table-content" :style="{ flex: props.showToolbar && _showFilter ? 0.7 : 1 }">
-          <TableTags />
+    <Divider></Divider>
 
+    <div class="body">
+      <div class="content-wrapper">
+        <div class="content" :style="{ flex: props.showToolbar && _showFilter ? 0.7 : 1 }">
           <Table
             ref="tableInstance"
             v-bind="{ ...props }"
-            @row-add="$emit('rowAdd', $event)"
-            @row-click="$emit('rowClick', $event)"
-            @row-select="$emit('rowSelect', $event)"
+            @row-add="$emit('row-add', $event)"
+            @row-click="$emit('row-click', $event)"
+            @row-select="$emit('row-select', $event)"
           >
             <slot />
           </Table>
@@ -140,11 +45,41 @@ defineExpose({
     </div>
   </div>
 </template>
+<script setup lang="ts" name="DynamicTable">
+import { Divider, Space } from 'ant-design-vue'
+import { ref, useSlots } from 'vue'
+import { Button } from '@/components/button'
+import { Table } from '@/components/table'
+import type { DynamicTableEmits, DynamicTableProps } from '../types'
+import TableFilter from './components/TableFilter.vue'
+import TableTags from './components/TableTags.vue'
 
+defineEmits(['row-click', 'change', 'search', 'row-add', 'row-select'])
+const slots = useSlots()
+const props = withDefaults(defineProps<DynamicTableProps>(), {
+  showToolbar: false,
+  showFilter: false
+})
+
+const tableInstance = ref<InstanceType<typeof Table>>()
+const _showFilter = ref(false)
+
+const reload = (options: { isReset?: boolean }) => {
+  tableInstance.value?.getDataSource(options)
+}
+
+defineExpose({
+  getDataSource: tableInstance.value?.getDataSource,
+  getColumns: tableInstance.value?.getColumns,
+  reload
+})
+</script>
 <style lang="scss" scoped>
 .dynamic-table-containter {
-  .table-header {
-    margin: 1rem 0 1.5rem 0;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 
     .total-count {
       font-size: 14px;
@@ -158,7 +93,7 @@ defineExpose({
       width: 100%;
       justify-content: space-between;
 
-      .table-search {
+      .search {
         display: flex;
         flex: 1;
         gap: 10px;
@@ -179,7 +114,7 @@ defineExpose({
     }
   }
 
-  .table-body {
+  .body {
     display: flex;
     flex-direction: column;
 
@@ -187,10 +122,10 @@ defineExpose({
       margin-bottom: 16px;
     }
 
-    .table-content-wrapper {
+    .content-wrapper {
       display: flex;
 
-      .table-content {
+      .content {
         flex: 1;
 
         .table-toolbar {
@@ -199,7 +134,7 @@ defineExpose({
         }
       }
 
-      .filter-wrapper {
+      .filter-container {
         flex: 0.3;
         overflow-y: auto;
         height: calc(100vh - 240px);
@@ -207,18 +142,18 @@ defineExpose({
     }
   }
 
-  @-webkit-keyframes rotating {
-    from {
-      -webkit-transform: rotate(0deg);
-    }
+  // @-webkit-keyframes rotating {
+  //   from {
+  //     -webkit-transform: rotate(0deg);
+  //   }
 
-    to {
-      -webkit-transform: rotate(360deg);
-    }
-  }
+  //   to {
+  //     -webkit-transform: rotate(360deg);
+  //   }
+  // }
 
-  .rotating {
-    -webkit-animation: rotating 0.5s linear infinite;
-  }
+  // .rotating {
+  //   -webkit-animation: rotating 0.5s linear infinite;
+  // }
 }
 </style>

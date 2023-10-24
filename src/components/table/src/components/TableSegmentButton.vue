@@ -1,0 +1,53 @@
+<script setup lang="ts" name="TableSegmentButton">
+import { TableOutlined, UnorderedListOutlined } from '@ant-design/icons-vue'
+import { Segmented } from 'ant-design-vue'
+import type { SegmentedValue } from 'ant-design-vue/es/segmented/src/segmented'
+import { type Component, ref } from 'vue'
+import { useTableContext } from '../../hooks/useTableContext'
+import type { TableLayoutType } from '../../types'
+
+const table = useTableContext()
+const tableLayoutType = ref<TableLayoutType>('list')
+const options = ref<Array<{ value: TableLayoutType; payload: { icon: Component } }>>([
+  {
+    value: 'list',
+    payload: {
+      icon: UnorderedListOutlined
+    }
+  },
+  {
+    value: 'grid',
+    payload: {
+      icon: TableOutlined
+    }
+  }
+])
+
+function onChangeLayoutType(val: SegmentedValue) {
+  table.setProps({ layoutType: val as TableLayoutType })
+}
+</script>
+<template>
+  <div class="table-segmented-button">
+    <Segmented v-model:value="tableLayoutType" :options="options" @change="onChangeLayoutType">
+      <template #label="{ value: val, payload = {} }">
+        <div style="padding: 4px 4px">
+          <template v-if="payload.icon">
+            <component :is="payload.icon" />
+          </template>
+        </div>
+      </template>
+    </Segmented>
+  </div>
+</template>
+<style lang="scss" scoped>
+.table-segmented-button {
+  :deep(.ant-segmented) {
+    font-size: 1rem;
+
+    .ant-segmented-item-selected {
+      border-radius: 7px;
+    }
+  }
+}
+</style>

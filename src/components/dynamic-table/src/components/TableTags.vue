@@ -6,14 +6,16 @@ import { useTag } from '../../hooks/useTag'
 const { config } = useProjectConfigStore()
 const { tags, removeTag, initTag } = useTag()
 const getDarkModeClass = computed(() => ({
-  'tags-dark-mode': config.theme.navTheme === 'realDark'
+  'dark-mode': config.theme.navTheme === 'realDark'
 }))
 
-const onClose = (options: LabelValueOptions, type = null) => {
+const onRemove = (options: LabelValueOptions, type = null) => {
   removeTag(options, type)
 }
 
-const onClick = () => initTag()
+const onClear = () => {
+  initTag()
+}
 </script>
 <template>
   <div class="table-tags">
@@ -21,14 +23,14 @@ const onClick = () => initTag()
       <template v-for="{ label, value, type } in tag">
         <p v-if="value !== null" class="table-tag" :class="getDarkModeClass">
           <span>{{ label }}</span>
-          <span @click="onClose({ label, value }, type)"
+          <span @click="onRemove({ label, value }, type)"
             ><font-awesome-icon :icon="['fas', 'xmark']"
           /></span>
         </p>
       </template>
     </template>
     <template v-if="tags.length">
-      <a-button class="table-tag" @click="onClick">초기화</a-button>
+      <a-button class="table-tag" @click="onClear">초기화</a-button>
     </template>
   </div>
 </template>
@@ -46,7 +48,6 @@ const onClick = () => initTag()
     background: rgb(0 0 0 / 3%);
     color: #000000;
     padding: 5px 16px;
-    margin-bottom: 6px;
     border-color: rgba(0, 0, 0, 0.03);
     border-radius: 6px;
     font-weight: 500;
@@ -56,12 +57,6 @@ const onClick = () => initTag()
     :nth-child(2) {
       cursor: pointer;
     }
-  }
-
-  .tags-dark-mode {
-    background: transparent !important;
-    color: $color-white !important;
-    border: 1px solid #666666 !important;
   }
 }
 </style>

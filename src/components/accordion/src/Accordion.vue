@@ -14,7 +14,7 @@ const onChange = (key: Key | Key[]) => {
 </script>
 
 <template>
-  <div :style="style">
+  <div class="accordian-wrapper" :style="style">
     <template v-if="items">
       <Collapse
         v-for="(item, index) in items"

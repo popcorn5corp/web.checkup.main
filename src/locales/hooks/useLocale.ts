@@ -1,7 +1,7 @@
+import { Helper } from '@/helpers'
 import type { Locale } from 'ant-design-vue/es/locale-provider'
 import { computed, nextTick, unref } from 'vue'
 import { useLocaleStoreWithOut } from '@/stores/modules/locale'
-import { loadLocalePool, setHtmlPageLang } from '@/helpers/locale'
 import i18n from '@/locales/'
 import type { LocaleType } from '@/locales/config'
 
@@ -36,7 +36,7 @@ export const useLocale = () => {
 
     const localeStore = useLocaleStoreWithOut()
     i18n.global.locale.value = locale
-    setHtmlPageLang(locale)
+    Helper.Locale.setHtmlPageLang(locale)
     localeStore.setLocale(locale)
   }
 
@@ -47,13 +47,13 @@ export const useLocale = () => {
       return locale
     }
 
-    if (loadLocalePool.includes(locale)) {
+    if (Helper.Locale.loadLocalePool.includes(locale)) {
       setI18nLanguage(locale)
       return locale
     }
 
     // loadLocaleMessages(locale)
-    loadLocalePool.push(locale)
+    Helper.Locale.loadLocalePool.push(locale)
     setI18nLanguage(locale)
     return locale
   }

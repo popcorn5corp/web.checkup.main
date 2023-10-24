@@ -1,7 +1,7 @@
+import { Util } from '@/utils'
 import { defineStore } from 'pinia'
-import { ref, toRefs, unref, watch } from 'vue'
-import { Storage } from '@/utils/storage'
-import { THEME_KEY } from '@/enums/cacheKeyEnum'
+import { ref, unref, watch } from 'vue'
+import { THEME_KEY } from '@/constants/cacheKeyEnum'
 import { DEFAULT_PRIMARY } from '@/constants/settings'
 import {
   DeviceTypeEnum,
@@ -55,7 +55,7 @@ const setRealDarkTheme = (navTheme?: ThemeName) => {
 
 const getLocalTheme = (): ThemeConfig => {
   try {
-    return JSON.parse(Storage.get(THEME_KEY, '{}'))
+    return JSON.parse(Util.Storage.get(THEME_KEY, '{}'))
   } catch (e) {
     console.log(e)
     return defaultConfig.theme
@@ -103,12 +103,13 @@ export const useProjectConfigStore = defineStore('projectConfig', () => {
       config.value.theme[themeKey] = theme[themeKey] as never
     })
 
-    Storage.set(THEME_KEY, JSON.stringify(unref(config).theme))
+    Util.Storage.set(THEME_KEY, JSON.stringify(unref(config).theme))
   }
 
   return {
     config,
     setTheme,
-    setCollapse
+    setCollapse,
+    setRealDarkTheme
   }
 })

@@ -1,5 +1,5 @@
-import { computed, reactive, toRefs, watch } from 'vue'
-import { isArray, isEmpty } from '@/utils/is'
+import { Util } from '@/utils'
+import { type ComputedRef, computed, reactive, toRefs, unref, watch } from 'vue'
 import type { TablePagination, TableProps, TableSorter } from '../types'
 import { defaultPaginaton } from '../types'
 
@@ -8,7 +8,6 @@ interface State {
   pagination: TablePagination
   total: number
   requestParam: Object
-  loading: boolean
   selectedRowKeys: Key[]
   sorter: Array<{
     columnKey: string
@@ -17,26 +16,19 @@ interface State {
   searchWord: string
 }
 
-export const useTable = (
-  request?: TableProps['dataRequest'],
-  dataCallback?: TableProps['dataCallback'],
-  dataSource?: TableProps['dataSource'],
-  initParam: TableProps['initParam'] = {
-    size: 0,
-    page: 1
-  },
-  isPagination: boolean = true,
-  pagination?: TableProps['pagination']
-) => {
+interface ActionType {
+  setLoading: (loading: boolean) => void
+}
+
+export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: ActionType) => {
   const state = reactive<State>({
     dataSource: [],
     total: 0,
     requestParam: {},
-    loading: false,
     selectedRowKeys: [],
     pagination: {
       ...defaultPaginaton,
-      ...pagination
+      ...unref(propsRef).pagination
     },
     sorter: [],
     searchWord: ''
@@ -72,16 +64,24 @@ export const useTable = (
     isReset?: boolean
     param?: { searchWord?: string }
   }): Promise<void> => {
+    const {
+      dataRequest,
+      dataSource,
+      initParam,
+      options: { isPagination },
+      dataCallback
+    } = unref(propsRef)
+
     let _dataSource = []
     let _total = 0
 
-    if (!request) {
+    if (!dataRequest) {
       if (dataSource) {
         _dataSource = dataSource
         _total = dataSource.length
       }
     } else {
-      state.loading = true
+      setLoading(true)
       let requestParam: State['requestParam'] = {}
 
       if (!options?.isReset) {
@@ -113,7 +113,7 @@ export const useTable = (
       isSorting.value && Object.assign(requestParam, sorterParam.value)
 
       try {
-        const { data, success } = await request(requestParam)
+        const { data, success } = await dataRequest(requestParam)
 
         if (success) {
           const {
@@ -137,7 +137,7 @@ export const useTable = (
     state.total = _total
 
     setTimeout(() => {
-      state.loading = false
+      setLoading(false)
     }, 300)
   }
 
@@ -155,15 +155,19 @@ export const useTable = (
     }
 
     // case: '{}' / column: undefined
-    if (!isEmpty(sorter)) {
-      state.sorter = isArray(sorter) ? sorter : !(sorter as TableSorter).column ? [] : [sorter]
+    if (!Util.Is.isEmpty(sorter)) {
+      state.sorter = Util.Is.isArray(sorter)
+        ? sorter
+        : !(sorter as TableSorter).column
+        ? []
+        : [sorter]
     }
 
     getDataSource()
   }
 
   const getRecordNo = (index: number) => {
-    if (!isPagination) return index + 1
+    if (unref(propsRef).options.isPagination) return index + 1
 
     const { pageSize, current } = state.pagination
     // if (pageSize && current) {

@@ -1,0 +1,14 @@
+html.dark {
+  .filter-container {
+    .filter-list,
+    .mobile-footer {
+      background: $color-dark;
+      color: $color-white;
+    }
+  }
+
+  .table-tag {
+    background: $color-dark;
+    color: $color-white;
+  }
+}

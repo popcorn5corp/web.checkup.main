@@ -6,7 +6,7 @@ type ButtonShape = 'default' | 'circle' | 'round'
 export type ButtonIcon = 'download' | 'plusCircle' | 'excel' | 'filter'
 
 export interface ButtonProps {
-  label: string
+  label?: string
   size?: ButtonSize
   shape?: ButtonShape
   type?: ButtonType

@@ -1,6 +1,11 @@
 {
   "name": "web.checkup.main",
   "version": "0.0.0",
+  "homepage": "https://github.com/popcorn5corp/web.checkup.main",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/popcorn5corp/web.checkup.main.git"
+  },
   "author": {
     "name": "CheckUP Corp."
   },
@@ -105,5 +110,8 @@
     "jackspeak": "2.1.1"
   },
   "readme": "ERROR: No README data found!",
-  "_id": "web.checkup.main@0.0.0"
+  "_id": "web.checkup.main@0.0.0",
+  "engines": {
+    "node": ">=18.18.0"
+  }
 }

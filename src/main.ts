@@ -2,6 +2,7 @@ import { setupAssets, setupFontAwesome, setupI18n } from '@/plugins'
 import { setupStore } from '@/stores'
 import { createApp } from 'vue'
 import '@/styles/main.scss'
+import '@/styles/theme/dark.scss'
 import App from './App.vue'
 import { setupRouter } from './router'
 

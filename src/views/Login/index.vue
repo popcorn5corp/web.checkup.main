@@ -4,7 +4,7 @@ import { Spin } from 'ant-design-vue'
 import { h } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/enums/cacheKeyEnum'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import SocialLoginBtns from './components/SocialLoginBnts.vue'
 
 const { query } = useRoute()

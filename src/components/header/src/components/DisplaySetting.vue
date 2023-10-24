@@ -59,7 +59,7 @@ import type { ThemeConfig } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { layoutFonts, menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'
 
-const { config, setTheme, setCollapse } = useProjectConfigStore()
+const { config, setTheme, setCollapse, setRealDarkTheme } = useProjectConfigStore()
 const getThemeColorVisible = (color: string) =>
   config.theme.primaryColor === color ? 'visible' : 'hidden'
 
@@ -69,6 +69,7 @@ function setThemeColor(primaryColor: string) {
 
 function setNavTheme(themeName: ThemeConfig['navTheme']) {
   setTheme({ navTheme: themeName })
+  setRealDarkTheme(themeName)
 }
 
 function setMenuPosition(menuPosition: ThemeConfig['menuPosition']) {
