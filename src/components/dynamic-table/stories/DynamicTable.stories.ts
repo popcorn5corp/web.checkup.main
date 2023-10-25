@@ -95,7 +95,7 @@ export const FetchData: Story = {
     setup() {
       const dataSource = ref([])
       const loading = ref(false)
-      const tableInstance = ref()
+      const tableRef = ref()
 
       const fetchData = async (): Promise<void> => {
         loading.value = true
@@ -109,7 +109,7 @@ export const FetchData: Story = {
         dataSource.value = []
       }
 
-      return { args, dataSource, loading, columns, fetchData, clearData }
+      return { args, dataSource, loading, columns, tableRef, fetchData, clearData }
     },
     template: `
       <div>
@@ -117,7 +117,7 @@ export const FetchData: Story = {
         <Button label="Clear Data" @click="clearData" style="margin-left: 10px"/>  
       </div>
      
-      <DynamicTable ref="tableInstance" v-bind="{ ...args }" :columns="columns" :dataSource="dataSource" :loading="loading"/>
+      <DynamicTable ref="tableRef" v-bind="{ ...args }" :columns="columns" :dataSource="dataSource" :loading="loading"/>
     `
   }),
   args: {

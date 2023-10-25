@@ -43,7 +43,6 @@ const getColumns = () => {
       :columns="columns"
       :data-request="getDataSource"
       :data-callback="dataCallback"
-      :init-columns="columns"
       :column-request="getColumns"
       :init-param="initParam"
     >

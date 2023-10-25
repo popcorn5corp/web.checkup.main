@@ -43,4 +43,3 @@ const onChange = (key: Key | Key[]) => {
     </Collapse>
   </div>
 </template>
-../types

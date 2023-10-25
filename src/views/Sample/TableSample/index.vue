@@ -15,7 +15,7 @@ import { columns } from './mock'
 const DEFAULT_MODE = modes.R
 
 const { t } = useI18n()
-const dynamicTableInstance = ref<InstanceType<typeof DynamicTable>>()
+const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 const postDetailRef = ref()
 const isOpen = ref(false)
 const isLoading = ref(false)
@@ -93,7 +93,7 @@ const onOpenSaveModal = (): void => {
     onOk() {
       postDetailRef.value.onSubmit().then(() => {
         callServiceByMode(() => {
-          dynamicTableInstance.value?.reload({ isReset: true })
+          dynamicTableRef.value?.reload({ isReset: true })
           initState()
 
           setTimeout(() => {
@@ -118,7 +118,7 @@ const onRemovePost = (selectedRows: IBaseSample.Content[]): void => {
     onOk() {
       BaseSampleService.deleteOne(selectedRows[0].boardId).then(({ success }) => {
         if (success) {
-          dynamicTableInstance.value?.reload({ isReset: true })
+          dynamicTableRef.value?.reload({ isReset: true })
 
           setTimeout(() => {
             message.success(t('common.message.deleteSuccess'), 1)
@@ -195,12 +195,11 @@ const onClickRegist = (): void => {
 
 <template>
   <DynamicTable
+    ref="dynamicTableRef"
     :row-key="'boardId'"
-    ref="dynamicTableInstance"
     :columns="columns"
     :data-request="getDataSource"
     :data-callback="dataCallback"
-    :init-columns="columns"
     :column-request="getColumns"
     :init-param="initParam"
     :show-filter="true"

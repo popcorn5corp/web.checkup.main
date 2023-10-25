@@ -1,6 +1,6 @@
 import type { TableColumnType } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
-import { type ComputedRef, computed, reactive, ref, toRefs, unref } from 'vue'
+import { type ComputedRef, computed, ref, unref } from 'vue'
 import type { SortCodesResponse } from '@/services/BaseSample/interface'
 import type { TableProps } from '../types'
 
@@ -8,28 +8,23 @@ interface State {
   columns: TableProps['columns']
 }
 
-const noColumn = {
+const noColumn: TableColumnType = {
   title: 'No',
   align: 'center',
   dataIndex: 'index',
-  key: 'index'
+  key: 'index',
+  width: 80
 } as const
 
 export const useColumns = (propsRef: ComputedRef<TableProps>) => {
   const innerColumns = ref(unref(propsRef).columns)
-
   const getColumns = computed(() => unref(innerColumns))
 
   async function setColumns(): Promise<void | State['columns']> {
-    const {
-      columns,
-      options: { isShowNo },
-      columnRequest
-    } = unref(propsRef)
-
+    const { columns, options, columnRequest } = unref(propsRef)
     const _columns: State['columns'] = cloneDeep(columns)
 
-    if (isShowNo) {
+    if (options && options.isShowNo) {
       _columns.unshift(noColumn)
     }
 
@@ -37,7 +32,7 @@ export const useColumns = (propsRef: ComputedRef<TableProps>) => {
       const { success, data } = await columnRequest()
 
       if (success) {
-        const { isSortable, enabledSortCodes } = data
+        const { isSortable, enabledSortCodes } = data as SortCodesResponse
 
         // Setting Sortable Columns
         if (isSortable) {
