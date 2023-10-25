@@ -98,6 +98,8 @@ onMounted(() => {
 })
 </script>
 <style lang="scss" scoped>
+$header-height: 55px;
+$tab-margin-top: 2px;
 .layout-default {
   display: flex;
   height: 100vh;
@@ -147,9 +149,18 @@ onMounted(() => {
   }
 
   .layout-header {
+    height: $header-height;
+    z-index: 1;
     .header-menu {
       max-width: 800px;
     }
+  }
+  :deep(.tabs-container) {
+    position: sticky;
+    // top: $header-height + $tab-margin-top;
+    // margin-top: $tab-margin-top;
+    top: $header-height;
+    z-index: 1;
   }
 
   .layout-content {

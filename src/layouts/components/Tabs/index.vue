@@ -132,8 +132,6 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .tabs-container {
-  margin-top: 2px;
-
   :deep(.ant-tabs) {
     &.ant-tabs-top {
       border-radius: 0;

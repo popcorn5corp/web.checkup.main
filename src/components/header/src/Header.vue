@@ -56,7 +56,7 @@ const headerStyle = computed<CSSProperties>(() => {
   position: sticky;
   top: 0;
   display: flex;
-  height: 55px;
+  // height: 55px;
   padding: 0 20px;
   justify-content: space-between;
   align-items: center;
