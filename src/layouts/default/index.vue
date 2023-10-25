@@ -142,7 +142,8 @@ onMounted(() => {
   }
 
   .ant-layout {
-    overflow: hidden;
+    // overflow: hidden;
+    overflow-y: scroll;
   }
 
   .layout-header {
@@ -154,7 +155,8 @@ onMounted(() => {
   .layout-content {
     padding: 1rem;
     flex: none;
-    height: calc(100vh - 90px);
+    // height: calc(100vh - 90px);
+    min-height: calc(100vh - 90px);
     background: $color-white;
 
     .title {
