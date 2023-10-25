@@ -9,9 +9,9 @@ import {
   Radio,
   RangeDatePicker,
   Select
-} from '@/components/dynamic-table/src/components'
-import type { FilterType } from '@/components/dynamic-table/src/components/FilterType/types'
-import { filterList } from '@/components/dynamic-table/src/components/mock'
+} from '@/components/filter-form/src/components/FilterType'
+import type { FilterType } from '@/components/filter-form/src/components/FilterType/types'
+import { filterList } from '@/components/filter-form/src/components/mock'
 
 const filterTypeComponents: Record<FilterType, Component> = {
   checkbox: Checkbox,

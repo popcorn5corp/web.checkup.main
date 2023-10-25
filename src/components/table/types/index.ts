@@ -98,7 +98,7 @@ export const defaultPaginaton: Readonly<TablePagination> = {
   current: 1,
   pageSize: 10,
   showSizeChanger: true,
-  position: ['bottomRight'],
+  position: ['topRight'],
   pageSizeOptions: ['10', '30', '50']
 }
 
@@ -110,8 +110,8 @@ export const defaultOptions: TableOptions = {
 }
 
 export const tableLayoutTypes = {
-  list: 'list',
-  grid: 'grid'
+  table: 'table',
+  card: 'card'
 } as const
 
 export type TableLayoutType = (typeof tableLayoutTypes)[keyof typeof tableLayoutTypes]

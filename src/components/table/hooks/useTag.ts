@@ -3,7 +3,7 @@ import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import {
   type FilterType,
   FilterTypes
-} from '@/components/dynamic-table/src/components/FilterType/types'
+} from '@/components/filter-form/src/components/FilterType/types'
 
 export function useTag() {
   const { filterList, setFilterList } = useTableFilterStore()

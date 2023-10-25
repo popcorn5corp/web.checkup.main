@@ -6,3 +6,5 @@ export interface DynamicTableProps extends TableProps {
 }
 
 export interface DynamicTableEmits extends TableEmits {}
+
+export interface DynamicTableAction {}

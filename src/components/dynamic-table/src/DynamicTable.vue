@@ -1,5 +1,5 @@
 <template>
-  <div class="dynamic-table-containter">
+  <div ref="wrapRef" class="dynamic-table-containter">
     <div class="header">
       <TableTags />
 
@@ -27,7 +27,7 @@
       <div class="content-wrapper">
         <div class="content" :style="{ flex: props.showToolbar && _showFilter ? 0.7 : 1 }">
           <Table
-            ref="tableInstance"
+            ref="tableRef"
             v-bind="{ ...props }"
             @row-add="$emit('row-add', $event)"
             @row-click="$emit('row-click', $event)"
@@ -37,40 +37,70 @@
           </Table>
         </div>
 
-        <TableFilter
-          v-if="props.showToolbar && _showFilter"
+        <FilterForm
+          v-if="_showFilter"
           @showFilter="(flag: boolean) => (_showFilter = flag)"
-        />
+        ></FilterForm>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts" name="DynamicTable">
 import { Divider, Space } from 'ant-design-vue'
-import { ref, useSlots } from 'vue'
+import { computed, ref, unref, useAttrs, useSlots } from 'vue'
 import { Button } from '@/components/button'
+import { FilterForm } from '@/components/filter-form'
 import { Table } from '@/components/table'
-import type { DynamicTableEmits, DynamicTableProps } from '../types'
-import TableFilter from './components/TableFilter.vue'
+import { createDynamicTableContext } from '../hooks/useDynamicTableContext'
+import type { DynamicTableAction, DynamicTableEmits, DynamicTableProps } from '../types'
 import TableTags from './components/TableTags.vue'
 
 defineEmits(['row-click', 'change', 'search', 'row-add', 'row-select'])
+const attrs = useAttrs()
 const slots = useSlots()
 const props = withDefaults(defineProps<DynamicTableProps>(), {
   showToolbar: false,
   showFilter: false
 })
 
-const tableInstance = ref<InstanceType<typeof Table>>()
+const wrapRef = ref(null)
+const innerProps = ref<Partial<DynamicTableProps>>()
+const tableRef = ref<InstanceType<typeof Table>>()
 const _showFilter = ref(false)
 
 const reload = (options: { isReset?: boolean }) => {
-  tableInstance.value?.getDataSource(options)
+  tableRef.value?.getDataSource(options)
 }
 
+const getProps = computed<DynamicTableProps>(() => {
+  return {
+    ...props,
+    ...unref(innerProps)
+  }
+})
+
+function setProps(props: Partial<DynamicTableProps>) {
+  innerProps.value = {
+    ...unref(innerProps),
+    ...props
+  }
+}
+
+let dynamicTableAction: DynamicTableAction = {}
+const getBindValues = computed<Recordable>(() => {
+  let propsData = {
+    ...attrs,
+    ...unref(getProps)
+  }
+
+  return propsData
+})
+
+createDynamicTableContext({ wrapRef, ...dynamicTableAction, getBindValues })
+
 defineExpose({
-  getDataSource: tableInstance.value?.getDataSource,
-  getColumns: tableInstance.value?.getColumns,
+  getDataSource: tableRef.value?.getDataSource,
+  getColumns: tableRef.value?.getColumns,
   reload
 })
 </script>
@@ -141,19 +171,5 @@ defineExpose({
       }
     }
   }
-
-  // @-webkit-keyframes rotating {
-  //   from {
-  //     -webkit-transform: rotate(0deg);
-  //   }
-
-  //   to {
-  //     -webkit-transform: rotate(360deg);
-  //   }
-  // }
-
-  // .rotating {
-  //   -webkit-animation: rotating 0.5s linear infinite;
-  // }
 }
 </style>

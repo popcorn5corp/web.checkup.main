@@ -3,10 +3,10 @@
     <TableToolbar />
 
     <Table
-      ref="tableInstance"
-      v-if="getBindValues.layoutType === 'list'"
+      ref="tableRef"
+      v-if="getBindValues.layoutType === 'table'"
       v-bind="getBindValues"
-      :scrollY="530"
+      :scroll="{ y: 530 }"
       :row-key="rowKey"
       :custom-row="customRow"
       @change="changeTable"
@@ -37,12 +37,13 @@ import { Table } from 'ant-design-vue'
 import omit from 'lodash-es/omit'
 import { computed, ref, unref, useAttrs } from 'vue'
 import type { CSSProperties } from 'vue'
+import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import { useColumns } from '../hooks/useColumns'
 import { useCustomRow } from '../hooks/useCustomRow'
 import { useLoading } from '../hooks/useLoading'
 import { useSelection } from '../hooks/useSelection'
 import { useTable } from '../hooks/useTable'
-import { createTableContext } from '../hooks/useTableContext'
+import { createTableContext, useTableContext } from '../hooks/useTableContext'
 import { type TableEmits, type TableProps, defaultOptions, defaultPaginaton } from '../types'
 import type { TableAction } from '../types'
 import TableToolbar from './components/TableToolbar.vue'
@@ -58,10 +59,11 @@ const props = withDefaults(defineProps<TableProps>(), {
     size: 0,
     page: 1
   }),
-  layoutType: 'list'
+  layoutType: 'table'
 })
 
 const wrapRef = ref(null)
+const dynamicTable = useDynamicTableContext()
 const innerProps = ref<Partial<TableProps>>()
 const dataSource = computed(() => props.dataSource || _dataSource.value)
 const styles = ref<CSSProperties>({
@@ -148,6 +150,7 @@ const getBindValues = computed<Recordable>(() => {
 })
 
 createTableContext({ ...tableAction, wrapRef, getBindValues })
+// dynamicTable && useDynamicTableContext({ ...tableAction, getBindValues })
 
 defineExpose({
   getDataSource,
@@ -165,7 +168,7 @@ defineExpose({
   }
 
   :deep(.ant-table) {
-    height: calc(100vh - 350px);
+    // height: calc(100vh - 350px);
     overflow: auto;
 
     .ant-table-thead {

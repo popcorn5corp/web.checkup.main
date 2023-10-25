@@ -1,6 +1,6 @@
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { RouteLocation } from 'vue-router'
-import { type Filter } from '@/components/dynamic-table/src/components/FilterType/types'
+import { type Filter } from '@/components/filter-form/src/components/FilterType/types'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 
 // export type LayoutType = 'default' | 'vertical' | 'transverse' | 'columns'

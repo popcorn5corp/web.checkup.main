@@ -1,24 +1,24 @@
-<script setup lang="ts" name="TableFilter">
+<script setup lang="ts" name="FilterForm">
 import { Divider } from 'ant-design-vue'
 import { type Component, computed, ref } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { Accordion } from '@/components/accordion'
 import { Button } from '@/components/button'
-import type { FilterType } from '../components/FilterType/types'
-import { Checkbox, Datepicker, Radio, RangeDatePicker, Select } from './'
+import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
+import { Checkbox, Datepicker, Radio, RangeDatePicker, Select } from './components/FilterType'
+import type { FilterType } from './components/FilterType/types'
 
 const emit = defineEmits(['showFilter'])
 
+const dynamicTable = useDynamicTableContext()
 const { config } = useProjectConfigStore()
 const { filterList } = useTableFilterStore()
-
 const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
-
 const showFilter = ref<Boolean>(true)
 
 const onFilter = (): void => {
-  showFilter.value = showFilter.value ? false : true
+  showFilter.value = !showFilter.value
   emit('showFilter', showFilter.value)
 }
 
