@@ -131,18 +131,5 @@ function handleOk(e: MouseEvent) {
 
 .modal-content {
   margin-top: 30px;
-
-  .check-item {
-    position: relative;
-    cursor: pointer;
-
-    &.active:after {
-      content: '✔';
-      position: absolute;
-      bottom: 10px;
-      right: 12px;
-      color: blue;
-    }
-  }
 }
 </style>
