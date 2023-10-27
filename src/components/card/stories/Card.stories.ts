@@ -3,12 +3,12 @@ import { withActions } from '@storybook/addon-actions/decorator'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import { Card } from '../src'
-import { GoDetailType } from '../types'
+import { DetailPositionType } from '../types'
 
 const meta: Meta<ComponentProps<typeof Card>> = {
   // type card
   /**
-   * (useCheckbox || goDetailText) 와 imgPreview
+   * (useCheckbox || detailBtnText) 와 imgPreview
    * 는 같이 사용 할 수 없음
    */
   title: 'checkupuikit/Atoms/Card',
@@ -40,7 +40,7 @@ const meta: Meta<ComponentProps<typeof Card>> = {
         type: {
           summary: 'ContentData[] | VNode | string',
           detail:
-            'ContentData : { id: string, division: string, createdAt: string, contents: {key: string,label: string,value: string} }'
+            'ContentData : { id: string, division: string, createdAt: number, contents: {key: string,label: string,value: string} }'
         }
       }
     },
@@ -53,7 +53,7 @@ const meta: Meta<ComponentProps<typeof Card>> = {
         type: { summary: 'string' }
       }
     },
-    goDetailText: {
+    detailBtnText: {
       description: '카드 상세보기 버튼 내용',
       control: {
         type: 'text'
@@ -62,7 +62,7 @@ const meta: Meta<ComponentProps<typeof Card>> = {
         type: { summary: 'string' }
       }
     },
-    goDetailType: {
+    detailBtnPosition: {
       description: '카드 상세보기 스타일 타입',
       type: { name: 'string' },
       options: ['MIDDLE', 'BOTTOM'],
@@ -115,8 +115,8 @@ export const GoDetailMiddle: Story = {
   args: {
     ...Default.args,
     title: '카드 제목',
-    goDetailText: '상세보기',
-    goDetailType: GoDetailType.MIDDLE
+    detailBtnText: '상세보기',
+    detailBtnPosition: DetailPositionType.MIDDLE
   }
 }
 
@@ -124,8 +124,8 @@ export const GoDetailBottom: Story = {
   args: {
     ...Default.args,
     title: '카드 제목',
-    goDetailText: '상세보기',
-    goDetailType: GoDetailType.BOTTOM
+    detailBtnText: '상세보기',
+    detailBtnPosition: DetailPositionType.BOTTOM
   }
 }
 
