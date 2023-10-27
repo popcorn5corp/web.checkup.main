@@ -31,6 +31,8 @@ export const columns: TableColumnsType = [
   }
 ]
 
+export const filters = []
+
 // export const filterTypes = {
 //   select: 'select',
 //   : 'datepicker',

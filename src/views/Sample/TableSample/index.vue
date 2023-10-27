@@ -10,7 +10,7 @@ import { QuestionCircleTwoTone } from '@/components/icons'
 import { contentModes as modes } from '@/constants/content'
 import PostDetail from './components/PostDetail.vue'
 import { getDefaultPost } from './constant'
-import { columns } from './mock'
+import { columns, filters } from './mock'
 
 const DEFAULT_MODE = modes.R
 
@@ -198,12 +198,11 @@ const onClickRegist = (): void => {
     ref="dynamicTableRef"
     :row-key="'boardId'"
     :columns="columns"
+    :filters="filters"
+    :init-param="initParam"
     :data-request="getDataSource"
     :data-callback="dataCallback"
     :column-request="getColumns"
-    :init-param="initParam"
-    :show-filter="true"
-    :show-toolbar="true"
     @row-click="onClickRow"
     @row-select="onRemovePost"
     @rowAdd="onClickRegist"

@@ -1,12 +1,12 @@
 <template>
   <div ref="wrapRef" class="table-container">
-    <TableToolbar />
+    <TableToolbar v-if="props.showToolbar" />
 
     <Table
       ref="tableRef"
-      v-if="getBindValues.layoutType === 'table'"
+      v-if="getBindValues.selectedLayoutMode === 'table'"
       v-bind="getBindValues"
-      :scroll="{ y: 530 }"
+      :scrollY="530"
       :row-key="rowKey"
       :custom-row="customRow"
       @change="changeTable"
@@ -32,7 +32,7 @@
     </Table>
 
     <CardView
-      v-if="getBindValues.layoutType === 'card'"
+      v-if="getBindValues.selectedLayoutMode === 'card'"
       :key="rowKey"
       @cardTableChange="changeTable"
     />
@@ -50,7 +50,14 @@ import { useLoading } from '../hooks/useLoading'
 import { useSelection } from '../hooks/useSelection'
 import { useTable } from '../hooks/useTable'
 import { createTableContext, useTableContext } from '../hooks/useTableContext'
-import { type TableEmits, type TableProps, defaultOptions, defaultPaginaton } from '../types'
+import {
+  type TableEmits,
+  type TableProps,
+  defaultOptions,
+  defaultPaginaton,
+  defaultToolbarOptions,
+  tableLayoutModes
+} from '../types'
 import type { TableAction } from '../types'
 import TableToolbar from './components/TableToolbar.vue'
 
@@ -61,11 +68,11 @@ const props = withDefaults(defineProps<TableProps>(), {
   size: 'middle',
   options: () => defaultOptions,
   pagination: () => defaultPaginaton,
+  toolbarOptions: () => defaultToolbarOptions,
   initParam: () => ({
     size: 0,
     page: 1
-  }),
-  layoutType: 'table'
+  })
 })
 
 const wrapRef = ref(null)
@@ -128,6 +135,9 @@ const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource)
   }
 })()
 
+/**
+ * @description Table 컴포넌트 Context가 제공하는 Actions
+ */
 const tableAction: TableAction = {
   setProps,
   getDataSource,
@@ -142,6 +152,9 @@ const tableAction: TableAction = {
   }
 }
 
+/**
+ * @description Table 컴포넌트에 바인딩되는 Values
+ */
 const getBindValues = computed<Recordable>(() => {
   let propsData = {
     ...useAttrs(),
@@ -152,11 +165,16 @@ const getBindValues = computed<Recordable>(() => {
     loading: unref(getLoading),
     rowSelection: props.options.isSelection ? rowSelection : undefined,
     pagination: props.options.isPagination && pagination
+    // selectedLayoutMode: tableLayoutModes.table
   }
 
   propsData = omit(propsData, ['showHeader'])
   return propsData
 })
+
+/**
+ * @description Table 컴포넌트 Context에서 공유되는 Values
+ */
 
 createTableContext({ ...tableAction, wrapRef, getBindValues })
 // dynamicTable && useDynamicTableContext({ ...tableAction, getBindValues })

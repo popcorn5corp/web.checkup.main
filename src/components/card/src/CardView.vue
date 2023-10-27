@@ -10,6 +10,7 @@
       @change="$emit('cardTableChange')"
     />
   </div>
+
   <CardList
     :imgUrl="avatar1"
     :key="12"
@@ -23,10 +24,12 @@
 <script lang="ts" setup>
 import avatar1 from '@/assets/images/avatar1.png'
 import { Pagination, type TableProps } from 'ant-design-vue'
-import { computed, defineEmits, ref, watch } from 'vue'
+import { computed, defineEmits, defineProps, ref, watch } from 'vue'
 import { CardList } from '@/components/card'
 import { DetailPositionType } from '@/components/card/types'
 import { useTableContext } from '@/components/table/hooks/useTableContext'
+
+// const props = withDefaults(defineProps<Object>(), {})
 
 const table = useTableContext()
 const pagination = table.getBindValues.value.pagination
