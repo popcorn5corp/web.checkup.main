@@ -9,8 +9,8 @@ import {
   Radio,
   RangeDatePicker,
   Select
-} from '@/components/dynamic-table/src/components'
-import { filterList } from '@/components/dynamic-table/src/components/mock'
+} from '@/components/filter-form/src/components/FilterType'
+import { filterList } from '@/components/filter-form/src/components/mock'
 import { Accordion, AccordionPanel } from '../src'
 
 const meta: Meta<ComponentProps<typeof Accordion>> = {

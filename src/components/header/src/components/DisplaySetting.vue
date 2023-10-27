@@ -84,7 +84,7 @@ function setLayoutFontSize({ target: { value } }: RadioChangeEvent) {
   setTheme({ fontSize: value })
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .check-item {
   position: relative;
   cursor: pointer;
@@ -94,7 +94,7 @@ function setLayoutFontSize({ target: { value } }: RadioChangeEvent) {
     position: absolute;
     bottom: 10px;
     right: 12px;
-    color: blue;
+    color: $color-gray;
   }
 }
 </style>
