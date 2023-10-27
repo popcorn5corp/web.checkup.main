@@ -143,6 +143,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
 
   const changeTable: TableProps['onChange'] = (pagination, filters, sorter, extra) => {
     const { pageSize, current } = pagination
+    console.log('change', pageSize, current)
     // // 페이지 사이즈 변경 시, 첫 페이지로 이동
     // // const isChangePageSize = tablePagination.value.pageSize !== pageSize
 

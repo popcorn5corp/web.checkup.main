@@ -7,16 +7,16 @@ import { useTableContext } from '../../hooks/useTableContext'
 import type { TableLayoutType } from '../../types'
 
 const table = useTableContext()
-const tableLayoutType = ref<TableLayoutType>('list')
+const tableLayoutType = ref<TableLayoutType>('table')
 const options = ref<Array<{ value: TableLayoutType; payload: { icon: Component } }>>([
   {
-    value: 'list',
+    value: 'table',
     payload: {
       icon: UnorderedListOutlined
     }
   },
   {
-    value: 'grid',
+    value: 'card',
     payload: {
       icon: TableOutlined
     }

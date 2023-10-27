@@ -144,31 +144,25 @@ $tab-margin-top: 2px;
   }
 
   .ant-layout {
-    // overflow: hidden;
-    overflow-y: scroll;
+    overflow: hidden;
   }
 
   .layout-header {
     height: $header-height;
-    z-index: 1;
     .header-menu {
       max-width: 800px;
     }
   }
   :deep(.tabs-container) {
     position: sticky;
-    // top: $header-height + $tab-margin-top;
-    // margin-top: $tab-margin-top;
-    top: $header-height;
-    z-index: 1;
+    top: $header-height + $tab-margin-top;
   }
 
   .layout-content {
     padding: 1rem;
-    flex: none;
-    // height: calc(100vh - 90px);
     min-height: calc(100vh - 90px);
     background: $color-white;
+    overflow-y: scroll;
 
     .title {
       font-size: 1.5em;

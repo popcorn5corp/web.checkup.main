@@ -1,5 +1,5 @@
 <template>
-  <div class="card-container">
+  <!-- <div class="card-container">
     <template v-if="props.content">
       <div v-for="(card, idx) in props.content" :key="card.id" class="card-box">
         <div class="card">
@@ -32,12 +32,11 @@
             <component v-if="props.component" :is="props.component" />
           </div>
         </div>
-        <!-- hover event -->
         <div
           class="card-masking"
           :style="
             (checkList[idx].isChecked && 'opacity: 1',
-            (props.goDetailText || props.useCheckbox) && ' display: block')
+            (props.detailBtnText || props.useCheckbox) && ' display: block')
           "
         >
           <template v-if="props.useCheckbox">
@@ -46,61 +45,110 @@
             </div>
           </template>
 
-          <template v-if="props.goDetailText">
+          <template v-if="props.detailBtnText">
             <a
               :href="'#'"
               :class="`go-detail ${
-                props.goDetailType === GoDetailType.MIDDLE ? 'middle' : 'bottom'
+                props.detailBtnPosition === DetailPositionType.MIDDLE ? 'middle' : 'bottom'
               }`"
             >
-              <template v-if="props.goDetailType === GoDetailType.MIDDLE">
-                <span>{{ props.goDetailText }}</span>
+              <template v-if="props.detailBtnPosition === DetailPositionType.MIDDLE">
+                <span>{{ props.detailBtnText }}</span>
               </template>
-              <template v-if="props.goDetailType === GoDetailType.BOTTOM">
-                <div>{{ props.goDetailText }}</div>
+              <template v-if="props.detailBtnPosition === DetailPositionType.BOTTOM">
+                <div>{{ props.detailBtnText }}</div>
               </template>
             </a>
           </template>
         </div>
-        <!-- /// -->
       </div>
     </template>
-    <!-- <Tooltip placement="right" overlayClassName="tooltip-container" style="width: 800px">
-                <template #title
-                  ><img alt="커버이미지" :src="props.imgUrl" style="width: -webkit-fill-available"
-                /></template>
-              </Tooltip> -->
+  </div> -->
+  <div class="card-list-container">
+    <div v-for="card in props.content" :key="card.key">
+      <Card
+        :key="card.key"
+        :imgUrl="props.imgUrl"
+        :detailBtnText="props.detailBtnText"
+        :title="card.boardTitle"
+        :tag="card.division"
+        :useCheckbox="props.useCheckbox"
+        :content="card.boardContent"
+        :detailBtnPosition="props.detailBtnPosition"
+        :createdAt="card.createdAt"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ZoomInOutlined } from '@ant-design/icons-vue'
-import { Checkbox, Image } from 'ant-design-vue'
 import { ref } from 'vue'
 import '../style/card.scss'
-import { type CardProps, GoDetailType } from '../types'
+import { type CardProps, DetailPositionType } from '../types'
 
 // const props = defineProps<CardProps>()
 const props = withDefaults(defineProps<CardProps>(), {
-  goDetailType: GoDetailType.MIDDLE,
+  detailBtnPosition: DetailPositionType.MIDDLE,
   imgPreview: true
 })
+console.log(props.content)
 
-const checkList = ref<boolean[]>([])
+// const checkList = ref<boolean[]>([])
 
-;(async () => {
-  checkList.value = [...Array(props.content.length)].map((_, i) => ({
-    index: i,
-    isChecked: false
-  }))
-  console.log(props.content.length, checkList.value)
-})()
+// ;(async () => {
+//   checkList.value = [...Array(props.content.length)].map((_, i) => ({
+//     index: i,
+//     isChecked: false
+//   }))
+//   console.log(props.content)
+// })()
 </script>
 
 <style lang="scss" scoped>
-.card-container {
+$breakpoint-desktop: 1024px; // 64rem
+$breakpoint-tablet: 758px; //47.375rem
+$breakpoint-mobile: 335px; // 20.938rem
+
+.card-list-container {
+  // display: flex;
+  // flex-wrap: wrap;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 1rem;
+  :deep(.card-box) {
+    min-width: 270px;
+    width: auto;
+  }
+}
+
+@media (min-width: 120rem) and (max-width: 140rem) {
+  .card-list-container {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+@media (min-width: 107rem) and (max-width: 120rem) {
+  .card-list-container {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+@media (min-width: 86rem) and (max-width: 107rem) {
+  .card-list-container {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+@media (min-width: 64rem) and (max-width: 86rem) {
+  .card-list-container {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (min-width: 30rem) and (max-width: 64rem) {
+  .card-list-container {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 20rem) and (max-width: 30rem) {
+  .card-list-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 </style>

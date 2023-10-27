@@ -23,16 +23,22 @@ a {
         }
       }
       .text-box {
+        display: flex;
+        flex-direction: column;
         padding: 1rem;
         .text-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 10px;
+          margin-bottom: 1rem;
         }
         .title {
           font-size: 17px;
           font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-right: 10px;
         }
         .tag {
           border: 1px solid #979797;
@@ -46,6 +52,11 @@ a {
           margin-bottom: 5px;
           font-size: 14px;
         }
+        .created {
+          text-align: right;
+          color: #999;
+          p { margin: 0; }
+        }
       }
     }
     .card-masking {
@@ -58,7 +69,7 @@ a {
       border-radius: 10px;
       transition: opacity 400ms;
       opacity: 0;
-      display: none;
+      // display: none;
       .check-container {
         position: absolute;
         top: 20px;
@@ -89,7 +100,7 @@ a {
         transition: transform 0.2s;
         transform: translateY(50px);
         div {
-          padding: 15px 0;
+          padding: 10px 0;
           width: 100%;
           background: #1890ff;
           color: #fff;

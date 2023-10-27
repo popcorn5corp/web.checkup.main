@@ -30,6 +30,12 @@
         <div>{{ $t('common.message.noData') }}</div>
       </template>
     </Table>
+
+    <CardView
+      v-if="getBindValues.layoutType === 'card'"
+      :key="rowKey"
+      @cardTableChange="changeTable"
+    />
   </div>
 </template>
 <script setup lang="ts" name="Table">
@@ -128,6 +134,9 @@ const tableAction: TableAction = {
   getSize: () => {
     return unref(props.size)
   },
+  // getCardSize: () => {
+
+  // },
   reload: async (isReset = true) => {
     await getDataSource({ isReset })
   }

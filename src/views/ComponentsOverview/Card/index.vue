@@ -3,6 +3,7 @@ import avatar1 from '@/assets/images/avatar1.png'
 import imgUrl from '@/assets/images/checkup_logo_light.png'
 import checkupLogo from '@/assets/images/checkup_logo_simple_light.png'
 import { Card, CardList } from '@/components/card'
+import { DetailPositionType } from '@/components/card/types'
 import { contentData } from './mock'
 </script>
 
@@ -14,7 +15,7 @@ import { contentData } from './mock'
       title="카드 타이틀"
       tag="구분태그"
       content="내용내용내용내용내용내용내용내용내용내용내용내용내용"
-      goDetailType="MIDDLE"
+      :detailBtnPosition="DetailPositionType.MIDDLE"
     />
     <hr style="margin: 1rem 0" />
     <Card
@@ -23,19 +24,17 @@ import { contentData } from './mock'
       title="카드 타이틀"
       tag="구분태그"
       content="내용내용내용내용내용내용내용내용내용내용내용내용내용"
-      goDetailText="상세보기"
-      goDetailType="MIDDLE"
+      detailBtnText="상세보기"
+      :detailBtnPosition="DetailPositionType.BOTTOM"
     />
     <hr style="margin: 1rem 0" />
     <CardList
-      key="1234"
+      :key="1234"
       :imgUrl="avatar1"
-      goDetailText="상세보기"
-      title="카드 타이틀"
-      tag="구분"
+      detailBtnText="상세보기"
       :useCheckbox="true"
       :content="contentData"
-      goDetailType="BOTTOM"
+      :detailBtnPosition="DetailPositionType.BOTTOM"
     />
   </div>
 </template>
