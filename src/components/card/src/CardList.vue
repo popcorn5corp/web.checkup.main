@@ -1,69 +1,4 @@
 <template>
-  <!-- <div class="card-container">
-    <template v-if="props.content">
-      <div v-for="(card, idx) in props.content" :key="card.id" class="card-box">
-        <div class="card">
-          <template v-if="props.imgUrl">
-            <div class="img-container">
-              <Image :src="props.imgUrl">
-                <template #previewMask v-if="props.imgPreview">
-                  <ZoomInOutlined style="font-size: 40px" />
-                </template>
-              </Image>
-            </div>
-          </template>
-          <div class="text-box">
-            <div class="text-header">
-              <template v-if="props.title">
-                <p class="title">{{ props.title }}</p>
-              </template>
-              <template v-if="props.tag">
-                <div class="">
-                  <p class="tag">{{ props.tag }}</p>
-                </div>
-              </template>
-            </div>
-            <template v-if="props.content">
-              <div v-for="content in card.contents" :key="content.key" class="content">
-                <p>{{ content.label }}</p>
-                <span>{{ content.value }}</span>
-              </div>
-            </template>
-            <component v-if="props.component" :is="props.component" />
-          </div>
-        </div>
-        <div
-          class="card-masking"
-          :style="
-            (checkList[idx].isChecked && 'opacity: 1',
-            (props.detailBtnText || props.useCheckbox) && ' display: block')
-          "
-        >
-          <template v-if="props.useCheckbox">
-            <div class="check-container">
-              <Checkbox v-model:checked="checkList[idx].isChecked" />
-            </div>
-          </template>
-
-          <template v-if="props.detailBtnText">
-            <a
-              :href="'#'"
-              :class="`go-detail ${
-                props.detailBtnPosition === DetailPositionType.MIDDLE ? 'middle' : 'bottom'
-              }`"
-            >
-              <template v-if="props.detailBtnPosition === DetailPositionType.MIDDLE">
-                <span>{{ props.detailBtnText }}</span>
-              </template>
-              <template v-if="props.detailBtnPosition === DetailPositionType.BOTTOM">
-                <div>{{ props.detailBtnText }}</div>
-              </template>
-            </a>
-          </template>
-        </div>
-      </div>
-    </template>
-  </div> -->
   <template v-if="typeof props.content === 'object'">
     <div class="card-list-container">
       <div v-for="card in props.content" :key="card.key">
@@ -103,7 +38,8 @@ const props = withDefaults(defineProps<CardProps>(), {
   detailBtnPosition: 'middle',
   imgPreview: true
 })
-console.log(props)
+console.log('card-list', props)
+
 // const checkList = ref<boolean[]>([])
 
 // ;(async () => {
@@ -121,7 +57,7 @@ console.log(props)
   grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 1rem;
   :deep(.card-box) {
-    // min-width: 170px;
+    min-width: 170px !important;
     width: auto;
   }
 }

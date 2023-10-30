@@ -32,7 +32,7 @@ import { useTableContext } from '@/components/table/hooks/useTableContext'
 const table = useTableContext()
 const pagination = table.getBindValues.value.pagination
 const dataSource = computed(() => table.getBindValues.value.dataSource)
-console.log(pagination, dataSource)
+console.log(table)
 
 defineEmits(['cardTableChange'])
 
