@@ -67,8 +67,8 @@
   <div class="card-list-container">
     <div v-for="card in props.content" :key="card.key">
       <Card
-        :key="card.key"
         :imgUrl="props.imgUrl"
+        :key="card.key"
         :detailBtnText="props.detailBtnText"
         :title="card.boardTitle"
         :tag="card.division"
@@ -83,12 +83,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import '../style/card.scss'
-import { type CardProps, DetailPositionType } from '../types'
+import type { CardProps } from '../types'
 
-// const props = defineProps<CardProps>()
 const props = withDefaults(defineProps<CardProps>(), {
-  detailBtnPosition: DetailPositionType.MIDDLE,
+  detailBtnPosition: 'middle',
   imgPreview: true
 })
 console.log(props.content)
@@ -105,27 +103,16 @@ console.log(props.content)
 </script>
 
 <style lang="scss" scoped>
-$breakpoint-desktop: 1024px; // 64rem
-$breakpoint-tablet: 758px; //47.375rem
-$breakpoint-mobile: 335px; // 20.938rem
-
 .card-list-container {
-  // display: flex;
-  // flex-wrap: wrap;
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 1rem;
   :deep(.card-box) {
-    min-width: 270px;
+    min-width: 220px;
     width: auto;
   }
 }
 
-@media (min-width: 120rem) and (max-width: 140rem) {
-  .card-list-container {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-  }
-}
 @media (min-width: 107rem) and (max-width: 120rem) {
   .card-list-container {
     grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -141,14 +128,19 @@ $breakpoint-mobile: 335px; // 20.938rem
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
-@media (min-width: 30rem) and (max-width: 64rem) {
+@media (min-width: 48rem) and (max-width: 64rem) {
   .card-list-container {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-@media (min-width: 20rem) and (max-width: 30rem) {
+@media (min-width: 32rem) and (max-width: 48rem) {
   .card-list-container {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 32rem) {
+  .card-list-container {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
 </style>
