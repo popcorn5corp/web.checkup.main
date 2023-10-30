@@ -4,9 +4,9 @@
 
     <Table
       ref="tableRef"
-      v-if="getBindValues.selectedLayoutMode === 'table'"
+      v-if="getContextValues.selectedLayoutMode === 'table'"
       v-bind="getBindValues"
-      :scrollY="530"
+      :scroll="{ y: 530 }"
       :row-key="rowKey"
       :custom-row="customRow"
       @change="changeTable"
@@ -26,13 +26,13 @@
       </template>
 
       <template #emptyText>
-        <img src="./images/no_data_2.png" style="width: 200px" />
+        <img :src="EmptyImage" style="width: 200px" />
         <div>{{ $t('common.message.noData') }}</div>
       </template>
     </Table>
 
     <CardView
-      v-if="getBindValues.selectedLayoutMode === 'card'"
+      v-if="getContextValues.selectedLayoutMode === 'card'"
       :key="rowKey"
       @cardTableChange="changeTable"
     />
@@ -58,8 +58,9 @@ import {
   defaultToolbarOptions,
   tableLayoutModes
 } from '../types'
-import type { TableAction } from '../types'
+import type { TableAction, TableContextValues } from '../types'
 import TableToolbar from './components/TableToolbar.vue'
+import EmptyImage from './images/no_data_2.png'
 
 const emit = defineEmits<TableEmits>()
 const props = withDefaults(defineProps<TableProps>(), {
@@ -78,6 +79,9 @@ const props = withDefaults(defineProps<TableProps>(), {
 const wrapRef = ref(null)
 const dynamicTable = useDynamicTableContext()
 const innerProps = ref<Partial<TableProps>>()
+const contextValues = ref<TableContextValues>({
+  selectedLayoutMode: tableLayoutModes.table
+})
 const dataSource = computed(() => props.dataSource || _dataSource.value)
 const styles = ref<CSSProperties>({
   cursor: props.options.pointer ? 'pointer' : ''
@@ -94,6 +98,22 @@ function setProps(props: Partial<TableProps>) {
   innerProps.value = {
     ...unref(innerProps),
     ...props
+  }
+}
+
+/**
+ * @description Table 컴포넌트 Context에서 공유되는 Values
+ */
+const getContextValues = computed<TableContextValues>(() => {
+  return {
+    ...unref(contextValues)
+  }
+})
+
+function setContextValues(values: Partial<TableContextValues>) {
+  contextValues.value = {
+    ...unref(contextValues),
+    ...values
   }
 }
 
@@ -140,6 +160,7 @@ const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource)
  */
 const tableAction: TableAction = {
   setProps,
+  setContextValues,
   getDataSource,
   getSize: () => {
     return unref(props.size)
@@ -165,18 +186,13 @@ const getBindValues = computed<Recordable>(() => {
     loading: unref(getLoading),
     rowSelection: props.options.isSelection ? rowSelection : undefined,
     pagination: props.options.isPagination && pagination
-    // selectedLayoutMode: tableLayoutModes.table
   }
 
   propsData = omit(propsData, ['showHeader'])
   return propsData
 })
 
-/**
- * @description Table 컴포넌트 Context에서 공유되는 Values
- */
-
-createTableContext({ ...tableAction, wrapRef, getBindValues })
+createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
 // dynamicTable && useDynamicTableContext({ ...tableAction, getBindValues })
 
 defineExpose({

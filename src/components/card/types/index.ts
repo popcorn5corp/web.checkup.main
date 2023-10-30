@@ -1,16 +1,11 @@
-import type { Component, VNode } from 'vue'
+import type { Component } from 'vue'
 
-export enum DetailPositionType {
-  MIDDLE = 'MIDDLE',
-  BOTTOM = 'BOTTOM'
-}
+export const detailPositionTypes = {
+  middle: 'middle',
+  bottom: 'bottom'
+} as const
 
-// export const detailPositionTypes = {
-//   middle: 'middle',
-//   bottom: 'bottom'
-// } as const
-
-// export type DetailPositionType = [keyof typeof detailPositionTypes][]
+export type DetailPositionType = (typeof detailPositionTypes)[keyof typeof detailPositionTypes]
 
 /**
  * mouseOverEvent
@@ -18,7 +13,6 @@ export enum DetailPositionType {
  * imgPreview
  */
 export interface CardProps {
-  key: string | number
   title?: string
   detailBtnText?: string
   detailBtnPosition?: DetailPositionType

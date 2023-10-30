@@ -81,9 +81,14 @@ export interface ToolbarOptions {
 
 export interface TableAction {
   setProps: (props: Partial<TableProps>) => void
+  setContextValues: (value: Partial<TableContextValues>) => void
   getDataSource: (options?: { isReset?: boolean; param?: { searchWord?: string } }) => Promise<void>
   getSize: () => TableSize
   reload: (isReset?: boolean) => Promise<void>
+}
+
+export interface TableContextValues {
+  selectedLayoutMode: TableLayoutMode
 }
 
 export interface TableEmits {

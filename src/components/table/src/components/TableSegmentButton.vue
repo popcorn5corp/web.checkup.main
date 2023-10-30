@@ -24,7 +24,9 @@ const options = ref<Array<{ value: TableLayoutMode; payload: { icon: Component }
 ])
 
 function onChangeLayoutType(val: SegmentedValue) {
-  table.setProps({})
+  table.setContextValues({
+    selectedLayoutMode: val as TableLayoutMode
+  })
 }
 </script>
 <template>

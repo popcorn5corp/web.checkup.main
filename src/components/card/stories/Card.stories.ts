@@ -2,8 +2,8 @@ import checkupLogo from '@/assets/images/checkup_logo_simple_light.png'
 import { withActions } from '@storybook/addon-actions/decorator'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import type { ComponentProps } from 'vue-component-type-helpers'
-import { Card } from '../src'
-import { DetailPositionType } from '../types'
+import { baseContent } from '@/views/ComponentsOverview/Card/mock'
+import { Card, CardList } from '../src'
 
 const meta: Meta<ComponentProps<typeof Card>> = {
   // type card
@@ -65,13 +65,13 @@ const meta: Meta<ComponentProps<typeof Card>> = {
     detailBtnPosition: {
       description: '카드 상세보기 스타일 타입',
       type: { name: 'string' },
-      options: ['MIDDLE', 'BOTTOM'],
+      options: ['middle', 'bottom'],
       control: 'select',
       table: {
         type: {
-          summary: 'MIDDLE | BOTTOM'
+          summary: 'middle | bottom'
         },
-        defaultValue: { summary: 'MIDDLE' }
+        defaultValue: { summary: 'middle' }
       }
     },
     imgPreview: {
@@ -111,21 +111,21 @@ export const Default: Story = {
   }
 }
 
-export const GoDetailMiddle: Story = {
+export const DetailButtonPositionMiddle: Story = {
   args: {
     ...Default.args,
     title: '카드 제목',
     detailBtnText: '상세보기',
-    detailBtnPosition: DetailPositionType.MIDDLE
+    detailBtnPosition: 'middle'
   }
 }
 
-export const GoDetailBottom: Story = {
+export const DetailButtonPositionBottom: Story = {
   args: {
     ...Default.args,
     title: '카드 제목',
     detailBtnText: '상세보기',
-    detailBtnPosition: DetailPositionType.BOTTOM
+    detailBtnPosition: 'bottom'
   }
 }
 
@@ -147,3 +147,15 @@ export const Checkbox: Story = {
     useCheckbox: true
   }
 }
+
+// export const CradList: Story = {
+//   args: {
+//     ...Default.args,
+//     title: '카드 제목',
+//     content: baseContent,
+//     imgUrl: checkupLogo,
+//     useCheckbox: true,
+//     detailBtnText: '상세보기',
+//     detailBtnPosition: 'bottom'
+//   }
+// }
