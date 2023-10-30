@@ -27,6 +27,8 @@ import { computed, defineEmits, watch } from 'vue'
 import { CardList } from '@/components/card'
 import { useTableContext } from '@/components/table/hooks/useTableContext'
 
+// const props = withDefaults(defineProps<Object>(), {})
+
 const table = useTableContext()
 const pagination = table.getBindValues.value.pagination
 const dataSource = computed(() => table.getBindValues.value.dataSource)

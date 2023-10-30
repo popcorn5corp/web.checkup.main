@@ -35,29 +35,22 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   })
 
   const isSorting = computed(() => state.sorter.length)
-  const paginationParam = computed({
-    get: () => {
-      return {
-        page: state.pagination.current - 1,
-        size: state.pagination.pageSize
-      }
-    },
-    set: () => {}
+  const paginationParam = computed(() => {
+    return {
+      page: state.pagination.current - 1,
+      size: state.pagination.pageSize
+    }
   })
 
-  const sorterParam = computed({
-    get: () => {
-      let param = ''
-      state.sorter.map((r, i) => {
-        param =
-          param + `${i !== 0 ? ',' : ''}` + `${r.order === 'descend' ? '-' : ''}${r.columnKey}`
-      })
+  const sorterParam = computed(() => {
+    let param = ''
+    state.sorter.map((r, i) => {
+      param = param + `${i !== 0 ? ',' : ''}` + `${r.order === 'descend' ? '-' : ''}${r.columnKey}`
+    })
 
-      return {
-        sort: param === '' ? undefined : param
-      }
-    },
-    set: () => {}
+    return {
+      sort: param === '' ? undefined : param
+    }
   })
 
   const getDataSource = async (options?: {
@@ -68,7 +61,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       dataRequest,
       dataSource,
       initParam,
-      options: { isPagination },
+      options: propsOptions,
       dataCallback
     } = unref(propsRef)
 
@@ -109,7 +102,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
         state.sorter = []
       }
 
-      isPagination && Object.assign(requestParam, paginationParam.value)
+      propsOptions?.isPagination && Object.assign(requestParam, paginationParam.value)
       isSorting.value && Object.assign(requestParam, sorterParam.value)
 
       try {
@@ -157,9 +150,11 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
 
     // case: '{}' / column: undefined
     if (!Util.Is.isEmpty(sorter)) {
+      // @ts-ignore
       state.sorter = Util.Is.isArray(sorter)
         ? sorter
-        : !(sorter as TableSorter).column
+        : // @ts-ignore
+        !(sorter as TableSorter).column
         ? []
         : [sorter]
     }
@@ -168,7 +163,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   }
 
   const getRecordNo = (index: number) => {
-    if (unref(propsRef).options.isPagination) return index + 1
+    if (unref(propsRef).options?.isPagination) return index + 1
 
     const { pageSize, current } = state.pagination
     // if (pageSize && current) {

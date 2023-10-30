@@ -4,11 +4,11 @@ import { Segmented } from 'ant-design-vue'
 import type { SegmentedValue } from 'ant-design-vue/es/segmented/src/segmented'
 import { type Component, ref } from 'vue'
 import { useTableContext } from '../../hooks/useTableContext'
-import type { TableLayoutType } from '../../types'
+import type { TableLayoutMode } from '../../types'
 
 const table = useTableContext()
-const tableLayoutType = ref<TableLayoutType>('table')
-const options = ref<Array<{ value: TableLayoutType; payload: { icon: Component } }>>([
+const tableLayoutType = ref<TableLayoutMode>('table')
+const options = ref<Array<{ value: TableLayoutMode; payload: { icon: Component } }>>([
   {
     value: 'table',
     payload: {
@@ -24,7 +24,9 @@ const options = ref<Array<{ value: TableLayoutType; payload: { icon: Component }
 ])
 
 function onChangeLayoutType(val: SegmentedValue) {
-  table.setProps({ layoutType: val as TableLayoutType })
+  table.setContextValues({
+    selectedLayoutMode: val as TableLayoutMode
+  })
 }
 </script>
 <template>

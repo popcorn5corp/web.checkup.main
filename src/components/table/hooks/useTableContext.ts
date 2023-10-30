@@ -6,6 +6,7 @@ const key = Symbol('table')
 
 type Instance = TableAction & {
   wrapRef: Ref<Nullable<HTMLElement>>
+  getContextValues: ComputedRef<Recordable>
   getBindValues: ComputedRef<Recordable>
 }
 

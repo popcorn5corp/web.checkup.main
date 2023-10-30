@@ -11,11 +11,11 @@
 
           <!-- 필터 버튼 -->
           <Button
-            v-if="showFilter"
+            v-if="filters"
             type="primary"
             :label="$t('common.filterText')"
             size="large"
-            @click="_showFilter = !_showFilter"
+            @click="showFilter = !showFilter"
           />
         </Space>
       </div>
@@ -25,7 +25,7 @@
 
     <div class="body">
       <div class="content-wrapper">
-        <div class="content" :style="{ width: props.showToolbar && _showFilter ? '75%' : '100%' }">
+        <div class="content" :style="{ width: props.showToolbar && showFilter ? '75%' : '100%' }">
           <Table
             ref="tableRef"
             v-bind="{ ...props }"
@@ -37,17 +37,14 @@
           </Table>
         </div>
 
-        <FilterForm
-          v-if="_showFilter"
-          @showFilter="(flag: boolean) => (_showFilter = flag)"
-        ></FilterForm>
+        <FilterForm v-if="showFilter" @close="(flag: boolean) => (showFilter = flag)"></FilterForm>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts" name="DynamicTable">
 import { Divider, Space } from 'ant-design-vue'
-import { computed, ref, unref, useAttrs, useSlots } from 'vue'
+import { computed, onMounted, ref, unref, useAttrs, useSlots, watch } from 'vue'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
 import { Table } from '@/components/table'
@@ -57,16 +54,14 @@ import TableTags from './components/TableTags.vue'
 
 defineEmits(['row-click', 'change', 'search', 'row-add', 'row-select'])
 const attrs = useAttrs()
-const slots = useSlots()
 const props = withDefaults(defineProps<DynamicTableProps>(), {
-  showToolbar: false,
-  showFilter: false
+  showToolbar: true
 })
 
 const wrapRef = ref(null)
 const innerProps = ref<Partial<DynamicTableProps>>()
 const tableRef = ref<InstanceType<typeof Table>>()
-const _showFilter = ref(false)
+const showFilter = ref(false)
 
 const reload = (options: { isReset?: boolean }) => {
   tableRef.value?.getDataSource(options)

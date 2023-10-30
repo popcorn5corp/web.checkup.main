@@ -1,10 +1,10 @@
 <template>
   <div ref="wrapRef" class="table-container">
-    <TableToolbar />
+    <TableToolbar v-if="props.showToolbar" />
 
     <Table
       ref="tableRef"
-      v-if="getBindValues.layoutType === 'table'"
+      v-if="getContextValues.selectedLayoutMode === 'table'"
       v-bind="getBindValues"
       :scroll="{ y: 530 }"
       :row-key="rowKey"
@@ -26,13 +26,13 @@
       </template>
 
       <template #emptyText>
-        <img src="./images/no_data_2.png" style="width: 200px" />
+        <img :src="EmptyImage" style="width: 200px" />
         <div>{{ $t('common.message.noData') }}</div>
       </template>
     </Table>
 
     <CardView
-      v-if="getBindValues.layoutType === 'card'"
+      v-if="getContextValues.selectedLayoutMode === 'card'"
       :key="rowKey"
       @cardTableChange="changeTable"
     />
@@ -50,9 +50,17 @@ import { useLoading } from '../hooks/useLoading'
 import { useSelection } from '../hooks/useSelection'
 import { useTable } from '../hooks/useTable'
 import { createTableContext, useTableContext } from '../hooks/useTableContext'
-import { type TableEmits, type TableProps, defaultOptions, defaultPaginaton } from '../types'
-import type { TableAction } from '../types'
+import {
+  type TableEmits,
+  type TableProps,
+  defaultOptions,
+  defaultPaginaton,
+  defaultToolbarOptions,
+  tableLayoutModes
+} from '../types'
+import type { TableAction, TableContextValues } from '../types'
 import TableToolbar from './components/TableToolbar.vue'
+import EmptyImage from './images/no_data_2.png'
 
 const emit = defineEmits<TableEmits>()
 const props = withDefaults(defineProps<TableProps>(), {
@@ -61,16 +69,19 @@ const props = withDefaults(defineProps<TableProps>(), {
   size: 'middle',
   options: () => defaultOptions,
   pagination: () => defaultPaginaton,
+  toolbarOptions: () => defaultToolbarOptions,
   initParam: () => ({
     size: 0,
     page: 1
-  }),
-  layoutType: 'table'
+  })
 })
 
 const wrapRef = ref(null)
 const dynamicTable = useDynamicTableContext()
 const innerProps = ref<Partial<TableProps>>()
+const contextValues = ref<TableContextValues>({
+  selectedLayoutMode: tableLayoutModes.table
+})
 const dataSource = computed(() => props.dataSource || _dataSource.value)
 const styles = ref<CSSProperties>({
   cursor: props.options.pointer ? 'pointer' : ''
@@ -87,6 +98,22 @@ function setProps(props: Partial<TableProps>) {
   innerProps.value = {
     ...unref(innerProps),
     ...props
+  }
+}
+
+/**
+ * @description Table 컴포넌트 Context에서 공유되는 Values
+ */
+const getContextValues = computed<TableContextValues>(() => {
+  return {
+    ...unref(contextValues)
+  }
+})
+
+function setContextValues(values: Partial<TableContextValues>) {
+  contextValues.value = {
+    ...unref(contextValues),
+    ...values
   }
 }
 
@@ -128,8 +155,12 @@ const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource)
   }
 })()
 
+/**
+ * @description Table 컴포넌트 Context가 제공하는 Actions
+ */
 const tableAction: TableAction = {
   setProps,
+  setContextValues,
   getDataSource,
   getSize: () => {
     return unref(props.size)
@@ -142,6 +173,9 @@ const tableAction: TableAction = {
   }
 }
 
+/**
+ * @description Table 컴포넌트에 바인딩되는 Values
+ */
 const getBindValues = computed<Recordable>(() => {
   let propsData = {
     ...useAttrs(),
@@ -158,7 +192,7 @@ const getBindValues = computed<Recordable>(() => {
   return propsData
 })
 
-createTableContext({ ...tableAction, wrapRef, getBindValues })
+createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
 // dynamicTable && useDynamicTableContext({ ...tableAction, getBindValues })
 
 defineExpose({

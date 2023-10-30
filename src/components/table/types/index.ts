@@ -67,14 +67,28 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
   // 데이터 테이블 Toolbar 노출 여부
   showToolbar?: boolean
   // 테이블 레이아웃 타입 정보
-  layoutType?: TableLayoutType
+  layoutType?: TableLayoutMode
+  // Toolbar 옵선 정보
+  toolbarOptions?: ToolbarOptions
+}
+
+export interface ToolbarOptions {
+  // Toolbar 노출 여부
+  show: boolean
+  // 테이블 레이아웃 모드
+  layoutMode: TableLayoutMode
 }
 
 export interface TableAction {
   setProps: (props: Partial<TableProps>) => void
+  setContextValues: (value: Partial<TableContextValues>) => void
   getDataSource: (options?: { isReset?: boolean; param?: { searchWord?: string } }) => Promise<void>
   getSize: () => TableSize
   reload: (isReset?: boolean) => Promise<void>
+}
+
+export interface TableContextValues {
+  selectedLayoutMode: TableLayoutMode
 }
 
 export interface TableEmits {
@@ -109,9 +123,15 @@ export const defaultOptions: TableOptions = {
   isPagination: true
 }
 
-export const tableLayoutTypes = {
+export const defaultToolbarOptions: ToolbarOptions = {
+  show: true,
+  layoutMode: 'all'
+}
+
+export const tableLayoutModes = {
+  all: 'all',
   table: 'table',
   card: 'card'
 } as const
 
-export type TableLayoutType = (typeof tableLayoutTypes)[keyof typeof tableLayoutTypes]
+export type TableLayoutMode = (typeof tableLayoutModes)[keyof typeof tableLayoutModes]

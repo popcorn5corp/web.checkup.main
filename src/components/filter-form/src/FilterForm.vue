@@ -9,17 +9,17 @@ import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDyna
 import { Checkbox, Datepicker, Radio, RangeDatePicker, Select } from './components/FilterType'
 import type { FilterType } from './components/FilterType/types'
 
-const emit = defineEmits(['showFilter'])
+const emit = defineEmits(['close'])
 
 const dynamicTable = useDynamicTableContext()
 const { config } = useProjectConfigStore()
 const { filterList } = useTableFilterStore()
 const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
-const showFilter = ref<Boolean>(true)
+const isShow = ref<Boolean>(true)
 
 const onFilter = (): void => {
-  showFilter.value = !showFilter.value
-  emit('showFilter', showFilter.value)
+  isShow.value = !isShow.value
+  emit('close', isShow.value)
 }
 
 const filterTypeComponents: Record<FilterType, Component> = {
@@ -32,7 +32,7 @@ const filterTypeComponents: Record<FilterType, Component> = {
 </script>
 <template>
   <div class="filter-container">
-    <div class="filter-list" :class="getDarkModeClass" v-if="showFilter">
+    <div class="filter-list" :class="getDarkModeClass">
       <!-- 모바일 버전 헤더 -->
       <div class="mobile-header">
         <h3>{{ $t('common.filterText') }}</h3>
