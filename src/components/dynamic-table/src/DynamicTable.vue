@@ -25,7 +25,7 @@
 
     <div class="body">
       <div class="content-wrapper">
-        <div class="content" :style="{ flex: props.showToolbar && _showFilter ? 0.7 : 1 }">
+        <div class="content" :style="{ width: props.showToolbar && _showFilter ? '75%' : '100%' }">
           <Table
             ref="tableRef"
             v-bind="{ ...props }"
@@ -153,10 +153,8 @@ defineExpose({
     }
 
     .content-wrapper {
-      display: flex;
-
       .content {
-        flex: 1;
+        float: left;
 
         .table-toolbar {
           display: flex;
@@ -165,9 +163,10 @@ defineExpose({
       }
 
       .filter-container {
-        flex: 0.3;
+        width: 25%;
         overflow-y: auto;
         height: calc(100vh - 240px);
+        float: right;
       }
     }
   }
