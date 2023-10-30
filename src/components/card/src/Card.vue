@@ -119,6 +119,9 @@ a {
           transform: scale(1);
           transition: transform 0.4s;
         }
+        :deep(.ant-image) {
+          width: 100%;
+        }
       }
       .text-box {
         display: flex;
@@ -128,7 +131,6 @@ a {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 1rem;
         }
         .title {
           width: 72%;
@@ -138,11 +140,14 @@ a {
           overflow: hidden;
           text-overflow: ellipsis;
           margin-right: 10px;
+          margin-bottom: 1rem;
         }
         .tag {
           border: 1px solid #979797;
           padding: 4px;
           border-radius: 5px;
+          margin-bottom: 1rem;
+          font-size: 14px;
         }
         .content {
           display: flex;
@@ -170,7 +175,7 @@ a {
       border-radius: 10px;
       transition: opacity 400ms;
       opacity: 0;
-      // display: none;
+      display: none;
       .check-container {
         position: absolute;
         top: 20px;

@@ -14,7 +14,18 @@ import { baseContent, contentData } from './mock'
       title="카드 타이틀"
       tag="구분태그"
       content="내용내용내용내용내용내용내용내용내용내용내용내용내용"
+      :detailBtnText="'상세'"
       :detailBtnPosition="'middle'"
+    />
+    <hr style="margin: 1rem 0" />
+    <Card
+      key="1234"
+      :imgUrl="checkupLogo"
+      title="카드 타이틀"
+      tag="구분태그"
+      content="내용내용내용내용내용내용내용내용내용내용내용내용내용"
+      detailBtnText="상세보기"
+      :detailBtnPosition="'bottom'"
     />
     <hr style="margin: 1rem 0" />
     <Card

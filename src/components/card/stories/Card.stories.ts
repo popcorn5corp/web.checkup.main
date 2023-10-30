@@ -12,7 +12,7 @@ const meta: Meta<ComponentProps<typeof Card>> = {
    * 는 같이 사용 할 수 없음
    */
   title: 'checkupuikit/Atoms/Card',
-  component: Card,
+  component: CardList,
   tags: ['autodocs'],
   argTypes: {
     title: {
@@ -93,7 +93,10 @@ const meta: Meta<ComponentProps<typeof Card>> = {
   },
   args: {
     useCheckbox: false,
-    imgPreview: true
+    imgPreview: true,
+    imgUrl: checkupLogo,
+    detailBtnText: '상세보기',
+    detailBtnPosition: 'bottom'
   },
   parameters: {
     componentSubtitle:
@@ -148,14 +151,12 @@ export const Checkbox: Story = {
   }
 }
 
-// export const CradList: Story = {
-//   args: {
-//     ...Default.args,
-//     title: '카드 제목',
-//     content: baseContent,
-//     imgUrl: checkupLogo,
-//     useCheckbox: true,
-//     detailBtnText: '상세보기',
-//     detailBtnPosition: 'bottom'
-//   }
-// }
+export const Card_List: Story = {
+  args: {
+    ...Default.args,
+    title: '카드 제목',
+    imgUrl: checkupLogo,
+    useCheckbox: true,
+    content: baseContent
+  }
+}

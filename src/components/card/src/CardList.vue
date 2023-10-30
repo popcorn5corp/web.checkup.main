@@ -64,21 +64,35 @@
       </div>
     </template>
   </div> -->
-  <div class="card-list-container">
-    <div v-for="card in props.content" :key="card.key">
-      <Card
-        :imgUrl="props.imgUrl"
-        :key="card.key"
-        :detailBtnText="props.detailBtnText"
-        :title="card.boardTitle"
-        :tag="card.division"
-        :useCheckbox="props.useCheckbox"
-        :content="card.boardContent"
-        :detailBtnPosition="props.detailBtnPosition"
-        :createdAt="card.createdAt"
-      />
+  <template v-if="typeof props.content === 'object'">
+    <div class="card-list-container">
+      <div v-for="card in props.content" :key="card.key">
+        <Card
+          :imgUrl="props.imgUrl"
+          :key="card.key"
+          :detailBtnText="props.detailBtnText"
+          :title="card.boardTitle"
+          :tag="card.division"
+          :useCheckbox="props.useCheckbox"
+          :content="card.boardContent"
+          :detailBtnPosition="props.detailBtnPosition"
+          :createdAt="card.createdAt"
+        />
+      </div>
     </div>
-  </div>
+  </template>
+  <template v-else>
+    <!-- :imgUrl="checkupLogo" -->
+    <Card
+      :key="1234"
+      :detailBtnText="props.detailBtnText"
+      :title="props.title"
+      :tag="props.tag"
+      :useCheckbox="props.useCheckbox"
+      :content="props.content"
+      :detailBtnPosition="props.detailBtnPosition"
+    />
+  </template>
 </template>
 
 <script lang="ts" setup>
@@ -89,8 +103,7 @@ const props = withDefaults(defineProps<CardProps>(), {
   detailBtnPosition: 'middle',
   imgPreview: true
 })
-console.log(props.content)
-
+console.log(props)
 // const checkList = ref<boolean[]>([])
 
 // ;(async () => {
@@ -108,17 +121,22 @@ console.log(props.content)
   grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 1rem;
   :deep(.card-box) {
-    min-width: 220px;
+    // min-width: 170px;
     width: auto;
   }
 }
 
-@media (min-width: 107rem) and (max-width: 120rem) {
+@media (min-width: 110rem) and (max-width: 120rem) {
   .card-list-container {
     grid-template-columns: repeat(7, minmax(0, 1fr));
   }
 }
-@media (min-width: 86rem) and (max-width: 107rem) {
+@media (min-width: 95rem) and (max-width: 110rem) {
+  .card-list-container {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+@media (min-width: 86rem) and (max-width: 95rem) {
   .card-list-container {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }

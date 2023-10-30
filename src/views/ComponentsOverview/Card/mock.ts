@@ -162,5 +162,53 @@ export const baseContent = [
     createdAt: 1694514190,
     division: 'PUBLIC',
     key: 3
+  },
+  {
+    boardContent: 'qwe',
+    boardId: '3da46f98-aab4-4ed6-89a7-2bbb833e5a21',
+    boardTitle: 'qwe',
+    createdAt: 1694514074,
+    division: 'PUBLIC',
+    key: 4
+  },
+  {
+    boardContent: '내용',
+    boardId: '01a1397a-f55d-459f-8a6d-77af9d9ba476',
+    boardTitle: '테스트시작합니다!!!!',
+    createdAt: 1693465445,
+    division: 'PRIVATE',
+    key: 5
+  },
+  {
+    boardContent: '123',
+    boardId: '59babd3e-b952-4796-8d0a-2aa0eecd7cf4',
+    boardTitle: '123ㅅㅅㅅㅅ',
+    createdAt: 1693291168,
+    division: 'PUBLIC',
+    key: 6
+  },
+  {
+    boardContent: '11',
+    boardId: '5ef1f572-da5d-4820-812c-19f23ebe1aaa',
+    boardTitle: '11',
+    createdAt: 1692945409,
+    division: 'PUBLIC',
+    key: 7
+  },
+  {
+    boardContent: '123',
+    boardId: '0975a964-01ce-4e48-ab79-5adbfd4e71ae',
+    boardTitle: '123',
+    createdAt: 1692945027,
+    division: 'PUBLIC',
+    key: 8
+  },
+  {
+    boardContent: '123',
+    boardId: '9438929d-a126-4751-80d2-2474e8bffd25',
+    boardTitle: '123',
+    createdAt: 1692942437,
+    division: 'PUBLIC',
+    key: 9
   }
 ]
