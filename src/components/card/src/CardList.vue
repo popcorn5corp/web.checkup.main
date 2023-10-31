@@ -67,6 +67,7 @@
   <div class="card-list-container">
     <div v-for="card in props.content" :key="card.key">
       <Card
+        :id="card.id"
         :imgUrl="props.imgUrl"
         :key="card.key"
         :detailBtnText="props.detailBtnText"
@@ -76,20 +77,21 @@
         :content="card.boardContent"
         :detailBtnPosition="props.detailBtnPosition"
         :createdAt="card.createdAt"
+        @click="$emit('click', card)"
       />
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 import type { CardProps } from '../types'
 
+const emit = defineEmits(['click'])
 const props = withDefaults(defineProps<CardProps>(), {
   detailBtnPosition: 'middle',
   imgPreview: true
 })
-console.log(props.content)
 
 // const checkList = ref<boolean[]>([])
 

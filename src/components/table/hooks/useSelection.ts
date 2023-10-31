@@ -33,6 +33,7 @@ export const useSelection = (rowKey: string = 'id', dataSource: Ref<any[]>) => {
       selectedRowKeys: state.selectedRowKeys,
       onChange: (changableRowKeys: Key[], changableRows: any[]) => {
         state.selectedRowKeys = changableRowKeys
+        console.log('123123')
         state.selectedRows = changableRows
       }
     }

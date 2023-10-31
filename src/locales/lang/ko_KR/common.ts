@@ -23,5 +23,5 @@ export default {
   forgotPassword: '비밀번호를 잊어버리셨나요?',
   idText: '아이디',
   passwordText: '비밀번호',
-  checkingLogin: '로그인 정보를 확인 중입니다.'
+  checkingLogin: '유저 정보를 확인 중입니다'
 }

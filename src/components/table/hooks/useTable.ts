@@ -34,6 +34,36 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     searchWord: ''
   })
 
+  const getDataSource = computed(() => state.dataSource)
+
+  function initTableState() {
+    state.dataSource = []
+    state.total = 0
+    state.requestParam = {}
+    state.selectedRowKeys = []
+    state.pagination = {
+      ...defaultPaginaton,
+      ...unref(propsRef).pagination
+    }
+    state.sorter = []
+    state.searchWord = ''
+  }
+
+  const getPagination = computed(() => {
+    if (!unref(propsRef).options?.isPagination) return false
+    return state.pagination
+  })
+
+  async function setPagination(current: number, pageSize: number) {
+    state.pagination = {
+      ...state.pagination,
+      pageSize: pageSize as number,
+      current: current as number
+    }
+
+    await fetchDataSource()
+  }
+
   const isSorting = computed(() => state.sorter.length)
   const paginationParam = computed(() => {
     return {
@@ -53,7 +83,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }
   })
 
-  const getDataSource = async (options?: {
+  const fetchDataSource = async (options?: {
     isReset?: boolean
     param?: { searchWord?: string }
   }): Promise<void> => {
@@ -98,8 +128,11 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
           ...initParam
         }
 
-        state.pagination = defaultPaginaton
+        state.pagination = {
+          ...defaultPaginaton
+        }
         state.sorter = []
+        state.searchWord = ''
       }
 
       propsOptions?.isPagination && Object.assign(requestParam, paginationParam.value)
@@ -134,9 +167,8 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }, 300)
   }
 
-  const changeTable: TableProps['onChange'] = (pagination, filters, sorter, extra) => {
+  const changeTable: TableProps['onChange'] = async (pagination, filters, sorter, extra) => {
     const { pageSize, current } = pagination
-    console.log('change', pageSize, current)
     // // 페이지 사이즈 변경 시, 첫 페이지로 이동
     // // const isChangePageSize = tablePagination.value.pageSize !== pageSize
 
@@ -147,6 +179,8 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       pageSize: pageSize as number,
       current: current as number
     }
+
+    console.log('state.pagination ', state.pagination)
 
     // case: '{}' / column: undefined
     if (!Util.Is.isEmpty(sorter)) {
@@ -159,7 +193,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
         : [sorter]
     }
 
-    getDataSource()
+    await fetchDataSource()
   }
 
   const getRecordNo = (index: number) => {
@@ -184,8 +218,12 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   return {
     ...toRefs(state),
     getDataSource,
+    initTableState,
+    fetchDataSource,
     changeTable,
     getRecordNo,
-    rowSelection
+    rowSelection,
+    setPagination,
+    getPagination
   }
 }

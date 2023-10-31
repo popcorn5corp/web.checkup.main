@@ -1,6 +1,7 @@
 import type { TableProps as ATableProps, TableColumnType } from 'ant-design-vue'
 // import type { ColumnType } from 'ant-design-vue/es/table/interface'
 import type { DefaultRecordType } from 'ant-design-vue/lib/vc-table/interface'
+import type EventEmitter from 'events'
 import type { SortCodesResponse } from '@/services/BaseSample/interface'
 
 type PaginationPositon =
@@ -12,6 +13,7 @@ type PaginationPositon =
   | 'bottomRight'
 
 export type TableSize = 'small' | 'middle' | 'large'
+export type CardSize = 'middle' | 'large'
 
 export interface TablePagination {
   total: number
@@ -48,10 +50,9 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
   dataSource?: RecordType[]
   loading?: boolean
   total?: number
-  size?: TableSize
+  size: TableSize | CardSize
   options?: TableOptions
-  pagination?: Partial<TablePagination>
-
+  pagination?: TablePagination
   // 데이터 테이블 리스트 랜던링에 사용되는 key
   rowKey?: string | 'key'
   // 테이블 데이터 API 처리
@@ -82,13 +83,32 @@ export interface ToolbarOptions {
 export interface TableAction {
   setProps: (props: Partial<TableProps>) => void
   setContextValues: (value: Partial<TableContextValues>) => void
-  getDataSource: (options?: { isReset?: boolean; param?: { searchWord?: string } }) => Promise<void>
-  getSize: () => TableSize
+  fetchDataSource: (options?: {
+    isReset?: boolean
+    param?: { searchWord?: string }
+  }) => Promise<void>
+  getDataSource: () => Recordable[]
+  getSize: () => TableSize | CardSize
+  getLoading: () => boolean
   reload: (isReset?: boolean) => Promise<void>
+  initTableState: () => void
+  changeTable: TableProps['onChange']
+  getRecordNo: (index: number) => number
+  getPagination: () => TablePagination | false
+  setPagination: (current: number, pageSize: number) => void
+  emitter: any
 }
 
 export interface TableContextValues {
-  selectedLayoutMode: TableLayoutMode
+  layoutMode: TableLayoutMode
+  tableSize: TableSize
+  cardSize: CardSize
+}
+
+export const defaultContenxtValues: TableContextValues = {
+  layoutMode: 'table',
+  tableSize: 'middle',
+  cardSize: 'middle'
 }
 
 export interface TableEmits {
@@ -107,7 +127,7 @@ interface RequestPagination {
 
 interface RequestParam extends RequestPagination {}
 
-export const defaultPaginaton: Readonly<TablePagination> = {
+export const defaultPaginaton: TablePagination = {
   total: 0,
   current: 1,
   pageSize: 10,
@@ -133,5 +153,31 @@ export const tableLayoutModes = {
   table: 'table',
   card: 'card'
 } as const
+
+export const tableSizeItems: Array<{ key: TableSize; label: string }> = [
+  {
+    key: 'middle',
+    label: 'Default'
+  },
+  {
+    key: 'small',
+    label: 'Compact'
+  },
+  {
+    key: 'large',
+    label: 'Large'
+  }
+]
+
+export const cardSizeItems: Array<{ key: CardSize; label: string }> = [
+  {
+    key: 'middle',
+    label: 'Default'
+  },
+  {
+    key: 'large',
+    label: 'Large'
+  }
+]
 
 export type TableLayoutMode = (typeof tableLayoutModes)[keyof typeof tableLayoutModes]

@@ -1,6 +1,6 @@
 import { inject, provide } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
-import type { TableAction, TableProps } from '../types'
+import type { TableAction, TableContextValues, TableProps } from '../types'
 
 const key = Symbol('table')
 
@@ -12,6 +12,7 @@ type Instance = TableAction & {
 
 type RetInstance = Omit<Instance, 'getBindValues'> & {
   getBindValues: ComputedRef<TableProps>
+  getContextValues: ComputedRef<TableContextValues>
 }
 
 export function createTableContext(instance: Instance) {

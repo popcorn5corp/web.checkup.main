@@ -13,6 +13,7 @@
   <!-- :imgUrl="avatar1" -->
   <CardList
     :key="12"
+    :img-url="avatar1"
     detailBtnText="상세보기"
     :useCheckbox="true"
     :content="dataSource"

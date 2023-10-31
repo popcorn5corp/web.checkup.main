@@ -23,5 +23,5 @@ export default {
   forgotPassword: 'Forgot Password?',
   idText: 'ID',
   passwordText: 'Password',
-  checkingLogin: 'Checking your login information.'
+  checkingLogin: 'Checking user information'
 }

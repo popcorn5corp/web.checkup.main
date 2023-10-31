@@ -13,6 +13,7 @@ export type DetailPositionType = (typeof detailPositionTypes)[keyof typeof detai
  * imgPreview
  */
 export interface CardProps {
+  id?: string | number
   title?: string
   detailBtnText?: string
   detailBtnPosition?: DetailPositionType
@@ -24,6 +25,11 @@ export interface CardProps {
   createdAt?: number
   // content?: ContentData[] | VNode | string
   component?: Component
+}
+
+//TODO
+export interface CardListProps {
+  items: Array<Recordable>
 }
 
 // interface ContentData extends CardProps {

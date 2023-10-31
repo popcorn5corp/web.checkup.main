@@ -50,11 +50,11 @@
               </p>
             </div>
             <div class="input-group">
-              <font-awesome-icon :icon="['fas', 'user']" />
+              <!-- <font-awesome-icon :icon="['fas', 'user']" /> -->
               <input type="text" placeholder="Username" />
             </div>
             <div class="input-group">
-              <i class="bx bxs-lock-alt"></i>
+              <!-- <i class="bx bxs-lock-alt"></i> -->
               <input type="password" placeholder="Password" />
             </div>
             <button>Sign in</button>

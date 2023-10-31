@@ -3,6 +3,7 @@ export default {
     save: 'Save',
     cancel: 'Cancel',
     edit: 'Edit',
-    close: 'Close'
+    close: 'Close',
+    viewDetail: 'View Details'
   }
 }
