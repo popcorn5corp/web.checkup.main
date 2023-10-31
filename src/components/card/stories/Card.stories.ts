@@ -8,7 +8,7 @@ import { Card, CardList } from '../src'
 const meta: Meta<ComponentProps<typeof Card>> = {
   // type card
   /**
-   * (useCheckbox || detailBtnText) 와 imgPreview
+   * useCheckbox 와 imgPreview
    * 는 같이 사용 할 수 없음
    */
   title: 'checkupuikit/Atoms/Card',
@@ -53,15 +53,6 @@ const meta: Meta<ComponentProps<typeof Card>> = {
         type: { summary: 'string' }
       }
     },
-    detailBtnText: {
-      description: '카드 상세보기 버튼 내용',
-      control: {
-        type: 'text'
-      },
-      table: {
-        type: { summary: 'string' }
-      }
-    },
     detailBtnPosition: {
       description: '카드 상세보기 스타일 타입',
       type: { name: 'string' },
@@ -95,7 +86,6 @@ const meta: Meta<ComponentProps<typeof Card>> = {
     useCheckbox: false,
     imgPreview: true,
     imgUrl: checkupLogo,
-    detailBtnText: '상세보기',
     detailBtnPosition: 'bottom'
   },
   parameters: {
@@ -118,7 +108,6 @@ export const DetailButtonPositionMiddle: Story = {
   args: {
     ...Default.args,
     title: '카드 제목',
-    detailBtnText: '상세보기',
     detailBtnPosition: 'middle'
   }
 }
@@ -127,7 +116,6 @@ export const DetailButtonPositionBottom: Story = {
   args: {
     ...Default.args,
     title: '카드 제목',
-    detailBtnText: '상세보기',
     detailBtnPosition: 'bottom'
   }
 }

@@ -2,43 +2,49 @@
   <template v-if="typeof props.content === 'object'">
     <div class="card-list-container">
       <div v-for="card in props.content" :key="card.key">
-        <Card
-          :imgUrl="props.imgUrl"
+        <Card v-bind="{ ...card, ...props }" />
+        <!-- :imgUrl="props.imgUrl"
           :key="card.key"
-          :detailBtnText="props.detailBtnText"
           :title="card.boardTitle"
           :tag="card.division"
           :useCheckbox="props.useCheckbox"
           :content="card.boardContent"
           :detailBtnPosition="props.detailBtnPosition"
-          :createdAt="card.createdAt"
-        />
+          :createdAt="card.createdAt" -->
       </div>
     </div>
   </template>
   <template v-else>
-    <!-- :imgUrl="checkupLogo" -->
-    <Card
-      :key="1234"
-      :detailBtnText="props.detailBtnText"
+    <Card :v-bind="props" />
+    <!-- :imgUrl="props.imgUrl"
       :title="props.title"
       :tag="props.tag"
       :useCheckbox="props.useCheckbox"
       :content="props.content"
-      :detailBtnPosition="props.detailBtnPosition"
-    />
+      :detailBtnPosition="props.detailBtnPosition" -->
   </template>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { CardProps } from '../types'
 
 const props = withDefaults(defineProps<CardProps>(), {
   detailBtnPosition: 'middle',
   imgPreview: true
 })
-console.log('card-list', props)
+
+const size = 'middle' // 'large'
+const sizeStyles = computed(() => {
+  return {
+    xxl: size === 'middle' ? 8 : 6,
+    xl: size === 'middle' ? 7 : 5,
+    lg: size === 'middle' ? 5 : 4,
+    md: size === 'middle' ? 4 : 3,
+    sm: size === 'middle' ? 3 : 2,
+    xs: size === 'middle' ? 2 : 1
+  }
+})
 
 // const checkList = ref<boolean[]>([])
 
@@ -52,49 +58,49 @@ console.log('card-list', props)
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/base/_mediaQuery.scss';
+
 .card-list-container {
   display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 1rem;
   :deep(.card-box) {
-    min-width: 170px !important;
     width: auto;
   }
 }
 
-@media (min-width: 110rem) and (max-width: 120rem) {
-  .card-list-container {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-  }
-}
-@media (min-width: 95rem) and (max-width: 110rem) {
-  .card-list-container {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-}
-@media (min-width: 86rem) and (max-width: 95rem) {
-  .card-list-container {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-}
-@media (min-width: 64rem) and (max-width: 86rem) {
-  .card-list-container {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-@media (min-width: 48rem) and (max-width: 64rem) {
-  .card-list-container {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-@media (min-width: 32rem) and (max-width: 48rem) {
-  .card-list-container {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 32rem) {
+@include xxs {
   .card-list-container {
     grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+@include xs {
+  .card-list-container {
+    grid-template-columns: repeat(v-bind('sizeStyles.xs'), minmax(0, 1fr));
+  }
+}
+@include sm {
+  .card-list-container {
+    grid-template-columns: repeat(v-bind('sizeStyles.sm'), minmax(0, 1fr));
+  }
+}
+@include md {
+  .card-list-container {
+    grid-template-columns: repeat(v-bind('sizeStyles.md'), minmax(0, 1fr));
+  }
+}
+@include lg {
+  .card-list-container {
+    grid-template-columns: repeat(v-bind('sizeStyles.lg'), minmax(0, 1fr));
+  }
+}
+@include xl {
+  .card-list-container {
+    grid-template-columns: repeat(v-bind('sizeStyles.xl'), minmax(0, 1fr));
+  }
+}
+@include xxl {
+  .card-list-container {
+    grid-template-columns: repeat(v-bind('sizeStyles.xxl'), minmax(0, 1fr));
   }
 }
 </style>

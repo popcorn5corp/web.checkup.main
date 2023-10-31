@@ -11,13 +11,7 @@
     />
   </div>
   <!-- :imgUrl="avatar1" -->
-  <CardList
-    :key="12"
-    detailBtnText="상세보기"
-    :useCheckbox="true"
-    :content="dataSource"
-    :detailBtnPosition="'middle'"
-  />
+  <CardList :key="12" :useCheckbox="true" :content="dataSource" :detailBtnPosition="'middle'" />
 </template>
 
 <script lang="ts" setup>

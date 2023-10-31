@@ -14,7 +14,6 @@ export type DetailPositionType = (typeof detailPositionTypes)[keyof typeof detai
  */
 export interface CardProps {
   title?: string
-  detailBtnText?: string
   detailBtnPosition?: DetailPositionType
   useCheckbox?: boolean
   imgPreview?: boolean

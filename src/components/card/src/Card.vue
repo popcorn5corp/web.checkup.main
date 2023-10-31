@@ -2,10 +2,10 @@
   <div class="card-container">
     <div class="card-box">
       <div class="card">
-        <template v-if="props.imgUrl">
+        <template v-if="imgUrl">
           <div class="img-container">
-            <Image :src="props.imgUrl" :preview="props.imgPreview">
-              <template #previewMask v-if="props.imgPreview">
+            <Image :src="imgUrl" :preview="imgPreview">
+              <template #previewMask v-if="imgPreview">
                 <ZoomInOutlined style="font-size: 40px" />
               </template>
             </Image>
@@ -14,58 +14,58 @@
 
         <div class="text-box">
           <div class="text-header">
-            <template v-if="props.title">
-              <div class="title">{{ props.title }}</div>
+            <template v-if="title">
+              <div class="title">{{ title }}</div>
             </template>
 
-            <template v-if="props.tag">
-              <div class="tag">{{ props.tag }}</div>
+            <template v-if="tag">
+              <div class="tag">{{ tag }}</div>
             </template>
           </div>
 
-          <template v-if="props.content">
+          <template v-if="content">
             <div class="content">
               <p>
-                {{ props.content }}
+                {{ content }}
               </p>
             </div>
           </template>
 
-          <template v-if="props.createdAt">
+          <template v-if="createdAt">
             <div class="created">
               <p>
-                {{ dayjs.unix(props.createdAt).format('YYYY-MM-DD') }}
+                {{ dayjs.unix(createdAt).format('YYYY-MM-DD') }}
               </p>
             </div>
           </template>
 
-          <component v-if="props.component" :is="props.component" />
+          <component v-if="component" :is="component" />
         </div>
       </div>
       <!-- hover event -->
       <div
         class="card-masking"
         :style="`
-          ${(props.detailBtnText?.length || props.useCheckbox) && 'display: block;'}
+          ${(detailBtnPosition || useCheckbox) && 'display: block;'}
           ${checked && ' opacity: 1; display: block'}
         `"
       >
-        <template v-if="props.useCheckbox">
+        <template v-if="useCheckbox">
           <div class="check-container">
             <Checkbox v-model:checked="checked" @click="$emit('checked')" />
           </div>
         </template>
 
-        <template v-if="props.detailBtnText">
+        <template v-if="detailBtnPosition">
           <a
             :href="'#'"
-            :class="`go-detail ${props.detailBtnPosition === 'middle' ? 'middle' : 'bottom'}`"
+            :class="`go-detail ${detailBtnPosition === 'middle' ? 'middle' : 'bottom'}`"
           >
-            <template v-if="props.detailBtnPosition === 'middle'">
-              <span>{{ props.detailBtnText }}</span>
+            <template v-if="detailBtnPosition === 'middle'">
+              <span>상세보기</span>
             </template>
-            <template v-if="props.detailBtnPosition === 'bottom'">
-              <div>{{ props.detailBtnText }}</div>
+            <template v-if="detailBtnPosition === 'bottom'">
+              <div>상세보기</div>
             </template>
           </a>
         </template>
@@ -87,14 +87,25 @@ defineEmits<{
 
 // const props = defineProps<CardProps>()
 const props = withDefaults(defineProps<CardProps>(), {
-  detailBtnPosition: 'middle',
+  // detailBtnPosition: 'middle',
   imgPreview: true
 })
 const checked = ref(false)
+const {
+  imgUrl,
+  imgPreview,
+  title,
+  tag,
+  content,
+  createdAt,
+  component,
+  useCheckbox,
+  detailBtnPosition
+} = props
+console.log('>  <', props)
 ;(async () => {})()
 </script>
 
-//
 <style lang="scss" scoped>
 a {
   text-decoration: none;
