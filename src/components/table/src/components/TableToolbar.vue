@@ -18,65 +18,76 @@
 
     <Space class="settings">
       <!-- <slot name="tableBtns"></slot> -->
-      <Button :label="''" size="large" @click="onReload">
-        <template #icon>
-          <font-awesome-icon icon="rotate" :class="[isReload && 'rotating']" />
-        </template>
-      </Button>
 
-      <Button :label="''" size="large">
-        <template #icon>
-          <DownloadOutlined />
+      <Tooltip placement="top">
+        <template #title>
+          <span>Reload</span>
         </template>
-      </Button>
-
-      <Dropdown :trigger="['click']">
-        <Button size="large">
+        <Button :label="''" size="large" @click="onReload">
           <template #icon>
-            <ColumnHeightOutlined />
+            <font-awesome-icon icon="rotate" :class="[isReload && 'rotating']" />
           </template>
         </Button>
+      </Tooltip>
 
-        <template #overlay>
-          <Menu v-model:activeKey="selectedTableSize" @click="onChangeSize">
-            <MenuItem key="middle">
-              <span> Default </span>
-            </MenuItem>
-            <MenuItem key="small">
-              <span> Compact </span>
-            </MenuItem>
-            <MenuItem key="large">
-              <span> Large </span>
-            </MenuItem>
-          </Menu>
+      <Tooltip placement="top">
+        <template #title>
+          <span>Full Download</span>
         </template>
-      </Dropdown>
+        <Button :label="''" size="large">
+          <template #icon>
+            <DownloadOutlined />
+          </template>
+        </Button>
+      </Tooltip>
 
-      <TableSegmentButton />
+      <Tooltip placement="top">
+        <template #title>
+          <span>Size</span>
+        </template>
+        <Dropdown :trigger="['click']">
+          <Button size="large">
+            <template #icon>
+              <ColumnHeightOutlined />
+            </template>
+          </Button>
+
+          <template #overlay>
+            <Menu v-model:activeKey="selectedSize" @click="onChangeSize">
+              <MenuItem v-for="item in sizeItems" :key="item.key">
+                <span> {{ item.label }} </span>
+              </MenuItem>
+            </Menu>
+          </template>
+        </Dropdown>
+      </Tooltip>
+
+      <Tooltip placement="top">
+        <template #title>
+          <span>Layout Mode</span>
+        </template>
+        <TableSegmentButton />
+      </Tooltip>
     </Space>
   </div>
 </template>
 <script setup lang="ts" name="TableToolbar">
-import { Dropdown, Input, Menu, MenuItem, Space } from 'ant-design-vue'
+import { Dropdown, Input, Menu, MenuItem, Space, Tooltip } from 'ant-design-vue'
 import type { MenuClickEventHandler } from 'ant-design-vue/es/menu/src/interface'
-import { onMounted, ref, unref } from 'vue'
+import { computed, onMounted, ref, unref, watch } from 'vue'
 import { Button } from '@/components/button'
 import { ColumnHeightOutlined, DownloadOutlined } from '@/components/icons'
 import { useTableContext } from '../../hooks/useTableContext'
-import type { TableSize } from '../../types'
+import { type CardSize, type TableSize, cardSizeItems, tableSizeItems } from '../../types'
 import TableSegmentButton from './TableSegmentButton.vue'
 
 const table = useTableContext()
 const isReload = ref(false)
-const selectedTableSize = ref<TableSize>(table.getSize())
+const selectedSize = ref<TableSize | CardSize>('middle')
 const searchWord = ref('')
-
-/**
- * @description Table Tag 관련 기능에 대한 Hooks
- */
-function onSearch() {
-  table.getDataSource({ param: { searchWord: unref(searchWord) } })
-}
+const sizeItems = computed(() =>
+  unref(table.getContextValues).layoutMode === 'table' ? tableSizeItems : cardSizeItems
+)
 
 onMounted(() => {
   // temp code
@@ -87,17 +98,28 @@ onMounted(() => {
   }, 1000)
 })
 
+// layoutMode 변경시 selectedSize 초기화
+watch(
+  () => unref(table.getContextValues).layoutMode,
+  () => {
+    selectedSize.value = 'middle'
+  }
+)
+
+function onSearch() {
+  table.fetchDataSource({ param: { searchWord: unref(searchWord) } })
+}
+
 const onChangeSize: MenuClickEventHandler = ({ key }) => {
   table.setProps({
-    size: key as TableSize
+    size: key as TableSize | CardSize
   })
 }
 
-const onReload = (): void => {
+function onReload() {
   isReload.value = true
+  searchWord.value = ''
   table.reload()
-  // unref(searchWord) && (searchWord.value = '')
-  // getDataSource({ isReset: true })
   // initTag()
 
   setTimeout(() => {

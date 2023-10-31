@@ -4,6 +4,7 @@ import { Spin } from 'ant-design-vue'
 import { h } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
+import { Spinner } from '@/components/spinner'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import SocialLoginBtns from './components/SocialLoginBnts.vue'
 
@@ -27,7 +28,7 @@ if (isSuccessSocialLogin) {
 
   setTimeout(() => {
     router.push({ name: 'dashboard' })
-  }, 500)
+  }, 3000)
 }
 </script>
 <template>
@@ -83,7 +84,8 @@ if (isSuccessSocialLogin) {
 
         <SocialLoginBtns />
       </section>
-      <Spin v-else :tip="$t('common.checkingLogin')" size="large" :indicator="indicator" />
+      <!-- <Spin v-else :tip="$t('common.checkingLogin')" size="large" :indicator="indicator" /> -->
+      <Spinner v-else :text="$t('common.checkingLogin')" :text-width="'13rem'"></Spinner>
     </div>
   </main>
 </template>

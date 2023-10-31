@@ -11,7 +11,13 @@
     />
   </div>
   <!-- :imgUrl="avatar1" -->
-  <CardList :key="12" :useCheckbox="true" :content="dataSource" :detailBtnPosition="'middle'" />
+  <CardList
+    :key="12"
+    :img-url="avatar1"
+    :useCheckbox="true"
+    :content="dataSource"
+    :detailBtnPosition="'middle'"
+  />
 </template>
 
 <script lang="ts" setup>

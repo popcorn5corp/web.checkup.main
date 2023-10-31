@@ -2,7 +2,19 @@
   <template v-if="typeof props.content === 'object'">
     <div class="card-list-container">
       <div v-for="card in props.content" :key="card.key">
-        <Card v-bind="{ ...card, ...props }" />
+        <Card
+          :id="card.id"
+          :imgUrl="props.imgUrl"
+          :key="card.key"
+          :title="card.boardTitle"
+          :tag="card.division"
+          :useCheckbox="props.useCheckbox"
+          :content="card.boardContent"
+          :detailBtnPosition="props.detailBtnPosition"
+          :createdAt="card.createdAt"
+          @click="$emit('click', card)"
+        />
+        <!-- <Card v-bind="{ ...card, ...props }" /> -->
         <!-- :imgUrl="props.imgUrl"
           :key="card.key"
           :title="card.boardTitle"
@@ -25,10 +37,11 @@
   </template>
 </template>
 
-<script lang="ts" setup>
-import { computed, ref } from 'vue'
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import type { CardProps } from '../types'
 
+const emit = defineEmits(['click'])
 const props = withDefaults(defineProps<CardProps>(), {
   detailBtnPosition: 'middle',
   imgPreview: true

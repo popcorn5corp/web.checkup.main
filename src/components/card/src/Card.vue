@@ -59,7 +59,8 @@
         <template v-if="detailBtnPosition">
           <a
             :href="'#'"
-            :class="`go-detail ${detailBtnPosition === 'middle' ? 'middle' : 'bottom'}`"
+            :class="`go-detail ${props.detailBtnPosition === 'middle' ? 'middle' : 'bottom'}`"
+            @click="$emit('click', props)"
           >
             <template v-if="detailBtnPosition === 'middle'">
               <span>상세보기</span>
@@ -81,11 +82,11 @@ import dayjs from 'dayjs'
 import { ref } from 'vue'
 import type { CardProps } from '../types'
 
-defineEmits<{
+const emit = defineEmits<{
   (event: 'checked'): void
+  (event: 'click', item: Recordable): void
 }>()
 
-// const props = defineProps<CardProps>()
 const props = withDefaults(defineProps<CardProps>(), {
   // detailBtnPosition: 'middle',
   imgPreview: true

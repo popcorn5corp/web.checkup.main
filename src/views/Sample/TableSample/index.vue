@@ -48,6 +48,7 @@ const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
  * @param row
  */
 const onClickRow = (row: IBaseSample.Content): void => {
+  console.log('asdasd ', row)
   isOpen.value = true
   isLoading.value = true
   mode.value = DEFAULT_MODE

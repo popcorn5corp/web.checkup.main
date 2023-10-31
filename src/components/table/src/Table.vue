@@ -2,9 +2,16 @@
   <div ref="wrapRef" class="table-container">
     <TableToolbar v-if="props.showToolbar" />
 
+    <!-- <h3>Total Count: 200</h3>
+
+    <div class="menu-text-popup-1">
+      <span class="select-count">{{ selectedRows.length }}개 게시물이 선택되었습니다.</span>
+      <em class="select-clear">선택취소</em>
+    </div> -->
+
     <Table
       ref="tableRef"
-      v-if="getContextValues.selectedLayoutMode === 'table'"
+      v-if="getContextValues.layoutMode === 'table'"
       v-bind="getBindValues"
       :scroll="{ y: 530 }"
       :row-key="rowKey"
@@ -31,34 +38,28 @@
       </template>
     </Table>
 
-    <CardView
-      v-if="getContextValues.selectedLayoutMode === 'card'"
-      :key="rowKey"
-      @cardTableChange="changeTable"
-    />
+    <CardView v-if="getContextValues.layoutMode === 'card'" :key="rowKey" />
   </div>
 </template>
 <script setup lang="ts" name="Table">
 import { Table } from 'ant-design-vue'
 import omit from 'lodash-es/omit'
-import { computed, ref, unref, useAttrs } from 'vue'
+import { computed, ref, unref, useAttrs, watch } from 'vue'
 import type { CSSProperties } from 'vue'
-import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import { useColumns } from '../hooks/useColumns'
 import { useCustomRow } from '../hooks/useCustomRow'
 import { useLoading } from '../hooks/useLoading'
 import { useSelection } from '../hooks/useSelection'
 import { useTable } from '../hooks/useTable'
-import { createTableContext, useTableContext } from '../hooks/useTableContext'
+import { createTableContext } from '../hooks/useTableContext'
 import {
-  type TableEmits,
-  type TableProps,
+  defaultContenxtValues,
   defaultOptions,
   defaultPaginaton,
-  defaultToolbarOptions,
-  tableLayoutModes
+  defaultToolbarOptions
 } from '../types'
-import type { TableAction, TableContextValues } from '../types'
+import type { TableAction, TableContextValues, TableEmits, TableProps } from '../types'
+import CardView from './components/CardView.vue'
 import TableToolbar from './components/TableToolbar.vue'
 import EmptyImage from './images/no_data_2.png'
 
@@ -77,16 +78,32 @@ const props = withDefaults(defineProps<TableProps>(), {
 })
 
 const wrapRef = ref(null)
-const dynamicTable = useDynamicTableContext()
 const innerProps = ref<Partial<TableProps>>()
 const contextValues = ref<TableContextValues>({
-  selectedLayoutMode: tableLayoutModes.table
+  ...defaultContenxtValues
 })
 const dataSource = computed(() => props.dataSource || _dataSource.value)
 const styles = ref<CSSProperties>({
   cursor: props.options.pointer ? 'pointer' : ''
 })
 
+/**
+ * @description Table 컴포넌트 layoutMode 변경시 데이터 초기화
+ */
+watch(
+  () => unref(contextValues).layoutMode,
+  async () => {
+    const { tableSize, cardSize } = defaultContenxtValues
+    setContextValues({ tableSize, cardSize })
+    setProps({ size: 'middle' })
+    initTableState()
+    await fetchDataSource()
+  }
+)
+
+/**
+ * @description ATable 컴포넌트에 바인딩하기 위한 상위 props & 내부적으로 변경된 innerProps
+ */
 const getProps = computed<TableProps>(() => {
   return {
     ...props,
@@ -125,11 +142,14 @@ const { customRow } = useCustomRow({ emit })
  */
 const {
   dataSource: _dataSource,
-  getDataSource,
-  pagination,
+  fetchDataSource,
   total,
   changeTable,
-  getRecordNo
+  getRecordNo,
+  initTableState,
+  getDataSource,
+  setPagination,
+  getPagination
 } = useTable(getProps, {
   setLoading
 })
@@ -148,7 +168,7 @@ const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource)
  * @description Table 컴포넌트 초기 세팅
  */
 ;(async () => {
-  await getDataSource()
+  await fetchDataSource()
 
   if (props.columns) {
     await setColumns()
@@ -156,21 +176,24 @@ const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource)
 })()
 
 /**
- * @description Table 컴포넌트 Context가 제공하는 Actions
+ * @description Table 컴포넌트 Context가 제공하는 Action 함수
  */
 const tableAction: TableAction = {
   setProps,
   setContextValues,
-  getDataSource,
-  getSize: () => {
-    return unref(props.size)
-  },
-  // getCardSize: () => {
-
-  // },
+  fetchDataSource,
+  getDataSource: () => unref(getDataSource),
+  getLoading: () => unref(getLoading) as boolean,
+  getSize: () => unref(getProps).size,
   reload: async (isReset = true) => {
-    await getDataSource({ isReset })
-  }
+    await fetchDataSource({ isReset })
+  },
+  initTableState,
+  changeTable,
+  getRecordNo,
+  setPagination,
+  getPagination: () => unref(getPagination),
+  emitter: emit
 }
 
 /**
@@ -181,22 +204,24 @@ const getBindValues = computed<Recordable>(() => {
     ...useAttrs(),
     customRow,
     ...unref(getProps),
-    dataSource: props.dataSource || _dataSource.value,
+    dataSource: unref(getDataSource),
     columns: unref(getColumns),
     loading: unref(getLoading),
-    rowSelection: props.options.isSelection ? rowSelection : undefined,
-    pagination: props.options.isPagination && pagination
+    pagination: unref(getPagination),
+    rowSelection: props.options.isSelection ? rowSelection : undefined
   }
 
   propsData = omit(propsData, ['showHeader'])
   return propsData
 })
 
+/**
+ * @description Table 컴포넌트에 대한 Provide Context 생성
+ */
 createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
-// dynamicTable && useDynamicTableContext({ ...tableAction, getBindValues })
 
 defineExpose({
-  getDataSource,
+  getDataSource: fetchDataSource,
   getColumns,
   reload: tableAction.reload,
   selectedRows,
@@ -226,5 +251,27 @@ defineExpose({
       cursor: v-bind('styles.cursor');
     }
   }
+}
+
+.menu-text-popup-1 {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 35px;
+  line-height: 33px;
+  padding: 0 18px;
+  -webkit-border-radius: 200px;
+  border-radius: 200px;
+  border: 1px solid #6449fc;
+  background: #fff;
+  position: absolute;
+  left: 50%;
+  // top: 60px;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  margin: 0 auto;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 </style>

@@ -44,7 +44,7 @@
 </template>
 <script setup lang="ts" name="DynamicTable">
 import { Divider, Space } from 'ant-design-vue'
-import { computed, onMounted, ref, unref, useAttrs, useSlots, watch } from 'vue'
+import { computed, ref, unref, useAttrs } from 'vue'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
 import { Table } from '@/components/table'
