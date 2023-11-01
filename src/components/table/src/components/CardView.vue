@@ -11,27 +11,27 @@
           @change="onPagination"
         />
       </div>
-      <!-- :imgUrl="avatar1" -->
 
       <CardList
-        :detailBtnText="$t('component.button.viewDetail')"
-        :useCheckbox="true"
-        :content="dataSource"
         :detailBtnPosition="'middle'"
+        :imgUrl="avatar1"
+        :useCheckbox="false"
+        :items="dataSource"
         @click="onClickDetail"
+        :size="size"
       />
     </Spin>
   </div>
 </template>
 
 <script lang="ts" setup name="CardView">
-// import avatar1 from '@/assets/images/avatar1.png'
+import avatar1 from '@/assets/images/avatar1.png'
 import { Pagination, type PaginationProps, Spin } from 'ant-design-vue'
-import { computed, unref, watch } from 'vue'
+import { computed, unref } from 'vue'
 import type { ComputedRef } from 'vue'
 import { CardList } from '@/components/card'
 import { useTableContext } from '@/components/table/hooks/useTableContext'
-import type { TablePagination } from '../../types'
+import type { CardSize, TablePagination } from '../../types'
 
 const table = useTableContext()
 const loading = computed(() => table.getLoading())
@@ -39,17 +39,11 @@ const dataSource = computed(() => table.getDataSource())
 const pagination = computed(
   () => unref(table.getBindValues).pagination
 ) as ComputedRef<TablePagination>
+const size = computed(() => table.getSize() as CardSize)
 
 ;(async () => {
   await table.fetchDataSource()
 })()
-
-watch(
-  () => table.getSize(),
-  (cardSize) => {
-    console.log('cardSize 변경 ', cardSize)
-  }
-)
 
 const onClickDetail = (card: Recordable) => {
   table.emitter('row-click', card)

@@ -3,7 +3,7 @@
     <div class="card-box">
       <div class="card">
         <template v-if="props.imgUrl">
-          <div class="img-container">
+          <div class="img-wrapper">
             <Image :src="props.imgUrl" :preview="props.imgPreview">
               <template #previewMask v-if="props.imgPreview">
                 <ZoomInOutlined style="font-size: 40px" />
@@ -23,10 +23,10 @@
             </template>
           </div>
 
-          <template v-if="props.content">
+          <template v-if="props.item">
             <div class="content">
               <p>
-                {{ props.content }}
+                {{ props.item }}
               </p>
             </div>
           </template>
@@ -46,27 +46,27 @@
       <div
         class="card-masking"
         :style="`
-          ${(props.detailBtnText?.length || props.useCheckbox) && 'display: block;'}
+          ${(props.detailBtnPosition?.length || props.useCheckbox) && 'display: block;'}
           ${checked && ' opacity: 1; display: block'}
         `"
       >
         <template v-if="props.useCheckbox">
-          <div class="check-container">
+          <div class="check-wrapper">
             <Checkbox v-model:checked="checked" @click="$emit('checked')" />
           </div>
         </template>
 
-        <template v-if="props.detailBtnText">
+        <template v-if="props.detailBtnPosition">
           <a
             :href="'#'"
             :class="`go-detail ${props.detailBtnPosition === 'middle' ? 'middle' : 'bottom'}`"
             @click="$emit('click', props)"
           >
             <template v-if="props.detailBtnPosition === 'middle'">
-              <span>{{ props.detailBtnText }}</span>
+              <span>{{ $t('component.button.viewDetail') }}</span>
             </template>
             <template v-if="props.detailBtnPosition === 'bottom'">
-              <div>{{ props.detailBtnText }}</div>
+              <div>{{ $t('component.button.viewDetail') }}</div>
             </template>
           </a>
         </template>
@@ -79,7 +79,8 @@
 import { ZoomInOutlined } from '@ant-design/icons-vue'
 import { Checkbox, Image } from 'ant-design-vue'
 import dayjs from 'dayjs'
-import { ref } from 'vue'
+import { type CSSProperties, computed, ref } from 'vue'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import type { CardProps } from '../types'
 
 const emit = defineEmits<{
@@ -88,13 +89,22 @@ const emit = defineEmits<{
 }>()
 
 const props = withDefaults(defineProps<CardProps>(), {
-  detailBtnPosition: 'middle',
   imgPreview: true
 })
+
+const {
+  config: { theme }
+} = useProjectConfigStore()
+
+const cardBoxStyle = computed<CSSProperties>(() => {
+  return {
+    borderColor: theme.navTheme === 'realDark' ? 'rgba(102, 102, 102, 0.65)' : 'none'
+  }
+})
+
 const checked = ref(false)
 </script>
 
-//
 <style lang="scss" scoped>
 a {
   text-decoration: none;
@@ -106,10 +116,11 @@ a {
     height: fit-content;
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 10px;
+    border: 1px solid v-bind('cardBoxStyle.borderColor');
     border-radius: 10px !important;
     overflow: hidden;
     .card {
-      .img-container {
+      .img-wrapper {
         max-width: 490px;
         max-height: 400px;
         text-align: center;
@@ -118,6 +129,9 @@ a {
           width: 100%;
           transform: scale(1);
           transition: transform 0.4s;
+        }
+        :deep(.ant-image) {
+          width: 100%;
         }
       }
       .text-box {
@@ -128,7 +142,6 @@ a {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 1rem;
         }
         .title {
           width: 72%;
@@ -138,11 +151,14 @@ a {
           overflow: hidden;
           text-overflow: ellipsis;
           margin-right: 10px;
+          margin-bottom: 1rem;
         }
         .tag {
           border: 1px solid #979797;
           padding: 4px;
           border-radius: 5px;
+          margin-bottom: 1rem;
+          font-size: 14px;
         }
         .content {
           display: flex;
@@ -170,8 +186,8 @@ a {
       border-radius: 10px;
       transition: opacity 400ms;
       opacity: 0;
-      // display: none;
-      .check-container {
+      display: none;
+      .check-wrapper {
         position: absolute;
         top: 20px;
         right: 20px;
@@ -183,12 +199,12 @@ a {
         left: 50%;
         transform: translate(-50%, -50%);
         span {
-          padding: 12px 15px;
+          padding: 0.4rem 0.5rem;
           background: #fff;
           border-radius: 2rem;
           color: #222;
           font-weight: 800;
-          font-size: 15px;
+          font-size: 0.7rem;
         }
       }
       .bottom {
@@ -206,7 +222,7 @@ a {
           background: #1890ff;
           color: #fff;
           font-weight: 600;
-          font-size: 15px;
+          font-size: 14px;
         }
       }
     }
@@ -214,7 +230,7 @@ a {
       .card-masking {
         opacity: 1;
       }
-      .img-container img {
+      .img-wrapper img {
         transform: scale(1.2);
       }
       .bottom {
