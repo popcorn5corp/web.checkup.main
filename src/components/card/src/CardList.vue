@@ -24,19 +24,21 @@ const props = withDefaults(defineProps<CardListProps>(), {
 
 const size = computed(() => props.size)
 const sizeStyles = computed(() => {
+  const isMiddle = size.value === 'middle'
+
   return {
-    xxl: size.value === 'middle' ? 8 : 6,
-    xl: size.value === 'middle' ? 7 : 5,
-    lg: size.value === 'middle' ? 5 : 4,
-    md: size.value === 'middle' ? 4 : 3,
-    sm: size.value === 'middle' ? 3 : 2,
-    xs: size.value === 'middle' ? 2 : 1
+    xxl: isMiddle ? 8 : 6,
+    xl: isMiddle ? 7 : 5,
+    lg: isMiddle ? 5 : 4,
+    md: isMiddle ? 4 : 3,
+    sm: isMiddle ? 3 : 2,
+    xs: isMiddle ? 2 : 1
   }
 })
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/base/_mediaQuery.scss';
+@import '@/styles/main.scss';
 
 .card-list-container {
   display: grid;
