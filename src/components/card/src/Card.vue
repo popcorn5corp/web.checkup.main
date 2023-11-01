@@ -103,17 +103,6 @@ const cardBoxStyle = computed<CSSProperties>(() => {
 })
 
 const checked = ref(false)
-// const {
-//   imgUrl,
-//   imgPreview,
-//   title,
-//   tag,
-//   item,
-//   createdAt,
-//   component,
-//   useCheckbox,
-//   detailBtnPosition
-// } = reactive(props)
 </script>
 
 <style lang="scss" scoped>
@@ -210,12 +199,12 @@ a {
         left: 50%;
         transform: translate(-50%, -50%);
         span {
-          padding: 12px 15px;
+          padding: 0.4rem 0.5rem;
           background: #fff;
           border-radius: 2rem;
           color: #222;
           font-weight: 800;
-          font-size: 15px;
+          font-size: 0.7rem;
         }
       }
       .bottom {
@@ -233,7 +222,7 @@ a {
           background: #1890ff;
           color: #fff;
           font-weight: 600;
-          font-size: 15px;
+          font-size: 14px;
         }
       }
     }
