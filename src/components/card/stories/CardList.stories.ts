@@ -2,27 +2,18 @@ import checkupLogo from '@/assets/images/checkup_logo_simple_light.png'
 import { withActions } from '@storybook/addon-actions/decorator'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import type { ComponentProps } from 'vue-component-type-helpers'
-import { Card } from '../src'
+import { baseContent } from '@/views/ComponentsOverview/Card/mock'
+import { CardList } from '../src'
 
-const meta: Meta<ComponentProps<typeof Card>> = {
-  // type card
+const meta: Meta<ComponentProps<typeof CardList>> = {
   /**
    * useCheckbox 와 imgPreview
    * 는 같이 사용 할 수 없음
    */
-  title: 'checkupuikit/Atoms/Card',
-  component: Card,
+  title: 'checkupuikit/Atoms/CardList',
+  component: CardList,
   tags: ['autodocs'],
   argTypes: {
-    title: {
-      description: '카드 제목',
-      control: {
-        type: 'text'
-      },
-      table: {
-        type: { summary: 'string' }
-      }
-    },
     useCheckbox: {
       description: '카드 체크박스 사용 유무',
       table: {
@@ -30,16 +21,20 @@ const meta: Meta<ComponentProps<typeof Card>> = {
         defaultValue: { summary: false }
       }
     },
-    item: {
-      description: '카드 내용',
-      control: {
-        type: 'text'
-      },
+    size: {
+      description: '카드 리스트 크기',
+      type: { name: 'string' },
+      options: ['middle', 'large'],
+      control: 'select',
       table: {
         type: {
-          summary: 'string'
-        }
+          summary: 'middle | large'
+        },
+        defaultValue: { summary: 'middle' }
       }
+    },
+    items: {
+      description: '카드 내용'
     },
     imgUrl: {
       description: '카드 커버 이미지',
@@ -68,42 +63,48 @@ const meta: Meta<ComponentProps<typeof Card>> = {
         type: { summary: 'boolean' },
         defaultValue: { summary: true }
       }
-    },
-    tag: {
-      description: '카드 내용의 구분 태그',
-      control: {
-        type: 'text'
-      },
-      table: {
-        type: { summary: 'string' }
-      }
     }
   },
   args: {
     useCheckbox: false,
     imgPreview: true,
-    imgUrl: checkupLogo
+    imgUrl: checkupLogo,
+    items: baseContent
   },
   parameters: {
-    componentSubtitle:
-      '카드 컴포넌트를 사용하여 단일 주제와 관련된 콘텐츠를 표시할 수 있습니다. 콘텐츠는 다양한 유형과 크기의 여러 요소로 구성될 수 있습니다.',
+    componentSubtitle: '카드 컴포넌트를 사용하여 카드 리스트를 구현 할 수 있습니다.',
     actions: {}
   },
   decorators: [withActions]
 }
 export default meta
-type Story = StoryObj<typeof Card>
+type Story = StoryObj<typeof CardList>
 
 export const Default: Story = {
   args: {
-    item: '카드 컴포넌트를 사용하여 단일 주제와 관련된 콘텐츠를 표시할 수 있습니다.'
+    items: baseContent
+  }
+}
+
+export const MiddleSize: Story = {
+  args: {
+    ...Default.args,
+    size: 'middle',
+    detailBtnPosition: 'bottom'
+  }
+}
+
+export const LargeSize: Story = {
+  args: {
+    ...Default.args,
+    size: 'large',
+    detailBtnPosition: 'bottom'
   }
 }
 
 export const DetailButtonPositionMiddle: Story = {
   args: {
     ...Default.args,
-    title: '카드 제목',
     detailBtnPosition: 'middle'
   }
 }
@@ -111,7 +112,6 @@ export const DetailButtonPositionMiddle: Story = {
 export const DetailButtonPositionBottom: Story = {
   args: {
     ...Default.args,
-    title: '카드 제목',
     detailBtnPosition: 'bottom'
   }
 }
@@ -119,8 +119,6 @@ export const DetailButtonPositionBottom: Story = {
 export const ImgPreview: Story = {
   args: {
     ...Default.args,
-    title: '카드 제목',
-    item: '카드 컴포넌트를 사용하여 단일 주제와 관련된 콘텐츠를 표시할 수 있습니다.',
     imgUrl: checkupLogo,
     imgPreview: true
   }
@@ -129,7 +127,6 @@ export const ImgPreview: Story = {
 export const Checkbox: Story = {
   args: {
     ...Default.args,
-    title: '카드 제목',
     imgUrl: checkupLogo,
     useCheckbox: true
   }

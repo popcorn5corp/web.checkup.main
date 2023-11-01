@@ -40,7 +40,7 @@ onMounted(() => {
 }
 
 .circular-menu .floating-btn {
-  display: block;
+  // display: block;
   width: 3.5em;
   height: 3.5em;
   border-radius: 50%;
@@ -51,6 +51,9 @@ onMounted(() => {
   line-height: 3.5;
   cursor: pointer;
   outline: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .circular-menu.active .floating-btn {

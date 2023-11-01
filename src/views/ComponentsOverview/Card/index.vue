@@ -1,9 +1,8 @@
 <script setup lang="ts" name="ComponentsOverviewModal">
 import avatar1 from '@/assets/images/avatar1.png'
-import imgUrl from '@/assets/images/checkup_logo_light.png'
 import checkupLogo from '@/assets/images/checkup_logo_simple_light.png'
 import { Card, CardList } from '@/components/card'
-import { baseContent, contentData } from './mock'
+import { baseContent } from './mock'
 </script>
 
 <template>
@@ -13,7 +12,7 @@ import { baseContent, contentData } from './mock'
       :imgUrl="checkupLogo"
       title="카드 타이틀"
       tag="구분태그"
-      content="내용내용내용내용내용내용내용내용내용내용내용내용내용"
+      item="내용내용내용내용내용내용내용내용내용내용내용내용내용"
       :detailBtnPosition="'middle'"
     />
     <hr style="margin: 1rem 0" />
@@ -22,7 +21,7 @@ import { baseContent, contentData } from './mock'
       :imgUrl="checkupLogo"
       title="카드 타이틀"
       tag="구분태그"
-      content="내용내용내용내용내용내용내용내용내용내용내용내용내용"
+      item="내용내용내용내용내용내용내용내용내용내용내용내용내용"
       :detailBtnPosition="'bottom'"
     />
     <hr style="margin: 1rem 0" />
@@ -31,7 +30,7 @@ import { baseContent, contentData } from './mock'
       :imgUrl="checkupLogo"
       title="카드 타이틀"
       tag="구분태그"
-      content="내용내용내용내용내용내용내용내용내용내용내용내용내용"
+      item="내용내용내용내용내용내용내용내용내용내용내용내용내용"
       :detailBtnPosition="'bottom'"
     />
     <hr style="margin: 1rem 0" />
@@ -39,7 +38,7 @@ import { baseContent, contentData } from './mock'
       :key="1234"
       :imgUrl="avatar1"
       :useCheckbox="true"
-      :content="baseContent"
+      :items="baseContent"
       :detailBtnPosition="'bottom'"
     />
   </div>

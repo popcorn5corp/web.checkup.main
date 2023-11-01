@@ -1,4 +1,5 @@
 import type { Component } from 'vue'
+import type { CardSize } from '@/components/table/types'
 
 export const detailPositionTypes = {
   middle: 'middle',
@@ -20,26 +21,17 @@ export interface CardProps {
   imgPreview?: boolean
   tag?: string
   imgUrl?: string
-  content?: any
+  item?: any
   createdAt?: number
-  // content?: ContentData[] | VNode | string
   component?: Component
 }
 
-//TODO
 export interface CardListProps {
-  items: Array<Recordable>
-}
-
-// interface ContentData extends CardProps {
-//   id: string | number
-//   division?: string
-//   createdAt: string
-//   contents: Content[]
-// }
-
-type Content = {
-  key: string
-  label: string
-  value: string
+  items?: Array<Recordable>
+  useCheckbox?: boolean
+  imgPreview?: boolean
+  detailBtnPosition?: DetailPositionType
+  size?: CardSize
+  // TODO
+  imgUrl?: string
 }

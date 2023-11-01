@@ -1,73 +1,38 @@
 <template>
-  <template v-if="typeof props.content === 'object'">
-    <div class="card-list-container">
-      <div v-for="card in props.content" :key="card.key">
-        <Card
-          :id="card.id"
-          :imgUrl="props.imgUrl"
-          :key="card.key"
-          :title="card.boardTitle"
-          :tag="card.division"
-          :useCheckbox="props.useCheckbox"
-          :content="card.boardContent"
-          :detailBtnPosition="props.detailBtnPosition"
-          :createdAt="card.createdAt"
-          @click="$emit('click', card)"
-        />
-        <!-- <Card v-bind="{ ...card, ...props }" /> -->
-        <!-- :imgUrl="props.imgUrl"
-          :key="card.key"
-          :title="card.boardTitle"
-          :tag="card.division"
-          :useCheckbox="props.useCheckbox"
-          :content="card.boardContent"
-          :detailBtnPosition="props.detailBtnPosition"
-          :createdAt="card.createdAt" -->
-      </div>
+  <div class="card-list-container">
+    <div v-for="card in props.items" :key="card.key">
+      <Card
+        :title="card.boardTitle"
+        :tag="card.division"
+        :item="card.boardContent"
+        v-bind="{ ...card, ...props }"
+        @click="$emit('click', card)"
+      />
     </div>
-  </template>
-  <template v-else>
-    <Card :v-bind="props" />
-    <!-- :imgUrl="props.imgUrl"
-      :title="props.title"
-      :tag="props.tag"
-      :useCheckbox="props.useCheckbox"
-      :content="props.content"
-      :detailBtnPosition="props.detailBtnPosition" -->
-  </template>
+  </div>
 </template>
 
-<script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import type { CardProps } from '../types'
+<script lang="ts" setup name="CardList">
+import { computed } from 'vue'
+import type { CardListProps } from '../types'
 
 const emit = defineEmits(['click'])
-const props = withDefaults(defineProps<CardProps>(), {
-  detailBtnPosition: 'middle',
+const props = withDefaults(defineProps<CardListProps>(), {
+  size: 'middle',
   imgPreview: true
 })
 
-const size = 'middle' // 'large'
+const size = computed(() => props.size)
 const sizeStyles = computed(() => {
   return {
-    xxl: size === 'middle' ? 8 : 6,
-    xl: size === 'middle' ? 7 : 5,
-    lg: size === 'middle' ? 5 : 4,
-    md: size === 'middle' ? 4 : 3,
-    sm: size === 'middle' ? 3 : 2,
-    xs: size === 'middle' ? 2 : 1
+    xxl: size.value === 'middle' ? 8 : 6,
+    xl: size.value === 'middle' ? 7 : 5,
+    lg: size.value === 'middle' ? 5 : 4,
+    md: size.value === 'middle' ? 4 : 3,
+    sm: size.value === 'middle' ? 3 : 2,
+    xs: size.value === 'middle' ? 2 : 1
   }
 })
-
-// const checkList = ref<boolean[]>([])
-
-// ;(async () => {
-//   checkList.value = [...Array(props.content.length)].map((_, i) => ({
-//     index: i,
-//     isChecked: false
-//   }))
-//   console.log(props.content)
-// })()
 </script>
 
 <style lang="scss" scoped>

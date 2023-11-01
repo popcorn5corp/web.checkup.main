@@ -2,10 +2,10 @@
   <div class="card-container">
     <div class="card-box">
       <div class="card">
-        <template v-if="imgUrl">
-          <div class="img-container">
-            <Image :src="imgUrl" :preview="imgPreview">
-              <template #previewMask v-if="imgPreview">
+        <template v-if="props.imgUrl">
+          <div class="img-wrapper">
+            <Image :src="props.imgUrl" :preview="props.imgPreview">
+              <template #previewMask v-if="props.imgPreview">
                 <ZoomInOutlined style="font-size: 40px" />
               </template>
             </Image>
@@ -14,59 +14,59 @@
 
         <div class="text-box">
           <div class="text-header">
-            <template v-if="title">
-              <div class="title">{{ title }}</div>
+            <template v-if="props.title">
+              <div class="title">{{ props.title }}</div>
             </template>
 
-            <template v-if="tag">
-              <div class="tag">{{ tag }}</div>
+            <template v-if="props.tag">
+              <div class="tag">{{ props.tag }}</div>
             </template>
           </div>
 
-          <template v-if="content">
+          <template v-if="props.item">
             <div class="content">
               <p>
-                {{ content }}
+                {{ props.item }}
               </p>
             </div>
           </template>
 
-          <template v-if="createdAt">
+          <template v-if="props.createdAt">
             <div class="created">
               <p>
-                {{ dayjs.unix(createdAt).format('YYYY-MM-DD') }}
+                {{ dayjs.unix(props.createdAt).format('YYYY-MM-DD') }}
               </p>
             </div>
           </template>
 
-          <component v-if="component" :is="component" />
+          <component v-if="props.component" :is="props.component" />
         </div>
       </div>
       <!-- hover event -->
       <div
         class="card-masking"
         :style="`
-          ${(detailBtnPosition || useCheckbox) && 'display: block;'}
+          ${(props.detailBtnPosition?.length || props.useCheckbox) && 'display: block;'}
           ${checked && ' opacity: 1; display: block'}
         `"
       >
-        <template v-if="useCheckbox">
-          <div class="check-container">
+        <template v-if="props.useCheckbox">
+          <div class="check-wrapper">
             <Checkbox v-model:checked="checked" @click="$emit('checked')" />
           </div>
         </template>
 
-        <template v-if="detailBtnPosition">
+        <template v-if="props.detailBtnPosition">
           <a
             :href="'#'"
             :class="`go-detail ${props.detailBtnPosition === 'middle' ? 'middle' : 'bottom'}`"
             @click="$emit('click', props)"
           >
-            <template v-if="detailBtnPosition === 'middle'">
-              <span>상세보기</span>
+            <template v-if="props.detailBtnPosition === 'middle'">
+              <span>{{ $t('component.button.viewDetail') }}</span>
             </template>
-            <template v-if="detailBtnPosition === 'bottom'">
-              <div>상세보기</div>
+            <template v-if="props.detailBtnPosition === 'bottom'">
+              <div>{{ $t('component.button.viewDetail') }}</div>
             </template>
           </a>
         </template>
@@ -79,7 +79,8 @@
 import { ZoomInOutlined } from '@ant-design/icons-vue'
 import { Checkbox, Image } from 'ant-design-vue'
 import dayjs from 'dayjs'
-import { ref } from 'vue'
+import { type CSSProperties, computed, ref } from 'vue'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import type { CardProps } from '../types'
 
 const emit = defineEmits<{
@@ -88,23 +89,31 @@ const emit = defineEmits<{
 }>()
 
 const props = withDefaults(defineProps<CardProps>(), {
-  // detailBtnPosition: 'middle',
   imgPreview: true
 })
-const checked = ref(false)
+
 const {
-  imgUrl,
-  imgPreview,
-  title,
-  tag,
-  content,
-  createdAt,
-  component,
-  useCheckbox,
-  detailBtnPosition
-} = props
-console.log('>  <', props)
-;(async () => {})()
+  config: { theme }
+} = useProjectConfigStore()
+
+const cardBoxStyle = computed<CSSProperties>(() => {
+  return {
+    borderColor: theme.navTheme === 'realDark' ? 'rgba(102, 102, 102, 0.65)' : 'none'
+  }
+})
+
+const checked = ref(false)
+// const {
+//   imgUrl,
+//   imgPreview,
+//   title,
+//   tag,
+//   item,
+//   createdAt,
+//   component,
+//   useCheckbox,
+//   detailBtnPosition
+// } = reactive(props)
 </script>
 
 <style lang="scss" scoped>
@@ -118,10 +127,11 @@ a {
     height: fit-content;
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 10px;
+    border: 1px solid v-bind('cardBoxStyle.borderColor');
     border-radius: 10px !important;
     overflow: hidden;
     .card {
-      .img-container {
+      .img-wrapper {
         max-width: 490px;
         max-height: 400px;
         text-align: center;
@@ -188,7 +198,7 @@ a {
       transition: opacity 400ms;
       opacity: 0;
       display: none;
-      .check-container {
+      .check-wrapper {
         position: absolute;
         top: 20px;
         right: 20px;
@@ -231,7 +241,7 @@ a {
       .card-masking {
         opacity: 1;
       }
-      .img-container img {
+      .img-wrapper img {
         transform: scale(1.2);
       }
       .bottom {
