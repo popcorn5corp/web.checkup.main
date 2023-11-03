@@ -78,12 +78,12 @@ import { computed, onMounted, ref, unref, watch } from 'vue'
 import { Button } from '@/components/button'
 import { ColumnHeightOutlined, DownloadOutlined } from '@/components/icons'
 import { useTableContext } from '../../hooks/useTableContext'
-import { type CardSize, type TableSize, cardSizeItems, tableSizeItems } from '../../types'
+import { type SizeType, cardSizeItems, tableSizeItems } from '../../types'
 import TableSegmentButton from './TableSegmentButton.vue'
 
 const table = useTableContext()
 const isReload = ref(false)
-const selectedSize = ref<TableSize | CardSize>('middle')
+const selectedSize = ref<SizeType>('middle')
 const searchWord = ref('')
 const sizeItems = computed(() =>
   unref(table.getContextValues).layoutMode === 'table' ? tableSizeItems : cardSizeItems
@@ -112,7 +112,7 @@ function onSearch() {
 
 const onChangeSize: MenuClickEventHandler = ({ key }) => {
   table.setProps({
-    size: key as TableSize | CardSize
+    size: key as SizeType
   })
 }
 

@@ -1,19 +1,20 @@
 <script lang="ts" setup name="FilterRangeDatepicker">
+import { RangePicker } from 'ant-design-vue'
 import type { Dayjs } from 'dayjs'
 import { ref, toRefs, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { type Filter } from './types'
+import { type FilterFormItem } from '../../../types'
 
 const props = defineProps({
   item: {
-    type: Object as PropType<Filter>,
+    type: Object as PropType<FilterFormItem>,
     default: () => {}
   }
 })
 
 const { type, selectedItems } = toRefs(props.item)
 const { setSelectedFilterData } = useTableFilterStore()
-const dates = ref<[string, string] | [Dayjs, Dayjs] | undefined>()
+const selectedDate = ref<[string, string] | [Dayjs, Dayjs] | undefined>()
 
 const onRangeChange = (
   value: [Dayjs, Dayjs] | [string, string],
@@ -24,11 +25,14 @@ const onRangeChange = (
   setSelectedFilterData(type.value, options)
 }
 
-watch(selectedItems, () => !selectedItems.value.length && (dates.value = undefined))
+watch(selectedItems, () => {
+  console.log('selectedItems ', selectedItems)
+  !selectedItems.value.length && (selectedDate.value = undefined)
+})
 </script>
 
 <template>
-  <a-range-picker :allowClear="false" v-model:value="dates" @change="onRangeChange" />
+  <RangePicker v-model:value="selectedDate" :allowClear="true" @change="onRangeChange" />
 </template>
 
 <style lang="scss" scoped>

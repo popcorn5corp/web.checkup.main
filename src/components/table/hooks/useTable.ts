@@ -180,8 +180,6 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       current: current as number
     }
 
-    console.log('state.pagination ', state.pagination)
-
     // case: '{}' / column: undefined
     if (!Util.Is.isEmpty(sorter)) {
       // @ts-ignore

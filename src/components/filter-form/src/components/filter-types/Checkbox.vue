@@ -1,27 +1,38 @@
 <script lang="ts" setup name="FilterCheckbox">
-import { ref, toRefs, watch } from 'vue'
-import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import type { Filter } from './types'
+import { Checkbox, CheckboxGroup, Col, Input } from 'ant-design-vue'
+import { ref, unref, watch } from 'vue'
+import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
+import type { FilterFormItem } from '../../../types'
 
-const props = defineProps({
-  item: {
-    type: Object as PropType<Filter>,
-    default: () => {}
-  }
-})
+interface FilterCheckboxProps {
+  item: FilterFormItem
+}
 
-const { type, options, selectedItems } = toRefs(props.item)
-const { setSelectedFilterData } = useTableFilterStore()
-const checkboxOptions = ref([...options.value])
+const props = defineProps<FilterCheckboxProps>()
+const { type, options, selectedItems, index } = props.item
+const dynamicTable = useDynamicTableContext()
+const checkboxOptions = ref([...options])
 const inputValue = ref<string | undefined>()
 const timer = ref()
+const checkedList = ref()
 
-const onChange = (options: LabelValueType[]) => setSelectedFilterData(type.value, options)
+watch(
+  () => unref(checkedList),
+  () => {
+    const filterFormItems = unref(dynamicTable.getContextValues).filterFormItems
+    filterFormItems[index] = {
+      ...filterFormItems[index],
+      selectedItems: [...unref(checkedList)]
+    }
+
+    dynamicTable.setContextValues({ filterFormItems })
+  }
+)
 
 const filterOption = () => {
   checkboxOptions.value = inputValue.value
-    ? options.value.filter((option) => option.label.includes(inputValue.value as string))
-    : options.value
+    ? options.filter((option) => option.label.includes(inputValue.value as string))
+    : options
 }
 
 const onKeyup = (e: any) => {
@@ -38,20 +49,20 @@ const onKeyup = (e: any) => {
 </script>
 <template>
   <div class="filter-input">
-    <a-input placeholder="search" v-model:value="inputValue" @keyup="onKeyup">
+    <Input placeholder="search" v-model:value="inputValue" @keyup="onKeyup">
       <template #suffix>
         <font-awesome-icon style="color: #d9d9d9" :icon="['fas', 'magnifying-glass']" />
       </template>
-    </a-input>
+    </Input>
   </div>
-  <!-- @vue-skip -->
-  <a-checkbox-group v-model:value="selectedItems" @change="onChange" name="checkboxgroup">
+
+  <CheckboxGroup v-model:value="checkedList" name="checkboxgroup">
     <template v-for="(option, index) in checkboxOptions" :key="index">
-      <a-col>
-        <a-checkbox :value="option">{{ option.label }}</a-checkbox>
-      </a-col>
+      <Col>
+        <Checkbox :value="option">{{ option.label }}</Checkbox>
+      </Col>
     </template>
-  </a-checkbox-group>
+  </CheckboxGroup>
 </template>
 <style lang="scss" scoped>
 .filter-input {

@@ -5,6 +5,7 @@ import type { AccordionProps } from '../types'
 import AccordionPanel from './AccordionPanel.vue'
 
 const props = defineProps<AccordionProps>()
+console.log('props :: ', props)
 
 const activeKey = ref(props.activeKey)
 
@@ -14,7 +15,7 @@ const onChange = (key: Key | Key[]) => {
 </script>
 
 <template>
-  <div class="accordian-wrapper" :style="style">
+  <div class="accordian-container" :style="style">
     <template v-if="items">
       <Collapse
         v-for="(item, index) in items"

@@ -48,7 +48,6 @@ const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
  * @param row
  */
 const onClickRow = (row: IBaseSample.Content): void => {
-  console.log('asdasd ', row)
   isOpen.value = true
   isLoading.value = true
   mode.value = DEFAULT_MODE
@@ -112,6 +111,7 @@ const onOpenSaveModal = (): void => {
  * @param selectedRows
  */
 const onRemovePost = (selectedRows: IBaseSample.Content[]): void => {
+  console.log('onRemovePost :: ', selectedRows)
   Modal.confirm({
     content: t('common.message.modalDeleteCheck'),
     // width: 600,
@@ -205,12 +205,12 @@ const onClickRegist = (): void => {
     :data-callback="dataCallback"
     :column-request="getColumns"
     @row-click="onClickRow"
-    @row-select="onRemovePost"
-    @rowAdd="onClickRegist"
+    @row-delete="onRemovePost"
+    @row-add="onClickRegist"
   >
     <template #tableBtns="scope">
-      <!-- <Button :label="$t('common.delete')" size="large" />
-      <Button :label="$t('common.registration')" size="large" @click="onClickRegist" /> -->
+      <!-- <Button :label="$t('common.delete')" size="large" @click="onRemovePost" /> -->
+      <!-- <Button :label="$t('common.registration')" size="large" @click="onClickRegist" /> -->
     </template>
   </DynamicTable>
 

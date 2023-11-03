@@ -1,5 +1,6 @@
 import type { TableColumnsType } from 'ant-design-vue'
 import dayjs from 'dayjs'
+import { FILTER_UI, type FilterList } from '@/components/filter-form'
 
 export const columns: TableColumnsType = [
   {
@@ -31,7 +32,23 @@ export const columns: TableColumnsType = [
   }
 ]
 
-export const filters = []
+export const filters: FilterList = [
+  {
+    title: '조회기간',
+    key: 'searchDate',
+    type: FILTER_UI.RANGE_DATE_PICKER,
+    options: []
+  },
+  {
+    title: '게시물 구분',
+    key: 'division',
+    type: FILTER_UI.CHECKBOX,
+    options: [
+      { label: '공개', value: 'PUBLIC' },
+      { label: '비공개', value: 'PRIVATE' }
+    ]
+  }
+]
 
 // export const filterTypes = {
 //   select: 'select',

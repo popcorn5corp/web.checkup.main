@@ -22,6 +22,8 @@ const indicator = h(LoadingOutlined, {
   spin: true
 })
 
+console.log('accessToken ', accessToken, refreshToken)
+
 if (isSuccessSocialLogin) {
   setToken(ACCESS_TOKEN_KEY, accessToken)
   setToken(REFRESH_TOKEN_KEY, refreshToken)

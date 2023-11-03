@@ -39,6 +39,7 @@ export namespace IBaseSample {
     boardContent: string // 샘플 게시판 내용
     createdAt: number // 생성일
     division: 'PRIVATE' | 'PUBLIC' // 샘플 게시판 구분
+    thumbnail: BoardFile
   }
 
   export interface BaseSamples {
@@ -65,16 +66,18 @@ export namespace IBaseSample {
     }
   }
 
+  export interface BoardFile {
+    ext: string
+    fileId: string
+    name: string
+    originName: string
+    path: string
+    size: number
+    url: string // domain + path
+  }
+
   export interface BaseSample extends Content {
-    boardFiles: Array<{
-      ext: string
-      fileId: string
-      name: string
-      originName: string
-      path: string
-      size: number
-      url: string // domain + path
-    }>
+    boardFiles: BoardFile
   }
 
   export interface BaseSamplesParam extends ConditionParam {
@@ -86,6 +89,7 @@ export namespace IBaseSample {
     division: 'PRIVATE' | 'PUBLIC'
   }
 
-  export interface BaseSampleUpdateParam extends Omit<BaseSample, 'createdAt'> {}
-  export interface BaseSampleCreateParam extends Omit<BaseSample, 'boardId' | 'createdAt'> {}
+  export interface BaseSampleUpdateParam extends Omit<BaseSample, 'createdAt' | 'thumbnail'> {}
+  export interface BaseSampleCreateParam
+    extends Omit<BaseSample, 'boardId' | 'createdAt' | 'thumbnail'> {}
 }

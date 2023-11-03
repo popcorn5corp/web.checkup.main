@@ -6,6 +6,7 @@
         :tag="card.division"
         :item="card.boardContent"
         v-bind="{ ...card, ...props }"
+        :imgUrl="card.thumbnail?.url"
         @click="$emit('click', card)"
       />
     </div>
