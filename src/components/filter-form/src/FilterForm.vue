@@ -6,12 +6,11 @@ import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { Accordion } from '@/components/accordion'
 import { Button } from '@/components/button'
 import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
-import { Checkbox, Datepicker, Radio, RangeDatePicker, Select } from './components/FilterType'
-import type { FilterType } from './components/FilterType/types'
+import type { FilterFormProps, FilterUI } from '../types'
+import { Checkbox, Datepicker, Radio, RangeDatePicker, Select } from './components/filter-types'
 
 const emit = defineEmits(['close'])
-
-const dynamicTable = useDynamicTableContext()
+const props = defineProps<FilterFormProps>()
 const { config } = useProjectConfigStore()
 const { filterList } = useTableFilterStore()
 const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
@@ -22,7 +21,7 @@ const onFilter = (): void => {
   emit('close', isShow.value)
 }
 
-const filterTypeComponents: Record<FilterType, Component> = {
+const filterTypeComponents: Record<FilterUI, Component> = {
   checkbox: Checkbox,
   datepicker: Datepicker,
   rangeDatePicker: RangeDatePicker,
@@ -39,10 +38,10 @@ const filterTypeComponents: Record<FilterType, Component> = {
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
 
-      <Accordion :items="filterList" :style="{ fontWeight: 'bold', fontSize: '16px' }" ghost>
+      <Accordion :items="items" :style="{ fontWeight: 'bold', fontSize: '16px' }" ghost>
         <template #content="{ item }">
           <keep-alive>
-            <component :is="filterTypeComponents[item.type as FilterType]" :item="item" />
+            <component :is="filterTypeComponents[item.type as FilterUI]" :item="item" />
           </keep-alive>
         </template>
       </Accordion>

@@ -1,12 +1,12 @@
 <script lang="ts" setup name="FilterDatepicker">
 import type { Dayjs } from 'dayjs'
-import { ref, toRefs, watch } from 'vue'
+import { type PropType, ref, toRefs, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { type Filter, FilterTypes } from './types'
+import { FILTER_UI, type FilterFormItem } from '../../../types'
 
 const props = defineProps({
   item: {
-    type: Object as PropType<Filter>,
+    type: Object as PropType<FilterFormItem>,
     default: () => {}
   }
 })
@@ -23,7 +23,7 @@ const onRangeChange = (value: string | Dayjs, dateString: string) => {
           {
             label: dateString,
             value: dateString,
-            type: FilterTypes.DATE_PICKER
+            type: FILTER_UI.DATE_PICKER
           }
         ]
 

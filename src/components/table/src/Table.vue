@@ -58,7 +58,7 @@ import {
   defaultPaginaton,
   defaultToolbarOptions
 } from '../types'
-import type { TableAction, TableContextValues, TableEmits, TableProps } from '../types'
+import type { SizeType, TableAction, TableContextValues, TableEmits, TableProps } from '../types'
 import CardView from './components/CardView.vue'
 import TableToolbar from './components/TableToolbar.vue'
 import EmptyImage from './images/no_data_2.png'
@@ -184,7 +184,7 @@ const tableAction: TableAction = {
   fetchDataSource,
   getDataSource: () => unref(getDataSource),
   getLoading: () => unref(getLoading) as boolean,
-  getSize: () => unref(getProps).size,
+  getSize: () => unref(getProps).size as SizeType,
   reload: async (isReset = true) => {
     await fetchDataSource({ isReset })
   },
@@ -208,7 +208,7 @@ const getBindValues = computed<Recordable>(() => {
     columns: unref(getColumns),
     loading: unref(getLoading),
     pagination: unref(getPagination),
-    rowSelection: props.options.isSelection ? rowSelection : undefined
+    rowSelection: props.options.isSelection ? unref(rowSelection) : undefined
   }
 
   propsData = omit(propsData, ['showHeader'])

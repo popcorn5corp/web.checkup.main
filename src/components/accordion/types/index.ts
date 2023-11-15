@@ -2,12 +2,13 @@ import { type CSSProperties } from 'vue'
 
 export type AccordionIconPositionType = 'start' | 'end'
 
-interface AccordionItems {
+interface AccordionItem {
+  title: string
   [key: string]: string
 }
 
 export interface AccordionProps {
-  items?: AccordionItems[]
+  items?: Recordable[]
   activeKey?: [] | string | number
   expandIconPosition?: AccordionIconPositionType
   bordered?: boolean

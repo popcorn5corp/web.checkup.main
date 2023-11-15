@@ -1514,6 +1514,38 @@
     gud "^1.0.0"
     warning "^4.0.3"
 
+"@interactjs/actions@^1.9.20":
+  version "1.10.19"
+  resolved "https://registry.yarnpkg.com/@interactjs/actions/-/actions-1.10.19.tgz#6afc015741f3d802b75204a06bbf52837ea87b4f"
+  integrity sha512-mZyx1MZx5/IoLj9zg/5IZ8LmO98XGUQ3IJoDfSM7sY5yTo/WgHY0v4fdLCy8ssx5X2n1VEPV889J7u8+42kavw==
+  optionalDependencies:
+    "@interactjs/interact" "1.10.19"
+
+"@interactjs/auto-start@^1.9.20":
+  version "1.10.19"
+  resolved "https://registry.yarnpkg.com/@interactjs/auto-start/-/auto-start-1.10.19.tgz#e361b50ed6521e213cd4d2e2a038a4385911d505"
+  integrity sha512-WifIomXIV9MWWHEz3zrMN6n+wl+9IshMVIUsbvx13AM4oiL4832A0JUNrCkL5m6BUTn7iw5CpIdwtnBh+OCYSQ==
+  optionalDependencies:
+    "@interactjs/interact" "1.10.19"
+
+"@interactjs/core@1.10.19":
+  version "1.10.19"
+  resolved "https://registry.yarnpkg.com/@interactjs/core/-/core-1.10.19.tgz#423d8229e4b1b3b4df7d3a71aab4c36180f8a221"
+  integrity sha512-4Mq7+pXFq7aCJXh0RRdS9j+PJPi5yHbZsOLpryWFQMQ6GeKPaiu3d97rY4gjhW7SVa+l82QGCMEI0T7ib4DqsA==
+
+"@interactjs/interact@1.10.19", "@interactjs/interact@^1.9.20":
+  version "1.10.19"
+  resolved "https://registry.yarnpkg.com/@interactjs/interact/-/interact-1.10.19.tgz#393ff7dd582d3f6740237342c7ff85b475d222a6"
+  integrity sha512-PS89zWBgv8nfMKAxP41SPC/M4Uk6aXfzXTHDStu0j/Og2+hM8U0PAUcQ5VVyZoIczssM0iPi8SP59kuTp0IVrg==
+  dependencies:
+    "@interactjs/core" "1.10.19"
+    "@interactjs/utils" "1.10.19"
+
+"@interactjs/utils@1.10.19":
+  version "1.10.19"
+  resolved "https://registry.yarnpkg.com/@interactjs/utils/-/utils-1.10.19.tgz#0d5a4274dd711d3cd344b97144b133fe1d129bfd"
+  integrity sha512-jfMCmSkVgzb6g2L1kyUNJWqRRajMQgmv0yLJwVNHjeQAe9Hxe5b+iAQUYUan4XtrtWuruXz8VAF9P3RH9qOGpQ==
+
 "@intlify/bundle-utils@^7.0.2":
   version "7.3.0"
   resolved "https://registry.npmjs.org/@intlify/bundle-utils/-/bundle-utils-7.3.0.tgz"
@@ -4244,6 +4276,11 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
+batch-processor@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/batch-processor/-/batch-processor-1.0.0.tgz#75c95c32b748e0850d10c2b168f6bdbe9891ace8"
+  integrity sha512-xoLQD8gmmR32MeuBHgH0Tzd5PuSZx71ZsbhVxOCRbgktZEPe4SQy7s9Z50uPp0F/f7iw2XmkHN2xkgbMfckMDA==
+
 bcrypt-pbkdf@^1.0.0:
   version "1.0.2"
   resolved "https://registry.npmjs.org/bcrypt-pbkdf/-/bcrypt-pbkdf-1.0.2.tgz"
@@ -5554,6 +5591,13 @@ electron-to-chromium@^1.4.535:
   version "1.4.548"
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.548.tgz"
   integrity sha512-R77KD6mXv37DOyKLN/eW1rGS61N6yHOfapNSX9w+y9DdPG83l9Gkuv7qkCFZ4Ta4JPhrjgQfYbv4Y3TnM1Hi2Q==
+
+element-resize-detector@^1.2.1:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/element-resize-detector/-/element-resize-detector-1.2.4.tgz#3e6c5982dd77508b5fa7e6d5c02170e26325c9b1"
+  integrity sha512-Fl5Ftk6WwXE0wqCgNoseKWndjzZlDCwuPTcoVZfCP9R3EHQF8qUtr3YUPNETegRBOKqQKPW3n4kiIWngGi8tKg==
+  dependencies:
+    batch-processor "1.0.0"
 
 email-addresses@^5.0.0:
   version "5.0.0"
@@ -10952,6 +10996,18 @@ std-env@^3.3.2:
   resolved "https://registry.npmjs.org/std-env/-/std-env-3.4.3.tgz"
   integrity sha512-f9aPhy8fYBuMN+sNfakZV18U39PbalgjXG3lLB9WkaYTxijru61wb57V9wxxNthXM5Sd88ETBWi29qLAsHO52Q==
 
+ste-core@^1.7.2:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/ste-core/-/ste-core-1.7.3.tgz#91cba0aa606827c9944661abfb50740ef1a5ef3e"
+  integrity sha512-DP3BMV+NkTP1ayvIOgNkp+sbbBVPWhuYR9xuybIckL/lHt+fIZUaisFmI+0UumaGTDWLTmk6Ybck023dKvwGiw==
+
+ste-simple-events@^1.6.13:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/ste-simple-events/-/ste-simple-events-1.7.3.tgz#0a2aec72c89742011767eb1574c35bd598180d5d"
+  integrity sha512-QgtEQE0tG4BEkn+WWewOwz4GYvZQrPPczhkzxMmh5KKMsIwbb/kryH71/nbKEUJ5/FZUwXqsMLLM2Ugrg08EvQ==
+  dependencies:
+    ste-core "^1.7.2"
+
 stop-iteration-iterator@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/stop-iteration-iterator/-/stop-iteration-iterator-1.0.0.tgz"
@@ -12083,6 +12139,13 @@ vue-docgen-api@^4.40.0:
     ts-map "^1.0.3"
     vue-inbrowser-compiler-independent-utils "^4.69.0"
 
+vue-element-resize-detector@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/vue-element-resize-detector/-/vue-element-resize-detector-1.0.6.tgz#c0aa8ccb32d93892e32a16a9b3049ce06c1d2339"
+  integrity sha512-1vh9GtSFcwEJJEGkSZfYV3kKYqCoDGmtlOZhLcy7Itt0f5mK4V9Pa/r/9qmRa031VUIdO0WTXsHrNQnY9A/+Gw==
+  dependencies:
+    element-resize-detector "^1.2.1"
+
 vue-eslint-parser@^9.1.1, vue-eslint-parser@^9.3.1:
   version "9.3.1"
   resolved "https://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-9.3.1.tgz"
@@ -12109,6 +12172,17 @@ vue-inbrowser-compiler-independent-utils@^4.69.0:
   version "4.71.1"
   resolved "https://registry.npmjs.org/vue-inbrowser-compiler-independent-utils/-/vue-inbrowser-compiler-independent-utils-4.71.1.tgz"
   integrity sha512-K3wt3iVmNGaFEOUR4JIThQRWfqokxLfnPslD41FDZB2ajXp789+wCqJyGYlIFsvEQ2P61PInw6/ph5iiqg51gg==
+
+vue-responsive-dash@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/vue-responsive-dash/-/vue-responsive-dash-0.5.0.tgz#8639995e7bce88f090872364e8fb23c524ebad5d"
+  integrity sha512-fvrUIJvxqhZRC75FfRJeAsXoNFc3ULAD4QRe8jh44ARpy2ZvQ+viTbD8DWTy0VCfH2I9REBl6UfZmvPaXrZQ0w==
+  dependencies:
+    "@interactjs/actions" "^1.9.20"
+    "@interactjs/auto-start" "^1.9.20"
+    "@interactjs/interact" "^1.9.20"
+    ste-simple-events "^1.6.13"
+    vue-element-resize-detector "^1.0.6"
 
 vue-router@^4.2.0:
   version "4.2.5"

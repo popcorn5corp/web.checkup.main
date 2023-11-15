@@ -4,7 +4,7 @@
       <div class="card">
         <template v-if="props.imgUrl">
           <div class="img-wrapper">
-            <Image :src="props.imgUrl" :preview="props.imgPreview">
+            <Image :src="imgUrl" :preview="props.imgPreview">
               <template #previewMask v-if="props.imgPreview">
                 <ZoomInOutlined style="font-size: 40px" />
               </template>
@@ -75,7 +75,10 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="Card">
+import ExcelImage from '@/assets/images/excel.png'
+import PdfImage from '@/assets/images/pdf.png'
+import PptImage from '@/assets/images/ppt.png'
 import { ZoomInOutlined } from '@ant-design/icons-vue'
 import { Checkbox, Image } from 'ant-design-vue'
 import dayjs from 'dayjs'
@@ -90,6 +93,18 @@ const emit = defineEmits<{
 
 const props = withDefaults(defineProps<CardProps>(), {
   imgPreview: true
+})
+
+const imgUrl = computed(() => {
+  if (props.imgUrl?.includes('.xlsx') || props.imgUrl?.includes('.xlsx')) {
+    return ExcelImage
+  } else if (props.imgUrl?.includes('.pdf')) {
+    return PdfImage
+  } else if (props.imgUrl?.includes('.pptx')) {
+    return PptImage
+  } else {
+    return props.imgUrl
+  }
 })
 
 const {

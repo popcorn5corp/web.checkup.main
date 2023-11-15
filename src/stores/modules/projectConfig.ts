@@ -17,7 +17,7 @@ const defaultConfig: ProjectConfigState = {
   primary: DEFAULT_PRIMARY,
   isDark: false,
   isCollapse: false,
-  device: DeviceTypeEnum.Desktop,
+  // device: DeviceTypeEnum.Desktop,
   theme: {
     navTheme: 'light',
     isDark: false,

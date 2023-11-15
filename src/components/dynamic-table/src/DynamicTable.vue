@@ -1,13 +1,23 @@
 <template>
   <div ref="wrapRef" class="dynamic-table-containter">
     <div class="header">
-      <TableTags />
+      <TableTags :items="filterFormItems" />
 
       <div class="table-btns">
         <Space>
           <slot name="tableBtns"></slot>
 
           <Button :label="$t('common.registration')" size="large" @click="$emit('row-add')" />
+          <Button
+            :label="$t('common.delete')"
+            size="large"
+            @click="
+              () => {
+                $emit('row-delete', tableRef?.selectedRows)
+                // console.log('f', tableRef?.selectedRows)
+              }
+            "
+          />
 
           <!-- 필터 버튼 -->
           <Button
@@ -37,35 +47,42 @@
           </Table>
         </div>
 
-        <FilterForm v-if="showFilter" @close="(flag: boolean) => (showFilter = flag)"></FilterForm>
+        <FilterForm
+          v-if="showFilter"
+          :items="filterFormItems"
+          @close="(flag: boolean) => (showFilter = flag)"
+        ></FilterForm>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts" name="DynamicTable">
 import { Divider, Space } from 'ant-design-vue'
-import { computed, ref, unref, useAttrs } from 'vue'
+import { computed, ref, unref, useAttrs, watch } from 'vue'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
 import { Table } from '@/components/table'
 import { createDynamicTableContext } from '../hooks/useDynamicTableContext'
-import type { DynamicTableAction, DynamicTableEmits, DynamicTableProps } from '../types'
+import { useFilter } from '../hooks/useFilter'
+// import { useTag } from '../hooks/useTag'
+import type { DynamicTableAction, DynamicTableContextValues, DynamicTableProps } from '../types'
+import { defaultContenxtValues } from '../types'
 import TableTags from './components/TableTags.vue'
 
-defineEmits(['row-click', 'change', 'search', 'row-add', 'row-select'])
+const emit = defineEmits(['row-click', 'change', 'search', 'row-add', 'row-select', 'row-delete'])
 const attrs = useAttrs()
 const props = withDefaults(defineProps<DynamicTableProps>(), {
-  showToolbar: true
+  showToolbar: true,
+  filters: () => []
 })
 
 const wrapRef = ref(null)
 const innerProps = ref<Partial<DynamicTableProps>>()
 const tableRef = ref<InstanceType<typeof Table>>()
 const showFilter = ref(false)
-
-const reload = (options: { isReset?: boolean }) => {
-  tableRef.value?.getDataSource(options)
-}
+const contextValues = ref<DynamicTableContextValues>({
+  ...defaultContenxtValues
+})
 
 const getProps = computed<DynamicTableProps>(() => {
   return {
@@ -81,7 +98,45 @@ function setProps(props: Partial<DynamicTableProps>) {
   }
 }
 
-let dynamicTableAction: DynamicTableAction = {}
+const { filterFormItems, generateFilterFormItems } = useFilter(getProps)
+generateFilterFormItems()
+
+/**
+ * @description DynamicTable 컴포넌트 Context에서 공유되는 Values
+ */
+const getContextValues = computed(() => {
+  return {
+    ...unref(contextValues)
+  }
+})
+
+function setContextValues(values: Partial<DynamicTableContextValues>) {
+  contextValues.value = {
+    ...unref(contextValues),
+    ...values
+  }
+
+  console.log('setContextValues :: ', contextValues.value)
+}
+// const {} = useTag()
+
+watch(
+  filterFormItems,
+  (filterFormItems) => {
+    console.log('filters :: ', filterFormItems)
+    setContextValues({ filterFormItems })
+  },
+  {
+    immediate: true
+  }
+)
+
+let dynamicTableAction: DynamicTableAction = {
+  setProps,
+  setContextValues,
+  emitter: emit
+}
+
 const getBindValues = computed<Recordable>(() => {
   let propsData = {
     ...attrs,
@@ -91,12 +146,17 @@ const getBindValues = computed<Recordable>(() => {
   return propsData
 })
 
-createDynamicTableContext({ wrapRef, ...dynamicTableAction, getBindValues })
+const reload = (options: { isReset?: boolean }) => {
+  tableRef.value?.getDataSource(options)
+}
+
+createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, getBindValues })
 
 defineExpose({
   getDataSource: tableRef.value?.getDataSource,
   getColumns: tableRef.value?.getColumns,
-  reload
+  reload,
+  selectedRows: tableRef.value?.selectedRows
 })
 </script>
 <style lang="scss" scoped>

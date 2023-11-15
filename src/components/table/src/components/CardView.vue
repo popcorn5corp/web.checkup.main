@@ -13,9 +13,9 @@
       </div>
 
       <CardList
-        :detailBtnPosition="'middle'"
+        :detailBtnPosition="'bottom'"
         :imgUrl="avatar1"
-        :useCheckbox="false"
+        :useCheckbox="true"
         :items="dataSource"
         @click="onClickDetail"
         :size="size"

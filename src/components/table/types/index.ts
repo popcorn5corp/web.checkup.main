@@ -14,6 +14,7 @@ type PaginationPositon =
 
 export type TableSize = 'small' | 'middle' | 'large'
 export type CardSize = 'middle' | 'large'
+export type SizeType = TableSize | CardSize
 
 export interface TablePagination {
   total: number
@@ -50,7 +51,7 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
   dataSource?: RecordType[]
   loading?: boolean
   total?: number
-  size: TableSize | CardSize
+  size?: SizeType
   options?: TableOptions
   pagination?: TablePagination
   // 데이터 테이블 리스트 랜던링에 사용되는 key
@@ -96,7 +97,7 @@ export interface TableAction {
   getRecordNo: (index: number) => number
   getPagination: () => TablePagination | false
   setPagination: (current: number, pageSize: number) => void
-  emitter: any
+  emitter: TableEmits
 }
 
 export interface TableContextValues {
