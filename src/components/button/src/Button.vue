@@ -6,6 +6,7 @@
     :shape="shape"
     :loading="loading"
     :style="style"
+    :disabled="disabled"
     @click="$emit('click')"
   >
     <ButtonIcon v-if="icon" :icon="icon" />

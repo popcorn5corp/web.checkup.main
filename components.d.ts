@@ -9,6 +9,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AAvatar: typeof import('ant-design-vue/es')['Avatar']
+    AAvatarGroup: typeof import('ant-design-vue/es')['AvatarGroup']
     AButton: typeof import('ant-design-vue/es')['Button']
     Accordion: typeof import('./src/components/accordion/src/Accordion.vue')['default']
     AccordionPanel: typeof import('./src/components/accordion/src/AccordionPanel.vue')['default']
@@ -17,12 +19,15 @@ declare module '@vue/runtime-core' {
     ACol: typeof import('ant-design-vue/es')['Col']
     ADatePicker: typeof import('ant-design-vue/es')['DatePicker']
     AInput: typeof import('ant-design-vue/es')['Input']
+    AListItem: typeof import('ant-design-vue/es')['ListItem']
+    AListItemMeta: typeof import('ant-design-vue/es')['ListItemMeta']
     ARadio: typeof import('ant-design-vue/es')['Radio']
     ARadioGroup: typeof import('ant-design-vue/es')['RadioGroup']
     ARangePicker: typeof import('ant-design-vue/es')['RangePicker']
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ATag: typeof import('ant-design-vue/es')['Tag']
+    ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     Badge: typeof import('./src/components/badge/Badge.vue')['default']
     Button: typeof import('./src/components/button/src/Button.vue')['default']
     ButtonIcon: typeof import('./src/components/button/src/components/ButtonIcon.vue')['default']

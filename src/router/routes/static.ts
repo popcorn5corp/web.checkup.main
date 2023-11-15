@@ -44,6 +44,42 @@ export const staticRoutes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/workspace',
+    name: 'workspace',
+    component: () => import('@/views/workspace/index.vue'),
+    meta: {
+      title: 'Workspace',
+      layout: layoutTypes.pure
+    },
+    children: [
+      {
+        path: '',
+        name: 'welcome',
+        component: () => import('@/views/workspace/components/Welcome.vue'),
+        meta: {
+          title: 'Welcome'
+        }
+      },
+      {
+        path: 'create',
+        name: 'create',
+        component: () => import('@/views/workspace/components/create/index.vue'),
+        meta: {
+          title: 'Create'
+        }
+      },
+      {
+        path: 'invite',
+        name: 'invite',
+        component: () => import('@/views/workspace/components/invite/index.vue'),
+        meta: {
+          title: 'Invite'
+        }
+      }
+    ]
+  },
+
+  {
     path: '/dashboard',
     // name: 'dashboard',
     // redirect: '/dashboard',
