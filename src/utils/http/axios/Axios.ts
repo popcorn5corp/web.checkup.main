@@ -6,6 +6,7 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig
 } from 'axios'
+import qs from 'qs'
 import { useAuthStore } from '@/stores/modules/auth'
 import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import { ContentTypeEnum } from '@/constants/httpEnum'
@@ -21,6 +22,10 @@ export class AxiosHttpClient {
   constructor(config: AxiosRequestConfig) {
     this.options = config
     this.axiosInstance = axios.create(config)
+    this.axiosInstance.defaults.paramsSerializer = (params) => {
+      return qs.stringify(params, { arrayFormat: 'repeat' })
+    }
+
     this._setupInterceptors()
   }
 
@@ -37,7 +42,7 @@ export class AxiosHttpClient {
         const { getToken } = useAuthStore()
         const accessToken = getToken(ACCESS_TOKEN_KEY)
         if (accessToken && config.headers) {
-          config.headers['Authorization'] = accessToken
+          config.headers['Authorization'] = `Bearer ${accessToken}`
         }
 
         return config
