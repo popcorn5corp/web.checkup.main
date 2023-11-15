@@ -4,7 +4,10 @@
     <div class="left">
       <template v-if="step < 1">
         <div class="welcome-text-wrapper">
-          <h2>000님 환영합니다!</h2>
+          <h2>
+            <span>{{ workspaceUserInfo.userName }}</span
+            >님 환영합니다!
+          </h2>
           <p>체크업에 가입해주셔서 감사합니다.</p>
           <p>이제 업무를 시작하기 위해 원하시는 선택지를 선택해주세요.</p>
         </div>
@@ -24,18 +27,17 @@
           </div>
         </template>
 
-        <!-- workspace id 2개 이상일때 -->
-        <!-- <template v-if="workspaceIdLength > 1">
-        </template> -->
-        <!-- <WorkspaceList /> -->
+        <!-- workspace id 2개 이상일 때 -->
+        <template v-if="workspaceUserInfo.workspaceCount >= 2">
+          <WorkspaceList />
+        </template>
 
-        <!-- workspace id 0개일때 -->
-        <!-- v-if="workspaceIdLength === 0" -->
-        <!-- <template> -->
-        <div class="routerView">
-          <RouterView></RouterView>
-        </div>
-        <!-- </template> -->
+        <!-- workspace id 0개일 때 -->
+        <template v-if="workspaceUserInfo.workspaceCount === 0">
+          <div class="routerView">
+            <RouterView></RouterView>
+          </div>
+        </template>
 
         <template v-if="step !== 0">
           <div class="btns-wrapper">
@@ -76,7 +78,9 @@ import welcomeImg from '@/assets/images/workspace2.png'
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
 import { WorkspaceService } from '@/services'
+import { message } from 'ant-design-vue'
 import { computed, ref } from 'vue'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useWorkspceStore } from '@/stores/modules/workspace'
@@ -114,12 +118,20 @@ const nextBtnText = computed(() => {
   return '다음'
 })
 const isLoading = ref(false)
-const workspaceIdLength = ref()
+const workspaceUserInfo = reactive({
+  workspaceCount: 0,
+  userName: ''
+})
 
 ;(async () => {
   isLoading.value = true
-  const { data } = await WorkspaceService.getUser()
-  workspaceIdLength.value = data.workspaceIds.length
+  try {
+    const { data } = await WorkspaceService.getUser()
+    workspaceUserInfo.workspaceCount = data.workspaceCount
+    workspaceUserInfo.userName = data.userName
+  } catch (err) {
+    message.error('잠시 후 다시 시도해주세요.')
+  }
 
   const _router = router.currentRoute.value
   if (step.value === 0 && _router.fullPath.includes('/workspace/')) {
@@ -130,17 +142,19 @@ const workspaceIdLength = ref()
 })()
 
 const onComplete = async () => {
-  // 생성 api
-  if (type.value === 'create' && step.value === 4) {
-    const { data } = await WorkspaceService.createWorkspace(formValues.value)
-    console.log('data', data)
+  try {
+    if (type.value === 'create' && step.value === 4) {
+      // 생성 api
+      const { data } = await WorkspaceService.createWorkspace(formValues.value)
+      console.log('data', data)
+    }
+    if (type.value === 'invite' && step.value === 2) {
+      // 초대 api
+    }
+    workspaceStore.nextStep()
+  } catch (err) {
+    message.error('잠시 후 다시 시도해주세요.')
   }
-  // 초대 api
-  if (type.value === 'invite' && step.value === 2) {
-    return '참여하기'
-  }
-
-  workspaceStore.nextStep()
 }
 </script>
 

@@ -1,22 +1,20 @@
+import type { WorkspaceFormValues } from '@/stores/modules/workspace'
+
 export namespace IWorkspace {
   export interface UserMeResponseData {
-    name: string
     uid: string
     userId: string
-    workspaceIds: string[]
+    userName: string
+    workspaceCount: number
+    workspaceInfoList: []
   }
-  // omit
-  export interface WorkspaceCreateParam {
-    workspaceName: string
-    nickname: string
-    inviteEmails?: string[]
-    businessTypeCode: string
-    employeeScaleCode: string
-    originName: string
-    saveName: string
-    path: string
-    size: number
-    ext: string
+
+  export interface ExistEmailParam {
+    inviteEmail: string
+  }
+  export interface ExistEmailResponse {
+    inviteEmail: string
+    isExist: boolean
   }
 
   export interface WorkspaceCreateResponse {
@@ -24,4 +22,6 @@ export namespace IWorkspace {
     workspaceName: string
     ownerId: string
   }
+
+  export interface WorkspaceCreateParam extends Omit<WorkspaceFormValues, 'inviteCode'> {}
 }

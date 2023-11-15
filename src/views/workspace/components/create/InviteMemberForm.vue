@@ -22,7 +22,7 @@
             class="input"
             placeholder="이메일을 작성해주세요."
             v-model:value="emailRef"
-            @pressEnter="onInput"
+            @pressEnter="onInputEnter"
           />
         </div>
       </div>
@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import { CloseOutlined } from '@ant-design/icons-vue'
-import { Input, message as Message, Select } from 'ant-design-vue'
+import { Input, message as Message, Select, message } from 'ant-design-vue'
 import { type CSSProperties, computed, ref } from 'vue'
 import { watch } from 'vue'
 import { useWorkspceStore } from '@/stores/modules/workspace'
@@ -59,8 +59,8 @@ const inputRef = ref()
 const formValues = computed(() => workspaceStore.formValues)
 const errorTagStyle = computed<CSSProperties>(() => {
   return {
-    // color: isError.value ? '#ff4d4f' : 'inherit',
     borderColor: isError.value ? '#ff4d4f' : '#d9d9d9'
+    // color: isError.value ? '#ff4d4f' : 'inherit',
     // #d9d9d9 // rgba(5, 5, 5, 0.06) // 약간주황: #ffccc7
     // background: isError.value ? '#fff2f0' : 'rgba(0, 0, 0, 0.06)',
     // display: isError.value ? 'none' : 'inline-flex'
@@ -73,18 +73,23 @@ const errorTagStyle = computed<CSSProperties>(() => {
   }
 })()
 
-const onInput = (event: KeyboardEvent) => {
+const onInputEnter = (event: KeyboardEvent) => {
   const emailValue: string = (event.target as HTMLInputElement).value.trim()
   const regExp = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/
 
-  if (!regExp.test(emailValue)) {
-    showError('이메일형식이 올바르지 않습니다. 삭제 후 다시 작성해주세요.')
-  } else if (tags.value.includes(emailValue)) {
-    showError('중복된 이메일입니다. 다시 작성해주세요.')
-  } else {
-    emailRef.value = ''
-    tags.value.push(emailValue)
-    resetError()
+  try {
+    // TODO 이메일 중복 검사 api
+    if (!regExp.test(emailValue)) {
+      showError('이메일형식이 올바르지 않습니다. 삭제 후 다시 작성해주세요.')
+    } else if (tags.value.includes(emailValue)) {
+      showError('중복된 이메일입니다. 다시 작성해주세요.')
+    } else {
+      emailRef.value = ''
+      tags.value.push(emailValue)
+      resetError()
+    }
+  } catch (err) {
+    message.error('잠시 후 다시 시도해주세요.')
   }
 }
 
