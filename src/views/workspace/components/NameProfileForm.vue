@@ -80,6 +80,12 @@ const modalVisible = ref(false)
 const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10]
 const selectImg = ref(img1)
 
+// 파일업로드해서 받은 데이터 받아서 formValues에 넣기
+
+// ;(async () => {
+//   workspaceStore
+
+// })()
 const onClickImg = (e: any) => {
   console.log(e)
   selectImg.value = e

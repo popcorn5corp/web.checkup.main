@@ -1,4 +1,5 @@
 <template>
+  <!-- v-if="!isLoading" -->
   <div id="workspace-container">
     <div class="left">
       <template v-if="step < 1">
@@ -23,13 +24,14 @@
           </div>
         </template>
 
-        <!-- <template>
-        // workspace id 2개 이상일때
-          <WorkspaceList />
+        <!-- workspace id 2개 이상일때 -->
+        <!-- <template v-if="workspaceIdLength > 1">
         </template> -->
-        <!-- <template> -->
+        <!-- <WorkspaceList /> -->
 
         <!-- workspace id 0개일때 -->
+        <!-- v-if="workspaceIdLength === 0" -->
+        <!-- <template> -->
         <div class="routerView">
           <RouterView></RouterView>
         </div>
@@ -73,8 +75,8 @@
 import welcomeImg from '@/assets/images/workspace2.png'
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
-import { WorkspaceManagerService } from '@/services'
-import { computed } from 'vue'
+import { WorkspaceService } from '@/services'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useWorkspceStore } from '@/stores/modules/workspace'
@@ -88,6 +90,10 @@ const {
   config: { theme }
 } = useProjectConfigStore()
 
+const step = computed(() => workspaceStore.step)
+const type = computed(() => workspaceStore.type)
+const nextBtnDisabled = computed(() => workspaceStore.nextBtnDisabled)
+const formValues = computed(() => workspaceStore.formValues)
 const themeStyle = computed(() => {
   return {
     backgroundColor: theme.navTheme === 'realDark' ? 'rgba(0, 21, 41, 0.8509803922)' : '#fff',
@@ -98,12 +104,6 @@ const themeStyle = computed(() => {
     }
   }
 })
-
-const step = computed(() => workspaceStore.step)
-const type = computed(() => workspaceStore.type)
-const nextBtnDisabled = computed(() => workspaceStore.nextBtnDisabled)
-const formValues = computed(() => workspaceStore.formValues)
-
 const nextBtnText = computed(() => {
   if (type.value === 'create' && step.value === 4) {
     return '완료하기'
@@ -113,28 +113,33 @@ const nextBtnText = computed(() => {
   }
   return '다음'
 })
+const isLoading = ref(false)
+const workspaceIdLength = ref()
 
 ;(async () => {
-  const { data } = await WorkspaceManagerService.getUser()
-  console.log('user', data)
+  isLoading.value = true
+  const { data } = await WorkspaceService.getUser()
+  workspaceIdLength.value = data.workspaceIds.length
+
   const _router = router.currentRoute.value
   if (step.value === 0 && _router.fullPath.includes('/workspace/')) {
-    workspaceStore.setType(_router.name as string)
+    workspaceStore.setType(_router.name as '' | 'create' | 'invite')
     workspaceStore.nextStep()
   }
+  isLoading.value = false
 })()
 
 const onComplete = async () => {
   // 생성 api
   if (type.value === 'create' && step.value === 4) {
-    // const { data } = await WorkspaceManagerService.create(formValues.value)
-    console.log('data')
+    const { data } = await WorkspaceService.createWorkspace(formValues.value)
+    console.log('data', data)
   }
   // 초대 api
   if (type.value === 'invite' && step.value === 2) {
     return '참여하기'
   }
-  // console.log('complete', formValues.value)
+
   workspaceStore.nextStep()
 }
 </script>

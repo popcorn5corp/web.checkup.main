@@ -1,18 +1,18 @@
 import { service } from '@/utils/http'
-import type { WorkspaceManager } from './interface'
+import type { IWorkspace } from './interface'
 
-class WorkspaceManagerService {
+class WorkspaceService {
   private readonly PATH = '/workspace/v1.0'
 
   constructor() {}
 
   getUser() {
-    return service.get(this.PATH + '/user/me')
+    return service.get<IWorkspace.UserMeResponseData>(this.PATH + '/user/me')
   }
 
-  create(formData: WorkspaceManager.WorkspaceData) {
-    return service.post(this.PATH + '/workspace', formData)
+  createWorkspace(param: IWorkspace.WorkspaceCreateParam) {
+    return service.post<IWorkspace.WorkspaceCreateResponse>(this.PATH + '/workspaces', param)
   }
 }
 
-export default new WorkspaceManagerService()
+export default new WorkspaceService()

@@ -5,11 +5,17 @@
   <template v-else>
     <div class="list-wrapper">
       <h2>워크스페이스 선택</h2>
+      <p class="list-desc">선택한 워크스페이스로 이동합니다.</p>
       <div class="list-box">
         <ul>
-          <li v-for="item in state.companies" :key="item.companyId" class="list-li">
-            <span style="margin-right: 10px">
-              <img width="30" :src="img" />
+          <li
+            v-for="item in state.companies"
+            :key="item.companyId"
+            class="list-li"
+            @click="$router.push({ name: 'Root' })"
+          >
+            <span style="margin-right: 22px; width: 60px">
+              <img :src="img" />
             </span>
             <span class="name">
               {{ item.companyName }}
@@ -24,13 +30,13 @@
         </span>
       </div>
     </div>
-    <Button
+    <!-- <Button
       label="선택한 워크스페이스로 이동"
       type="primary"
       size="large"
       class="btn"
       @click="$router.push({ name: 'Root' })"
-    />
+    /> -->
   </template>
 </template>
 
@@ -93,12 +99,18 @@ const state = reactive({
   }
 }
 .list-wrapper {
-  width: 80%;
+  width: 90%;
   border: 1px solid rgb(5 5 5 / 10%);
   padding: 1rem;
   h2 {
     text-align: center;
     margin: 1rem 0;
+  }
+  .list-desc {
+    text-align: center;
+    color: #888;
+    margin-bottom: 5px;
+    font-size: 16px;
   }
 
   .list-box {
@@ -112,10 +124,18 @@ const state = reactive({
       cursor: pointer;
       .name {
         flex: auto;
+        font-size: 22px;
       }
       .arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-left: 20px;
+        padding: 12px;
+        border-radius: 50%;
+        background: #3e7cff;
         font-size: 17px;
+        color: #fff;
         transition: all 0.3s ease-in-out;
       }
     }

@@ -1,7 +1,10 @@
 <template>
   <div class="welcome-btns-wrapper">
     <div v-for="btn in btns" :key="btn.type">
-      <div :class="`btn-box ${btn.type}-btn-box`" @click="onBtnClick(btn.type)">
+      <div
+        :class="`btn-box ${btn.type}-btn-box`"
+        @click="onBtnClick(btn.type as '' | 'create' | 'invite')"
+      >
         <div class="img">
           <img :src="btn.img" alt="Image by storyset / on Freepik" />
         </div>
@@ -38,7 +41,7 @@ const btns = reactive({
   }
 })
 
-const onBtnClick = (type: string) => {
+const onBtnClick = (type: '' | 'create' | 'invite') => {
   router.push({
     name: type === 'create' ? 'create' : 'invite'
   })
