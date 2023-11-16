@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    _DatePicker: typeof import('./src/components/filter-form/src/components/filter-types/_DatePicker.vue')['default']
     AAlert: typeof import('ant-design-vue/es')['Alert']
     ABackTop: typeof import('ant-design-vue/es')['BackTop']
     AButton: typeof import('ant-design-vue/es')['Button']
@@ -51,6 +52,7 @@ declare module '@vue/runtime-core' {
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     Label: typeof import('./src/components/label/src/Label.vue')['default']
     LanguageSetting: typeof import('./src/components/header/src/components/LanguageSetting.vue')['default']
+    LayoutHeader: typeof import('./src/components/header/src/LayoutHeader.vue')['default']
     Logo: typeof import('./src/components/logo/src/Logo.vue')['default']
     Menu: typeof import('./src/components/menu/src/Menu.vue')['default']
     MenuHeader: typeof import('./src/components/menu/src/components/MenuHeader.vue')['default']
