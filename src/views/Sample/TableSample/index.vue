@@ -10,7 +10,7 @@ import { QuestionCircleTwoTone } from '@/components/icons'
 import { contentModes as modes } from '@/constants/content'
 import PostDetail from './components/PostDetail.vue'
 import { getDefaultPost } from './constant'
-import { columns, filters } from './mock'
+import { columns } from './mock'
 
 const DEFAULT_MODE = modes.R
 
@@ -35,13 +35,27 @@ const initParam = ref<IBaseSample.BaseSamplesParam>({
   searchEndDate: '',
   searchStartDate: '',
   searchWord: '',
+  searchDivision: '',
+  searchPermission: '',
   size: 10,
   page: 1,
-  division: 'PUBLIC',
   sort: undefined
 })
 
 const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
+// const filters = ref([])
+
+// ;(() => {
+//   BaseSampleService.getPageInfo().then(({ data, success }: any) => {
+//     if (success) {
+//       filters.value = data.filters
+//     }
+//   })
+// })()
+
+const getFilters = () => {
+  return BaseSampleService.getPageInfo()
+}
 
 /**
  * @description 데이터 테이블 Record 선택 후, 게시물 상세 조회
@@ -110,14 +124,17 @@ const onOpenSaveModal = (): void => {
  * @description 게시물 삭제
  * @param selectedRows
  */
-const onRemovePost = (selectedRows: IBaseSample.Content[]): void => {
-  console.log('onRemovePost :: ', selectedRows)
+const onRemovePost = (selectedRows: IBaseSample.Content[], selectedRowKeys: string[]): void => {
   Modal.confirm({
     content: t('common.message.modalDeleteCheck'),
     // width: 600,
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
-      BaseSampleService.deleteOne(selectedRows[0].boardId).then(({ success }) => {
+      const params = {
+        boardIds: selectedRowKeys
+      }
+
+      BaseSampleService.deleteByIds(params).then(({ success }) => {
         if (success) {
           dynamicTableRef.value?.reload({ isReset: true })
 
@@ -126,6 +143,16 @@ const onRemovePost = (selectedRows: IBaseSample.Content[]): void => {
           }, 300)
         }
       })
+
+      // BaseSampleService.deleteOne(selectedRows[0].boardId).then(({ success }) => {
+      //   if (success) {
+      //     dynamicTableRef.value?.reload({ isReset: true })
+
+      //     setTimeout(() => {
+      //       message.success(t('common.message.deleteSuccess'), 1)
+      //     }, 300)
+      //   }
+      // })
       initState()
     },
     async onCancel() {}
@@ -138,20 +165,29 @@ const onRemovePost = (selectedRows: IBaseSample.Content[]): void => {
  */
 const callServiceByMode = (callback: Function): void => {
   const postDetail: IBaseSample.BaseSample = postDetailRef.value.getPostDetail()
-  const { boardId, boardContent, boardFiles, boardTitle, division } = postDetail
+  const { boardId, boardContent, boardFiles, boardTitle, division, permission } = postDetail
 
   if (mode.value === modes.C) {
-    BaseSampleService.createOne({ boardContent, boardFiles, boardTitle, division }).then(
-      ({ success }) => {
-        success && callback()
-      }
-    )
+    BaseSampleService.createOne({
+      boardContent,
+      boardFiles,
+      boardTitle,
+      division,
+      permission
+    }).then(({ success }) => {
+      success && callback()
+    })
   } else {
-    BaseSampleService.updateOne({ boardId, boardContent, boardFiles, boardTitle, division }).then(
-      ({ success }) => {
-        success && callback()
-      }
-    )
+    BaseSampleService.updateOne({
+      boardId,
+      boardContent,
+      boardFiles,
+      boardTitle,
+      division,
+      permission
+    }).then(({ success }) => {
+      success && callback()
+    })
   }
 }
 
@@ -199,7 +235,7 @@ const onClickRegist = (): void => {
     ref="dynamicTableRef"
     :row-key="'boardId'"
     :columns="columns"
-    :filters="filters"
+    :filter-request="getFilters"
     :init-param="initParam"
     :data-request="getDataSource"
     :data-callback="dataCallback"
@@ -209,8 +245,8 @@ const onClickRegist = (): void => {
     @row-add="onClickRegist"
   >
     <template #tableBtns="scope">
-      <!-- <Button :label="$t('common.delete')" size="large" @click="onRemovePost" /> -->
-      <!-- <Button :label="$t('common.registration')" size="large" @click="onClickRegist" /> -->
+      <!-- <Button :label="$t('common.delete')" size="large" @click="onRemovePost" />
+      <Button :label="$t('common.registration')" size="large" @click="onClickRegist" /> -->
     </template>
   </DynamicTable>
 

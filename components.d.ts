@@ -9,6 +9,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AAlert: typeof import('ant-design-vue/es')['Alert']
+    ABackTop: typeof import('ant-design-vue/es')['BackTop']
     AButton: typeof import('ant-design-vue/es')['Button']
     Accordion: typeof import('./src/components/accordion/src/Accordion.vue')['default']
     AccordionPanel: typeof import('./src/components/accordion/src/AccordionPanel.vue')['default']
@@ -16,6 +18,7 @@ declare module '@vue/runtime-core' {
     ACheckboxGroup: typeof import('ant-design-vue/es')['CheckboxGroup']
     ACol: typeof import('ant-design-vue/es')['Col']
     ADatePicker: typeof import('ant-design-vue/es')['DatePicker']
+    ADivider: typeof import('ant-design-vue/es')['Divider']
     AInput: typeof import('ant-design-vue/es')['Input']
     ARadio: typeof import('ant-design-vue/es')['Radio']
     ARadioGroup: typeof import('ant-design-vue/es')['RadioGroup']
@@ -24,6 +27,7 @@ declare module '@vue/runtime-core' {
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ATag: typeof import('ant-design-vue/es')['Tag']
     Badge: typeof import('./src/components/badge/Badge.vue')['default']
+    BasicTable: typeof import('./src/components/table/src/BasicTable.vue')['default']
     Button: typeof import('./src/components/button/src/Button.vue')['default']
     ButtonIcon: typeof import('./src/components/button/src/components/ButtonIcon.vue')['default']
     Card: typeof import('./src/components/card/src/Card.vue')['default']
@@ -31,6 +35,7 @@ declare module '@vue/runtime-core' {
     CardView: typeof import('./src/components/table/src/components/CardView.vue')['default']
     Checkbox: typeof import('./src/components/filter-form/src/components/filter-types/Checkbox.vue')['default']
     Datepicker: typeof import('./src/components/filter-form/src/components/filter-types/Datepicker.vue')['default']
+    DatePicker: typeof import('./src/components/filter-form/src/components/filter-types/DatePicker.vue')['default']
     DisplaySetting: typeof import('./src/components/header/src/components/DisplaySetting.vue')['default']
     Dropdown: typeof import('./src/components/dropdown/Dropdown.vue')['default']
     DropdownButton: typeof import('./src/components/button/src/DropdownButton.vue')['default']
@@ -60,6 +65,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./src/components/filter-form/src/components/filter-types/Select.vue')['default']
+    SelectionPopup: typeof import('./src/components/table/src/components/SelectionPopup.vue')['default']
     Spinner: typeof import('./src/components/spinner/src/Spinner.vue')['default']
     SvgIcon: typeof import('./src/components/icons/SvgIcon.vue')['default']
     Table: typeof import('./src/components/table/src/Table.vue')['default']
@@ -69,6 +75,7 @@ declare module '@vue/runtime-core' {
     TableView: typeof import('./src/components/table/src/components/TableView.vue')['default']
     TabPane: typeof import('./src/components/tabs/src/TabPane.vue')['default']
     Tabs: typeof import('./src/components/tabs/src/Tabs.vue')['default']
+    ToastPopup: typeof import('./src/components/table/src/components/ToastPopup.vue')['default']
     UserAccount: typeof import('./src/components/header/src/components/UserAccount.vue')['default']
     UserDropdown: typeof import('./src/components/header/src/components/UserDropdown.vue')['default']
   }

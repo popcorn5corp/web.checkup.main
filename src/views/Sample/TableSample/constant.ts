@@ -7,5 +7,7 @@ export const getDefaultPost = (): IBaseSample.BaseSample => ({
   boardId: '',
   boardTitle: '',
   createdAt: dayjs(dayjs()).unix(),
-  division: 'PUBLIC'
+  division: 'PUBLIC',
+  thumbnail: null,
+  permission: 'NORMAL'
 })

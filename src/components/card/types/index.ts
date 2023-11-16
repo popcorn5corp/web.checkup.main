@@ -14,24 +14,25 @@ export type DetailPositionType = (typeof detailPositionTypes)[keyof typeof detai
  * imgPreview
  */
 export interface CardProps {
+  rowKey: string | number
   id?: string | number
   title?: string
+  content: Recordable
   detailBtnPosition?: DetailPositionType
   useCheckbox?: boolean
   imgPreview?: boolean
   tag?: string
   imgUrl?: string
-  item?: any
+  item: Recordable
   createdAt?: number
   component?: Component
 }
 
 export interface CardListProps {
+  rowKey: string | number
   items?: Array<Recordable>
   useCheckbox?: boolean
   imgPreview?: boolean
   detailBtnPosition?: DetailPositionType
   size?: CardSize
-  // TODO
-  imgUrl?: string
 }

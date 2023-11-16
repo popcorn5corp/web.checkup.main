@@ -5,20 +5,21 @@ import { type CSSProperties, type Component, ref } from 'vue'
 import { Accordion, AccordionPanel } from '@/components/accordion'
 import {
   Checkbox,
-  Datepicker,
+  DatePicker,
   Radio,
   RangeDatePicker,
   Select
 } from '@/components/filter-form/src/components/filter-types'
 import type { FilterUI } from '@/components/filter-form/types'
-import { filterList } from '@/components/filter-form/types/mock'
+
+// import { filterList } from '@/components/filter-form/types/mock'
 
 const filterTypeComponents: Record<FilterUI, Component> = {
-  checkbox: Checkbox,
-  datepicker: Datepicker,
-  rangeDatePicker: RangeDatePicker,
-  select: Select,
-  radio: Radio
+  Checkbox,
+  DatePicker,
+  RangeDatePicker,
+  Select,
+  Radio
 }
 
 const customStyle: CSSProperties = {
@@ -100,4 +101,3 @@ const expandIconPosition = ref<CollapseProps['expandIconPosition']>('end')
     </div>
   </div>
 </template>
-@/components/filter-form/types/mock@/components/filter-form/src/components/filter-types

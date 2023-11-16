@@ -1,38 +1,7 @@
-<script setup lang="ts" name="FilterForm">
-import { Divider } from 'ant-design-vue'
-import { type Component, computed, ref } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { Accordion } from '@/components/accordion'
-import { Button } from '@/components/button'
-import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
-import type { FilterFormProps, FilterUI } from '../types'
-import { Checkbox, Datepicker, Radio, RangeDatePicker, Select } from './components/filter-types'
-
-const emit = defineEmits(['close'])
-const props = defineProps<FilterFormProps>()
-const { config } = useProjectConfigStore()
-const { filterList } = useTableFilterStore()
-const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
-const isShow = ref<Boolean>(true)
-
-const onFilter = (): void => {
-  isShow.value = !isShow.value
-  emit('close', isShow.value)
-}
-
-const filterTypeComponents: Record<FilterUI, Component> = {
-  checkbox: Checkbox,
-  datepicker: Datepicker,
-  rangeDatePicker: RangeDatePicker,
-  select: Select,
-  radio: Radio
-}
-</script>
 <template>
-  <div class="filter-container">
-    <div class="filter-list" :class="getDarkModeClass">
-      <!-- 모바일 버전 헤더 -->
+  <div class="filter-container" :style="containerStyles">
+    <div class="filter-list" :class="getDarkModeCls">
+      <!--  -->
       <div class="mobile-header">
         <h3>{{ $t('common.filterText') }}</h3>
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
@@ -46,8 +15,7 @@ const filterTypeComponents: Record<FilterUI, Component> = {
         </template>
       </Accordion>
 
-      <div class="mobile-footer" :class="getDarkModeClass">
-        <Divider />
+      <div class="mobile-footer" :class="getDarkModeCls">
         <div class="btn-group">
           <Button label="Clear all" size="large" @click="onFilter" />
           <Button label="Done" type="primary" size="large" @click="onFilter" />
@@ -56,143 +24,189 @@ const filterTypeComponents: Record<FilterUI, Component> = {
     </div>
   </div>
 </template>
+<script setup lang="ts" name="FilterForm">
+import { type Component, computed, ref } from 'vue'
+import type { CSSProperties } from 'vue'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { Accordion } from '@/components/accordion'
+import { Button } from '@/components/button'
+import type { FilterFormProps, FilterUI } from '../types'
+import { Checkbox, DatePicker, Radio, RangeDatePicker, Select } from './components/filter-types'
+
+const emit = defineEmits(['close'])
+const props = defineProps<FilterFormProps>()
+const {
+  config: { theme }
+} = useProjectConfigStore()
+const getDarkModeCls = computed(() => theme.isRealDarkTheme && 'dark-mode')
+const isShow = ref(true)
+const containerStyles = computed<CSSProperties>(() => {
+  const color = theme.isRealDarkTheme ? '#434343' : '#fafafa'
+
+  return {
+    borderLeft: `thick double ${color}`
+  }
+})
+
+const onFilter = (): void => {
+  isShow.value = !isShow.value
+  emit('close', isShow.value)
+}
+
+const filterTypeComponents: Record<FilterUI, Component> = {
+  Checkbox,
+  DatePicker,
+  RangeDatePicker,
+  Select,
+  Radio
+}
+</script>
 
 <style lang="scss" scoped>
-.filter-wrapper {
+.filter-container {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-}
 
-.filter-list {
-  width: 100%;
-  background: white;
-  z-index: 10;
+  width: 25%;
+  overflow-y: auto;
+  height: calc(100vh - 240px);
+  float: right;
 
-  .mobile-header {
-    display: none;
-    text-align: center;
-  }
-
-  .mobile-footer {
-    display: none;
-    position: fixed;
-    bottom: 0px;
+  .filter-list {
     width: 100%;
+    background: white;
+    z-index: 10;
 
-    .btn-group {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 10px;
-
-      button {
-        width: 47%;
-        height: 54px;
-      }
-    }
-  }
-
-  @media screen and (max-width: 830px) {
     .mobile-header {
-      padding: 41px 16px;
-      display: block;
-      font-size: 20px;
-      font-weight: 700;
-
-      .xmark {
-        position: absolute;
-        top: 41px;
-        right: 30px;
-        font-size: 22px !important;
-        color: #04111d;
-      }
+      display: none;
+      text-align: center;
     }
 
     .mobile-footer {
-      display: block;
-    }
+      display: none;
+      position: fixed;
+      bottom: 0px;
+      width: 100%;
 
-    .slideUp {
-      -webkit-animation-name: slideUp;
-      animation-name: slideUp;
-    }
-
-    @-webkit-keyframes slideUp {
-      0% {
-        -webkit-transform-origin: 0 0;
-        transform-origin: 0 0;
-        -webkit-transform: translateY(0%);
-        transform: translateY(0%);
-      }
-
-      100% {
-        -webkit-transform-origin: 0 0;
-        transform-origin: 0 0;
-        -webkit-transform: translateY(-100%);
-        transform: translateY(-100%);
-      }
-    }
-
-    @keyframes slideUp {
-      0% {
-        -webkit-transform-origin: 0 0;
-        transform-origin: 0 0;
-        -webkit-transform: translateY(100%);
-        transform: translateY(100%);
-      }
-
-      100% {
-        -webkit-transform-origin: 0 0;
-        transform-origin: 0 0;
-
-        -webkit-transform: translateY(0%);
-        transform: translateY(0%);
-      }
-    }
-
-    animation: slideUp 0.5s;
-
-    background: $color-white;
-    position: absolute;
-    top: -7px;
-    left: 0px;
-    width: 100vw;
-    height: 101vh;
-  }
-
-  > ul {
-    padding: 0 1rem;
-
-    > li {
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-      font-weight: 600;
-      background: $color-white;
-      flex-direction: column;
-
-      > div {
+      .btn-group {
         display: flex;
+        justify-content: space-around;
+        margin-bottom: 10px;
+
+        button {
+          width: 47%;
+          height: 54px;
+        }
+      }
+    }
+
+    @media screen and (max-width: 830px) {
+      .mobile-header {
+        padding: 41px 16px;
+        display: block;
+        font-size: 20px;
+        font-weight: 700;
+
+        .xmark {
+          position: absolute;
+          top: 41px;
+          right: 30px;
+          font-size: 22px !important;
+          color: #04111d;
+        }
+      }
+
+      .mobile-footer {
+        display: block;
+      }
+
+      .slideUp {
+        -webkit-animation-name: slideUp;
+        animation-name: slideUp;
+      }
+
+      @-webkit-keyframes slideUp {
+        0% {
+          -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+          -webkit-transform: translateY(0%);
+          transform: translateY(0%);
+        }
+
+        100% {
+          -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+          -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+        }
+      }
+
+      @keyframes slideUp {
+        0% {
+          -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+          -webkit-transform: translateY(100%);
+          transform: translateY(100%);
+        }
+
+        100% {
+          -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+
+          -webkit-transform: translateY(0%);
+          transform: translateY(0%);
+        }
+      }
+
+      animation: slideUp 0.5s;
+      background: $color-white;
+      position: absolute;
+      top: -7px;
+      left: 0px;
+      width: 100vw;
+      height: 101vh;
+    }
+
+    > ul {
+      padding: 0 1rem;
+
+      > li {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 600;
+        background: $color-white;
         flex-direction: column;
-        width: 100%;
 
-        > div.filter-title {
+        > div {
           display: flex;
-          justify-content: space-between;
-          padding: 1rem;
+          flex-direction: column;
+          width: 100%;
 
-          &:hover {
-            background: rgba(229, 232, 235, 0.2);
-            border-radius: 10px;
-            cursor: pointer;
+          > div.filter-title {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+
+            &:hover {
+              background: rgba(229, 232, 235, 0.2);
+              border-radius: 10px;
+              cursor: pointer;
+            }
           }
         }
       }
     }
   }
 }
+// .filter-wrapper {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-end;
+// }
 
-:deep(.ant-divider) {
-  margin: 0 0 10px 0;
-}
+// :deep(.ant-divider) {
+//   margin: 0 0 10px 0;
+// }
 </style>

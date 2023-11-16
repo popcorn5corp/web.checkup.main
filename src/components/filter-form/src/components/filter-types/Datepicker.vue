@@ -1,4 +1,4 @@
-<script lang="ts" setup name="FilterDatepicker">
+<script setup lang="ts" name="FilterDatepicker">
 import type { Dayjs } from 'dayjs'
 import { type PropType, ref, toRefs, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'

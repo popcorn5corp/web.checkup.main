@@ -1,17 +1,31 @@
-import { type ComputedRef, ref, unref, watch } from 'vue'
+import { type ComputedRef, computed, ref, unref, watch } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { FILTER_UI, type FilterUI } from '@/components/filter-form'
+import { FILTER_UI, type FilterFormItem, type FilterUI } from '@/components/filter-form'
 import type { DynamicTableContextValues } from '../types'
 import { useDynamicTableContext } from './useDynamicTableContext'
 
 export function useTag(contextValuesRef: ComputedRef<DynamicTableContextValues>) {
-  const dynamicTable = useDynamicTableContext()
-  const tagList = ref([])
+  // const dynamicTable = useDynamicTableContext()
+  // const tagList = computed(() => unref(contextValuesRef).filterFormItems)
 
   function addTag() {}
 
   function removeTag() {
-    const filterFormItems = unref(dynamicTable.getContextValues).filterFormItems
+    // const filterFormItems = unref(dynamicTable.getContextValues).filterFormItems
+  }
+
+  function clearTag() {
+    // dynamicTable.setContextValues({
+    //   filterFormItems: unref(tagList).map((tag) => ({
+    //     ...tag,
+    //     selectedItems: []
+    //   }))
+    // })
+  }
+
+  return {
+    // tagList,
+    clearTag
   }
 }
 

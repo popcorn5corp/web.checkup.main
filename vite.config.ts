@@ -77,7 +77,7 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
         '^/auth': {
           target: env.VITE_AUTH_SERVER_API_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          rewrite: (path) => path.replace(/^\/auth/, ''),
           // secure: false,
           ws: true
         }

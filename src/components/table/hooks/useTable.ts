@@ -1,5 +1,5 @@
 import { Util } from '@/utils'
-import { type ComputedRef, computed, reactive, toRefs, unref, watch } from 'vue'
+import { type ComputedRef, computed, reactive, ref, toRefs, unref, watch } from 'vue'
 import type { TablePagination, TableProps, TableSorter } from '../types'
 import { defaultPaginaton } from '../types'
 
@@ -7,7 +7,8 @@ interface State {
   dataSource: any[]
   pagination: TablePagination
   total: number
-  requestParam: Object
+  requestParam: Recordable
+  filterParam: Recordable
   selectedRowKeys: Key[]
   sorter: Array<{
     columnKey: string
@@ -21,18 +22,24 @@ interface ActionType {
 }
 
 export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: ActionType) => {
-  const state = reactive<State>({
-    dataSource: [],
-    total: 0,
-    requestParam: {},
-    selectedRowKeys: [],
-    pagination: {
-      ...defaultPaginaton,
-      ...unref(propsRef).pagination
-    },
-    sorter: [],
-    searchWord: ''
+  const state = reactive({
+    ...defaultState()
   })
+  function defaultState(): State {
+    return {
+      dataSource: [],
+      total: 0,
+      requestParam: {},
+      filterParam: {},
+      selectedRowKeys: [],
+      pagination: {
+        ...defaultPaginaton,
+        ...unref(propsRef).pagination
+      },
+      sorter: [],
+      searchWord: ''
+    }
+  }
 
   const getDataSource = computed(() => state.dataSource)
 
@@ -40,6 +47,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     state.dataSource = []
     state.total = 0
     state.requestParam = {}
+    state.filterParam = {}
     state.selectedRowKeys = []
     state.pagination = {
       ...defaultPaginaton,
@@ -47,6 +55,19 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }
     state.sorter = []
     state.searchWord = ''
+  }
+
+  function initDataSource() {
+    state.dataSource = []
+  }
+
+  function initCardViewChecked() {
+    state.dataSource = getDataSource.value.map((r) => {
+      return {
+        ...r,
+        checked: false
+      }
+    })
   }
 
   const getPagination = computed(() => {
@@ -83,11 +104,47 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }
   })
 
+  const filterParam = computed(() => {
+    return {}
+  })
+
+  const isReset = ref(false)
+  const searchWord = ref('')
+
+  // const requestParam = computed(() => {
+  //   const { initParam, options } = unref(propsRef)
+  //   console.log('requestParam :: ', requestParam, options)
+
+  //   const param: State['requestParam'] = {
+  //     ...initParam,
+  //     searchWord: unref(searchWord)
+  //   }
+
+  //   if (!unref(isReset)) {
+  //     state.pagination.current = defaultPaginaton.current
+  //   } else {
+  //     state.pagination = {
+  //       ...defaultPaginaton
+  //     }
+  //     state.sorter = []
+  //     searchWord.value = ''
+  //   }
+
+  //   options?.isPagination && Object.assign(param, paginationParam.value)
+  //   unref(isSorting) && Object.assign(param, sorterParam.value)
+
+  //   console.log('param :: ', param)
+
+  //   return param
+  // })
+
   const fetchDataSource = async (options?: {
     isReset?: boolean
     param?: { searchWord?: string }
+    filterParam?: Recordable
   }): Promise<void> => {
     const {
+      rowKey,
       dataRequest,
       dataSource,
       initParam,
@@ -105,38 +162,40 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       }
     } else {
       setLoading(true)
-      let requestParam: State['requestParam'] = {}
+      const filterParam = options?.filterParam
+      filterParam && (state.filterParam = filterParam)
 
-      if (!options?.isReset) {
-        requestParam = {
-          ...initParam,
-          ...state.requestParam,
-          searchWord: state.searchWord
-        }
+      let requestParam: State['requestParam'] = {
+        // ...initParam,
+        ...state.filterParam
+      }
 
-        if (options?.param!.searchWord || options?.param!.searchWord === '') {
-          requestParam = {
-            ...requestParam,
-            searchWord: options.param.searchWord
-          }
-
-          state.searchWord = options.param.searchWord
-          state.pagination.current = defaultPaginaton.current
-        }
-      } else {
-        requestParam = {
-          ...initParam
-        }
-
+      // Reload일 경우
+      if (options?.isReset) {
+        state.sorter = []
         state.pagination = {
           ...defaultPaginaton
         }
-        state.sorter = []
+
         state.searchWord = ''
+      } else {
+        requestParam = {
+          // ...initParam,
+          // ...state.requestParam,
+          ...state.filterParam,
+          searchWord: state.searchWord
+        }
+
+        // options 정보로 넘어온 searchWord 존재할 경우
+        if (options?.param?.searchWord || options?.param?.searchWord === '') {
+          state.searchWord = options.param.searchWord
+          state.pagination.current = defaultPaginaton.current
+          requestParam.searchWord = state.searchWord
+        }
       }
 
-      propsOptions?.isPagination && Object.assign(requestParam, paginationParam.value)
-      isSorting.value && Object.assign(requestParam, sorterParam.value)
+      propsOptions?.isPagination && Object.assign(requestParam, unref(paginationParam))
+      unref(isSorting) && Object.assign(requestParam, unref(sorterParam))
 
       try {
         const { data, success } = await dataRequest(requestParam)
@@ -148,7 +207,8 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
 
           // key 설정
           content.map((record: Recordable, i: number) => {
-            record['key'] = i
+            record['index'] = i
+            record['rowKey'] = record[rowKey]
           })
           _dataSource = dataCallback ? dataCallback(content) : content
           state.pagination.total = totalElements
@@ -195,7 +255,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   }
 
   const getRecordNo = (index: number) => {
-    if (unref(propsRef).options?.isPagination) return index + 1
+    // if (unref(propsRef).options?.isPagination) return index + 1
 
     const { pageSize, current } = state.pagination
     // if (pageSize && current) {
@@ -217,11 +277,13 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     ...toRefs(state),
     getDataSource,
     initTableState,
+    initDataSource,
     fetchDataSource,
     changeTable,
     getRecordNo,
     rowSelection,
     setPagination,
+    initCardViewChecked,
     getPagination
   }
 }

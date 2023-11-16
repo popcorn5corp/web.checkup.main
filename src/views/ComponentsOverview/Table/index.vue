@@ -11,7 +11,8 @@ const initParam = ref<IBaseSample.BaseSamplesParam>({
   searchWord: '',
   size: 10,
   page: 1,
-  division: 'PUBLIC',
+  searchDivision: 'PUBLIC',
+  searchPermission: '',
   sort: undefined
 })
 

@@ -1,6 +1,6 @@
 <template>
   <div class="menu-header">
-    <Button
+    <!-- <Button
       type="primary"
       :label="!collapsed ? $t('layout.menu.newWorkspace') : ''"
       :style="buttonStyle"
@@ -8,10 +8,10 @@
       <template #icon>
         <PlusCircleFilled />
       </template>
-    </Button>
+    </Button> -->
   </div>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="MenuHeader">
 import { type CSSProperties, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/button'

@@ -52,6 +52,7 @@ export type MenuPosition = (typeof menuPositions)[keyof typeof menuPositions]
 
 export interface ThemeConfig {
   navTheme: ThemeName // theme for nav menu
+  isRealDarkTheme: boolean
   isDark: boolean
   primaryColor: string // '#F5222D', // primary color of ant design
   menuPosition: MenuPosition // nav menu position: `sidemenu` or `topmenu`

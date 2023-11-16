@@ -1,4 +1,4 @@
-<script lang="ts" setup name="FilterSelect">
+<script setup lang="ts" name="FilterSelect">
 import { Select } from 'ant-design-vue'
 import type { RawValueType } from 'ant-design-vue/es/vc-select/BaseSelect'
 import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
