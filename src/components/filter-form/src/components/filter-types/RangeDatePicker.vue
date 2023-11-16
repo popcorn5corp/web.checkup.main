@@ -1,4 +1,4 @@
-<script setup lang="ts" name="FilterRangeDatepicker">
+<script setup lang="ts" name="FilterRangeDatePicker">
 import { RangePicker } from 'ant-design-vue'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
@@ -6,11 +6,11 @@ import { computed, ref, unref, watch } from 'vue'
 import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import { type FilterFormItem } from '../../../types'
 
-interface FilterRangeDatepickerProps {
+interface FilterRangeDatePickerProps {
   item: FilterFormItem
 }
 
-const props = defineProps<FilterRangeDatepickerProps>()
+const props = defineProps<FilterRangeDatePickerProps>()
 const dynamicTable = useDynamicTableContext()
 const formItem = computed(() => props.item)
 const selectedDate = ref<[string, string] | [Dayjs, Dayjs] | undefined>()
