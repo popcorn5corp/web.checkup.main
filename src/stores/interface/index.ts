@@ -1,6 +1,6 @@
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { RouteLocation } from 'vue-router'
-import { type Filter } from '@/components/filter-form/src/components/FilterType/types'
+import { type FilterFormItem, type FilterList } from '@/components/filter-form'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 
 // export type LayoutType = 'default' | 'vertical' | 'transverse' | 'columns'
@@ -52,6 +52,7 @@ export type MenuPosition = (typeof menuPositions)[keyof typeof menuPositions]
 
 export interface ThemeConfig {
   navTheme: ThemeName // theme for nav menu
+  isRealDarkTheme: boolean
   isDark: boolean
   primaryColor: string // '#F5222D', // primary color of ant design
   menuPosition: MenuPosition // nav menu position: `sidemenu` or `topmenu`
@@ -86,7 +87,7 @@ export interface ProjectConfigState {
   // tabs: boolean
   // tabsIcon: boolean
   // footer: boolean
-  device: DeviceTypeEnum
+  device?: DeviceTypeEnum
   theme: ThemeConfig
 }
 
@@ -103,7 +104,7 @@ export interface Params {
 }
 export interface TableFilterState {
   selectedData: Params
-  filterList: Filter[]
+  filterList: FilterFormItem[]
 }
 
 export interface UserState {}

@@ -4,6 +4,7 @@
       class="search"
       v-model:value="searchWord"
       :placeholder="$t('common.searchPlaceholder')"
+      @change="onChange"
       @press-enter="onSearch"
       allow-clear
     >
@@ -17,13 +18,11 @@
     </Input>
 
     <Space class="settings">
-      <!-- <slot name="tableBtns"></slot> -->
-
       <Tooltip placement="top">
         <template #title>
           <span>Reload</span>
         </template>
-        <Button :label="''" size="large" @click="onReload">
+        <Button :label="''" size="middle" @click="onReload">
           <template #icon>
             <font-awesome-icon icon="rotate" :class="[isReload && 'rotating']" />
           </template>
@@ -34,7 +33,7 @@
         <template #title>
           <span>Full Download</span>
         </template>
-        <Button :label="''" size="large">
+        <Button :label="''" size="middle">
           <template #icon>
             <DownloadOutlined />
           </template>
@@ -46,7 +45,7 @@
           <span>Size</span>
         </template>
         <Dropdown :trigger="['click']">
-          <Button size="large">
+          <Button size="middle">
             <template #icon>
               <ColumnHeightOutlined />
             </template>
@@ -78,19 +77,18 @@ import { computed, onMounted, ref, unref, watch } from 'vue'
 import { Button } from '@/components/button'
 import { ColumnHeightOutlined, DownloadOutlined } from '@/components/icons'
 import { useTableContext } from '../../hooks/useTableContext'
-import { type CardSize, type TableSize, cardSizeItems, tableSizeItems } from '../../types'
+import { type SizeType, cardSizeItems, tableSizeItems } from '../../types'
 import TableSegmentButton from './TableSegmentButton.vue'
 
 const table = useTableContext()
 const isReload = ref(false)
-const selectedSize = ref<TableSize | CardSize>('middle')
+const selectedSize = ref<SizeType>('middle')
 const searchWord = ref('')
 const sizeItems = computed(() =>
   unref(table.getContextValues).layoutMode === 'table' ? tableSizeItems : cardSizeItems
 )
 
 onMounted(() => {
-  // temp code
   isReload.value = true
 
   setTimeout(() => {
@@ -106,13 +104,19 @@ watch(
   }
 )
 
+function onChange(e: Event) {
+  if (e.type === 'click') {
+    onSearch()
+  }
+}
+
 function onSearch() {
   table.fetchDataSource({ param: { searchWord: unref(searchWord) } })
 }
 
 const onChangeSize: MenuClickEventHandler = ({ key }) => {
   table.setProps({
-    size: key as TableSize | CardSize
+    size: key as SizeType
   })
 }
 
@@ -120,7 +124,6 @@ function onReload() {
   isReload.value = true
   searchWord.value = ''
   table.reload()
-  // initTag()
 
   setTimeout(() => {
     isReload.value = false

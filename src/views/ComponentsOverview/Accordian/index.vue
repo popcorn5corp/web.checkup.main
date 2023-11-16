@@ -5,20 +5,21 @@ import { type CSSProperties, type Component, ref } from 'vue'
 import { Accordion, AccordionPanel } from '@/components/accordion'
 import {
   Checkbox,
-  Datepicker,
+  DatePicker,
   Radio,
   RangeDatePicker,
   Select
-} from '@/components/filter-form/src/components/FilterType'
-import type { FilterType } from '@/components/filter-form/src/components/FilterType/types'
-import { filterList } from '@/components/filter-form/src/components/mock'
+} from '@/components/filter-form/src/components/filter-types'
+import type { FilterUI } from '@/components/filter-form/types'
 
-const filterTypeComponents: Record<FilterType, Component> = {
-  checkbox: Checkbox,
-  datepicker: Datepicker,
-  rangeDatePicker: RangeDatePicker,
-  select: Select,
-  radio: Radio
+// import { filterList } from '@/components/filter-form/types/mock'
+
+const filterTypeComponents: Record<FilterUI, Component> = {
+  Checkbox,
+  DatePicker,
+  RangeDatePicker,
+  Select,
+  Radio
 }
 
 const customStyle: CSSProperties = {

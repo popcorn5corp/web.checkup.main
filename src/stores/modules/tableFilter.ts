@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 // import { useTable } from '@/components/table/hooks/useTable'
-import type { Filter } from '@/components/filter-form/src/components/FilterType/types'
-import { filterList } from '@/components/filter-form/src/components/mock'
+import type { FilterFormItem } from '@/components/filter-form'
+import { filterList } from '@/components/filter-form/types/mock'
 import type { TableFilterState } from '../interface'
 
 export const useTableFilterStore = defineStore('tableFilter', () => {
@@ -22,7 +22,7 @@ export const useTableFilterStore = defineStore('tableFilter', () => {
     // addParams()
   }
 
-  function setFilterList(newFilterList: Filter[]) {
+  function setFilterList(newFilterList: FilterFormItem[]) {
     state.filterList = newFilterList
   }
 

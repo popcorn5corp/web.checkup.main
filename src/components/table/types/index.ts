@@ -14,6 +14,7 @@ type PaginationPositon =
 
 export type TableSize = 'small' | 'middle' | 'large'
 export type CardSize = 'middle' | 'large'
+export type SizeType = TableSize | CardSize
 
 export interface TablePagination {
   total: number
@@ -50,11 +51,11 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
   dataSource?: RecordType[]
   loading?: boolean
   total?: number
-  size: TableSize | CardSize
+  size?: SizeType
   options?: TableOptions
   pagination?: TablePagination
   // 데이터 테이블 리스트 랜던링에 사용되는 key
-  rowKey?: string | 'key'
+  rowKey: string | 'key'
   // 테이블 데이터 API 처리
   dataRequest?: (params: any) => Promise<API.ResponseData>
   // 데이터를 후처리 할 수 있는 callback 함수 제공
@@ -71,6 +72,8 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
   layoutType?: TableLayoutMode
   // Toolbar 옵선 정보
   toolbarOptions?: ToolbarOptions
+
+  dynamicTable?: any
 }
 
 export interface ToolbarOptions {
@@ -92,23 +95,29 @@ export interface TableAction {
   getLoading: () => boolean
   reload: (isReset?: boolean) => Promise<void>
   initTableState: () => void
+  initDataSource: () => void
   changeTable: TableProps['onChange']
   getRecordNo: (index: number) => number
   getPagination: () => TablePagination | false
   setPagination: (current: number, pageSize: number) => void
-  emitter: any
+  initSelecion: () => void
+  initCardViewChecked: () => void
+  setSelectedRows: (selectedRows: Recordable[]) => void
+  emitter: TableEmits
 }
 
 export interface TableContextValues {
   layoutMode: TableLayoutMode
   tableSize: TableSize
   cardSize: CardSize
+  showSelectionPopup: boolean
 }
 
 export const defaultContenxtValues: TableContextValues = {
   layoutMode: 'table',
   tableSize: 'middle',
-  cardSize: 'middle'
+  cardSize: 'middle',
+  showSelectionPopup: false
 }
 
 export interface TableEmits {

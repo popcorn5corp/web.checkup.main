@@ -17,9 +17,10 @@ const defaultConfig: ProjectConfigState = {
   primary: DEFAULT_PRIMARY,
   isDark: false,
   isCollapse: false,
-  device: DeviceTypeEnum.Desktop,
+  // device: DeviceTypeEnum.Desktop,
   theme: {
     navTheme: 'light',
+    isRealDarkTheme: false,
     isDark: false,
     primaryColor: 'rgb(24, 144, 255)', // '#F5222D', // primary color of ant design
     menuPosition: 'sidemenu', // nav menu position: `sidemenu` or `topmenu`

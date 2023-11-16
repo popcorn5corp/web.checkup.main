@@ -1,13 +1,14 @@
-<script lang="ts" setup name="FilterSelect">
+<script setup lang="ts" name="FilterSelect">
+import { Select } from 'ant-design-vue'
 import type { RawValueType } from 'ant-design-vue/es/vc-select/BaseSelect'
 import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
 import { toRefs } from 'vue'
 import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import type { Filter } from './types'
+import type { FilterFormItem } from '../../../types'
 
 const props = defineProps({
   item: {
-    type: Object as PropType<Filter>,
+    type: Object as PropType<FilterFormItem>,
     default: () => {}
   }
 })
@@ -20,7 +21,8 @@ const onSelect = (value: RawValueType | LabelInValueType, option: LabelValueType
 }
 </script>
 <template>
-  <a-select
+  <!-- @vue-skip -->
+  <Select
     :allowClear="true"
     @select="onSelect"
     v-model:value="selectedItems"
@@ -28,7 +30,7 @@ const onSelect = (value: RawValueType | LabelInValueType, option: LabelValueType
     placeholder="전체"
   >
     <slot></slot>
-  </a-select>
+  </Select>
 </template>
 <style lang="scss" scoped>
 .ant-select {

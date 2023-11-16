@@ -4,7 +4,7 @@
       <div class="card">
         <template v-if="props.imgUrl">
           <div class="img-wrapper">
-            <Image :src="props.imgUrl" :preview="props.imgPreview">
+            <Image :src="imgUrl" :preview="props.imgPreview">
               <template #previewMask v-if="props.imgPreview">
                 <ZoomInOutlined style="font-size: 40px" />
               </template>
@@ -26,7 +26,7 @@
           <template v-if="props.item">
             <div class="content">
               <p>
-                {{ props.item }}
+                {{ props.content }}
               </p>
             </div>
           </template>
@@ -51,8 +51,8 @@
         `"
       >
         <template v-if="props.useCheckbox">
-          <div class="check-wrapper">
-            <Checkbox v-model:checked="checked" @click="$emit('checked')" />
+          <div class="checkbox-wrapper">
+            <Checkbox v-model:checked="checked" @change="onChange($event, props.item)" />
           </div>
         </template>
 
@@ -75,22 +75,43 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="Card">
+import ExcelImage from '@/assets/images/excel.png'
+import PdfImage from '@/assets/images/pdf.png'
+import PptImage from '@/assets/images/ppt.png'
 import { ZoomInOutlined } from '@ant-design/icons-vue'
 import { Checkbox, Image } from 'ant-design-vue'
+import type { CheckboxChangeEvent } from 'ant-design-vue/es/checkbox/interface'
 import dayjs from 'dayjs'
-import { type CSSProperties, computed, ref } from 'vue'
+import { type CSSProperties, computed, ref, unref, useAttrs, watch } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import type { CardProps } from '../types'
 
 const emit = defineEmits<{
-  (event: 'checked'): void
+  (event: 'checked', item: Recordable, checked: boolean): void
   (event: 'click', item: Recordable): void
 }>()
 
 const props = withDefaults(defineProps<CardProps>(), {
   imgPreview: true
 })
+
+const checked = ref(false)
+const imgUrl = computed(() => {
+  if (props.imgUrl?.includes('.xlsx') || props.imgUrl?.includes('.xlsx')) {
+    return ExcelImage
+  } else if (props.imgUrl?.includes('.pdf')) {
+    return PdfImage
+  } else if (props.imgUrl?.includes('.pptx')) {
+    return PptImage
+  } else {
+    return props.imgUrl
+  }
+})
+
+const onChange = ({ target: { checked } }: CheckboxChangeEvent, item: Recordable) => {
+  emit('checked', item, checked)
+}
 
 const {
   config: { theme }
@@ -102,7 +123,9 @@ const cardBoxStyle = computed<CSSProperties>(() => {
   }
 })
 
-const checked = ref(false)
+defineExpose({
+  checked
+})
 </script>
 
 <style lang="scss" scoped>
@@ -187,7 +210,7 @@ a {
       transition: opacity 400ms;
       opacity: 0;
       display: none;
-      .check-wrapper {
+      .checkbox-wrapper {
         position: absolute;
         top: 20px;
         right: 20px;

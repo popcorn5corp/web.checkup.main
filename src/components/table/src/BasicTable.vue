@@ -2,19 +2,16 @@
   <div ref="wrapRef" class="table-container">
     <TableToolbar v-if="props.showToolbar" />
 
-    <!-- <h3>Total Count: 200</h3>
+    <!-- <h3>Total Count: 200</h3> -->
 
-    <div class="menu-text-popup-1">
-      <span class="select-count">{{ selectedRows.length }}개 게시물이 선택되었습니다.</span>
-      <em class="select-clear">선택취소</em>
-    </div> -->
+    <SelectionPopup v-if="getContextValues.showSelectionPopup" :selectedRows="selectedRows" />
 
     <Table
       ref="tableRef"
       v-if="getContextValues.layoutMode === 'table'"
       v-bind="getBindValues"
       :scroll="{ y: 530 }"
-      :row-key="rowKey"
+      :row-key="rowKey || 'index'"
       :custom-row="customRow"
       @change="changeTable"
     >
@@ -38,14 +35,16 @@
       </template>
     </Table>
 
-    <CardView v-if="getContextValues.layoutMode === 'card'" :key="rowKey" />
+    <CardView v-if="getContextValues.layoutMode === 'card'" :rowKey="rowKey" />
   </div>
 </template>
-<script setup lang="ts" name="Table">
+<script setup lang="ts" name="BasicTable">
 import { Table } from 'ant-design-vue'
+import { cloneDeep } from 'lodash-es'
 import omit from 'lodash-es/omit'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
 import type { CSSProperties } from 'vue'
+import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import { useColumns } from '../hooks/useColumns'
 import { useCustomRow } from '../hooks/useCustomRow'
 import { useLoading } from '../hooks/useLoading'
@@ -58,14 +57,15 @@ import {
   defaultPaginaton,
   defaultToolbarOptions
 } from '../types'
-import type { TableAction, TableContextValues, TableEmits, TableProps } from '../types'
+import type { SizeType, TableAction, TableContextValues, TableEmits, TableProps } from '../types'
 import CardView from './components/CardView.vue'
+import SelectionPopup from './components/SelectionPopup.vue'
 import TableToolbar from './components/TableToolbar.vue'
 import EmptyImage from './images/no_data_2.png'
 
 const emit = defineEmits<TableEmits>()
 const props = withDefaults(defineProps<TableProps>(), {
-  rowKey: 'key',
+  showHeader: true,
   loading: false,
   size: 'middle',
   options: () => defaultOptions,
@@ -77,12 +77,16 @@ const props = withDefaults(defineProps<TableProps>(), {
   })
 })
 
+const dynamicTable = useDynamicTableContext()
 const wrapRef = ref(null)
 const innerProps = ref<Partial<TableProps>>()
 const contextValues = ref<TableContextValues>({
   ...defaultContenxtValues
 })
 const dataSource = computed(() => props.dataSource || _dataSource.value)
+const toolbarMargin = computed(() =>
+  unref(getContextValues).showSelectionPopup ? '-32px' : '10px'
+)
 const styles = ref<CSSProperties>({
   cursor: props.options.pointer ? 'pointer' : ''
 })
@@ -97,7 +101,64 @@ watch(
     setContextValues({ tableSize, cardSize })
     setProps({ size: 'middle' })
     initTableState()
-    await fetchDataSource()
+    initSelecion()
+    dynamicTable.closeFilter()
+    dynamicTable.initFilterFormItems()
+    await fetchDataSource({ isReset: true })
+  }
+)
+
+watch(
+  () => dynamicTable?.getFilterFormItems(),
+  async (filterFormItems, a) => {
+    const _filterFormItems = cloneDeep(filterFormItems)
+    const { initParam } = unref(getProps)
+    const defaultParam = {
+      page: 0,
+      size: 10,
+      searchWord: ''
+    }
+
+    if (initParam) {
+      type ParamValue = string | number | boolean
+      const filterParam: {
+        [key: string]: ParamValue | Array<ParamValue>
+      } = {
+        ...defaultParam
+      }
+
+      _filterFormItems.map((formItem) => {
+        const { type, key, selectedItems } = formItem
+
+        // Checkbox 타입일 경우에만 search 조건이 여러개가 가능하기때문에 Array로 세팅
+        if (type === 'Checkbox') {
+          key.map((k) => {
+            filterParam[k] = []
+
+            selectedItems?.map((item) => {
+              ;(filterParam[k] as Array<ParamValue>).push(item.value)
+            })
+          })
+
+          return
+        }
+
+        key.map((k, i) => {
+          if (selectedItems.length) {
+            filterParam[k] = selectedItems[i].value
+          }
+        })
+      })
+
+      console.log('Request Param :: ', filterParam)
+
+      if (filterParam) {
+        await fetchDataSource({ isReset: false, filterParam })
+      }
+    }
+  },
+  {
+    deep: true
   }
 )
 
@@ -147,6 +208,8 @@ const {
   changeTable,
   getRecordNo,
   initTableState,
+  initDataSource,
+  initCardViewChecked,
   getDataSource,
   setPagination,
   getPagination
@@ -159,10 +222,31 @@ const {
  */
 const { setColumns, getColumns } = useColumns(getProps)
 
+// const { initCardViewChecked } = useCardView(getContextValues, dataSource)
+
 /**
  * @description Table Selection 관련 기능에 대한 Hooks
  */
-const { rowSelection, selectedRows } = useSelection(props.rowKey, dataSource)
+const { rowSelection, initSelecion, setSelectedRows, selectedRows, selectedRowKeys } = useSelection(
+  getContextValues,
+  dataSource
+)
+
+watch(
+  () => unref(selectedRows),
+  (selectedRows) => {
+    const { showSelectionPopup } = unref(getContextValues)
+
+    if (!showSelectionPopup && selectedRows.length) {
+      setContextValues({ showSelectionPopup: true })
+    } else if (showSelectionPopup && !selectedRows.length) {
+      setContextValues({ showSelectionPopup: false })
+    }
+  },
+  {
+    deep: true
+  }
+)
 
 /**
  * @description Table 컴포넌트 초기 세팅
@@ -184,15 +268,26 @@ const tableAction: TableAction = {
   fetchDataSource,
   getDataSource: () => unref(getDataSource),
   getLoading: () => unref(getLoading) as boolean,
-  getSize: () => unref(getProps).size,
+  getSize: () => unref(getProps).size as SizeType,
   reload: async (isReset = true) => {
-    await fetchDataSource({ isReset })
+    initTableState()
+    initSelecion()
+    dynamicTable.initFilterFormItems()
+
+    /**
+     * 이부분에서 filter param 넘겨야함
+    //  */
+    // await fetchDataSource({ isReset, param: undefined })
   },
   initTableState,
+  initDataSource,
   changeTable,
   getRecordNo,
   setPagination,
   getPagination: () => unref(getPagination),
+  initSelecion,
+  initCardViewChecked,
+  setSelectedRows,
   emitter: emit
 }
 
@@ -208,7 +303,7 @@ const getBindValues = computed<Recordable>(() => {
     columns: unref(getColumns),
     loading: unref(getLoading),
     pagination: unref(getPagination),
-    rowSelection: props.options.isSelection ? rowSelection : undefined
+    rowSelection: props.options.isSelection ? unref(rowSelection) : undefined
   }
 
   propsData = omit(propsData, ['showHeader'])
@@ -216,7 +311,7 @@ const getBindValues = computed<Recordable>(() => {
 })
 
 /**
- * @description Table 컴포넌트에 대한 Provide Context 생성
+ * @description Table Context 생성
  */
 createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
 
@@ -225,14 +320,19 @@ defineExpose({
   getColumns,
   reload: tableAction.reload,
   selectedRows,
+  selectedRowKeys,
   total
 })
 </script>
 <style lang="scss" scoped>
 .table-container {
+  .row-select-toast {
+    border: 1px solid;
+  }
   .table-toolbar-container {
     text-align: right;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
+    margin-bottom: v-bind(toolbarMargin);
   }
 
   :deep(.ant-table) {

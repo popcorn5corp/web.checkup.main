@@ -46,7 +46,7 @@
     </Descriptions.Item>
   </Descriptions>
 </template>
-<script lang="ts" setup name="DisplaySetting">
+<script setup lang="ts" name="DisplaySetting">
 import {
   Descriptions,
   Radio,
@@ -69,6 +69,7 @@ function setThemeColor(primaryColor: string) {
 
 function setNavTheme(themeName: ThemeConfig['navTheme']) {
   setTheme({ navTheme: themeName })
+  setTheme({ isRealDarkTheme: themeName === 'realDark' })
   setRealDarkTheme(themeName)
 }
 

@@ -3,6 +3,7 @@
     <Spin :spinning="loading">
       <div class="pagination-wrapper">
         <Pagination
+          v-if="dataSource.length"
           size="small"
           :current="pagination.current"
           :pageSize="pagination.pageSize"
@@ -13,27 +14,41 @@
       </div>
 
       <CardList
-        :detailBtnPosition="'middle'"
-        :imgUrl="avatar1"
-        :useCheckbox="false"
+        v-if="dataSource.length"
+        ref="cardListRef"
+        :rowKey="props.rowKey"
         :items="dataSource"
-        @click="onClickDetail"
+        :useCheckbox="true"
         :size="size"
+        :detailBtnPosition="'bottom'"
+        @click="onClickDetail"
+        @select-rows="onSelectRows"
       />
+
+      <div v-else class="empty-img">
+        <img :src="EmptyImage" style="width: 200px" />
+        <div>{{ $t('common.message.noData') }}</div>
+      </div>
     </Spin>
   </div>
 </template>
 
 <script lang="ts" setup name="CardView">
-import avatar1 from '@/assets/images/avatar1.png'
 import { Pagination, type PaginationProps, Spin } from 'ant-design-vue'
-import { computed, unref } from 'vue'
+import { computed, ref, unref, watch } from 'vue'
 import type { ComputedRef } from 'vue'
 import { CardList } from '@/components/card'
 import { useTableContext } from '@/components/table/hooks/useTableContext'
 import type { CardSize, TablePagination } from '../../types'
+import EmptyImage from '../images/no_data_2.png'
 
+interface CardViewProps {
+  rowKey: string
+}
+
+const props = defineProps<CardViewProps>()
 const table = useTableContext()
+const cardListRef = ref<InstanceType<typeof CardList>>()
 const loading = computed(() => table.getLoading())
 const dataSource = computed(() => table.getDataSource())
 const pagination = computed(
@@ -41,12 +56,21 @@ const pagination = computed(
 ) as ComputedRef<TablePagination>
 const size = computed(() => table.getSize() as CardSize)
 
-;(async () => {
-  await table.fetchDataSource()
-})()
+watch(
+  () => unref(table.getContextValues).showSelectionPopup,
+  (showSelectionPopup) => {
+    if (!showSelectionPopup) {
+      cardListRef.value?.initCardChecked()
+    }
+  }
+)
 
 const onClickDetail = (card: Recordable) => {
   table.emitter('row-click', card)
+}
+
+const onSelectRows = (selectedRows: Recordable[]) => {
+  table.setSelectedRows(selectedRows)
 }
 
 const onPagination: PaginationProps['onChange'] = (current: number, pageSize: number) => {
@@ -64,6 +88,11 @@ const onPagination: PaginationProps['onChange'] = (current: number, pageSize: nu
     :deep(.ant-pagination) {
       margin: 16px 0;
     }
+  }
+
+  .empty-img {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.25);
   }
 }
 </style>
