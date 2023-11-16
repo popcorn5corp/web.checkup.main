@@ -22,7 +22,7 @@
   </Layout.Header>
 </template>
 
-<script lang="ts" setup name="Header">
+<script lang="ts" setup name="LayoutHeader">
 import { Layout, Space } from 'ant-design-vue'
 import { type CSSProperties, computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
