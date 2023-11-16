@@ -63,7 +63,7 @@ declare module '@vue/runtime-core' {
     Filter: typeof import('./src/components/Table/components/Filter.vue')['default']
     FilterCheckbox: typeof import('./src/components/Filter/components/FilterCheckbox.vue')['default']
     FilterContainer: typeof import('./src/components/Table/components/FilterContainer.vue')['default']
-    FilterDatepicker: typeof import('./src/components/Filter/components/FilterDatepicker.vue')['default']
+    FilterDatePicker: typeof import('./src/components/Filter/components/FilterDatepicker.vue')['default']
     FilterForm: typeof import('./src/components/FilterForm/index.vue')['default']
     FilterLabel: typeof import('./src/components/Table/components/FilterLabel.vue')['default']
     FilterRadio: typeof import('./src/components/Filter/components/FilterRadio.vue')['default']
