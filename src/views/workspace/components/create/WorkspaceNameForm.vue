@@ -8,6 +8,7 @@
       placeholder="팀 또는 회사명 입력해주세요."
       v-model:value="formValues.workspaceName"
       :maxlength="30"
+      @input="onInput"
     />
   </div>
 </template>
@@ -19,6 +20,20 @@ import { useWorkspceStore } from '@/stores/modules/workspace'
 
 const workspaceStore = useWorkspceStore()
 const formValues = computed(() => workspaceStore.formValues)
+
+const onInput = (e) => {
+  console.log(e.target.value, e.target.value.length)
+  if (e.target.value.length > 0) {
+    workspaceStore.setNextBtnDisabled(false)
+  } else {
+    workspaceStore.setNextBtnDisabled(true)
+  }
+}
+// watch(formValues.value, (formValue) => {
+//   if (formValue.workspaceName.length) {
+//     workspaceStore.setNextBtnDisabled(false)
+//   }
+// })
 </script>
 
 <style lang="scss" scoped></style>

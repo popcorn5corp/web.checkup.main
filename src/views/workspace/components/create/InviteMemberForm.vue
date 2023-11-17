@@ -17,6 +17,7 @@
       </div>
       <div class="input-wrapper">
         <div class="input-box">
+          <!-- // TODO focus out -> 엔터 -->
           <Input
             ref="inputRef"
             class="input"
@@ -42,10 +43,12 @@
 </template>
 
 <script lang="ts" setup>
+import { WorkspaceService } from '@/services'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { Input, message as Message, Select, message } from 'ant-design-vue'
 import { type CSSProperties, computed, ref } from 'vue'
 import { watch } from 'vue'
+import type { IWorkspace } from '@/services/workspace/interface'
 import { useWorkspceStore } from '@/stores/modules/workspace'
 
 const workspaceStore = useWorkspceStore()
@@ -69,20 +72,20 @@ const errorTagStyle = computed<CSSProperties>(() => {
 
 ;(async () => {
   if (formValues.value.inviteEmails) {
+    // TODO tags computed 로 변경
     tags.value.push(...formValues.value.inviteEmails)
   }
 })()
 
-const onInputEnter = (event: KeyboardEvent) => {
-  const emailValue: string = (event.target as HTMLInputElement).value.trim()
+const onInputEnter = async (event: KeyboardEvent) => {
+  const emailValue = (event.target as HTMLInputElement).value.trim()
   const regExp = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/
 
   try {
-    // TODO 이메일 중복 검사 api
     if (!regExp.test(emailValue)) {
-      showError('이메일형식이 올바르지 않습니다. 삭제 후 다시 작성해주세요.')
+      showError('이메일형식이 올바르지 않습니다. 다시 작성해주세요.')
     } else if (tags.value.includes(emailValue)) {
-      showError('중복된 이메일입니다. 다시 작성해주세요.')
+      showError('이미 추가된 이메일입니다. 다시 작성해주세요.')
     } else {
       emailRef.value = ''
       tags.value.push(emailValue)
@@ -93,6 +96,17 @@ const onInputEnter = (event: KeyboardEvent) => {
   }
 }
 
+const isExistEmail = async (email: string) => {
+  try {
+    console.log('isExistEmail', email)
+    // const data = WorkspaceService.checkDuplicatedEmail({ email })
+    // console.log('exist', data)
+  } catch (err) {
+    console.log(err)
+    return false
+  }
+}
+
 const onRemove = (idx: number) => {
   const filteredTag = tags.value.filter((_, index) => index !== idx)
   tags.value = filteredTag
@@ -100,7 +114,7 @@ const onRemove = (idx: number) => {
 
 const showError = (message: string) => {
   errMsg.value = message
-  Message.error(message)
+  // Message.error(message)
   isError.value = true
   workspaceStore.setNextBtnDisabled(true)
 }

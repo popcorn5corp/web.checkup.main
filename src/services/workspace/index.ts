@@ -10,8 +10,7 @@ class WorkspaceService {
     return service.get<IWorkspace.UserMeResponseData>(this.PATH + '/user/me')
   }
 
-  isExistEmail(param: IWorkspace.ExistEmailParam) {
-    // TODO 타입 아직 미정
+  checkDuplicatedEmail(param: IWorkspace.ExistEmailParam) {
     return service.get<IWorkspace.ExistEmailResponse>(this.PATH + '/exist', param)
   }
 

@@ -27,7 +27,7 @@ const formValues = computed(() => workspaceStore.formValues)
 
 const businessTypeOpt = ref([
   {
-    value: null,
+    value: '',
     label: '업종 선택'
   },
   {
@@ -45,7 +45,7 @@ const businessTypeOpt = ref([
 ])
 const emlpoyeeScaleOpt = ref([
   {
-    value: null,
+    value: '',
     label: '규모 선택'
   },
   {

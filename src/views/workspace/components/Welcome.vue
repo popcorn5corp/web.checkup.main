@@ -1,26 +1,48 @@
 <template>
-  <div class="welcome-btns-wrapper">
-    <div v-for="btn in btns" :key="btn.type">
-      <div
-        :class="`btn-box ${btn.type}-btn-box`"
-        @click="onBtnClick(btn.type as '' | 'create' | 'invite')"
-      >
-        <div class="img">
-          <img :src="btn.img" alt="Image by storyset / on Freepik" />
+  <div id="workspace-container" v-if="!isLoading">
+    <div class="left">
+      <div class="welcome-text-wrapper">
+        <h2>
+          <span>{{ workspaceUserInfo.userName }}</span
+          >님 환영합니다!
+        </h2>
+        <p>체크업에 가입해주셔서 감사합니다.</p>
+        <p>이제 업무를 시작하기 위해 원하시는 선택지를 선택해주세요.</p>
+      </div>
+      <img :src="welcomeImg" alt="작가 upklyak / 출처 Freepik" />
+    </div>
+    <div class="right">
+      <div id="container">
+        <div class="welcome-btns-wrapper">
+          <div v-for="btn in btns" :key="btn.type">
+            <div
+              :class="`btn-box ${btn.type}-btn-box`"
+              @click="onBtnClick(btn.type as WorkspaceStepType)"
+            >
+              <div class="img">
+                <img :src="btn.img" alt="Image by storyset / on Freepik" />
+              </div>
+              <div class="text">{{ btn.text }}</div>
+              <span class="arrow"><ArrowRightOutlined /></span>
+            </div>
+          </div>
         </div>
-        <div class="text">{{ btn.text }}</div>
-        <span class="arrow"><ArrowRightOutlined /></span>
       </div>
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
+import welcomeImg from '@/assets/images/workspace2.png'
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
+import { WorkspaceService } from '@/services'
 import { ArrowRightOutlined } from '@ant-design/icons-vue'
-import { reactive } from 'vue'
+import { message } from 'ant-design-vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useWorkspceStore } from '@/stores/modules/workspace'
+import { type WorkspaceStepType } from '@/stores/modules/workspace'
 
 const router = useRouter()
 const workspaceStore = useWorkspceStore()
@@ -40,24 +62,41 @@ const btns = reactive({
     img: inviteImg
   }
 })
+const workspaceUserInfo = reactive({
+  workspaceCount: 0,
+  userName: ''
+})
+const isLoading = ref(false)
 
-const onBtnClick = (type: '' | 'create' | 'invite') => {
+;(async () => {
+  isLoading.value = true
+  try {
+    const { data } = await WorkspaceService.getUser()
+    workspaceUserInfo.workspaceCount = data.workspaceCount
+    workspaceUserInfo.userName = data.userName
+  } catch (err) {
+    message.error('잠시 후 다시 시도해주세요.')
+  }
+
+  isLoading.value = false
+})()
+
+const onBtnClick = (type: WorkspaceStepType) => {
+  console.log(type)
+  workspaceStore.setType(type)
   router.push({
     name: type === 'create' ? 'create' : 'invite'
   })
-
-  workspaceStore.setType(type)
-  workspaceStore.nextStep()
 }
 
 ;(async () => {
-  workspaceStore.resetStep()
   workspaceStore.resetType()
 })()
 </script>
 
 <style lang="scss" scoped>
 .welcome-btns-wrapper {
+  width: 100%;
   flex-direction: column;
   .btn-box {
     display: flex;

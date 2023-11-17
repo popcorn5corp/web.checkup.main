@@ -2,6 +2,7 @@
   <div class="transition-group">
     <TransitionGroup name="create" appear>
       <div v-if="step === 1" class="active" key="WorkspaceNameForm">
+        <!-- <component :is="filterTypeComponents[item.type as FilterUI]" :item="item" /> -->
         <WorkspaceNameForm />
       </div>
       <div v-if="step === 2" class="active" key="NameProfileForm">

@@ -1,45 +1,36 @@
 <template>
-  <!-- v-if="!isLoading" -->
-  <div id="workspace-container">
-    <div class="left">
-      <template v-if="step < 1">
-        <div class="welcome-text-wrapper">
-          <h2>
-            <span>{{ workspaceUserInfo.userName }}</span
-            >님 환영합니다!
-          </h2>
-          <p>체크업에 가입해주셔서 감사합니다.</p>
-          <p>이제 업무를 시작하기 위해 원하시는 선택지를 선택해주세요.</p>
-        </div>
-        <img :src="welcomeImg" alt="작가 upklyak / 출처 Freepik" />
-      </template>
-      <template v-else>
+  <h1>
+    {{ 'type: ' + type }}
+  </h1>
+  <div id="workspace-container" v-if="!isLoading">
+    <template v-if="type === 'welcome'">
+      <Welcome />
+    </template>
+    <template v-else>
+      <div class="left">
         <img :src="type === 'create' ? createImg : inviteImg" alt="작가 upklyak / 출처 Freepik" />
-      </template>
-    </div>
-    <div class="right">
-      <div id="container">
-        <template v-if="step !== 0">
+      </div>
+      <div class="right">
+        <div id="container">
           <div class="step-wrapper">
             <span>{{ step }}</span>
             <span> / </span>
-            <span>{{ type === 'create' ? 5 : 3 }}</span>
+            <span>5</span>
+            <!-- {{ workspaceSteps[type].length }} -->
           </div>
-        </template>
 
-        <!-- workspace id 2개 이상일 때 -->
-        <template v-if="workspaceUserInfo.workspaceCount >= 2">
-          <WorkspaceList />
-        </template>
+          <!-- workspace id 2개 이상일 때 -->
+          <template v-if="workspaceUserInfo.workspaceCount >= 2">
+            <WorkspaceList />
+          </template>
 
-        <!-- workspace id 0개일 때 -->
-        <template v-if="workspaceUserInfo.workspaceCount === 0">
-          <div class="routerView">
-            <RouterView></RouterView>
-          </div>
-        </template>
+          <!-- workspace id 0개일 때 -->
+          <template v-if="workspaceUserInfo.workspaceCount === 0">
+            <div class="routerView">
+              <RouterView></RouterView>
+            </div>
+          </template>
 
-        <template v-if="step !== 0">
           <div class="btns-wrapper">
             <Button class="btn" size="large" label="이전" @click="workspaceStore.prevStep()" />
             <Button
@@ -58,8 +49,8 @@
               :disabled="nextBtnDisabled"
               @click="onComplete"
             />
+            <!-- v-if="(step === 5 && type === 'create') || (step === 3 && type === 'invite')" -->
             <Button
-              v-if="(step === 5 && type === 'create') || (step === 3 && type === 'invite')"
               class="btn"
               type="primary"
               size="large"
@@ -67,24 +58,27 @@
               @click="router.push({ name: 'Root' })"
             />
           </div>
-        </template>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup name="Workspace">
-import welcomeImg from '@/assets/images/workspace2.png'
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
 import { WorkspaceService } from '@/services'
 import { message } from 'ant-design-vue'
 import { computed, ref } from 'vue'
 import { reactive } from 'vue'
+import { watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useWorkspceStore } from '@/stores/modules/workspace'
+import { type WorkspaceStepType } from '@/stores/modules/workspace'
+import { workspaceSteps } from '@/stores/modules/workspace'
 import { Button } from '@/components/button'
+import Welcome from './components/Welcome.vue'
 import WorkspaceList from './components/WorkspaceList.vue'
 
 const router = useRouter()
@@ -94,6 +88,7 @@ const {
   config: { theme }
 } = useProjectConfigStore()
 
+// TODO 구조분해 수정
 const step = computed(() => workspaceStore.step)
 const type = computed(() => workspaceStore.type)
 const nextBtnDisabled = computed(() => workspaceStore.nextBtnDisabled)
@@ -124,6 +119,8 @@ const workspaceUserInfo = reactive({
 })
 
 ;(async () => {
+  // workspaceStore.resetStep()
+  // workspaceStore.resetType()
   isLoading.value = true
   try {
     const { data } = await WorkspaceService.getUser()
@@ -133,11 +130,12 @@ const workspaceUserInfo = reactive({
     message.error('잠시 후 다시 시도해주세요.')
   }
 
-  const _router = router.currentRoute.value
-  if (step.value === 0 && _router.fullPath.includes('/workspace/')) {
-    workspaceStore.setType(_router.name as '' | 'create' | 'invite')
-    workspaceStore.nextStep()
-  }
+  // TODO before router
+  // const currentRoute = router.currentRoute.value
+  // if (step.value === 0 && currentRoute.fullPath.includes('/workspace/')) {
+  //   workspaceStore.setType(currentRoute.name as WorkspaceStepType)
+  //   workspaceStore.nextStep()
+  // }
   isLoading.value = false
 })()
 
@@ -156,6 +154,12 @@ const onComplete = async () => {
     message.error('잠시 후 다시 시도해주세요.')
   }
 }
+
+// watch(step, (step) => {
+//   if (type.value.length) {
+//     console.log('z3', step, workspaceSteps[type.value][step - 1])
+//   }
+// })
 </script>
 
 <style lang="scss">
