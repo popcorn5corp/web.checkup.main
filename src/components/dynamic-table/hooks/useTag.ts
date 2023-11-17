@@ -1,5 +1,4 @@
 import { type ComputedRef, computed, ref, unref, watch } from 'vue'
-import { useTableFilterStore } from '@/stores/modules/tableFilter'
 import { FILTER_UI, type FilterFormItem, type FilterUI } from '@/components/filter-form'
 import type { DynamicTableContextValues } from '../types'
 import { useDynamicTableContext } from './useDynamicTableContext'
@@ -30,7 +29,6 @@ export function useTag(contextValuesRef: ComputedRef<DynamicTableContextValues>)
 }
 
 // export function useTag() {
-//   const { filterList, setFilterList } = useTableFilterStore()
 //   const dynamicTable = useDynamicTableContext()
 
 //   watch(

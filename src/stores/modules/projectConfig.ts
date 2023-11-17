@@ -1,6 +1,6 @@
 import { Util } from '@/utils'
 import { defineStore } from 'pinia'
-import { ref, unref, watch } from 'vue'
+import { computed, ref, unref, watch } from 'vue'
 import { THEME_KEY } from '@/constants/cacheKeyEnum'
 import { DEFAULT_PRIMARY } from '@/constants/settings'
 import {
@@ -76,6 +76,8 @@ export const useProjectConfigStore = defineStore('projectConfig', () => {
     }
   })
 
+  const getTheme = computed(() => unref(config).theme)
+
   watch(
     () => [config.value.theme.navTheme, config.value.isCollapse],
     ([navTheme, isCollapse]) => {
@@ -109,6 +111,7 @@ export const useProjectConfigStore = defineStore('projectConfig', () => {
 
   return {
     config,
+    getTheme,
     setTheme,
     setCollapse,
     setRealDarkTheme

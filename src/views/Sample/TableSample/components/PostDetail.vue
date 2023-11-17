@@ -4,7 +4,7 @@ import { Form, Input, Select, type SelectProps } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
-import type { IBaseSample } from '@/services/BaseSample/interface'
+import type { IBaseSample, ICode } from '@/services/BaseSample/interface'
 import { FileUploader } from '@/components/file-uploader'
 import { fileTypes } from '@/constants/file'
 import { getDefaultPost } from '../constant'
@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<PostDetailProps>(), {
   isEdit: false
 })
 
-const { permissionCodes } = BaseSampleService
+const permissionCodes = ref<ICode[]>([])
 const divisionOptions = ref<SelectProps['options']>([
   {
     label: '비공개',
@@ -49,6 +49,10 @@ const formState: UnwrapRef<FormState> = reactive({
   post: getDefaultPost(),
   clonePost: getDefaultPost()
 })
+
+;(async () => {
+  permissionCodes.value = await BaseSampleService.getPermissionCodes()
+})()
 
 const onSubmit = async () => formRef.value.validate()
 const formattedDate = (timestamp: number) => dayjs.unix(timestamp).format('YYYY-MM-DD')

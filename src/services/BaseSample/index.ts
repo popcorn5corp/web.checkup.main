@@ -7,11 +7,11 @@ class BaseSampleService {
   private _permissionCodes: PermissionCodes = []
 
   constructor() {
-    this.getPermissionCodes().then(({ data, success }) => {
-      if (success) {
-        this._permissionCodes = data.codes
-      }
-    })
+    // this.getPermissionCodes().then(({ data, success }) => {
+    //   if (success) {
+    //     this._permissionCodes = data.codes
+    //   }
+    // })
   }
 
   get permissionCodes() {
@@ -40,8 +40,10 @@ class BaseSampleService {
   getSortableCodes() {
     return service.get<SortCodesResponse>(this.PATH + '/posts/sortable-codes')
   }
-  async getPermissionCodes() {
-    return await service.get<CodeResponse>(this.PATH + '/codes')
+  getPermissionCodes() {
+    return service.get<CodeResponse>(this.PATH + '/codes').then(({ data, success }) => {
+      return data.codes
+    })
   }
   fileDwonload() {
     return service.download('/file/download')

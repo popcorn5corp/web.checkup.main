@@ -1,5 +1,7 @@
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
+import { isEqualWith } from 'lodash-es'
 import type { RouteLocation } from 'vue-router'
+import type { IAuth } from '@/services/auth/interface'
 import { type FilterFormItem, type FilterList } from '@/components/filter-form'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 
@@ -111,4 +113,9 @@ export interface UserState {}
 
 export type TokenKey = typeof ACCESS_TOKEN_KEY | typeof REFRESH_TOKEN_KEY
 
-export interface AuthState {}
+export type IUser = IAuth.UserResponse & {
+  accessToken: string
+}
+export interface AuthState {
+  user: IUser
+}
