@@ -25,8 +25,8 @@
         @select-rows="onSelectRows"
       />
 
-      <div v-else class="empty-img">
-        <img :src="EmptyImage" style="width: 200px" />
+      <div v-else :class="['img-wrapper', isRealDarkTheme && 'dark']">
+        <img :src="EmptyImage" />
         <div>{{ $t('common.message.noData') }}</div>
       </div>
     </Spin>
@@ -37,6 +37,7 @@
 import { Pagination, type PaginationProps, Spin } from 'ant-design-vue'
 import { computed, ref, unref, watch } from 'vue'
 import type { ComputedRef } from 'vue'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { CardList } from '@/components/card'
 import { useTableContext } from '@/components/table/hooks/useTableContext'
 import type { CardSize, TablePagination } from '../../types'
@@ -48,6 +49,9 @@ interface CardViewProps {
 
 const props = defineProps<CardViewProps>()
 const table = useTableContext()
+const {
+  getTheme: { isRealDarkTheme }
+} = useProjectConfigStore()
 const cardListRef = ref<InstanceType<typeof CardList>>()
 const loading = computed(() => table.getLoading())
 const dataSource = computed(() => table.getDataSource())
@@ -90,9 +94,17 @@ const onPagination: PaginationProps['onChange'] = (current: number, pageSize: nu
     }
   }
 
-  .empty-img {
+  .img-wrapper {
     text-align: center;
-    color: rgba(0, 0, 0, 0.25);
+    color: $sub-text-color;
+
+    &.dark {
+      color: $sub-text-color-dark;
+    }
+
+    > img {
+      width: 200px;
+    }
   }
 }
 </style>

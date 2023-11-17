@@ -77,8 +77,8 @@ import UserAccount from './UserAccount.vue'
 
 const isOpen = ref(false)
 const { t } = useI18n()
-const { removeToken } = useAuthStore()
-
+const { removeToken, getUser } = useAuthStore()
+console.log(' [user] ', getUser)
 // const isDarkMode = computed({
 //   get() {
 //     return config.theme.isDark
@@ -114,7 +114,7 @@ const onClickMenu: MenuProps['onClick'] = (e) => {
     isOpen.value = true
   } else if (e.key === '5') {
     removeToken()
-    AuthService.signOut()
+    // AuthService.signOut()
     router.push({ name: 'login' })
   }
 }
