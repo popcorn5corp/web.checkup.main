@@ -1,5 +1,6 @@
 import type { TableRowSelection } from 'ant-design-vue/es/table/interface'
-import { type Ref, computed, reactive, toRefs, watch } from 'vue'
+import { type ComputedRef, type Ref, computed, reactive, toRefs, unref, watch } from 'vue'
+import type { TableContextValues } from '../types'
 
 interface State {
   isSelected: boolean
@@ -7,7 +8,10 @@ interface State {
   selectedRows: any[]
 }
 
-export const useSelection = (rowKey: string = 'id', dataSource: Ref<any[]>) => {
+export const useSelection = (
+  contextValuesRef: ComputedRef<TableContextValues>,
+  dataSource: Ref<Recordable[]>
+) => {
   const state = reactive<State>({
     isSelected: false,
     selectedRowKeys: [],
@@ -15,11 +19,11 @@ export const useSelection = (rowKey: string = 'id', dataSource: Ref<any[]>) => {
   })
 
   watch(
-    () => dataSource.value,
+    () => unref(dataSource),
     () => {
       // 데이터 테이블 리스트가 갱신되었을 경우, Selection 해제
-      if (state.selectedRowKeys.length) {
-        state.selectedRowKeys = []
+      if (state.selectedRows.length) {
+        initSelecion()
       }
     },
     {
@@ -28,12 +32,21 @@ export const useSelection = (rowKey: string = 'id', dataSource: Ref<any[]>) => {
     }
   )
 
+  function initSelecion() {
+    state.selectedRowKeys = []
+    state.selectedRows = []
+  }
+
+  function setSelectedRows(selectedRows: Recordable[]) {
+    state.selectedRows = selectedRows
+    state.selectedRowKeys = selectedRows.map((r) => r.rowKey)
+  }
+
   const rowSelection = computed<TableRowSelection>(() => {
     return {
       selectedRowKeys: state.selectedRowKeys,
       onChange: (changableRowKeys: Key[], changableRows: any[]) => {
         state.selectedRowKeys = changableRowKeys
-        console.log('123123')
         state.selectedRows = changableRows
       }
     }
@@ -41,6 +54,8 @@ export const useSelection = (rowKey: string = 'id', dataSource: Ref<any[]>) => {
 
   return {
     ...toRefs(state),
-    rowSelection
+    rowSelection,
+    initSelecion,
+    setSelectedRows
   }
 }

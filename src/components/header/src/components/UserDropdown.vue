@@ -57,6 +57,7 @@
 </template>
 <script setup lang="ts" name="UserDropdown">
 import router from '@/router'
+import { AuthService } from '@/services'
 import { Avatar, Badge, Dropdown, Menu, MenuItem, type MenuProps, Modal } from 'ant-design-vue'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -68,7 +69,7 @@ import {
   SettingOutlined,
   UserOutlined
 } from '@/components/icons'
-import { type TabList, Tabs } from '@/components/tabs'
+import { Tabs } from '@/components/tabs'
 import { TabPane } from '@/components/tabs'
 import DisplaySetting from './DisplaySetting.vue'
 import LanguageSetting from './LanguageSetting.vue'
@@ -76,8 +77,8 @@ import UserAccount from './UserAccount.vue'
 
 const isOpen = ref(false)
 const { t } = useI18n()
-const { removeToken } = useAuthStore()
-
+const { removeToken, getUser } = useAuthStore()
+console.log(' [user] ', getUser)
 // const isDarkMode = computed({
 //   get() {
 //     return config.theme.isDark
@@ -113,6 +114,7 @@ const onClickMenu: MenuProps['onClick'] = (e) => {
     isOpen.value = true
   } else if (e.key === '5') {
     removeToken()
+    // AuthService.signOut()
     router.push({ name: 'login' })
   }
 }

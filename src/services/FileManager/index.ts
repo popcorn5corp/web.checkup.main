@@ -3,7 +3,7 @@ import { service } from '@/utils/http'
 import type { IFileManager } from './interface'
 
 class FileManagerService {
-  private readonly PATH = '/file'
+  private readonly PATH = '/workspace/file'
 
   constructor() {}
 
@@ -12,7 +12,7 @@ class FileManagerService {
   }
 
   download(params: IFileManager.DownloadParam) {
-    return service.download('/file/download', params)
+    return service.download(this.PATH + '/download', params)
   }
 }
 

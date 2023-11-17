@@ -5,7 +5,6 @@ import type { AccordionProps } from '../types'
 import AccordionPanel from './AccordionPanel.vue'
 
 const props = defineProps<AccordionProps>()
-console.log('props :: ', props)
 
 const activeKey = ref(props.activeKey)
 

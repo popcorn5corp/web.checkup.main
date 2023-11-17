@@ -5,7 +5,7 @@ import { ref } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import {
   Checkbox,
-  Datepicker,
+  DatePicker,
   Radio,
   RangeDatePicker,
   Select
@@ -175,14 +175,14 @@ export const CustomIcon: Story = {
 
 export const CustomFilter: Story = {
   render: () => ({
-    components: { Accordion, AccordionPanel, Checkbox, Datepicker, Radio, RangeDatePicker, Select },
+    components: { Accordion, AccordionPanel, Checkbox, DatePicker, Radio, RangeDatePicker, Select },
     setup() {
       const dynamicComponents = {
-        checkbox: Checkbox,
-        datepicker: Datepicker,
-        rangeDatePicker: RangeDatePicker,
-        select: Select,
-        radio: Radio
+        Checkbox,
+        DatePicker,
+        RangeDatePicker,
+        Select,
+        Radio
       }
 
       return { dynamicComponents, args: filterList }

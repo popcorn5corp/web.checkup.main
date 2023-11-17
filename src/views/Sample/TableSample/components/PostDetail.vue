@@ -1,9 +1,10 @@
 <script setup lang="tsx" name="PostDetail">
+import { BaseSampleService } from '@/services'
 import { Form, Input, Select, type SelectProps } from 'ant-design-vue'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
-import type { IBaseSample } from '@/services/BaseSample/interface'
+import type { IBaseSample, ICode } from '@/services/BaseSample/interface'
 import { FileUploader } from '@/components/file-uploader'
 import { fileTypes } from '@/constants/file'
 import { getDefaultPost } from '../constant'
@@ -27,14 +28,15 @@ const props = withDefaults(defineProps<PostDetailProps>(), {
   isEdit: false
 })
 
+const permissionCodes = ref<ICode[]>([])
 const divisionOptions = ref<SelectProps['options']>([
   {
-    value: 'PRIVATE',
-    label: 'PRIVATE'
+    label: '비공개',
+    value: 'PRIVATE'
   },
   {
-    value: 'PUBLIC',
-    label: 'PUBLIC'
+    label: '공개',
+    value: 'PUBLIC'
   }
 ])
 
@@ -47,6 +49,10 @@ const formState: UnwrapRef<FormState> = reactive({
   post: getDefaultPost(),
   clonePost: getDefaultPost()
 })
+
+;(async () => {
+  permissionCodes.value = await BaseSampleService.getPermissionCodes()
+})()
 
 const onSubmit = async () => formRef.value.validate()
 const formattedDate = (timestamp: number) => dayjs.unix(timestamp).format('YYYY-MM-DD')
@@ -110,6 +116,9 @@ defineExpose({
       <Item label="생성일">
         {{ formattedDate(formState.post.createdAt) }}
       </Item>
+      <Item label="권한">
+        {{ formState.post.permission }}
+      </Item>
       <Item label="게시물 구분">
         {{ formState.post.division }}
       </Item>
@@ -133,6 +142,12 @@ defineExpose({
       </Item>
       <Item label="생성일">
         {{ formattedDate(formState.post.createdAt) }}
+      </Item>
+      <Item label="권한">
+        <Select
+          v-model:value="formState.post.permission"
+          :options="(permissionCodes as any)"
+        ></Select>
       </Item>
       <Item label="게시물 구분">
         <Select v-model:value="formState.post.division" :options="divisionOptions"></Select>

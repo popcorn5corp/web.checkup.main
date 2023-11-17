@@ -1,2 +1,2 @@
-export { default as Table } from './Table.vue'
+export { default as Table } from './BasicTable.vue'
 export type { TableProps, TableEmits } from '../types'

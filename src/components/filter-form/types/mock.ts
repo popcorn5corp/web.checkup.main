@@ -3,27 +3,30 @@ import { FILTER_UI, type FilterFormItem } from '.'
 export const filterList: FilterFormItem[] = [
   {
     index: 0,
+    order: 1,
     type: FILTER_UI.DATE_PICKER,
     title: '날짜선택',
-    key: '',
+    key: [''],
     open: true,
     options: [],
     selectedItems: []
   },
   {
     index: 1,
+    order: 2,
     type: FILTER_UI.RANGE_DATE_PICKER,
     title: '조회기간',
-    key: '',
+    key: [''],
     open: true,
     options: [],
     selectedItems: []
   },
   {
     index: 2,
+    order: 3,
     type: FILTER_UI.SELECT,
     title: '반입장비',
-    key: '',
+    key: [''],
     open: true,
     options: [
       { label: '고소작업', value: 1 },
@@ -47,9 +50,10 @@ export const filterList: FilterFormItem[] = [
   // },
   {
     index: 3,
+    order: 4,
     type: FILTER_UI.CHECKBOX,
     title: '작업유형',
-    key: '',
+    key: [''],
     open: true,
     options: [
       { label: '일반공사', value: 1 },
@@ -61,9 +65,10 @@ export const filterList: FilterFormItem[] = [
   },
   {
     index: 4,
+    order: 5,
     type: FILTER_UI.RADIO,
     title: '상태',
-    key: '',
+    key: [''],
     open: true,
     options: [
       { label: '해당없음', value: false },

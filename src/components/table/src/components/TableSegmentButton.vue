@@ -31,7 +31,12 @@ async function onChangeLayoutType(val: SegmentedValue) {
 </script>
 <template>
   <div class="table-segmented-button">
-    <Segmented v-model:value="tableLayoutType" :options="options" @change="onChangeLayoutType">
+    <Segmented
+      v-model:value="tableLayoutType"
+      :options="options"
+      @change="onChangeLayoutType"
+      size="small"
+    >
       <template #label="{ value: val, payload = {} }">
         <div style="padding: 4px 4px">
           <template v-if="payload.icon">

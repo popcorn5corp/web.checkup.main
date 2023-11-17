@@ -1,32 +1,48 @@
 <template>
   <div ref="wrapRef" class="dynamic-table-containter">
     <div class="header">
-      <TableTags :items="filterFormItems" />
+      <TableTags :items="getFilterFormItems" />
 
       <div class="table-btns">
         <Space>
           <slot name="tableBtns"></slot>
 
-          <Button :label="$t('common.registration')" size="large" @click="$emit('row-add')" />
-          <Button
-            :label="$t('common.delete')"
-            size="large"
-            @click="
-              () => {
-                $emit('row-delete', tableRef?.selectedRows)
-                // console.log('f', tableRef?.selectedRows)
-              }
-            "
-          />
+          <template v-if="getContextValues.selectedRows.length > 0">
+            <Button :label="$t('common.download')" size="middle">
+              <template #icon>
+                <DownloadOutlined />
+              </template>
+            </Button>
+
+            <Button
+              :label="$t('common.delete')"
+              size="middle"
+              @click="$emit('row-delete', tableRef?.selectedRows, tableRef?.selectedRowKeys)"
+            >
+              <template #icon>
+                <DeleteTwoTone />
+              </template>
+            </Button>
+          </template>
+
+          <Button :label="$t('common.registration')" size="middle" @click="$emit('row-add')">
+            <template #icon>
+              <PlusCircleTwoTone />
+            </template>
+          </Button>
 
           <!-- 필터 버튼 -->
           <Button
             v-if="filters"
             type="primary"
             :label="$t('common.filterText')"
-            size="large"
+            size="middle"
             @click="showFilter = !showFilter"
-          />
+          >
+            <template #icon>
+              <FilterOutlined />
+            </template>
+          </Button>
         </Space>
       </div>
     </div>
@@ -49,7 +65,7 @@
 
         <FilterForm
           v-if="showFilter"
-          :items="filterFormItems"
+          :items="getFilterFormItems"
           @close="(flag: boolean) => (showFilter = flag)"
         ></FilterForm>
       </div>
@@ -61,25 +77,45 @@ import { Divider, Space } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
+import {
+  DeleteOutlined,
+  DeleteTwoTone,
+  DownloadOutlined,
+  FilterOutlined,
+  PlusCircleOutlined,
+  PlusCircleTwoTone,
+  PlusOutlined,
+  UserAddOutlined
+} from '@/components/icons'
 import { Table } from '@/components/table'
 import { createDynamicTableContext } from '../hooks/useDynamicTableContext'
 import { useFilter } from '../hooks/useFilter'
-// import { useTag } from '../hooks/useTag'
-import type { DynamicTableAction, DynamicTableContextValues, DynamicTableProps } from '../types'
+import type {
+  DynamicTablExposes,
+  DynamicTableAction,
+  DynamicTableContextValues,
+  DynamicTableProps
+} from '../types'
 import { defaultContenxtValues } from '../types'
 import TableTags from './components/TableTags.vue'
 
 const emit = defineEmits(['row-click', 'change', 'search', 'row-add', 'row-select', 'row-delete'])
-const attrs = useAttrs()
 const props = withDefaults(defineProps<DynamicTableProps>(), {
   showToolbar: true,
   filters: () => []
 })
+defineExpose<DynamicTablExposes>({
+  reload: (options: { isReset?: boolean }) => {
+    tableRef.value?.getDataSource(options)
+  }
+})
 
+const attrs = useAttrs()
 const wrapRef = ref(null)
 const innerProps = ref<Partial<DynamicTableProps>>()
 const tableRef = ref<InstanceType<typeof Table>>()
-const showFilter = ref(false)
+let showFilter = ref(false)
+
 const contextValues = ref<DynamicTableContextValues>({
   ...defaultContenxtValues
 })
@@ -98,9 +134,6 @@ function setProps(props: Partial<DynamicTableProps>) {
   }
 }
 
-const { filterFormItems, generateFilterFormItems } = useFilter(getProps)
-generateFilterFormItems()
-
 /**
  * @description DynamicTable 컴포넌트 Context에서 공유되는 Values
  */
@@ -115,25 +148,39 @@ function setContextValues(values: Partial<DynamicTableContextValues>) {
     ...unref(contextValues),
     ...values
   }
-
-  console.log('setContextValues :: ', contextValues.value)
 }
-// const {} = useTag()
+
+const { getFilterFormItems, clearSelectedItems, setFilterFormItem, initFilterFormItems } =
+  useFilter(getProps)
 
 watch(
-  filterFormItems,
+  () => tableRef.value?.selectedRows,
+  (selectedRows) => {
+    setContextValues({ selectedRows })
+  }
+)
+
+watch(
+  unref(getFilterFormItems),
   (filterFormItems) => {
-    console.log('filters :: ', filterFormItems)
     setContextValues({ filterFormItems })
   },
   {
-    immediate: true
+    immediate: true,
+    deep: true
   }
 )
 
 let dynamicTableAction: DynamicTableAction = {
   setProps,
   setContextValues,
+  getFilterFormItems: () => unref(getFilterFormItems),
+  setFilterFormItem,
+  clearSelectedItems,
+  initFilterFormItems,
+  closeFilter: () => {
+    unref(showFilter) && (showFilter.value = false)
+  },
   emitter: emit
 }
 
@@ -146,18 +193,10 @@ const getBindValues = computed<Recordable>(() => {
   return propsData
 })
 
-const reload = (options: { isReset?: boolean }) => {
-  tableRef.value?.getDataSource(options)
-}
-
+/**
+ * @description DynamicTable Context 생성
+ */
 createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, getBindValues })
-
-defineExpose({
-  getDataSource: tableRef.value?.getDataSource,
-  getColumns: tableRef.value?.getColumns,
-  reload,
-  selectedRows: tableRef.value?.selectedRows
-})
 </script>
 <style lang="scss" scoped>
 .dynamic-table-containter {
@@ -165,6 +204,10 @@ defineExpose({
     display: flex;
     justify-content: space-between;
     gap: 10px;
+
+    .table-btns {
+      height: 32px;
+    }
 
     .total-count {
       font-size: 14px;
@@ -211,17 +254,23 @@ defineExpose({
       .content {
         float: left;
 
-        .table-toolbar {
-          display: flex;
-          justify-content: end;
+        .table-container {
+          margin-right: 20px;
+          .table-toolbar {
+            display: flex;
+            justify-content: end;
+          }
         }
       }
 
       .filter-container {
-        width: 25%;
-        overflow-y: auto;
-        height: calc(100vh - 240px);
-        float: right;
+        // width: 25%;
+        // overflow-y: auto;
+        // height: calc(100vh - 240px);
+        // float: right;
+
+        // // border-left: 0.5px solid gray;
+        // border-left: thick double $color-gray-2;
       }
     }
   }

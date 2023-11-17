@@ -4,6 +4,7 @@
       class="search"
       v-model:value="searchWord"
       :placeholder="$t('common.searchPlaceholder')"
+      @change="onChange"
       @press-enter="onSearch"
       allow-clear
     >
@@ -17,13 +18,11 @@
     </Input>
 
     <Space class="settings">
-      <!-- <slot name="tableBtns"></slot> -->
-
       <Tooltip placement="top">
         <template #title>
           <span>Reload</span>
         </template>
-        <Button :label="''" size="large" @click="onReload">
+        <Button :label="''" size="middle" @click="onReload">
           <template #icon>
             <font-awesome-icon icon="rotate" :class="[isReload && 'rotating']" />
           </template>
@@ -34,7 +33,7 @@
         <template #title>
           <span>Full Download</span>
         </template>
-        <Button :label="''" size="large">
+        <Button :label="''" size="middle">
           <template #icon>
             <DownloadOutlined />
           </template>
@@ -46,7 +45,7 @@
           <span>Size</span>
         </template>
         <Dropdown :trigger="['click']">
-          <Button size="large">
+          <Button size="middle">
             <template #icon>
               <ColumnHeightOutlined />
             </template>
@@ -90,7 +89,6 @@ const sizeItems = computed(() =>
 )
 
 onMounted(() => {
-  // temp code
   isReload.value = true
 
   setTimeout(() => {
@@ -106,6 +104,12 @@ watch(
   }
 )
 
+function onChange(e: Event) {
+  if (e.type === 'click') {
+    onSearch()
+  }
+}
+
 function onSearch() {
   table.fetchDataSource({ param: { searchWord: unref(searchWord) } })
 }
@@ -120,7 +124,6 @@ function onReload() {
   isReload.value = true
   searchWord.value = ''
   table.reload()
-  // initTag()
 
   setTimeout(() => {
     isReload.value = false

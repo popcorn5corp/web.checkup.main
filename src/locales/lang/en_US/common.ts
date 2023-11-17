@@ -7,6 +7,7 @@ export default {
   postRegist: 'Register a post',
   registration: 'Registration',
   delete: 'Delete',
+  download: 'Download',
   message: {
     changeLang: `Would you like to change to your country's language?`,
     modalEditCloseCheck: 'No modifications will be saved Do you want to close it?',

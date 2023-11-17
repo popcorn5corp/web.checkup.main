@@ -7,6 +7,7 @@ export default {
   postRegist: '게시물 등록',
   registration: '등록',
   delete: '삭제',
+  download: '다운로드',
   message: {
     changeLang: '해당 국가의 언어로 변경하시겠습니까?',
     modalEditCloseCheck: '내용이 저장되지 않습니다. 닫으시겠습니까?',

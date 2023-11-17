@@ -20,6 +20,17 @@ export interface SortCodesResponse {
   }>
 }
 
+export interface ICode {
+  label: string
+  value: LabelValue
+}
+
+export interface CodeResponse {
+  codes: ICode[]
+}
+
+export type PermissionCodes = ICode[]
+
 export namespace IBaseSample {
   interface SortCode {
     sortCode: string
@@ -39,7 +50,8 @@ export namespace IBaseSample {
     boardContent: string // 샘플 게시판 내용
     createdAt: number // 생성일
     division: 'PRIVATE' | 'PUBLIC' // 샘플 게시판 구분
-    thumbnail: BoardFile
+    thumbnail: BoardFile | null
+    permission: 'GUEST' | 'NORMAL' | 'ADMIN'
   }
 
   export interface BaseSamples {
@@ -77,7 +89,8 @@ export namespace IBaseSample {
   }
 
   export interface BaseSample extends Content {
-    boardFiles: BoardFile
+    boardFiles: BoardFile[]
+    division: 'PRIVATE' | 'PUBLIC' // 샘플 게시판 구분
   }
 
   export interface BaseSamplesParam extends ConditionParam {
@@ -86,7 +99,8 @@ export namespace IBaseSample {
     searchWord: string
     size: number
     page: number
-    division: 'PRIVATE' | 'PUBLIC'
+    searchDivision: 'PRIVATE' | 'PUBLIC' | ''
+    searchPermission: 'GUEST' | 'NORMAL' | 'ADMIN' | ''
   }
 
   export interface BaseSampleUpdateParam extends Omit<BaseSample, 'createdAt' | 'thumbnail'> {}

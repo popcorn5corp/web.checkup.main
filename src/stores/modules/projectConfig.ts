@@ -1,6 +1,6 @@
 import { Util } from '@/utils'
 import { defineStore } from 'pinia'
-import { ref, unref, watch } from 'vue'
+import { computed, ref, unref, watch } from 'vue'
 import { THEME_KEY } from '@/constants/cacheKeyEnum'
 import { DEFAULT_PRIMARY } from '@/constants/settings'
 import {
@@ -20,6 +20,7 @@ const defaultConfig: ProjectConfigState = {
   // device: DeviceTypeEnum.Desktop,
   theme: {
     navTheme: 'light',
+    isRealDarkTheme: false,
     isDark: false,
     primaryColor: 'rgb(24, 144, 255)', // '#F5222D', // primary color of ant design
     menuPosition: 'sidemenu', // nav menu position: `sidemenu` or `topmenu`
@@ -75,6 +76,8 @@ export const useProjectConfigStore = defineStore('projectConfig', () => {
     }
   })
 
+  const getTheme = computed(() => unref(config).theme)
+
   watch(
     () => [config.value.theme.navTheme, config.value.isCollapse],
     ([navTheme, isCollapse]) => {
@@ -108,6 +111,7 @@ export const useProjectConfigStore = defineStore('projectConfig', () => {
 
   return {
     config,
+    getTheme,
     setTheme,
     setCollapse,
     setRealDarkTheme

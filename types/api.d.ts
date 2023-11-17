@@ -15,4 +15,23 @@ declare namespace API {
     page: number
     size: numbber
   }
+
+  // interface IFilter {
+  //   key: [string] | [string, string]
+  //   order: number
+  //   title: string
+  //   type: string
+  //   options?: Array<{
+  //     label: string
+  //     value: string | number | boolean
+  //   }>
+  //   selectedItems?: Arrya<{
+  //     label: string
+  //     value: string | number | boolean
+  //   }>
+  // }
+
+  // interface FilterResponse {
+  //   filters: IFilter[]
+  // }
 }

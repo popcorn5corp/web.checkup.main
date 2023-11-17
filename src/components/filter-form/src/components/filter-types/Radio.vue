@@ -1,40 +1,56 @@
-<script lang="ts" setup name="FilterRadio">
-import { ref, toRefs } from 'vue'
+<script setup lang="ts" name="FilterRadio">
+import { Radio, type RadioChangeEvent, RadioGroup } from 'ant-design-vue'
+import { computed, ref, unref } from 'vue'
 import { watch } from 'vue'
-import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import type { FilterFormItem } from '../../../types'
 
-const props = defineProps({
-  item: {
-    type: Object as PropType<FilterFormItem>,
-    default: () => {}
-  }
-})
-
-const { type, options, selectedItems } = toRefs(props.item)
-const { setSelectedFilterData } = useTableFilterStore()
-const selectedOption = ref<boolean>(false)
-
-const onChange = (options: LabelValueType) => {
-  setSelectedFilterData(type.value, [options])
+interface FilterRadioProps {
+  item: FilterFormItem
 }
 
-watch(selectedItems, () => {
-  selectedOption.value = selectedItems.value.length
-    ? (selectedItems.value[0].value as boolean)
-    : false
-})
+const props = defineProps<FilterRadioProps>()
+const dynamicTable = useDynamicTableContext()
+const formItem = computed(() => props.item)
+const selectedValue = ref()
+
+/**
+ * @description 외부에서 selectedItems의 정보가 변경되었을 경우, checkedList에 적용
+ */
+watch(
+  () => unref(formItem).selectedItems,
+  (selectedItems) => {
+    selectedValue.value = selectedItems && selectedItems.length ? selectedItems[0].value : null
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
+
+/**
+ * @description 선택된 selectedItems 정보를 setContextValues 통해 변경
+ * @param e
+ */
+const onChange = (e: RadioChangeEvent) => {
+  const checkedValue = e.target.value
+  const { options } = unref(formItem)
+  const selectedItems = options.filter((option) => checkedValue.includes(option.value))
+  const filterFormItem: FilterFormItem = {
+    ...unref(formItem),
+    selectedItems
+  }
+
+  dynamicTable.setFilterFormItem(filterFormItem)
+}
 </script>
 
 <template>
-  <a-radio-group
-    v-for="({ label, value }, index) in options"
-    v-model:value="selectedOption"
-    :key="index"
-    @change="onChange({ label, value: value as boolean })"
-  >
-    <a-radio :value="value">{{ label }}</a-radio>
-  </a-radio-group>
+  <RadioGroup v-model:value="selectedValue" @change="onChange">
+    <template v-for="({ label, value }, index) in formItem.options" :key="index">
+      <Radio :value="value">{{ label }}</Radio>
+    </template>
+  </RadioGroup>
 </template>
 
 <style lang="scss" scoped>
