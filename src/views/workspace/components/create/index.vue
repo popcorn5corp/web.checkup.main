@@ -1,44 +1,35 @@
 <template>
   <div class="transition-group">
-    <TransitionGroup name="create" appear>
-      <div v-if="step === 1" class="active" key="WorkspaceNameForm">
-        <!-- <component :is="filterTypeComponents[item.type as FilterUI]" :item="item" /> -->
-        <WorkspaceNameForm />
+    <Transition name="create" appear mode="out-in">
+      <div class="active" :key="currentStep">
+        <component :is="steps[currentStep - 1].component" />
       </div>
-      <div v-if="step === 2" class="active" key="NameProfileForm">
-        <NameProfileForm />
-      </div>
-      <div v-if="step === 3" class="active" key="InviteMemberForm">
-        <InviteMemberForm />
-      </div>
-      <div v-if="step === 4" class="active" key="BuisnessTypeForm">
-        <BuisnessTypeForm />
-      </div>
-      <div v-if="step === 5" class="active" key="CreateComplete">
-        <CreateComplete />
-      </div>
-    </TransitionGroup>
+    </Transition>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useWorkspceStore } from '@/stores/modules/workspace'
-import NameProfileForm from '../NameProfileForm.vue'
-import BuisnessTypeForm from './BuisnessTypeForm.vue'
-import CreateComplete from './CreateComplete.vue'
-import InviteMemberForm from './InviteMemberForm.vue'
-import WorkspaceNameForm from './WorkspaceNameForm.vue'
 
 const workspaceStore = useWorkspceStore()
-const step = computed(() => workspaceStore.step)
+const currentStep = computed(() => workspaceStore.currentStep)
+const steps = computed(() => workspaceStore.steps)
 </script>
 
 <style lang="scss">
 // transition
 .transition-group {
   position: relative;
+  opacity: 1;
 }
+// v-enter: 요소가 나타나기 시작할 때 적용
+// v-enter-active: 요소가 나타나는 트랜지션이 진행되는 동안 적용
+// v-enter-to: 요소가 나타나는 트랜지션이 완료될 때 적용
+// v-leave: 요소가 사라지기 시작할 때 적용
+// v-leave-active: 요소가 사라지는 트랜지션이 진행되는 동안 적용
+// v-leave-to: 요소가 사라지는 트랜지션이 완료될 때 적용
+
 .active {
   width: 100%;
   position: absolute;

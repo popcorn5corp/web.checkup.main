@@ -1,10 +1,7 @@
 <template>
-  <h1>
-    {{ 'type: ' + type }}
-  </h1>
-  <div id="workspace-container" v-if="!isLoading">
-    <template v-if="type === 'welcome'">
-      <Welcome />
+  <div id="workspace-container">
+    <template v-if="type === ''">
+      <Welcome :userName="workspaceUserInfo.userName" />
     </template>
     <template v-else>
       <div class="left">
@@ -13,10 +10,9 @@
       <div class="right">
         <div id="container">
           <div class="step-wrapper">
-            <span>{{ step }}</span>
+            <span>{{ currentStep }}</span>
             <span> / </span>
-            <span>5</span>
-            <!-- {{ workspaceSteps[type].length }} -->
+            <span>{{ steps.length }}</span>
           </div>
 
           <!-- workspace id 2개 이상일 때 -->
@@ -32,25 +28,29 @@
           </template>
 
           <div class="btns-wrapper">
-            <Button class="btn" size="large" label="이전" @click="workspaceStore.prevStep()" />
             <Button
-              v-if="step === 3 && type === 'create'"
+              class="btn"
+              size="large"
+              label="이전"
+              @click="workspaceStore.prevCurrentStep()"
+            />
+            <Button
+              v-if="steps[currentStep - 1].isJump"
               class="btn"
               size="large"
               label="건너뛰기"
-              @click="workspaceStore.nextStep()"
+              @click="workspaceStore.nextCurrentStep()"
             />
             <Button
-              v-if="type === 'create' ? step !== 5 : step !== 3"
               class="btn"
               type="primary"
               size="large"
-              :label="nextBtnText"
+              :label="steps[currentStep - 1].nextBtnText || ''"
               :disabled="nextBtnDisabled"
               @click="onComplete"
             />
-            <!-- v-if="(step === 5 && type === 'create') || (step === 3 && type === 'invite')" -->
             <Button
+              v-if="currentStep === steps.length"
               class="btn"
               type="primary"
               size="large"
@@ -68,15 +68,12 @@
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
 import { WorkspaceService } from '@/services'
+import { AuthService } from '@/services'
 import { message } from 'ant-design-vue'
-import { computed, ref } from 'vue'
-import { reactive } from 'vue'
-import { watch } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useWorkspceStore } from '@/stores/modules/workspace'
-import { type WorkspaceStepType } from '@/stores/modules/workspace'
-import { workspaceSteps } from '@/stores/modules/workspace'
 import { Button } from '@/components/button'
 import Welcome from './components/Welcome.vue'
 import WorkspaceList from './components/WorkspaceList.vue'
@@ -89,7 +86,8 @@ const {
 } = useProjectConfigStore()
 
 // TODO 구조분해 수정
-const step = computed(() => workspaceStore.step)
+const currentStep = computed(() => workspaceStore.currentStep)
+const steps = computed(() => workspaceStore.steps)
 const type = computed(() => workspaceStore.type)
 const nextBtnDisabled = computed(() => workspaceStore.nextBtnDisabled)
 const formValues = computed(() => workspaceStore.formValues)
@@ -103,63 +101,42 @@ const themeStyle = computed(() => {
     }
   }
 })
-const nextBtnText = computed(() => {
-  if (type.value === 'create' && step.value === 4) {
-    return '완료하기'
-  }
-  if (type.value === 'invite' && step.value === 2) {
-    return '참여하기'
-  }
-  return '다음'
-})
-const isLoading = ref(false)
 const workspaceUserInfo = reactive({
   workspaceCount: 0,
   userName: ''
 })
+const isLoading = ref(false)
 
 ;(async () => {
-  // workspaceStore.resetStep()
-  // workspaceStore.resetType()
   isLoading.value = true
   try {
-    const { data } = await WorkspaceService.getUser()
+    const { data } = await AuthService.getUser()
     workspaceUserInfo.workspaceCount = data.workspaceCount
     workspaceUserInfo.userName = data.userName
   } catch (err) {
     message.error('잠시 후 다시 시도해주세요.')
   }
 
-  // TODO before router
-  // const currentRoute = router.currentRoute.value
-  // if (step.value === 0 && currentRoute.fullPath.includes('/workspace/')) {
-  //   workspaceStore.setType(currentRoute.name as WorkspaceStepType)
-  //   workspaceStore.nextStep()
-  // }
   isLoading.value = false
 })()
 
 const onComplete = async () => {
   try {
-    if (type.value === 'create' && step.value === 4) {
-      // 생성 api
-      const { data } = await WorkspaceService.createWorkspace(formValues.value)
-      console.log('data', data)
+    if (steps.value[currentStep.value - 1].isComplete) {
+      if (type.value === 'create') {
+        // 생성 api
+        const { data } = await WorkspaceService.createWorkspace(formValues.value)
+        console.log('data', data)
+      } else {
+        // 초대 api
+      }
     }
-    if (type.value === 'invite' && step.value === 2) {
-      // 초대 api
-    }
-    workspaceStore.nextStep()
+
+    workspaceStore.nextCurrentStep()
   } catch (err) {
     message.error('잠시 후 다시 시도해주세요.')
   }
 }
-
-// watch(step, (step) => {
-//   if (type.value.length) {
-//     console.log('z3', step, workspaceSteps[type.value][step - 1])
-//   }
-// })
 </script>
 
 <style lang="scss">

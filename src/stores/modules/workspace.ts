@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
 import { type Component, computed, reactive, watch } from 'vue'
-import { useRouter } from 'vue-router'
-
-// import NameProfileForm from '@/views/workspace/components/NameProfileForm.vue'
-// import BuisnessTypeForm from '@/views/workspace/components/create/BuisnessTypeForm.vue'
-// import CreateComplete from '@/views/workspace/components/create/CreateComplete.vue'
-// import InviteMemberForm from '@/views/workspace/components/create/InviteMemberForm.vue'
-// import WorkspaceNameForm from '@/views/workspace/components/create/WorkspaceNameForm.vue'
+// import { useRouter } from 'vue-router'
+import NameProfileForm from '@/views/workspace/components/NameProfileForm.vue'
+import BuisnessTypeForm from '@/views/workspace/components/create/BuisnessTypeForm.vue'
+import CreateComplete from '@/views/workspace/components/create/CreateComplete.vue'
+import InviteMemberForm from '@/views/workspace/components/create/InviteMemberForm.vue'
+import WorkspaceNameForm from '@/views/workspace/components/create/WorkspaceNameForm.vue'
+import InviteCodeFormVue from '@/views/workspace/components/invite/InviteCodeForm.vue'
+import JoinCompleteVue from '@/views/workspace/components/invite/JoinComplete.vue'
 
 export interface WorkspaceFormValues {
   workspaceName: string
@@ -25,32 +26,29 @@ export type WorkspaceStepType = '' | 'create' | 'invite'
 
 export interface WorkspaceState {
   type: WorkspaceStepType
-  step: number
+  currentStep: number
+  steps: WorkspaceStep[]
   nextBtnDisabled: boolean
   formValues: WorkspaceFormValues
 }
 
 interface WorkspaceStep {
   title: string
-  step: number
+  currentStep: number
   isComplete: boolean
   isJump: boolean
-  nextBtnText: string
-  component?: Component
-}
-
-export interface WorkspaceSteps {
-  create: WorkspaceStep[]
-  invite: WorkspaceStep[]
+  nextBtnText: string | null
+  component: Component
 }
 
 export const useWorkspceStore = defineStore('workspace', () => {
-  const router = useRouter()
+  // const router = useRouter()
 
   // state
   const state = reactive<WorkspaceState>({
     type: '', // create || invite
-    step: 1,
+    currentStep: 1,
+    steps: [],
     nextBtnDisabled: false,
     formValues: {
       workspaceName: '', // 워크스페이스 네임
@@ -69,26 +67,33 @@ export const useWorkspceStore = defineStore('workspace', () => {
 
   // getter
   const type = computed(() => state.type)
-  const step = computed(() => state.step)
+  const currentStep = computed(() => state.currentStep)
   const nextBtnDisabled = computed(() => state.nextBtnDisabled)
   const formValues = computed<WorkspaceFormValues>(() => state.formValues)
+  const steps = computed(() => {
+    if (state.type === 'create') {
+      return createStep
+    } else {
+      return inviteStep
+    }
+  })
 
   // action
-  function resetStep() {
-    state.step = 1
+  function resetCurrentStep() {
+    state.currentStep = 1
   }
 
-  function prevStep() {
-    if (state.step > 1) {
-      state.step -= 1
+  function prevCurrentStep() {
+    if (state.currentStep > 1) {
+      state.currentStep -= 1
     }
-    if (state.step === 1) {
+    if (state.currentStep === 1) {
       resetType()
-      resetStep()
+      resetCurrentStep()
     }
   }
-  function nextStep() {
-    state.step += 1
+  function nextCurrentStep() {
+    state.currentStep += 1
   }
 
   function resetType() {
@@ -102,182 +107,104 @@ export const useWorkspceStore = defineStore('workspace', () => {
   function setNextBtnDisabled(disabled: boolean) {
     state.nextBtnDisabled = disabled
   }
-  // TODO formVlaues{ key,vlaue}
-  // function setFormValues(formValues: FormValues) {
-  //   state.formValues = formValues
-  //   // state.formValues = {
-  //   //   ... state.formValues,
-  //   //   formValues
-  //   // }
-  //   // state.formValues.workspaceName = formValues.workspaceName
-  //   // state.formValues.nickname = formValues.nickname
-  //   // state.formValues.origin_name = formValues.origin_name
-  //   // state.formValues.inviteEmails = formValues.inviteEmails
-  //   // state.formValues.businessTypeCode = formValues.businessTypeCode
-  //   // state.formValues.employeeScaleCode = formValues.employeeScaleCode
-  // }
 
-  watch(step, (step) => {
-    if (step) {
+  function setFormValueInviteEmails(emails: string[]) {
+    state.formValues.inviteEmails = emails
+  }
+
+  watch(currentStep, (currentStep) => {
+    console.log('step: ', currentStep)
+    if (currentStep) {
       state.nextBtnDisabled = false
     }
   })
 
   watch(type, (type) => {
-    console.log('type', type)
-    if (type) {
-    }
+    console.log('type: ', type)
   })
+
   return {
     type,
-    step,
+    currentStep,
+    steps,
     nextBtnDisabled,
     formValues,
-    resetStep,
-    prevStep,
-    nextStep,
+    resetCurrentStep,
+    prevCurrentStep,
+    nextCurrentStep,
     resetType,
     setType,
-    setNextBtnDisabled
-    // setFormValues
+    setNextBtnDisabled,
+    setFormValueInviteEmails
   }
 })
-export const workspaceSteps: WorkspaceSteps = {
-  create: [
-    {
-      title: 'workspaceName',
-      step: 1,
-      isComplete: false,
-      isJump: false,
-      nextBtnText: '다음'
-      // component: <WorkspaceNameForm />
-    },
-    {
-      title: 'nameProfile',
-      step: 2,
-      isComplete: false,
-      isJump: false,
-      nextBtnText: '다음'
-      // component: `<WorkspaceNameForm />`
-    },
-    {
-      title: 'inviteMember',
-      step: 3,
-      isComplete: false,
-      isJump: true,
-      nextBtnText: '다음'
-      // component: `<WorkspaceNameForm />`
-    },
-    {
-      title: 'buisnessType',
-      step: 4,
-      isComplete: true,
-      isJump: false,
-      nextBtnText: '완료하기'
-      // component: `<WorkspaceNameForm />`
-    },
-    {
-      title: 'createComplete',
-      step: 5,
-      isComplete: false,
-      isJump: false,
-      nextBtnText: ''
-      // component: `<WorkspaceNameForm />`
-    }
-  ],
-  invite: [
-    {
-      title: 'inviteCode',
-      step: 1,
-      isComplete: false,
-      isJump: false,
-      nextBtnText: '다음'
-      // component: `<inviteCodeForm />`
-    },
-    {
-      title: 'nameProfile',
-      step: 2,
-      isComplete: true,
-      isJump: false,
-      nextBtnText: '참여하기'
-      // component: `<WorkspaceNameForm />`
-    },
-    {
-      title: 'inviteComplete',
-      step: 3,
-      isComplete: false,
-      isJump: false,
-      nextBtnText: ''
-      // component: `<WorkspaceNameForm />`
-    }
-  ]
-}
-// export const createStep = [
-//   {
-//     title: 'workspaceName',
-//     step: 1,
-//     isComplete: false,
-//     isJump: false,
-//     nextBtnText: '다음',
-//     component: `<WorkspaceNameForm />`
-//   },
-//   {
-//     title: 'nameProfile',
-//     step: 2,
-//     isComplete: false,
-//     isJump: false,
-//     nextBtnText: '다음',
-//     component: `<WorkspaceNameForm />`
-//   },
-//   {
-//     title: 'inviteMember',
-//     step: 3,
-//     isComplete: false,
-//     isJump: true,
-//     nextBtnText: '다음',
-//     component: `<WorkspaceNameForm />`
-//   },
-//   {
-//     title: 'buisnessType',
-//     step: 4,
-//     isComplete: true,
-//     isJump: false,
-//     nextBtnText: '완료하기',
-//     component: `<WorkspaceNameForm />`
-//   },
-//   {
-//     title: 'createComplete',
-//     step: 5,
-//     isComplete: false,
-//     isJump: false,
-//     nextBtnText: '',
-//     component: `<WorkspaceNameForm />`
-//   }
-// ]
 
-// export const inviteStep = [
-//   {
-//     title: 'inviteCode',
-//     step: 1,
-//     isComplete: false,
-//     isJump: false,
-//     nextBtnText: '다음',
-//     component: `<inviteCodeForm />`
-//   },
-//   {
-//     title: 'nameProfile',
-//     step: 2,
-//     isComplete: true,
-//     isJump: false,
-//     nextBtnText: '참여하기',
-//     component: `<WorkspaceNameForm />`
-//   },
-//   {
-//     title: 'inviteComplete',
-//     step: 3,
-//     isComplete: false,
-//     isJump: false,
-//     nextBtnText: '',
-//     component: `<WorkspaceNameForm />`
-//   }
-// ]
+const createStep = [
+  {
+    title: 'workspaceName',
+    step: 1,
+    isComplete: false,
+    isJump: false,
+    nextBtnText: '다음',
+    component: WorkspaceNameForm
+  },
+  {
+    title: 'nameProfile',
+    step: 2,
+    isComplete: false,
+    isJump: false,
+    nextBtnText: '다음',
+    component: NameProfileForm
+  },
+  {
+    title: 'inviteMember',
+    step: 3,
+    isComplete: false,
+    isJump: true,
+    nextBtnText: '다음',
+    component: InviteMemberForm
+  },
+  {
+    title: 'buisnessType',
+    step: 4,
+    isComplete: true,
+    isJump: false,
+    nextBtnText: '완료하기',
+    component: BuisnessTypeForm
+  },
+  {
+    title: 'createComplete',
+    step: 5,
+    isComplete: false,
+    isJump: false,
+    nextBtnText: null,
+    component: CreateComplete
+  }
+]
+
+const inviteStep = [
+  {
+    title: 'inviteCode',
+    step: 1,
+    isComplete: false,
+    isJump: false,
+    nextBtnText: '다음',
+    component: InviteCodeFormVue
+  },
+  {
+    title: 'nameProfile',
+    step: 2,
+    isComplete: true,
+    isJump: false,
+    nextBtnText: '참여하기',
+    component: NameProfileForm
+  },
+  {
+    title: 'inviteComplete',
+    step: 3,
+    isComplete: false,
+    isJump: false,
+    nextBtnText: null,
+    component: JoinCompleteVue
+  }
+]

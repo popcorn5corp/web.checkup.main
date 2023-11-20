@@ -1,28 +1,20 @@
 <template>
   <div class="transition-group">
-    <TransitionGroup name="invite" appear>
-      <div v-if="step === 1" class="active" key="inviteCodeForm">
-        <InviteCodeForm />
+    <Transition name="invite" appear>
+      <div class="active" :key="currentStep">
+        <component :is="steps[currentStep - 1].component" />
       </div>
-      <div v-if="step === 2" class="active" key="nameProfileForm">
-        <NameProfileForm />
-      </div>
-      <div v-if="step === 3" class="active" key="joinComplete">
-        <JoinComplete />
-      </div>
-    </TransitionGroup>
+    </Transition>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useWorkspceStore } from '@/stores/modules/workspace'
-import NameProfileForm from '../NameProfileForm.vue'
-import InviteCodeForm from './InviteCodeForm.vue'
-import JoinComplete from './JoinComplete.vue'
 
 const workspaceStore = useWorkspceStore()
-const step = computed(() => workspaceStore.step)
+const currentStep = computed(() => workspaceStore.currentStep)
+const steps = computed(() => workspaceStore.steps)
 </script>
 
 <style lang="scss">

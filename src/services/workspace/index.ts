@@ -6,10 +6,6 @@ class WorkspaceService {
 
   constructor() {}
 
-  getUser() {
-    return service.get<IWorkspace.UserMeResponseData>(this.PATH + '/user/me')
-  }
-
   checkDuplicatedEmail(param: IWorkspace.ExistEmailParam) {
     return service.get<IWorkspace.ExistEmailResponse>(this.PATH + '/exist', param)
   }

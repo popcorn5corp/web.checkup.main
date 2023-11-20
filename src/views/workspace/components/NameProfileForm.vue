@@ -18,12 +18,7 @@
           <div class="btn-wrapper">
             <Button label="기본이미지 선택" class="btn" @click="modalVisible = true" />
             <span> 또는 </span>
-            <FileUploader
-              ref="fileUploader"
-              :show-download="false"
-              :showRemove="false"
-              :showPreview="false"
-            />
+            <FileUploader ref="fileUploader" />
           </div>
         </div>
       </div>
@@ -67,7 +62,7 @@ import img8 from '@/assets/images/avatar/avatar8.jpg'
 import img9 from '@/assets/images/avatar/avatar9.jpg'
 import img10 from '@/assets/images/avatar/avatar10.jpg'
 import { Input, Modal } from 'ant-design-vue'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useWorkspceStore } from '@/stores/modules/workspace'
 import { Button } from '@/components/button'
 import { FileUploader } from '@/components/file-uploader'
@@ -86,11 +81,24 @@ const selectImg = ref(img1)
 //   workspaceStore
 
 // })()
+
 const onClickImg = (e: any) => {
   console.log(e)
   selectImg.value = e
   modalVisible.value = false
 }
+
+watch(
+  fileUploader,
+  (fileUploader) => {
+    if (fileUploader) {
+      const files = fileUploader.value
+      console.log(files)
+      console.log(fileUploader.getFiles())
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -151,12 +159,15 @@ p {
     opacity: 1;
   }
 }
-:deep(.ant-select) {
-  width: 100%;
-}
+// :deep(.ant-select) {
+//   width: 100%;
+// }
 :deep(.profile-img) {
   width: 130px;
 }
+// :deep(.ant-upload-list) {
+//   display: none;
+// }
 
 @include xxs {
   .btn-wrapper {

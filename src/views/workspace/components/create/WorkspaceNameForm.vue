@@ -16,24 +16,26 @@
 <script lang="ts" setup>
 import { Input } from 'ant-design-vue'
 import { computed } from 'vue'
+import { watch } from 'vue'
 import { useWorkspceStore } from '@/stores/modules/workspace'
 
 const workspaceStore = useWorkspceStore()
 const formValues = computed(() => workspaceStore.formValues)
 
-const onInput = (e) => {
-  console.log(e.target.value, e.target.value.length)
-  if (e.target.value.length > 0) {
+const onInput = (e: Event) => {
+  // console.log(e.target.value, e.target.value.length)
+  if ((e.target as HTMLInputElement).value.length > 0) {
     workspaceStore.setNextBtnDisabled(false)
   } else {
     workspaceStore.setNextBtnDisabled(true)
   }
 }
-// watch(formValues.value, (formValue) => {
-//   if (formValue.workspaceName.length) {
-//     workspaceStore.setNextBtnDisabled(false)
-//   }
-// })
+
+watch(formValues.value, (formValue) => {
+  if (formValue.workspaceName.length) {
+    workspaceStore.setNextBtnDisabled(false)
+  }
+})
 </script>
 
 <style lang="scss" scoped></style>
