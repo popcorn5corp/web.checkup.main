@@ -1,8 +1,9 @@
 <template>
   <div ref="wrapRef" class="dynamic-table-containter">
+    <!-- <div class="dynamic-table-wrapper"> -->
     <div class="header">
       <TableTags :items="getFilterFormItems" />
-
+      <!-- <Button label="Drawer" @click="showDetail = true" /> -->
       <div class="table-btns">
         <Space>
           <slot name="tableBtns"></slot>
@@ -50,26 +51,42 @@
     <Divider></Divider>
 
     <div class="body">
-      <div class="content-wrapper">
-        <div class="content" :style="{ width: props.showToolbar && showFilter ? '75%' : '100%' }">
-          <Table
-            ref="tableRef"
-            v-bind="{ ...props }"
-            @row-add="$emit('row-add', $event)"
-            @row-click="$emit('row-click', $event)"
-            @row-select="$emit('row-select', $event)"
-          >
-            <slot />
-          </Table>
-        </div>
-
-        <FilterForm
-          v-if="showFilter"
-          :items="getFilterFormItems"
-          @close="(flag: boolean) => (showFilter = flag)"
-        ></FilterForm>
+      <div class="content" :style="{ width: props.showToolbar && showFilter ? '75%' : '100%' }">
+        <Table
+          ref="tableRef"
+          v-bind="{ ...props }"
+          @row-add="$emit('row-add', $event)"
+          @row-click="onRowClick"
+          @row-select="$emit('row-select', $event)"
+        >
+          <slot />
+        </Table>
       </div>
+
+      <FilterForm
+        v-if="showFilter"
+        :items="getFilterFormItems"
+        @close="(flag: boolean) => (showFilter = flag)"
+        :style="{ width: props.showToolbar && showFilter ? '25%' : '' }"
+      ></FilterForm>
     </div>
+    <!-- </div> -->
+
+    <!-- <div class="detail-wrapper" v-if="showDetail" :style="{ width: showDetail ? '25%' : '' }">
+      <div class="title">
+        <span> 상세 영역 </span>
+        <Button :size="'small'">
+          <template #icon>
+            <font-awesome-icon @click="showDetail = false" class="xmark" :icon="['fas', 'xmark']" />
+          </template>
+        </Button>
+      </div>
+
+      <Divider />
+
+      <div id="detail-content">
+      </div>
+    </div> -->
   </div>
 </template>
 <script setup lang="ts" name="DynamicTable">
@@ -107,14 +124,23 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
 defineExpose<DynamicTablExposes>({
   reload: (options: { isReset?: boolean }) => {
     tableRef.value?.getDataSource(options)
+  },
+  getShowToolbar: () => {
+    return computed(() => props.showToolbar && unref(showFilter))
   }
 })
+
+const onRowClick = (event: any) => {
+  console.log('onRowClick :: ', event)
+  emit('row-click', event)
+}
 
 const attrs = useAttrs()
 const wrapRef = ref(null)
 const innerProps = ref<Partial<DynamicTableProps>>()
 const tableRef = ref<InstanceType<typeof Table>>()
-let showFilter = ref(false)
+const showFilter = ref(false)
+// const showDetail = ref(true)
 
 const contextValues = ref<DynamicTableContextValues>({
   ...defaultContenxtValues
@@ -178,6 +204,9 @@ let dynamicTableAction: DynamicTableAction = {
   setFilterFormItem,
   clearSelectedItems,
   initFilterFormItems,
+  getShowToolbar: () => {
+    return computed(() => props.showToolbar && unref(showFilter))
+  },
   closeFilter: () => {
     unref(showFilter) && (showFilter.value = false)
   },
@@ -200,6 +229,12 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
 </script>
 <style lang="scss" scoped>
 .dynamic-table-containter {
+  // display: flex;
+  // // height: 100%;
+  // position: relative;
+  // .dynamic-table-wrapper {
+  // flex: 1;
+  // position: relative;
   .header {
     display: flex;
     justify-content: space-between;
@@ -217,9 +252,9 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
     }
 
     :deep(.ant-space) {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
+      // display: flex;
+      // width: 100%;
+      // justify-content: space-between;
 
       .search {
         display: flex;
@@ -244,35 +279,42 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
 
   .body {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
-    > span {
-      margin-bottom: 16px;
-    }
-
-    .content-wrapper {
-      .content {
-        float: left;
-
-        .table-container {
-          margin-right: 20px;
-          .table-toolbar {
-            display: flex;
-            justify-content: end;
-          }
-        }
-      }
-
-      .filter-container {
-        // width: 25%;
-        // overflow-y: auto;
-        // height: calc(100vh - 240px);
-        // float: right;
-
-        // // border-left: 0.5px solid gray;
-        // border-left: thick double $color-gray-2;
+    .content {
+      .table-container {
+        margin-right: 20px;
       }
     }
   }
+  // }
+
+  // .detail-wrapper {
+  //   flex: 2;
+  //   background-color: $color-white;
+  //   // height: 100%;
+  //   position: absolute;
+  //   width: 500px;
+  //   z-index: 2;
+  //   right: 0;
+  //   height: 100%;
+  //   margin-right: -15px;
+  //   margin-top: -15px;
+
+  //   border: 0.5px solid $color-gray-4;
+
+  //   > .title {
+  //     display: flex;
+  //     font-size: 16px;
+  //     font-weight: bold;
+  //     justify-content: space-between;
+  //     padding: 18.5px;
+  //     align-items: end;
+  //   }
+
+  //   :deep(.ant-divider) {
+  //     margin: 0;
+  //   }
+  // }
 }
 </style>

@@ -10,7 +10,7 @@
       ref="tableRef"
       v-if="getContextValues.layoutMode === 'table'"
       v-bind="getBindValues"
-      :scroll="{ y: 530 }"
+      :scroll="{ y: 700 }"
       :row-key="rowKey || 'index'"
       :custom-row="customRow"
       @change="changeTable"
@@ -64,6 +64,7 @@ import TableToolbar from './components/TableToolbar.vue'
 import EmptyImage from './images/no_data_2.png'
 
 const emit = defineEmits<TableEmits>()
+// options 정보가 props 로 넘어오게되면 options 내부 설정에 대한 Dfault 정보는 사라진다.
 const props = withDefaults(defineProps<TableProps>(), {
   showHeader: true,
   loading: false,
@@ -337,7 +338,7 @@ defineExpose({
 
   :deep(.ant-table) {
     // height: calc(100vh - 350px);
-    overflow: auto;
+    // overflow: auto;
 
     .ant-table-thead {
       th {

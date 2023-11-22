@@ -11,7 +11,7 @@
 
       <RollingText :list="rollingList" :width="450">
         <template #default="{ marquee }">
-          <span>{{ marquee.title }} <a-tag v-if="marquee.isNew" color="yellow">New</a-tag> </span>
+          <span>{{ marquee.title }} <Tag v-if="marquee.isNew" color="yellow">New</Tag> </span>
         </template>
       </RollingText>
     </Space>
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup name="LayoutHeader">
-import { Layout, Space } from 'ant-design-vue'
+import { Layout, Space, Tag } from 'ant-design-vue'
 import { type CSSProperties, computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/icons'

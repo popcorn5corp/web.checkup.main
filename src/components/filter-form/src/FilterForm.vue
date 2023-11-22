@@ -1,5 +1,5 @@
 <template>
-  <div class="filter-container" :style="containerStyles">
+  <div class="filter-form-container" :style="containerStyles">
     <div class="filter-list" :class="getDarkModeCls">
       <!--  -->
       <div class="mobile-header">
@@ -63,18 +63,17 @@ const filterTypeComponents: Record<FilterUI, Component> = {
 </script>
 
 <style lang="scss" scoped>
-.filter-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  width: 25%;
-  overflow-y: auto;
-  height: calc(100vh - 240px);
-  float: right;
+.filter-form-container {
+  // display: flex;
+  // flex-direction: column;
+  // align-items: flex-end;
+  // overflow-y: auto;
+  // height: calc(100vh - 240px);
+  // float: right;
+  // width: 25%;
 
   .filter-list {
-    width: 100%;
+    // width: 100%;
     background: white;
     z-index: 10;
 
@@ -102,6 +101,15 @@ const filterTypeComponents: Record<FilterUI, Component> = {
     }
 
     @media screen and (max-width: 830px) {
+      animation: slideUp 0.5s;
+      background: $color-white;
+      // position: absolute;
+      position: fixed;
+      top: -7px;
+      left: 0px;
+      width: 100vw;
+      height: 101vh;
+
       .mobile-header {
         padding: 41px 16px;
         display: block;
@@ -158,14 +166,6 @@ const filterTypeComponents: Record<FilterUI, Component> = {
           transform: translateY(0%);
         }
       }
-
-      animation: slideUp 0.5s;
-      background: $color-white;
-      position: absolute;
-      top: -7px;
-      left: 0px;
-      width: 100vw;
-      height: 101vh;
     }
 
     > ul {

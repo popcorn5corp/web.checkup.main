@@ -1,3 +1,4 @@
+import type { ComputedRef } from 'vue'
 import type { IBaseAPI } from '@/services/base/interface'
 import type { FilterFormItem, FilterList } from '@/components/filter-form'
 import type { TableProps } from '@/components/table'
@@ -14,6 +15,7 @@ export interface DynamicTableEmits {}
 
 export interface DynamicTablExposes {
   reload: (options: { isReset?: boolean }) => void
+  getShowToolbar: () => ComputedRef<boolean>
 }
 
 export interface DynamicTableAction {
@@ -25,6 +27,7 @@ export interface DynamicTableAction {
   clearTag?: () => void
   clearSelectedItems: () => void
   closeFilter: () => void
+  getShowToolbar: () => ComputedRef<boolean>
   emitter: DynamicTableEmits
 }
 

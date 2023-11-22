@@ -1,7 +1,7 @@
 <template>
   <div class="tabs-container">
     <Tabs v-model:activeKey="activeKey" :tabPosition="tabPosition" :type="type" @edit="onEdit">
-      <template v-if="tabs">
+      <template v-if="tabs && tabs.length">
         <template v-for="pane in tabs" :key="pane.key">
           <TabPane :closable="pane.closable">
             <template #tab>
@@ -41,7 +41,7 @@ const newTabIndex = ref(0)
 watch(
   () => props.tabs,
   (_tabs) => {
-    if (_tabs) {
+    if (_tabs && _tabs.length) {
       tabList.value = _tabs
       activeKey.value = tabList.value[0].key
     }

@@ -3,12 +3,17 @@ import { BaseSampleService } from '@/services'
 import { Modal, Spin, message } from 'ant-design-vue'
 import { computed, createVNode, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import type { IBaseSample } from '@/services/BaseSample/interface'
+import { Drawer } from '@/components/Drawer'
 import { Button } from '@/components/button'
 import { DynamicTable } from '@/components/dynamic-table'
 import { QuestionCircleTwoTone } from '@/components/icons'
+import { TabPane, Tabs } from '@/components/tabs'
 import { contentModes as modes } from '@/constants/content'
 import PostDetail from './components/PostDetail.vue'
+import TableDetailForm from './components/TableDetailForm.vue'
+import TableLayoutForm from './components/TableLayoutForm.vue'
 import { getDefaultPost } from './constant'
 import { columns } from './mock'
 
@@ -18,6 +23,7 @@ const { t } = useI18n()
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 const postDetailRef = ref()
 const isOpen = ref(false)
+const openDrawer = ref(false)
 const isLoading = ref(false)
 const mode = ref<ContentMode>(DEFAULT_MODE)
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
@@ -31,6 +37,7 @@ const title = computed(() => {
   }
 })
 
+const showDetail = ref(false)
 const initParam = ref<IBaseSample.BaseSamplesParam>({
   searchEndDate: '',
   searchStartDate: '',
@@ -62,7 +69,10 @@ const getFilters = () => {
  * @param row
  */
 const onClickRow = (row: IBaseSample.Content): void => {
-  isOpen.value = true
+  // openDrawer.value = true
+  showDetail.value = true
+  // isOpen.value = true
+  console.log('click row :: ', openDrawer.value)
   isLoading.value = true
   mode.value = DEFAULT_MODE
 
@@ -231,26 +241,41 @@ const onClickRegist = (): void => {
 </script>
 
 <template>
-  <DynamicTable
-    ref="dynamicTableRef"
-    :row-key="'boardId'"
-    :columns="columns"
-    :filter-request="getFilters"
-    :init-param="initParam"
-    :data-request="getDataSource"
-    :data-callback="dataCallback"
-    :column-request="getColumns"
-    @row-click="onClickRow"
-    @row-delete="onRemovePost"
-    @row-add="onClickRegist"
-  >
-    <template #tableBtns="scope">
-      <!-- <Button :label="$t('common.delete')" size="large" @click="onRemovePost" />
+  <TableLayoutForm v-model:openDetail="showDetail">
+    <DynamicTable
+      ref="dynamicTableRef"
+      :row-key="'boardId'"
+      :columns="columns"
+      :filter-request="getFilters"
+      :init-param="initParam"
+      :data-request="getDataSource"
+      :data-callback="dataCallback"
+      :column-request="getColumns"
+      @row-click="onClickRow"
+      @row-delete="onRemovePost"
+      @row-add="onClickRegist"
+    >
+      <template #tableBtns="scope">
+        <!-- <Button :label="$t('common.delete')" size="large" @click="onRemovePost" />
       <Button :label="$t('common.registration')" size="large" @click="onClickRegist" /> -->
-    </template>
-  </DynamicTable>
+      </template>
+    </DynamicTable>
 
-  <Modal v-model:open="isOpen" :title="title" :width="650" destroyOnClose>
+    <template #detail-content>
+      <div>상세 Content 영역</div>
+    </template>
+  </TableLayoutForm>
+
+  <!-- <div class="detail-wrapper">
+    <div class="title">상세 영역</div>
+    <div>
+      <Button :label="'Close'" />
+    </div>
+  </div> -->
+
+  <Drawer v-model:open="openDrawer" />
+
+  <Modal v-model:open="isOpen" :title="title" :width="1000" destroyOnClose>
     <Spin :spinning="isLoading">
       <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
     </Spin>
@@ -281,4 +306,32 @@ const onClickRegist = (): void => {
     </template>
   </Modal>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// .detail-wrapper {
+//   flex: 2;
+//   background-color: $color-white;
+//   // height: 100%;
+//   position: absolute;
+//   width: 500px;
+//   z-index: 2;
+//   right: 0;
+//   height: 100%;
+//   margin-right: -15px;
+//   margin-top: -15px;
+
+//   border: 0.5px solid $color-gray-4;
+
+//   > .title {
+//     display: flex;
+//     font-size: 16px;
+//     font-weight: bold;
+//     justify-content: space-between;
+//     padding: 18.5px;
+//     align-items: end;
+//   }
+
+//   :deep(.ant-divider) {
+//     margin: 0;
+//   }
+// }
+</style>
