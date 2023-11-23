@@ -1,5 +1,5 @@
-import type { ComputedRef } from 'vue'
-import type { TableEmits, TableProps } from '../types'
+import { ref } from 'vue'
+import type { TableEmits } from '../types'
 
 interface Options {
   emit: TableEmits
@@ -7,10 +7,13 @@ interface Options {
 
 export function useCustomRow(options: Options) {
   const { emit } = options
+  const selectedRowIndex = ref()
 
   const customRow = (record: Recordable, index: number) => {
     return {
       onClick: (event: Event) => {
+        console.log('eeeee ', event)
+        selectedRowIndex.value = index
         emit('row-click', record)
       },
       onDblclick: (event: Event) => {
@@ -19,8 +22,13 @@ export function useCustomRow(options: Options) {
     }
   }
 
+  const rowClassName = (record: any, index: number) => {
+    return selectedRowIndex.value === index ? 'table-row-focus' : ''
+  }
+
   return {
     customRow,
+    rowClassName,
     emit
   }
 }

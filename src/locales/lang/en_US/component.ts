@@ -4,6 +4,7 @@ export default {
     cancel: 'Cancel',
     edit: 'Edit',
     close: 'Close',
-    viewDetail: 'View Details'
+    viewDetail: 'View Details',
+    reset: 'Reset'
   }
 }

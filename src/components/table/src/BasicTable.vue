@@ -10,7 +10,7 @@
       ref="tableRef"
       v-if="getContextValues.layoutMode === 'table'"
       v-bind="getBindValues"
-      :scroll="{ y: 700 }"
+      :scroll="{ y: 700, x: 800 }"
       :row-key="rowKey || 'index'"
       :custom-row="customRow"
       @change="changeTable"
@@ -104,6 +104,7 @@ watch(
     initTableState()
     initSelecion()
     dynamicTable.closeFilter()
+    dynamicTable.closeDetail()
     dynamicTable.initFilterFormItems()
     await fetchDataSource({ isReset: true })
   }
@@ -197,7 +198,7 @@ function setContextValues(values: Partial<TableContextValues>) {
 }
 
 const { getLoading, setLoading } = useLoading(getProps)
-const { customRow } = useCustomRow({ emit })
+const { customRow, rowClassName } = useCustomRow({ emit })
 
 /**
  * @description Table 관련 기능에 대한 Hooks
@@ -253,7 +254,7 @@ watch(
  * @description Table 컴포넌트 초기 세팅
  */
 ;(async () => {
-  await fetchDataSource()
+  // await fetchDataSource()
 
   if (props.columns) {
     await setColumns()
@@ -304,6 +305,7 @@ const getBindValues = computed<Recordable>(() => {
     columns: unref(getColumns),
     loading: unref(getLoading),
     pagination: unref(getPagination),
+    rowClassName,
     rowSelection: props.options.isSelection ? unref(rowSelection) : undefined
   }
 
@@ -348,8 +350,40 @@ defineExpose({
       }
     }
 
+    // @media (prefers-color-scheme: dark) {
+    //   body {
+    //     background-color: black;
+    //     color: rgb(193, 35, 35);
+    //   }
+
+    //   td {
+    //     color: rgb(193, 35, 35);
+    //   }
+    // }
+
+    // @media (prefers-color-scheme: light) {
+    //   body {
+    //     background-color: white;
+    //     color: black;
+    //   }
+    // }
+
     .ant-table-row {
       cursor: v-bind('styles.cursor');
+    }
+
+    .table-row-focus {
+      background: #e3e8f5;
+    }
+
+    .table-row-focus {
+      &:hover {
+        background: #e3e8f5 !important;
+      }
+    }
+
+    .table-row-focus:hover > td {
+      background: #e3e8f5 !important;
     }
   }
 }

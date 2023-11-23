@@ -1,6 +1,6 @@
 <template>
   <div class="filter-form-container" :style="containerStyles">
-    <div class="filter-list" :class="getDarkModeCls">
+    <div class="filter-list">
       <!--  -->
       <div class="mobile-header">
         <h3>{{ $t('common.filterText') }}</h3>

@@ -122,9 +122,9 @@ defineExpose({
       <Item label="게시물 구분">
         {{ formState.post.division }}
       </Item>
-      <Item label="게시물 첩부파일">
+      <!-- <Item label="게시물 첩부파일">
         <FileUploader :files="formState.post.boardFiles" readonly />
-      </Item>
+      </Item> -->
     </Form>
 
     <Form
@@ -152,13 +152,13 @@ defineExpose({
       <Item label="게시물 구분">
         <Select v-model:value="formState.post.division" :options="divisionOptions"></Select>
       </Item>
-      <Item label="게시물 첩부파일">
+      <!-- <Item label="게시물 첩부파일">
         <FileUploader
           ref="fileUploader"
           :files="formState.post.boardFiles"
           :type="SAMPLE_FILE_TYPE"
         />
-      </Item>
+      </Item> -->
     </Form>
   </div>
 </template>

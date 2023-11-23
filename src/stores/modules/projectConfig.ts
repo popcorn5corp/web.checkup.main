@@ -46,10 +46,12 @@ document.head.appendChild(styleDom)
 
 const setRealDarkTheme = (navTheme?: ThemeName) => {
   if (navTheme === 'realDark') {
-    document.documentElement.classList.add('dark')
+    // document.documentElement.classList.add('dark')
+    document.documentElement.setAttribute('data-theme', 'dark')
     styleDom.disabled = false
   } else {
-    document.documentElement.classList.remove('dark')
+    // document.documentElement.classList.remove('dark')
+    document.documentElement.removeAttribute('data-theme')
     styleDom.disabled = true
   }
 }

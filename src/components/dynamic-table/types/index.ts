@@ -7,6 +7,7 @@ export interface DynamicTableProps extends TableProps {
   showToolbar?: boolean
   showFilter?: boolean
   filters?: FilterList
+  openDetail: boolean
   // 테이블 필터 정보에 대한 API
   filterRequest?: () => Promise<API.ResponseData<IBaseAPI.FilterResponse>>
 }
@@ -27,6 +28,7 @@ export interface DynamicTableAction {
   clearTag?: () => void
   clearSelectedItems: () => void
   closeFilter: () => void
+  closeDetail: () => void
   getShowToolbar: () => ComputedRef<boolean>
   emitter: DynamicTableEmits
 }

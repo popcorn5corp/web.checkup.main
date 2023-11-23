@@ -56,9 +56,9 @@ console.log('props :: ', props)
 </script>
 <style lang="scss" scoped>
 .table-layout-form-container {
-  display: flex;
-  height: 100%;
-  position: relative;
+  // display: flex;
+  // height: 100%;
+  // position: relative;
 
   :deep(.dynamic-table-containter) {
     // display: flex;
@@ -69,7 +69,7 @@ console.log('props :: ', props)
 
     .body {
       .content {
-        width: v-bind('styles.tableContentWidth') !important;
+        // width: v-bind('styles.tableContentWidth') !important;
       }
 
       // :deep(.filter-form-container) {

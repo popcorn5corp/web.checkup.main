@@ -25,7 +25,7 @@
         @select-rows="onSelectRows"
       />
 
-      <div v-else :class="['img-wrapper', isRealDarkTheme && 'dark']">
+      <div v-else :class="['img-wrapper', getTheme.isRealDarkTheme && 'dark']">
         <img :src="EmptyImage" />
         <div>{{ $t('common.message.noData') }}</div>
       </div>
@@ -49,9 +49,7 @@ interface CardViewProps {
 
 const props = defineProps<CardViewProps>()
 const table = useTableContext()
-const {
-  getTheme: { isRealDarkTheme }
-} = useProjectConfigStore()
+const { getTheme } = useProjectConfigStore()
 const cardListRef = ref<InstanceType<typeof CardList>>()
 const loading = computed(() => table.getLoading())
 const dataSource = computed(() => table.getDataSource())

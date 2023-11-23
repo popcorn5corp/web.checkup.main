@@ -48,7 +48,7 @@
 
         <Divider />
 
-        <div class="content-start" :class="$route.name as string + '-content'">
+        <div class="content-start" :class="[$route.name as string + '-content']">
           <slot></slot>
           <!-- <div class="layer">상세영역</div> -->
         </div>
