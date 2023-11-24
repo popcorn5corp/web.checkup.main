@@ -8,7 +8,7 @@
           <Space>
             <slot name="tableBtns"></slot>
 
-            <template v-if="getContextValues.selectedRows.length > 0">
+            <template v-if="getContextValues.selectedRows?.length > 0">
               <Button :label="$t('common.download')" size="middle">
                 <template #icon>
                   <DownloadOutlined />

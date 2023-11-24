@@ -2,36 +2,46 @@ $bg-color: $color-dark; // main bg color
 $text-color: $color-white; // main text color
 $sub-text-color: rgba(255, 255, 255, 0.25);
 
-html[data-theme="dark"] {
+html[data-theme='dark'] {
   .filter-form-container {
     .filter-list,
     .filter-form-container,
     .mobile-footer {
       background-color: $bg-color;
-      color: $text-color
+      color: $text-color;
     }
   }
 
   .table-tags-container {
     .table-tag {
       background-color: $bg-color;
-      color: $text-color
+      color: $text-color;
     }
   }
 
-  .basic-table-container {
-    :deep(.selection-popup-container) {
-      :deep(.ant-alert) {
-        background-color: $bg-color;
-        color: $text-color;
-        box-shadow: unset;
-      }
+  .selection-popup-container {
+    .ant-alert {
+      background-color: $bg-color !important;
+      color: $text-color !important;
+      box-shadow: unset;
     }
   }
 
   .card-view-container {
     .img-wrapper {
-      color: $sub-text-color
+      color: $sub-text-color;
+    }
+  }
+}
+
+html[data-theme='dark'] {
+  .ant-table {
+    .table-row-focus {
+      background: #5283fe !important;
+    }
+
+    .table-row-focus:hover > td {
+      background: #5283fe !important;
     }
   }
 }

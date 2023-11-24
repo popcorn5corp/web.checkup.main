@@ -1,6 +1,6 @@
 <template>
   <div class="selection-popup-container">
-    <Alert :message="message" :class="getDarkModeClass">
+    <Alert :message="message">
       <template #action>
         <Button
           size="small"
@@ -24,12 +24,9 @@ interface SelectionPopupProps {
 }
 
 const props = defineProps<SelectionPopupProps>()
-const {
-  config: { theme }
-} = useProjectConfigStore()
+const { getTheme } = useProjectConfigStore()
 const table = useTableContext()
-const getDarkModeClass = computed(() => ({ 'dark-mode': theme.navTheme === 'realDark' }))
-const roundColor = computed(() => theme.primaryColor)
+const roundColor = computed(() => getTheme.primaryColor)
 const message = computed(() => props.selectedRows.length + '개의 행이 선택되었습니다.')
 
 function onCancel() {
@@ -46,7 +43,6 @@ function onCancel() {
     text-align: center;
     line-height: normal;
     font-size: 13px;
-    // color: v-bind(roundColor);
     background-color: $color-white;
     border: 1.5px solid v-bind(roundColor);
     font-weight: 500;
@@ -56,12 +52,6 @@ function onCancel() {
 
     .ant-alert-message {
       color: v-bind(roundColor);
-    }
-
-    &.dark-mode {
-      background: $color-dark;
-      color: $color-white;
-      box-shadow: unset;
     }
   }
 

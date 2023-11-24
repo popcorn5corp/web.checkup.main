@@ -40,6 +40,7 @@
 </template>
 <script setup lang="ts" name="BasicTable">
 import { Table } from 'ant-design-vue'
+import { theme } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import omit from 'lodash-es/omit'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
@@ -112,7 +113,7 @@ watch(
 
 watch(
   () => dynamicTable?.getFilterFormItems(),
-  async (filterFormItems, a) => {
+  async (filterFormItems) => {
     const _filterFormItems = cloneDeep(filterFormItems)
     const { initParam } = unref(getProps)
     const defaultParam = {
@@ -254,7 +255,9 @@ watch(
  * @description Table 컴포넌트 초기 세팅
  */
 ;(async () => {
-  // await fetchDataSource()
+  if (!dynamicTable) {
+    await fetchDataSource()
+  }
 
   if (props.columns) {
     await setColumns()
@@ -339,51 +342,32 @@ defineExpose({
   }
 
   :deep(.ant-table) {
-    // height: calc(100vh - 350px);
-    // overflow: auto;
-
-    .ant-table-thead {
-      th {
-        background: transparent !important;
-        border-bottom: 1px solid rgb(229, 232, 235) !important;
-        font-size: 14px !important;
+    .ant-table-container {
+      .ant-table-header {
+        .ant-table-thead {
+          th {
+            background: transparent;
+            border-bottom: 1px solid rgb(229, 232, 235);
+            font-size: 14px;
+          }
+        }
       }
-    }
 
-    // @media (prefers-color-scheme: dark) {
-    //   body {
-    //     background-color: black;
-    //     color: rgb(193, 35, 35);
-    //   }
+      .ant-table-body {
+        .ant-table-tbody {
+          .ant-table-row {
+            cursor: v-bind('styles.cursor');
+          }
 
-    //   td {
-    //     color: rgb(193, 35, 35);
-    //   }
-    // }
+          .table-row-focus {
+            background: #acc0f2;
+          }
 
-    // @media (prefers-color-scheme: light) {
-    //   body {
-    //     background-color: white;
-    //     color: black;
-    //   }
-    // }
-
-    .ant-table-row {
-      cursor: v-bind('styles.cursor');
-    }
-
-    .table-row-focus {
-      background: #e3e8f5;
-    }
-
-    .table-row-focus {
-      &:hover {
-        background: #e3e8f5 !important;
+          .table-row-focus:hover > td {
+            background: #acc0f2;
+          }
+        }
       }
-    }
-
-    .table-row-focus:hover > td {
-      background: #e3e8f5 !important;
     }
   }
 }
