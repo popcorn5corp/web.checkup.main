@@ -27,7 +27,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="InviteCodeForm">
 import { WorkspaceService } from '@/services'
 import { CheckOutlined } from '@ant-design/icons-vue'
 import { Input, message } from 'ant-design-vue'

@@ -31,5 +31,6 @@ export default {
   checkingLogin: '유저 정보를 확인 중입니다',
   inputName: '이름을 입력해주세요.',
   or: '또는',
-  select: '선택'
+  select: '선택',
+  createWorkspace: '새 워크스페이스 생성'
 }

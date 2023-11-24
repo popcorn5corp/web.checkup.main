@@ -38,7 +38,7 @@
   </template>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="WorkspaceList">
 import img from '@/assets/images/avatar/avatar4.jpg'
 import { AuthService } from '@/services'
 import { ArrowRightOutlined } from '@ant-design/icons-vue'

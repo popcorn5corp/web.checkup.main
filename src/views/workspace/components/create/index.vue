@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="WorkspaceCreate">
 import { toRefs } from 'vue'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 
@@ -16,7 +16,7 @@ const workspaceStore = useWorkspaceStore()
 const { getCurrentStep, getSteps } = toRefs(workspaceStore)
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 // transition
 .transition-group {
   position: relative;

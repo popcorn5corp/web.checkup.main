@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="WorkspaceNameForm">
 import { Input } from 'ant-design-vue'
 import { toRefs, watch } from 'vue'
 import { useWorkspaceStore } from '@/stores/modules/workspace'

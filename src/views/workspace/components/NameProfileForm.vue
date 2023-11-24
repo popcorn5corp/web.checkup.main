@@ -61,7 +61,7 @@
   </Modal>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="NameProfileForm">
 import img1 from '@/assets/images/avatar/avatar1.jpg'
 import img2 from '@/assets/images/avatar/avatar2.jpg'
 import img3 from '@/assets/images/avatar/avatar3.jpg'
@@ -179,6 +179,7 @@ p {
     background-color: rgb(87 86 86 / 40%);
     transition: opacity 0.4s;
     opacity: 0;
+
     span {
       position: absolute;
       top: 50%;

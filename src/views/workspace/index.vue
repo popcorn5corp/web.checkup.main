@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script lang="ts" setup name="Workspace">
+<script setup lang="ts" name="Workspace">
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
 import { AuthService, WorkspaceService } from '@/services'

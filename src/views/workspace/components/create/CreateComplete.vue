@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="CreateComplete">
 import { toRefs } from 'vue'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 

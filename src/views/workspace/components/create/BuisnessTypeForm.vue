@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="BuisnessTypeForm">
 import { Select } from 'ant-design-vue'
 import { ref, toRefs, watch } from 'vue'
 import { useWorkspaceStore } from '@/stores/modules/workspace'

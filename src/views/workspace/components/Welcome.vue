@@ -32,7 +32,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="Welcome">
 import welcomeImg from '@/assets/images/workspace2.png'
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'

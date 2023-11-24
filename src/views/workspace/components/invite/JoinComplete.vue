@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="JoinComplete">
 import { WorkspaceService } from '@/services'
 import { reactive, ref, toRefs } from 'vue'
 import { useWorkspaceStore } from '@/stores/modules/workspace'

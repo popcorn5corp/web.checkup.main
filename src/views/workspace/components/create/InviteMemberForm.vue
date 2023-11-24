@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="InviteMemberForm">
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { Input, message } from 'ant-design-vue'
 import { type CSSProperties, computed, ref, toRefs } from 'vue'
