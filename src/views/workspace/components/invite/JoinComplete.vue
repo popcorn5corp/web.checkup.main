@@ -1,37 +1,71 @@
 <template>
   <div class="text-wrapper">
-    <h2>000 워크 스페이스에 참여되었어요!</h2>
-    <p>어쩌고저쩌고~~~~~~~~~~~~~~~~~~</p>
+    <h1>
+      {{ $t('page.workspace.joinCompleteTit', { workspaceName: state.workspaceName }) }}
+    </h1>
+    <p>{{ $t('page.workspace.joinCompleteDesc1') }}</p>
   </div>
-  <div class="user-wrapper">
+  <div class="user-wrapper" v-if="!isLoading">
     <a-avatar-group
-      :max-count="2"
-      max-popover-trigger="click"
+      :max-count="5"
       size="large"
-      :max-style="{ color: '#f56a00', backgroundColor: '#fde3cf', cursor: 'pointer' }"
+      :max-style="{ color: '#fff', backgroundColor: '#39b2fd', cursor: 'pointer' }"
     >
-      <a-avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-      <a-avatar style="background-color: #f56a00">K</a-avatar>
-      <a-tooltip title="Ant User" placement="top">
-        <a-avatar style="background-color: #87d068">
-          <template #icon><UserOutlined /></template>
-        </a-avatar>
-      </a-tooltip>
-      <a-avatar style="background-color: #1890ff">
-        <template #icon><AntDesignOutlined /></template>
-      </a-avatar>
+      <a-avatar
+        v-for="user in state.workspaceUsers"
+        :key="user.uid"
+        :src="user.userImagePath"
+      ></a-avatar>
     </a-avatar-group>
-    이/가 사용중이에요.
+    <span class="avatar-text">
+      {{ $t('page.workspace.joinCompleteDesc2') }}
+    </span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { AntDesignOutlined, UserOutlined } from '@ant-design/icons-vue'
+import { WorkspaceService } from '@/services'
+import { reactive, ref, toRefs } from 'vue'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
+import type { WorkspaceUsers } from '@/stores/modules/workspace'
+
+const workspaceStore = useWorkspaceStore()
+const { getWorkspaceId } = toRefs(workspaceStore)
+
+interface TState {
+  workspaceName: string
+  totalUserCount: number
+  workspaceUsers: WorkspaceUsers[]
+}
+const state = reactive<TState>({
+  workspaceName: '',
+  totalUserCount: 0,
+  workspaceUsers: []
+})
+const isLoading = ref(false)
+
+;(async () => {
+  try {
+    isLoading.value = true
+    const { data } = await WorkspaceService.getWorkspaceInformation(getWorkspaceId.value)
+    state.workspaceName = data.workspaceName
+    state.totalUserCount = data.totalUserCount
+    state.workspaceUsers = data.workspaceUsers
+  } catch (err) {
+    console.log(err)
+  } finally {
+    isLoading.value = false
+  }
+})()
 </script>
 
 <style lang="scss">
 .user-wrapper {
   text-align: center;
   margin: 1rem 0;
+
+  .avatar-text {
+    font-size: 15px;
+  }
 }
 </style>

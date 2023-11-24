@@ -4,89 +4,65 @@
   </div>
   <template v-else>
     <div class="list-wrapper">
-      <h2>워크스페이스 선택</h2>
-      <p class="list-desc">선택한 워크스페이스로 이동합니다.</p>
+      <h1>{{ $t('page.workspace.listTitle') }}</h1>
+      <p class="list-desc">{{ $t('page.workspace.listDesc') }}</p>
       <div class="list-box">
         <ul>
           <li
-            v-for="item in state.companies"
-            :key="item.companyId"
+            v-for="item in workspaceInfoList"
+            :key="item.workspaceId"
             class="list-li"
             @click="$router.push({ name: 'Root' })"
           >
-            <span style="margin-right: 22px; width: 60px">
+            <span class="img">
               <img :src="img" />
             </span>
             <span class="name">
-              {{ item.companyName }}
+              {{ item.workspaceName }}
             </span>
-            <span class="arrow"><ArrowRightOutlined /></span>
+            <span class="arrow">
+              <ArrowRightOutlined class="icon" />
+              <span class="text">
+                {{ $t('component.button.move') }}
+              </span>
+            </span>
           </li>
         </ul>
       </div>
       <div class="check-wrapper">
         <span>
-          <Checkbox> 마지막으로 사용했던 워크스페이스로 기본설정 </Checkbox>
+          <Checkbox>{{ $t('page.workspace.listCheckText') }}</Checkbox>
         </span>
       </div>
     </div>
-    <!-- <Button
-      label="선택한 워크스페이스로 이동"
-      type="primary"
-      size="large"
-      class="btn"
-      @click="$router.push({ name: 'Root' })"
-    /> -->
   </template>
 </template>
 
 <script lang="ts" setup>
-import img from '@/assets/images/avatar1.png'
+import img from '@/assets/images/avatar/avatar4.jpg'
+import { AuthService } from '@/services'
 import { ArrowRightOutlined } from '@ant-design/icons-vue'
-import { Checkbox } from 'ant-design-vue'
-import { reactive, ref } from 'vue'
-import { Button } from '@/components/button'
+import { Checkbox, message } from 'ant-design-vue'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import type { IAuth } from '@/services/auth/interface'
 
+const { t } = useI18n()
 const isLoading = ref(false)
-const state = reactive({
-  companies: [
-    {
-      companyId: 1,
-      companyName: 'checkup',
-      type: '기존'
-    },
-    {
-      companyId: 2,
-      companyName: '롯데백화점',
-      type: '기존'
-    },
-    {
-      companyId: 3,
-      companyName: '롯데마트',
-      type: '초대'
-    },
-    {
-      companyId: 3,
-      companyName: '(주)체크업',
-      type: '초대'
-    },
-    {
-      companyId: 3,
-      companyName: 'LG',
-      type: '초대'
-    },
-    {
-      companyId: 3,
-      companyName: 'Samsung',
-      type: '초대'
-    },
-    {
-      companyId: 3,
-      companyName: '올리브영',
-      type: '초대'
-    }
-  ]
-})
+
+const workspaceInfoList = ref<IAuth.WorkspaceInfo[]>([])
+
+;(async () => {
+  isLoading.value = true
+  try {
+    const { data } = await AuthService.getUser()
+    workspaceInfoList.value = data.workspaceInfoList
+  } catch (err) {
+    message.error(t('common.message.reTry'))
+  }
+
+  isLoading.value = false
+})()
 </script>
 
 <style lang="scss" scoped>
@@ -99,9 +75,9 @@ const state = reactive({
   }
 }
 .list-wrapper {
-  width: 90%;
+  width: 45%;
   border: 1px solid rgb(5 5 5 / 10%);
-  padding: 1rem;
+  padding: 1.5rem;
   h2 {
     text-align: center;
     margin: 1rem 0;
@@ -114,6 +90,7 @@ const state = reactive({
   }
 
   .list-box {
+    margin-top: 10px;
     .list-li {
       display: flex;
       justify-content: center;
@@ -122,6 +99,10 @@ const state = reactive({
       border-bottom: 1px solid rgb(5 5 5 / 10%);
       transition: all 0.2s ease-in-out;
       cursor: pointer;
+      .img {
+        width: 60px;
+        margin-right: 22px;
+      }
       .name {
         flex: auto;
         font-size: 22px;
@@ -136,7 +117,10 @@ const state = reactive({
         background: #3e7cff;
         font-size: 17px;
         color: #fff;
-        transition: all 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out;
+        .text {
+          display: none;
+        }
       }
     }
     .list-li:hover {
@@ -147,6 +131,14 @@ const state = reactive({
       }
       .arrow {
         transform: translateX(10px);
+        background: transparent;
+        color: #3e7cff;
+        .icon {
+          display: none;
+        }
+        .text {
+          display: block;
+        }
       }
     }
   }
@@ -160,10 +152,39 @@ const state = reactive({
     display: inline-block;
     margin: 0;
     margin-left: 10px;
-    font-size: 14px;
   }
 }
 :deep(.ant-checkbox-wrapper) {
-  font-size: 15px;
+  font-size: 16px;
+}
+
+@include xxs {
+  .list-wrapper {
+    width: 85% !important;
+  }
+  .img {
+    width: 50px !important;
+  }
+  .name {
+    font-size: 19px !important;
+  }
+  .arrow {
+    padding: 8px !important;
+  }
+}
+@include xs {
+  .list-wrapper {
+    width: 85% !important;
+  }
+}
+@include sm {
+  .list-wrapper {
+    width: 62% !important;
+  }
+}
+@include md {
+  .list-wrapper {
+    width: 50% !important;
+  }
 }
 </style>

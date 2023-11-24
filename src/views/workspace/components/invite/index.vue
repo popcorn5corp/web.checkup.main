@@ -1,20 +1,19 @@
 <template>
   <div class="transition-group">
     <Transition name="invite" appear>
-      <div class="active" :key="currentStep">
-        <component :is="steps[currentStep - 1].component" />
+      <div class="active" :key="getCurrentStep">
+        <component :is="getSteps[getCurrentStep - 1].component" />
       </div>
     </Transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { useWorkspceStore } from '@/stores/modules/workspace'
+import { toRefs } from 'vue'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 
-const workspaceStore = useWorkspceStore()
-const currentStep = computed(() => workspaceStore.currentStep)
-const steps = computed(() => workspaceStore.steps)
+const workspaceStore = useWorkspaceStore()
+const { getCurrentStep, getSteps } = toRefs(workspaceStore)
 </script>
 
 <style lang="scss">

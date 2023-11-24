@@ -2,12 +2,12 @@
   <div id="workspace-container" v-if="props.userName">
     <div class="left">
       <div class="welcome-text-wrapper">
-        <h2>
-          <span>{{ props.userName }}</span
-          >님 환영합니다!
-        </h2>
-        <p>체크업에 가입해주셔서 감사합니다.</p>
-        <p>이제 업무를 시작하기 위해 원하시는 선택지를 선택해주세요.</p>
+        <h1>
+          {{ $t('page.workspace.welcomeTit', { userName: props.userName }) }}
+        </h1>
+        <p>
+          {{ $t('page.workspace.welcomeDesc') }}
+        </p>
       </div>
       <img :src="welcomeImg" alt="작가 upklyak / 출처 Freepik" />
     </div>
@@ -38,12 +38,14 @@ import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
 import { ArrowRightOutlined } from '@ant-design/icons-vue'
 import { reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { useWorkspceStore } from '@/stores/modules/workspace'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { type WorkspaceStepType } from '@/stores/modules/workspace'
 
+const { t } = useI18n()
 const router = useRouter()
-const workspaceStore = useWorkspceStore()
+const workspaceStore = useWorkspaceStore()
 
 const props = defineProps({
   userName: {
@@ -55,33 +57,47 @@ const props = defineProps({
 const btns = reactive({
   create: {
     type: 'create',
-    text: '워크스페이스 만들기',
+    text: t('page.workspace.createWorkspace'),
     iconClass: ['fas', 'book-open-reader'],
     img: createImg
   },
   invite: {
     type: 'invite',
-    text: '워크스페이스 초대 코드 입력하기',
+    text: t('page.workspace.joinWorkspace'),
     iconClass: ['fas', 'pencil'],
     emit: 'goInvite',
     img: inviteImg
   }
 })
 
+;(async () => {
+  workspaceStore.resetType()
+})()
+
 const onBtnClick = (type: WorkspaceStepType) => {
-  console.log(type)
   workspaceStore.setType(type)
   router.push({
     name: type === 'create' ? 'create' : 'invite'
   })
 }
-
-;(async () => {
-  workspaceStore.resetType()
-})()
 </script>
 
 <style lang="scss" scoped>
+.welcome-text-wrapper {
+  padding-left: 70px;
+  margin-bottom: 1rem;
+  text-align: left;
+  h1 {
+    margin-bottom: 10px;
+  }
+  p {
+    color: #888;
+    margin-bottom: 5px;
+    font-size: 18px;
+    white-space: pre-line;
+    line-height: 1.5;
+  }
+}
 .welcome-btns-wrapper {
   width: 100%;
   flex-direction: column;
@@ -106,7 +122,7 @@ const onBtnClick = (type: WorkspaceStepType) => {
       }
     }
     .text {
-      font-size: 20px;
+      font-size: 22px;
       flex: 1;
     }
     .arrow {

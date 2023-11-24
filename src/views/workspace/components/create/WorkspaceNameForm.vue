@@ -1,12 +1,12 @@
 <template>
   <div class="text-wrapper">
-    <h2>팀 또는 회사명 입력</h2>
-    <p>checkup 워크스페이스의 이름이 됩니다.</p>
+    <h1>{{ $t('page.workspace.createStep1Tit') }}</h1>
+    <p>{{ $t('page.workspace.createStep1Desc') }}</p>
   </div>
   <div class="form-wrapper">
     <Input
-      placeholder="팀 또는 회사명 입력해주세요."
-      v-model:value="formValues.workspaceName"
+      :placeholder="$t('page.workspace.ph.inputTeamOrCompanyName')"
+      v-model:value="getFormValues.workspaceName"
       :maxlength="30"
       @input="onInput"
     />
@@ -15,15 +15,13 @@
 
 <script lang="ts" setup>
 import { Input } from 'ant-design-vue'
-import { computed } from 'vue'
-import { watch } from 'vue'
-import { useWorkspceStore } from '@/stores/modules/workspace'
+import { toRefs, watch } from 'vue'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 
-const workspaceStore = useWorkspceStore()
-const formValues = computed(() => workspaceStore.formValues)
+const workspaceStore = useWorkspaceStore()
+const { getFormValues } = toRefs(workspaceStore)
 
 const onInput = (e: Event) => {
-  // console.log(e.target.value, e.target.value.length)
   if ((e.target as HTMLInputElement).value.length > 0) {
     workspaceStore.setNextBtnDisabled(false)
   } else {
@@ -31,11 +29,15 @@ const onInput = (e: Event) => {
   }
 }
 
-watch(formValues.value, (formValue) => {
-  if (formValue.workspaceName.length) {
-    workspaceStore.setNextBtnDisabled(false)
-  }
-})
+watch(
+  getFormValues,
+  (formValue) => {
+    if (formValue.workspaceName.length) {
+      workspaceStore.setNextBtnDisabled(false)
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style lang="scss" scoped></style>

@@ -1,22 +1,87 @@
 <template>
   <div class="text-wrapper">
-    <h2>워크 스페이스 초대 코드 입력</h2>
-    <p>수령하신 초대 코드를 아래에 입력해주세요.</p>
-    <p>초대 코드를 받지 못하셨을 경우,</p>
-    <p>담당자 또는 시스템 관리자 분께 문의하시기 바랍니다.</p>
+    <h1>{{ $t('page.workspace.inviteStep1Tit') }}</h1>
+    <p>{{ $t('page.workspace.inviteStep1Desc') }}</p>
   </div>
   <div class="form-wrapper">
-    <Input placeholder="팀 또는 회사명을 입력해주세요." v-model:value="formValues.inviteCode" />
+    <div class="input-wrapper">
+      <Input
+        :placeholder="$t('page.workspace.ph.inputInviteCode')"
+        v-model:value="getFormValues.inviteCode"
+        @input="
+          () => {
+            workspaceStore.setNextBtnDisabled(true)
+            isConfirm = false
+          }
+        "
+      />
+      <Button
+        class="btn"
+        :label="isConfirm ? '' : $t('component.button.confirm')"
+        @click="onCheckInviteCode"
+        :loading="isLoading"
+      >
+        <template #icon v-if="isConfirm"><CheckOutlined /></template>
+      </Button>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Input } from 'ant-design-vue'
-import { computed } from 'vue'
-import { useWorkspceStore } from '@/stores/modules/workspace'
+import { WorkspaceService } from '@/services'
+import { CheckOutlined } from '@ant-design/icons-vue'
+import { Input, message } from 'ant-design-vue'
+import { ref, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 
-const workspaceStore = useWorkspceStore()
-const formValues = computed(() => workspaceStore.formValues)
+const { t } = useI18n()
+const workspaceStore = useWorkspaceStore()
+const { getFormValues } = toRefs(workspaceStore)
+const isLoading = ref(false)
+const isConfirm = ref(false)
+
+const onCheckInviteCode = async () => {
+  const codeValue = getFormValues.value.inviteCode.trim()
+  const reg = /^[0-9]+$/
+  try {
+    if (codeValue.length) {
+      isLoading.value = true
+      if (reg.test(codeValue)) {
+        // 유효 초대코드 확인
+        const { data } = await WorkspaceService.checkInviteCode({ inviteCode: codeValue })
+        // 워크스페이스 이름&아이디 저장
+        workspaceStore.setWorkspaceIdAndName(data.workspaceId, data.workspaceName)
+        workspaceStore.setWorkspaceInviteLogId(data.workspaceInviteLogId)
+        workspaceStore.setNextBtnDisabled(false)
+        isConfirm.value = true
+      } else {
+        message.error(t('common.message.checkInviteCode'))
+        workspaceStore.setNextBtnDisabled(true)
+      }
+    }
+  } catch (err) {
+    isLoading.value = false
+    console.log(err)
+    message.error(t('common.message.checkInviteCode'))
+    workspaceStore.setNextBtnDisabled(true)
+  } finally {
+    isLoading.value = false
+  }
+}
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.form-wrapper {
+  .input-wrapper {
+    position: relative;
+    .btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 4.5px 8px;
+    }
+  }
+}
+</style>

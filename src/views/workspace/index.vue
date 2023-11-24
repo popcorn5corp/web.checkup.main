@@ -1,60 +1,61 @@
 <template>
-  <div id="workspace-container">
-    <template v-if="type === ''">
-      <Welcome :userName="workspaceUserInfo.userName" />
+  <div id="workspace-container" v-if="!isLoading">
+    <template v-if="getType === ''">
+      <template v-if="workspaceUserInfo.workspaceCount > 1">
+        <WorkspaceList />
+      </template>
+      <template v-else>
+        <Welcome :userName="workspaceUserInfo.userName" />
+      </template>
     </template>
     <template v-else>
       <div class="left">
-        <img :src="type === 'create' ? createImg : inviteImg" alt="작가 upklyak / 출처 Freepik" />
+        <img
+          :src="getType === 'create' ? createImg : inviteImg"
+          alt="작가 upklyak / 출처 Freepik"
+        />
       </div>
       <div class="right">
         <div id="container">
           <div class="step-wrapper">
-            <span>{{ currentStep }}</span>
+            <span>{{ getCurrentStep }}</span>
             <span> / </span>
-            <span>{{ steps.length }}</span>
+            <span>{{ getSteps.length }}</span>
           </div>
 
-          <!-- workspace id 2개 이상일 때 -->
-          <template v-if="workspaceUserInfo.workspaceCount >= 2">
-            <WorkspaceList />
-          </template>
-
-          <!-- workspace id 0개일 때 -->
-          <template v-if="workspaceUserInfo.workspaceCount === 0">
-            <div class="routerView">
-              <RouterView></RouterView>
-            </div>
-          </template>
+          <div class="routerView">
+            <RouterView></RouterView>
+          </div>
 
           <div class="btns-wrapper">
             <Button
               class="btn"
               size="large"
-              label="이전"
+              :label="$t('component.button.prev')"
               @click="workspaceStore.prevCurrentStep()"
             />
             <Button
-              v-if="steps[currentStep - 1].isJump"
+              v-if="getSteps[getCurrentStep - 1].isJump"
               class="btn"
               size="large"
-              label="건너뛰기"
+              :label="$t('component.button.jump')"
               @click="workspaceStore.nextCurrentStep()"
             />
             <Button
+              v-if="getSteps[getCurrentStep - 1].nextBtnText"
               class="btn"
               type="primary"
               size="large"
-              :label="steps[currentStep - 1].nextBtnText || ''"
-              :disabled="nextBtnDisabled"
+              :label="getSteps[getCurrentStep - 1].nextBtnText || ''"
+              :disabled="getNextBtnDisabled"
               @click="onComplete"
             />
             <Button
-              v-if="currentStep === steps.length"
+              v-if="getCurrentStep === getSteps.length"
               class="btn"
               type="primary"
               size="large"
-              label="메인으로"
+              :label="$t('component.button.toMain')"
               @click="router.push({ name: 'Root' })"
             />
           </div>
@@ -67,30 +68,33 @@
 <script lang="ts" setup name="Workspace">
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
-import { WorkspaceService } from '@/services'
-import { AuthService } from '@/services'
+import { AuthService, WorkspaceService } from '@/services'
 import { message } from 'ant-design-vue'
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, toRefs } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { useWorkspceStore } from '@/stores/modules/workspace'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { Button } from '@/components/button'
 import Welcome from './components/Welcome.vue'
 import WorkspaceList from './components/WorkspaceList.vue'
 
+const { t } = useI18n()
 const router = useRouter()
-const workspaceStore = useWorkspceStore()
-
+const workspaceStore = useWorkspaceStore()
+const {
+  getCurrentStep,
+  getSteps,
+  getType,
+  getNextBtnDisabled,
+  getFormValues,
+  getWorkspaceId,
+  getWorkspaceInviteLogId
+} = toRefs(workspaceStore)
 const {
   config: { theme }
 } = useProjectConfigStore()
 
-// TODO 구조분해 수정
-const currentStep = computed(() => workspaceStore.currentStep)
-const steps = computed(() => workspaceStore.steps)
-const type = computed(() => workspaceStore.type)
-const nextBtnDisabled = computed(() => workspaceStore.nextBtnDisabled)
-const formValues = computed(() => workspaceStore.formValues)
 const themeStyle = computed(() => {
   return {
     backgroundColor: theme.navTheme === 'realDark' ? 'rgba(0, 21, 41, 0.8509803922)' : '#fff',
@@ -103,7 +107,8 @@ const themeStyle = computed(() => {
 })
 const workspaceUserInfo = reactive({
   workspaceCount: 0,
-  userName: ''
+  userName: '',
+  uid: ''
 })
 const isLoading = ref(false)
 
@@ -113,8 +118,9 @@ const isLoading = ref(false)
     const { data } = await AuthService.getUser()
     workspaceUserInfo.workspaceCount = data.workspaceCount
     workspaceUserInfo.userName = data.userName
+    workspaceUserInfo.uid = data.uid
   } catch (err) {
-    message.error('잠시 후 다시 시도해주세요.')
+    message.error(t('common.message.reTry'))
   }
 
   isLoading.value = false
@@ -122,19 +128,36 @@ const isLoading = ref(false)
 
 const onComplete = async () => {
   try {
-    if (steps.value[currentStep.value - 1].isComplete) {
-      if (type.value === 'create') {
+    if (getSteps.value[getCurrentStep.value - 1].isComplete) {
+      if (getType.value === 'create') {
         // 생성 api
-        const { data } = await WorkspaceService.createWorkspace(formValues.value)
-        console.log('data', data)
+        const { inviteCode, ...formDataWithoutInviteCode } = getFormValues.value
+        const { data } = await WorkspaceService.createWorkspace({
+          ...formDataWithoutInviteCode,
+          uid: workspaceUserInfo.uid
+        })
+        workspaceStore.setWorkspaceIdAndName(data.workspaceId, data.workspaceName)
       } else {
         // 초대 api
+        const { nickname, originName, saveName, path, size, ext } = getFormValues.value
+        await WorkspaceService.joinWorkspace({
+          uid: workspaceUserInfo.uid,
+          workspaceId: getWorkspaceId.value,
+          workspaceInviteLogId: getWorkspaceInviteLogId.value,
+          nickname,
+          originName,
+          saveName,
+          path,
+          size,
+          ext
+        })
       }
     }
 
     workspaceStore.nextCurrentStep()
   } catch (err) {
-    message.error('잠시 후 다시 시도해주세요.')
+    message.error(t('common.message.reTry'))
+    console.log(err)
   }
 }
 </script>
@@ -155,16 +178,6 @@ const onComplete = async () => {
     margin: 0 auto;
     padding: 1rem 2rem;
     overflow: hidden;
-  }
-  .welcome-text-wrapper {
-    padding-left: 70px;
-    margin-bottom: 1rem;
-    text-align: left;
-    p {
-      color: #888;
-      margin-bottom: 5px;
-      font-size: 16px;
-    }
   }
   img {
     width: 100%;
@@ -193,21 +206,23 @@ const onComplete = async () => {
   }
   .routerView {
     width: 100%;
-    min-height: 380px;
+    min-height: 400px;
   }
 
   .text-wrapper {
     width: 100%;
     text-align: center;
-    h2 {
+    h1 {
       height: 30px;
+      margin-bottom: 10px;
     }
     p {
       font-weight: 500;
-      font-size: 16px;
+      font-size: 19px;
       color: #888;
       margin-bottom: 5px;
       line-height: 1.7;
+      white-space: pre-line;
     }
   }
   .form-wrapper {
@@ -224,6 +239,12 @@ const onComplete = async () => {
     input::placeholder {
       color: v-bind('themeStyle.input.color');
     }
+    small {
+      font-weight: 400;
+      font-size: 15px;
+      color: #888;
+      margin-left: 3px;
+    }
   }
 }
 
@@ -235,7 +256,7 @@ const onComplete = async () => {
     width: 90% !important;
   }
   .routerView {
-    min-height: 420px !important;
+    min-height: 440px !important;
   }
 }
 @include xs {
@@ -246,7 +267,7 @@ const onComplete = async () => {
     width: 90% !important;
   }
   .routerView {
-    min-height: 400px !important;
+    min-height: 420px !important;
   }
 }
 @include sm {
@@ -257,12 +278,12 @@ const onComplete = async () => {
     width: 80% !important;
   }
   .routerView {
-    min-height: 400px !important;
+    min-height: 420px !important;
   }
 }
 @include md {
   .routerView {
-    min-height: 400px !important;
+    min-height: 420px !important;
   }
 }
 </style>

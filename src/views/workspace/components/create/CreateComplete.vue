@@ -1,10 +1,16 @@
 <template>
   <div class="text-wrapper">
-    <h2>워크스페이스 생성이 완료되었어요!</h2>
-    <p>000님 이제 워크스페이스를 시작해보세요.</p>
+    <h1>{{ $t('page.workspace.createCompleteTit') }}</h1>
+    <p>{{ $t('page.workspace.createCompleteDesc', { userName: getFormValues.nickname }) }}</p>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { toRefs } from 'vue'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
+
+const workspaceStore = useWorkspaceStore()
+const { getFormValues } = toRefs(workspaceStore)
+</script>
 
 <style lang="scss" scoped></style>

@@ -1,30 +1,30 @@
 <template>
   <div class="text-wrapper">
-    <h2>업종과 규모를 선택해주세요</h2>
-    <p>팀/회사의 업종과 팀/회사의 규모(인원수)를 선택해주세요.</p>
+    <h1>{{ $t('page.workspace.createStep4Tit') }}</h1>
+    <p>{{ $t('page.workspace.createStep4Desc') }}</p>
   </div>
   <div class="form-wrapper">
     <Select
+      key="businessType"
       :options="businessTypeOpt"
-      v-model:value="formValues.businessTypeCode"
-      placeholder="업종 선택"
+      v-model:value="getFormValues.businessTypeCode"
     />
     <Select
+      key="emlpoyeeScale"
       :options="emlpoyeeScaleOpt"
-      v-model:value="formValues.employeeScaleCode"
-      placeholder="규모 선택"
+      v-model:value="getFormValues.employeeScaleCode"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { Select } from 'ant-design-vue'
-import { computed, ref } from 'vue'
-import { useWorkspceStore } from '@/stores/modules/workspace'
+import { ref, toRefs, watch } from 'vue'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 
-const workspaceStore = useWorkspceStore()
-const formValues = computed(() => workspaceStore.formValues)
-
+const workspaceStore = useWorkspaceStore()
+const { getFormValues } = toRefs(workspaceStore)
+// TODO 추후 서버에서 내려준 옵션값으로 변경
 const businessTypeOpt = ref([
   {
     value: '',
@@ -73,6 +73,16 @@ const emlpoyeeScaleOpt = ref([
     label: '1000명 이상'
   }
 ])
+
+watch(
+  getFormValues,
+  (formValue) => {
+    workspaceStore.setNextBtnDisabled(
+      formValue.businessTypeCode.length && formValue.employeeScaleCode.length ? false : true
+    )
+  },
+  { immediate: true, deep: true }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -87,6 +97,15 @@ const emlpoyeeScaleOpt = ref([
       height: 40px !important;
       display: flex;
       align-items: center;
+      font-size: 16px;
+      padding: 0 15px;
+      input {
+        height: 100% !important;
+        padding: 0 !important;
+      }
+      .ant-select-selection-item {
+        padding-top: 4px;
+      }
     }
   }
 }

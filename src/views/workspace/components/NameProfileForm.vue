@@ -1,23 +1,34 @@
 <template>
   <div class="text-wrapper">
-    <h2>이름을 입력해주세요</h2>
+    <h1>{{ $t('common.inputName') }}</h1>
     <p>
-      이름과 프로필 사진을 추가하면<br />팀원이 사용자를 쉽게 알아보고 연결하는 데 도움이됩니다.
+      {{ $t('page.workspace.nameProfileDesc') }}
     </p>
   </div>
   <div class="form-wrapper">
-    <Input placeholder="이름을 입력해주세요." v-model:value="formValues.nickname" :maxlength="50" />
+    <Input
+      :placeholder="$t('common.inputName')"
+      v-model:value="getFormValues.nickname"
+      :maxlength="50"
+      @input="onInput"
+    />
     <div class="profile-wrapper">
-      <h3>내 프로필 사진</h3>
+      <h2>{{ $t('page.workspace.profileImg') }}</h2>
       <div class="profile-box">
         <div class="img-wrapper">
-          <img :src="selectImg" alt="출처 Freepik" />
+          <img :src="seletedImg" alt="출처 Freepik" />
         </div>
         <div>
-          <p>팀원들이 적절한 사람과 대화하고 있음을<br />알 수 있도록 하세요.</p>
+          <p>
+            {{ $t('page.workspace.profileImgDesc') }}
+          </p>
           <div class="btn-wrapper">
-            <Button label="기본이미지 선택" class="btn" @click="modalVisible = true" />
-            <span> 또는 </span>
+            <Button
+              :label="$t('page.workspace.selectImgBtn')"
+              class="btn"
+              @click="modalVisible = true"
+            />
+            <span>{{ $t('common.or') }}</span>
             <FileUploader ref="fileUploader" />
           </div>
         </div>
@@ -27,7 +38,7 @@
 
   <Modal
     :open="modalVisible"
-    title="프로필 기본이미지 선택"
+    :title="$t('page.workspace.selectImg')"
     width="64%"
     centered
     :bodyStyle="{
@@ -43,7 +54,7 @@
       <div class="profile-img-wrapper">
         <img :src="img" alt="출처 Freepik" class="profile-img" />
         <div class="img-masking" @click="onClickImg(img)">
-          <span>선택</span>
+          <span>{{ $t('common.select') }}</span>
         </div>
       </div>
     </div>
@@ -62,39 +73,64 @@ import img8 from '@/assets/images/avatar/avatar8.jpg'
 import img9 from '@/assets/images/avatar/avatar9.jpg'
 import img10 from '@/assets/images/avatar/avatar10.jpg'
 import { Input, Modal } from 'ant-design-vue'
-import { computed, ref, watch } from 'vue'
-import { useWorkspceStore } from '@/stores/modules/workspace'
+import { computed, ref, toRefs, watch } from 'vue'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { Button } from '@/components/button'
 import { FileUploader } from '@/components/file-uploader'
 
-const workspaceStore = useWorkspceStore()
-const formValues = computed(() => workspaceStore.formValues)
+const workspaceStore = useWorkspaceStore()
+const { getFormValues } = toRefs(workspaceStore)
 
 const fileUploader = ref()
 const modalVisible = ref(false)
 const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10]
-const selectImg = ref(img1)
+const fileUploaderImg = computed(() => fileUploader.value?.getFiles())
+const seletedImg = ref(img1)
 
-// 파일업로드해서 받은 데이터 받아서 formValues에 넣기
+;(async () => {
+  if (getFormValues.value.path) {
+    seletedImg.value =
+      'https://sawork-prod.s3.ap-northeast-2.amazonaws.com' + getFormValues.value.path
+  }
+})()
 
-// ;(async () => {
-//   workspaceStore
-
-// })()
-
-const onClickImg = (e: any) => {
-  console.log(e)
-  selectImg.value = e
-  modalVisible.value = false
+const onInput = (e: Event) => {
+  const nameValue = (e.target as HTMLInputElement).value
+  workspaceStore.setNextBtnDisabled(nameValue.length > 0 ? false : true)
 }
 
+const onClickImg = (e: any) => {
+  seletedImg.value = e
+  modalVisible.value = false
+  // TODO 서버에서 기본이미지 리스트 내려주면 수정
+  // workspaceStore.setFormValueImgFile({
+  //   originName: imgValue.originName,
+  //   saveName: imgValue.name,
+  //   path: imgValue.path,
+  //   size: imgValue.size,
+  //   ext: imgValue.ext
+  // })
+}
+
+watch(fileUploaderImg, (imgfileList) => {
+  if (imgfileList.length) {
+    const imgValue = imgfileList.at(-1)
+    seletedImg.value = imgValue.url
+    workspaceStore.setFormValueImgFile({
+      originName: imgValue.originName,
+      saveName: imgValue.name,
+      path: imgValue.path,
+      size: imgValue.size,
+      ext: imgValue.ext
+    })
+  }
+})
+
 watch(
-  fileUploader,
-  (fileUploader) => {
-    if (fileUploader) {
-      const files = fileUploader.value
-      console.log(files)
-      console.log(fileUploader.getFiles())
+  getFormValues,
+  (formValue) => {
+    if (formValue.nickname.length) {
+      workspaceStore.setNextBtnDisabled(false)
     }
   },
   { immediate: true }
@@ -119,6 +155,7 @@ watch(
 p {
   color: #888;
   line-height: 1.4;
+  font-size: 17px;
 }
 .btn-wrapper {
   display: flex;
@@ -159,31 +196,29 @@ p {
     opacity: 1;
   }
 }
-// :deep(.ant-select) {
-//   width: 100%;
-// }
+
 :deep(.profile-img) {
   width: 130px;
 }
-// :deep(.ant-upload-list) {
-//   display: none;
-// }
+:deep(.ant-upload-list) {
+  display: none;
+}
 
 @include xxs {
   .btn-wrapper {
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.4rem;
   }
 }
 @include xs {
   .btn-wrapper {
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.4rem;
   }
 }
 @include sm {
   .btn-wrapper {
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.4rem;
   }
 }

@@ -1,18 +1,17 @@
 <template>
   <div class="text-wrapper">
-    <h2>팀원 또는 직장 동료 추가</h2>
-    <p>이메일 형식으로 직장동료를 추가 해주세요.</p>
+    <h1>{{ $t('page.workspace.createStep3Tit') }}</h1>
+    <p>{{ $t('page.workspace.createStep3Desc') }}</p>
   </div>
-  {{ formValues.inviteEmails }}
   <div class="form-wrapper">
-    <small>이메일 작성 후 엔터키(enter)</small>
+    <small>{{ $t('page.workspace.createStep3Info') }}</small>
     <small v-if="isError" style="color: red; margin-left: 10px">{{ errMsg }}</small>
     <div class="select-wrapper" @click="inputRef.focus()">
       <div class="tags-wrapper">
-        <template v-for="(tag, idx) in tags" :key="tag">
+        <template v-for="tag in tags" :key="tag">
           <div class="tag">
             <span class="text">{{ tag }}</span>
-            <span class="icon" @click="onRemove(idx)"><CloseOutlined /></span>
+            <span class="icon" @click="onRemove(tag)"><CloseOutlined /></span>
           </div>
         </template>
       </div>
@@ -21,7 +20,7 @@
           <Input
             ref="inputRef"
             class="input"
-            placeholder="이메일을 작성해주세요."
+            :placeholder="$t('component.ph.inputEmail')"
             v-model:value="emailRef"
             @pressEnter="onInputEnter"
             @focusout="onInputEnter"
@@ -35,28 +34,30 @@
 <script lang="ts" setup>
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { Input, message } from 'ant-design-vue'
-import { type CSSProperties, computed, ref } from 'vue'
+import { type CSSProperties, computed, ref, toRefs } from 'vue'
 import { watch } from 'vue'
-import { useWorkspceStore } from '@/stores/modules/workspace'
+import { useI18n } from 'vue-i18n'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 
-const workspaceStore = useWorkspceStore()
+const { t } = useI18n()
+const workspaceStore = useWorkspaceStore()
+const { getFormValues } = toRefs(workspaceStore)
 
 const isError = ref(false)
 const errMsg = ref('')
 const emailRef = ref('')
 const inputRef = ref()
 
-const tags = computed(() => [...formValues.value.inviteEmails])
-const formValues = computed(() => workspaceStore.formValues)
+const tags = computed(() => [...getFormValues.value.inviteEmails])
 const errorTagStyle = computed<CSSProperties>(() => {
   return {
     borderColor: isError.value ? '#ff4d4f' : '#d9d9d9'
-    // color: isError.value ? '#ff4d4f' : 'inherit',
-    // #d9d9d9 // rgba(5, 5, 5, 0.06) // 약간주황: #ffccc7
-    // background: isError.value ? '#fff2f0' : 'rgba(0, 0, 0, 0.06)',
-    // display: isError.value ? 'none' : 'inline-flex'
   }
 })
+
+;(async () => {
+  workspaceStore.setNextBtnDisabled(false)
+})()
 
 const onInputEnter = async (event: KeyboardEvent) => {
   const emailValue = (event.target as HTMLInputElement).value
@@ -65,23 +66,21 @@ const onInputEnter = async (event: KeyboardEvent) => {
   try {
     if (!emailValue) return
     if (!regExp.test(emailValue)) {
-      handleError('이메일형식이 올바르지 않습니다. 다시 작성해주세요.')
+      handleError(t('common.message.emailError'))
     } else if (tags.value.includes(emailValue)) {
-      handleError('이미 추가된 이메일입니다. 다시 작성해주세요.')
+      handleError(t('common.message.emailDuplicatedError'))
     } else {
       emailRef.value = ''
-      tags.value.push(emailValue.trim())
-      workspaceStore.setFormValueInviteEmails(tags.value)
+      workspaceStore.pushFormValueInviteEmails(emailValue.trim())
       resetError()
     }
   } catch (err) {
-    message.error('잠시 후 다시 시도해주세요.')
+    message.error(t('common.message.reTry'))
   }
 }
 
-const onRemove = (idx: number) => {
-  const filteredTag = tags.value.filter((_, index) => index !== idx)
-  workspaceStore.setFormValueInviteEmails(filteredTag)
+const onRemove = (tag: string) => {
+  workspaceStore.removeFormValueInviteEmails(tag)
 }
 
 const handleError = (message: string) => {
@@ -104,12 +103,6 @@ watch(emailRef, () => {
 
 <style lang="scss" scoped>
 .form-wrapper {
-  small {
-    font-weight: 400;
-    font-size: 14px;
-    color: #888;
-    margin-left: 3px;
-  }
   .select-wrapper {
     min-height: 130px;
     max-height: 227px;
