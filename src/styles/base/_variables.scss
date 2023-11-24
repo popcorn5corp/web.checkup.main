@@ -96,5 +96,8 @@ $shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 
 $shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
 // Text Color
+$text-color: $color-black;
 $sub-text-color: rgba(0, 0, 0, 0.25);
-$sub-text-color-dark: rgba(255, 255, 255, 0.25);
+
+// Backgroud Color
+$bg-color: $color-light;

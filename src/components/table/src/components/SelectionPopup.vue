@@ -1,5 +1,5 @@
 <template>
-  <div class="toast-popup">
+  <div class="selection-popup-container">
     <Alert :message="message" :class="getDarkModeClass">
       <template #action>
         <Button
@@ -38,14 +38,7 @@ function onCancel() {
 }
 </script>
 <style lang="scss" scoped>
-.toast-popup {
-  // border: 1px solid v-bind(roundColor);
-  // border-radius: 10px;
-  // left: 40%;
-  // height: 40px;
-  // width: 200px;
-  // position: absolute;
-
+.selection-popup-container {
   :deep(.ant-alert) {
     width: 250px;
     top: 45px;

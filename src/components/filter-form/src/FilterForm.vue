@@ -15,7 +15,7 @@
         </template>
       </Accordion>
 
-      <div class="mobile-footer" :class="getDarkModeCls">
+      <div class="mobile-footer">
         <div class="btn-group">
           <Button label="Clear all" size="large" @click="onFilter" />
           <Button label="Done" type="primary" size="large" @click="onFilter" />
@@ -34,11 +34,10 @@ import type { FilterFormProps, FilterUI } from '../types'
 import { Checkbox, DatePicker, Radio, RangeDatePicker, Select } from './components/filter-types'
 
 const emit = defineEmits(['close'])
-const props = defineProps<FilterFormProps>()
+defineProps<FilterFormProps>()
 const {
   config: { theme }
 } = useProjectConfigStore()
-const getDarkModeCls = computed(() => theme.isRealDarkTheme && 'dark-mode')
 const isShow = ref(true)
 const containerStyles = computed<CSSProperties>(() => {
   const color = theme.isRealDarkTheme ? '#434343' : '#fafafa'

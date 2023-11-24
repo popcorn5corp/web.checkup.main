@@ -38,49 +38,12 @@ const styles = computed(() => {
     filterFormWidth: openDetail ? '25%' : ''
   }
 })
-
-// watch(
-//   () => useSlots().default()[0].ctx.setupState.dynamicTableRef,
-//   (ref) => {
-//     console.log('watch :: ', ref)
-//   },
-//   {
-//     immediate: true,
-//     deep: true
-//   }
-// )
-
-// @ts-ignore
-console.log('slots :: ', useSlots().default()[0].ctx.setupState.dynamicTableRef)
-console.log('props :: ', props)
 </script>
 <style lang="scss" scoped>
 .table-layout-form-container {
-  // display: flex;
-  // height: 100%;
-  // position: relative;
-
-  :deep(.dynamic-table-containter) {
-    // display: flex;
-    // // height: 100%;
-    // position: relative;
-    // flex: 1;
-    // position: relative;
-
-    .body {
-      .content {
-        // width: v-bind('styles.tableContentWidth') !important;
-      }
-
-      // :deep(.filter-form-container) {
-      //   width: v-bind('styles.filterFormWidth');
-      // }
-    }
-  }
-
   .detail-wrapper {
     flex: 2;
-    background-color: $color-white;
+    background-color: $bg-color;
     // height: 100%;
     position: absolute;
     width: 500px;
@@ -89,7 +52,6 @@ console.log('props :: ', props)
     height: 100%;
     margin-right: -15px;
     margin-top: -15px;
-
     border: 0.5px solid $color-gray-4;
 
     > .title {

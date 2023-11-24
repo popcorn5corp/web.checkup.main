@@ -12,7 +12,6 @@ export function useCustomRow(options: Options) {
   const customRow = (record: Recordable, index: number) => {
     return {
       onClick: (event: Event) => {
-        console.log('eeeee ', event)
         selectedRowIndex.value = index
         emit('row-click', record)
       },

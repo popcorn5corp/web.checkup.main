@@ -316,7 +316,7 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
     flex-direction: row;
 
     .content {
-      .table-container {
+      .basic-table-container {
         margin-right: 20px;
       }
     }

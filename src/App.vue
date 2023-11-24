@@ -24,6 +24,22 @@ defineOptions({
   name: 'App'
 })
 
+const { defaultAlgorithm, defaultSeed } = theme
+
+// console.log('seed ')
+
+// const dark = theme.darkAlgorithm({
+//   ...defaultSeed
+// })
+
+// const darkAlgorithm: any = {
+//   ...theme.darkAlgorithm(defaultSeed),
+//   colorBgBase: '#000',
+//   colorBgContainer: '#141414'
+// }
+
+// console.log('dddd ', darkAlgorithm)
+
 const { config } = useProjectConfigStore()
 const configTheme = computed(() => config.theme)
 const themeAlgorithm = computed(() =>

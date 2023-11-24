@@ -74,7 +74,7 @@ import ExcelImage from '@/assets/images/excel.png'
 import PdfImage from '@/assets/images/pdf.png'
 import PptImage from '@/assets/images/ppt.png'
 import { BaseSampleService } from '@/services'
-import { Image, Modal, Spin, message } from 'ant-design-vue'
+import { Modal, Spin, message } from 'ant-design-vue'
 import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IBaseSample } from '@/services/BaseSample/interface'
@@ -82,14 +82,12 @@ import { Drawer } from '@/components/Drawer'
 import { Button } from '@/components/button'
 import { DynamicTable } from '@/components/dynamic-table'
 import { QuestionCircleTwoTone } from '@/components/icons'
-import { TabPane, Tabs } from '@/components/tabs'
 import { contentModes as modes } from '@/constants/content'
 import PostDetail from './components/PostDetail.vue'
 import { getDefaultPost } from './constant'
 import { columns } from './mock'
 
 const DEFAULT_MODE = modes.R
-const activeKey = ref('1')
 const { t } = useI18n()
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 const postDetailRef = ref()
@@ -153,7 +151,6 @@ const onClickRow = (row: IBaseSample.Content): void => {
   BaseSampleService.getOneById(row.boardId).then(({ success, data }) => {
     if (success) {
       selectedPost.value = data
-      console.log('selectedPost :: ', selectedPost.value)
     }
 
     setTimeout(() => {
@@ -238,15 +235,6 @@ const onRemovePost = (selectedRows: IBaseSample.Content[], selectedRowKeys: stri
         }
       })
 
-      // BaseSampleService.deleteOne(selectedRows[0].boardId).then(({ success }) => {
-      //   if (success) {
-      //     dynamicTableRef.value?.reload({ isReset: true })
-
-      //     setTimeout(() => {
-      //       message.success(t('common.message.deleteSuccess'), 1)
-      //     }, 300)
-      //   }
-      // })
       initState()
     },
     async onCancel() {}

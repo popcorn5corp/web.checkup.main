@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapRef" class="table-container">
+  <div ref="wrapRef" class="basic-table-container">
     <TableToolbar v-if="props.showToolbar" />
 
     <!-- <h3>Total Count: 200</h3> -->
@@ -328,7 +328,7 @@ defineExpose({
 })
 </script>
 <style lang="scss" scoped>
-.table-container {
+.basic-table-container {
   .row-select-toast {
     border: 1px solid;
   }

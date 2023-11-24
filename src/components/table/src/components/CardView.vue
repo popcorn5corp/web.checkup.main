@@ -25,7 +25,7 @@
         @select-rows="onSelectRows"
       />
 
-      <div v-else :class="['img-wrapper', getTheme.isRealDarkTheme && 'dark']">
+      <div v-else :class="['img-wrapper']">
         <img :src="EmptyImage" />
         <div>{{ $t('common.message.noData') }}</div>
       </div>
@@ -95,10 +95,6 @@ const onPagination: PaginationProps['onChange'] = (current: number, pageSize: nu
   .img-wrapper {
     text-align: center;
     color: $sub-text-color;
-
-    &.dark {
-      color: $sub-text-color-dark;
-    }
 
     > img {
       width: 200px;
