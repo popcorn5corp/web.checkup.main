@@ -15,7 +15,11 @@ export default {
     modalSaveCheck: 'Do you want to save this content?',
     saveSuccess: 'Your save is complete.',
     deleteSuccess: 'Deletion completed.',
-    noData: 'No information matches the criteria.'
+    noData: 'No information matches the criteria.',
+    emailError: 'The email format is incorrect. Please write again.',
+    emailDuplicatedError: 'This email has already been added. Please write again.',
+    reTry: 'Please try again in a few minutes.',
+    checkInviteCode: 'Please check the invitation code again.'
   },
   socialLoginText: 'Sign In With { type }',
   loginText: 'Sign In',
@@ -24,5 +28,8 @@ export default {
   forgotPassword: 'Forgot Password?',
   idText: 'ID',
   passwordText: 'Password',
-  checkingLogin: 'Checking user information'
+  checkingLogin: 'Checking user information',
+  inputName: 'Please input your name.',
+  or: 'Or',
+  select: 'Select'
 }

@@ -62,6 +62,7 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
         scss: {
           additionalData: `
             @import "./src/styles/base/_variables.scss";
+            @import "./src/styles/base/_mediaQuery.scss";
           `
         }
       }
