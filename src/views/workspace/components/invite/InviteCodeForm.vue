@@ -60,10 +60,10 @@ const onCheckInviteCode = async () => {
         workspaceStore.setNextBtnDisabled(true)
       }
     }
-  } catch (err) {
+  } catch (err: any) {
     isLoading.value = false
     console.log(err)
-    message.error(t('common.message.checkInviteCode'))
+    message.error(err.response.data.error.message)
     workspaceStore.setNextBtnDisabled(true)
   } finally {
     isLoading.value = false

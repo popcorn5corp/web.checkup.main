@@ -31,7 +31,7 @@ class WorkspaceService {
 
   // 워크스페이스 가입 정보 조회
   getWorkspaceInformation(workspaceId: string) {
-    return service.post<IWorkspace.GetWorkspaceInfoResponse>(
+    return service.get<IWorkspace.GetWorkspaceInfoResponse>(
       this.PATH + `/workspace/join/${workspaceId}`
     )
   }
