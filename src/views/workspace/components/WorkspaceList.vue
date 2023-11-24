@@ -78,7 +78,7 @@ const workspaceInfoList = ref<IAuth.WorkspaceInfo[]>([])
   width: 45%;
   border: 1px solid rgb(5 5 5 / 10%);
   padding: 1.5rem;
-  h2 {
+  h1 {
     text-align: center;
     margin: 1rem 0;
   }
@@ -124,7 +124,6 @@ const workspaceInfoList = ref<IAuth.WorkspaceInfo[]>([])
       }
     }
     .list-li:hover {
-      // background-color: #e6f7ff;
       background: rgb(237 242 255 / 73%);
       .name {
         font-weight: 700;
