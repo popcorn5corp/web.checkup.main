@@ -12,7 +12,8 @@ export default {
     move: '이동',
     confirm: '확인하기',
     complete: '완료하기',
-    joined: '참여하기'
+    joined: '참여하기',
+    reset: '초기화'
   },
   ph: {
     inputEmail: '이메일을 입력해주세요.'

@@ -12,7 +12,8 @@ export default {
     move: 'Move',
     confirm: 'Confirm',
     complete: 'Complete',
-    joined: 'Get involved'
+    joined: 'Get involved',
+    reset: 'Reset'
   },
   ph: {
     inputEmail: 'Please enter your e-mail.'

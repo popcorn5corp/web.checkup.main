@@ -1,57 +1,60 @@
 <template>
   <div ref="wrapRef" class="dynamic-table-containter">
-    <div class="header">
-      <TableTags :items="getFilterFormItems" />
+    <div class="dynamic-table-wrapper">
+      <div class="header">
+        <TableTags :items="getFilterFormItems" />
+        <!-- <Button label="Drawer" @click="showDetail = true" /> -->
+        <div class="table-btns">
+          <Space>
+            <slot name="tableBtns"></slot>
 
-      <div class="table-btns">
-        <Space>
-          <slot name="tableBtns"></slot>
+            <template v-if="getContextValues.selectedRows?.length > 0">
+              <Button :label="$t('common.download')" size="middle">
+                <template #icon>
+                  <DownloadOutlined />
+                </template>
+              </Button>
 
-          <template v-if="getContextValues.selectedRows.length > 0">
-            <Button :label="$t('common.download')" size="middle">
+              <Button
+                :label="$t('common.delete')"
+                size="middle"
+                @click="$emit('row-delete', tableRef?.selectedRows, tableRef?.selectedRowKeys)"
+              >
+                <template #icon>
+                  <DeleteTwoTone />
+                </template>
+              </Button>
+            </template>
+
+            <Button :label="$t('common.registration')" size="middle" @click="$emit('row-add')">
               <template #icon>
-                <DownloadOutlined />
+                <PlusCircleTwoTone />
               </template>
             </Button>
 
+            <!-- 필터 버튼 -->
             <Button
-              :label="$t('common.delete')"
+              v-if="filters"
+              type="primary"
+              :label="$t('common.filterText')"
               size="middle"
-              @click="$emit('row-delete', tableRef?.selectedRows, tableRef?.selectedRowKeys)"
+              @click="showFilter = !showFilter"
             >
               <template #icon>
-                <DeleteTwoTone />
+                <FilterTwoTone />
               </template>
             </Button>
-          </template>
-
-          <Button :label="$t('common.registration')" size="middle" @click="$emit('row-add')">
-            <template #icon>
-              <PlusCircleTwoTone />
-            </template>
-          </Button>
-
-          <!-- 필터 버튼 -->
-          <Button
-            v-if="filters"
-            type="primary"
-            :label="$t('common.filterText')"
-            size="middle"
-            @click="showFilter = !showFilter"
-          >
-            <template #icon>
-              <FilterOutlined />
-            </template>
-          </Button>
-        </Space>
+          </Space>
+        </div>
       </div>
-    </div>
 
-    <Divider></Divider>
+      <Divider></Divider>
 
-    <div class="body">
-      <div class="content-wrapper">
-        <div class="content" :style="{ width: props.showToolbar && showFilter ? '75%' : '100%' }">
+      <div class="body">
+        <div
+          class="content"
+          :style="{ width: (props.showToolbar && showFilter) || openDetail ? '70%' : '100%' }"
+        >
           <Table
             ref="tableRef"
             v-bind="{ ...props }"
@@ -64,17 +67,57 @@
         </div>
 
         <FilterForm
-          v-if="showFilter"
+          v-if="showFilter && !openDetail"
           :items="getFilterFormItems"
           @close="(flag: boolean) => (showFilter = flag)"
+          :style="{ width: props.showToolbar && showFilter && !openDetail ? '30%' : '' }"
         ></FilterForm>
+
+        <div
+          class="detail-wrapper"
+          v-if="openDetail"
+          :style="{ width: openDetail ? '30%' : '' }"
+          :class="[getTheme.isRealDarkTheme && 'dark']"
+        >
+          <div class="title">
+            <span> 게시물 상세 </span>
+            <Button :size="'small'" @click="$emit('update:openDetail', false)">
+              <template #icon>
+                <font-awesome-icon class="xmark" :icon="['fas', 'xmark']" />
+              </template>
+            </Button>
+          </div>
+
+          <Divider />
+
+          <div class="detail-content">
+            <slot name="detail-content"></slot>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- <div class="detail-wrapper" v-if="showDetail" :style="{ width: showDetail ? '25%' : '' }">
+      <div class="title">
+        <span> 상세 영역 </span>
+        <Button :size="'small'">
+          <template #icon>
+            <font-awesome-icon @click="showDetail = false" class="xmark" :icon="['fas', 'xmark']" />
+          </template>
+        </Button>
+      </div>
+
+      <Divider />
+
+      <div id="detail-content">
+      </div>
+    </div> -->
   </div>
 </template>
 <script setup lang="ts" name="DynamicTable">
 import { Divider, Space } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
 import {
@@ -82,6 +125,7 @@ import {
   DeleteTwoTone,
   DownloadOutlined,
   FilterOutlined,
+  FilterTwoTone,
   PlusCircleOutlined,
   PlusCircleTwoTone,
   PlusOutlined,
@@ -99,7 +143,15 @@ import type {
 import { defaultContenxtValues } from '../types'
 import TableTags from './components/TableTags.vue'
 
-const emit = defineEmits(['row-click', 'change', 'search', 'row-add', 'row-select', 'row-delete'])
+const emit = defineEmits([
+  'row-click',
+  'change',
+  'search',
+  'row-add',
+  'row-select',
+  'row-delete',
+  'update:openDetail'
+])
 const props = withDefaults(defineProps<DynamicTableProps>(), {
   showToolbar: true,
   filters: () => []
@@ -107,14 +159,19 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
 defineExpose<DynamicTablExposes>({
   reload: (options: { isReset?: boolean }) => {
     tableRef.value?.getDataSource(options)
+  },
+  getShowToolbar: () => {
+    return computed(() => props.showToolbar && unref(showFilter))
   }
 })
 
+const { getTheme } = useProjectConfigStore()
 const attrs = useAttrs()
 const wrapRef = ref(null)
 const innerProps = ref<Partial<DynamicTableProps>>()
 const tableRef = ref<InstanceType<typeof Table>>()
-let showFilter = ref(false)
+const showFilter = ref(false)
+// const showDetail = ref(true)
 
 const contextValues = ref<DynamicTableContextValues>({
   ...defaultContenxtValues
@@ -178,6 +235,12 @@ let dynamicTableAction: DynamicTableAction = {
   setFilterFormItem,
   clearSelectedItems,
   initFilterFormItems,
+  getShowToolbar: () => {
+    return computed(() => props.showToolbar && unref(showFilter))
+  },
+  closeDetail: () => {
+    emit('update:openDetail', false)
+  },
   closeFilter: () => {
     unref(showFilter) && (showFilter.value = false)
   },
@@ -200,6 +263,12 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
 </script>
 <style lang="scss" scoped>
 .dynamic-table-containter {
+  // display: flex;
+  // // height: 100%;
+  // position: relative;
+  // .dynamic-table-wrapper {
+  // flex: 1;
+  // position: relative;
   .header {
     display: flex;
     justify-content: space-between;
@@ -217,9 +286,9 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
     }
 
     :deep(.ant-space) {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
+      // display: flex;
+      // width: 100%;
+      // justify-content: space-between;
 
       .search {
         display: flex;
@@ -244,35 +313,76 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
 
   .body {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
-    > span {
-      margin-bottom: 16px;
+    .content {
+      .basic-table-container {
+        margin-right: 20px;
+      }
     }
 
-    .content-wrapper {
-      .content {
-        float: left;
+    .detail-wrapper {
+      // flex: 2;
+      background-color: $color-white;
+      // height: 100%;
+      // position: absolute;
+      // width: 500px;
+      z-index: 2;
+      right: 0;
+      // height: 100%;
+      // margin-right: -15px;
+      margin-top: -80px;
 
-        .table-container {
-          margin-right: 20px;
-          .table-toolbar {
-            display: flex;
-            justify-content: end;
-          }
-        }
+      border: 0.5px solid $color-gray-4;
+
+      > .title {
+        display: flex;
+        font-size: 16px;
+        font-weight: bold;
+        justify-content: space-between;
+        padding: 19.5px;
+        align-items: end;
       }
 
-      .filter-container {
-        // width: 25%;
-        // overflow-y: auto;
-        // height: calc(100vh - 240px);
-        // float: right;
+      :deep(.ant-divider) {
+        margin: 0;
+      }
 
-        // // border-left: 0.5px solid gray;
-        // border-left: thick double $color-gray-2;
+      &.dark {
+        background: $color-dark;
+        color: $color-white;
+        border: 1.5px solid $color-gray-10;
       }
     }
   }
+  // }
+
+  // .detail-wrapper {
+  //   flex: 2;
+  //   background-color: $color-white;
+  //   // height: 100%;
+  //   position: absolute;
+  //   width: 500px;
+  //   z-index: 2;
+  //   right: 0;
+  //   height: 100%;
+  //   margin-right: -15px;
+  //   margin-top: -15px;
+
+  //   border: 0.5px solid $color-gray-4;
+
+  //   > .title {
+  //     display: flex;
+  //     font-size: 16px;
+  //     font-weight: bold;
+  //     justify-content: space-between;
+  //     padding: 18.5px;
+  //     align-items: end;
+  //   }
+
+  //   :deep(.ant-divider) {
+  //     margin: 0;
+  //   }
+  // }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div ref="wrapRef" class="table-container">
+  <div ref="wrapRef" class="basic-table-container">
     <TableToolbar v-if="props.showToolbar" />
 
     <!-- <h3>Total Count: 200</h3> -->
@@ -10,7 +10,7 @@
       ref="tableRef"
       v-if="getContextValues.layoutMode === 'table'"
       v-bind="getBindValues"
-      :scroll="{ y: 530 }"
+      :scroll="{ y: 700, x: 800 }"
       :row-key="rowKey || 'index'"
       :custom-row="customRow"
       @change="changeTable"
@@ -40,6 +40,7 @@
 </template>
 <script setup lang="ts" name="BasicTable">
 import { Table } from 'ant-design-vue'
+import { theme } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import omit from 'lodash-es/omit'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
@@ -64,6 +65,7 @@ import TableToolbar from './components/TableToolbar.vue'
 import EmptyImage from './images/no_data_2.png'
 
 const emit = defineEmits<TableEmits>()
+// options 정보가 props 로 넘어오게되면 options 내부 설정에 대한 Dfault 정보는 사라진다.
 const props = withDefaults(defineProps<TableProps>(), {
   showHeader: true,
   loading: false,
@@ -103,6 +105,7 @@ watch(
     initTableState()
     initSelecion()
     dynamicTable.closeFilter()
+    dynamicTable.closeDetail()
     dynamicTable.initFilterFormItems()
     await fetchDataSource({ isReset: true })
   }
@@ -110,7 +113,7 @@ watch(
 
 watch(
   () => dynamicTable?.getFilterFormItems(),
-  async (filterFormItems, a) => {
+  async (filterFormItems) => {
     const _filterFormItems = cloneDeep(filterFormItems)
     const { initParam } = unref(getProps)
     const defaultParam = {
@@ -196,7 +199,7 @@ function setContextValues(values: Partial<TableContextValues>) {
 }
 
 const { getLoading, setLoading } = useLoading(getProps)
-const { customRow } = useCustomRow({ emit })
+const { customRow, rowClassName } = useCustomRow({ emit })
 
 /**
  * @description Table 관련 기능에 대한 Hooks
@@ -252,7 +255,9 @@ watch(
  * @description Table 컴포넌트 초기 세팅
  */
 ;(async () => {
-  await fetchDataSource()
+  if (!dynamicTable) {
+    await fetchDataSource()
+  }
 
   if (props.columns) {
     await setColumns()
@@ -303,6 +308,7 @@ const getBindValues = computed<Recordable>(() => {
     columns: unref(getColumns),
     loading: unref(getLoading),
     pagination: unref(getPagination),
+    rowClassName,
     rowSelection: props.options.isSelection ? unref(rowSelection) : undefined
   }
 
@@ -325,7 +331,7 @@ defineExpose({
 })
 </script>
 <style lang="scss" scoped>
-.table-container {
+.basic-table-container {
   .row-select-toast {
     border: 1px solid;
   }
@@ -336,19 +342,32 @@ defineExpose({
   }
 
   :deep(.ant-table) {
-    // height: calc(100vh - 350px);
-    overflow: auto;
-
-    .ant-table-thead {
-      th {
-        background: transparent !important;
-        border-bottom: 1px solid rgb(229, 232, 235) !important;
-        font-size: 14px !important;
+    .ant-table-container {
+      .ant-table-header {
+        .ant-table-thead {
+          th {
+            background: transparent;
+            border-bottom: 1px solid rgb(229, 232, 235);
+            font-size: 14px;
+          }
+        }
       }
-    }
 
-    .ant-table-row {
-      cursor: v-bind('styles.cursor');
+      .ant-table-body {
+        .ant-table-tbody {
+          .ant-table-row {
+            cursor: v-bind('styles.cursor');
+          }
+
+          .table-row-focus {
+            background: #acc0f2;
+          }
+
+          .table-row-focus:hover > td {
+            background: #acc0f2;
+          }
+        }
+      }
     }
   }
 }

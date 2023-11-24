@@ -9,7 +9,7 @@
       @edit="onEditTab"
       :style="tabsStyle"
     >
-      <TabPane v-for="tab in tabs" :key="tab.fullPath">
+      <TabPane v-for="tab in tabsLyoutStore.getTabs" :key="tab.fullPath">
         <template #tab>
           <span>
             <LaptopOutlined />
@@ -57,7 +57,6 @@ const tabsLyoutStore = useTabsLayoutStore()
 const {
   config: { theme }
 } = useProjectConfigStore()
-const tabs = computed(() => tabsLyoutStore.getTabs())
 const activeKey = ref(route.fullPath)
 const newTabIndex = ref(0)
 const tabsRef = ref()
@@ -84,9 +83,9 @@ const tabsDrop = () => {
 
 watch(
   () => route.fullPath,
-  () => {
+  (fullPath) => {
     tabsLyoutStore.addTab(getSimpleRoute(route))
-    activeKey.value = route.fullPath
+    activeKey.value = fullPath
   },
   { immediate: true }
 )
@@ -112,12 +111,12 @@ function removeTab(route: RouteItem): void {
 }
 
 function saveTabs(): void {
-  Storage.set(TABS_ROUTES_KEY, JSON.stringify(unref(tabs)))
+  Storage.set(TABS_ROUTES_KEY, JSON.stringify(unref(tabsLyoutStore.getTabs)))
 }
 
 function onEditTab(e: Key | MouseEvent | KeyboardEvent, action: 'add' | 'remove'): void {
   if (action === 'remove') {
-    const selectedTab = tabs.value.find((item) => item.fullPath === e)
+    const selectedTab = unref(tabsLyoutStore.getTabs).find((item) => item.fullPath === e)
     removeTab(selectedTab!)
   }
 }

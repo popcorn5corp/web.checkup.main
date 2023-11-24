@@ -117,14 +117,14 @@ defineExpose({
         {{ formattedDate(formState.post.createdAt) }}
       </Item>
       <Item label="권한">
-        {{ formState.post.permission }}
+        {{ formState.post.permission.value }}
       </Item>
       <Item label="게시물 구분">
-        {{ formState.post.division }}
+        {{ formState.post.division.value }}
       </Item>
-      <Item label="게시물 첩부파일">
+      <!-- <Item label="게시물 첩부파일">
         <FileUploader :files="formState.post.boardFiles" readonly />
-      </Item>
+      </Item> -->
     </Form>
 
     <Form
@@ -145,20 +145,20 @@ defineExpose({
       </Item>
       <Item label="권한">
         <Select
-          v-model:value="formState.post.permission"
+          v-model:value="formState.post.permission.label"
           :options="(permissionCodes as any)"
         ></Select>
       </Item>
       <Item label="게시물 구분">
-        <Select v-model:value="formState.post.division" :options="divisionOptions"></Select>
+        <Select v-model:value="formState.post.division.label" :options="divisionOptions"></Select>
       </Item>
-      <Item label="게시물 첩부파일">
+      <!-- <Item label="게시물 첩부파일">
         <FileUploader
           ref="fileUploader"
           :files="formState.post.boardFiles"
           :type="SAMPLE_FILE_TYPE"
         />
-      </Item>
+      </Item> -->
     </Form>
   </div>
 </template>

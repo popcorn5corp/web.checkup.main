@@ -47,9 +47,13 @@
         <div class="title">{{ $route.meta.title }}</div>
 
         <Divider />
-        <slot></slot>
+
+        <div class="content-start" :class="[$route.name as string + '-content']">
+          <slot></slot>
+          <!-- <div class="layer">상세영역</div> -->
+        </div>
       </Layout.Content>
-      <PageFooter />
+      <!-- <PageFooter /> -->
     </Layout>
 
     <CircularMenu />
@@ -103,36 +107,7 @@ $tab-margin-top: 2px;
 .layout-default {
   display: flex;
   height: 100vh;
-  overflow: hidden;
-
-  // .sidebar-collapser {
-  //   -webkit-transition: left, right, 0.3s;
-  //   transition: left, right, 0.3s;
-  //   position: fixed;
-  //   left: calc(250px - 20px);
-  //   top: 40px;
-  //   width: 20px;
-  //   height: 20px;
-  //   border-radius: 50%;
-  //   background-color: #00829f;
-  //   display: -webkit-box;
-  //   display: -ms-flexbox;
-  //   display: flex;
-  //   -ms-flex-align: center;
-  //   -webkit-box-align: center;
-  //   align-items: center;
-  //   -webkit-box-pack: center;
-  //   -ms-flex-pack: center;
-  //   justify-content: center;
-  //   font-size: 1.2em;
-  //   -webkit-transform: translateX(50%);
-  //   transform: translateX(50%);
-  //   z-index: 111;
-  //   cursor: pointer;
-  //   color: white;
-  //   -webkit-box-shadow: 1px 1px 4px #0c1e35;
-  //   box-shadow: 1px 1px 4px #0c1e35;
-  // }
+  // overflow: hidden;
 
   :deep(.logo) {
     padding: v-bind('logoStyles.logo.padding');
@@ -143,15 +118,8 @@ $tab-margin-top: 2px;
     }
   }
 
-  .ant-layout {
-    overflow: hidden;
-  }
-
   .layout-header {
     height: $header-height;
-    .header-menu {
-      max-width: 800px;
-    }
   }
   :deep(.tabs-container) {
     position: sticky;
@@ -171,6 +139,27 @@ $tab-margin-top: 2px;
 
     :deep(.ant-divider) {
       margin: 15px 0;
+    }
+
+    [class*='-content'] {
+      position: static;
+      height: calc(100% - 50px);
+      flex: auto;
+
+      .layer {
+        width: 500px;
+        background-color: rgb(247, 247, 242);
+        position: absolute; /* Layer를 절대 위치로 설정하여 content-start 영역에 상대적으로 배치합니다. */
+        right: 0; /* Layer를 content-start 영역의 오른쪽 끝에 배치합니다. */
+        top: 0;
+        z-index: 10;
+        height: 100%;
+        margin-right: -15px;
+      }
+
+      > :depp(div) {
+        height: 100%;
+      }
     }
   }
 

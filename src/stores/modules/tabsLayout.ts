@@ -8,14 +8,11 @@ export const blackList = [REDIRECT_NAME, LOGIN_NAME, PAGE_NOT_FOUND_NAME] as con
 
 export const useTabsLayoutStore = defineStore('tabsLayout', () => {
   const router = useRouter()
-
-  // state
   const state = reactive<TabsLayoutState>({
     tabs: []
   })
 
-  // getter
-  const tabs = computed(() => state.tabs)
+  const getTabs = computed(() => state.tabs)
 
   // action
   function initTabs(routes: RouteItem[]) {
@@ -25,10 +22,6 @@ export const useTabsLayoutStore = defineStore('tabsLayout', () => {
   function getCurrentTab() {
     const currentRoute = router.currentRoute.value
     return state.tabs.find((item) => item.fullPath === currentRoute.fullPath)
-  }
-
-  function getTabs() {
-    return state.tabs
   }
 
   function addTab(route: RouteItem) {
@@ -52,7 +45,6 @@ export const useTabsLayoutStore = defineStore('tabsLayout', () => {
   }
 
   return {
-    tabs,
     initTabs,
     getCurrentTab,
     getTabs,

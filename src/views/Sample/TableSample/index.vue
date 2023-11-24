@@ -1,9 +1,84 @@
+<template>
+  <DynamicTable
+    v-model:openDetail="showDetail"
+    ref="dynamicTableRef"
+    :row-key="'boardId'"
+    :columns="columns"
+    :filter-request="getFilters"
+    :init-param="initParam"
+    :data-request="getDataSource"
+    :data-callback="dataCallback"
+    :column-request="getColumns"
+    @row-click="onClickRow"
+    @row-delete="onRemovePost"
+    @row-add="onClickRegist"
+  >
+    <!-- <template #tableBtns="scope">
+      <Button :label="$t('common.delete')" size="large" @click="onRemovePost" />
+      <Button :label="$t('common.registration')" size="large" @click="onClickRegist" />
+    </template> -->
+    <template #detail-content>
+      <div class="detail-contents">
+        <div class="profile">
+          <div class="img-wrapper">
+            <img v-if="profileImg" :src="profileImg" :width="200" :height="200" />
+          </div>
+          <div class="info"></div>
+        </div>
+        <div class="tab-wrapper">
+          <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
+          <!-- <a-tabs v-model:activeKey="activeKey" :tabBarGutter="100">
+            <a-tab-pane key="1" tab="Tab 1">Content of Tab Pane 1</a-tab-pane>
+            <a-tab-pane key="2" tab="Tab 2" force-render>Content of Tab Pane 2</a-tab-pane>
+          </a-tabs> -->
+        </div>
+      </div>
+    </template>
+  </DynamicTable>
+
+  <Drawer v-model:open="openDrawer" />
+
+  <Modal v-model:open="isOpen" :title="title" :width="1000" destroyOnClose>
+    <Spin :spinning="isLoading">
+      <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
+    </Spin>
+
+    <template #footer>
+      <template v-if="isEdit">
+        <Button
+          v-if="mode === modes.U"
+          key="cancel"
+          @click="onCancel"
+          :label="$t('component.button.cancel')"
+        />
+        <Button
+          key="save"
+          type="primary"
+          @click="onOpenSaveModal"
+          :label="$t('component.button.save')"
+        />
+      </template>
+      <Button
+        v-else
+        key="edit"
+        type="primary"
+        @click="mode = modes.U"
+        :label="$t('component.button.edit')"
+      />
+      <Button key="close" @click="onCloseModal" :label="$t('component.button.close')" />
+    </template>
+  </Modal>
+</template>
 <script setup lang="ts" name="TableSample">
+import ExcelImage from '@/assets/images/excel.png'
+import PdfImage from '@/assets/images/pdf.png'
+import PptImage from '@/assets/images/ppt.png'
 import { BaseSampleService } from '@/services'
 import { Modal, Spin, message } from 'ant-design-vue'
-import { computed, createVNode, ref } from 'vue'
+import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IBaseSample } from '@/services/BaseSample/interface'
+import { Drawer } from '@/components/Drawer'
 import { Button } from '@/components/button'
 import { DynamicTable } from '@/components/dynamic-table'
 import { QuestionCircleTwoTone } from '@/components/icons'
@@ -13,11 +88,11 @@ import { getDefaultPost } from './constant'
 import { columns } from './mock'
 
 const DEFAULT_MODE = modes.R
-
 const { t } = useI18n()
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 const postDetailRef = ref()
 const isOpen = ref(false)
+const openDrawer = ref(false)
 const isLoading = ref(false)
 const mode = ref<ContentMode>(DEFAULT_MODE)
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
@@ -31,6 +106,7 @@ const title = computed(() => {
   }
 })
 
+const showDetail = ref(false)
 const initParam = ref<IBaseSample.BaseSamplesParam>({
   searchEndDate: '',
   searchStartDate: '',
@@ -43,15 +119,19 @@ const initParam = ref<IBaseSample.BaseSamplesParam>({
 })
 
 const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
-// const filters = ref([])
+const profileImg = computed(() => {
+  const url = unref(selectedPost).boardFiles.length ? unref(selectedPost).boardFiles[0].url : ''
 
-// ;(() => {
-//   BaseSampleService.getPageInfo().then(({ data, success }: any) => {
-//     if (success) {
-//       filters.value = data.filters
-//     }
-//   })
-// })()
+  if (url.includes('.xlsx') || url.includes('.xlsx')) {
+    return ExcelImage
+  } else if (url.includes('.pdf')) {
+    return PdfImage
+  } else if (url.includes('.pptx')) {
+    return PptImage
+  } else {
+    return url
+  }
+})
 
 const getFilters = () => {
   return BaseSampleService.getPageInfo()
@@ -62,7 +142,9 @@ const getFilters = () => {
  * @param row
  */
 const onClickRow = (row: IBaseSample.Content): void => {
-  isOpen.value = true
+  // openDrawer.value = true
+  showDetail.value = true
+  // isOpen.value = true
   isLoading.value = true
   mode.value = DEFAULT_MODE
 
@@ -76,6 +158,15 @@ const onClickRow = (row: IBaseSample.Content): void => {
     }, 200)
   })
 }
+
+watch(
+  () => unref(showDetail),
+  (showDetail) => {
+    if (!showDetail) {
+      selectedPost.value = getDefaultPost()
+    }
+  }
+)
 
 /**
  * @description 데이터 테이블이 제공하는 기능으로, 리스트 조회 API 를 리턴하여 넘긴다
@@ -144,15 +235,6 @@ const onRemovePost = (selectedRows: IBaseSample.Content[], selectedRowKeys: stri
         }
       })
 
-      // BaseSampleService.deleteOne(selectedRows[0].boardId).then(({ success }) => {
-      //   if (success) {
-      //     dynamicTableRef.value?.reload({ isReset: true })
-
-      //     setTimeout(() => {
-      //       message.success(t('common.message.deleteSuccess'), 1)
-      //     }, 300)
-      //   }
-      // })
       initState()
     },
     async onCancel() {}
@@ -230,55 +312,55 @@ const onClickRegist = (): void => {
 }
 </script>
 
-<template>
-  <DynamicTable
-    ref="dynamicTableRef"
-    :row-key="'boardId'"
-    :columns="columns"
-    :filter-request="getFilters"
-    :init-param="initParam"
-    :data-request="getDataSource"
-    :data-callback="dataCallback"
-    :column-request="getColumns"
-    @row-click="onClickRow"
-    @row-delete="onRemovePost"
-    @row-add="onClickRegist"
-  >
-    <template #tableBtns="scope">
-      <!-- <Button :label="$t('common.delete')" size="large" @click="onRemovePost" />
-      <Button :label="$t('common.registration')" size="large" @click="onClickRegist" /> -->
-    </template>
-  </DynamicTable>
+<style lang="scss" scoped>
+.detail-contents {
+  .profile {
+    display: flex;
+    padding: 10px;
+    .img-wrapper {
+      flex: 1;
 
-  <Modal v-model:open="isOpen" :title="title" :width="650" destroyOnClose>
-    <Spin :spinning="isLoading">
-      <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
-    </Spin>
+      > img {
+        border: 1px solid $color-gray-5;
+        border-radius: 10px;
+      }
+    }
 
-    <template #footer>
-      <template v-if="isEdit">
-        <Button
-          v-if="mode === modes.U"
-          key="cancel"
-          @click="onCancel"
-          :label="$t('component.button.cancel')"
-        />
-        <Button
-          key="save"
-          type="primary"
-          @click="onOpenSaveModal"
-          :label="$t('component.button.save')"
-        />
-      </template>
-      <Button
-        v-else
-        key="edit"
-        type="primary"
-        @click="mode = modes.U"
-        :label="$t('component.button.edit')"
-      />
-      <Button key="close" @click="onCloseModal" :label="$t('component.button.close')" />
-    </template>
-  </Modal>
-</template>
-<style lang="scss" scoped></style>
+    .info {
+      flex: 1;
+      // background-color: aliceblue;
+    }
+  }
+
+  .tab-wrapper {
+    padding: 10px;
+  }
+}
+// .detail-wrapper {
+//   flex: 2;
+//   background-color: $color-white;
+//   // height: 100%;
+//   position: absolute;
+//   width: 500px;
+//   z-index: 2;
+//   right: 0;
+//   height: 100%;
+//   margin-right: -15px;
+//   margin-top: -15px;
+
+//   border: 0.5px solid $color-gray-4;
+
+//   > .title {
+//     display: flex;
+//     font-size: 16px;
+//     font-weight: bold;
+//     justify-content: space-between;
+//     padding: 18.5px;
+//     align-items: end;
+//   }
+
+//   :deep(.ant-divider) {
+//     margin: 0;
+//   }
+// }
+</style>

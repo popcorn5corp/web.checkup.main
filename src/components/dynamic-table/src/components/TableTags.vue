@@ -53,7 +53,7 @@ const onRemove = (tag: FilterFormItem, removeItem: FilterItem) => {
       v-if="isShowClearBtn"
       class="table-tag"
       :class="getDarkModeClass"
-      label="초기화"
+      :label="$t('component.button.reset')"
       @click="dynamicTable.clearSelectedItems()"
     />
   </div>

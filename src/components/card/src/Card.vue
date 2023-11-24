@@ -83,7 +83,7 @@ import { ZoomInOutlined } from '@ant-design/icons-vue'
 import { Checkbox, Image } from 'ant-design-vue'
 import type { CheckboxChangeEvent } from 'ant-design-vue/es/checkbox/interface'
 import dayjs from 'dayjs'
-import { type CSSProperties, computed, ref, unref, useAttrs, watch } from 'vue'
+import { type CSSProperties, computed, ref } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import type { CardProps } from '../types'
 

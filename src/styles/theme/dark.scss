@@ -1,14 +1,47 @@
-html.dark {
-  .filter-container {
+$bg-color: $color-dark; // main bg color
+$text-color: $color-white; // main text color
+$sub-text-color: rgba(255, 255, 255, 0.25);
+
+html[data-theme='dark'] {
+  .filter-form-container {
     .filter-list,
+    .filter-form-container,
     .mobile-footer {
-      background: $color-dark;
-      color: $color-white;
+      background-color: $bg-color;
+      color: $text-color;
     }
   }
 
-  .table-tag {
-    background: $color-dark;
-    color: $color-white;
+  .table-tags-container {
+    .table-tag {
+      background-color: $bg-color;
+      color: $text-color;
+    }
+  }
+
+  .selection-popup-container {
+    .ant-alert {
+      background-color: $bg-color !important;
+      color: $text-color !important;
+      box-shadow: unset;
+    }
+  }
+
+  .card-view-container {
+    .img-wrapper {
+      color: $sub-text-color;
+    }
+  }
+}
+
+html[data-theme='dark'] {
+  .ant-table {
+    .table-row-focus {
+      background: #5283fe !important;
+    }
+
+    .table-row-focus:hover > td {
+      background: #5283fe !important;
+    }
   }
 }

@@ -43,6 +43,7 @@ export class AxiosHttpClient {
         const accessToken = getToken(ACCESS_TOKEN_KEY)
         if (accessToken && config.headers) {
           config.headers['Authorization'] = `Bearer ${accessToken}`
+          // config.headers['Accept-Language'] = 'ko'
         }
 
         return config
