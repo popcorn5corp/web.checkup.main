@@ -1,4 +1,4 @@
-import { type RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
+import { type RouteRecordRaw } from 'vue-router'
 import { layoutTypes } from '@/stores/interface'
 
 // export const staticRoutes: RouteRecordRaw[] = [
