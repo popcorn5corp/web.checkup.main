@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router'
+import { type RouteRecordRaw } from 'vue-router'
 import { layoutTypes } from '@/stores/interface'
 
 // export const staticRoutes: RouteRecordRaw[] = [
@@ -43,6 +43,43 @@ export const staticRoutes: RouteRecordRaw[] = [
       layout: layoutTypes.pure
     }
   },
+  // {
+  //   path: '/welcome',
+  //   name: '',
+  //   component: () => import('@/views/workspace/components/Welcome.vue'),
+  //   meta: {
+  //     title: 'Welcome',
+  //     layout: layoutTypes.pure
+  //   }
+  // },
+  {
+    path: '/workspace',
+    name: 'workspace',
+    component: () => import('@/views/workspace/index.vue'),
+    meta: {
+      title: 'Workspace',
+      layout: layoutTypes.pure
+    },
+    children: [
+      {
+        path: 'create',
+        name: 'create',
+        component: () => import('@/views/workspace/components/create/index.vue'),
+        meta: {
+          title: 'Create'
+        }
+      },
+      {
+        path: 'invite',
+        name: 'invite',
+        component: () => import('@/views/workspace/components/invite/index.vue'),
+        meta: {
+          title: 'Invite'
+        }
+      }
+    ]
+  },
+
   {
     path: '/dashboard',
     // name: 'dashboard',

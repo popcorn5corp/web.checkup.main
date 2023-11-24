@@ -1,6 +1,6 @@
 <template>
-  <div class="toast-popup">
-    <Alert :message="message" :class="getDarkModeClass">
+  <div class="selection-popup-container">
+    <Alert :message="message">
       <template #action>
         <Button
           size="small"
@@ -24,12 +24,9 @@ interface SelectionPopupProps {
 }
 
 const props = defineProps<SelectionPopupProps>()
-const {
-  config: { theme }
-} = useProjectConfigStore()
+const { getTheme } = useProjectConfigStore()
 const table = useTableContext()
-const getDarkModeClass = computed(() => ({ 'dark-mode': theme.navTheme === 'realDark' }))
-const roundColor = computed(() => theme.primaryColor)
+const roundColor = computed(() => getTheme.primaryColor)
 const message = computed(() => props.selectedRows.length + '개의 행이 선택되었습니다.')
 
 function onCancel() {
@@ -38,14 +35,7 @@ function onCancel() {
 }
 </script>
 <style lang="scss" scoped>
-.toast-popup {
-  // border: 1px solid v-bind(roundColor);
-  // border-radius: 10px;
-  // left: 40%;
-  // height: 40px;
-  // width: 200px;
-  // position: absolute;
-
+.selection-popup-container {
   :deep(.ant-alert) {
     width: 250px;
     top: 45px;
@@ -53,7 +43,6 @@ function onCancel() {
     text-align: center;
     line-height: normal;
     font-size: 13px;
-    // color: v-bind(roundColor);
     background-color: $color-white;
     border: 1.5px solid v-bind(roundColor);
     font-weight: 500;
@@ -63,12 +52,6 @@ function onCancel() {
 
     .ant-alert-message {
       color: v-bind(roundColor);
-    }
-
-    &.dark-mode {
-      background: $color-dark;
-      color: $color-white;
-      box-shadow: unset;
     }
   }
 

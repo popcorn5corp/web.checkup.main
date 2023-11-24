@@ -15,7 +15,11 @@ export default {
     modalSaveCheck: '해당 내용을 저장하시겠습니까?',
     saveSuccess: '저장이 완료되었습니다.',
     deleteSuccess: '삭제가 완료되었습니다.',
-    noData: '해당 조건에 일치하는 정보가 없습니다.'
+    noData: '해당 조건에 일치하는 정보가 없습니다.',
+    emailError: '이메일형식이 올바르지 않습니다. 다시 작성해주세요.',
+    emailDuplicatedError: '이미 추가된 이메일입니다. 다시 작성해주세요.',
+    reTry: '잠시 후 다시 시도해주세요.',
+    checkInviteCode: '초대 코드를 다시 확인해주세요.'
   },
   socialLoginText: '{ type } 계정으로 로그인',
   loginText: '로그인',
@@ -24,5 +28,9 @@ export default {
   forgotPassword: '비밀번호를 잊어버리셨나요?',
   idText: '아이디',
   passwordText: '비밀번호',
-  checkingLogin: '유저 정보를 확인 중입니다'
+  checkingLogin: '유저 정보를 확인 중입니다',
+  inputName: '이름을 입력해주세요.',
+  or: '또는',
+  select: '선택',
+  createWorkspace: '새 워크스페이스 생성'
 }

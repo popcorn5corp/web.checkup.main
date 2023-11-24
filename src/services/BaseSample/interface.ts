@@ -20,9 +20,9 @@ export interface SortCodesResponse {
   }>
 }
 
-export interface ICode {
+export interface ICode<T = any> {
   label: string
-  value: LabelValue
+  value: LabelValue<T>
 }
 
 export interface CodeResponse {
@@ -49,9 +49,9 @@ export namespace IBaseSample {
     boardTitle: string // 샘플 게시판 제목
     boardContent: string // 샘플 게시판 내용
     createdAt: number // 생성일
-    division: 'PRIVATE' | 'PUBLIC' // 샘플 게시판 구분
     thumbnail: BoardFile | null
-    permission: 'GUEST' | 'NORMAL' | 'ADMIN'
+    permission: ICode<'GUEST' | 'NORMAL' | 'ADMIN'>
+    division: ICode<'PRIVATE' | 'PUBLIC'> // 샘플 게시판 구분
   }
 
   export interface BaseSamples {
@@ -90,7 +90,6 @@ export namespace IBaseSample {
 
   export interface BaseSample extends Content {
     boardFiles: BoardFile[]
-    division: 'PRIVATE' | 'PUBLIC' // 샘플 게시판 구분
   }
 
   export interface BaseSamplesParam extends ConditionParam {

@@ -11,38 +11,42 @@ export function useFilter(propsRef: ComputedRef<DynamicTableProps>) {
 
   // Getter: FilterForm을 그리기 위한 정보
   const getFilterFormItems = computed(() => unref(filterFormItems))
+  let countFlag = 0
 
   watch(
     () => unref(propsRef),
     async ({ filterRequest, filters }) => {
-      innerFilters.value = filters || []
+      if (!countFlag) {
+        innerFilters.value = filters || []
 
-      if (filterRequest) {
-        const { data, success } = await filterRequest()
+        if (filterRequest) {
+          const { data, success } = await filterRequest()
 
-        if (success) {
-          innerFilters.value = data.filters
+          if (success) {
+            innerFilters.value = data.filters
+          }
         }
+
+        filterFormItems.value = unref(innerFilters).map((filter, index) => {
+          const selectedItems =
+            filter.type === 'Radio'
+              ? filter.options
+                ? [filter.options[0]]
+                : []
+              : filter.selectedItems || []
+
+          return {
+            ...filter,
+            index,
+            open: true,
+            options: filter.options || [],
+            selectedItems
+          }
+        })
+
+        cloneFilterFormItems.value = cloneDeep(unref(filterFormItems))
+        countFlag++
       }
-
-      filterFormItems.value = unref(innerFilters).map((filter, index) => {
-        const selectedItems =
-          filter.type === 'Radio'
-            ? filter.options
-              ? [filter.options[0]]
-              : []
-            : filter.selectedItems || []
-
-        return {
-          ...filter,
-          index,
-          open: true,
-          options: filter.options || [],
-          selectedItems
-        }
-      })
-
-      cloneFilterFormItems.value = cloneDeep(unref(filterFormItems))
     },
     {
       immediate: true

@@ -18,6 +18,10 @@
         <MenuItem key="1" style="text-align: center"> 체크업 주식회사 </MenuItem>
         <MenuItem key="2"> admin@checkupv.com </MenuItem>
         <MenuItem key="3">
+          <PlusOutlined />
+          {{ $t('common.createWorkspace') }}
+        </MenuItem>
+        <MenuItem key="4">
           <SettingOutlined />
           {{ $t('layout.header.dropdownItemSettings') }}
         </MenuItem>
@@ -66,6 +70,7 @@ import { Button } from '@/components/button'
 import {
   CaretDownOutlined,
   LogoutOutlined,
+  PlusOutlined,
   SettingOutlined,
   UserOutlined
 } from '@/components/icons'
@@ -111,6 +116,8 @@ console.log(' [user] ', getUser)
 
 const onClickMenu: MenuProps['onClick'] = (e) => {
   if (e.key === '3') {
+    router.push({ name: 'workspace' })
+  } else if (e.key === '4') {
     isOpen.value = true
   } else if (e.key === '5') {
     removeToken()

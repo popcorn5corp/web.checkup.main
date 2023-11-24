@@ -69,8 +69,6 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/main.scss';
-
 .card-list-container {
   display: grid;
   gap: 1rem;
