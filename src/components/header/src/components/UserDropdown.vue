@@ -70,6 +70,7 @@ import { Avatar, Badge, Dropdown, Menu, MenuItem, type MenuProps, Modal } from '
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/stores/modules/auth'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { Button } from '@/components/button'
 import {
   CaretDownOutlined,
@@ -87,7 +88,9 @@ import UserAccount from './UserAccount.vue'
 
 const isOpen = ref(false)
 const { t } = useI18n()
-const { removeToken, getUser } = useAuthStore()
+const { removeToken, removeUser, getUser } = useAuthStore()
+const workspaceStore = useWorkspaceStore()
+
 console.log(' [user] ', getUser)
 // const isDarkMode = computed({
 //   get() {
@@ -122,12 +125,15 @@ console.log(' [user] ', getUser)
 const onClickMenu: MenuProps['onClick'] = (e) => {
   if (e.key === '3') {
     router.push({ name: 'workspace-create' })
+    workspaceStore.setType('create')
   } else if (e.key === '4') {
-    router.push({ name: 'workspace-create' })
+    router.push({ name: 'workspace-list' })
+    workspaceStore.setType('list')
   } else if (e.key === '5') {
     isOpen.value = true
   } else if (e.key === '6') {
     removeToken()
+    removeUser()
     // AuthService.signOut()
     router.push({ name: 'login' })
   }

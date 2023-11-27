@@ -43,15 +43,6 @@ export const staticRoutes: RouteRecordRaw[] = [
       layout: layoutTypes.pure
     }
   },
-  // {
-  //   path: '/welcome',
-  //   name: '',
-  //   component: () => import('@/views/workspace/components/Welcome.vue'),
-  //   meta: {
-  //     title: 'Welcome',
-  //     layout: layoutTypes.pure
-  //   }
-  // },
   {
     path: '/workspace',
     name: 'workspace',
@@ -62,8 +53,24 @@ export const staticRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
+        path: 'list',
+        name: 'workspace-list',
+        component: () => import('@/views/workspace/components/WorkspaceList.vue'),
+        meta: {
+          title: 'List'
+        }
+      },
+      {
+        path: '',
+        name: 'workspace-welcome',
+        component: () => import('@/views/workspace/components/Welcome.vue'),
+        meta: {
+          title: 'Welcome'
+        }
+      },
+      {
         path: 'create',
-        name: 'create',
+        name: 'workspace-create',
         component: () => import('@/views/workspace/components/create/index.vue'),
         meta: {
           title: 'Create'
@@ -71,7 +78,7 @@ export const staticRoutes: RouteRecordRaw[] = [
       },
       {
         path: 'invite',
-        name: 'invite',
+        name: 'workspace-invite',
         component: () => import('@/views/workspace/components/invite/index.vue'),
         meta: {
           title: 'Invite'

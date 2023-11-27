@@ -23,7 +23,7 @@ export interface WorkspaceFormValues {
   ext: string
   inviteCode: string
 }
-export type WorkspaceStepType = '' | 'create' | 'invite'
+export type WorkspaceStepType = 'welcome' | 'list' | 'create' | 'invite'
 
 export interface JoinParamValues {
   workspaceId: string
@@ -60,7 +60,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   const router = useRouter()
   // state
   const state = reactive<WorkspaceState>({
-    type: '', // create || invite
+    type: 'welcome', // 'welcome' | 'list' | 'create' | 'invite'
     currentStep: 1, // 현재 step
     steps: [], // create|invite 의 step에 관한 content
     nextBtnDisabled: true, // 다음버튼 비활성화 유무
@@ -105,7 +105,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     if (state.currentStep === 1) {
       resetType()
       router.push({
-        name: 'workspace'
+        name: 'workspace-welcome'
       })
     }
     if (state.currentStep > 1) {
@@ -117,7 +117,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   }
 
   function resetType() {
-    state.type = ''
+    state.type = 'welcome'
   }
 
   function setType(type: WorkspaceStepType) {
@@ -165,6 +165,10 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     if (currentStep) {
       state.nextBtnDisabled = true
     }
+  })
+
+  watch(getType, (type: string) => {
+    console.log('type: ', type)
   })
 
   const createStep: WorkspaceStep[] = [

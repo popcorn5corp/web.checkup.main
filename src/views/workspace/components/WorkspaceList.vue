@@ -1,67 +1,52 @@
 <template>
-  <div class="spinner" v-if="isLoading">
-    <i class="fa fa-spinner fa-spin"></i>
-  </div>
-  <template v-else>
-    <div class="list-wrapper">
-      <h1>{{ $t('page.workspace.listTitle') }}</h1>
-      <p class="list-desc">{{ $t('page.workspace.listDesc') }}</p>
-      <div class="list-box">
-        <ul>
-          <li
-            v-for="item in workspaceInfoList"
-            :key="item.workspaceId"
-            class="list-li"
-            @click="$router.push({ name: 'Root' })"
-          >
-            <span class="img">
-              <img :src="img" />
+  <div class="list-wrapper">
+    <h1>{{ $t('page.workspace.listTitle') }}</h1>
+    <p class="list-desc">{{ $t('page.workspace.listDesc') }}</p>
+    <div class="list-box">
+      <ul>
+        <li
+          v-for="item in workspaceInfoList"
+          :key="item.workspaceId"
+          class="list-li"
+          @click="$router.push({ name: 'Root' })"
+        >
+          <span class="img">
+            <img :src="img" />
+          </span>
+          <span class="name">
+            {{ item.workspaceName }}
+          </span>
+          <span class="arrow">
+            <ArrowRightOutlined class="icon" />
+            <span class="text">
+              {{ $t('component.button.move') }}
             </span>
-            <span class="name">
-              {{ item.workspaceName }}
-            </span>
-            <span class="arrow">
-              <ArrowRightOutlined class="icon" />
-              <span class="text">
-                {{ $t('component.button.move') }}
-              </span>
-            </span>
-          </li>
-        </ul>
-      </div>
-      <div class="check-wrapper">
-        <span>
-          <Checkbox>{{ $t('page.workspace.listCheckText') }}</Checkbox>
-        </span>
-      </div>
+          </span>
+        </li>
+      </ul>
     </div>
-  </template>
+    <div class="check-wrapper">
+      <span>
+        <Checkbox>{{ $t('page.workspace.listCheckText') }}</Checkbox>
+      </span>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts" name="WorkspaceList">
 import img from '@/assets/images/avatar/avatar4.jpg'
-import { AuthService } from '@/services'
+import { useAuthStore } from '@/stores'
 import { ArrowRightOutlined } from '@ant-design/icons-vue'
-import { Checkbox, message } from 'ant-design-vue'
+import { Checkbox } from 'ant-design-vue'
 import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 import type { IAuth } from '@/services/auth/interface'
 
-const { t } = useI18n()
-const isLoading = ref(false)
+const { getUser } = useAuthStore()
 
 const workspaceInfoList = ref<IAuth.WorkspaceInfo[]>([])
 
 ;(async () => {
-  isLoading.value = true
-  try {
-    const { data } = await AuthService.getUser()
-    workspaceInfoList.value = data.workspaceInfoList
-  } catch (err) {
-    message.error(t('common.message.reTry'))
-  }
-
-  isLoading.value = false
+  workspaceInfoList.value = getUser.workspaceInfoList
 })()
 </script>
 
@@ -75,7 +60,7 @@ const workspaceInfoList = ref<IAuth.WorkspaceInfo[]>([])
   }
 }
 .list-wrapper {
-  width: 45%;
+  width: 100%;
   border: 1px solid rgb(5 5 5 / 10%);
   padding: 1.5rem;
   h1 {
@@ -158,9 +143,6 @@ const workspaceInfoList = ref<IAuth.WorkspaceInfo[]>([])
 }
 
 @include xxs {
-  .list-wrapper {
-    width: 85% !important;
-  }
   .img {
     width: 50px !important;
   }
@@ -169,21 +151,6 @@ const workspaceInfoList = ref<IAuth.WorkspaceInfo[]>([])
   }
   .arrow {
     padding: 8px !important;
-  }
-}
-@include xs {
-  .list-wrapper {
-    width: 85% !important;
-  }
-}
-@include sm {
-  .list-wrapper {
-    width: 62% !important;
-  }
-}
-@include md {
-  .list-wrapper {
-    width: 50% !important;
   }
 }
 </style>
