@@ -34,6 +34,7 @@ import { message } from 'ant-design-vue'
 import { reactive, ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/modules/auth'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import StepAndBtnsView from './components/StepAndBtnsView.vue'
 
@@ -41,6 +42,7 @@ const { t } = useI18n()
 const router = useRouter()
 const workspaceStore = useWorkspaceStore()
 const { getType } = toRefs(workspaceStore)
+const { getUser } = useAuthStore()
 
 const workspaceUserInfo = reactive({
   workspaceCount: 0,
@@ -52,10 +54,10 @@ const isLoading = ref(false)
 ;(async () => {
   isLoading.value = true
   try {
-    const { data } = await AuthService.getUser()
-    workspaceUserInfo.workspaceCount = data.workspaceCount
-    workspaceUserInfo.userName = data.userName
-    workspaceUserInfo.uid = data.uid
+    const { workspaceCount, userName, uid } = getUser
+    workspaceUserInfo.workspaceCount = workspaceCount
+    workspaceUserInfo.userName = userName
+    workspaceUserInfo.uid = uid
 
     if (getType.value === 'create') {
       router.push({
