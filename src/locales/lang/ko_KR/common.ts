@@ -32,5 +32,6 @@ export default {
   inputName: '이름을 입력해주세요.',
   or: '또는',
   select: '선택',
-  createWorkspace: '새 워크스페이스 생성'
+  createWorkspace: '새 워크스페이스 생성',
+  changeWorkspace: '워크스페이스 변경'
 }

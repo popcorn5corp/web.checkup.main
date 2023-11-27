@@ -22,6 +22,10 @@
           {{ $t('common.createWorkspace') }}
         </MenuItem>
         <MenuItem key="4">
+          <SwapOutlined />
+          {{ $t('common.changeWorkspace') }}
+        </MenuItem>
+        <MenuItem key="5">
           <SettingOutlined />
           {{ $t('layout.header.dropdownItemSettings') }}
         </MenuItem>
@@ -29,7 +33,7 @@
           <UserOutlined />
           고객센터
         </MenuItem> -->
-        <MenuItem key="5">
+        <MenuItem key="6">
           <LogoutOutlined />
           {{ $t('layout.header.dropdownItemLogout') }}
         </MenuItem>
@@ -72,6 +76,7 @@ import {
   LogoutOutlined,
   PlusOutlined,
   SettingOutlined,
+  SwapOutlined,
   UserOutlined
 } from '@/components/icons'
 import { Tabs } from '@/components/tabs'
@@ -116,10 +121,12 @@ console.log(' [user] ', getUser)
 
 const onClickMenu: MenuProps['onClick'] = (e) => {
   if (e.key === '3') {
-    router.push({ name: 'workspace' })
+    router.push({ name: 'workspace-create' })
   } else if (e.key === '4') {
-    isOpen.value = true
+    router.push({ name: 'workspace-create' })
   } else if (e.key === '5') {
+    isOpen.value = true
+  } else if (e.key === '6') {
     removeToken()
     // AuthService.signOut()
     router.push({ name: 'login' })
