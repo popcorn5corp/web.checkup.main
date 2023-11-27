@@ -36,7 +36,7 @@ if (isSuccessSocialLogin) {
   })
 
   setTimeout(() => {
-    router.push({ name: 'dashboard' })
+    router.push({ name: 'workspace' })
   }, 1500)
 }
 </script>

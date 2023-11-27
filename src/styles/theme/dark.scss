@@ -45,3 +45,23 @@ html[data-theme='dark'] {
     }
   }
 }
+
+html[data-theme='dark'] {
+  .workspace-container {
+    background-color: rgba(0, 21, 41, 0.8509803922) !important;
+    color: #fff !important;
+    .list-wrapper {
+      border: 1px solid #424242 !important;
+    }
+  }
+  .workspace-step-btn-container {
+    .form-wrapper {
+      input  {
+        background-color: #fff !important;
+      }
+      input::placeholder {
+        color: #000 !important;
+      }
+    }
+  }
+}

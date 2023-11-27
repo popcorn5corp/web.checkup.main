@@ -14,7 +14,7 @@ interface AuthState {
 
 export const useAuthStore = defineStore('auth', () => {
   const state = reactive<AuthState>({
-    user: {
+    user: Util.Storage.get('user') || {
       uid: '',
       userId: '',
       userName: '',
@@ -31,6 +31,7 @@ export const useAuthStore = defineStore('auth', () => {
       ...state.user,
       ...param
     }
+    Util.Storage.set('user', state.user)
   }
 
   function setToken(tokenKey: TokenKey, token: string) {
@@ -47,11 +48,16 @@ export const useAuthStore = defineStore('auth', () => {
     Util.Storage.remove(REFRESH_TOKEN_KEY)
   }
 
+  function removeUser() {
+    Util.Storage.remove('user')
+  }
+
   return {
     getUser,
     setUser,
     setToken,
     getToken,
-    removeToken
+    removeToken,
+    removeUser
   }
 })
