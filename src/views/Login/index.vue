@@ -33,7 +33,7 @@ if (isSuccessSocialLogin) {
       setUser(data)
 
       setTimeout(() => {
-        router.push({ name: data.workspaceCount > 1 ? 'workspace-list' : 'workspace-walcome' })
+        router.push({ name: data.workspaceCount > 1 ? 'workspace-list' : 'workspace-welcome' })
       }, 1500)
     }
   })

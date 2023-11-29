@@ -115,7 +115,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
 
   // action
   function resetCurrentStep() {
-    state.currentStep = FIRST_STEP_COUNT
+    if (state.currentStep !== FIRST_STEP_COUNT) {
+      state.currentStep = FIRST_STEP_COUNT
+    }
   }
 
   function prevCurrentStep() {

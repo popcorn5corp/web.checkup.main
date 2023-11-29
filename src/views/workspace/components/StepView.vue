@@ -74,6 +74,7 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 const { t } = useI18n()
 const router = useRouter()
 const workspaceStore = useWorkspaceStore()
+workspaceStore.resetCurrentStep()
 const {
   getCurrentStep,
   getSteps,
