@@ -224,20 +224,6 @@ const getBindValues = computed<Recordable>(() => {
 })
 
 /**
- * @description Table Context 생성
- */
-createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
-
-defineExpose({
-  getDataSource: fetchDataSource,
-  getColumns,
-  reload: tableAction.reload,
-  selectedRows,
-  selectedRowKeys,
-  total
-})
-
-/**
  * @description Table 컴포넌트 layoutMode 변경시 데이터 초기화
  */
 watch(
@@ -323,6 +309,20 @@ watch(
     deep: true
   }
 )
+
+/**
+ * @description Table Context 생성
+ */
+createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
+
+defineExpose({
+  getDataSource: fetchDataSource,
+  getColumns,
+  reload: tableAction.reload,
+  selectedRows,
+  selectedRowKeys,
+  total
+})
 </script>
 <style lang="scss" scoped>
 .basic-table-container {
