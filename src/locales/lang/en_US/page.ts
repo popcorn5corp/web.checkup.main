@@ -33,6 +33,7 @@ export default {
     listTitle: 'Select workspace',
     listDesc: 'Go to the selected workspace.',
     listCheckText: 'Default to last used workspace',
+    listArrowText: 'Current workspace',
     ph: {
       inputTeamOrCompanyName: 'Please enter your team or company name.',
       inputInviteCode: 'Please enter the invitation code.'

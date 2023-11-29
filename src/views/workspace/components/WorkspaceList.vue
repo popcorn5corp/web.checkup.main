@@ -6,8 +6,10 @@
       <div class="list-box">
         <ul>
           <li
+            ref="listRef"
             v-for="item in workspaceInfoList"
             :key="item.workspaceId"
+            :data-set="item.workspaceId"
             class="list-li"
             @click="onSelectWorkspace(item)"
           >
@@ -40,20 +42,35 @@ import img from '@/assets/images/avatar/avatar4.jpg'
 import { useAuthStore } from '@/stores'
 import { ArrowRightOutlined } from '@ant-design/icons-vue'
 import { Checkbox } from 'ant-design-vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import type { IWorkspace } from '@/services/workspace/interface'
 import { type Workspace, useWorkspaceStore } from '@/stores/modules/workspace'
 
+const { t } = useI18n()
 const router = useRouter()
 const { getUser } = useAuthStore()
-const { setSelectedWorkspace } = useWorkspaceStore()
+const { setSelectedWorkspace, getWorkspace } = useWorkspaceStore()
 const workspaceInfoList = ref<IWorkspace.WorkspaceInfo[]>(getUser.workspaceInfoList)
+const listRef = ref()
 
 function onSelectWorkspace(workspace: Workspace) {
   setSelectedWorkspace(workspace)
   router.push({ name: 'samples-dynamic-table' })
 }
+
+onMounted(() => {
+  listRef.value?.map((list: HTMLElement) => {
+    if ((list.dataset.set as string) === getWorkspace.workspaceId) {
+      list.classList.add('active')
+      const lastChild = list.lastChild as HTMLElement | null
+      if (lastChild && 'innerText' in lastChild) {
+        lastChild.innerText = t('page.workspace.listArrowText')
+      }
+    }
+  })
+})
 </script>
 
 <style lang="scss" scoped>
@@ -114,6 +131,24 @@ function onSelectWorkspace(workspace: Workspace) {
         }
       }
     }
+    .list-li.active {
+      background: rgb(237 242 255 / 73%);
+      .name {
+        font-weight: 700;
+      }
+      .arrow {
+        transform: translateX(10px);
+        background: transparent;
+        color: #3e7cff;
+        .icon {
+          display: none;
+        }
+        .text {
+          display: block;
+        }
+      }
+    }
+
     .list-li:hover {
       background: rgb(237 242 255 / 73%);
       .name {

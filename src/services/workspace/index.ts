@@ -11,6 +11,20 @@ class WorkspaceService {
     return service.get<IWorkspace.ExistEmailResponse>(this.PATH + '/exist', param)
   }
 
+  // 업종 조회
+  getBusinessType() {
+    return service.get<IWorkspace.BusinessOptResponse>(
+      this.PATH + '/workspace/join/business-type-codes'
+    )
+  }
+
+  // 규모 조회
+  getEmployeeScale() {
+    return service.get<IWorkspace.BusinessOptResponse>(
+      this.PATH + '/workspace/join/employee-scale-codes'
+    )
+  }
+
   // 워크스페이스 생성
   createWorkspace(param: IWorkspace.CreateWorkspaceParam) {
     return service.post<IWorkspace.CreateWorkspaceResponse>(this.PATH + '/workspaces', param)

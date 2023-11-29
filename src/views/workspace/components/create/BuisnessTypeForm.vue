@@ -6,73 +6,47 @@
   <div class="form-wrapper">
     <Select
       key="businessType"
-      :options="businessTypeOpt"
+      :options="option.businessTypeOpt"
       v-model:value="getFormValues.businessTypeCode"
     />
     <Select
-      key="emlpoyeeScale"
-      :options="emlpoyeeScaleOpt"
+      key="employeeScale"
+      :options="option.employeeScaleOpt"
       v-model:value="getFormValues.employeeScaleCode"
     />
   </div>
 </template>
 
 <script setup lang="ts" name="BuisnessTypeForm">
+import { WorkspaceService } from '@/services'
 import { Select } from 'ant-design-vue'
-import { ref, toRefs, watch } from 'vue'
+import { reactive, toRefs, watch } from 'vue'
+import type { IWorkspace } from '@/services/workspace/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 const workspaceStore = useWorkspaceStore()
 const { getFormValues } = toRefs(workspaceStore)
-// TODO 추후 서버에서 내려준 옵션값으로 변경
-const businessTypeOpt = ref([
-  {
-    value: '',
-    label: '업종 선택'
-  },
-  {
-    value: 'MANUFACTURING',
-    label: '제조업'
-  },
-  {
-    value: 'IT',
-    label: 'IT업'
-  },
-  {
-    value: 'CONSTRUCTION',
-    label: '건설업'
+
+interface ReactiveType {
+  businessTypeOpt: IWorkspace.BusinessOptionType[]
+  employeeScaleOpt: IWorkspace.BusinessOptionType[]
+}
+const option = reactive<ReactiveType>({
+  businessTypeOpt: [],
+  employeeScaleOpt: []
+})
+
+;(async () => {
+  try {
+    const { data: buisnessTypeOpt } = await WorkspaceService.getBusinessType()
+    option.businessTypeOpt = buisnessTypeOpt.codes
+
+    const { data: employeeScaleOpt } = await WorkspaceService.getEmployeeScale()
+    option.employeeScaleOpt = employeeScaleOpt.codes
+  } catch (err) {
+    console.log(err)
   }
-])
-const emlpoyeeScaleOpt = ref([
-  {
-    value: '',
-    label: '규모 선택'
-  },
-  {
-    value: 'FEWER_THAN_10',
-    label: '10명 미만'
-  },
-  {
-    value: 'FEWER_THAN_50',
-    label: '50명 미만'
-  },
-  {
-    value: 'FEWER_THAN_100',
-    label: '100명 미만'
-  },
-  {
-    value: 'BETWEEN_100_AND_500',
-    label: '100 ~ 500명'
-  },
-  {
-    value: 'BETWEEN_500_AND_1000',
-    label: '500 ~ 1000명'
-  },
-  {
-    value: 'MORE_THAN_1000',
-    label: '1000명 이상'
-  }
-])
+})()
 
 watch(
   getFormValues,
