@@ -2,8 +2,6 @@
   <div ref="wrapRef" class="basic-table-container">
     <TableToolbar v-if="props.showToolbar" />
 
-    <!-- <h3>Total Count: 200</h3> -->
-
     <SelectionPopup v-if="getContextValues.showSelectionPopup" :selectedRows="selectedRows" />
 
     <Table
@@ -260,15 +258,16 @@ watch(
 watch(
   () => dynamicTable?.getFilterFormItems(),
   async (filterFormItems) => {
-    const _filterFormItems = cloneDeep(filterFormItems)
-    const { initParam } = unref(getProps)
-    const defaultParam = {
-      page: 0,
-      size: 10,
-      searchWord: ''
-    }
+    const activeFilter = unref(dynamicTable.getContextValues).activeFilter
 
-    if (initParam) {
+    if (activeFilter && filterFormItems.length) {
+      const _filterFormItems = cloneDeep(filterFormItems)
+      const defaultParam = {
+        page: 0,
+        size: 10,
+        searchWord: ''
+      }
+
       type ParamValue = string | number | boolean
       const filterParam: {
         [key: string]: ParamValue | Array<ParamValue>
@@ -308,8 +307,6 @@ watch(
   },
   { immediate: true, deep: true }
 )
-
-// const { initCardViewChecked } = useCardView(getContextValues, dataSource)
 
 watch(
   () => unref(selectedRows),

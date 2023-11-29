@@ -1,9 +1,7 @@
 <script setup lang="ts" name="Login">
 import { AuthService } from '@/services'
 import { useAuthStore } from '@/stores'
-// import { LoadingOutlined } from '@ant-design/icons-vue'
 import { Input } from 'ant-design-vue'
-import { h } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Spinner } from '@/components/spinner'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
@@ -11,32 +9,28 @@ import SocialLoginBtns from './components/SocialLoginBnts.vue'
 
 const { query } = useRoute()
 const router = useRouter()
-const { setToken, setUser } = useAuthStore()
+const { setToken, login } = useAuthStore()
 
 const accessToken = query.accessToken as string
 const refreshToken = query.refreshToken as string
 const isSuccessSocialLogin = !!accessToken && !!refreshToken
-// const indicator = h(LoadingOutlined, {
-//   style: {
-//     fontSize: '24px'
-//   },
-//   spin: true
-// })
 
 if (isSuccessSocialLogin) {
   console.log('login success!')
   setToken(ACCESS_TOKEN_KEY, accessToken)
   setToken(REFRESH_TOKEN_KEY, refreshToken)
 
-  AuthService.getUser().then(({ data, success }) => {
-    if (success) {
-      setUser(data)
-
+  login().then(
+    (user) => {
+      console.log('[user]', user)
       setTimeout(() => {
-        router.push({ name: data.workspaceCount > 1 ? 'workspace-list' : 'workspace-welcome' })
+        router.push({ name: user.workspaceCount > 1 ? 'workspace-list' : 'workspace-welcome' })
       }, 1500)
+    },
+    (error) => {
+      console.log(error)
     }
-  })
+  )
 }
 </script>
 <template>

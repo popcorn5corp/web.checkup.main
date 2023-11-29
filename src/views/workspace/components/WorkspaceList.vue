@@ -7,10 +7,11 @@
         <ul>
           <li
             ref="listRef"
-            v-for="item in workspaceInfoList"
+            v-for="item in workspaceList"
             :key="item.workspaceId"
             :data-set="item.workspaceId"
             class="list-li"
+            :class="[item.active && 'active']"
             @click="onSelectWorkspace(item)"
           >
             <span class="img">
@@ -22,7 +23,7 @@
             <span class="arrow">
               <ArrowRightOutlined class="icon" />
               <span class="text">
-                {{ $t('component.button.move') }}
+                {{ item.activeTxt }}
               </span>
             </span>
           </li>
@@ -42,35 +43,41 @@ import img from '@/assets/images/avatar/avatar4.jpg'
 import { useAuthStore } from '@/stores'
 import { ArrowRightOutlined } from '@ant-design/icons-vue'
 import { Checkbox } from 'ant-design-vue'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import type { IWorkspace } from '@/services/workspace/interface'
 import { type Workspace, useWorkspaceStore } from '@/stores/modules/workspace'
 
+type WorkspaceInfo = IWorkspace.WorkspaceInfo & { active: boolean; activeTxt: string }
+
 const { t } = useI18n()
 const router = useRouter()
 const { getUser } = useAuthStore()
 const { setSelectedWorkspace, getWorkspace } = useWorkspaceStore()
-const workspaceInfoList = ref<IWorkspace.WorkspaceInfo[]>(getUser.workspaceInfoList)
+const workspaceList = ref<WorkspaceInfo[]>(
+  getUser.workspaceInfoList.map((workspace) => {
+    let active = false
+    let activeTxt = t('component.button.move')
+
+    if (workspace.workspaceId === getWorkspace.workspaceId) {
+      active = true
+      activeTxt = t('page.workspace.listArrowText')
+    }
+
+    return {
+      ...workspace,
+      active,
+      activeTxt
+    }
+  })
+)
 const listRef = ref()
 
 function onSelectWorkspace(workspace: Workspace) {
   setSelectedWorkspace(workspace)
   router.push({ name: 'samples-dynamic-table' })
 }
-
-onMounted(() => {
-  listRef.value?.map((list: HTMLElement) => {
-    if ((list.dataset.set as string) === getWorkspace.workspaceId) {
-      list.classList.add('active')
-      const lastChild = list.lastChild as HTMLElement | null
-      if (lastChild && 'innerText' in lastChild) {
-        lastChild.innerText = t('page.workspace.listArrowText')
-      }
-    }
-  })
-})
 </script>
 
 <style lang="scss" scoped>

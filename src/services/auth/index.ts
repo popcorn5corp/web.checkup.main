@@ -6,11 +6,19 @@ class AuthService {
 
   constructor() {}
 
-  getUser() {
-    return service.get<IAuth.UserResponse>(this.PATH + '/me')
+  async login(): Promise<IAuth.UserResponse> {
+    return await service.get<IAuth.UserResponse>(this.PATH + '/me').then((response) => {
+      const { success, data, error } = response
+
+      if (success) {
+        return data
+      } else {
+        return Promise.reject(error)
+      }
+    })
   }
 
-  signOut() {
+  logout() {
     return service.delete(this.PATH + '/sign-out')
   }
 }
