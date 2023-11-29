@@ -1,11 +1,8 @@
 <template>
   <div class="menu-item-content">
-    <!-- <div class="menu-item"> -->
-    <!-- <span class="menu-icon"> -->
-    <!-- <i class="ri-vip-diamond-fill"></i> -->
-    <!-- <user-outlined /> -->
-    <LaptopOutlined />
-    <!-- </span> -->
+    <span class="icon">
+      <font-awesome-icon :icon="['fas', props.item.meta?.icon || 'minus']" />
+    </span>
     <span class="menu-title">{{ props.item.meta?.title }}</span>
     <!-- <Badge text="new" size="small" shape="round" theme="primary-outline" /> -->
     <!-- <span v-if="props.item.meta?.isNew" class="badge primary">Hot</span> -->
@@ -13,7 +10,6 @@
 </template>
 
 <script setup lang="ts" name="MenuItemContent">
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons-vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 defineOptions({
@@ -32,19 +28,8 @@ const props = withDefaults(defineProps<Props>(), {
 .menu-item-content {
   display: flex;
 
-  :deep(span.anticon.anticon-laptop) {
-    // margin-inline-end: 10px;
-    // margin-right: 0.5rem;
-    // font-size: 0.8125rem;
-    // line-height: 1;
-    // background: rgba(108, 114, 147, 0.2);
-    // width: 31px;
-    // height: 31px;
-    // border-radius: 100%;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    // color: #ffffff;
+  .icon {
+    margin-right: 10px;
   }
   .menu-item {
     display: flex;
