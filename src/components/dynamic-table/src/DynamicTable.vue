@@ -34,7 +34,7 @@
 
             <!-- 필터 버튼 -->
             <Button
-              v-if="filters"
+              v-if="activeFilter"
               type="primary"
               :label="$t('common.filterText')"
               size="middle"
@@ -171,7 +171,9 @@ const wrapRef = ref(null)
 const innerProps = ref<Partial<DynamicTableProps>>()
 const tableRef = ref<InstanceType<typeof Table>>()
 const showFilter = ref(false)
-// const showDetail = ref(true)
+const activeFilter = ref(
+  (props.filters && props.filters.length) || props.filterRequest ? true : false
+)
 
 const contextValues = ref<DynamicTableContextValues>({
   ...defaultContenxtValues
@@ -254,6 +256,10 @@ const getBindValues = computed<Recordable>(() => {
   }
 
   return propsData
+})
+
+setContextValues({
+  activeFilter: unref(activeFilter)
 })
 
 /**

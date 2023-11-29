@@ -1,3 +1,4 @@
+import { AuthService } from '@/services'
 import { Util } from '@/utils'
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
@@ -6,38 +7,64 @@ import type { IWorkspace } from '@/services/workspace/interface'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import type { TokenKey } from '../interface'
 
-export type IUser = IAuth.UserResponse & {
-  accessToken: string
-}
+export type IUser = IAuth.UserResponse
+
 interface AuthState {
   user: IUser
+  loggedIn: boolean
+}
+
+function getDefaultUser() {
+  return {
+    uid: '',
+    userId: '',
+    userName: '',
+    workspaceCount: 0,
+    workspaceInfoList: []
+  }
 }
 
 export const useAuthStore = defineStore('auth', () => {
   const state = reactive<AuthState>({
-    user: Util.Storage.get<IUser>('user') || {
-      uid: '',
-      userId: '',
-      userName: '',
-      workspaceCount: 0,
-      workspaceInfoList: [],
-      accessToken: ''
-    }
+    user: Util.Storage.get<IUser>('user') || getDefaultUser(),
+    loggedIn: false
   })
 
   const getUser = computed(() => state.user)
 
-  function setUser(param: IAuth.UserResponse) {
-    state.user = {
-      ...state.user,
-      ...param
-    }
-    Util.Storage.set('user', state.user)
+  function login() {
+    return AuthService.login().then(
+      (user) => {
+        state.user = user
+        state.loggedIn = true
+        Util.Storage.set('user', state.user)
+        return Promise.resolve(user)
+      },
+      (error) => {
+        state.user = getDefaultUser()
+        state.loggedIn = false
+        return Promise.reject(error)
+      }
+    )
   }
+
+  function logout() {
+    removeToken()
+    removeUser()
+    state.loggedIn = false
+    state.user = getDefaultUser()
+  }
+
+  // function setUser(param: IAuth.UserResponse) {
+  //   state.user = {
+  //     ...state.user,
+  //     ...param
+  //   }
+  //   Util.Storage.set('user', state.user)
+  // }
 
   function setToken(tokenKey: TokenKey, token: string) {
     Util.Storage.set(tokenKey, token)
-    state.user.accessToken = token
   }
 
   function setWorkspaceList(workspace: IWorkspace.WorkspaceInfo) {
@@ -59,7 +86,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     getUser,
-    setUser,
+    login,
+    logout,
     setToken,
     getToken,
     removeToken,
