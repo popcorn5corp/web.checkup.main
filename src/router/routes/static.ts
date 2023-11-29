@@ -22,7 +22,7 @@ import { layoutTypes } from '@/stores/interface'
 export const staticRoutes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Root',
+    name: 'root',
     redirect: '/dashboard'
   },
   {
@@ -53,19 +53,19 @@ export const staticRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: 'list',
-        name: 'workspace-list',
-        component: () => import('@/views/workspace/components/WorkspaceList.vue'),
-        meta: {
-          title: 'List'
-        }
-      },
-      {
         path: '',
         name: 'workspace-welcome',
         component: () => import('@/views/workspace/components/Welcome.vue'),
         meta: {
           title: 'Welcome'
+        }
+      },
+      {
+        path: 'list',
+        name: 'workspace-list',
+        component: () => import('@/views/workspace/components/WorkspaceList.vue'),
+        meta: {
+          title: 'List'
         }
       },
       {
@@ -313,5 +313,13 @@ export const staticRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'Error404',
+    component: () => import('@/views/ErrorView.vue'),
+    meta: {
+      layout: layoutTypes.pure
+    }
   }
 ]

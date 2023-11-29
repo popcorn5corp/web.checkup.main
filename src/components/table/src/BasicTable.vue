@@ -94,6 +94,152 @@ const styles = ref<CSSProperties>({
 })
 
 /**
+ * @description ATable 컴포넌트에 바인딩하기 위한 상위 props & 내부적으로 변경된 innerProps
+ */
+const getProps = computed<TableProps>(() => {
+  return {
+    ...props,
+    ...unref(innerProps)
+  }
+})
+
+function setProps(props: Partial<TableProps>) {
+  innerProps.value = {
+    ...unref(innerProps),
+    ...props
+  }
+}
+
+/**
+ * @description Table 컴포넌트 Context에서 공유되는 Values
+ */
+const getContextValues = computed<TableContextValues>(() => {
+  return {
+    ...unref(contextValues)
+  }
+})
+
+function setContextValues(values: Partial<TableContextValues>) {
+  contextValues.value = {
+    ...unref(contextValues),
+    ...values
+  }
+}
+
+/**
+ * @description Table Columns 관련 기능에 대한 Hooks
+ */
+const { setColumns, getColumns } = useColumns(getProps)
+const { getLoading, setLoading } = useLoading(getProps)
+const { customRow, rowClassName } = useCustomRow({ emit })
+
+/**
+ * @description Table 관련 기능에 대한 Hooks
+ */
+const {
+  dataSource: _dataSource,
+  fetchDataSource,
+  total,
+  changeTable,
+  getRecordNo,
+  initTableState,
+  initDataSource,
+  initCardViewChecked,
+  getDataSource,
+  setPagination,
+  getPagination
+} = useTable(getProps, {
+  setLoading
+})
+
+/**
+ * @description Table Selection 관련 기능에 대한 Hooks
+ */
+const { rowSelection, initSelecion, setSelectedRows, selectedRows, selectedRowKeys } = useSelection(
+  getContextValues,
+  dataSource
+)
+
+/**
+ * @description Table 컴포넌트 초기 세팅
+ */
+;(async () => {
+  if (!dynamicTable) {
+    await fetchDataSource()
+  }
+
+  if (props.columns) {
+    await setColumns()
+  }
+})()
+
+/**
+ * @description Table 컴포넌트 Context가 제공하는 Action 함수
+ */
+const tableAction: TableAction = {
+  setProps,
+  setContextValues,
+  fetchDataSource,
+  getDataSource: () => unref(getDataSource),
+  getLoading: () => unref(getLoading) as boolean,
+  getSize: () => unref(getProps).size as SizeType,
+  reload: async () => {
+    initTableState()
+    initSelecion()
+    dynamicTable.initFilterFormItems()
+
+    /**
+     * 이부분에서 filter param 넘겨야함
+    //  */
+    // await fetchDataSource({ isReset, param: undefined })
+  },
+  initTableState,
+  initDataSource,
+  changeTable,
+  getRecordNo,
+  setPagination,
+  getPagination: () => unref(getPagination),
+  initSelecion,
+  initCardViewChecked,
+  setSelectedRows,
+  emitter: emit
+}
+
+/**
+ * @description Table 컴포넌트에 바인딩되는 Values
+ */
+const getBindValues = computed<Recordable>(() => {
+  let propsData = {
+    ...useAttrs(),
+    customRow,
+    ...unref(getProps),
+    dataSource: unref(getDataSource),
+    columns: unref(getColumns),
+    loading: unref(getLoading),
+    pagination: unref(getPagination),
+    rowClassName,
+    rowSelection: props.options.isSelection ? unref(rowSelection) : undefined
+  }
+
+  propsData = omit(propsData, ['showHeader'])
+  return propsData
+})
+
+/**
+ * @description Table Context 생성
+ */
+createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
+
+defineExpose({
+  getDataSource: fetchDataSource,
+  getColumns,
+  reload: tableAction.reload,
+  selectedRows,
+  selectedRowKeys,
+  total
+})
+
+/**
  * @description Table 컴포넌트 layoutMode 변경시 데이터 초기화
  */
 watch(
@@ -160,80 +306,10 @@ watch(
       }
     }
   },
-  {
-    deep: true
-  }
+  { immediate: true, deep: true }
 )
-
-/**
- * @description ATable 컴포넌트에 바인딩하기 위한 상위 props & 내부적으로 변경된 innerProps
- */
-const getProps = computed<TableProps>(() => {
-  return {
-    ...props,
-    ...unref(innerProps)
-  }
-})
-
-function setProps(props: Partial<TableProps>) {
-  innerProps.value = {
-    ...unref(innerProps),
-    ...props
-  }
-}
-
-/**
- * @description Table 컴포넌트 Context에서 공유되는 Values
- */
-const getContextValues = computed<TableContextValues>(() => {
-  return {
-    ...unref(contextValues)
-  }
-})
-
-function setContextValues(values: Partial<TableContextValues>) {
-  contextValues.value = {
-    ...unref(contextValues),
-    ...values
-  }
-}
-
-const { getLoading, setLoading } = useLoading(getProps)
-const { customRow, rowClassName } = useCustomRow({ emit })
-
-/**
- * @description Table 관련 기능에 대한 Hooks
- */
-const {
-  dataSource: _dataSource,
-  fetchDataSource,
-  total,
-  changeTable,
-  getRecordNo,
-  initTableState,
-  initDataSource,
-  initCardViewChecked,
-  getDataSource,
-  setPagination,
-  getPagination
-} = useTable(getProps, {
-  setLoading
-})
-
-/**
- * @description Table Columns 관련 기능에 대한 Hooks
- */
-const { setColumns, getColumns } = useColumns(getProps)
 
 // const { initCardViewChecked } = useCardView(getContextValues, dataSource)
-
-/**
- * @description Table Selection 관련 기능에 대한 Hooks
- */
-const { rowSelection, initSelecion, setSelectedRows, selectedRows, selectedRowKeys } = useSelection(
-  getContextValues,
-  dataSource
-)
 
 watch(
   () => unref(selectedRows),
@@ -250,85 +326,6 @@ watch(
     deep: true
   }
 )
-
-/**
- * @description Table 컴포넌트 초기 세팅
- */
-;(async () => {
-  if (!dynamicTable) {
-    await fetchDataSource()
-  }
-
-  if (props.columns) {
-    await setColumns()
-  }
-})()
-
-/**
- * @description Table 컴포넌트 Context가 제공하는 Action 함수
- */
-const tableAction: TableAction = {
-  setProps,
-  setContextValues,
-  fetchDataSource,
-  getDataSource: () => unref(getDataSource),
-  getLoading: () => unref(getLoading) as boolean,
-  getSize: () => unref(getProps).size as SizeType,
-  reload: async (isReset = true) => {
-    initTableState()
-    initSelecion()
-    dynamicTable.initFilterFormItems()
-
-    /**
-     * 이부분에서 filter param 넘겨야함
-    //  */
-    // await fetchDataSource({ isReset, param: undefined })
-  },
-  initTableState,
-  initDataSource,
-  changeTable,
-  getRecordNo,
-  setPagination,
-  getPagination: () => unref(getPagination),
-  initSelecion,
-  initCardViewChecked,
-  setSelectedRows,
-  emitter: emit
-}
-
-/**
- * @description Table 컴포넌트에 바인딩되는 Values
- */
-const getBindValues = computed<Recordable>(() => {
-  let propsData = {
-    ...useAttrs(),
-    customRow,
-    ...unref(getProps),
-    dataSource: unref(getDataSource),
-    columns: unref(getColumns),
-    loading: unref(getLoading),
-    pagination: unref(getPagination),
-    rowClassName,
-    rowSelection: props.options.isSelection ? unref(rowSelection) : undefined
-  }
-
-  propsData = omit(propsData, ['showHeader'])
-  return propsData
-})
-
-/**
- * @description Table Context 생성
- */
-createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
-
-defineExpose({
-  getDataSource: fetchDataSource,
-  getColumns,
-  reload: tableAction.reload,
-  selectedRows,
-  selectedRowKeys,
-  total
-})
 </script>
 <style lang="scss" scoped>
 .basic-table-container {

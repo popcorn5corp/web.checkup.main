@@ -1,6 +1,10 @@
 import type { WorkspaceFormValues, WorkspaceUsers } from '@/stores/modules/workspace'
 
 export namespace IWorkspace {
+  export interface WorkspaceInfo {
+    workspaceId: string
+    workspaceName: string
+  }
   export interface ExistEmailParam {
     inviteEmail: string
   }
@@ -9,9 +13,7 @@ export namespace IWorkspace {
     isExist: boolean
   }
 
-  export interface CreateWorkspaceResponse {
-    workspaceId: string
-    workspaceName: string
+  export interface CreateWorkspaceResponse extends WorkspaceInfo {
     ownerId: string
   }
 
@@ -22,9 +24,7 @@ export namespace IWorkspace {
   export interface ValidateInviteCodeParam {
     inviteCode: string
   }
-  export interface ValidateInviteCodeResponse {
-    workspaceId: string
-    workspaceName: string
+  export interface ValidateInviteCodeResponse extends WorkspaceInfo {
     uid: string
     workspaceInviteLogId: string
   }
@@ -41,17 +41,13 @@ export namespace IWorkspace {
     ext: string
   }
 
-  export interface JoinWorkspaceResponse {
-    workspaceId: string
-    workspaceName: string
+  export interface JoinWorkspaceResponse extends WorkspaceInfo {
     uid: string
     workspaceUserId: string
     nickName: string
   }
 
-  export interface GetWorkspaceInfoResponse {
-    workspaceId: string
-    workspaceName: string
+  export interface GetWorkspaceInfoResponse extends WorkspaceInfo {
     totalUserCount: number
     workspaceUsers: WorkspaceUsers[]
   }

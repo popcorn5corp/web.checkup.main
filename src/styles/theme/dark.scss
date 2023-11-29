@@ -32,6 +32,16 @@ html[data-theme='dark'] {
       color: $sub-text-color;
     }
   }
+
+  .menu-header .user-preview .info {
+    .name {
+      color: $text-color;
+    }
+
+    .email {
+      color: $sub-text-color;
+    }
+  }
 }
 
 html[data-theme='dark'] {

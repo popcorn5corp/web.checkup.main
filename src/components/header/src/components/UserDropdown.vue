@@ -2,21 +2,21 @@
   <Dropdown class="user-dropdown" :trigger="['click']" :theme="'dark'">
     <Button shape="round">
       <template #icon>
-        <Badge status="processing" text="체크업 주식회사" color="green" />
+        <Badge status="processing" :text="getWorkspace.workspaceName" color="green" />
         <CaretDownOutlined />
       </template>
     </Button>
     <template #overlay>
       <Menu @click="onClickMenu">
-        <MenuItem key="0" style="text-align: center">
+        <!-- <MenuItem key="0" style="text-align: center">
           <Avatar style="background-color: #d7b0f4">
             <template #icon>
               <UserOutlined />
             </template>
           </Avatar>
         </MenuItem>
-        <MenuItem key="1" style="text-align: center"> 체크업 주식회사 </MenuItem>
-        <MenuItem key="2"> admin@checkupv.com </MenuItem>
+        <MenuItem key="1" style="text-align: center"> {{ getUser.userName }} </MenuItem>
+        <MenuItem key="2"> {{ getUser.userId }} </MenuItem> -->
         <MenuItem key="3">
           <PlusOutlined />
           {{ $t('common.createWorkspace') }}
@@ -50,10 +50,10 @@
   >
     <div class="modal-content">
       <Tabs :tabPosition="'left'">
-        <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')">
+        <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')" force-render>
           <UserAccount />
         </TabPane>
-        <TabPane key="2" :tab="$t('layout.header.settings.tabDisplaySetting')" force-render>
+        <TabPane key="2" :tab="$t('layout.header.settings.tabDisplaySetting')">
           <DisplaySetting />
         </TabPane>
         <TabPane key="3" :tab="$t('layout.header.settings.tabLang')">
@@ -67,6 +67,7 @@
 import router from '@/router'
 import { AuthService } from '@/services'
 import { Avatar, Badge, Dropdown, Menu, MenuItem, type MenuProps, Modal } from 'ant-design-vue'
+import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '@/stores/modules/auth'
@@ -89,9 +90,8 @@ import UserAccount from './UserAccount.vue'
 const isOpen = ref(false)
 const { t } = useI18n()
 const { removeToken, removeUser, getUser } = useAuthStore()
-const workspaceStore = useWorkspaceStore()
+const { getWorkspace } = storeToRefs(useWorkspaceStore())
 
-console.log(' [user] ', getUser)
 // const isDarkMode = computed({
 //   get() {
 //     return config.theme.isDark
@@ -125,10 +125,10 @@ console.log(' [user] ', getUser)
 const onClickMenu: MenuProps['onClick'] = (e) => {
   if (e.key === '3') {
     router.push({ name: 'workspace-create' })
-    workspaceStore.setType('create')
+    // workspaceStore.setType('create')
   } else if (e.key === '4') {
     router.push({ name: 'workspace-list' })
-    workspaceStore.setType('list')
+    // workspaceStore.setType('list')
   } else if (e.key === '5') {
     isOpen.value = true
   } else if (e.key === '6') {

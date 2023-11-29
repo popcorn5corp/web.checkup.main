@@ -1,9 +1,8 @@
 <script setup lang="ts" name="Login">
 import { AuthService } from '@/services'
 import { useAuthStore } from '@/stores'
-import { LoadingOutlined } from '@ant-design/icons-vue'
+// import { LoadingOutlined } from '@ant-design/icons-vue'
 import { Input } from 'ant-design-vue'
-import { Spin } from 'ant-design-vue'
 import { h } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Spinner } from '@/components/spinner'
@@ -17,12 +16,12 @@ const { setToken, setUser } = useAuthStore()
 const accessToken = query.accessToken as string
 const refreshToken = query.refreshToken as string
 const isSuccessSocialLogin = !!accessToken && !!refreshToken
-const indicator = h(LoadingOutlined, {
-  style: {
-    fontSize: '24px'
-  },
-  spin: true
-})
+// const indicator = h(LoadingOutlined, {
+//   style: {
+//     fontSize: '24px'
+//   },
+//   spin: true
+// })
 
 if (isSuccessSocialLogin) {
   console.log('login success!')
@@ -32,12 +31,12 @@ if (isSuccessSocialLogin) {
   AuthService.getUser().then(({ data, success }) => {
     if (success) {
       setUser(data)
+
+      setTimeout(() => {
+        router.push({ name: data.workspaceCount > 1 ? 'workspace-list' : 'workspace-walcome' })
+      }, 1500)
     }
   })
-
-  setTimeout(() => {
-    router.push({ name: 'workspace' })
-  }, 1500)
 }
 </script>
 <template>
