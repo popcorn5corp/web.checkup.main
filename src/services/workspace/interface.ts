@@ -29,6 +29,15 @@ export namespace IWorkspace {
     workspaceInviteLogId: string
   }
 
+  export interface BusinessOptResponse {
+    codes: BusinessOptionType[]
+  }
+
+  export interface BusinessOptionType {
+    label: string
+    value: string
+  }
+
   export interface JoinWorkspaceParam {
     uid: string
     workspaceId: string

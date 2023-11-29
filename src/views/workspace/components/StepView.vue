@@ -6,7 +6,7 @@
     />
   </div>
   <div class="content right">
-    <div id="workspace-step-btn-container" class="workspace-step-btn-container">
+    <div id="workspace-step-btn-container">
       <div class="step-wrapper">
         <span>{{ getCurrentStep }}</span>
         <span> / </span>
