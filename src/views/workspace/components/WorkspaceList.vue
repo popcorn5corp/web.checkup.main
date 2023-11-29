@@ -1,34 +1,36 @@
 <template>
-  <div class="list-wrapper">
-    <h1>{{ $t('page.workspace.listTitle') }}</h1>
-    <p class="list-desc">{{ $t('page.workspace.listDesc') }}</p>
-    <div class="list-box">
-      <ul>
-        <li
-          v-for="item in workspaceInfoList"
-          :key="item.workspaceId"
-          class="list-li"
-          @click="$router.push({ name: 'Root' })"
-        >
-          <span class="img">
-            <img :src="img" />
-          </span>
-          <span class="name">
-            {{ item.workspaceName }}
-          </span>
-          <span class="arrow">
-            <ArrowRightOutlined class="icon" />
-            <span class="text">
-              {{ $t('component.button.move') }}
+  <div class="content">
+    <div class="list-wrapper">
+      <h1>{{ $t('page.workspace.listTitle') }}</h1>
+      <p class="list-desc">{{ $t('page.workspace.listDesc') }}</p>
+      <div class="list-box">
+        <ul>
+          <li
+            v-for="item in workspaceInfoList"
+            :key="item.workspaceId"
+            class="list-li"
+            @click="onSelectWorkspace(item)"
+          >
+            <span class="img">
+              <img :src="img" />
             </span>
-          </span>
-        </li>
-      </ul>
-    </div>
-    <div class="check-wrapper">
-      <span>
-        <Checkbox>{{ $t('page.workspace.listCheckText') }}</Checkbox>
-      </span>
+            <span class="name">
+              {{ item.workspaceName }}
+            </span>
+            <span class="arrow">
+              <ArrowRightOutlined class="icon" />
+              <span class="text">
+                {{ $t('component.button.move') }}
+              </span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="check-wrapper">
+        <span>
+          <Checkbox>{{ $t('page.workspace.listCheckText') }}</Checkbox>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -39,15 +41,19 @@ import { useAuthStore } from '@/stores'
 import { ArrowRightOutlined } from '@ant-design/icons-vue'
 import { Checkbox } from 'ant-design-vue'
 import { ref } from 'vue'
-import type { IAuth } from '@/services/auth/interface'
+import { useRouter } from 'vue-router'
+import type { IWorkspace } from '@/services/workspace/interface'
+import { type Workspace, useWorkspaceStore } from '@/stores/modules/workspace'
 
+const router = useRouter()
 const { getUser } = useAuthStore()
+const { setSelectedWorkspace } = useWorkspaceStore()
+const workspaceInfoList = ref<IWorkspace.WorkspaceInfo[]>(getUser.workspaceInfoList)
 
-const workspaceInfoList = ref<IAuth.WorkspaceInfo[]>([])
-
-;(async () => {
-  workspaceInfoList.value = getUser.workspaceInfoList
-})()
+function onSelectWorkspace(workspace: Workspace) {
+  setSelectedWorkspace(workspace)
+  router.push({ name: 'samples-dynamic-table' })
+}
 </script>
 
 <style lang="scss" scoped>

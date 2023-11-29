@@ -15,9 +15,9 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 const workspaceStore = useWorkspaceStore()
 const { getCurrentStep, getSteps } = toRefs(workspaceStore)
 
-;(async () => {
-  workspaceStore.setType('create')
-})()
+// ;(async () => {
+//   workspaceStore.setStepType('create')
+// })()
 </script>
 
 <style lang="scss" scoped>

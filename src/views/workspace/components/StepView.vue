@@ -1,52 +1,70 @@
 <template>
-  <div id="workspace-step-btn-container" class="workspace-step-btn-container">
-    <div class="step-wrapper" v-if="getType === 'create' || getType === 'invite'">
-      <span>{{ getCurrentStep }}</span>
-      <span> / </span>
-      <span>{{ getSteps.length }}</span>
-    </div>
+  <div class="content left">
+    <img
+      :src="getStepType === 'create' ? createImg : inviteImg"
+      alt="작가 upklyak / 출처 Freepik"
+    />
+  </div>
+  <div class="content right">
+    <div id="workspace-step-btn-container" class="workspace-step-btn-container">
+      <div class="step-wrapper">
+        <span>{{ getCurrentStep }}</span>
+        <span> / </span>
+        <span>{{ getSteps.length }}</span>
+      </div>
 
-    <div class="routerView">
-      <RouterView></RouterView>
-    </div>
+      <div class="routerView">
+        <div class="transition-group">
+          <RouterView></RouterView>
+          <!-- <Transition name="steps" appear mode="out-in">
+            <div class="active" :key="getCurrentStep">
+              <component :is="getSteps[getCurrentStep - 1].component" />
+            </div>
+          </Transition> -->
+        </div>
+      </div>
 
-    <div class="btns-wrapper" v-if="getType === 'create' || getType === 'invite'">
-      <Button
-        class="btn"
-        size="large"
-        :label="$t('component.button.prev')"
-        @click="workspaceStore.prevCurrentStep()"
-      />
-      <Button
-        v-if="getSteps[getCurrentStep - 1].isJump"
-        class="btn"
-        size="large"
-        :label="$t('component.button.jump')"
-        @click="workspaceStore.nextCurrentStep()"
-      />
-      <Button
-        v-if="getSteps[getCurrentStep - 1].nextBtnText"
-        class="btn"
-        type="primary"
-        size="large"
-        :label="getSteps[getCurrentStep - 1].nextBtnText || ''"
-        :disabled="getNextBtnDisabled"
-        @click="onComplete"
-      />
-      <Button
-        v-if="getCurrentStep === getSteps.length"
-        class="btn"
-        type="primary"
-        size="large"
-        :label="$t('component.button.toMain')"
-        @click="router.push({ name: 'Root' })"
-      />
+      <div class="btns-wrapper">
+        <Button
+          class="btn"
+          size="large"
+          :label="$t('component.button.prev')"
+          @click="workspaceStore.prevCurrentStep()"
+        />
+        <Button
+          v-if="getSteps[getCurrentStep - 1].isJump"
+          class="btn"
+          size="large"
+          :label="$t('component.button.jump')"
+          @click="workspaceStore.nextCurrentStep()"
+        />
+        <Button
+          v-if="getSteps[getCurrentStep - 1].nextBtnText"
+          class="btn"
+          type="primary"
+          size="large"
+          :label="getSteps[getCurrentStep - 1].nextBtnText || ''"
+          :disabled="getNextBtnDisabled"
+          @click="onComplete"
+        />
+        <Button
+          v-if="getCurrentStep === getSteps.length"
+          class="btn"
+          type="primary"
+          size="large"
+          :label="$t('component.button.toMain')"
+          @click="router.push({ name: 'root' })"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="StepView">
+import createImg from '@/assets/images/workspace_create.png'
+import inviteImg from '@/assets/images/workspace_invite.png'
 import { WorkspaceService } from '@/services'
+import { useAuthStore } from '@/stores'
 import { message } from 'ant-design-vue'
 import { toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -59,7 +77,7 @@ const workspaceStore = useWorkspaceStore()
 const {
   getCurrentStep,
   getSteps,
-  getType,
+  getStepType,
   getNextBtnDisabled,
   getFormValues,
   getWorkspaceId,
@@ -76,14 +94,23 @@ const props = defineProps({
 const onComplete = async () => {
   try {
     if (getSteps.value[getCurrentStep.value - 1].isComplete) {
-      if (getType.value === 'create') {
+      if (getStepType.value === 'create') {
         // 생성 api
         const { inviteCode, ...formDataWithoutInviteCode } = getFormValues.value
-        const { data } = await WorkspaceService.createWorkspace({
+        const { data, success } = await WorkspaceService.createWorkspace({
           ...formDataWithoutInviteCode,
           uid: props.uid
         })
-        workspaceStore.setWorkspaceIdAndName(data.workspaceId, data.workspaceName)
+
+        if (success) {
+          const { workspaceId, workspaceName } = data
+          workspaceStore.setWorkspaceIdAndName(workspaceId, workspaceName)
+          workspaceStore.setSelectedWorkspace({ workspaceId, workspaceName })
+          useAuthStore().setWorkspaceList({
+            workspaceId,
+            workspaceName
+          })
+        }
       } else {
         // 초대 api
         const { nickname, originName, saveName, path, size, ext } = getFormValues.value
@@ -115,6 +142,7 @@ const onComplete = async () => {
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
+
   .step-wrapper {
     background: #1890ff;
     margin-bottom: 1.5rem;
@@ -125,12 +153,14 @@ const onComplete = async () => {
     font-weight: 500;
     align-self: flex-start;
   }
+
   .btns-wrapper {
     width: 100%;
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
   }
+
   .routerView {
     width: 100%;
     min-height: 400px;
@@ -152,6 +182,7 @@ const onComplete = async () => {
       white-space: pre-line;
     }
   }
+
   .form-wrapper {
     width: 100%;
     margin: 2rem 0 1rem;
@@ -172,6 +203,27 @@ const onComplete = async () => {
       color: #888;
       margin-left: 3px;
     }
+  }
+
+  .transition-group {
+    position: relative;
+    opacity: 1;
+  }
+  .active {
+    width: 100%;
+    position: absolute;
+    transition: all 0.5s;
+  }
+  .steps-enter-from {
+    opacity: 0;
+    translate: 100px 0;
+  }
+  .steps-enter-to {
+    opacity: 1;
+    translate: 0 0;
+  }
+  .steps-leave-from {
+    opacity: 0;
   }
 }
 

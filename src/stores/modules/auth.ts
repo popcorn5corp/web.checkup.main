@@ -2,6 +2,7 @@ import { Util } from '@/utils'
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 import type { IAuth } from '@/services/auth/interface'
+import type { IWorkspace } from '@/services/workspace/interface'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import type { TokenKey } from '../interface'
 
@@ -14,7 +15,7 @@ interface AuthState {
 
 export const useAuthStore = defineStore('auth', () => {
   const state = reactive<AuthState>({
-    user: Util.Storage.get('user') || {
+    user: Util.Storage.get<IUser>('user') || {
       uid: '',
       userId: '',
       userName: '',
@@ -39,6 +40,10 @@ export const useAuthStore = defineStore('auth', () => {
     state.user.accessToken = token
   }
 
+  function setWorkspaceList(workspace: IWorkspace.WorkspaceInfo) {
+    state.user.workspaceInfoList.push(workspace)
+  }
+
   function getToken(tokenKey: TokenKey) {
     return Util.Storage.get<string>(tokenKey)
   }
@@ -58,6 +63,7 @@ export const useAuthStore = defineStore('auth', () => {
     setToken,
     getToken,
     removeToken,
-    removeUser
+    removeUser,
+    setWorkspaceList
   }
 })
