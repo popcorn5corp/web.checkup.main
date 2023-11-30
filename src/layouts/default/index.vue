@@ -106,7 +106,7 @@ $header-height: 55px;
 $tab-margin-top: 2px;
 .layout-default {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   // overflow: hidden;
 
   :deep(.logo) {
