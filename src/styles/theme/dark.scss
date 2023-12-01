@@ -1,6 +1,16 @@
 $bg-color: $color-dark; // main bg color
+$bg-real-dark-color: $color-realDark;
 $text-color: $color-white; // main text color
 $sub-text-color: rgba(255, 255, 255, 0.25);
+
+html[data-theme='dark'] {
+  .tabs-container {
+    background-color: #000 !important;
+  }
+  .layout-main {
+    background: $bg-real-dark-color !important;
+  }
+}
 
 html[data-theme='dark'] {
   .filter-form-container {

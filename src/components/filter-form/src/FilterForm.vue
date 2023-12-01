@@ -74,7 +74,7 @@ const filterTypeComponents: Record<FilterUI, Component> = {
   .filter-list {
     // width: 100%;
     background: white;
-    z-index: 10;
+    z-index: 999;
 
     .mobile-header {
       display: none;
