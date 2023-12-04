@@ -46,6 +46,7 @@
           :label="getSteps[getCurrentStep - 1].nextBtnText || ''"
           :disabled="getNextBtnDisabled"
           @click="onComplete"
+          :loading="isLoading"
         />
         <Button
           v-if="getCurrentStep === getSteps.length"
@@ -64,9 +65,8 @@
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
 import { WorkspaceService } from '@/services'
-import { useAuthStore } from '@/stores'
 import { message } from 'ant-design-vue'
-import { toRefs } from 'vue'
+import { ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -83,6 +83,7 @@ const {
   getWorkspaceId,
   getWorkspaceInviteLogId
 } = toRefs(workspaceStore)
+const isLoading = ref(false)
 
 const props = defineProps({
   uid: {
@@ -94,9 +95,11 @@ const props = defineProps({
 const onComplete = async () => {
   try {
     if (getSteps.value[getCurrentStep.value - 1].isComplete) {
+      isLoading.value = true
       if (getStepType.value === 'create') {
         // 생성 api
-        const { inviteCode, ...formDataWithoutInviteCode } = getFormValues.value
+        // eslint-disable-next-line
+        const { inviteCode, url, ...formDataWithoutInviteCode } = getFormValues.value
         const { data, success } = await WorkspaceService.createWorkspace({
           ...formDataWithoutInviteCode,
           uid: props.uid
@@ -106,10 +109,6 @@ const onComplete = async () => {
           const { workspaceId, workspaceName } = data
           workspaceStore.setWorkspaceIdAndName(workspaceId, workspaceName)
           workspaceStore.setSelectedWorkspace({ workspaceId, workspaceName })
-          useAuthStore().setWorkspaceList({
-            workspaceId,
-            workspaceName
-          })
         }
       } else {
         // 초대 api
@@ -132,6 +131,8 @@ const onComplete = async () => {
   } catch (err) {
     message.error(t('common.message.reTry'))
     console.log(err)
+  } finally {
+    isLoading.value = false
   }
 }
 </script>

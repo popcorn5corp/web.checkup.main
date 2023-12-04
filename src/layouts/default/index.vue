@@ -22,7 +22,7 @@
       />
     </Layout.Sider>
 
-    <Layout>
+    <Layout class="layout-main">
       <!-- Page Header 영역 -->
       <PageHeader :collapsed="collapsed" :theme="getTheme">
         <template v-if="config.theme.menuPosition === 'topmenu'" #default>
@@ -80,6 +80,7 @@ const isSideMenu = computed(() => config.theme.menuPosition === 'sidemenu')
 const imgPath = computed(
   () => new URL(`/src/assets/images/${config.theme.logoFileName}`, import.meta.url).href
 )
+
 const logoStyles = computed<{ logo: CSSProperties; img: CSSProperties }>(() => {
   return {
     logo: {
@@ -87,6 +88,23 @@ const logoStyles = computed<{ logo: CSSProperties; img: CSSProperties }>(() => {
     },
     img: {
       width: config.isCollapse ? '60px' : '220px'
+    }
+  }
+})
+const mainStyles = computed<{ size: CSSProperties }>(() => {
+  const {
+    theme: { menuPosition },
+    isCollapse
+  } = config
+  return {
+    size: {
+      width:
+        menuPosition === 'topmenu'
+          ? '100%'
+          : isCollapse
+          ? 'calc(100% - 80px)'
+          : 'calc(100% - 220px)',
+      paddingLeft: menuPosition === 'topmenu' ? '0' : isCollapse ? '80px' : 'calc(100% - 220px)'
     }
   }
 })
@@ -108,6 +126,14 @@ $tab-margin-top: 2px;
   display: flex;
   height: 100vh;
   // overflow: hidden;
+  .layout-sider {
+    position: fixed;
+    z-index: 998;
+    height: 100%;
+    .ant-menu-root {
+      padding-bottom: 30px;
+    }
+  }
 
   :deep(.logo) {
     padding: v-bind('logoStyles.logo.padding');
@@ -117,20 +143,28 @@ $tab-margin-top: 2px;
       width: v-bind('logoStyles.img.width');
     }
   }
-
+  .layout-main {
+    width: v-bind('mainStyles.size.width');
+    padding-left: v-bind('mainStyles.size.paddingLeft');
+    overflow-y: auto;
+    background: $color-white;
+  }
   .layout-header {
     height: $header-height;
+    overflow-x: auto;
+    overflow-y: hidden;
+    z-index: 99;
   }
   :deep(.tabs-container) {
     position: sticky;
-    top: $header-height + $tab-margin-top;
+    top: $header-height + $tab-margin-top - 2px;
+    z-index: 99;
+    background: $color-white;
   }
 
   .layout-content {
     padding: 1rem;
     min-height: calc(100vh - 90px);
-    background: $color-white;
-    overflow-y: scroll;
 
     .title {
       font-size: 1.5em;

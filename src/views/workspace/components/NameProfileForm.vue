@@ -35,7 +35,6 @@
       </div>
     </div>
   </div>
-
   <Modal
     :open="modalVisible"
     :title="$t('page.workspace.selectImg')"
@@ -50,10 +49,10 @@
     :footer="false"
     @cancel="modalVisible = false"
   >
-    <div v-for="img in images" :key="img">
+    <div v-for="profileImg in profileList" :key="profileImg.url">
       <div class="profile-img-wrapper">
-        <img :src="img" alt="출처 Freepik" class="profile-img" />
-        <div class="img-masking" @click="onClickImg(img)">
+        <img :src="profileImg.url" alt="출처 Freepik" class="profile-img" />
+        <div class="img-masking" @click="onClickImg(profileImg)">
           <span>{{ $t('common.select') }}</span>
         </div>
       </div>
@@ -62,18 +61,11 @@
 </template>
 
 <script lang="ts" setup name="NameProfileForm">
-import img1 from '@/assets/images/avatar/avatar1.jpg'
-import img2 from '@/assets/images/avatar/avatar2.jpg'
-import img3 from '@/assets/images/avatar/avatar3.jpg'
-import img4 from '@/assets/images/avatar/avatar4.jpg'
-import img5 from '@/assets/images/avatar/avatar5.jpg'
-import img6 from '@/assets/images/avatar/avatar6.jpg'
-import img7 from '@/assets/images/avatar/avatar7.jpg'
-import img8 from '@/assets/images/avatar/avatar8.jpg'
-import img9 from '@/assets/images/avatar/avatar9.jpg'
-import img10 from '@/assets/images/avatar/avatar10.jpg'
+import defaultImg from '@/assets/images/avatar/avatar1.jpg'
+import { WorkspaceService } from '@/services'
 import { Input, Modal } from 'ant-design-vue'
 import { computed, ref, toRefs, watch } from 'vue'
+import type { IWorkspace } from '@/services/workspace/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { Button } from '@/components/button'
 import { FileUploader } from '@/components/file-uploader'
@@ -83,14 +75,21 @@ const { getFormValues } = toRefs(workspaceStore)
 
 const fileUploader = ref()
 const modalVisible = ref(false)
-const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10]
+const profileList = ref<IWorkspace.ImageFilesInfo[]>([])
 const fileUploaderImg = computed(() => fileUploader.value?.getFiles())
-const seletedImg = ref(img1)
+const seletedImg = ref('')
 
 ;(async () => {
-  if (getFormValues.value.path) {
-    seletedImg.value =
-      'https://sawork-prod.s3.ap-northeast-2.amazonaws.com' + getFormValues.value.path
+  try {
+    const { data } = await WorkspaceService.getDefaultProfiles()
+    profileList.value = data.images
+    seletedImg.value = data.images[0].url
+
+    if (getFormValues.value.url) {
+      seletedImg.value = getFormValues.value.url
+    }
+  } catch (err) {
+    console.log(err)
   }
 })()
 
@@ -99,17 +98,17 @@ const onInput = (e: Event) => {
   workspaceStore.setNextBtnDisabled(nameValue.length > 0 ? false : true)
 }
 
-const onClickImg = (e: any) => {
-  seletedImg.value = e
+const onClickImg = (imgValue: IWorkspace.ImageFilesInfo) => {
+  seletedImg.value = imgValue.url
   modalVisible.value = false
-  // TODO 서버에서 기본이미지 리스트 내려주면 수정
-  // workspaceStore.setFormValueImgFile({
-  //   originName: imgValue.originName,
-  //   saveName: imgValue.name,
-  //   path: imgValue.path,
-  //   size: imgValue.size,
-  //   ext: imgValue.ext
-  // })
+  workspaceStore.setFormValueImgFile({
+    url: imgValue.url,
+    originName: imgValue.originName,
+    saveName: imgValue.name,
+    path: imgValue.path,
+    size: imgValue.size,
+    ext: imgValue.ext
+  })
 }
 
 watch(fileUploaderImg, (imgfileList) => {
@@ -117,6 +116,7 @@ watch(fileUploaderImg, (imgfileList) => {
     const imgValue = imgfileList.at(-1)
     seletedImg.value = imgValue.url
     workspaceStore.setFormValueImgFile({
+      url: imgValue.url,
       originName: imgValue.originName,
       saveName: imgValue.name,
       path: imgValue.path,
@@ -181,6 +181,7 @@ p {
     opacity: 0;
 
     span {
+      color: #000;
       position: absolute;
       top: 50%;
       left: 50%;
