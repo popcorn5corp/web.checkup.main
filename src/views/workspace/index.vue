@@ -31,9 +31,7 @@ watch(
   () => router.currentRoute,
   (route) => {
     const stepType = (route.value.path.split('/')[2] || null) as WorkspaceStepType
-    if (workspaceStepTypes.includes(stepType)) {
-      workspaceStore.setStepType(stepType)
-    }
+    workspaceStore.setStepType(workspaceStepTypes.includes(stepType) ? stepType : null)
   },
   {
     deep: true,

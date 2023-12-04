@@ -43,10 +43,8 @@ const headerStyle = computed<CSSProperties>(() => {
 
   return {
     backgroundColor:
-      navTheme === 'realDark' || (navTheme === 'dark' && menuPosition === 'topmenu')
-        ? ''
-        : 'rgba(255, 255, 255, 0.85)',
-    color: navTheme === 'dark' && menuPosition === 'topmenu' ? 'rgba(255, 255, 255, 0.85)' : ''
+      navTheme === 'realDark' || (navTheme === 'dark' && menuPosition === 'topmenu') ? '' : '#fff',
+    color: navTheme === 'dark' && menuPosition === 'topmenu' ? '#fff' : ''
   }
 })
 </script>

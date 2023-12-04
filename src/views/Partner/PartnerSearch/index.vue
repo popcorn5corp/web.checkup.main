@@ -1,11 +1,11 @@
 <script setup lang="ts" name="ParnerSearch"></script>
 
 <template>
-  <div id="grid1">
-    <iframe
+  <div id="">
+    <!-- <iframe
       height="900px"
       width="100%"
       src="http://dev.checkup-api.co.kr/base/swagger-ui/#/"
-    ></iframe>
+    ></iframe> -->
   </div>
 </template>

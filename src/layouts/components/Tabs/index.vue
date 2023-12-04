@@ -12,7 +12,6 @@
       <TabPane v-for="tab in tabsLyoutStore.getTabs" :key="tab.fullPath">
         <template #tab>
           <span>
-            <LaptopOutlined />
             {{ tab.meta.title }}
           </span>
         </template>
@@ -46,7 +45,6 @@ import { type RouteLocationNormalized, useRoute } from 'vue-router'
 import type { RouteItem } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTabsLayoutStore } from '@/stores/modules/tabsLayout'
-import { LaptopOutlined } from '@/components/icons'
 import { TABS_ROUTES_KEY } from '@/constants/cacheKeyEnum'
 
 const { TabPane } = Tabs

@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <Layout class="layout-pure">
     <RouterView />
   </Layout>
 </template>
@@ -8,4 +8,8 @@
 import { Layout } from 'ant-design-vue'
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.layout-pure {
+  min-height: 100vh;
+}
+</style>

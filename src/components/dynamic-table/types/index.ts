@@ -36,6 +36,7 @@ export interface DynamicTableAction {
 export interface DynamicTableContextValues {
   filterFormItems: FilterFormItem[]
   selectedRows: Recordable[]
+  activeFilter: boolean
 }
 
 export const defaultContenxtValues: DynamicTableContextValues = {

@@ -104,7 +104,7 @@ const mainStyles = computed<{ size: CSSProperties }>(() => {
           : isCollapse
           ? 'calc(100% - 80px)'
           : 'calc(100% - 220px)',
-      paddingLeft: menuPosition === 'topmenu' ? '0' : isCollapse ? '80px' : 'calc(100% - 220px)'
+      paddingLeft: menuPosition === 'topmenu' ? '0' : isCollapse ? '80px' : '220px'
     }
   }
 })

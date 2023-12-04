@@ -11,6 +11,7 @@
             :key="item.workspaceId"
             :data-set="item.workspaceId"
             class="list-li"
+            :class="[item.active && 'active']"
             @click="onSelectWorkspace(item)"
           >
             <span class="img-box">
@@ -22,7 +23,7 @@
             <span class="arrow">
               <ArrowRightOutlined class="icon" />
               <span class="text">
-                {{ $t('component.button.move') }}
+                {{ item.activeTxt }}
               </span>
             </span>
           </li>
@@ -56,7 +57,7 @@
 import { WorkspaceService } from '@/services'
 import { ArrowRightOutlined, UserAddOutlined } from '@ant-design/icons-vue'
 import { Checkbox } from 'ant-design-vue'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import type { IWorkspace } from '@/services/workspace/interface'
@@ -107,18 +108,6 @@ async function onSelectWorkspace(workspace: Workspace) {
     console.log(err)
   }
 }
-
-onMounted(() => {
-  listRef.value?.map((list: HTMLElement) => {
-    if ((list.dataset.set as string) === getWorkspace.workspaceId) {
-      list.classList.add('active')
-      const lastChild = list.lastChild as HTMLElement | null
-      if (lastChild && 'innerText' in lastChild) {
-        lastChild.innerText = t('page.workspace.listArrowText')
-      }
-    }
-  })
-})
 </script>
 
 <style lang="scss" scoped>
@@ -130,23 +119,38 @@ onMounted(() => {
     color: #acb5c1 !important;
   }
 }
+.content {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .list-wrapper {
   width: 100%;
+  height: 80%;
   border: 1px solid rgb(5 5 5 / 10%);
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
   h1 {
     text-align: center;
     margin: 1rem 0;
+    // height: 30px;
+    line-height: 1;
   }
   .list-desc {
     text-align: center;
     color: #888;
     margin-bottom: 5px;
     font-size: 16px;
+    line-height: 1.2;
   }
 
   .list-box {
     margin-top: 10px;
+    height: 80%;
+    overflow-y: auto;
+
     .list-li {
       display: flex;
       justify-content: center;
@@ -175,6 +179,9 @@ onMounted(() => {
       .name {
         flex: auto;
         font-size: 22px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .arrow {
         display: flex;
@@ -189,6 +196,7 @@ onMounted(() => {
         transition: transform 0.3s ease-in-out;
         .text {
           display: none;
+          font-size: 18px;
         }
       }
     }
@@ -206,6 +214,7 @@ onMounted(() => {
         }
         .text {
           display: block;
+          font-size: 18px;
         }
       }
     }
@@ -267,6 +276,7 @@ onMounted(() => {
 }
 .check-wrapper {
   text-align: center;
+  margin-top: 1.5rem;
   p {
     display: inline-block;
     margin: 0;
@@ -323,6 +333,27 @@ onMounted(() => {
   }
   .arrow {
     padding: 8px !important;
+  }
+}
+@include sm {
+  .content {
+    width: 90% !important;
+  }
+  .name {
+    font-size: 20px !important;
+  }
+  .arrow {
+    padding: 10px !important;
+  }
+}
+@include md {
+  .content {
+    width: 70% !important;
+  }
+}
+@include lg {
+  .content {
+    width: 60% !important;
   }
 }
 </style>

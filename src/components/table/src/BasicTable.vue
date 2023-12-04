@@ -2,8 +2,6 @@
   <div ref="wrapRef" class="basic-table-container">
     <TableToolbar v-if="props.showToolbar" />
 
-    <!-- <h3>Total Count: 200</h3> -->
-
     <SelectionPopup v-if="getContextValues.showSelectionPopup" :selectedRows="selectedRows" />
 
     <Table
@@ -226,20 +224,6 @@ const getBindValues = computed<Recordable>(() => {
 })
 
 /**
- * @description Table Context 생성
- */
-createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
-
-defineExpose({
-  getDataSource: fetchDataSource,
-  getColumns,
-  reload: tableAction.reload,
-  selectedRows,
-  selectedRowKeys,
-  total
-})
-
-/**
  * @description Table 컴포넌트 layoutMode 변경시 데이터 초기화
  */
 watch(
@@ -260,15 +244,16 @@ watch(
 watch(
   () => dynamicTable?.getFilterFormItems(),
   async (filterFormItems) => {
-    const _filterFormItems = cloneDeep(filterFormItems)
-    const { initParam } = unref(getProps)
-    const defaultParam = {
-      page: 0,
-      size: 10,
-      searchWord: ''
-    }
+    const activeFilter = unref(dynamicTable.getContextValues).activeFilter
 
-    if (initParam) {
+    if (activeFilter && filterFormItems.length) {
+      const _filterFormItems = cloneDeep(filterFormItems)
+      const defaultParam = {
+        page: 0,
+        size: 10,
+        searchWord: ''
+      }
+
       type ParamValue = string | number | boolean
       const filterParam: {
         [key: string]: ParamValue | Array<ParamValue>
@@ -309,8 +294,6 @@ watch(
   { immediate: true, deep: true }
 )
 
-// const { initCardViewChecked } = useCardView(getContextValues, dataSource)
-
 watch(
   () => unref(selectedRows),
   (selectedRows) => {
@@ -326,6 +309,20 @@ watch(
     deep: true
   }
 )
+
+/**
+ * @description Table Context 생성
+ */
+createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
+
+defineExpose({
+  getDataSource: fetchDataSource,
+  getColumns,
+  reload: tableAction.reload,
+  selectedRows,
+  selectedRowKeys,
+  total
+})
 </script>
 <style lang="scss" scoped>
 .basic-table-container {

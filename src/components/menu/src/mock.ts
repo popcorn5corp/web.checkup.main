@@ -14,7 +14,7 @@ export const menus: any = [
     meta: {
       // title: 'routes.dashboard.dashboard',
       title: '대시보드',
-      icon: 'icon-yibiaopan',
+      icon: 'magnifying-glass-chart',
       namePath: ['dashboard'],
       fullPath: '/dashboard',
       isNew: true
@@ -26,7 +26,7 @@ export const menus: any = [
         meta: {
           // title: 'routes.dashboard.workbench',
           title: '대시보드',
-          icon: 'icon-shouye',
+          icon: 'magnifying-glass-chart',
           namePath: ['dashboard', 'dashboard'],
           fullPath: '/dashboard'
         }
@@ -45,7 +45,7 @@ export const menus: any = [
     meta: {
       // title: 'routes.dashboard.dashboard',
       title: 'FMS',
-      icon: 'icon-yibiaopan',
+      icon: 'satellite-dish',
       namePath: ['fms'],
       fullPath: '/fms'
     },
@@ -56,7 +56,7 @@ export const menus: any = [
         meta: {
           // title: 'routes.dashboard.workbench',
           title: '설비 이력',
-          icon: 'icon-shouye',
+          icon: 'satellite-dish',
           namePath: ['fms', 'facility'],
           fullPath: '/fms/facility'
         },
@@ -66,7 +66,7 @@ export const menus: any = [
             name: 'fms-facility-status',
             meta: {
               title: '설비 현황',
-              icon: 'icon-shouye',
+              icon: 'satellite-dish',
               namePath: ['fms', 'facility', 'status'],
               fullPath: '/fms/facility/status'
             }
@@ -76,7 +76,7 @@ export const menus: any = [
             name: 'fms-facility-category',
             meta: {
               title: '설비 카테고리',
-              icon: 'icon-shouye',
+              icon: 'satellite-dish',
               namePath: ['fms', 'facility', 'category'],
               fullPath: '/fms/facility/category'
             }
@@ -97,7 +97,7 @@ export const menus: any = [
     meta: {
       // title: 'routes.dashboard.dashboard',
       title: 'EMS',
-      icon: 'icon-yibiaopan',
+      icon: 'plug-circle-bolt',
       namePath: ['ems'],
       fullPath: '/ems'
     },
@@ -108,7 +108,7 @@ export const menus: any = [
         meta: {
           // title: 'routes.dashboard.workbench',
           title: '수도광열비',
-          icon: 'icon-shouye',
+          icon: 'plug-circle-bolt',
           namePath: ['ems', 'utilities'],
           fullPath: '/ems/utilities'
         },
@@ -118,7 +118,7 @@ export const menus: any = [
             name: 'ems-utilities-performance',
             meta: {
               title: '수도광열비 실적',
-              icon: 'icon-shouye',
+              icon: 'plug-circle-bolt',
               namePath: ['ems', 'utilities', 'performance'],
               fullPath: '/ems/utilities/performance'
             }
@@ -128,7 +128,7 @@ export const menus: any = [
             name: 'ems-utilities-site',
             meta: {
               title: '사업장 영업정보',
-              icon: 'icon-shouye',
+              icon: 'plug-circle-bolt',
               namePath: ['ems', 'utilities', 'site'],
               fullPath: '/ems/utilities/site'
             }
@@ -201,7 +201,7 @@ export const menus: any = [
     meta: {
       // title: 'routes.dashboard.dashboard',
       title: '파트너',
-      icon: 'icon-yibiaopan',
+      icon: 'handshake',
       namePath: ['partner'],
       fullPath: '/partner'
     },
@@ -212,7 +212,7 @@ export const menus: any = [
         meta: {
           // title: 'routes.dashboard.workbench',
           title: '파트너 검색',
-          icon: 'icon-shouye',
+          icon: 'handshake',
           namePath: ['partner', 'partner-search'],
           fullPath: '/partner/search'
         }
@@ -231,7 +231,7 @@ export const menus: any = [
     meta: {
       // title: 'routes.dashboard.dashboard',
       title: '설정',
-      icon: 'icon-yibiaopan',
+      icon: 'gears',
       namePath: ['setting'],
       fullPath: '/setting'
     },
@@ -242,7 +242,7 @@ export const menus: any = [
         meta: {
           // title: 'routes.dashboard.workbench',
           title: '프로젝트 설정',
-          icon: 'icon-shouye',
+          icon: 'gears',
           namePath: ['setting', 'setting-project'],
           fullPath: '/setting/project'
         }
@@ -253,7 +253,7 @@ export const menus: any = [
         meta: {
           // title: 'routes.dashboard.workbench',
           title: '회사 설정',
-          icon: 'icon-shouye',
+          icon: 'gears',
           namePath: ['setting', 'setting-company'],
           fullPath: '/setting/company'
         }
@@ -267,7 +267,7 @@ export const menus: any = [
     meta: {
       // title: 'routes.dashboard.dashboard',
       title: 'Samples',
-      icon: 'icon-yibiaopan',
+      icon: 'kaaba',
       namePath: ['samples'],
       fullPath: '/samples'
     },
@@ -278,7 +278,7 @@ export const menus: any = [
         meta: {
           // title: 'routes.dashboard.workbench',
           title: 'Dynamic Table',
-          icon: 'icon-shouye',
+          icon: 'kaaba',
           namePath: ['samples', 'samples-dynamic-table'],
           fullPath: '/samples/dynamic-table'
         }
@@ -290,7 +290,7 @@ export const menus: any = [
     name: 'components',
     meta: {
       title: 'UI Components',
-      icon: 'icon-yibiaopan',
+      icon: 'icons',
       namePath: ['components'],
       fullPath: '/components'
     },
@@ -300,7 +300,6 @@ export const menus: any = [
         name: 'components-table',
         meta: {
           title: 'Table',
-          icon: 'icon-shouye',
           namePath: ['components', 'components-table'],
           fullPath: '/components/table'
         }
@@ -310,7 +309,6 @@ export const menus: any = [
         name: 'components-accordion',
         meta: {
           title: 'Accordion',
-          icon: 'icon-shouye',
           namePath: ['components', 'components-accordion'],
           fullPath: '/components/accordion'
         }
@@ -320,7 +318,6 @@ export const menus: any = [
         name: 'components-modal',
         meta: {
           title: 'Modal',
-          icon: 'icon-shouye',
           namePath: ['components', 'components-modal'],
           fullPath: '/components/modal'
         }
@@ -330,7 +327,6 @@ export const menus: any = [
         name: 'components-card',
         meta: {
           title: 'Card',
-          icon: 'icon-shouye',
           namePath: ['components', 'components-card'],
           fullPath: '/components/card'
         }
