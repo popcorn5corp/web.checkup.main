@@ -34,6 +34,8 @@ export default {
     listDesc: 'Go to the selected workspace.',
     listCheckText: 'Default to last used workspace',
     listArrowText: 'Current workspace',
+    listInviteText: `Not the workspace you're looking for?`,
+    listInviteSubText: 'Enter invitation code',
     ph: {
       inputTeamOrCompanyName: 'Please enter your team or company name.',
       inputInviteCode: 'Please enter the invitation code.'

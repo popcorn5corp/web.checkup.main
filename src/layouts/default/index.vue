@@ -93,12 +93,18 @@ const logoStyles = computed<{ logo: CSSProperties; img: CSSProperties }>(() => {
 })
 const mainStyles = computed<{ size: CSSProperties }>(() => {
   const {
-    theme: { menuPosition }
+    theme: { menuPosition },
+    isCollapse
   } = config
   return {
     size: {
-      width: menuPosition === 'topmenu' ? '100%' : 'calc(100% - 220px)',
-      paddingLeft: menuPosition === 'topmenu' ? '0' : '220px'
+      width:
+        menuPosition === 'topmenu'
+          ? '100%'
+          : isCollapse
+          ? 'calc(100% - 80px)'
+          : 'calc(100% - 220px)',
+      paddingLeft: menuPosition === 'topmenu' ? '0' : isCollapse ? '80px' : '220px'
     }
   }
 })
@@ -123,6 +129,7 @@ $tab-margin-top: 2px;
   .layout-sider {
     position: fixed;
     z-index: 998;
+    height: 100%;
     .ant-menu-root {
       padding-bottom: 30px;
     }

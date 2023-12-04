@@ -6,6 +6,21 @@ class WorkspaceService {
 
   constructor() {}
 
+  // 워크스페이스 목록 조회
+  getWorkspaceList() {
+    return service.get<IWorkspace.WorkspaceListResponse>(this.PATH + '/user/workspaces')
+  }
+
+  // 기본 워크스페이스 설정
+  setDefaultWorkspace(param: IWorkspace.DefaultWorkspceInfo) {
+    return service.post(this.PATH + '/user/workspaces/default-workspace', param)
+  }
+
+  // 기본 이미지 조회
+  getDefaultProfiles() {
+    return service.get<IWorkspace.DefaultProfilesResponse>(this.PATH + '/images/default-profiles')
+  }
+
   // 팀원 초대 이메일 중복 확인
   checkDuplicatedEmail(param: IWorkspace.ExistEmailParam) {
     return service.get<IWorkspace.ExistEmailResponse>(this.PATH + '/exist', param)
