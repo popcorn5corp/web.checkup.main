@@ -153,7 +153,7 @@ watch(
   }
 }
 p {
-  color: #888;
+  color: $sub-text-dark-gray-color;
   line-height: 1.4;
   font-size: 17px;
 }
@@ -181,12 +181,12 @@ p {
     opacity: 0;
 
     span {
-      color: #000;
+      color: $color-black;
       position: absolute;
       top: 50%;
       left: 50%;
       translate: -50% -50%;
-      background: #fff;
+      background: $color-white;
       padding: 5px 10px;
       font-weight: 700;
       border-radius: 1rem;
