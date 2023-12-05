@@ -13,10 +13,6 @@
     @row-delete="onRemovePost"
     @row-add="onClickRegist"
   >
-    <!-- <template #tableBtns="scope">
-      <Button :label="$t('common.delete')" size="large" @click="onRemovePost" />
-      <Button :label="$t('common.registration')" size="large" @click="onClickRegist" />
-    </template> -->
     <template #detail-content>
       <div class="detail-contents">
         <div class="profile">
@@ -26,19 +22,21 @@
           <div class="info"></div>
         </div>
         <div class="tab-wrapper">
-          <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
-          <!-- <a-tabs v-model:activeKey="activeKey" :tabBarGutter="100">
-            <a-tab-pane key="1" tab="Tab 1">Content of Tab Pane 1</a-tab-pane>
-            <a-tab-pane key="2" tab="Tab 2" force-render>Content of Tab Pane 2</a-tab-pane>
-          </a-tabs> -->
+          <PostDetail
+            v-if="!isLoading && selectedPost"
+            ref="postDetailRef"
+            :data="selectedPost"
+            :isEdit="isEdit"
+            :mode="mode"
+          />
         </div>
       </div>
     </template>
   </DynamicTable>
 
-  <Drawer v-model:open="openDrawer" />
+  <!-- <Drawer v-model:open="openDrawer" /> -->
 
-  <Modal v-model:open="isOpen" :title="title" :width="1000" destroyOnClose>
+  <!-- <Modal v-model:open="isOpen" :title="title" :width="1000" destroyOnClose>
     <Spin :spinning="isLoading">
       <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
     </Spin>
@@ -67,7 +65,7 @@
       />
       <Button key="close" @click="onCloseModal" :label="$t('component.button.close')" />
     </template>
-  </Modal>
+  </Modal> -->
 </template>
 <script setup lang="ts" name="TableSample">
 import ExcelImage from '@/assets/images/excel.png'
@@ -133,6 +131,10 @@ const profileImg = computed(() => {
   }
 })
 
+;(() => {
+  BaseSampleService.getPermissionCodes()
+})()
+
 const getFilters = () => {
   return BaseSampleService.getPageInfo()
 }
@@ -148,15 +150,15 @@ const onClickRow = (row: IBaseSample.Content): void => {
   isLoading.value = true
   mode.value = DEFAULT_MODE
 
-  BaseSampleService.getOneById(row.boardId).then(({ success, data }) => {
-    if (success) {
-      selectedPost.value = data
-    }
-
-    setTimeout(() => {
+  BaseSampleService.getOneById(row.boardId)
+    .then(({ success, data }) => {
+      if (success) {
+        selectedPost.value = data
+      }
+    })
+    .finally(() => {
       isLoading.value = false
-    }, 200)
-  })
+    })
 }
 
 watch(

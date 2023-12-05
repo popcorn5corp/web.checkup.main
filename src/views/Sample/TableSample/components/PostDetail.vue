@@ -51,7 +51,7 @@ const formState: UnwrapRef<FormState> = reactive({
 })
 
 ;(async () => {
-  permissionCodes.value = await BaseSampleService.getPermissionCodes()
+  permissionCodes.value = BaseSampleService.permissionCodes
 })()
 
 const onSubmit = async () => formRef.value.validate()

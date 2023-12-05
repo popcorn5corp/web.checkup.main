@@ -1,6 +1,15 @@
 const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7
 
-export const createStorage = ({ prefixKey = '', storage = window.localStorage } = {}) => {
+export interface CreateStorageParam {
+  prefixKey: string
+  storage: Storage
+  timeout?: Nullable<number>
+}
+
+export const createStorage = ({
+  prefixKey = '',
+  storage = window.localStorage
+}: Partial<CreateStorageParam> = {}) => {
   class Storage {
     storage = storage
     prefixKey?: string = prefixKey

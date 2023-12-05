@@ -96,12 +96,8 @@ export interface TableAction {
   reload: (isReset?: boolean) => Promise<void>
   initTableState: () => void
   initDataSource: () => void
-  changeTable: TableProps['onChange']
-  getRecordNo: (index: number) => number
-  getPagination: () => TablePagination | false
   setPagination: (current: number, pageSize: number) => void
   initSelecion: () => void
-  initCardViewChecked: () => void
   setSelectedRows: (selectedRows: Recordable[]) => void
   emitter: TableEmits
 }

@@ -5,6 +5,7 @@ import { Input } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Spinner } from '@/components/spinner'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
+import { PageEnum } from '@/constants/pageEnum'
 import SocialLoginBtns from './components/SocialLoginBnts.vue'
 
 const { query } = useRoute()
@@ -23,8 +24,10 @@ if (isSuccessSocialLogin) {
   login().then(
     (user) => {
       console.log('[user]', user)
+      const isExistWorkpace = user.workspaceCount > 1
+
       setTimeout(() => {
-        router.push({ name: user.workspaceCount > 1 ? 'workspace-list' : 'workspace-welcome' })
+        router.push(isExistWorkpace ? PageEnum.WORKSPACE_LIST : PageEnum.WORKSPACE)
       }, 1500)
     },
     (error) => {
