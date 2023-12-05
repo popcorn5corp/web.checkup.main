@@ -47,7 +47,7 @@ watch(
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #fff;
+  background-color: $color-white;
   color: inherit;
 
   .content {

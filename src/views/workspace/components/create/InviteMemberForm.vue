@@ -106,7 +106,7 @@ watch(emailRef, () => {
   .select-wrapper {
     min-height: 130px;
     max-height: 227px;
-    background-color: #fff;
+    background-color: $color-white;
     border: 1px solid;
     border-color: v-bind('errorTagStyle.borderColor');
     border-radius: 6px;
@@ -123,7 +123,7 @@ watch(emailRef, () => {
         justify-content: space-between;
         align-items: center;
         background: rgba(0, 0, 0, 0.06);
-        color: #000;
+        color: $color-black;
         margin: 2px 0;
         margin-right: 7px;
         padding: 4px;

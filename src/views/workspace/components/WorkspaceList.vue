@@ -135,12 +135,11 @@ async function onSelectWorkspace(workspace: Workspace) {
   h1 {
     text-align: center;
     margin: 1rem 0;
-    // height: 30px;
     line-height: 1;
   }
   .list-desc {
     text-align: center;
-    color: #888;
+    color: $sub-text-dark-gray-color;
     margin-bottom: 5px;
     font-size: 16px;
     line-height: 1.2;
@@ -150,7 +149,7 @@ async function onSelectWorkspace(workspace: Workspace) {
     margin-top: 10px;
     height: 80%;
     overflow-y: auto;
-    border: 1px solid rgba(5, 5, 5, 0.1);
+    border: 1px solid $border-color;
     border-radius: 8px;
 
     .list-li {
@@ -158,7 +157,7 @@ async function onSelectWorkspace(workspace: Workspace) {
       justify-content: center;
       align-items: center;
       padding: 18px 33px;
-      border-bottom: 1px solid rgb(5 5 5 / 10%);
+      border-bottom: 1px solid $border-color;
       transition: all 0.2s ease-in-out;
       cursor: pointer;
       .img-box {
@@ -169,7 +168,7 @@ async function onSelectWorkspace(workspace: Workspace) {
         align-items: center;
         justify-content: center;
         background: #3c3c3c;
-        color: #fff;
+        color: $color-white;
         padding-top: 3px;
         text-align: center;
         border-radius: 6px;
@@ -192,9 +191,9 @@ async function onSelectWorkspace(workspace: Workspace) {
         margin-left: 20px;
         padding: 12px;
         border-radius: 50%;
-        background: #3e7cff;
+        background: $color-blue;
         font-size: 17px;
-        color: #fff;
+        color: $color-white;
         transition: transform 0.3s ease-in-out;
         .text {
           display: none;
@@ -210,7 +209,7 @@ async function onSelectWorkspace(workspace: Workspace) {
       .arrow {
         transform: translateX(10px);
         background: transparent;
-        color: #3e7cff;
+        color: $color-blue;
         .icon {
           display: none;
         }
@@ -229,7 +228,7 @@ async function onSelectWorkspace(workspace: Workspace) {
       .arrow {
         transform: translateX(10px);
         background: transparent;
-        color: #3e7cff;
+        color: $color-blue;
         .icon {
           display: none;
         }
@@ -251,7 +250,7 @@ async function onSelectWorkspace(workspace: Workspace) {
   justify-content: space-between;
   padding: 1rem 2rem;
   margin-top: 1.5rem;
-  border: 1px solid rgba(5, 5, 5, 0.1);
+  border: 1px solid $border-color;
   border-radius: 8px;
   font-size: 17px;
   cursor: pointer;
@@ -264,7 +263,7 @@ async function onSelectWorkspace(workspace: Workspace) {
     .sub {
       font-size: 16px;
       font-weight: 400;
-      color: #888;
+      color: $sub-text-dark-gray-color;
       margin-top: 7px;
       .user-plus-icon {
         font-size: 18px;
