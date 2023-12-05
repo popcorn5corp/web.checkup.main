@@ -1,1 +1,3 @@
-export { default as service } from './axios'
+import { createAxios } from './axios'
+
+export const service = createAxios()

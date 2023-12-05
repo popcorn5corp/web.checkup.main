@@ -10,16 +10,20 @@ import qs from 'qs'
 import { useAuthStore } from '@/stores/modules/auth'
 import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import { ContentTypeEnum } from '@/constants/httpEnum'
+import type { AxiosTransform } from './axiosTransform'
 
-export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+export interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   noLoading?: boolean
+  transform?: AxiosTransform
+  authenticationScheme?: string
+  // requestOptions?: RequestOptions;
 }
 
 export class AxiosHttpClient {
   private readonly axiosInstance: AxiosInstance
-  private options: AxiosRequestConfig
+  private options: CustomAxiosRequestConfig
 
-  constructor(config: AxiosRequestConfig) {
+  constructor(config: CustomAxiosRequestConfig) {
     this.options = config
     this.axiosInstance = axios.create(config)
     this.axiosInstance.defaults.paramsSerializer = (params) => {
@@ -33,63 +37,48 @@ export class AxiosHttpClient {
     return this.axiosInstance
   }
 
-  private _setupInterceptors(): void {
-    /**
-     * @description Set Response Interceptor
-     */
-    this.axiosInstance.interceptors.request.use(
-      (config: CustomAxiosRequestConfig) => {
-        const { getToken } = useAuthStore()
-        const accessToken = getToken(ACCESS_TOKEN_KEY)
-        if (accessToken && config.headers) {
-          config.headers['Authorization'] = `Bearer ${accessToken}`
-          // config.headers['Accept-Language'] = 'ko'
-        }
+  private _getTransform() {
+    const { transform } = this.options
+    return transform
+  }
 
-        return config
-      },
-      (error: AxiosError) => {
-        return Promise.reject(error)
-      }
-    )
+  private _setupInterceptors(): void {
+    const transform = this._getTransform()
+    const axiosInstance = this.getAxios()
+
+    if (!transform) return
+
+    const {
+      requestInterceptors,
+      requestInterceptorsCatch,
+      responseInterceptors,
+      responseInterceptorsCatch
+    } = transform
 
     /**
      * @description Set Request Interceptor
      */
-    this.axiosInstance.interceptors.response.use(
-      (response: AxiosResponse) => {
-        return response.data
+    this.axiosInstance.interceptors.request.use(
+      (config: InternalAxiosRequestConfig) => {
+        return requestInterceptors(config, this.options)
       },
       (error: AxiosError) => {
-        console.log('[response error]', error)
-        return Promise.reject(error)
+        return requestInterceptorsCatch(error)
+      }
+    )
+
+    /**
+     * @description Set Response Interceptor
+     */
+    this.axiosInstance.interceptors.response.use(
+      (response: AxiosResponse) => {
+        return responseInterceptors(response).data
+      },
+      (error: AxiosError) => {
+        return responseInterceptorsCatch(axiosInstance, error)
       }
     )
   }
-
-  // public get<T>(url: string, params?: object, _object = {}): Promise<T> {
-  //   return this.axiosInstance.get(url, { params, ..._object })
-  // }
-  // public post<T>(url: string, params?: object | string, _object = {}): Promise<T> {
-  //   return this.axiosInstance.post(url, params, _object)
-  // }
-  // public put<T>(url: string, params?: object, _object = {}): Promise<T> {
-  //   return this.axiosInstance.put(url, params, _object)
-  // }
-  // public delete<T>(url: string, params?: any, _object = {}): Promise<T> {
-  //   return this.axiosInstance.delete(url, { params, ..._object })
-  // }
-  // public download(url: string, params?: object, _object = {}): Promise<BlobPart> {
-  //   return this.axiosInstance.post(url, params, { ..._object, responseType: 'blob' })
-  // }
-  // public uploadFile(url: string, params?: object, _object = {}) {
-  //   return this.axiosInstance.post(url, params, {
-  //     ..._object,
-  //     headers: {
-  //       'Content-type': ContentTypeEnum.FORM_DATA
-  //     }
-  //   })
-  // }
 
   /**
    * @description Rest APIs

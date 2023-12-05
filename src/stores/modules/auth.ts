@@ -1,9 +1,11 @@
+import { router } from '@/router'
 import { AuthService } from '@/services'
 import { Util } from '@/utils'
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 import type { IAuth } from '@/services/auth/interface'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
+import { PageEnum } from '@/constants/pageEnum'
 import type { TokenKey } from '../interface'
 
 export type IUser = IAuth.UserResponse
@@ -13,7 +15,7 @@ interface AuthState {
   loggedIn: boolean
 }
 
-function getDefaultUser() {
+function getDefaultUser(): IUser {
   return {
     uid: '',
     userId: '',
@@ -47,11 +49,12 @@ export const useAuthStore = defineStore('auth', () => {
     )
   }
 
-  function logout() {
+  function logout(goLogin = true) {
     removeToken()
     removeUser()
     state.loggedIn = false
     state.user = getDefaultUser()
+    goLogin && router.push(PageEnum.BASE_LOGIN)
   }
 
   // function setUser(param: IAuth.UserResponse) {
@@ -62,11 +65,11 @@ export const useAuthStore = defineStore('auth', () => {
   //   Util.Storage.set('user', state.user)
   // }
 
-  function setToken(tokenKey: TokenKey, token: string) {
+  function setToken(tokenKey: TokenKey = ACCESS_TOKEN_KEY, token: string) {
     Util.Storage.set(tokenKey, token)
   }
 
-  function getToken(tokenKey: TokenKey) {
+  function getToken(tokenKey: TokenKey = ACCESS_TOKEN_KEY) {
     return Util.Storage.get<string>(tokenKey)
   }
 

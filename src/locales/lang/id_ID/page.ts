@@ -38,7 +38,9 @@ export default {
     listInviteSubText: 'Enter invitation code',
     ph: {
       inputTeamOrCompanyName: 'Please enter your team or company name.',
-      inputInviteCode: 'Please enter the invitation code.'
+      inputInviteCode: 'Please enter the invitation code.',
+      selectBusinessTypeOpt: 'Select business type',
+      selectEmployeeScaleOpt: 'Select employee scale'
     }
   }
 }

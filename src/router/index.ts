@@ -1,10 +1,11 @@
 import type { App } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { whiteNameList } from './constant'
+import { setupRouterGuard } from './guard'
 import { createRouterGuards } from './guard/routerGuards'
 import { staticRoutes } from './routes/static'
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: staticRoutes,
   scrollBehavior: () => {
@@ -12,10 +13,9 @@ const router = createRouter({
   }
 })
 
-router.beforeEach(() => {})
-
 export async function setupRouter(app: App) {
-  createRouterGuards(router, whiteNameList)
+  // createRouterGuards(router, whiteNameList)
+  setupRouterGuard(router)
 
   app.use(router)
 

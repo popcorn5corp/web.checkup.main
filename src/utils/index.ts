@@ -1,8 +1,8 @@
+import { StorageUtil } from './cache/storageUtil'
 import { DataUtil } from './dataUtil'
 import { DateUtil } from './dateUtil'
 import { ImageUtil } from './imageUtil'
 import { IsUtil } from './isUtil'
-import { StorageUtil } from './storageUtil'
 
 export const Util = {
   Data: DataUtil,

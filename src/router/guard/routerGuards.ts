@@ -4,47 +4,56 @@ import type { WhiteNameList } from '@/router/constant'
 // import NProgress from 'nprogress' // progress bar
 import { RouteNameEnum } from '@/router/interface/index'
 
-const defaultRoutePath = '/dashboard/welcome'
+const defaultRoutePath = '/dashboard'
 
 export function createRouterGuards(router: Router, whiteNameList: WhiteNameList) {
-  router.beforeEach(async (to, _, next) => {
-    // NProgress.start() // start progress bar
-    // const userStore = useUserStore()
-    // const token = Storage.get(ACCESS_TOKEN_KEY, null)
-    const token = 'token'
+  router.beforeEach((to, from, next) => {
+    const authRequired = !to.meta.public
 
-    if (token) {
-      if (to.name === RouteNameEnum.LOGIN) {
-        // next({ path: defaultRoutePath })
-      } else {
-        const hasRoute = router.hasRoute(to.name!)
-        // if (userStore.menus.length === 0) {
-        //   const [err] = await _to(userStore.afterLogin())
-        //   if (err) {
-        //     userStore.resetToken()
-        //     return next({ name: RouteNameEnum.LOGIN })
-        //   }
-
-        //   if (!hasRoute) {
-        //     next({ ...to, replace: true })
-        //   } else {
-        //     next()
-        //   }
-        // } else {
-        //   next()
-        // }
-
-        next()
-      }
-    } else {
-      // not login
-      if (whiteNameList.some((n) => n === to.name)) {
-        next()
-      } else {
-        next({ name: RouteNameEnum.LOGIN, query: { redirect: to.fullPath }, replace: true })
-      }
+    if (authRequired) {
     }
+
+    next()
   })
+
+  // router.beforeEach(async (to, _, next) => {
+  //   // NProgress.start() // start progress bar
+  //   // const userStore = useUserStore()
+  //   // const token = Storage.get(ACCESS_TOKEN_KEY, null)
+  //   const token = 'token'
+
+  //   if (token) {
+  //     if (to.name === RouteNameEnum.LOGIN) {
+  //       // next({ path: defaultRoutePath })
+  //     } else {
+  //       const hasRoute = router.hasRoute(to.name!)
+  //       // if (userStore.menus.length === 0) {
+  //       //   const [err] = await _to(userStore.afterLogin())
+  //       //   if (err) {
+  //       //     userStore.resetToken()
+  //       //     return next({ name: RouteNameEnum.LOGIN })
+  //       //   }
+
+  //       //   if (!hasRoute) {
+  //       //     next({ ...to, replace: true })
+  //       //   } else {
+  //       //     next()
+  //       //   }
+  //       // } else {
+  //       //   next()
+  //       // }
+
+  //       next()
+  //     }
+  //   } else {
+  //     // not login
+  //     if (whiteNameList.some((n) => n === to.name)) {
+  //       next()
+  //     } else {
+  //       next({ name: RouteNameEnum.LOGIN, query: { redirect: to.fullPath }, replace: true })
+  //     }
+  //   }
+  // })
 
   const getComponentName = (route: RouteLocationNormalized) => {
     const comp = route.matched.at(-1)?.components?.default

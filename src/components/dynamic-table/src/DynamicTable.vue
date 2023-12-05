@@ -340,6 +340,7 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
       margin-top: -80px;
 
       border: 0.5px solid $color-gray-4;
+      box-shadow: $shadow-3;
 
       > .title {
         display: flex;

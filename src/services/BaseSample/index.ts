@@ -42,7 +42,10 @@ class BaseSampleService {
   }
   getPermissionCodes() {
     return service.get<CodeResponse>(this.PATH + '/codes').then(({ data, success }) => {
-      return data.codes
+      if (success) {
+        this._permissionCodes = data.codes
+      }
+      // return data.codes
     })
   }
   fileDwonload() {
