@@ -40,9 +40,17 @@ const option = reactive<ReactiveType>({
   try {
     const { data: buisnessTypeOpt } = await WorkspaceService.getBusinessType()
     option.businessTypeOpt = buisnessTypeOpt.codes
+    option.businessTypeOpt.unshift({
+      label: '업종 선택',
+      value: ''
+    })
 
     const { data: employeeScaleOpt } = await WorkspaceService.getEmployeeScale()
     option.employeeScaleOpt = employeeScaleOpt.codes
+    option.employeeScaleOpt.unshift({
+      label: '규모 선택',
+      value: ''
+    })
   } catch (err) {
     console.log(err)
   }

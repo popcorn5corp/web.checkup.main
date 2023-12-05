@@ -145,8 +145,8 @@ $tab-margin-top: 2px;
   }
   .layout-main {
     width: v-bind('mainStyles.size.width');
-    padding-left: v-bind('mainStyles.size.paddingLeft');
-    overflow-y: auto;
+    margin-left: v-bind('mainStyles.size.paddingLeft');
+    overflow: auto;
     background: $color-white;
   }
   .layout-header {

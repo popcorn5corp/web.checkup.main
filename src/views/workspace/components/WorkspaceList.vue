@@ -150,6 +150,8 @@ async function onSelectWorkspace(workspace: Workspace) {
     margin-top: 10px;
     height: 80%;
     overflow-y: auto;
+    border: 1px solid rgba(5, 5, 5, 0.1);
+    border-radius: 8px;
 
     .list-li {
       display: flex;
