@@ -50,8 +50,8 @@ export namespace IBaseSample {
     boardContent: string // 샘플 게시판 내용
     createdAt: number // 생성일
     thumbnail: BoardFile | null
-    permission: ICode<'GUEST' | 'NORMAL' | 'ADMIN'>
-    division: ICode<'PRIVATE' | 'PUBLIC'> // 샘플 게시판 구분
+    permission: ICode<'GUEST' | 'NORMAL' | 'ADMIN'>['value']
+    division: ICode<'PRIVATE' | 'PUBLIC'>['value'] // 샘플 게시판 구분
   }
 
   export interface BaseSamples {

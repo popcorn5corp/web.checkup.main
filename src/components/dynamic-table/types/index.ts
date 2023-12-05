@@ -41,7 +41,8 @@ export interface DynamicTableContextValues {
 
 export const defaultContenxtValues: DynamicTableContextValues = {
   filterFormItems: [],
-  selectedRows: []
+  selectedRows: [],
+  activeFilter: false
 }
 
 export type TableFilterList = FilterList

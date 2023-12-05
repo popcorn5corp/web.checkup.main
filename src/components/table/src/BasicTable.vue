@@ -8,7 +8,7 @@
       ref="tableRef"
       v-if="getContextValues.layoutMode === 'table'"
       v-bind="getBindValues"
-      :scroll="{ y: 700, x: 800 }"
+      :scroll="{ y: 450, x: 800 }"
       :row-key="rowKey || 'index'"
       :custom-row="customRow"
       @change="changeTable"
@@ -142,7 +142,6 @@ const {
   getRecordNo,
   initTableState,
   initDataSource,
-  initCardViewChecked,
   getDataSource,
   setPagination,
   getPagination
@@ -185,20 +184,11 @@ const tableAction: TableAction = {
     initTableState()
     initSelecion()
     dynamicTable.initFilterFormItems()
-
-    /**
-     * 이부분에서 filter param 넘겨야함
-    //  */
-    // await fetchDataSource({ isReset, param: undefined })
   },
   initTableState,
   initDataSource,
-  changeTable,
-  getRecordNo,
   setPagination,
-  getPagination: () => unref(getPagination),
   initSelecion,
-  initCardViewChecked,
   setSelectedRows,
   emitter: emit
 }
@@ -221,6 +211,20 @@ const getBindValues = computed<Recordable>(() => {
 
   propsData = omit(propsData, ['showHeader'])
   return propsData
+})
+
+/**
+ * @description Table Context 생성
+ */
+createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
+
+defineExpose({
+  getDataSource: fetchDataSource,
+  getColumns,
+  reload: tableAction.reload,
+  selectedRows,
+  selectedRowKeys,
+  total
 })
 
 /**
@@ -309,20 +313,6 @@ watch(
     deep: true
   }
 )
-
-/**
- * @description Table Context 생성
- */
-createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
-
-defineExpose({
-  getDataSource: fetchDataSource,
-  getColumns,
-  reload: tableAction.reload,
-  selectedRows,
-  selectedRowKeys,
-  total
-})
 </script>
 <style lang="scss" scoped>
 .basic-table-container {

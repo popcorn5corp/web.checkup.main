@@ -31,7 +31,8 @@ export const staticRoutes: RouteRecordRaw[] = [
     component: () => import(/* webpackChunkName: "login2" */ '@/views/Login/index2.vue'),
     meta: {
       title: 'Login',
-      layout: layoutTypes.pure
+      layout: layoutTypes.pure,
+      public: true
     }
   },
   {
@@ -40,7 +41,8 @@ export const staticRoutes: RouteRecordRaw[] = [
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login/index.vue'),
     meta: {
       title: 'Login',
-      layout: layoutTypes.pure
+      layout: layoutTypes.pure,
+      public: true
     }
   },
   {
@@ -319,7 +321,8 @@ export const staticRoutes: RouteRecordRaw[] = [
     name: 'Error404',
     component: () => import('@/views/ErrorView.vue'),
     meta: {
-      layout: layoutTypes.pure
+      layout: layoutTypes.pure,
+      public: true
     }
   }
 ]
