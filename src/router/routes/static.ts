@@ -233,6 +233,34 @@ export const staticRoutes: RouteRecordRaw[] = [
     ]
   },
   {
+    path: '/manage',
+    name: 'manage',
+    meta: {
+      layout: layoutTypes.default
+    },
+    component: () => import(/* webpackChunkName: "manage-users" */ '@/views/manage/index.vue'),
+    children: [
+      {
+        path: 'users',
+        name: 'manage-users',
+        component: () =>
+          import(/* webpackChunkName: "manage-users" */ '@/views/manage/manage-users/index.vue'),
+        meta: {
+          title: '사용자 관리'
+        }
+      },
+      {
+        path: 'group',
+        name: 'manage-group',
+        component: () =>
+          import(/* webpackChunkName: "manage-group" */ '@/views/manage/manage-group/index.vue'),
+        meta: {
+          title: '그룹 관리'
+        }
+      }
+    ]
+  },
+  {
     path: '/samples',
     name: 'samples',
     meta: {

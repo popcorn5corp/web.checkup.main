@@ -261,6 +261,43 @@ export const menus: any = [
     ]
   },
   {
+    path: '/manage',
+    name: 'manage',
+    component: {
+      name: 'LayoutParentView',
+      __hmrId: 'f60f4a90',
+      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
+    },
+    meta: {
+      title: '관리',
+      icon: 'users',
+      namePath: ['manage'],
+      fullPath: '/manage'
+    },
+    children: [
+      {
+        path: 'users',
+        name: 'manage-users',
+        meta: {
+          title: '사용자 관리',
+          icon: 'users',
+          namePath: ['manage', 'manage-users'],
+          fullPath: '/manage/users'
+        }
+      },
+      {
+        path: 'group',
+        name: 'manage-group',
+        meta: {
+          title: '그룹 관리',
+          icon: 'users',
+          namePath: ['manage', 'manage-group'],
+          fullPath: '/manage/group'
+        }
+      }
+    ]
+  },
+  {
     path: '/samples',
     name: 'samples',
     // redirect: '/dashboard/welcome',
