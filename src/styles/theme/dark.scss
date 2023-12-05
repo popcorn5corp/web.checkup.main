@@ -72,6 +72,9 @@ html[data-theme='dark'] {
     color: #fff !important;
     .list-wrapper {
       border: 1px solid #424242 !important;
+      .list-box {
+        border: 1px solid #424242 !important;
+      }
       .list-li {
         border-bottom-color: #424242 !important;
       }
