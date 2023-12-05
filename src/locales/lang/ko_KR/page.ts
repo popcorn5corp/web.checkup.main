@@ -36,7 +36,9 @@ export default {
     listInviteSubText: '초대 코드 입력하기',
     ph: {
       inputTeamOrCompanyName: '팀 또는 회사명을 입력해주세요.',
-      inputInviteCode: '초대 코드를 입력해 주세요.'
+      inputInviteCode: '초대 코드를 입력해 주세요.',
+      selectBusinessTypeOpt: '업종 선택',
+      selectEmployeeScaleOpt: '규모 선택'
     }
   }
 }
