@@ -25,6 +25,7 @@ export interface WorkspaceFormValues {
   employeeScaleCode: string
   originName: string
   saveName: string
+  url: string
   path: string
   size: number
   ext: string
@@ -84,6 +85,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       employeeScaleCode: '', // 회사 규모
       originName: '', // 프로필 이미지 이름
       saveName: '', // 서버에 저장된 파일 이름
+      url: '', // 파일 url
       path: '', // 파일 path
       size: 0, // 파일 size
       ext: '', // 파일 확장자
@@ -163,12 +165,14 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   }
 
   function setFormValueImgFile({
+    url,
     originName,
     saveName,
     path,
     size,
     ext
   }: Partial<WorkspaceFormValues>) {
+    state.formValues.url = url || ''
     state.formValues.originName = originName || ''
     state.formValues.saveName = saveName || ''
     state.formValues.path = path || ''

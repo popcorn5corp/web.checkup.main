@@ -1,6 +1,16 @@
 $bg-color: $color-dark; // main bg color
+$bg-real-dark-color: $color-realDark;
 $text-color: $color-white; // main text color
 $sub-text-color: rgba(255, 255, 255, 0.25);
+
+html[data-theme='dark'] {
+  .tabs-container {
+    background-color: #000 !important;
+  }
+  .layout-main {
+    background: $bg-real-dark-color !important;
+  }
+}
 
 html[data-theme='dark'] {
   .filter-form-container {
@@ -61,6 +71,12 @@ html[data-theme='dark'] {
     background-color: rgba(0, 21, 41, 0.8509803922) !important;
     color: #fff !important;
     .list-wrapper {
+      border: 1px solid #424242 !important;
+      .list-li {
+        border-bottom-color: #424242 !important;
+      }
+    }
+    .invite-code-wrapper {
       border: 1px solid #424242 !important;
     }
   }

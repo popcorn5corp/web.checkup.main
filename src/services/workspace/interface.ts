@@ -5,6 +5,34 @@ export namespace IWorkspace {
     workspaceId: string
     workspaceName: string
   }
+
+  export interface WorkspaceListInfo extends WorkspaceInfo {
+    workspaceImagePath: string
+  }
+
+  export interface DefaultWorkspceInfo {
+    defaultWorkspace: boolean
+    defaultWorkspaceId: string
+  }
+
+  export interface DefaultProfilesResponse {
+    images: ImageFilesInfo[]
+  }
+
+  export interface ImageFilesInfo {
+    name: string
+    originName: string
+    url: string
+    path: string
+    ext: string
+    size: number
+  }
+  export interface WorkspaceListResponse extends DefaultWorkspceInfo {
+    uid: string
+    userId: string
+    userName: string
+    workspaceInfoList: WorkspaceListInfo[]
+  }
   export interface ExistEmailParam {
     inviteEmail: string
   }
@@ -17,7 +45,7 @@ export namespace IWorkspace {
     ownerId: string
   }
 
-  export interface CreateWorkspaceParam extends Omit<WorkspaceFormValues, 'inviteCode'> {
+  export interface CreateWorkspaceParam extends Omit<WorkspaceFormValues, 'inviteCode' | 'url'> {
     uid: string
   }
 

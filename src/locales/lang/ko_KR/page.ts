@@ -32,6 +32,8 @@ export default {
     listDesc: '선택한 워크스페이스로 이동합니다.',
     listCheckText: '마지막으로 사용했던 워크스페이스로 기본설정',
     listArrowText: '현재 워크스페이스',
+    listInviteText: '찾고 있는 워크스페이스가 아닙니까?',
+    listInviteSubText: '초대 코드 입력하기',
     ph: {
       inputTeamOrCompanyName: '팀 또는 회사명을 입력해주세요.',
       inputInviteCode: '초대 코드를 입력해 주세요.'
