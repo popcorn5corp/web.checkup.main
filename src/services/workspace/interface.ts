@@ -27,6 +27,10 @@ export namespace IWorkspace {
     ext: string
     size: number
   }
+
+  export interface WorkspaceListParam {
+    currentWorkspaceId: string | null
+  }
   export interface WorkspaceListResponse extends DefaultWorkspceInfo {
     uid: string
     userId: string
