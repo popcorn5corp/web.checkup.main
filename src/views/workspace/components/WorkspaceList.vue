@@ -9,7 +9,6 @@
             ref="listRef"
             v-for="item in workspaceList"
             :key="item.workspaceId"
-            :data-set="item.workspaceId"
             class="list-li"
             :class="[item.active && 'active']"
             @click="onSelectWorkspace(item)"
@@ -74,7 +73,9 @@ const useDefaultWorkspace = ref(false)
 
 ;(async () => {
   try {
-    const { data } = await WorkspaceService.getWorkspaceList()
+    const { data } = await WorkspaceService.getWorkspaceList({
+      currentWorkspaceId: getWorkspace.workspaceId || null
+    })
     workspaceList.value = data.workspaceInfoList.map((workspace) => {
       let active = false
       let activeTxt = t('component.button.move')

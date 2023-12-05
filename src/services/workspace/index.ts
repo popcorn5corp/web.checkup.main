@@ -7,8 +7,8 @@ class WorkspaceService {
   constructor() {}
 
   // 워크스페이스 목록 조회
-  getWorkspaceList() {
-    return service.get<IWorkspace.WorkspaceListResponse>(this.PATH + '/user/workspaces')
+  getWorkspaceList(param?: IWorkspace.WorkspaceListParam) {
+    return service.get<IWorkspace.WorkspaceListResponse>(this.PATH + '/user/workspaces', param)
   }
 
   // 기본 워크스페이스 설정

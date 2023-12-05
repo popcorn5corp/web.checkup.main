@@ -20,11 +20,11 @@ const { getCurrentStep, getSteps } = toRefs(workspaceStore)
 // transition
 .transition-group {
   position: relative;
-}
-.active {
-  width: 100%;
-  position: absolute;
-  transition: all 0.5s;
+  .active {
+    width: 100%;
+    position: absolute;
+    transition: all 0.5s;
+  }
 }
 .invite-enter-from {
   opacity: 0;
