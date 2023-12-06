@@ -8,7 +8,7 @@
       ref="tableRef"
       v-if="getContextValues.layoutMode === 'table'"
       v-bind="getBindValues"
-      :scroll="{ y: 450, x: 800 }"
+      :scroll="{ y: 500, x: 800 }"
       :row-key="rowKey || 'index'"
       :custom-row="customRow"
       @change="changeTable"
