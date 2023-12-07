@@ -47,7 +47,7 @@ declare module '@vue/runtime-core' {
     Datepicker: typeof import('./src/components/filter-form/src/components/filter-types/Datepicker.vue')['default']
     DatePicker: typeof import('./src/components/filter-form/src/components/filter-types/DatePicker.vue')['default']
     DisplaySetting: typeof import('./src/components/header/src/components/DisplaySetting.vue')['default']
-    Drawer: typeof import('./src/components/Drawer/src/Drawer.vue')['default']
+    Drawer: typeof import('./src/components/drawer/src/Drawer.vue')['default']
     Dropdown: typeof import('./src/components/dropdown/Dropdown.vue')['default']
     DropdownButton: typeof import('./src/components/button/src/DropdownButton.vue')['default']
     DynamicTable: typeof import('./src/components/dynamic-table/src/DynamicTable.vue')['default']

@@ -2,7 +2,7 @@ import checkupLogo from '@/assets/images/checkup_logo_simple_light.png'
 import { withActions } from '@storybook/addon-actions/decorator'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import type { ComponentProps } from 'vue-component-type-helpers'
-import { baseContent } from '@/views/ComponentsOverview/Card/mock'
+import { baseContent } from '@/views/components-overview/Card/mock'
 import { CardList } from '../src'
 
 const meta: Meta<ComponentProps<typeof CardList>> = {
