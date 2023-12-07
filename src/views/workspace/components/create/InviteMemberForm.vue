@@ -1,5 +1,5 @@
 <template>
-  <div class="text-wrapper">
+  <div class="text-wrapper" v-if="props.isShowDescription">
     <h1>{{ $t('page.workspace.createStep3Tit') }}</h1>
     <p>{{ $t('page.workspace.createStep3Desc') }}</p>
   </div>
@@ -42,6 +42,13 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
 const { getFormValues } = toRefs(workspaceStore)
+
+const props = defineProps({
+  isShowDescription: {
+    type: Boolean,
+    default: true
+  }
+})
 
 const isError = ref(false)
 const errMsg = ref('')

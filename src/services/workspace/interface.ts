@@ -37,13 +37,6 @@ export namespace IWorkspace {
     userName: string
     workspaceInfoList: WorkspaceListInfo[]
   }
-  export interface ExistEmailParam {
-    inviteEmail: string
-  }
-  export interface ExistEmailResponse {
-    inviteEmail: string
-    isExist: boolean
-  }
 
   export interface CreateWorkspaceResponse extends WorkspaceInfo {
     ownerId: string

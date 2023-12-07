@@ -21,11 +21,6 @@ class WorkspaceService {
     return service.get<IWorkspace.DefaultProfilesResponse>(this.PATH + '/images/default-profiles')
   }
 
-  // 팀원 초대 이메일 중복 확인
-  checkDuplicatedEmail(param: IWorkspace.ExistEmailParam) {
-    return service.get<IWorkspace.ExistEmailResponse>(this.PATH + '/exist', param)
-  }
-
   // 업종 조회
   getBusinessType() {
     return service.get<IWorkspace.BusinessOptResponse>(
