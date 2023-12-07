@@ -33,5 +33,6 @@ export default {
   or: 'Or',
   select: 'Select',
   createWorkspace: 'Create a workspace',
-  changeWorkspace: 'Change workspace'
+  changeWorkspace: 'Change workspace',
+  lang: 'Language'
 }

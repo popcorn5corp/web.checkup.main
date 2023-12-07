@@ -5,7 +5,7 @@ $sub-text-color: rgba(255, 255, 255, 0.25);
 
 html[data-theme='dark'] {
   .tabs-container {
-    background-color: #000 !important;
+    background-color: $bg-color !important;
   }
   .layout-main {
     background: $bg-real-dark-color !important;
@@ -45,11 +45,11 @@ html[data-theme='dark'] {
 
   .menu-header .user-preview .info {
     .name {
-      color: $text-color;
+      color: $text-color !important;
     }
 
     .email {
-      color: $sub-text-color;
+      color: $sub-text-color !important;
     }
   }
 }

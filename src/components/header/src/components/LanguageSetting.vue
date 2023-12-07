@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="LanguageSetting">
 import { Descriptions, Modal, Select } from 'ant-design-vue'
 import { createVNode, ref, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -35,7 +35,7 @@ const onChangeLang = async (locale: LocaleType) => {
 }
 </script>
 <template>
-  <Descriptions :title="$t('layout.header.settings.tabLang')" :column="5">
+  <Descriptions :title="$t('common.lang')" :column="5">
     <Descriptions.Item>
       <Select
         v-model:value="selectedLocale"
