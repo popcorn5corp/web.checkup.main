@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="AccordionPanel">
 import { CollapsePanel } from 'ant-design-vue'
 import type { AccordionPanelProps } from '../types'
 

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="Accordion">
 import { Collapse } from 'ant-design-vue'
 import { ref } from 'vue'
 import type { AccordionProps } from '../types'

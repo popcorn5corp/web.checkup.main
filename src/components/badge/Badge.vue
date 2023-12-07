@@ -2,7 +2,7 @@
   <span :class="getBadgeClass">{{ text }}</span>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="Badge">
 import { computed } from 'vue'
 import type { BadgeProps } from './types'
 

@@ -72,8 +72,6 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
   layoutType?: TableLayoutMode
   // Toolbar 옵선 정보
   toolbarOptions?: ToolbarOptions
-
-  dynamicTable?: any
 }
 
 export interface ToolbarOptions {

@@ -12,7 +12,7 @@
     <LayoutContainer />
   </ConfigProvider>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="App">
 import LayoutContainer from '@/layouts/index.vue'
 import { ConfigProvider } from 'ant-design-vue'
 import { theme } from 'ant-design-vue'

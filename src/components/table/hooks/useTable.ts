@@ -1,5 +1,5 @@
 import { Util } from '@/utils'
-import { type ComputedRef, computed, reactive, ref, toRefs, unref, watch } from 'vue'
+import { type ComputedRef, computed, reactive, toRefs, unref, watch } from 'vue'
 import type { TablePagination, TableProps, TableSorter } from '../types'
 import { defaultPaginaton } from '../types'
 
@@ -41,7 +41,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }
   }
 
-  const getDataSource = computed(() => state.dataSource)
+  const getDataSource = computed(() => unref(propsRef).dataSource || state.dataSource)
 
   function initTableState() {
     state.dataSource = []
@@ -104,53 +104,12 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }
   })
 
-  const filterParam = computed(() => {
-    return {}
-  })
-
-  const isReset = ref(false)
-  const searchWord = ref('')
-
-  // const requestParam = computed(() => {
-  //   const { initParam, options } = unref(propsRef)
-  //   console.log('requestParam :: ', requestParam, options)
-
-  //   const param: State['requestParam'] = {
-  //     ...initParam,
-  //     searchWord: unref(searchWord)
-  //   }
-
-  //   if (!unref(isReset)) {
-  //     state.pagination.current = defaultPaginaton.current
-  //   } else {
-  //     state.pagination = {
-  //       ...defaultPaginaton
-  //     }
-  //     state.sorter = []
-  //     searchWord.value = ''
-  //   }
-
-  //   options?.isPagination && Object.assign(param, paginationParam.value)
-  //   unref(isSorting) && Object.assign(param, sorterParam.value)
-
-  //   console.log('param :: ', param)
-
-  //   return param
-  // })
-
   const fetchDataSource = async (options?: {
     isReset?: boolean
     param?: { searchWord?: string }
     filterParam?: Recordable
   }): Promise<void> => {
-    const {
-      rowKey,
-      dataRequest,
-      dataSource,
-      initParam,
-      options: propsOptions,
-      dataCallback
-    } = unref(propsRef)
+    const { rowKey, dataRequest, dataSource, options: propsOptions, dataCallback } = unref(propsRef)
 
     let _dataSource = []
     let _total = 0
@@ -180,8 +139,6 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
         state.searchWord = ''
       } else {
         requestParam = {
-          // ...initParam,
-          // ...state.requestParam,
           ...state.filterParam,
           searchWord: state.searchWord
         }

@@ -137,58 +137,6 @@ export const menus: any = [
       }
     ]
   },
-  // {
-  //   path: '/ems',
-  //   name: 'ems',
-  //   // redirect: '/dashboard/welcome',
-  //   component: {
-  //     name: 'LayoutParentView',
-  //     __hmrId: 'f60f4a90',
-  //     __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
-  //   },
-  //   meta: {
-  //     // title: 'routes.dashboard.dashboard',
-  //     title: 'EMS',
-  //     icon: 'icon-yibiaopan',
-  //     namePath: ['ems'],
-  //     fullPath: '/ems'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'utilities',
-  //       name: 'ems-utilities',
-  //       meta: {
-  //         // title: 'routes.dashboard.workbench',
-  //         title: '수도광열비',
-  //         icon: 'icon-shouye',
-  //         namePath: ['ems', 'utilities'],
-  //         fullPath: '/ems/utilities'
-  //       },
-  //       children: [
-  //         {
-  //           path: 'performance',
-  //           name: 'ems-utilities-performance',
-  //           meta: {
-  //             title: '수도광열비 실적',
-  //             icon: 'icon-shouye',
-  //             namePath: ['ems', 'utilities', 'performance'],
-  //             fullPath: '/ems/utilities/performance'
-  //           }
-  //         },
-  //         {
-  //           path: 'site',
-  //           name: 'ems-utilities-site',
-  //           meta: {
-  //             title: '사업장 영업정보',
-  //             icon: 'icon-shouye',
-  //             namePath: ['ems', 'utilities', 'site'],
-  //             fullPath: '/ems/utilities/site'
-  //           }
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
   {
     path: '/partner',
     name: 'partner',
@@ -219,47 +167,36 @@ export const menus: any = [
       }
     ]
   },
-  {
-    path: '/setting',
-    name: 'setting',
-    // redirect: '/dashboard/welcome',
-    component: {
-      name: 'LayoutParentView',
-      __hmrId: 'f60f4a90',
-      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
-    },
-    meta: {
-      // title: 'routes.dashboard.dashboard',
-      title: '설정',
-      icon: 'gears',
-      namePath: ['setting'],
-      fullPath: '/setting'
-    },
-    children: [
-      {
-        path: 'project',
-        name: 'setting-project',
-        meta: {
-          // title: 'routes.dashboard.workbench',
-          title: '프로젝트 설정',
-          icon: 'gears',
-          namePath: ['setting', 'setting-project'],
-          fullPath: '/setting/project'
-        }
-      },
-      {
-        path: 'company',
-        name: 'setting-company',
-        meta: {
-          // title: 'routes.dashboard.workbench',
-          title: '회사 설정',
-          icon: 'gears',
-          namePath: ['setting', 'setting-company'],
-          fullPath: '/setting/company'
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/setting',
+  //   name: 'setting',
+  //   // redirect: '/dashboard/welcome',
+  //   component: {
+  //     name: 'LayoutParentView',
+  //     __hmrId: 'f60f4a90',
+  //     __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
+  //   },
+  //   meta: {
+  //     // title: 'routes.dashboard.dashboard',
+  //     title: '설정',
+  //     icon: 'gears',
+  //     namePath: ['setting'],
+  //     fullPath: '/setting'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'workspace',
+  //       name: 'setting-workspace',
+  //       meta: {
+  //         // title: 'routes.dashboard.workbench',
+  //         title: '워크스페이스 설정',
+  //         icon: 'gears',
+  //         namePath: ['setting', 'setting-workspace'],
+  //         fullPath: '/setting/workspace'
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: '/manage',
     name: 'manage',

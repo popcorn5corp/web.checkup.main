@@ -5,7 +5,6 @@
     :row-key="'boardId'"
     :columns="columns"
     :filter-request="getFilters"
-    :init-param="initParam"
     :data-request="getDataSource"
     :data-callback="dataCallback"
     :column-request="getColumns"
@@ -105,16 +104,16 @@ const title = computed(() => {
 })
 
 const showDetail = ref(false)
-const initParam = ref<IBaseSample.BaseSamplesParam>({
-  searchEndDate: '',
-  searchStartDate: '',
-  searchWord: '',
-  searchDivision: '',
-  searchPermission: '',
-  size: 10,
-  page: 1,
-  sort: undefined
-})
+// const initParam = ref<IBaseSample.BaseSamplesParam>({
+//   searchEndDate: '',
+//   searchStartDate: '',
+//   searchWord: '',
+//   searchDivision: '',
+//   searchPermission: '',
+//   size: 10,
+//   page: 1,
+//   sort: undefined
+// })
 
 const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
 const profileImg = computed(() => {
