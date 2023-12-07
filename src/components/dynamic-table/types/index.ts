@@ -9,7 +9,7 @@ export interface DynamicTableProps extends TableProps {
   // 테이블 필터 정보에 대한 API
   filterRequest?: () => Promise<API.ResponseData<IBaseAPI.FilterResponse>>
   // 상세 영역 표출
-  openDetail: boolean
+  openDetail?: boolean
   // 테이블 툴바 노출 여부
   showToolbar?: boolean
   // 필터 버튼 노출 여부

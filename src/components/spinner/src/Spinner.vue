@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="spinner">
     <div class="loader">
       <div class="loader--dot"></div>
       <div class="loader--dot"></div>
@@ -41,7 +41,7 @@ setInterval(() => {
 $loader--width: 250px;
 $loader-dot--size: 20px;
 
-.container {
+.spinner {
   height: 100vh;
   width: 100vw;
   font-family: Helvetica;

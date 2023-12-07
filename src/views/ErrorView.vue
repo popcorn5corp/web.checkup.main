@@ -1,5 +1,5 @@
 <template>
-  <div class="error">
+  <div class="error-page">
     <Result status="404" title="404" sub-title="This is an NotFound page" size="large">
       <template #extra>
         <Button
@@ -12,12 +12,12 @@
     </Result>
   </div>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="ErrorView">
 import { Result } from 'ant-design-vue'
 </script>
 
 <style>
-.error {
+.error-page {
   width: 100vw;
   height: 100vh;
   display: flex;

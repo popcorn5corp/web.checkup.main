@@ -38,7 +38,6 @@
 </template>
 <script setup lang="ts" name="BasicTable">
 import { Table } from 'ant-design-vue'
-import { theme } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import omit from 'lodash-es/omit'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
@@ -249,6 +248,8 @@ watch(
   () => dynamicTable?.getFilterFormItems(),
   async (filterFormItems) => {
     const activeFilter = unref(dynamicTable.getContextValues).activeFilter
+
+    console.log('accc ', activeFilter)
 
     if (activeFilter && filterFormItems.length) {
       const _filterFormItems = cloneDeep(filterFormItems)

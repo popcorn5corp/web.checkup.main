@@ -1,3 +1,3 @@
-<script setup lang="ts"></script>
+<script setup lang="ts" name="Modal"></script>
 
 <template>modal</template>
