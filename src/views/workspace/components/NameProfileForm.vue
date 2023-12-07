@@ -84,8 +84,10 @@ const seletedImg = ref('')
     const defaultImage = data.images[0]
     profileList.value = data.images
     seletedImg.value = defaultImage.url
+
     workspaceStore.setFormValueImgFile({
-      ...defaultImage
+      ...defaultImage,
+      saveName: defaultImage.name
     })
 
     if (getFormValues.value.url) {
@@ -104,8 +106,10 @@ const onInput = (e: Event) => {
 const onClickImg = (imgValue: IWorkspace.ImageFilesInfo) => {
   seletedImg.value = imgValue.url
   modalVisible.value = false
+
   workspaceStore.setFormValueImgFile({
-    ...imgValue
+    ...imgValue,
+    saveName: imgValue.name
   })
 }
 
@@ -114,7 +118,8 @@ watch(fileUploaderImg, (imgfileList) => {
     const imgValue = imgfileList.at(-1)
     seletedImg.value = imgValue.url
     workspaceStore.setFormValueImgFile({
-      ...imgValue
+      ...imgValue,
+      saveName: imgValue.name
     })
   }
 })
