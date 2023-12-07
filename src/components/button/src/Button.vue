@@ -16,7 +16,7 @@
   </Button>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="Button">
 import { Button } from 'ant-design-vue'
 import { computed } from 'vue'
 import type { ButtonEmits, ButtonProps } from '../types'

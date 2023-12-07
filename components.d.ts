@@ -23,6 +23,7 @@ declare module '@vue/runtime-core' {
     ADatePicker: typeof import('ant-design-vue/es')['DatePicker']
     ADivider: typeof import('ant-design-vue/es')['Divider']
     AInput: typeof import('ant-design-vue/es')['Input']
+    AlarmSetting: typeof import('./src/components/header/src/components/AlarmSetting.vue')['default']
     AListItem: typeof import('ant-design-vue/es')['ListItem']
     AListItemMeta: typeof import('ant-design-vue/es')['ListItemMeta']
     ARadio: typeof import('ant-design-vue/es')['Radio']
@@ -89,5 +90,6 @@ declare module '@vue/runtime-core' {
     ToastPopup: typeof import('./src/components/table/src/components/ToastPopup.vue')['default']
     UserAccount: typeof import('./src/components/header/src/components/UserAccount.vue')['default']
     UserDropdown: typeof import('./src/components/header/src/components/UserDropdown.vue')['default']
+    UserProfile: typeof import('./src/components/header/src/components/UserProfile.vue')['default']
   }
 }

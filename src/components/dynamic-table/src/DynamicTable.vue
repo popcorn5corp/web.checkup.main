@@ -6,10 +6,8 @@
         <!-- <Button label="Drawer" @click="showDetail = true" /> -->
         <div class="table-btns">
           <Space>
-            <slot name="tableBtns"></slot>
-
             <template v-if="getContextValues.selectedRows?.length > 0">
-              <Button :label="$t('common.download')" size="middle">
+              <Button v-if="showDownload" :label="$t('common.download')" size="middle">
                 <template #icon>
                   <DownloadOutlined />
                 </template>
@@ -26,7 +24,14 @@
               </Button>
             </template>
 
-            <Button :label="$t('common.registration')" size="middle" @click="$emit('row-add')">
+            <slot name="tableBtns"></slot>
+
+            <Button
+              v-if="showRegist"
+              :label="$t('common.registration')"
+              size="middle"
+              @click="$emit('row-add')"
+            >
               <template #icon>
                 <PlusCircleTwoTone />
               </template>
@@ -153,8 +158,10 @@ const emit = defineEmits([
   'update:openDetail'
 ])
 const props = withDefaults(defineProps<DynamicTableProps>(), {
+  filters: () => [],
   showToolbar: true,
-  filters: () => []
+  showRegist: true,
+  showDownload: true
 })
 defineExpose<DynamicTablExposes>({
   reload: (options: { isReset?: boolean }) => {
