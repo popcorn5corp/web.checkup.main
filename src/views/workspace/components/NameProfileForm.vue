@@ -61,7 +61,6 @@
 </template>
 
 <script lang="ts" setup name="NameProfileForm">
-import defaultImg from '@/assets/images/avatar/avatar1.jpg'
 import { WorkspaceService } from '@/services'
 import { Input, Modal } from 'ant-design-vue'
 import { computed, ref, toRefs, watch } from 'vue'
@@ -82,8 +81,14 @@ const seletedImg = ref('')
 ;(async () => {
   try {
     const { data } = await WorkspaceService.getDefaultProfiles()
+    const defaultImage = data.images[0]
     profileList.value = data.images
-    seletedImg.value = data.images[0].url
+    seletedImg.value = defaultImage.url
+
+    workspaceStore.setFormValueImgFile({
+      ...defaultImage,
+      saveName: defaultImage.name
+    })
 
     if (getFormValues.value.url) {
       seletedImg.value = getFormValues.value.url
@@ -101,13 +106,10 @@ const onInput = (e: Event) => {
 const onClickImg = (imgValue: IWorkspace.ImageFilesInfo) => {
   seletedImg.value = imgValue.url
   modalVisible.value = false
+
   workspaceStore.setFormValueImgFile({
-    url: imgValue.url,
-    originName: imgValue.originName,
-    saveName: imgValue.name,
-    path: imgValue.path,
-    size: imgValue.size,
-    ext: imgValue.ext
+    ...imgValue,
+    saveName: imgValue.name
   })
 }
 
@@ -116,12 +118,8 @@ watch(fileUploaderImg, (imgfileList) => {
     const imgValue = imgfileList.at(-1)
     seletedImg.value = imgValue.url
     workspaceStore.setFormValueImgFile({
-      url: imgValue.url,
-      originName: imgValue.originName,
-      saveName: imgValue.name,
-      path: imgValue.path,
-      size: imgValue.size,
-      ext: imgValue.ext
+      ...imgValue,
+      saveName: imgValue.name
     })
   }
 })
@@ -153,7 +151,7 @@ watch(
   }
 }
 p {
-  color: #888;
+  color: $sub-text-dark-gray-color;
   line-height: 1.4;
   font-size: 17px;
 }
@@ -181,12 +179,12 @@ p {
     opacity: 0;
 
     span {
-      color: #000;
+      color: $color-black;
       position: absolute;
       top: 50%;
       left: 50%;
       translate: -50% -50%;
-      background: #fff;
+      background: $color-white;
       padding: 5px 10px;
       font-weight: 700;
       border-radius: 1rem;

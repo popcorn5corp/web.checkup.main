@@ -24,6 +24,7 @@ declare module '@vue/runtime-core' {
     ADivider: typeof import('ant-design-vue/es')['Divider']
     ADropdown: typeof import('ant-design-vue/es')['Dropdown']
     AInput: typeof import('ant-design-vue/es')['Input']
+    AlarmSetting: typeof import('./src/components/header/src/components/AlarmSetting.vue')['default']
     AList: typeof import('ant-design-vue/es')['List']
     AListItem: typeof import('ant-design-vue/es')['ListItem']
     AListItemMeta: typeof import('ant-design-vue/es')['ListItemMeta']
@@ -99,5 +100,6 @@ declare module '@vue/runtime-core' {
     ToastPopup: typeof import('./src/components/table/src/components/ToastPopup.vue')['default']
     UserAccount: typeof import('./src/components/header/src/components/UserAccount.vue')['default']
     UserDropdown: typeof import('./src/components/header/src/components/UserDropdown.vue')['default']
+    UserProfile: typeof import('./src/components/header/src/components/UserProfile.vue')['default']
   }
 }

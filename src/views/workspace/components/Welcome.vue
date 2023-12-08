@@ -82,7 +82,7 @@ const onBtnClick = (type: WorkspaceStepType) => {
   }
 
   p {
-    color: #888;
+    color: $sub-text-dark-gray-color;
     margin-bottom: 5px;
     font-size: 18px;
     white-space: pre-line;
@@ -98,10 +98,10 @@ const onBtnClick = (type: WorkspaceStepType) => {
     align-items: center;
     justify-content: space-between;
     padding: 3.5rem 2rem;
-    border: 1px solid rgba(201, 201, 201, 0.45);
+    border: 1px solid $border-color;
     border-radius: 10px;
-    background: #fff;
-    color: #000;
+    background: $color-white;
+    color: $color-black;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     .img {

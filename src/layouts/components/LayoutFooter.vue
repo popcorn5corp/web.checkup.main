@@ -1,7 +1,7 @@
 <template>
   <Footer> </Footer>
 </template>
-<script setup lang="ts" name="Footer">
+<script setup lang="ts" name="LayoutFooter">
 import { Layout } from 'ant-design-vue'
 
 const { Footer } = Layout

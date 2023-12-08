@@ -8,7 +8,7 @@
       ref="tableRef"
       v-if="getContextValues.layoutMode === 'table'"
       v-bind="getBindValues"
-      :scroll="{ y: 450, x: 800 }"
+      :scroll="{ y: 500, x: 800 }"
       :row-key="rowKey || 'index'"
       :custom-row="customRow"
       @change="changeTable"
@@ -38,7 +38,6 @@
 </template>
 <script setup lang="ts" name="BasicTable">
 import { Table } from 'ant-design-vue'
-import { theme } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import omit from 'lodash-es/omit'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
@@ -250,6 +249,8 @@ watch(
   async (filterFormItems) => {
     const activeFilter = unref(dynamicTable.getContextValues).activeFilter
 
+    console.log('accc ', activeFilter)
+
     if (activeFilter && filterFormItems.length) {
       const _filterFormItems = cloneDeep(filterFormItems)
       const defaultParam = {
@@ -288,7 +289,7 @@ watch(
         })
       })
 
-      console.log('Request Param :: ', filterParam)
+      // console.log('Request Param :: ', filterParam)
 
       if (filterParam) {
         await fetchDataSource({ isReset: false, filterParam })

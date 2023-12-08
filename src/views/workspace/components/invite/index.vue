@@ -14,21 +14,17 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 const workspaceStore = useWorkspaceStore()
 const { getCurrentStep, getSteps } = toRefs(workspaceStore)
-
-// ;(async () => {
-//   workspaceStore.setStepType('invite')
-// })()
 </script>
 
 <style lang="scss">
 // transition
 .transition-group {
   position: relative;
-}
-.active {
-  width: 100%;
-  position: absolute;
-  transition: all 0.5s;
+  .active {
+    width: 100%;
+    position: absolute;
+    transition: all 0.5s;
+  }
 }
 .invite-enter-from {
   opacity: 0;

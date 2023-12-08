@@ -28,7 +28,7 @@ export const staticRoutes: RouteRecordRaw[] = [
   {
     path: '/login2',
     name: 'login2',
-    component: () => import(/* webpackChunkName: "login2" */ '@/views/Login/index2.vue'),
+    component: () => import(/* webpackChunkName: "login2" */ '@/views/login/index2.vue'),
     meta: {
       title: 'Login',
       layout: layoutTypes.pure,
@@ -38,7 +38,7 @@ export const staticRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
-    component: () => import(/* webpackChunkName: "login" */ '@/views/Login/index.vue'),
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
     meta: {
       title: 'Login',
       layout: layoutTypes.pure,
@@ -101,7 +101,7 @@ export const staticRoutes: RouteRecordRaw[] = [
       {
         path: '',
         name: 'dashboard',
-        component: () => import(/* webpackChunkName: "layout" */ '@/views/Dashboard/index.vue'),
+        component: () => import(/* webpackChunkName: "layout" */ '@/views/dashboard/index.vue'),
         meta: {
           title: '대시보드'
         },
@@ -125,7 +125,7 @@ export const staticRoutes: RouteRecordRaw[] = [
             name: 'fms-facility-status',
             component: () =>
               import(
-                /* webpackChunkName: "fms-facility-status" */ '@/views/FMS/Facility/FacilityStatus/index.vue'
+                /* webpackChunkName: "fms-facility-status" */ '@/views/fms/facility/facility-status/index.vue'
               ),
             meta: {
               title: '설비 현황'
@@ -136,7 +136,7 @@ export const staticRoutes: RouteRecordRaw[] = [
             name: 'fms-facility-category',
             component: () =>
               import(
-                /* webpackChunkName: "fms-facility-category" */ '@/views/FMS/Facility/FacilityCategory/index.vue'
+                /* webpackChunkName: "fms-facility-category" */ '@/views/fms/facility/facility-category/index.vue'
               ),
             meta: {
               title: '설비 카테고리'
@@ -162,7 +162,7 @@ export const staticRoutes: RouteRecordRaw[] = [
             name: 'ems-utilities-performance',
             component: () =>
               import(
-                /* webpackChunkName: "ems-utilities-performance" */ '@/views/EMS/Utilities/Performance/index.vue'
+                /* webpackChunkName: "ems-utilities-performance" */ '@/views/ems/utilities/performance/index.vue'
               ),
             meta: {
               title: '수도광열비 실적'
@@ -173,7 +173,7 @@ export const staticRoutes: RouteRecordRaw[] = [
             name: 'ems-utilities-site',
             component: () =>
               import(
-                /* webpackChunkName: "ems-utilities-site" */ '@/views/EMS/Utilities/Site/index.vue'
+                /* webpackChunkName: "ems-utilities-site" */ '@/views/ems/utilities/site/index.vue'
               ),
             meta: {
               title: '사업장 영업정보'
@@ -195,7 +195,7 @@ export const staticRoutes: RouteRecordRaw[] = [
         name: 'partner-search',
         component: () =>
           import(
-            /* webpackChunkName: "partner-search" */ '@/views/Partner/PartnerSearch/index.vue'
+            /* webpackChunkName: "partner-search" */ '@/views/partner/partner-search/index.vue'
           ),
         meta: {
           title: '파트너 검색'
@@ -203,44 +203,33 @@ export const staticRoutes: RouteRecordRaw[] = [
       }
     ]
   },
-  {
-    path: '/setting',
-    name: 'setting',
-    meta: {
-      layout: layoutTypes.default
-    },
-    children: [
-      {
-        path: 'project',
-        name: 'setting-project',
-        component: () =>
-          import(
-            /* webpackChunkName: "setting-project" */ '@/views/Setting/SettingProject/index.vue'
-          ),
-        meta: {
-          title: '프로젝트 설정'
-        }
-      },
-      {
-        path: 'company',
-        name: 'setting-company',
-        component: () =>
-          import(
-            /* webpackChunkName: "setting-company" */ '@/views/Setting/SettingCompany/index.vue'
-          ),
-        meta: {
-          title: '회사 설정'
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/setting',
+  //   name: 'setting',
+  //   meta: {
+  //     layout: layoutTypes.default
+  //   },
+  //   children: [
+  //     {
+  //       path: 'project',
+  //       name: 'setting-workspace',
+  //       component: () =>
+  //         import(
+  //           /* webpackChunkName: "setting-workspace" */ '@/views/setting/setting-workspace/index.vue'
+  //         ),
+  //       meta: {
+  //         title: '워크스페이스 설정'
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: '/manage',
     name: 'manage',
     meta: {
       layout: layoutTypes.default
     },
-    component: () => import(/* webpackChunkName: "manage-users" */ '@/views/manage/index.vue'),
+    component: () => import(/* webpackChunkName: "manage" */ '@/views/manage/index.vue'),
     children: [
       {
         path: 'users',
@@ -274,7 +263,7 @@ export const staticRoutes: RouteRecordRaw[] = [
         name: 'samples-dynamic-table',
         component: () =>
           import(
-            /* webpackChunkName: "simple-dynamic-table" */ '@/views/Sample/TableSample/index.vue'
+            /* webpackChunkName: "simple-dynamic-table" */ '@/views/sample/table-sample/index.vue'
           ),
         meta: {
           title: 'Dynamic Table'
@@ -303,7 +292,7 @@ export const staticRoutes: RouteRecordRaw[] = [
         name: 'components-table',
         component: () =>
           import(
-            /* webpackChunkName: "components-table" */ '@/views/ComponentsOverview/Table/index.vue'
+            /* webpackChunkName: "components-table" */ '@/views/components-overview/table/index.vue'
           ),
         meta: {
           title: 'Table'
@@ -314,7 +303,7 @@ export const staticRoutes: RouteRecordRaw[] = [
         name: 'components-accordion',
         component: () =>
           import(
-            /* webpackChunkName: "components-accordion" */ '@/views/ComponentsOverview/Accordian/index.vue'
+            /* webpackChunkName: "components-accordion" */ '@/views/components-overview/accordian/index.vue'
           ),
         meta: {
           title: 'Accordian'
@@ -325,7 +314,7 @@ export const staticRoutes: RouteRecordRaw[] = [
         name: 'components-modal',
         component: () =>
           import(
-            /* webpackChunkName: "components-modal" */ '@/views/ComponentsOverview/Modal/index.vue'
+            /* webpackChunkName: "components-modal" */ '@/views/components-overview/modal/index.vue'
           ),
         meta: {
           title: 'Modal'
@@ -336,7 +325,7 @@ export const staticRoutes: RouteRecordRaw[] = [
         name: 'components-card',
         component: () =>
           import(
-            /* webpackChunkName: "components-card" */ '@/views/ComponentsOverview/Card/index.vue'
+            /* webpackChunkName: "components-card" */ '@/views/components-overview/card/index.vue'
           ),
         meta: {
           title: 'Card'

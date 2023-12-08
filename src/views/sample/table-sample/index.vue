@@ -5,7 +5,6 @@
     :row-key="'boardId'"
     :columns="columns"
     :filter-request="getFilters"
-    :init-param="initParam"
     :data-request="getDataSource"
     :data-callback="dataCallback"
     :column-request="getColumns"
@@ -79,8 +78,8 @@ import { Modal, Spin, message } from 'ant-design-vue'
 import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IBaseSample } from '@/services/BaseSample/interface'
-import { Drawer } from '@/components/Drawer'
 import { Button } from '@/components/button'
+import { Drawer } from '@/components/drawer'
 import { DynamicTable } from '@/components/dynamic-table'
 import { QuestionCircleTwoTone } from '@/components/icons'
 import { contentModes as modes } from '@/constants/content'
@@ -108,16 +107,16 @@ const title = computed(() => {
 })
 
 const showDetail = ref(false)
-const initParam = ref<IBaseSample.BaseSamplesParam>({
-  searchEndDate: '',
-  searchStartDate: '',
-  searchWord: '',
-  searchDivision: '',
-  searchPermission: '',
-  size: 10,
-  page: 1,
-  sort: undefined
-})
+// const initParam = ref<IBaseSample.BaseSamplesParam>({
+//   searchEndDate: '',
+//   searchStartDate: '',
+//   searchWord: '',
+//   searchDivision: '',
+//   searchPermission: '',
+//   size: 10,
+//   page: 1,
+//   sort: undefined
+// })
 
 const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
 const profileImg = computed(() => {

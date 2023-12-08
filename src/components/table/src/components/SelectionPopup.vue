@@ -43,7 +43,7 @@ function onCancel() {
     text-align: center;
     line-height: normal;
     font-size: 13px;
-    background-color: $color-white;
+    background-color: $bg-color;
     border: 1.5px solid v-bind(roundColor);
     font-weight: 500;
     box-shadow: 2px 2px 5px $color-gray-5;

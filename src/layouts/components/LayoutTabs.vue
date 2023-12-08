@@ -35,7 +35,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="Tabs">
+<script setup lang="ts" name="LayoutTabs">
 import router from '@/router'
 import { Util } from '@/utils'
 import { Tabs } from 'ant-design-vue'
