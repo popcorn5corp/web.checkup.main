@@ -367,6 +367,15 @@ export const menus: any = [
           namePath: ['components', 'components-card'],
           fullPath: '/components/card'
         }
+      },
+      {
+        path: 'list',
+        name: 'components-list',
+        meta: {
+          title: 'List',
+          namePath: ['components', 'components-list'],
+          fullPath: '/components/list'
+        }
       }
     ]
   }

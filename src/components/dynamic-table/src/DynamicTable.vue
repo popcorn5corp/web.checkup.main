@@ -80,8 +80,9 @@
           :class="[getTheme.isRealDarkTheme && 'dark']"
         >
           <div class="title">
-            <span> 게시물 상세 </span>
-            <Button :size="'small'" @click="$emit('update:openDetail', false)">
+            <slot name="detail-title"></slot>
+
+            <Button :size="'small'" @click="$emit('update:openDetail', false)" style="float: right">
               <template #icon>
                 <font-awesome-icon class="xmark" :icon="['fas', 'xmark']" />
               </template>

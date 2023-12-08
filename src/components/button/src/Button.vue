@@ -11,8 +11,8 @@
   >
     <ButtonIcon v-if="icon" :icon="icon" />
     <slot v-else name="icon"></slot>
-
     {{ label }}
+    <slot />
   </Button>
 </template>
 
