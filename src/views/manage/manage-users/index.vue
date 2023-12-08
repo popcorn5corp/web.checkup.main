@@ -9,7 +9,6 @@
     :data-request="getDataSource"
     :data-callback="dataCallback"
     :column-request="getColumns"
-    :deleteBtnLabel="'내보내기'"
     @row-click="onClickRow"
     @row-delete="onRemovePost"
     @row-add="onClickInvite"
@@ -24,7 +23,7 @@
           <DeleteTwoTone />
         </template>
       </Button>
-      <Button :label="'초대하기'" size="middle" @click="$emit('row-add')">
+      <Button :label="'초대하기'" size="middle" @click="$emit('row-add', (isOpen = true))">
         <template #icon>
           <PlusCircleTwoTone />
         </template>
@@ -52,15 +51,22 @@
     </template>
   </DynamicTable>
 
-  <Modal v-model:open="isOpen" class="invite-modal" :width="1000" destroyOnClose>
-    <template #title>
+  <Modal
+    title="사용자 초대"
+    v-model:open="isOpen"
+    class="invite-modal"
+    :width="1000"
+    destroyOnClose
+  >
+    <!-- <template #title>
       <h1 style="font-size: 22px; margin-bottom: 1rem">사용자 초대</h1>
-    </template>
+    </template> -->
     <Spin :spinning="isLoading">
       <p style="font-size: 18px">000 워크스페이스로 사용자를 초대해보세요.</p>
+      <div class="line"></div>
       <div class="invite-form-wrapper">
-        <h3 class="title">email로 직장동료 추가</h3>
-        <InviteMemberForm :isShowDescription="false" />
+        <h3 class="title">이메일로 직장동료 추가</h3>
+        <InviteMemberForm ref="inviteMemberRef" :isShowDescription="false" />
         <br />
         <h3 class="title">다음 그룹으로 초대</h3>
         <Select />
@@ -68,14 +74,13 @@
     </Spin>
 
     <template #footer>
-      <Button key="cancel" @click="onCancel" :label="$t('component.button.cancel')" />
+      <Button @click="onCancelModal" :label="$t('component.button.cancel')" />
       <Popconfirm
         title="사용자를 초대하시겠습니까?"
         ok-text="초대"
         cancel-text="취소"
         placement="topRight"
         @confirm="onOpenSaveModal"
-        @cancel="cancel"
       >
         <Button key="save" type="primary" :label="'초대하기'" />
       </Popconfirm>
@@ -86,7 +91,7 @@
 import ExcelImage from '@/assets/images/excel.png'
 import PdfImage from '@/assets/images/pdf.png'
 import PptImage from '@/assets/images/ppt.png'
-import { BaseSampleService } from '@/services'
+import { BaseSampleService, ManageUserService } from '@/services'
 import { Modal, Popconfirm, Spin, message } from 'ant-design-vue'
 import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -105,6 +110,7 @@ const { t } = useI18n()
 
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 const postDetailRef = ref()
+const inviteMemberRef = ref()
 const isOpen = ref(true)
 const isLoading = ref(false)
 const mode = ref<ContentMode>(DEFAULT_MODE)
@@ -141,9 +147,9 @@ const profileImg = computed(() => {
   BaseSampleService.getPermissionCodes()
 })()
 
-const getFilters = () => {
-  return BaseSampleService.getPageInfo()
-}
+// const getFilters = () => {
+//   return BaseSampleService.getPageInfo()
+// }
 
 /**
  * @description 데이터 테이블 Record 선택 후, 게시물 상세 조회
@@ -197,38 +203,26 @@ const getColumns = () => {
 /**
  * @description 게시물 등록 및 수정
  */
-const onOpenSaveModal = (): void => {
-  // Modal.confirm({
-  //   content: t('common.message.modalSaveCheck'),
-  //   icon: createVNode(QuestionCircleTwoTone),
-  //   onOk() {
-  //     postDetailRef.value.onSubmit().then(() => {
-  //       callServiceByMode(() => {
-  //         dynamicTableRef.value?.reload({ isReset: true })
-  //         initState()
+const onOpenSaveModal = async () => {
+  try {
+    // 엔터 칠 때
+    // const {data} = ManageUserService.checkDuplicatedEmail()
+    const inviteEmails = inviteMemberRef.value.tags
+    console.log('ref', inviteEmails)
 
-  //         setTimeout(() => {
-  //           message.success(t('common.message.saveSuccess'), 1)
-  //         }, 300)
-  //       })
-  //     })
-  //   },
-  //   async onCancel() {}
-  // })
-  ////
-  // inviteMemberFormRef.value.onSubmit().then(() => {
-  //   callServiceByMode(() => {
-  //     dynamicTableRef.value?.reload({ isReset: true })
-  //     initState()
+    // 사용자 초대
+    // const { data } = await ManageUserService.inviteUsers(inviteEmails)
+    // console.log('사용자 초대--> ', data)
+    // message.success(t('common.message.saveSuccess'), 1)
+    initState()
+  } finally {
+    inviteMemberRef.value.onInitInviteEmails()
+  }
+}
 
-  //     setTimeout(() => {
-  //       message.success(t('common.message.saveSuccess'), 1)
-  //     }, 300)
-  //   })
-  // })
-  initState()
-  // success
-  message.success(t('common.message.saveSuccess'), 1)
+const onCancelModal = (): void => {
+  isOpen.value = false
+  // inviteMemberRef.value.tags = []
 }
 
 /**
@@ -317,7 +311,7 @@ const onRemovePost = (selectedRows: IBaseSample.Content[], selectedRowKeys: stri
  */
 const onCancel = (): void => {
   mode.value = DEFAULT_MODE
-  postDetailRef.value.rollbackPost()
+  // postDetailRef.value.rollbackPost()
 }
 
 const initState = (): void => {
@@ -328,11 +322,14 @@ const initState = (): void => {
 const onClickInvite = (): void => {
   isOpen.value = true
   mode.value = modes.C
-  selectedPost.value = getDefaultPost()
+  // selectedPost.value = getDefaultPost()
 }
 </script>
 
 <style lang="scss" scoped>
+p {
+  margin: 0;
+}
 .detail-contents {
   .profile {
     display: flex;
@@ -356,11 +353,16 @@ const onClickInvite = (): void => {
     padding: 10px;
   }
 }
-
+.line {
+  width: 100%;
+  height: 1px;
+  background: #ddd;
+  margin: 1rem 0;
+}
 .invite-form-wrapper {
-  border: 1px solid $border-color;
-  border-radius: 8px;
-  padding: 1rem;
+  .title {
+    font-weight: 600;
+  }
 }
 
 // .detail-wrapper {

@@ -6,6 +6,13 @@ class WorkspaceService {
 
   constructor() {}
 
+  // 워크스페이스 유저 기본 정보 조회
+  getWorkspaceUserInfo(workspaceId: string) {
+    return service.get<IWorkspace.WorkspaceUserInfoResponse>(
+      this.PATH + `/workspaces/${workspaceId}/me`
+    )
+  }
+
   // 워크스페이스 목록 조회
   getWorkspaceList(param?: IWorkspace.WorkspaceListParam) {
     return service.get<IWorkspace.WorkspaceListResponse>(this.PATH + '/user/workspaces', param)

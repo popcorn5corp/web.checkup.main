@@ -86,6 +86,10 @@ const onInputEnter = async (event: KeyboardEvent) => {
   }
 }
 
+const onInitInviteEmails = () => {
+  workspaceStore.initFormValueInviteEmails()
+}
+
 const onRemove = (tag: string) => {
   workspaceStore.removeFormValueInviteEmails(tag)
 }
@@ -105,6 +109,12 @@ watch(emailRef, () => {
   if (!emailRef.value.length) {
     resetError()
   }
+})
+
+defineExpose({
+  isError,
+  tags,
+  onInitInviteEmails
 })
 </script>
 

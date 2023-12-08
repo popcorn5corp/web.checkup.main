@@ -5,40 +5,45 @@ export namespace IManageUser {
     empty: boolean
   }
   export interface UserListParam {
-    searchWord: string[]
+    searchWord: string
   }
+
+  export interface UserInfo {
+    workspaceUserId: string
+    userName: string
+    email: string
+    phone: string
+    joinDate: string
+    userStatus: {
+      label: string
+      value: string
+    }
+    thumbnail: ThumbnailInfo
+  }
+
+  export interface ThumbnailInfo {
+    fileId: string
+    name: string
+    originName: string
+    url: string
+    path: string
+    ext: string
+    size: number
+  }
+
+  export interface PageableInfo {
+    sort: SortInfo
+    pageNumber: number
+    pageSize: number
+    offset: number
+    paged: boolean
+    unpaged: boolean
+  }
+
   export interface UserListRequest {
     workspaceUsers: {
-      content: [
-        {
-          workspaceUserId: string
-          userName: string
-          email: string
-          phone: string
-          joinDate: string
-          userStatus: {
-            label: string
-            value: string
-          }
-          thumbnail: {
-            fileId: string
-            name: string
-            originName: string
-            url: string
-            path: string
-            ext: string
-            size: number
-          }
-        }
-      ]
-      pageable: {
-        sort: SortInfo
-        pageNumber: number
-        pageSize: number
-        offset: number
-        paged: boolean
-        unpaged: boolean
-      }
+      content: UserInfo[]
+      pageable: PageableInfo[]
       last: boolean
       totalPages: number
       totalElements: number
