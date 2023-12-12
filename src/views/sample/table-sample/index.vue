@@ -12,6 +12,9 @@
     @row-delete="onRemovePost"
     @row-add="onClickRegist"
   >
+    <template #detail-title>
+      <span>게시물 상세</span>
+    </template>
     <template #detail-content>
       <div class="detail-contents">
         <div class="profile">

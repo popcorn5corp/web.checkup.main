@@ -330,6 +330,17 @@ export const staticRoutes: RouteRecordRaw[] = [
         meta: {
           title: 'Card'
         }
+      },
+      {
+        path: 'list',
+        name: 'components-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-list" */ '@/views/ComponentsOverview/list/index.vue'
+          ),
+        meta: {
+          title: 'List'
+        }
       }
     ]
   },
