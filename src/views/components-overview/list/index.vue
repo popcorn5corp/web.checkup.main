@@ -40,8 +40,8 @@
           </a-skeleton>
         </ListItem>
       </template>
-    </List></template
-  >
+    </List>
+  </template>
 </template>
 
 <script setup lang="ts" name="ComponentsOverviewList">
