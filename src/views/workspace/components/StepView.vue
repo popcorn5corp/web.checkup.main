@@ -129,9 +129,6 @@ const onComplete = async () => {
     }
 
     workspaceStore.nextCurrentStep()
-  } catch (err) {
-    message.error(t('common.message.reTry'))
-    console.log(err)
   } finally {
     isLoading.value = false
   }
