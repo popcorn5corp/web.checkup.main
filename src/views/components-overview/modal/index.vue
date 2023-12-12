@@ -9,6 +9,9 @@
         내용내용내용내용내용내용내용내용내용내용내용내용...<br />
         내용내용내용내용내용내용내용내용내용내용내용내용내용내용...<br />
       </div>
+      <br />
+      <h3>중간 타이틀</h3>
+      <Select style="width: 100%" />
     </template>
     <template #closeBtn>
       <Button label="취소" @click="isVisible = false" />
@@ -20,6 +23,7 @@
 </template>
 
 <script setup lang="ts" name="ComponentsOverviewModal">
+import { Select } from 'ant-design-vue'
 import { ref } from 'vue'
 import { Button } from '@/components/button'
 import { Modal } from '@/components/modal'

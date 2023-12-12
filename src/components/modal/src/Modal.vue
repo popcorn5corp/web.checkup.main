@@ -49,7 +49,7 @@ const isOpen = ref(true)
     text-align: center;
   }
   .modal-body {
-    margin: 28px 0 23px;
+    margin: 25px 0 30px;
     :deep(.ant-modal-content) {
       padding: 34px 25px 1rem;
     }
