@@ -33,44 +33,37 @@ const meta: Meta<ComponentProps<typeof Modal>> = {
 export default meta
 type Story = StoryObj<typeof Modal>
 
+const sampleTemplate = `
+  <div style="width: 100%; text-align: center; padding: 1rem 0">
+    <Button label="Open Modal" @click="isVisible = true"/>
+  </div>
+  <Modal v-if="isVisible" @close="isVisible = false" :positionCenter="false">
+    <template #title>모달 제목</template>
+    <template #desciption>모달 설명</template>
+    <template #body>
+      <div>
+        모달 내용내용내용내용...<br />
+        모달 내용내용내용내용내용내용...<br />
+        모달 내용내용내용내용내용내용내용내용...<br />
+      </div>
+    </template>
+    <template #closeBtn>
+      <Button label="취소" @click="isVisible = false" />
+    </template>
+    <template #completeBtn>
+      <Button label="완료" type="primary" @click="handleComplete" />
+    </template>
+  </Modal>
+`
+
 export const Default: Story = {
   render: (args) => ({
     components: { Button, Modal },
     setup() {
-      const isVisible = ref(false)
-
-      const handleComplete = () => {
-        isVisible.value = false
-      }
-
-      return {
-        ...args,
-        isVisible,
-        handleComplete
-      }
+      const { isVisible, handleComplete } = setupModal()
+      return { ...args, isVisible, handleComplete }
     },
-    template: `
-    <div style="width: 100%; text-align: center; padding: 1rem 0">
-      <Button label="Open Modal" @click="isVisible = true"/>
-    </div>
-    <Modal v-if="isVisible" @close="isVisible = false">
-      <template #title>모달 제목</template>
-      <template #desciption>모달 설명</template>
-      <template #body>
-        <div>
-          모달 내용내용내용내용...<br />
-          모달 내용내용내용내용내용내용...<br />
-          모달 내용내용내용내용내용내용내용내용...<br />
-        </div>
-      </template>
-      <template #closeBtn>
-        <Button label="취소" @click="isVisible = false" />
-      </template>
-      <template #completeBtn>
-        <Button label="완료" type="primary" @click="handleComplete" />
-      </template>
-    </Modal>
-    `
+    template: sampleTemplate
   })
 }
 
@@ -78,39 +71,22 @@ export const PositionCenter: Story = {
   render: (args) => ({
     components: { Button, Modal },
     setup() {
-      const isVisible = ref(false)
-
-      const handleComplete = () => {
-        isVisible.value = false
-      }
-
-      return {
-        ...args,
-        isVisible,
-        handleComplete
-      }
+      const { isVisible, handleComplete } = setupModal()
+      return { ...args, isVisible, handleComplete }
     },
-    template: `
-    <div style="width: 100%; text-align: center; padding: 1rem 0">
-      <Button label="Open Modal" @click="isVisible = true"/>
-    </div>
-    <Modal v-if="isVisible" @close="isVisible = false" positionCenter="true">
-      <template #title>모달 제목</template>
-      <template #desciption>모달 설명</template>
-      <template #body>
-        <div>
-          모달 내용내용내용내용...<br />
-          모달 내용내용내용내용내용내용...<br />
-          모달 내용내용내용내용내용내용내용내용...<br />
-        </div>
-      </template>
-      <template #closeBtn>
-        <Button label="취소" @click="isVisible = false" />
-      </template>
-      <template #completeBtn>
-        <Button label="완료" type="primary" @click="handleComplete" />
-      </template>
-    </Modal>
-    `
+    template: sampleTemplate.replace(':positionCenter="false"', ':positionCenter="true"')
   })
+}
+
+function setupModal() {
+  const isVisible = ref(false)
+
+  const handleComplete = () => {
+    isVisible.value = false
+  }
+
+  return {
+    isVisible,
+    handleComplete
+  }
 }
