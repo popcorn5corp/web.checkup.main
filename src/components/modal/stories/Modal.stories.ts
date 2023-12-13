@@ -5,6 +5,15 @@ import type { ComponentProps } from 'vue-component-type-helpers'
 import Button from '@/components/button/src/Button.vue'
 import { Modal } from '../src'
 
+type TemplateOptions = {
+  isCenter: boolean
+  useTitle: boolean
+  useDesc: boolean
+  useBody: boolean
+  useCloseBtn: boolean
+  useCompleteBtn: boolean
+}
+
 const meta: Meta<ComponentProps<typeof Modal>> = {
   title: 'checkupuikit/Atoms/Modal',
   component: Modal,
@@ -33,60 +42,75 @@ const meta: Meta<ComponentProps<typeof Modal>> = {
 export default meta
 type Story = StoryObj<typeof Modal>
 
-const sampleTemplate = `
-  <div style="width: 100%; text-align: center; padding: 1rem 0">
+const defaultOptions = {
+  isCenter: false,
+  useTitle: true,
+  useDesc: true,
+  useBody: true,
+  useCloseBtn: true,
+  useCompleteBtn: true
+}
+
+const baseTemplate = ({
+  isCenter,
+  useTitle,
+  useDesc,
+  useBody,
+  useCloseBtn,
+  useCompleteBtn
+}: TemplateOptions) => {
+  return `<div style="width: 100%; text-align: center; padding: 1rem 0">
     <Button label="Open Modal" @click="isVisible = true"/>
   </div>
-  <Modal v-if="isVisible" @close="isVisible = false" :positionCenter="false">
-    <template #title>모달 제목</template>
-    <template #desciption>모달 설명</template>
-    <template #body>
+  <Modal v-if="isVisible" @close="isVisible = false" :positionCenter="${isCenter}">
+    <template #title v-if="${useTitle}">모달 제목</template>
+    <template #desciption v-if="${useDesc}">모달 설명</template>
+    <template #body v-if="${useBody}">
       <div>
         모달 내용내용내용내용...<br />
         모달 내용내용내용내용내용내용...<br />
         모달 내용내용내용내용내용내용내용내용...<br />
       </div>
     </template>
-    <template #closeBtn>
+    <template #closeBtn v-if="${useCloseBtn}">
       <Button label="취소" @click="isVisible = false" />
     </template>
-    <template #completeBtn>
+    <template #completeBtn v-if="${useCompleteBtn}">
       <Button label="완료" type="primary" @click="handleComplete" />
     </template>
-  </Modal>
-`
+  </Modal>`
+}
 
-export const Default: Story = {
+const generateStory = (options: TemplateOptions): StoryObj<typeof Modal> => ({
   render: (args) => ({
     components: { Button, Modal },
     setup() {
-      const { isVisible, handleComplete } = setupModal()
-      return { ...args, isVisible, handleComplete }
+      const isVisible = ref(false)
+
+      const handleComplete = () => {
+        isVisible.value = false
+      }
+
+      return {
+        ...args,
+        isVisible,
+        handleComplete
+      }
     },
-    template: sampleTemplate
+    template: baseTemplate(options)
   })
-}
+})
 
-export const PositionCenter: Story = {
-  render: (args) => ({
-    components: { Button, Modal },
-    setup() {
-      const { isVisible, handleComplete } = setupModal()
-      return { ...args, isVisible, handleComplete }
-    },
-    template: sampleTemplate.replace(':positionCenter="false"', ':positionCenter="true"')
-  })
-}
+export const Default: Story = generateStory(defaultOptions)
 
-function setupModal() {
-  const isVisible = ref(false)
+export const PositionCenter: Story = generateStory({ ...defaultOptions, isCenter: true })
 
-  const handleComplete = () => {
-    isVisible.value = false
-  }
+export const NoTitle: Story = generateStory({ ...defaultOptions, useTitle: false })
 
-  return {
-    isVisible,
-    handleComplete
-  }
-}
+export const NoDesc: Story = generateStory({ ...defaultOptions, useDesc: false })
+
+export const NoBody: Story = generateStory({ ...defaultOptions, useBody: false })
+
+export const NoCloseBtn: Story = generateStory({ ...defaultOptions, useCloseBtn: false })
+
+export const NoCompleteBtn: Story = generateStory({ ...defaultOptions, useCompleteBtn: false })
