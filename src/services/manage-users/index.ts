@@ -7,7 +7,7 @@ class ManageUserService {
   constructor() {}
 
   // 사용자 목록 조회
-  getUserList(param: IManageUser.UserListParam, workspaceId: string) {
+  getUserList(workspaceId: string, param: IManageUser.UserListParam) {
     return service.get<IManageUser.UserListRequest>(this.PATH + `/${workspaceId}/users`, param)
   }
 

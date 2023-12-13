@@ -114,6 +114,7 @@ watch(emailRef, () => {
 defineExpose({
   isError,
   tags,
+  onInputEnter,
   onInitInviteEmails
 })
 </script>
