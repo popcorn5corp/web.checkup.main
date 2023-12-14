@@ -7,6 +7,7 @@
     :filter-request="getFilters"
     :data-request="getDataSource"
     :data-callback="dataCallback"
+    :content-callback="contentCallback"
     :column-request="getColumns"
     @row-click="onClickRow"
     @row-delete="onRemovePost"
@@ -77,7 +78,7 @@ import { BaseSampleService } from '@/services'
 import { Modal, Spin, message } from 'ant-design-vue'
 import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { IBaseSample } from '@/services/BaseSample/interface'
+import type { IBaseSample } from '@/services/base-sample/interface'
 import { Button } from '@/components/button'
 import { Drawer } from '@/components/drawer'
 import { DynamicTable } from '@/components/dynamic-table'
@@ -184,8 +185,13 @@ const getDataSource = (param: IBaseSample.BaseSamplesParam) => {
  * @description 데이터 테이블 조회 이후 테이블에 바인딩하기 전, 데이터에 대한 전치리
  * @param data
  */
-const dataCallback = (data: IBaseSample.BaseSamples['posts']['content']) => {
-  return data
+const dataCallback = (data: { posts: IBaseSample.BaseSamples['posts'] }) => {
+  const { posts } = data
+  return posts
+}
+
+const contentCallback = (content: IBaseSample.BaseSamples['posts']['content']) => {
+  return content
 }
 
 const getColumns = () => {
