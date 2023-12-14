@@ -1,18 +1,27 @@
 import { withActions } from '@storybook/addon-actions/decorator'
 import type { Meta, StoryObj } from '@storybook/vue3'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import Button from '@/components/button/src/Button.vue'
 import { Modal } from '../src'
 
 type TemplateOptions = {
-  isCenter: boolean
+  positionCenter: boolean
   useTitle: boolean
   useDesc: boolean
   useBody: boolean
-  useCloseBtn: boolean
-  useCompleteBtn: boolean
+  useCancelBtn: boolean
+  useOkBtn: boolean
 }
+
+const defaultOptions = computed(() => ({
+  positionCenter: false,
+  useTitle: true,
+  useDesc: true,
+  useBody: true,
+  useCancelBtn: true,
+  useOkBtn: true
+}))
 
 const meta: Meta<ComponentProps<typeof Modal>> = {
   title: 'checkupuikit/Atoms/Modal',
@@ -31,10 +40,40 @@ const meta: Meta<ComponentProps<typeof Modal>> = {
         type: { summary: 'boolean' },
         defaultValue: { summary: false }
       }
+    },
+    okBtnText: {
+      description: '완료 버튼 텍스트',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: `완료` }
+      }
+    },
+    useOkBtn: {
+      description: '완료 버튼 사용여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: true }
+      }
+    },
+    cancelBtnText: {
+      description: '취소 버튼 텍스트',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: `취소` }
+      }
+    },
+    useCancelBtn: {
+      description: '취소 버튼 사용여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: true }
+      }
     }
   },
   args: {
-    positionCenter: false
+    ...defaultOptions.value,
+    cancelBtnText: `취소`,
+    okBtnText: `완료`
   },
   decorators: [withActions]
 }
@@ -42,46 +81,7 @@ const meta: Meta<ComponentProps<typeof Modal>> = {
 export default meta
 type Story = StoryObj<typeof Modal>
 
-const defaultOptions = {
-  isCenter: false,
-  useTitle: true,
-  useDesc: true,
-  useBody: true,
-  useCloseBtn: true,
-  useCompleteBtn: true
-}
-
-const baseTemplate = ({
-  isCenter,
-  useTitle,
-  useDesc,
-  useBody,
-  useCloseBtn,
-  useCompleteBtn
-}: TemplateOptions) => {
-  return `<div style="width: 100%; text-align: center; padding: 1rem 0">
-    <Button label="Open Modal" @click="isVisible = true"/>
-  </div>
-  <Modal v-if="isVisible" @close="isVisible = false" :positionCenter="${isCenter}">
-    <template #title v-if="${useTitle}">모달 제목</template>
-    <template #desciption v-if="${useDesc}">모달 설명</template>
-    <template #body v-if="${useBody}">
-      <div>
-        모달 내용내용내용내용...<br />
-        모달 내용내용내용내용내용내용...<br />
-        모달 내용내용내용내용내용내용내용내용...<br />
-      </div>
-    </template>
-    <template #closeBtn v-if="${useCloseBtn}">
-      <Button label="취소" @click="isVisible = false" />
-    </template>
-    <template #completeBtn v-if="${useCompleteBtn}">
-      <Button label="완료" type="primary" @click="handleComplete" />
-    </template>
-  </Modal>`
-}
-
-const generateStory = (options: TemplateOptions): StoryObj<typeof Modal> => ({
+const generateStory = (isChange: boolean, options: TemplateOptions): StoryObj<typeof Modal> => ({
   render: (args) => ({
     components: { Button, Modal },
     setup() {
@@ -91,26 +91,52 @@ const generateStory = (options: TemplateOptions): StoryObj<typeof Modal> => ({
         isVisible.value = false
       }
 
+      if (isChange) {
+        args = options
+      }
+
       return {
-        ...args,
+        args,
+        options,
         isVisible,
         handleComplete
       }
     },
-    template: baseTemplate(options)
+    template: `
+      <div style="width: 100%; text-align: center; padding: 1rem 0">
+        <Button label="Open Modal" @click="isVisible = true"/>
+      </div>
+      <Modal v-if="isVisible" @cancel="isVisible = false" @ok="handleComplete" :positionCenter="args.positionCenter" :cancelBtnText="args.cancelBtnText" :useCancelBtn="args.useCancelBtn" :useOkBtn="args.useOkBtn" :okBtnText="args.okBtnText">
+        <template #title v-if="args.useTitle">모달 제목</template>
+        <template #desciption v-if="args.useDesc">모달 설명</template>
+        <template #body v-if="args.useBody">
+          <div>
+            모달 내용내용내용내용...<br />
+            모달 내용내용내용내용내용내용...<br />
+            모달 내용내용내용내용내용내용내용내용...<br />
+          </div>
+        </template>
+      </Modal>
+    `
   })
 })
 
-export const Default: Story = generateStory(defaultOptions)
+export const Default: Story = generateStory(false, defaultOptions.value)
 
-export const PositionCenter: Story = generateStory({ ...defaultOptions, isCenter: true })
+export const PositionCenter: Story = generateStory(true, {
+  ...defaultOptions.value,
+  positionCenter: true
+})
 
-export const NoTitle: Story = generateStory({ ...defaultOptions, useTitle: false })
+export const NoTitle: Story = generateStory(true, { ...defaultOptions.value, useTitle: false })
 
-export const NoDesc: Story = generateStory({ ...defaultOptions, useDesc: false })
+export const NoDesc: Story = generateStory(true, { ...defaultOptions.value, useDesc: false })
 
-export const NoBody: Story = generateStory({ ...defaultOptions, useBody: false })
+export const NoBody: Story = generateStory(true, { ...defaultOptions.value, useBody: false })
 
-export const NoCloseBtn: Story = generateStory({ ...defaultOptions, useCloseBtn: false })
+export const NoCancelBtn: Story = generateStory(true, {
+  ...defaultOptions.value,
+  useCancelBtn: false
+})
 
-export const NoCompleteBtn: Story = generateStory({ ...defaultOptions, useCompleteBtn: false })
+export const NoOkBtn: Story = generateStory(true, { ...defaultOptions.value, useOkBtn: false })
