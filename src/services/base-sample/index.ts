@@ -43,6 +43,7 @@ class BaseSampleService {
   getPermissionCodes() {
     return service.get<CodeResponse>(this.PATH + '/codes').then(({ data, success }) => {
       if (success) {
+        console.log('fffff ', data)
         this._permissionCodes = data.codes
       }
       // return data.codes

@@ -38,7 +38,7 @@
 
   <!-- <Drawer v-model:open="openDrawer" /> -->
 
-  <!-- <Modal v-model:open="isOpen" :title="title" :width="1000" destroyOnClose>
+  <Modal v-model:open="isOpen" :title="title" :width="500" destroyOnClose>
     <Spin :spinning="isLoading">
       <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
     </Spin>
@@ -67,7 +67,7 @@
       />
       <Button key="close" @click="onCloseModal" :label="$t('component.button.close')" />
     </template>
-  </Modal> -->
+  </Modal>
 </template>
 <script setup lang="ts" name="TableSample">
 import ExcelImage from '@/assets/images/excel.png'
@@ -133,9 +133,9 @@ const profileImg = computed(() => {
   }
 })
 
-;(() => {
-  BaseSampleService.getPermissionCodes()
-})()
+// ;(() => {
+//   BaseSampleService.getPermissionCodes()
+// })()
 
 const getFilters = () => {
   return BaseSampleService.getPageInfo()
@@ -340,31 +340,4 @@ const onClickRegist = (): void => {
     padding: 10px;
   }
 }
-// .detail-wrapper {
-//   flex: 2;
-//   background-color: $color-white;
-//   // height: 100%;
-//   position: absolute;
-//   width: 500px;
-//   z-index: 2;
-//   right: 0;
-//   height: 100%;
-//   margin-right: -15px;
-//   margin-top: -15px;
-
-//   border: 0.5px solid $color-gray-4;
-
-//   > .title {
-//     display: flex;
-//     font-size: 16px;
-//     font-weight: bold;
-//     justify-content: space-between;
-//     padding: 18.5px;
-//     align-items: end;
-//   }
-
-//   :deep(.ant-divider) {
-//     margin: 0;
-//   }
-// }
 </style>
