@@ -4,7 +4,8 @@
     :width="500"
     destroyOnClose
     v-model:open="isOpen"
-    :centered="positionCenter"
+    :centered="props.positionCenter"
+    @cancel="emit('cancel')"
   >
     <template #title>
       <div class="modal-title">
@@ -20,8 +21,8 @@
 
     <template #footer>
       <div class="modal-btns-wrapper">
-        <slot name="closeBtn"></slot>
-        <slot name="completeBtn"></slot>
+        <Button v-if="useCancelBtn" :label="props.cancelBtnText" @click="emit('cancel')" />
+        <Button v-if="useOkBtn" :label="props.okBtnText" type="primary" @click="emit('ok')" />
       </div>
     </template>
   </Modal>
@@ -31,8 +32,31 @@
 import { Modal } from 'ant-design-vue'
 import { ref } from 'vue'
 
-defineEmits(['close', 'update:isVisible'])
-const { positionCenter } = defineProps(['positionCenter'])
+const emit = defineEmits(['ok', 'cancel', 'update:isVisible'])
+const props = defineProps({
+  positionCenter: {
+    type: Boolean,
+    default: false
+  },
+
+  okBtnText: {
+    type: String,
+    default: '완료'
+  },
+  useOkBtn: {
+    type: Boolean,
+    default: true
+  },
+
+  cancelBtnText: {
+    type: String,
+    default: '취소'
+  },
+  useCancelBtn: {
+    type: Boolean,
+    default: true
+  }
+})
 const isOpen = ref(true)
 </script>
 

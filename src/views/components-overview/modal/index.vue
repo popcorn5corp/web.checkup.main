@@ -1,6 +1,14 @@
 <template>
   <Button label="Open Modal" @click="isVisible = true" />
-  <Modal v-if="isVisible" @close="isVisible = false">
+  <Modal
+    v-if="isVisible"
+    @cancel="isVisible = false"
+    @ok="handleComplete"
+    :cancelBtnText="'이전'"
+    :okBtnText="'다음'"
+    :positionCenter="true"
+    :useCancelBtn="false"
+  >
     <template #title>사용자 초대</template>
     <template #desciption>이메일로 사용자를 초대해보세요.</template>
     <template #body>
@@ -12,12 +20,6 @@
       <br />
       <h3>중간 타이틀</h3>
       <Select style="width: 100%" />
-    </template>
-    <template #closeBtn>
-      <Button label="취소" @click="isVisible = false" />
-    </template>
-    <template #completeBtn>
-      <Button label="완료" type="primary" @click="handleComplete" />
     </template>
   </Modal>
 </template>
