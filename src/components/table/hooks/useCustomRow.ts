@@ -7,9 +7,9 @@ interface Options {
 
 export function useCustomRow(options: Options) {
   const { emit } = options
-  const selectedRowIndex = ref()
+  const selectedRowIndex = ref<number | null>(null)
 
-  const customRow = (record: Recordable, index: number) => {
+  function customRow(record: Recordable, index: number) {
     return {
       onClick: (event: Event) => {
         selectedRowIndex.value = index
@@ -21,13 +21,18 @@ export function useCustomRow(options: Options) {
     }
   }
 
-  const rowClassName = (record: any, index: number) => {
+  function rowClassName(record: any, index: number) {
     return selectedRowIndex.value === index ? 'table-row-focus' : ''
+  }
+
+  function initCustomRow() {
+    selectedRowIndex.value = null
   }
 
   return {
     customRow,
     rowClassName,
-    emit
+    emit,
+    initCustomRow
   }
 }

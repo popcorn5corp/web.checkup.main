@@ -125,7 +125,6 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       filterParam && (state.filterParam = filterParam)
 
       let requestParam: State['requestParam'] = {
-        // ...initParam,
         ...state.filterParam
       }
 
