@@ -1,33 +1,54 @@
 <script setup lang="ts" name="FilterSelect">
 import { Select } from 'ant-design-vue'
-import type { RawValueType } from 'ant-design-vue/es/vc-select/BaseSelect'
-import type { LabelInValueType } from 'ant-design-vue/es/vc-select/Select'
-import { toRefs } from 'vue'
-import { useTableFilterStore } from '@/stores/modules/tableFilter'
+import type { SelectProps, SelectValue } from 'ant-design-vue/es/select'
+import { computed, ref, watch } from 'vue'
+import { unref } from 'vue'
+import type { Ref } from 'vue'
+import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import type { FilterFormItem } from '../../../types'
 
-const props = defineProps({
-  item: {
-    type: Object as PropType<FilterFormItem>,
-    default: () => {}
+interface FilterSelectProps {
+  item: FilterFormItem
+}
+
+const props = defineProps<FilterSelectProps>()
+const dynamicTable = useDynamicTableContext()
+const formItem = computed(() => props.item)
+const selectOptions = ref([...unref(formItem).options]) as Ref<SelectProps['options']>
+const selectedValue = ref()
+
+/**
+ * @description 외부에서 selectedItems의 정보가 변경되었을 경우, checkedList에 적용
+ */
+watch(
+  () => unref(formItem).selectedItems,
+  (selectedItems) => {
+    selectedValue.value = selectedItems && selectedItems.length > 0 ? selectedItems[0].value : null
+  },
+  {
+    immediate: true,
+    deep: true
   }
-})
+)
 
-const { type, options, selectedItems } = toRefs(props.item)
-const { setSelectedFilterData } = useTableFilterStore()
+const onChange = (value: SelectValue) => {
+  const { options } = unref(formItem)
+  const selectedItems = options.filter((option) => option.value === value)
+  const filterFormItem: FilterFormItem = {
+    ...unref(formItem),
+    selectedItems
+  }
 
-const onSelect = (value: RawValueType | LabelInValueType, option: LabelValueType) => {
-  setSelectedFilterData(type.value, [option])
+  dynamicTable.setFilterFormItem(filterFormItem)
 }
 </script>
 <template>
-  <!-- @vue-skip -->
   <Select
     :allowClear="true"
-    @select="onSelect"
-    v-model:value="selectedItems"
-    :options="options"
+    :value="selectedValue"
+    :options="selectOptions"
     placeholder="전체"
+    @change="onChange"
   >
     <slot></slot>
   </Select>
@@ -35,6 +56,7 @@ const onSelect = (value: RawValueType | LabelInValueType, option: LabelValueType
 <style lang="scss" scoped>
 .ant-select {
   width: 100%;
+
   :deep(.ant-select-selector) {
     height: 40px !important;
     display: flex;

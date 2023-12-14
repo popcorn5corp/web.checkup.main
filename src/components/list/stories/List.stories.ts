@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import type { ComponentProps } from 'vue-component-type-helpers'
+import ActionList from '@/views/components-overview/list/components/ActionList.vue'
+import CommentList from '@/views/components-overview/list/components/CommentList.vue'
 import { List, ListItem, ListItemMeta } from '../src'
 
 const meta: Meta<ComponentProps<typeof List>> = {
@@ -24,16 +26,20 @@ const meta: Meta<ComponentProps<typeof List>> = {
 export default meta
 type Story = StoryObj<typeof List>
 
-export const Default: Story = {
-  args: {
-    dataSource: []
-  },
+export const CustomCommentList: Story = {
+  render: () => ({
+    components: { CommentList },
 
+    template: `<CommentList/>`
+  })
+}
+
+export const CustomActionList: Story = {
   render: (args) => ({
-    components: { List, ListItem, ListItemMeta },
+    components: { ActionList },
     setup() {
       return { args }
     },
-    template: ` `
+    template: `<ActionList/>`
   })
 }

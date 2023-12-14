@@ -313,6 +313,15 @@ export const menus: any = [
           namePath: ['components', 'components-list'],
           fullPath: '/components/list'
         }
+      },
+      {
+        path: 'form',
+        name: 'components-form',
+        meta: {
+          title: 'Form',
+          namePath: ['components', 'components-form'],
+          fullPath: '/components/form'
+        }
       }
     ]
   }
