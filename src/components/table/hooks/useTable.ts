@@ -183,8 +183,8 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
           })
 
           _dataSource = contentCallback ? contentCallback(content) : content
-          state.pagination.total = totalElements
           _total = totalElements
+          state.pagination.total = totalElements
         }
       } catch (error) {
         if (error instanceof TableError) {

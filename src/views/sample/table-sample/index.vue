@@ -134,9 +134,9 @@ const profileImg = computed(() => {
   }
 })
 
-// ;(() => {
-//   BaseSampleService.getPermissionCodes()
-// })()
+;(() => {
+  BaseSampleService.getPermissionCodes()
+})()
 
 const getFilters = () => {
   return BaseSampleService.getPageInfo()
@@ -182,7 +182,7 @@ const getDataSource = (param: IBaseSample.BaseSamplesParam) => {
 }
 
 /**
- * @description 데이터 테이블 조회 이후 테이블에 바인딩하기 전, 데이터에 대한 전치리
+ * @description 데이터 테이블 조회 이후 data에 대한 전치리
  * @param data
  */
 const dataCallback = (data: { posts: IBaseSample.BaseSamples['posts'] }) => {
@@ -190,6 +190,10 @@ const dataCallback = (data: { posts: IBaseSample.BaseSamples['posts'] }) => {
   return posts
 }
 
+/**
+ * @description 데이터 테이블 조회 이후 content에 대한 전처리
+ * @param content
+ */
 const contentCallback = (content: IBaseSample.BaseSamples['posts']['content']) => {
   return content
 }
