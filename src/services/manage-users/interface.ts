@@ -1,16 +1,26 @@
+import type { IFilter } from '@/components/filter-form/types'
+
+export interface ConditionParam {
+  sort?: string
+  filter?: string
+}
 export namespace IManageUser {
   export interface SortInfo {
     sorted: boolean
     unsorted: boolean
     empty: boolean
   }
-  export interface UserListParam {
+
+  export interface UserListParam extends ConditionParam {
     searchWord: string
+    searchUserStatus: string
+    size: number
+    page: number
   }
 
   export interface UserInfo {
     workspaceUserId: string
-    userName: string
+    nickname: string
     email: string
     phone: string
     joinDate: string
@@ -18,17 +28,9 @@ export namespace IManageUser {
       label: string
       value: string
     }
-    thumbnail: ThumbnailInfo
-  }
-
-  export interface ThumbnailInfo {
-    fileId: string
-    name: string
-    originName: string
-    url: string
-    path: string
-    ext: string
-    size: number
+    thumbnail: {
+      url: string
+    }
   }
 
   export interface PageableInfo {
@@ -56,12 +58,16 @@ export namespace IManageUser {
     }
   }
 
+  export interface FilterResponse {
+    filters: IFilter[]
+  }
+
   export interface DuplicatedEmailParam {
     inviteEmail: string
   }
   export interface DuplicatedEmailResponse {
     inviteEmail: string
-    isExist: boolean
+    exist: boolean
   }
 
   export interface InviteUsersParam {

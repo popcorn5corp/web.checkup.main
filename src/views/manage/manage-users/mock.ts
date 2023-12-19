@@ -1,12 +1,11 @@
 import type { TableColumnsType } from 'ant-design-vue'
-import dayjs from 'dayjs'
 import { FILTER_UI, type FilterList } from '@/components/filter-form'
 
 export const columns: TableColumnsType = [
   {
     title: '이름',
-    dataIndex: 'name',
-    key: 'name'
+    dataIndex: 'nickname',
+    key: 'nickname'
   },
   {
     title: '이메일',
@@ -20,29 +19,15 @@ export const columns: TableColumnsType = [
   },
   {
     title: '가입일',
-    dataIndex: 'joinedAt',
-    key: 'joinedAt',
-    customRender: ({ text }) => {
-      return dayjs.unix(text).format('YYYY-MM-DD')
-    }
+    dataIndex: 'joinDate',
+    key: 'joinDate'
   },
   {
     title: '상태',
-    dataIndex: 'status',
-    key: 'status'
-  }
-]
-
-export const filters: FilterList = [
-  {
-    title: '상태',
-    order: 3,
-    key: ['status'],
-    type: FILTER_UI.CHECKBOX,
-    options: [
-      { label: '관리자', value: 'ADMIN' },
-      { label: '일반', value: 'NORMAL' },
-      { label: '게스트', value: 'GUEST' }
-    ]
+    dataIndex: 'userStatus',
+    key: 'userStatus',
+    customRender: ({ value }) => {
+      return value.label
+    }
   }
 ]

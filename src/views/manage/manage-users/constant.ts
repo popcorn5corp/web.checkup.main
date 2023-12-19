@@ -1,13 +1,9 @@
-import dayjs from 'dayjs'
-import type { IBaseSample } from '@/services/BaseSample/interface'
+import type { IManageUser } from '@/services/manage-users/interface'
 
-export const getDefaultPost = (): IBaseSample.BaseSample => ({
-  boardContent: '',
-  boardFiles: [],
-  boardId: '',
-  boardTitle: '',
-  createdAt: dayjs(dayjs()).unix(),
-  division: '',
-  thumbnail: null,
-  permission: ''
+export const getDefaultPost = (): IManageUser.UserListRequest => ({
+  nickname: '',
+  email: '',
+  phone: '',
+  joinDate: '',
+  userStatus: ''
 })

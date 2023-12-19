@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts" name="InviteMemberForm">
+import { ManageUserService } from '@/services'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { Input, message } from 'ant-design-vue'
 import { type CSSProperties, computed, ref, toRefs } from 'vue'
@@ -41,7 +42,7 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
-const { getFormValues } = toRefs(workspaceStore)
+const { getFormValues, getStepType, getWorkspace } = toRefs(workspaceStore)
 
 const props = defineProps({
   isShowDescription: {
@@ -73,16 +74,38 @@ const onInputEnter = async (event: KeyboardEvent) => {
   try {
     if (!emailValue) return
     if (!regExp.test(emailValue)) {
+      // email 형식이 아닐 때
       handleError(t('common.message.emailError'))
     } else if (tags.value.includes(emailValue)) {
+      // 작성한 email 과 중복일 때
       handleError(t('common.message.emailDuplicatedError'))
+      console.log('step', getStepType.value)
     } else {
+      if (getStepType.value === null) {
+        // 사용자 관리 - 초대하기 일 떼 워크스페이스에 존재하는 email인지 검사
+        onManageUsersCheckEmail(emailValue)
+      }
       emailRef.value = ''
       workspaceStore.pushFormValueInviteEmails(emailValue.trim())
       resetError()
     }
   } catch (err) {
     message.error(t('common.message.reTry'))
+  }
+}
+
+const onManageUsersCheckEmail = async (emailValue: string) => {
+  try {
+    const {
+      data: { exist }
+    } = await ManageUserService.checkDuplicatedEmail(getWorkspace.value.workspaceId, {
+      inviteEmail: emailValue
+    })
+    if (exist) {
+      return handleError('이미 이 워크스페이스에 존재합니다.')
+    }
+  } catch (err) {
+    console.log(err)
   }
 }
 
