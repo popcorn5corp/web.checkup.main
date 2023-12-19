@@ -164,6 +164,10 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     )
   }
 
+  function initFormValueInviteEmails() {
+    state.formValues.inviteEmails = []
+  }
+
   function setFormValueImgFile({
     url,
     originName,
@@ -284,6 +288,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     setSelectedWorkspace,
     pushFormValueInviteEmails,
     removeFormValueInviteEmails,
+    initFormValueInviteEmails,
     setFormValueImgFile,
     setWorkspaceIdAndName,
     setWorkspaceInviteLogId

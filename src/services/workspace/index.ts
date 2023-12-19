@@ -6,6 +6,13 @@ class WorkspaceService {
 
   constructor() {}
 
+  // 워크스페이스 유저 기본 정보 조회
+  getWorkspaceUserInfo(workspaceId: string) {
+    return service.get<IWorkspace.WorkspaceUserInfoResponse>(
+      this.PATH + `/workspaces/${workspaceId}/me`
+    )
+  }
+
   // 워크스페이스 목록 조회
   getWorkspaceList(param?: IWorkspace.WorkspaceListParam) {
     return service.get<IWorkspace.WorkspaceListResponse>(this.PATH + '/user/workspaces', param)
@@ -19,11 +26,6 @@ class WorkspaceService {
   // 기본 이미지 조회
   getDefaultProfiles() {
     return service.get<IWorkspace.DefaultProfilesResponse>(this.PATH + '/images/default-profiles')
-  }
-
-  // 팀원 초대 이메일 중복 확인
-  checkDuplicatedEmail(param: IWorkspace.ExistEmailParam) {
-    return service.get<IWorkspace.ExistEmailResponse>(this.PATH + '/exist', param)
   }
 
   // 업종 조회
