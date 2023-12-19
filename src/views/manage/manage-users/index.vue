@@ -47,7 +47,7 @@
         </div>
       </template>
     </DynamicTable>
-    <!-- <Spin :spinning="isLoading"></Spin> -->
+
     <Modal v-if="isVisible" @cancel="onCancelModal" @ok="onCompleteModal" class="invite-modal">
       <template #title>사용자 초대</template>
       <template #body>
@@ -90,30 +90,6 @@ const isVisible = ref(false)
 const isLoading = ref(false)
 
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
-
-// const selectedPost = ref<IManageUser.UserListRequest>(getDefaultPost())
-// const profileImg = computed(() => {
-//   const url = unref(selectedPost).boardFiles.length ? unref(selectedPost).boardFiles[0].url : ''
-
-//   if (url.includes('.xlsx') || url.includes('.xlsx')) {
-//     return ExcelImage
-//   } else if (url.includes('.pdf')) {
-//     return PdfImage
-//   } else if (url.includes('.pptx')) {
-//     return PptImage
-//   } else {
-//     return url
-//   }
-// })
-
-// watch(
-//   () => unref(dynamicTableRef),
-//   (dynamicTableRef) => {
-//     if (dynamicTableRef) {
-//       console.log('D R', dynamicTableRef.value)
-//     }
-//   }
-// )
 
 const getDataSource = (param: IManageUser.UserListParam) => {
   return ManageUserService.getUserList(getWorkspace.workspaceId, param)
@@ -192,7 +168,6 @@ p {
 
     .info {
       flex: 1;
-      // background-color: aliceblue;
     }
   }
 
@@ -200,32 +175,4 @@ p {
     padding: 10px;
   }
 }
-
-// .detail-wrapper {
-//   flex: 2;
-//   background-color: $color-white;
-//   // height: 100%;
-//   position: absolute;
-//   width: 500px;
-//   z-index: 2;
-//   right: 0;
-//   height: 100%;
-//   margin-right: -15px;
-//   margin-top: -15px;
-
-//   border: 0.5px solid $color-gray-4;
-
-//   > .title {
-//     display: flex;
-//     font-size: 16px;
-//     font-weight: bold;
-//     justify-content: space-between;
-//     padding: 18.5px;
-//     align-items: end;
-//   }
-
-//   :deep(.ant-divider) {
-//     margin: 0;
-//   }
-// }
 </style>
