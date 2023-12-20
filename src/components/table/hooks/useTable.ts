@@ -6,6 +6,7 @@ import { ErrorMessage, TableError } from './error'
 
 interface State {
   dataSource: any[]
+  cardData: any[]
   pagination: TablePagination
   total: number
   requestParam: Recordable
@@ -29,6 +30,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   function defaultState(): State {
     return {
       dataSource: [],
+      cardData: [],
       total: 0,
       requestParam: {},
       filterParam: {},
@@ -43,9 +45,11 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   }
 
   const getDataSource = computed(() => unref(propsRef).dataSource || state.dataSource)
+  const getCardData = computed(() => state.cardData)
 
   function initTableState() {
     state.dataSource = []
+    state.cardData = []
     state.total = 0
     state.requestParam = {}
     state.filterParam = {}
@@ -116,15 +120,18 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       dataSource,
       options: propsOptions,
       dataCallback,
-      contentCallback
+      contentCallback,
+      cardContentCallback
     } = unref(propsRef)
 
     let _dataSource = []
+    let _cardData = []
     let _total = 0
 
     if (!dataRequest) {
       if (dataSource) {
         _dataSource = dataSource
+        _cardData = dataSource
         _total = dataSource.length
       }
     } else {
@@ -183,6 +190,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
           })
 
           _dataSource = contentCallback ? contentCallback(content) : content
+          _cardData = cardContentCallback ? cardContentCallback(content) : content
           _total = totalElements
           state.pagination.total = totalElements
         }
@@ -197,6 +205,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }
 
     state.dataSource = _dataSource
+    state.cardData = _cardData
     state.total = _total
 
     setTimeout(() => {
@@ -253,6 +262,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   return {
     ...toRefs(state),
     getDataSource,
+    getCardData,
     initTableState,
     initDataSource,
     fetchDataSource,

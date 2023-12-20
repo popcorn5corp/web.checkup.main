@@ -6,9 +6,10 @@
     :columns="columns"
     :filter-request="getFilters"
     :data-request="getDataSource"
+    :column-request="getColumns"
     :data-callback="dataCallback"
     :content-callback="contentCallback"
-    :column-request="getColumns"
+    :card-content-callback="cardContentCallback"
     @row-click="onClickRow"
     @row-delete="onRemovePost"
     @row-add="onClickRegist"
@@ -76,6 +77,8 @@ import PdfImage from '@/assets/images/pdf.png'
 import PptImage from '@/assets/images/ppt.png'
 import { BaseSampleService } from '@/services'
 import { Modal, Spin, message } from 'ant-design-vue'
+import type { log } from 'console'
+import type { map } from 'lodash-es'
 import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IBaseSample } from '@/services/base-sample/interface'
@@ -196,6 +199,23 @@ const dataCallback = (data: { posts: IBaseSample.BaseSamples['posts'] }) => {
  */
 const contentCallback = (content: IBaseSample.BaseSamples['posts']['content']) => {
   return content
+}
+
+/**
+ * @description 카드 리스트 정보 대응을 위한 content에 대한 전처리
+ * @param content
+ */
+const cardContentCallback = (content: IBaseSample.BaseSamples['posts']['content']) => {
+  return content.map((r) => {
+    return {
+      ...r,
+      title: r.boardTitle,
+      tag: r.division,
+      content: r.boardContent
+      // 포맷 안 거쳐도 되는 날짜 데이터
+      // date: r.joinDate
+    }
+  })
 }
 
 const getColumns = () => {
