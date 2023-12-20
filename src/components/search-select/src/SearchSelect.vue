@@ -6,6 +6,7 @@
       :loading="loading"
       :pagination="pagination"
       :placeholder="placeholder"
+      :filterOption="filterOption"
       :style="{ width: props.width ?? '50%' }"
       :not-found-content="loading ? undefined : null"
       mode="multiple"
@@ -31,15 +32,15 @@
       <template #tagRender="{ value: val, label, closable, onClose, option }">
         <a-tag
           class="select-tag"
-          :class="{ 'select-img-padding': !!option.prefixImg }"
+          :class="{ 'select-img-padding': !!option?.prefixImg }"
           :closable="closable"
           :color="getLowColorOpacity"
           @close="onClose"
         >
           <img
             class="select-tag-img"
-            v-if="option.prefixImg"
-            :src="option.prefixImg"
+            v-if="option?.prefixImg"
+            :src="option?.prefixImg"
             :aria-label="label"
           />
           <span class="select-tag-label" :style="{ color: getPrimaryColor }">{{ label }}</span>
@@ -69,7 +70,9 @@ import type { SearchSelectProps } from '../types'
 
 const emit = defineEmits(['update:modelValue', 'search'])
 
-const props = defineProps<SearchSelectProps>()
+const props = withDefaults(defineProps<SearchSelectProps>(), {
+  filterOption: true
+})
 const loading = ref(false)
 const value = ref()
 
@@ -89,9 +92,9 @@ const onSearch = debounce((value) => {
 }, 300)
 
 const onChange = (value: SelectValue, options: Pick<SearchSelectProps, 'options'>) => {
-  emit('update:modelValue', value)
+  emit('update:modelValue', options)
 
-  console.log(options)
+  console.log(value)
 }
 </script>
 

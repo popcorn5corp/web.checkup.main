@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AAvatar: typeof import('ant-design-vue/es')['Avatar']
     AAvatarGroup: typeof import('ant-design-vue/es')['AvatarGroup']
+    AButton: typeof import('ant-design-vue/es')['Button']
     Accordion: typeof import('./src/components/accordion/src/Accordion.vue')['default']
     AccordionPanel: typeof import('./src/components/accordion/src/AccordionPanel.vue')['default']
     ADatePicker: typeof import('ant-design-vue/es')['DatePicker']
@@ -28,6 +29,8 @@ declare module '@vue/runtime-core' {
     ATabPane: typeof import('ant-design-vue/es')['TabPane']
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATag: typeof import('ant-design-vue/es')['Tag']
+    ATimeline: typeof import('ant-design-vue/es')['Timeline']
+    ATimelineItem: typeof import('ant-design-vue/es')['TimelineItem']
     Badge: typeof import('./src/components/badge/Badge.vue')['default']
     BasicTable: typeof import('./src/components/table/src/BasicTable.vue')['default']
     Button: typeof import('./src/components/button/src/Button.vue')['default']
