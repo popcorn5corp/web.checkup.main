@@ -125,7 +125,6 @@
 <script setup lang="ts" name="DynamicTable">
 import { Divider, Space } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
-import type { KeepAlive } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
@@ -144,9 +143,9 @@ import { Table } from '@/components/table'
 import { createDynamicTableContext } from '../hooks/useDynamicTableContext'
 import { useFilter } from '../hooks/useFilter'
 import type {
-  DynamicTablExposes,
   DynamicTableAction,
   DynamicTableContextValues,
+  DynamicTableExposes,
   DynamicTableProps
 } from '../types'
 import { defaultContenxtValues } from '../types'
@@ -161,18 +160,17 @@ const emit = defineEmits([
   'row-delete',
   'update:openDetail'
 ])
+
 const props = withDefaults(defineProps<DynamicTableProps>(), {
   filters: () => [],
   showToolbar: true,
   showRegist: true,
   showDownload: true
 })
-defineExpose<DynamicTablExposes>({
+
+defineExpose<DynamicTableExposes>({
   reload: (options: { isReset?: boolean }) => {
     tableRef.value?.getDataSource(options)
-  },
-  getShowToolbar: () => {
-    return computed(() => props.showToolbar && unref(showFilter))
   }
 })
 
@@ -253,9 +251,6 @@ let dynamicTableAction: DynamicTableAction = {
   setFilterFormItem,
   clearSelectedItems,
   initFilterFormItems,
-  getShowToolbar: () => {
-    return computed(() => props.showToolbar && unref(showFilter))
-  },
   closeDetail: () => {
     emit('update:openDetail', false)
   },
