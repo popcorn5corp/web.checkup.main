@@ -106,6 +106,18 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
    */
   initParam?: RequestParam
   /**
+   * 테이블 레이아웃 타입 정보
+   */
+  layoutType?: TableLayoutMode
+  /**
+   * 테이블 Toolbar 노출 여부
+   */
+  showToolbar?: boolean
+  /**
+   * 테이블 Toolbar 옵선 정보
+   */
+  toolbarOptions?: ToolbarOptions
+  /**
    * 테이블 데이터관련 Reqquest API
    * @param params Request Paramerter 정보
    */
@@ -131,18 +143,6 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
    * @param content
    */
   cardListCallback?: (content: any) => Array<Record<string, any>>
-  /**
-   * 테이블 레이아웃 타입 정보
-   */
-  layoutType?: TableLayoutMode
-  /**
-   * 테이블 Toolbar 노출 여부
-   */
-  showToolbar?: boolean
-  /**
-   * 테이블 Toolbar 옵선 정보
-   */
-  toolbarOptions?: ToolbarOptions
 }
 
 export interface TableAction {

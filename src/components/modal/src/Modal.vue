@@ -22,7 +22,13 @@
     <template #footer>
       <div class="modal-btns-wrapper">
         <Button v-if="useCancelBtn" :label="props.cancelBtnText" @click="emit('cancel')" />
-        <Button v-if="useOkBtn" :label="props.okBtnText" type="primary" @click="emit('ok')" />
+        <Button
+          v-if="useOkBtn"
+          :label="props.okBtnText"
+          :loading="props.isModalLoading"
+          type="primary"
+          @click="emit('ok')"
+        />
       </div>
     </template>
   </Modal>
