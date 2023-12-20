@@ -142,6 +142,7 @@ const {
   initTableState,
   initDataSource,
   getDataSource,
+  getCardData,
   setPagination,
   getPagination
 } = useTable(getProps, {
@@ -177,6 +178,7 @@ const tableAction: TableAction = {
   setContextValues,
   fetchDataSource,
   getDataSource: () => unref(getDataSource),
+  getCardData: () => unref(getCardData),
   getLoading: () => unref(getLoading) as boolean,
   getSize: () => unref(getProps).size as SizeType,
   reload: async () => {
@@ -219,6 +221,7 @@ createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
 
 defineExpose({
   getDataSource: fetchDataSource,
+  getCardData,
   initCustomRow,
   getColumns,
   reload: tableAction.reload,
