@@ -21,7 +21,9 @@
         @click="onCheckInviteCode"
         :loading="isLoading"
       >
-        <template #icon v-if="isConfirm"><CheckOutlined /></template>
+        <template #icon v-if="isConfirm">
+          <CheckOutlined />
+        </template>
       </Button>
     </div>
   </div>
@@ -50,9 +52,10 @@ const onCheckInviteCode = async () => {
       if (reg.test(codeValue)) {
         // 유효 초대코드 확인
         const { data } = await WorkspaceService.checkInviteCode({ inviteCode: codeValue })
+        const { workspaceId, workspaceName, workspaceInviteLogId } = data
+
         // 워크스페이스 이름&아이디 저장
-        workspaceStore.setWorkspaceIdAndName(data.workspaceId, data.workspaceName)
-        workspaceStore.setWorkspaceInviteLogId(data.workspaceInviteLogId)
+        workspaceStore.setJoinParam({ workspaceId, workspaceName, workspaceInviteLogId })
         workspaceStore.setNextBtnDisabled(false)
         isConfirm.value = true
       } else {
@@ -75,6 +78,7 @@ const onCheckInviteCode = async () => {
 .form-wrapper {
   .input-wrapper {
     position: relative;
+
     .btn {
       position: absolute;
       right: 10px;

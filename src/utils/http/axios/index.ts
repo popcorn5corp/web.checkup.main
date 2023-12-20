@@ -14,7 +14,11 @@ export function createAxios(option?: Partial<CustomAxiosRequestConfig>) {
         timeout: ResultEnum.TIMEOUT as number,
         headers: { 'Content-Type': ContentTypeEnum.JSON },
         transform: cloneDeep(transform),
-        authenticationScheme: 'Bearer'
+        authenticationScheme: 'Bearer',
+        requestOptions: {
+          errorMessageMode: 'message',
+          ignoreCancelToken: false
+        }
       } as CustomAxiosRequestConfig,
       option || {}
     )

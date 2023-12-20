@@ -15,3 +15,5 @@ export const IS_LOCKSCREEN = 'IS_LOCKSCREEN' as const
 export const TABS_ROUTES_KEY = 'TABS_ROUTES' as const
 
 export const WORKSPACE_KEY = 'WORKSPACE__' as const
+
+export const WORKSPACE_ID_KEY = 'WORKSPACE__ID__'

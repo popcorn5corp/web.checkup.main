@@ -37,7 +37,7 @@ export interface AxiosTransform {
 
 export const transform: AxiosTransform = {
   requestInterceptors: (config, options) => {
-    const token = useAuthStore().getToken()
+    const token = useAuthStore().getToken
 
     if (token) {
       config.headers.Authorization = (
@@ -56,9 +56,6 @@ export const transform: AxiosTransform = {
     return res
   },
   responseInterceptorsCatch: (axiosInstance: AxiosInstance, error: AxiosError | any) => {
-    const { response, code, message, config } = error
-    const msg = response
-
     console.log('Response Error :: ', error)
 
     if (axios.isCancel(error)) {
@@ -66,8 +63,7 @@ export const transform: AxiosTransform = {
       return Promise.reject(error)
     }
 
-    const status = error?.response?.status
-    checkResponseErrorStatus(status, msg)
+    checkResponseErrorStatus(error)
 
     return Promise.reject(error)
   }
