@@ -102,6 +102,7 @@ declare module '@vue/runtime-core' {
     RollingText: typeof import('./src/components/header/src/components/RollingText.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchSelect: typeof import('./src/components/search-select/src/SearchSelect.vue')['default']
     Select: typeof import('./src/components/filter-form/src/components/filter-types/Select.vue')['default']
     SelectionPopup: typeof import('./src/components/table/src/components/SelectionPopup.vue')['default']
     Spinner: typeof import('./src/components/spinner/src/Spinner.vue')['default']
