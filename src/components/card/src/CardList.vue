@@ -11,9 +11,8 @@
         :title="item.title"
         :tag="item.tag"
         :content="item.content"
-      >
-        <slot name="cardContent"></slot>
-      </Card>
+        :date="item.date"
+      />
     </div>
   </div>
 </template>

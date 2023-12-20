@@ -33,9 +33,7 @@
       </template>
     </Table>
 
-    <CardView v-if="getContextValues.layoutMode === 'card'" :rowKey="rowKey">
-      <slot name="cardContent"></slot>
-    </CardView>
+    <CardView v-if="getContextValues.layoutMode === 'card'" :rowKey="rowKey" />
   </div>
 </template>
 <script setup lang="ts" name="BasicTable">
@@ -96,7 +94,6 @@ const styles = ref<CSSProperties>({
  * @description ATable 컴포넌트에 바인딩하기 위한 상위 props & 내부적으로 변경된 innerProps
  */
 const getProps = computed<TableProps>(() => {
-  console.log(props)
   return {
     ...props,
     ...unref(innerProps)
@@ -145,7 +142,7 @@ const {
   initTableState,
   initDataSource,
   getDataSource,
-  getCardList,
+  getCardData,
   setPagination,
   getPagination
 } = useTable(getProps, {
@@ -181,7 +178,7 @@ const tableAction: TableAction = {
   setContextValues,
   fetchDataSource,
   getDataSource: () => unref(getDataSource),
-  getCardList: () => unref(getCardList),
+  getCardData: () => unref(getCardData),
   getLoading: () => unref(getLoading) as boolean,
   getSize: () => unref(getProps).size as SizeType,
   reload: async () => {
@@ -206,7 +203,6 @@ const getBindValues = computed<Recordable>(() => {
     customRow,
     ...unref(getProps),
     dataSource: unref(getDataSource),
-    cardList: unref(getCardList),
     columns: unref(getColumns),
     loading: unref(getLoading),
     pagination: unref(getPagination),
@@ -225,7 +221,7 @@ createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
 
 defineExpose({
   getDataSource: fetchDataSource,
-  getCardList,
+  getCardData,
   initCustomRow,
   getColumns,
   reload: tableAction.reload,

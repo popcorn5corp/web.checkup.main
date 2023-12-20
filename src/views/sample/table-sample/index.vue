@@ -9,7 +9,7 @@
     :column-request="getColumns"
     :data-callback="dataCallback"
     :content-callback="contentCallback"
-    :card-list-callback="cardListCallback"
+    :card-content-callback="cardContentCallback"
     @row-click="onClickRow"
     @row-delete="onRemovePost"
     @row-add="onClickRegist"
@@ -198,7 +198,6 @@ const dataCallback = (data: { posts: IBaseSample.BaseSamples['posts'] }) => {
  * @param content
  */
 const contentCallback = (content: IBaseSample.BaseSamples['posts']['content']) => {
-  console.log('^^^^^')
   return content
 }
 
@@ -206,14 +205,15 @@ const contentCallback = (content: IBaseSample.BaseSamples['posts']['content']) =
  * @description 카드 리스트 정보 대응을 위한 content에 대한 전처리
  * @param content
  */
-const cardListCallback = (content: IBaseSample.BaseSamples['posts']['content']) => {
-  content.map((r) => {
+const cardContentCallback = (content: IBaseSample.BaseSamples['posts']['content']) => {
+  return content.map((r) => {
     return {
       ...r,
       title: r.boardTitle,
       tag: r.division,
-      content: r.boardContent,
-      date: r.createdAt
+      content: r.boardContent
+      // 포맷 안 거쳐도 되는 날짜 데이터
+      // date: r.joinDate
     }
   })
 }

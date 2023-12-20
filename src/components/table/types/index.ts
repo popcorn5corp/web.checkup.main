@@ -142,7 +142,7 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
    * Request API에 대한 응답 CardView 정보 대응을 위한 Content 처리 Callback
    * @param content
    */
-  cardListCallback?: (content: any) => Array<Record<string, any>>
+  cardContentCallback?: (content: any) => Array<Record<string, any>>
 }
 
 export interface TableAction {
@@ -153,7 +153,7 @@ export interface TableAction {
     param?: { searchWord?: string }
   }) => Promise<void>
   getDataSource: () => Recordable[]
-  getCardList: () => Recordable[]
+  getCardData: () => Recordable[]
   getSize: () => TableSize | CardSize
   getLoading: () => boolean
   reload: (isReset?: boolean) => Promise<void>
