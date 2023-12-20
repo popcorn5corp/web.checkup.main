@@ -18,6 +18,10 @@ class ManageUserService {
   getPageInfo() {
     return service.get<IBaseAPI.FilterResponse>(this.PATH + '/users/filters')
   }
+  // 사용자 목록 상세 조회
+  getOneById(workspaceId: string, uid: string) {
+    return service.get(this.PATH + `/${workspaceId}/user/${uid}`)
+  }
 
   // 사용자 초대 이메일 중복 확인
   checkDuplicatedEmail(workspaceId: string, param: IManageUser.DuplicatedEmailParam) {

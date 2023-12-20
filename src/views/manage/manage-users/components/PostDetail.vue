@@ -1,24 +1,19 @@
 <template>
   <div class="post-detail">
     <Form v-if="!isEdit" :layout="formState.layout" :model="formState" v-bind="formItemLayout">
-      <Item label="게시물 제목">
-        {{ formState.post.boardTitle }}
+      <!-- TODO temp -->
+      <Item label="이름" name="nickname">
+        {{ formState.data.nickname }}
       </Item>
-      <Item label="게시물 내용">
-        {{ formState.post.boardContent }}
+      <Item label="이메일" name="email">
+        {{ formState.data.email }}
       </Item>
-      <Item label="생성일">
-        {{ formattedDate(formState.post.createdAt) }}
+      <Item label="핸드폰" name="phone">
+        {{ formState.data.phone }}
       </Item>
-      <Item label="권한">
-        {{ formState.post.permission.value }}
+      <Item label="가입일" name="joinedAt">
+        {{ formState.data.joinedAt }}
       </Item>
-      <Item label="게시물 구분">
-        {{ formState.post.division.value }}
-      </Item>
-      <!-- <Item label="게시물 첩부파일">
-        <FileUploader :files="formState.post.boardFiles" readonly />
-      </Item> -->
     </Form>
 
     <Form
@@ -28,99 +23,92 @@
       :model="formState"
       v-bind="formItemLayout"
     >
-      <Item label="게시물 제목" name="boardTitle">
-        <Input v-model:value="formState.post.boardTitle" />
+      <Item label="이름" name="nickname">
+        <Input v-model:value="formState.data.nickname" />
       </Item>
-      <Item label="게시물 내용">
-        <Input v-model:value="formState.post.boardContent" />
+      <Item label="이메일" name="email">
+        <Input v-model:value="formState.data.email" />
       </Item>
-      <Item label="생성일">
-        {{ formattedDate(formState.post.createdAt) }}
+      <Item label="핸드폰" name="phone">
+        <Input v-model:value="formState.data.phone" />
       </Item>
-      <Item label="권한">
+      <Item label="가입일" name="joinedAt">
+        {{ formState.data.joinedAt }}
+      </Item>
+
+      <Item label="상태">
         <Select
-          v-model:value="formState.post.permission.label"
-          :options="(permissionCodes as any)"
+          v-model:value="formState.data.userStatus.label"
+          :options="userStatusOptions"
         ></Select>
       </Item>
-      <Item label="게시물 구분">
-        <Select v-model:value="formState.post.division.label" :options="divisionOptions"></Select>
-      </Item>
-      <!-- <Item label="게시물 첩부파일">
-        <FileUploader
-          ref="fileUploader"
-          :files="formState.post.boardFiles"
-          :type="SAMPLE_FILE_TYPE"
-        />
-      </Item> -->
     </Form>
   </div>
 </template>
 
 <script setup lang="tsx" name="PostDetail">
-import { BaseSampleService } from '@/services'
 import { Form, Input, Select, type SelectProps } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
-import type { IBaseSample, ICode } from '@/services/BaseSample/interface'
-// import { FileUploader } from '@/components/file-uploader'
-import { fileTypes } from '@/constants/file'
+import type { IManageUser } from '@/services/manage-users/interface'
+import { contentModes } from '@/constants/content'
 import { getDefaultPost } from '../constant'
 
 const { Item } = Form
 
-type Post = IBaseSample.BaseSample
+type WorkspaceUsers = IManagerUser.UserListRequest
 interface PostDetailProps {
-  data: Post
+  data: WorkspaceUsers
   isEdit: boolean
-  mode: ContentMode
+  mode: contentModes
 }
 
 interface FormState {
   layout: 'horizontal' | 'vertical' | 'inline'
-  post: Post
-  clonePost: Post
+  data: WorkspaceUsers
+  cloneData: WorkspaceUsers
 }
 
 const props = withDefaults(defineProps<PostDetailProps>(), {
   isEdit: false
 })
 
-const permissionCodes = ref<ICode[]>([])
-const divisionOptions = ref<SelectProps['options']>([
+const userStatusOptions = ref<SelectProps['options']>([
   {
-    label: '비공개',
-    value: 'PRIVATE'
+    label: '활성',
+    value: 'ACTIVE'
   },
   {
-    label: '공개',
-    value: 'PUBLIC'
+    label: '비활성',
+    value: 'INACTIVE'
+  },
+  {
+    label: '탈퇴',
+    value: 'WITHDRAWN'
+  },
+  {
+    label: '퇴출',
+    value: 'REVOKE'
   }
 ])
-
-// const SAMPLE_FILE_TYPE = fileTypes.TEST
 
 const formRef = ref()
 const fileUploader = ref()
 const formState: UnwrapRef<FormState> = reactive({
   layout: 'horizontal',
-  post: getDefaultPost(),
-  clonePost: getDefaultPost()
+  data: getDefaultPost(),
+  cloneData: getDefaultPost()
 })
-
-;(async () => {
-  permissionCodes.value = BaseSampleService.permissionCodes
-})()
 
 const onSubmit = async () => formRef.value.validate()
 const formattedDate = (timestamp: number) => dayjs.unix(timestamp).format('YYYY-MM-DD')
-const rollbackPost = () => (formState.post = cloneDeep(formState.clonePost))
-const getPostDetail = (): Post => {
+const rollbackPost = () => (formState.data = cloneDeep(formState.cloneData))
+const getPostDetail = (): WorkspaceUsers => {
   const files = fileUploader.value.getFiles()
 
   return {
-    ...formState.post,
+    ...formState.data,
     boardFiles: files
   }
 }
@@ -138,10 +126,11 @@ const formItemLayout = computed(() => {
 watch(
   () => props.data,
   (post) => {
-    formState.post = {
+    console.log('pp', post)
+    formState.data = {
       ...post
     }
-    formState.clonePost = cloneDeep(post)
+    formState.cloneData = cloneDeep(post)
   },
   {
     immediate: true
@@ -157,13 +146,15 @@ defineExpose({
 
 <style lang="scss" scoped>
 .post-detail {
-  margin: 50px 0px;
-
   :deep(.ant-form) {
     .ant-form-item-label {
       > label {
         font-weight: 500;
       }
+    }
+
+    .ant-form-item {
+      padding: 0 1rem;
     }
   }
 }
