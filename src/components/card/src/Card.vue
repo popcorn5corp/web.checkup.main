@@ -11,11 +11,10 @@
             </Image>
           </div>
         </template>
-
         <div class="text-box">
           <div class="text-header">
             <template v-if="props.title">
-              <div class="title">{{ props.title }}</div>
+              <div class="title">{{ props.item.title }}</div>
             </template>
 
             <template v-if="props.tag">
@@ -25,9 +24,11 @@
 
           <template v-if="props.item">
             <div class="content">
-              <p>
-                {{ props.content }}
-              </p>
+              <slot name="cardContent">
+                <p>
+                  {{ props.item.content }}
+                </p>
+              </slot>
             </div>
           </template>
 

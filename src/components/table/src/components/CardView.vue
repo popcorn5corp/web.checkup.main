@@ -3,7 +3,7 @@
     <Spin :spinning="loading">
       <div class="pagination-wrapper">
         <Pagination
-          v-if="dataSource.length"
+          v-if="cardList.length"
           size="small"
           :current="pagination.current"
           :pageSize="pagination.pageSize"
@@ -14,16 +14,18 @@
       </div>
 
       <CardList
-        v-if="dataSource.length"
+        v-if="cardList.length"
         ref="cardListRef"
         :rowKey="props.rowKey"
-        :items="dataSource"
+        :items="cardList"
         :useCheckbox="true"
         :size="size"
         :detailBtnPosition="'bottom'"
         @click="onClickDetail"
         @select-rows="onSelectRows"
-      />
+      >
+        <slot name="cardContent"></slot>
+      </CardList>
 
       <div v-else :class="['img-wrapper']">
         <img :src="EmptyImage" />
@@ -52,7 +54,7 @@ const table = useTableContext()
 const { getTheme } = useProjectConfigStore()
 const cardListRef = ref<InstanceType<typeof CardList>>()
 const loading = computed(() => table.getLoading())
-const dataSource = computed(() => table.getDataSource())
+const cardList = computed(() => table.getCardList())
 const pagination = computed(
   () => unref(table.getBindValues).pagination
 ) as ComputedRef<TablePagination>
@@ -66,6 +68,12 @@ watch(
     }
   }
 )
+
+watch(cardList, (cardList) => {
+  if (cardList) {
+    console.log('cardview watch', cardList)
+  }
+})
 
 const onClickDetail = (card: Recordable) => {
   table.emitter('row-click', card)

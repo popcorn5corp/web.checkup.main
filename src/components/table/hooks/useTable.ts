@@ -6,6 +6,7 @@ import { ErrorMessage, TableError } from './error'
 
 interface State {
   dataSource: any[]
+  cardList: any[]
   pagination: TablePagination
   total: number
   requestParam: Recordable
@@ -29,6 +30,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   function defaultState(): State {
     return {
       dataSource: [],
+      cardList: [],
       total: 0,
       requestParam: {},
       filterParam: {},
@@ -43,9 +45,11 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   }
 
   const getDataSource = computed(() => unref(propsRef).dataSource || state.dataSource)
+  const getCardList = computed(() => state.cardList)
 
   function initTableState() {
     state.dataSource = []
+    state.cardList = []
     state.total = 0
     state.requestParam = {}
     state.filterParam = {}
@@ -116,15 +120,18 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       dataSource,
       options: propsOptions,
       dataCallback,
-      contentCallback
+      contentCallback,
+      cardListCallback
     } = unref(propsRef)
 
     let _dataSource = []
+    let _cardList = []
     let _total = 0
 
     if (!dataRequest) {
       if (dataSource) {
         _dataSource = dataSource
+        _cardList = dataSource
         _total = dataSource.length
       }
     } else {
@@ -181,8 +188,11 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
             record['index'] = i
             record['rowKey'] = record[rowKey]
           })
+          console.log('++contentCallback++', contentCallback && contentCallback(content))
+          console.log('&&cardListCallback&&', cardListCallback && cardListCallback(content))
 
           _dataSource = contentCallback ? contentCallback(content) : content
+          _cardList = cardListCallback ? cardListCallback(content) : content
           _total = totalElements
           state.pagination.total = totalElements
         }
@@ -197,6 +207,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }
 
     state.dataSource = _dataSource
+    state.cardList = _cardList
     state.total = _total
 
     setTimeout(() => {
@@ -253,6 +264,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   return {
     ...toRefs(state),
     getDataSource,
+    getCardList,
     initTableState,
     initDataSource,
     fetchDataSource,

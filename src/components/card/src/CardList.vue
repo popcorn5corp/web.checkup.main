@@ -4,14 +4,16 @@
       <Card
         ref="cardRefs"
         v-bind="{ ...item, ...props, ...$attrs }"
-        :title="item.boardTitle"
-        :tag="item.division"
-        :content="item.boardContent"
         :item="item"
         :imgUrl="item.thumbnail?.url"
         @click="$emit('click', item)"
         @checked="onCheckedItem"
-      />
+        :title="item.title"
+        :tag="item.tag"
+        :content="item.content"
+      >
+        <slot name="cardContent"></slot>
+      </Card>
     </div>
   </div>
 </template>

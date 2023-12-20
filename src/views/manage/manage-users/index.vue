@@ -10,6 +10,7 @@
       :filter-request="getFilters"
       :data-callback="dataCallback"
       :content-callback="contentCallback"
+      :card-list-callback="cardListCallback"
       :showDownload="false"
       :showRegist="false"
       @row-click="onClickRow"
@@ -46,6 +47,8 @@
           </div>
         </div>
       </template>
+
+      <template #cardContent><div>핸드폰:</div></template>
     </DynamicTable>
 
     <Modal v-if="isVisible" @cancel="onCancelModal" @ok="onCompleteModal" class="invite-modal">
@@ -109,7 +112,22 @@ const dataCallback = (data: { workspaceUsers: IManageUser.UserListRequest['works
 }
 
 const contentCallback = (content: IManageUser.UserListRequest['workspaceUsers']['content']) => {
+  console.log('contentCallback!', content)
   return content
+}
+
+const cardListCallback = (content: IManageUser.UserListRequest['workspaceUsers']['content']) => {
+  console.log('cardListCallback!', content)
+
+  return content.map((r) => {
+    return {
+      ...r,
+      title: r.nickname,
+      tag: r.userStatus,
+      content: '내용내뇽',
+      date: r.joinDate
+    }
+  })
 }
 
 const onClickRow = (row: IManageUser.UserInfo): void => {
