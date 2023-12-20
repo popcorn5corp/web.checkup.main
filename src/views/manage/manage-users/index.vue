@@ -31,19 +31,14 @@
 
       <template #detail-content>
         <div class="detail-contents">
-          <div class="profile">
-            <div class="img-wrapper">
-              <img v-if="profileImg" :src="profileImg" :width="200" :height="200" />
-            </div>
-            <div class="info"></div>
-          </div>
           <div class="tab-wrapper">
-            <PostDetail
-              v-if="!isLoading && selectedPost"
-              :data="selectedPost"
-              :isEdit="isEdit"
-              :mode="mode"
-            />
+            <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
+
+            <a-tabs v-model:activeKey="activeKey">
+              <a-tab-pane key="1" tab="상세보기"> </a-tab-pane>
+
+              <a-tab-pane key="2" tab="타임라인" force-render> </a-tab-pane>
+            </a-tabs>
           </div>
         </div>
       </template>
@@ -70,8 +65,8 @@
 </template>
 <script setup lang="ts" name="TableSample">
 import { ManageUserService } from '@/services'
-import { message } from 'ant-design-vue'
-import { computed, ref } from 'vue'
+import { Spin, message } from 'ant-design-vue'
+import { computed, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -81,6 +76,7 @@ import { DeleteTwoTone, PlusCircleTwoTone } from '@/components/icons'
 import { Modal } from '@/components/modal'
 import { contentModes as modes } from '@/constants/content'
 import PostDetail from './components/PostDetail.vue'
+import { getDefaultPost } from './constant'
 import { columns } from './mock'
 
 const { t } = useI18n()
@@ -97,6 +93,17 @@ const isLoading = ref(false)
 const isModalLoading = ref(false)
 
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
+
+watch(
+  () => unref(showDetail),
+  (showDetail) => {
+    if (!showDetail) {
+      selectedPost.value = getDefaultPost()
+    }
+  }
+)
+
+const selectedPost = ref<IManageUser.UserListRequest>(getDefaultPost())
 
 const getDataSource = (param: IManageUser.UserListParam) => {
   return ManageUserService.getUserList(getWorkspace.workspaceId, param)
@@ -137,6 +144,16 @@ const onClickRow = (row: IManageUser.UserInfo): void => {
   showDetail.value = true
   isLoading.value = true
   mode.value = DEFAULT_MODE
+  console.log('row', row)
+  // ManageUserService.getOneById(row.boardId)
+  //   .then(({ success, data }) => {
+  //     if (success) {
+  //       selectedPost.value = data
+  //     }
+  //   })
+  //   .finally(() => {
+  //     isLoading.value = false
+  //   })
 }
 
 const onCompleteModal = async () => {
