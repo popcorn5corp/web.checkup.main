@@ -48,7 +48,13 @@
       </template>
     </DynamicTable>
 
-    <Modal v-if="isVisible" @cancel="onCancelModal" @ok="onCompleteModal" class="invite-modal">
+    <Modal
+      v-if="isVisible"
+      @cancel="onCancelModal"
+      @ok="onCompleteModal"
+      :isModalLoading="isModalLoading"
+      class="invite-modal"
+    >
       <template #title>사용자 초대</template>
       <template #body>
         <div class="invite-form-wrapper">
@@ -88,6 +94,7 @@ const { getWorkspace } = useWorkspaceStore()
 const showDetail = ref(false)
 const isVisible = ref(false)
 const isLoading = ref(false)
+const isModalLoading = ref(false)
 
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
 
@@ -120,6 +127,7 @@ const onClickRow = (row: IManageUser.UserInfo): void => {
 
 const onCompleteModal = async () => {
   try {
+    isModalLoading.value = true
     // 사용자 초대
     const inviteEmails = inviteMemberRef.value.tags
     await ManageUserService.inviteUsers(getWorkspace.workspaceId, {
@@ -127,7 +135,8 @@ const onCompleteModal = async () => {
     })
     message.success(t('common.message.saveSuccess'), 1)
     initState()
-    // TODO modal 로딩스피너 넣기
+
+    isModalLoading.value = false
   } finally {
     inviteMemberRef.value.onInitInviteEmails()
   }

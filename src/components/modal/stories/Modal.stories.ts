@@ -7,6 +7,7 @@ import { Modal } from '../src'
 
 type TemplateOptions = {
   positionCenter: boolean
+  isModalLoading: boolean
   useTitle: boolean
   useDesc: boolean
   useBody: boolean
@@ -16,6 +17,7 @@ type TemplateOptions = {
 
 const defaultOptions = computed(() => ({
   positionCenter: false,
+  isModalLoading: false,
   useTitle: true,
   useDesc: true,
   useBody: true,
@@ -36,6 +38,13 @@ const meta: Meta<ComponentProps<typeof Modal>> = {
   argTypes: {
     positionCenter: {
       description: '모달창 중간 위치여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+    isModalLoading: {
+      description: '완료 버튼 로딩여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: false }
@@ -106,7 +115,7 @@ const generateStory = (isChange: boolean, options: TemplateOptions): StoryObj<ty
       <div style="width: 100%; text-align: center; padding: 1rem 0">
         <Button label="Open Modal" @click="isVisible = true"/>
       </div>
-      <Modal v-if="isVisible" @cancel="isVisible = false" @ok="handleComplete" :positionCenter="args.positionCenter" :cancelBtnText="args.cancelBtnText" :useCancelBtn="args.useCancelBtn" :useOkBtn="args.useOkBtn" :okBtnText="args.okBtnText">
+      <Modal v-if="isVisible" @cancel="isVisible = false" @ok="handleComplete" :positionCenter="args.positionCenter"  :isModalLoading="args.isModalLoading" :cancelBtnText="args.cancelBtnText" :useCancelBtn="args.useCancelBtn" :useOkBtn="args.useOkBtn" :okBtnText="args.okBtnText">
         <template #title v-if="args.useTitle">모달 제목</template>
         <template #desciption v-if="args.useDesc">모달 설명</template>
         <template #body v-if="args.useBody">
@@ -126,6 +135,11 @@ export const Default: Story = generateStory(false, defaultOptions.value)
 export const PositionCenter: Story = generateStory(true, {
   ...defaultOptions.value,
   positionCenter: true
+})
+
+export const CompleteButtonLoadingSpinner: Story = generateStory(true, {
+  ...defaultOptions.value,
+  isModalLoading: true
 })
 
 export const NoTitle: Story = generateStory(true, { ...defaultOptions.value, useTitle: false })

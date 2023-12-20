@@ -4,4 +4,5 @@ export interface ModalProps {
   useOkBtn?: boolean
   cancelBtnText?: string
   useCancelBtn?: boolean
+  isModalLoading?: boolean
 }
