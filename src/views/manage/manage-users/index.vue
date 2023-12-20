@@ -65,8 +65,8 @@
 </template>
 <script setup lang="ts" name="TableSample">
 import { ManageUserService } from '@/services'
-import { message } from 'ant-design-vue'
-import { computed, ref } from 'vue'
+import { Spin, message } from 'ant-design-vue'
+import { computed, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -76,6 +76,7 @@ import { DeleteTwoTone, PlusCircleTwoTone } from '@/components/icons'
 import { Modal } from '@/components/modal'
 import { contentModes as modes } from '@/constants/content'
 import PostDetail from './components/PostDetail.vue'
+import { getDefaultPost } from './constant'
 import { columns } from './mock'
 
 const { t } = useI18n()
