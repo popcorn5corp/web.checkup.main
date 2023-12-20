@@ -28,6 +28,20 @@ export namespace IWorkspace {
     size: number
   }
 
+  export interface WorkspaceUserInfoResponse {
+    workspace: WorkspaceInfo
+    workspaceUser: {
+      workspaceUserId: string
+      nickname: string
+      email: string
+      profile: string
+      userStatus: {
+        label: string
+        value: string
+      }
+    }
+  }
+
   export interface WorkspaceListParam {
     currentWorkspaceId: string | null
   }
@@ -36,13 +50,6 @@ export namespace IWorkspace {
     userId: string
     userName: string
     workspaceInfoList: WorkspaceListInfo[]
-  }
-  export interface ExistEmailParam {
-    inviteEmail: string
-  }
-  export interface ExistEmailResponse {
-    inviteEmail: string
-    isExist: boolean
   }
 
   export interface CreateWorkspaceResponse extends WorkspaceInfo {
