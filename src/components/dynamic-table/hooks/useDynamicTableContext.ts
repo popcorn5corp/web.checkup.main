@@ -10,7 +10,7 @@ type Instance = DynamicTableAction & {
   getBindValues: ComputedRef<Recordable>
 }
 
-type RetInstance = Omit<Instance, 'getBindValues'> & {
+export type RetInstance = Omit<Instance, 'getBindValues'> & {
   getBindValues: ComputedRef<DynamicTableProps>
   getContextValues: ComputedRef<DynamicTableContextValues>
 }

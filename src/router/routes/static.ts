@@ -336,10 +336,32 @@ export const staticRoutes: RouteRecordRaw[] = [
         name: 'components-list',
         component: () =>
           import(
-            /* webpackChunkName: "components-list" */ '@/views/ComponentsOverview/list/index.vue'
+            /* webpackChunkName: "components-list" */ '@/views/components-overview/list/index.vue'
           ),
         meta: {
           title: 'List'
+        }
+      },
+      {
+        path: 'form',
+        name: 'components-form',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-form" */ '@/views/components-overview/form/index.vue'
+          ),
+        meta: {
+          title: 'Form'
+        }
+      },
+      {
+        path: 'search-select',
+        name: 'components-search-select',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-search-select" */ '@/views/components-overview/search-select/index.vue'
+          ),
+        meta: {
+          title: 'SearchSelect'
         }
       }
     ]

@@ -54,6 +54,15 @@ export namespace IBaseSample {
     division: ICode<'PRIVATE' | 'PUBLIC'>['value'] // 샘플 게시판 구분
   }
 
+  export interface PageableInfo {
+    sort: SortInfo
+    pageNumber: number
+    pageSize: number
+    offset: number
+    paged: boolean
+    unpaged: boolean
+  }
+
   export interface BaseSamples {
     enabledSortCodes: SortCode[]
     posts: {
@@ -63,14 +72,7 @@ export namespace IBaseSample {
       last: boolean
       number: number
       numberOfElements: number
-      pageable: {
-        offset: number
-        pageNumber: number
-        pageSize: number
-        paged: boolean
-        sort: SortInfo
-        unpaged: boolean
-      }
+      pageable: PageableInfo[]
       size: number
       sort: SortInfo
       totalElements: number

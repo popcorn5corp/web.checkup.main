@@ -128,7 +128,7 @@ function setContextValues(values: Partial<TableContextValues>) {
  */
 const { setColumns, getColumns } = useColumns(getProps)
 const { getLoading, setLoading } = useLoading(getProps)
-const { customRow, rowClassName } = useCustomRow({ emit })
+const { customRow, rowClassName, initCustomRow } = useCustomRow({ emit })
 
 /**
  * @description Table 관련 기능에 대한 Hooks
@@ -219,6 +219,7 @@ createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
 
 defineExpose({
   getDataSource: fetchDataSource,
+  initCustomRow,
   getColumns,
   reload: tableAction.reload,
   selectedRows,
@@ -247,52 +248,52 @@ watch(
 watch(
   () => dynamicTable?.getFilterFormItems(),
   async (filterFormItems) => {
-    const activeFilter = unref(dynamicTable.getContextValues).activeFilter
+    if (dynamicTable) {
+      const activeFilter = unref(dynamicTable.getContextValues).activeFilter
 
-    console.log('accc ', activeFilter)
-
-    if (activeFilter && filterFormItems.length) {
-      const _filterFormItems = cloneDeep(filterFormItems)
-      const defaultParam = {
-        page: 0,
-        size: 10,
-        searchWord: ''
-      }
-
-      type ParamValue = string | number | boolean
-      const filterParam: {
-        [key: string]: ParamValue | Array<ParamValue>
-      } = {
-        ...defaultParam
-      }
-
-      _filterFormItems.map((formItem) => {
-        const { type, key, selectedItems } = formItem
-
-        // Checkbox 타입일 경우에만 search 조건이 여러개가 가능하기때문에 Array로 세팅
-        if (type === 'Checkbox') {
-          key.map((k) => {
-            filterParam[k] = []
-
-            selectedItems?.map((item) => {
-              ;(filterParam[k] as Array<ParamValue>).push(item.value)
-            })
-          })
-
-          return
+      if (activeFilter && filterFormItems.length) {
+        const _filterFormItems = cloneDeep(filterFormItems)
+        const defaultParam = {
+          page: 0,
+          size: 10,
+          searchWord: ''
         }
 
-        key.map((k, i) => {
-          if (selectedItems.length) {
-            filterParam[k] = selectedItems[i].value
+        type ParamValue = string | number | boolean
+        const filterParam: {
+          [key: string]: ParamValue | Array<ParamValue>
+        } = {
+          ...defaultParam
+        }
+
+        _filterFormItems.map((formItem) => {
+          const { type, key, selectedItems } = formItem
+
+          // Checkbox 타입일 경우에만 search 조건이 여러개가 가능하기때문에 Array로 세팅
+          if (type === 'Checkbox') {
+            key.map((k) => {
+              filterParam[k] = []
+
+              selectedItems?.map((item) => {
+                ;(filterParam[k] as Array<ParamValue>).push(item.value)
+              })
+            })
+
+            return
           }
+
+          key.map((k, i) => {
+            if (selectedItems.length) {
+              filterParam[k] = selectedItems[i].value
+            }
+          })
         })
-      })
 
-      // console.log('Request Param :: ', filterParam)
+        // console.log('Request Param :: ', filterParam)
 
-      if (filterParam) {
-        await fetchDataSource({ isReset: false, filterParam })
+        if (filterParam) {
+          await fetchDataSource({ isReset: false, filterParam })
+        }
       }
     }
   },

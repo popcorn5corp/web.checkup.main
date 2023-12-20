@@ -7,6 +7,7 @@
     :filter-request="getFilters"
     :data-request="getDataSource"
     :data-callback="dataCallback"
+    :content-callback="contentCallback"
     :column-request="getColumns"
     @row-click="onClickRow"
     @row-delete="onRemovePost"
@@ -38,7 +39,7 @@
 
   <!-- <Drawer v-model:open="openDrawer" /> -->
 
-  <!-- <Modal v-model:open="isOpen" :title="title" :width="1000" destroyOnClose>
+  <Modal v-model:open="isOpen" :title="title" :width="500" destroyOnClose>
     <Spin :spinning="isLoading">
       <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
     </Spin>
@@ -67,7 +68,7 @@
       />
       <Button key="close" @click="onCloseModal" :label="$t('component.button.close')" />
     </template>
-  </Modal> -->
+  </Modal>
 </template>
 <script setup lang="ts" name="TableSample">
 import ExcelImage from '@/assets/images/excel.png'
@@ -77,7 +78,7 @@ import { BaseSampleService } from '@/services'
 import { Modal, Spin, message } from 'ant-design-vue'
 import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { IBaseSample } from '@/services/BaseSample/interface'
+import type { IBaseSample } from '@/services/base-sample/interface'
 import { Button } from '@/components/button'
 import { Drawer } from '@/components/drawer'
 import { DynamicTable } from '@/components/dynamic-table'
@@ -181,11 +182,20 @@ const getDataSource = (param: IBaseSample.BaseSamplesParam) => {
 }
 
 /**
- * @description 데이터 테이블 조회 이후 테이블에 바인딩하기 전, 데이터에 대한 전치리
+ * @description 데이터 테이블 조회 이후 data에 대한 전치리
  * @param data
  */
-const dataCallback = (data: IBaseSample.BaseSamples['posts']['content']) => {
-  return data
+const dataCallback = (data: { posts: IBaseSample.BaseSamples['posts'] }) => {
+  const { posts } = data
+  return posts
+}
+
+/**
+ * @description 데이터 테이블 조회 이후 content에 대한 전처리
+ * @param content
+ */
+const contentCallback = (content: IBaseSample.BaseSamples['posts']['content']) => {
+  return content
 }
 
 const getColumns = () => {
@@ -340,31 +350,4 @@ const onClickRegist = (): void => {
     padding: 10px;
   }
 }
-// .detail-wrapper {
-//   flex: 2;
-//   background-color: $color-white;
-//   // height: 100%;
-//   position: absolute;
-//   width: 500px;
-//   z-index: 2;
-//   right: 0;
-//   height: 100%;
-//   margin-right: -15px;
-//   margin-top: -15px;
-
-//   border: 0.5px solid $color-gray-4;
-
-//   > .title {
-//     display: flex;
-//     font-size: 16px;
-//     font-weight: bold;
-//     justify-content: space-between;
-//     padding: 18.5px;
-//     align-items: end;
-//   }
-
-//   :deep(.ant-divider) {
-//     margin: 0;
-//   }
-// }
 </style>

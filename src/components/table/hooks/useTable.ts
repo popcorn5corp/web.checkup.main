@@ -1,7 +1,8 @@
 import { Util } from '@/utils'
-import { type ComputedRef, computed, reactive, toRefs, unref, watch } from 'vue'
+import { type ComputedRef, computed, reactive, toRefs, unref } from 'vue'
 import type { TablePagination, TableProps, TableSorter } from '../types'
 import { defaultPaginaton } from '../types'
+import { ErrorMessage, TableError } from './error'
 
 interface State {
   dataSource: any[]
@@ -109,7 +110,14 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     param?: { searchWord?: string }
     filterParam?: Recordable
   }): Promise<void> => {
-    const { rowKey, dataRequest, dataSource, options: propsOptions, dataCallback } = unref(propsRef)
+    const {
+      rowKey,
+      dataRequest,
+      dataSource,
+      options: propsOptions,
+      dataCallback,
+      contentCallback
+    } = unref(propsRef)
 
     let _dataSource = []
     let _total = 0
@@ -125,7 +133,6 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       filterParam && (state.filterParam = filterParam)
 
       let requestParam: State['requestParam'] = {
-        // ...initParam,
         ...state.filterParam
       }
 
@@ -157,22 +164,35 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       try {
         const { data, success } = await dataRequest(requestParam)
 
-        if (success) {
-          const {
-            posts: { content, totalElements }
-          } = data
+        if (success && dataCallback) {
+          const dcResult = dataCallback(data)
 
-          // key 설정
+          if (dcResult === undefined) {
+            throw new TableError(ErrorMessage.DATACALLBACK.NO_RETURN_VALUE)
+          }
+
+          const { content, totalElements } = dcResult
+
+          if (!content) {
+            throw new TableError(ErrorMessage.DATACALLBACK.NO_CONTENT)
+          }
+
           content.map((record: Recordable, i: number) => {
             record['index'] = i
             record['rowKey'] = record[rowKey]
           })
-          _dataSource = dataCallback ? dataCallback(content) : content
-          state.pagination.total = totalElements
+
+          _dataSource = contentCallback ? contentCallback(content) : content
           _total = totalElements
+          state.pagination.total = totalElements
         }
-      } catch (e) {
-        console.log(e)
+      } catch (error) {
+        if (error instanceof TableError) {
+          console.warn(error.message)
+        } else {
+          console.log(error)
+          throw error
+        }
       }
     }
 

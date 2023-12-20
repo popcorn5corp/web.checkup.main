@@ -71,12 +71,14 @@
           </Table>
         </div>
 
-        <FilterForm
-          v-if="showFilter && !openDetail"
-          :items="getFilterFormItems"
-          @close="(flag: boolean) => (showFilter = flag)"
-          :style="{ width: props.showToolbar && showFilter && !openDetail ? '30%' : '' }"
-        ></FilterForm>
+        <KeepAlive>
+          <FilterForm
+            v-if="showFilter && !openDetail"
+            :items="getFilterFormItems"
+            @close="(flag: boolean) => (showFilter = flag)"
+            :style="{ width: props.showToolbar && showFilter && !openDetail ? '30%' : '' }"
+          ></FilterForm>
+        </KeepAlive>
 
         <div
           class="detail-wrapper"
@@ -87,7 +89,7 @@
           <div class="title">
             <slot name="detail-title"></slot>
 
-            <Button :size="'small'" @click="$emit('update:openDetail', false)" style="float: right">
+            <Button :size="'small'" @click="closeDetail" style="float: right">
               <template #icon>
                 <font-awesome-icon class="xmark" :icon="['fas', 'xmark']" />
               </template>
@@ -123,6 +125,7 @@
 <script setup lang="ts" name="DynamicTable">
 import { Divider, Space } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
+import type { KeepAlive } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
@@ -221,7 +224,7 @@ const { getFilterFormItems, clearSelectedItems, setFilterFormItem, initFilterFor
   useFilter(getProps)
 
 watch(
-  () => tableRef.value?.selectedRows,
+  () => unref(tableRef)?.selectedRows,
   (selectedRows) => {
     setContextValues({ selectedRows })
   }
@@ -237,6 +240,11 @@ watch(
     deep: true
   }
 )
+
+function closeDetail() {
+  emit('update:openDetail', false)
+  unref(tableRef)?.initCustomRow()
+}
 
 let dynamicTableAction: DynamicTableAction = {
   setProps,

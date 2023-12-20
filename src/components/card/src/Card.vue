@@ -167,7 +167,7 @@ a {
           align-items: center;
         }
         .title {
-          width: 72%;
+          width: 56%;
           font-size: 17px;
           font-weight: 600;
           white-space: nowrap;
