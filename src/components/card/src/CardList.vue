@@ -81,21 +81,33 @@ defineExpose({
   .card-list-container {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
+  // :deep(.card .img-wrapper) {
+  //   height: 6rem !important;
+  // }
 }
 @include xs {
   .card-list-container {
     grid-template-columns: repeat(v-bind('sizeStyles.xs'), minmax(0, 1fr));
   }
+  // :deep(.card .img-wrapper) {
+  //   height: 6rem !important;
+  // }
 }
 @include sm {
   .card-list-container {
     grid-template-columns: repeat(v-bind('sizeStyles.sm'), minmax(0, 1fr));
   }
+  // :deep(.card .img-wrapper) {
+  //   height: 6rem !important;
+  // }
 }
 @include md {
   .card-list-container {
     grid-template-columns: repeat(v-bind('sizeStyles.md'), minmax(0, 1fr));
   }
+  // :deep(.card .img-wrapper) {
+  //   height: 7rem !important;
+  // }
 }
 @include lg {
   .card-list-container {
@@ -106,10 +118,16 @@ defineExpose({
   .card-list-container {
     grid-template-columns: repeat(v-bind('sizeStyles.xl'), minmax(0, 1fr));
   }
+  // :deep(.card .img-wrapper) {
+  //   height: 9rem !important;
+  // }
 }
 @include xxl {
   .card-list-container {
     grid-template-columns: repeat(v-bind('sizeStyles.xxl'), minmax(0, 1fr));
   }
+  // :deep(.card .img-wrapper) {
+  //   height: 11rem !important;
+  // }
 }
 </style>
