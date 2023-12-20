@@ -37,31 +37,15 @@
 <script setup lang="ts" name="Modal">
 import { Modal } from 'ant-design-vue'
 import { ref } from 'vue'
+import type { ModalProps } from '../types'
 
 const emit = defineEmits(['ok', 'cancel', 'update:isVisible'])
-const props = defineProps({
-  positionCenter: {
-    type: Boolean,
-    default: false
-  },
-
-  okBtnText: {
-    type: String,
-    default: '완료'
-  },
-  useOkBtn: {
-    type: Boolean,
-    default: true
-  },
-
-  cancelBtnText: {
-    type: String,
-    default: '취소'
-  },
-  useCancelBtn: {
-    type: Boolean,
-    default: true
-  }
+const props = withDefaults(defineProps<ModalProps>(), {
+  positionCenter: false,
+  okBtnText: '완료',
+  useOkBtn: true,
+  cancelBtnText: '취소',
+  useCancelBtn: true
 })
 const isOpen = ref(true)
 </script>

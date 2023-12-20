@@ -4,10 +4,10 @@
     v-if="isVisible"
     @cancel="isVisible = false"
     @ok="handleComplete"
-    :cancelBtnText="'이전'"
-    :okBtnText="'다음'"
     :positionCenter="true"
-    :useCancelBtn="false"
+    :maskClosable="false"
+    :cancelBtnText="'이전'"
+    :okBtnText="'초대'"
   >
     <template #title>사용자 초대</template>
     <template #desciption>이메일로 사용자를 초대해보세요.</template>

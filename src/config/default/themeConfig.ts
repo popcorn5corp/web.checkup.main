@@ -54,34 +54,34 @@ export const layoutFonts: ReadonlyArray<LabelValue<LayoutFontSize>> = [
 export const themeColors: ReadonlyArray<LabelValue<string>> = [
   {
     label: 'Daybreak',
-    value: 'rgb(24, 144, 255)'
+    value: 'rgba(24, 144, 255, 1)'
   },
   {
     label: 'Dust',
-    value: 'rgb(245, 34, 45)'
+    value: 'rgba(245, 34, 45, 1)'
   },
   {
     label: 'Volcano',
-    value: 'rgb(250, 84, 28)'
+    value: 'rgba(250, 84, 28, 1)'
   },
   {
     label: 'Sunset',
-    value: 'rgb(250, 173, 20)'
+    value: 'rgba(250, 173, 20, 1)'
   },
   {
     label: 'Cyan',
-    value: 'rgb(19, 194, 194)'
+    value: 'rgba(19, 194, 194, 1)'
   },
   {
     label: 'Green',
-    value: 'rgb(82, 196, 26)'
+    value: 'rgba(82, 196, 26, 1)'
   },
   {
     label: 'Geekblue',
-    value: 'rgb(47, 84, 235)'
+    value: 'rgba(47, 84, 235, 1)'
   },
   {
     label: 'Purple',
-    value: 'rgb(114, 46, 209)'
+    value: 'rgba(114, 46, 209, 1)'
   }
 ] as const
