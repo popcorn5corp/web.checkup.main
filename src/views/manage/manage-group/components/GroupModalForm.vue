@@ -7,7 +7,12 @@
       <Input v-model:value="groupInfo.content" />
       <br />
       <h4 class="title">사용자 추가</h4>
-      <SearchSelect v-model="groupInfo.addUsers" :options="options" width="100%" />
+      <SearchSelect
+        v-model="groupInfo.addUsers"
+        :filterOption="true"
+        :options="options"
+        width="100%"
+      />
     </div>
   </Form>
 </template>

@@ -8,12 +8,12 @@ class ManageGroupService {
 
   constructor() {}
 
-  // 그룹 리스트 조회
+  /**
+   * @description 그룹 리스트 조회
+   * @returns 그룹 리스트 목록
+   */
   getGroupList(workspaceId: string, param: IManageGroup.GroupListParam) {
-    return service.get<IManageGroup.GroupListRequest>(
-      this.PATH + `/${workspaceId}/group/posts`,
-      param
-    )
+    return service.get(this.PATH + `/${workspaceId}/group/posts`, param)
   }
 
   /**
@@ -33,11 +33,19 @@ class ManageGroupService {
   }
 
   /**
-   * @description 그룹 사용자 목록 리스트 조회
-   * @returns 해당 사용자 디테일 조회
+   * @description 그룹 상세보기 조회
+   * @returns 그룹 유저 데이터
    */
-  getOneById(groupId: string) {
+  getGroupDetail(groupId: string) {
     return service.get<IManageGroup.Content>(this.PATH + `/group/${groupId}/users`)
+  }
+
+  /**
+   * @description 그룹 타임라인 조회
+   * @returns 그룹 타임라인 데이터
+   */
+  getGroupHistory(groupId: string, param: any) {
+    return service.get<IManageGroup.HistoryResponse>(this.PATH + `/group/${groupId}/logs`, param)
   }
 
   /**

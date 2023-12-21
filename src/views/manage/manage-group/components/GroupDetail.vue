@@ -18,7 +18,7 @@
       </template>
     </List>
 
-    <List :dataSource="props.data" :loading="loading">
+    <List :dataSource="dataSource" :loading="loading">
       <template #renderItem="{ item }">
         <ListItem>
           <a-skeleton avatar :title="false" :loading="!!item.loading" active>
@@ -34,8 +34,6 @@
           </a-skeleton>
 
           <template #actions>
-            <!-- <Badge theme="default" shape="squared">{{ item.status.value }}</Badge> -->
-
             <a-dropdown v-model:open="item.visible">
               <a class="ant-dropdown-link" @click.prevent> <MoreOutlined /> </a>
               <template #overlay>
@@ -54,6 +52,7 @@
       </template>
     </List>
   </div>
+
   <contextHolder />
 
   <a-modal
@@ -87,42 +86,57 @@ import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { h, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { IManageGroup } from '@/services/manage-group/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { List, ListItem, ListItemMeta } from '@/components/list'
 import { SearchSelect } from '@/components/search-select'
 
-type Post = IManageGroup.Content
-
 const { t } = useI18n()
-interface PostDetailProps {
-  data: Post
-  groupId: string
-}
-const props = defineProps<PostDetailProps>()
-const emit = defineEmits(['onReload'])
 
-const selectedValues = ref()
+type Props = { groupId: string }
+
+const props = defineProps<Props>()
+
 const options = ref([])
-const loading = ref(true)
+const loading = ref(false)
 const open = ref(false)
 
+const dataSource = ref([])
+const selectedValues = ref()
 const defaultDataSource = ref([{ name: '그룹에 사용자 추가' }])
 
 const { getWorkspace } = useWorkspaceStore()
 
 const [modal, contextHolder] = Modal.useModal()
 
-watch(
-  () => props.data,
-  (data) => {
-    loading.value = false
+function fetchGroupUserList() {
+  loading.value = true
 
-    console.log(data)
+  ManagerGroupService.getGroupDetail(props.groupId)
+    .then(
+      ({
+        success,
+        data: {
+          posts: { content }
+        }
+      }) => {
+        if (success) {
+          dataSource.value = content
+        }
+      }
+    )
+    .catch((error) => console.log(error))
+
+  setTimeout(() => (loading.value = false), 300)
+}
+
+watch(
+  props,
+  (groupId) => {
+    console.log('groupId >>> ', groupId)
+
+    fetchGroupUserList()
   },
-  {
-    immediate: true
-  }
+  { immediate: true }
 )
 
 watch(selectedValues.value, () => {
@@ -140,7 +154,7 @@ const getWorkspaceUserList = async (value: string) => {
     searchWord: value
   })
 
-  options.value = content.map((item: Post) => ({
+  options.value = content.map((item: any) => ({
     label: item.nickname,
     value: item.uid,
     description: item.email,
@@ -148,6 +162,13 @@ const getWorkspaceUserList = async (value: string) => {
   }))
 }
 
+function reload() {
+  loading.value = true
+  message.success(t('common.message.saveSuccess'), 1)
+  fetchGroupUserList()
+
+  loading.value = false
+}
 const onSubmit = () => {
   ManagerGroupService.addUserWithGroup(props.groupId, {
     workspaceId: getWorkspace.workspaceId,
@@ -158,13 +179,9 @@ const onSubmit = () => {
   })
     .then(({ success }) => {
       if (success) {
-        loading.value = true
-        message.success(t('common.message.saveSuccess'), 1)
         open.value = false
 
-        emit('onReload', props.groupId)
-
-        loading.value = false
+        reload()
       }
     })
     .catch((error) => {
@@ -186,12 +203,7 @@ const showDeleteConfirm = (uid: string) => {
       ManagerGroupService.removeUserWithGroup(props.groupId, uid)
         .then(({ success }) => {
           if (success) {
-            loading.value = true
-            message.success(t('common.message.saveSuccess'), 1)
-
-            emit('onReload', props.groupId)
-
-            loading.value = false
+            reload()
           }
         })
         .catch((error) => {
@@ -204,7 +216,7 @@ const showDeleteConfirm = (uid: string) => {
   })
 }
 
-const handleMenuClick: MenuProps['onClick'] = (uid) => {
+const handleMenuClick: MenuProps['onClick'] = (uid: any) => {
   showDeleteConfirm(uid)
 }
 </script>

@@ -28,19 +28,11 @@
       <template #detail-content>
         <div class="detail-contents">
           <div class="tab-wrapper">
-            <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
+            <PostDetail :data="selectedData" :isEdit="isEdit" :mode="mode" />
 
-            <a-tabs v-model:activeKey="activeKey">
-              <a-tab-pane key="1" tab="상세보기">
-                <GroupDetail
-                  :data="selectedPost"
-                  :groupId="selectedGroupId"
-                  @onReload="fetchGroupUserList"
-                />
-              </a-tab-pane>
-
-              <a-tab-pane key="2" tab="타임라인" force-render>
-                <GroupHistory />
+            <a-tabs v-model:active-key="activeKey" :destroyInactiveTabPane="true">
+              <a-tab-pane v-for="(tab, index) in tabInfo" :key="tab.key" :tab="tab.title">
+                <component :is="tab.component" :groupId="selectedData.groupId" />
               </a-tab-pane>
             </a-tabs>
           </div>
@@ -60,7 +52,7 @@
 <script setup lang="ts" name="ManageGroup">
 import { ManagerGroupService } from '@/services'
 import { message } from 'ant-design-vue'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -74,31 +66,31 @@ import GroupModalForm from './components/GroupModalForm.vue'
 import PostDetail from './components/PostDetail.vue'
 import { columns } from './mock'
 
+const tabInfo = {
+  Detail: {
+    key: 'Detail',
+    title: '상세보기',
+    component: GroupDetail
+  },
+  History: {
+    key: 'History',
+    title: '타임라인',
+    component: GroupHistory
+  }
+}
+
 const showDetail = ref(false)
-const isLoading = ref(false)
-const activeKey = ref('1')
+const activeKey = ref(tabInfo.Detail.key)
 const isVisible = ref(false)
 const groupInfo = ref()
-
-watch(
-  () => groupInfo.value,
-  (groupInfo) => {
-    console.log(groupInfo)
-  },
-  {
-    deep: true
-  }
-)
+const selectedData = ref()
 
 const { t } = useI18n()
-
 const DEFAULT_MODE = modes.R
 const mode = ref<ContentMode>(DEFAULT_MODE)
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
 
 const { getWorkspace } = useWorkspaceStore()
-const selectedPost = ref<IManageGroup.Content>()
-const selectedGroupId = ref()
 
 const getDataSource = (param: IManageGroup.GroupListParam) => {
   return ManagerGroupService.getGroupList(getWorkspace.workspaceId, param)
@@ -121,35 +113,13 @@ const contentCallback = (content: IManageGroup.GroupTableResponse['posts']['cont
   return content
 }
 
-const fetchGroupUserList = (groupId) => {
-  ManagerGroupService.getOneById(groupId).then(
-    ({
-      success,
-      data: {
-        posts: { content }
-      }
-    }) => {
-      if (success) {
-        selectedPost.value = content
-        selectedGroupId.value = groupId
-
-        console.log(selectedPost.value)
-        showDetail.value = true
-      }
-
-      setTimeout(() => {
-        isLoading.value = false
-      }, 200)
-    }
-  )
-}
-
 const onClickRow = (row: IManageGroup.Content): void => {
-  isLoading.value = true
-  mode.value = DEFAULT_MODE
-  console.log(row.groupId)
+  selectedData.value = row
+  console.log(row)
 
-  fetchGroupUserList(row.groupId)
+  showDetail.value = true
+
+  activeKey.value = tabInfo.Detail.key
 }
 
 /**
@@ -180,11 +150,6 @@ const createGroup = async () => {
 
 const onCancelModal = (): void => {
   isVisible.value = false
-}
-
-const initState = (): void => {
-  isVisible.value = false
-  mode.value = DEFAULT_MODE
 }
 
 const onClickInvite = (): void => {

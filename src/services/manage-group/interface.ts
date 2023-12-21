@@ -76,6 +76,18 @@ export namespace IManageGroup {
     size: number
   }
 
+  export interface LogItem {
+    logId: string
+    uid: string
+    nickname: string
+    createTime: string
+    status: statusInfo
+  }
+  export interface HistoryResponse {
+    issuedDate: string
+    logs: LogItem[]
+  }
+
   export interface Content {
     groupId: string
     uid: string
@@ -85,23 +97,7 @@ export namespace IManageGroup {
     thumbnail: BoardFile | null
   }
 
-  export interface BaseSample extends Content {
-    boardFiles: BoardFile[]
-  }
-
   export interface FilterResponse {
     filters: IFilter[]
-  }
-
-  export interface DuplicatedEmailParam {
-    inviteEmail: string
-  }
-  export interface DuplicatedEmailResponse {
-    inviteEmail: string
-    exist: boolean
-  }
-
-  export interface InviteUsersParam {
-    inviteEmails: string[]
   }
 }

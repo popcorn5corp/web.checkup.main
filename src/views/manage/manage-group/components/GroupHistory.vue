@@ -1,153 +1,70 @@
 <template>
   <div class="group-history-container">
-    <a-timeline pending="잠시만 기다려주세요...">
-      <template v-for="item in 2">
-        asdf
-        <a-timeline-item>Create a services site 2015-09-01</a-timeline-item>
-        <a-timeline-item>Solve initial network problems 2015-09-01</a-timeline-item>
-        <a-timeline-item>Technical testing 2015-09-01</a-timeline-item>
+    <a-timeline :pending="loading && '잠시만 기다려주세요...'">
+      <template v-for="{ issuedDate, logs } in groupLogs" :key="issuedDate">
+        <span>{{ issuedDate }}</span>
+        <template v-for="(log, index) in logs" :key="index">
+          <a-timeline-item>
+            <span>{{ log.createTime }}</span>
+            <p>
+              <span
+                ><b>{{ log.nickname }}</b
+                >님이
+              </span>
+              <span>{{ log.status.label }} 되었습니다.</span>
+            </p>
+          </a-timeline-item>
+        </template>
       </template>
     </a-timeline>
-    <a-button type="primary" style="margin-top: 16px" @click="handleClick">Toggle Reverse</a-button>
+
+    <a-button type="primary" style="margin-top: 16px" @click="fetchGroupHistory"
+      >더 불러오기</a-button
+    >
   </div>
 </template>
 
 <script setup lang="ts" name="ComponentsOverviewList">
 import { ManagerGroupService } from '@/services'
-import {
-  ExclamationCircleOutlined,
-  MinusOutlined,
-  MoreOutlined,
-  UserAddOutlined
-} from '@ant-design/icons-vue'
-import type { MenuProps } from 'ant-design-vue'
-import { Modal } from 'ant-design-vue'
-import { message } from 'ant-design-vue'
-import { h, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import type { IManageGroup } from '@/services/manage-group/interface'
-import { useWorkspaceStore } from '@/stores/modules/workspace'
-import { List, ListItem, ListItemMeta } from '@/components/list'
-import { SearchSelect } from '@/components/search-select'
+import { ref, watch } from 'vue'
 
-const reverse = ref<boolean>(false)
+const groupLogs = ref()
 
-const handleClick = () => {}
+type Props = { groupId: string }
 
-type Post = IManageGroup.Content
-
-const { t } = useI18n()
-interface PostDetailProps {
-  data: Post
-  groupId: string
-}
-const props = defineProps<PostDetailProps>()
-const emit = defineEmits(['onReload'])
-
-const selectedValues = ref()
-const options = ref([])
-const loading = ref(true)
-const open = ref(false)
-
-const defaultDataSource = ref([{ name: '그룹에 사용자 추가' }])
-
-const { getWorkspace } = useWorkspaceStore()
-
-const [modal, contextHolder] = Modal.useModal()
+const props = defineProps<Props>()
+const size = ref(0)
+const loading = ref(false)
 
 watch(
-  () => props.data,
-  (data) => {
-    loading.value = false
+  props,
+  (groupId) => {
+    console.log('groupId >>> ', groupId)
 
-    console.log(data)
+    fetchGroupHistory()
   },
-  {
-    immediate: true
-  }
+  { immediate: true }
 )
 
-watch(selectedValues.value, () => {
-  options.value = []
-  loading.value = false
-})
+function fetchGroupHistory() {
+  loading.value = true
 
-const getWorkspaceUserList = async (value: string) => {
-  options.value = []
-  const {
-    data: {
-      posts: { content }
-    }
-  } = await ManagerGroupService.getWorkspaceUserList(getWorkspace.workspaceId, props.groupId, {
-    searchWord: value
-  })
-
-  options.value = content.map((item: Post) => ({
-    label: item.nickname,
-    value: item.uid,
-    description: item.email,
-    prefixImg: item.thumbnail?.url
-  }))
-}
-
-const onSubmit = () => {
-  ManagerGroupService.addUserWithGroup(props.groupId, {
-    workspaceId: getWorkspace.workspaceId,
-    addUsers: selectedValues.value.map((item: any) => ({
-      uid: item.value,
-      nickname: item.label
-    }))
-  })
-    .then(({ success }) => {
-      if (success) {
-        loading.value = true
-        message.success(t('common.message.saveSuccess'), 1)
-        open.value = false
-
-        emit('onReload', props.groupId)
-
-        loading.value = false
+  size.value += 5
+  ManagerGroupService.getGroupHistory(props.groupId, { size: size.value }).then(
+    ({
+      success,
+      data: {
+        posts: { content }
       }
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-}
+    }) => {
+      if (success) {
+        groupLogs.value = content
+        console.log(content)
+      }
 
-const showDeleteConfirm = (uid: string) => {
-  modal.confirm({
-    title: '사용자를 그룹에서 제거하시겠습니까?',
-    icon: h(ExclamationCircleOutlined),
-    okText: '삭제',
-    okType: 'danger',
-    cancelText: '취소',
-    onOk() {
-      console.log('OK')
-      loading.value = true
-
-      ManagerGroupService.removeUserWithGroup(props.groupId, uid)
-        .then(({ success }) => {
-          if (success) {
-            loading.value = true
-            message.success(t('common.message.saveSuccess'), 1)
-
-            emit('onReload', props.groupId)
-
-            loading.value = false
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    onCancel() {
-      console.log('Cancel')
+      loading.value = false
     }
-  })
-}
-
-const handleMenuClick: MenuProps['onClick'] = (uid) => {
-  showDeleteConfirm(uid)
+  )
 }
 </script>
 
