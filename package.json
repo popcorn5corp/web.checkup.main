@@ -48,7 +48,7 @@
     "file-saver": "^2.0.5",
     "lodash-es": "^4.17.21",
     "pinia": "^2.0.36",
-    "pinia-plugin-persist": "^1.0.0",
+    "pinia-plugin-persistedstate": "^3.2.1",
     "qs": "^6.11.2",
     "sass": "^1.63.2",
     "sortablejs": "^1.15.0",
