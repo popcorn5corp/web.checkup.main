@@ -5,30 +5,28 @@ import { Input } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Spinner } from '@/components/spinner'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
-import { PageEnum } from '@/constants/pageEnum'
+import { PagePathEnum } from '@/constants/pageEnum'
 import SocialLoginBtns from './components/SocialLoginBnts.vue'
 
 const { query } = useRoute()
 const router = useRouter()
-const { setToken, login } = useAuthStore()
+const { setToken, login, getToken } = useAuthStore()
 
 const accessToken = query.accessToken as string
 const refreshToken = query.refreshToken as string
 const isSuccessSocialLogin = !!accessToken && !!refreshToken
 
-if (isSuccessSocialLogin) {
+if (isSuccessSocialLogin && !getToken) {
   console.log('login success!')
   setToken(ACCESS_TOKEN_KEY, accessToken)
-  setToken(REFRESH_TOKEN_KEY, refreshToken)
+  // setToken(REFRESH_TOKEN_KEY, refreshToken)
 
   login().then(
     (user) => {
-      console.log('[user]', user)
-      const isExistWorkpace = user.workspaceCount > 1
-
-      setTimeout(() => {
-        router.push(isExistWorkpace ? PageEnum.WORKSPACE_LIST : PageEnum.WORKSPACE)
-      }, 1500)
+      // const isExistWorkpace = user.workspaceCount > 1
+      // setTimeout(() => {
+      //   router.push(isExistWorkpace ? PagePathEnum.WORKSPACE_LIST : PagePathEnum.WORKSPACE)
+      // }, 1500)
     },
     (error) => {
       console.log(error)

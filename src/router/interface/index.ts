@@ -1,5 +1,5 @@
 export enum RouteNameEnum {
-  LOGIN = 'Login',
+  LOGIN = 'login',
   REDIRECT = 'REDIRECT',
   PAGE_NOT_FOUND = 'PAGE_NOT_FOUND'
 }

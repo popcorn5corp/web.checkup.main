@@ -54,7 +54,7 @@
           type="primary"
           size="large"
           :label="$t('component.button.toMain')"
-          @click="router.push({ name: 'root' })"
+          @click="router.push(PagePathEnum.BASE_HOME)"
         />
       </div>
     </div>
@@ -70,6 +70,7 @@ import { ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { PagePathEnum } from '@/constants/pageEnum'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -81,8 +82,9 @@ const {
   getStepType,
   getNextBtnDisabled,
   getFormValues,
-  getWorkspaceId,
-  getWorkspaceInviteLogId
+  // getWorkspaceId,
+  getWorkspaceInviteLogId,
+  getJoinParam
 } = toRefs(workspaceStore)
 const isLoading = ref(false)
 
@@ -108,15 +110,15 @@ const onComplete = async () => {
 
         if (success) {
           const { workspaceId, workspaceName } = data
-          workspaceStore.setWorkspaceIdAndName(workspaceId, workspaceName)
-          workspaceStore.setSelectedWorkspace({ workspaceId, workspaceName })
+          workspaceStore.setJoinParam({ workspaceId, workspaceName })
+          workspaceStore.setSelectedWorkspaceId(workspaceId)
         }
       } else {
         // 초대 api
         const { nickname, originName, saveName, path, size, ext } = getFormValues.value
         await WorkspaceService.joinWorkspace({
           uid: props.uid,
-          workspaceId: getWorkspaceId.value,
+          workspaceId: getJoinParam.value.workspaceId as string,
           workspaceInviteLogId: getWorkspaceInviteLogId.value,
           nickname,
           originName,

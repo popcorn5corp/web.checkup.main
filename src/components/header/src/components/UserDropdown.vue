@@ -2,7 +2,7 @@
   <Dropdown class="user-dropdown" :trigger="['click']">
     <Button shape="round">
       <template #icon>
-        <Badge status="processing" :text="getWorkspace.workspaceName" color="green" />
+        <Badge status="processing" :text="getWorkspace?.workspaceName" color="green" />
         <CaretDownOutlined />
       </template>
     </Button>
@@ -75,24 +75,25 @@ import {
 } from '@/components/icons'
 import { Tabs } from '@/components/tabs'
 import { TabPane } from '@/components/tabs'
-import { PageEnum } from '@/constants/pageEnum'
+import { PagePathEnum } from '@/constants/pageEnum'
 import DisplaySetting from './DisplaySetting.vue'
 import LanguageSetting from './LanguageSetting.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
-const { getWorkspace } = storeToRefs(useWorkspaceStore())
+const workspaceStore = useWorkspaceStore()
+const { getWorkspace } = storeToRefs(workspaceStore)
 const isOpen = ref(false)
 
 const onClickMenu: MenuProps['onClick'] = ({ key }) => {
   if (key === '1') {
-    router.push(PageEnum.WORKSPACE_CREATE)
+    router.push(PagePathEnum.WORKSPACE_CREATE)
   } else if (key === '2') {
-    router.push(PageEnum.WORKSPACE_LIST)
+    router.push(PagePathEnum.WORKSPACE_LIST)
   } else if (key === '3') {
     isOpen.value = true
   } else if (key === '5') {
-    authStore.logout()
+    authStore.logout(true)
   }
 }
 </script>

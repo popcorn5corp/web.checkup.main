@@ -25,12 +25,12 @@
 
 <script setup lang="ts" name="JoinComplete">
 import { WorkspaceService } from '@/services'
-import { reactive, ref, toRefs } from 'vue'
+import { reactive, ref, toRefs, unref } from 'vue'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import type { WorkspaceUsers } from '@/stores/modules/workspace'
 
 const workspaceStore = useWorkspaceStore()
-const { getWorkspaceId } = toRefs(workspaceStore)
+const { getJoinParam } = toRefs(workspaceStore)
 
 interface TState {
   workspaceName: string
@@ -47,10 +47,11 @@ const isLoading = ref(false)
 ;(async () => {
   try {
     isLoading.value = true
-    const { data } = await WorkspaceService.getWorkspaceInformation(getWorkspaceId.value)
+    const { data } = await WorkspaceService.getWorkspaceInformation(unref(getJoinParam).workspaceId)
     state.workspaceName = data.workspaceName
     state.totalUserCount = data.totalUserCount
     state.workspaceUsers = data.workspaceUsers
+    workspaceStore.setSelectedWorkspaceId(data.workspaceId)
   } catch (err) {
     console.log(err)
   } finally {

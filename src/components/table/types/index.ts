@@ -106,6 +106,18 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
    */
   initParam?: RequestParam
   /**
+   * 테이블 레이아웃 타입 정보
+   */
+  layoutType?: TableLayoutMode
+  /**
+   * 테이블 Toolbar 노출 여부
+   */
+  showToolbar?: boolean
+  /**
+   * 테이블 Toolbar 옵선 정보
+   */
+  toolbarOptions?: ToolbarOptions
+  /**
    * 테이블 데이터관련 Reqquest API
    * @param params Request Paramerter 정보
    */
@@ -127,17 +139,10 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
    */
   contentCallback?: (content: any) => Array<Record<string, any>>
   /**
-   * 테이블 레이아웃 타입 정보
+   * Request API에 대한 응답 CardView 정보 대응을 위한 Content 처리 Callback
+   * @param content
    */
-  layoutType?: TableLayoutMode
-  /**
-   * 테이블 Toolbar 노출 여부
-   */
-  showToolbar?: boolean
-  /**
-   * 테이블 Toolbar 옵선 정보
-   */
-  toolbarOptions?: ToolbarOptions
+  cardContentCallback?: (content: any) => Array<Record<string, any>>
 }
 
 export interface TableAction {
@@ -148,6 +153,7 @@ export interface TableAction {
     param?: { searchWord?: string }
   }) => Promise<void>
   getDataSource: () => Recordable[]
+  getCardData: () => Recordable[]
   getSize: () => TableSize | CardSize
   getLoading: () => boolean
   reload: (isReset?: boolean) => Promise<void>
