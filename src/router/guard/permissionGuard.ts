@@ -9,30 +9,25 @@ const defaultPagePath = PagePathEnum.BASE_HOME
 
 export function createPermissionGuard(router: Router) {
   router.beforeEach(async (to, _, next) => {
-    // const authStore = useAuthStore()
     const { getWorkspace, getWorkspaceId, getUserWorkspace } = useWorkspaceStore()
-    // const token = authStore.getToken
     const token = Util.Storage.get(ACCESS_TOKEN_KEY)
     const cacheWorkspaceId = Util.Storage.get(WORKSPACE_ID_KEY)
-    console.log('token :: ', token)
-    console.log('getWorkspaceId :: ', getWorkspaceId)
-    console.log('cacheWorkspaceId :: ', cacheWorkspaceId)
-    console.log('getWorkspace :: ', getWorkspace)
-    console.log('to path :: ', to.path)
+    // console.log('token :: ', token)
+    // console.log('getWorkspaceId :: ', getWorkspaceId)
+    // console.log('cacheWorkspaceId :: ', cacheWorkspaceId)
+    // console.log('getWorkspace :: ', getWorkspace)
+    // console.log('to path :: ', to.path)
 
     if (token) {
       if (to.path === PagePathEnum.BASE_LOGIN) {
-        // console.log('case 1 ')
         if (!getWorkspace) {
           return next(PagePathEnum.BASE_LOGIN)
         } else {
           return next(defaultPagePath)
         }
       } else if (!getWorkspace && getWorkspaceId) {
-        // console.log('case 2 ')
         await getUserWorkspace()
       } else if (!getWorkspace && cacheWorkspaceId) {
-        // console.log('case 3 ')
         await getUserWorkspace(cacheWorkspaceId)
       }
     }
