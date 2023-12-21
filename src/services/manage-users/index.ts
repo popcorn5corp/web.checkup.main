@@ -12,11 +12,21 @@ class ManageUserService {
   getUserList(workspaceId: string, param: IManageUser.UserListParam) {
     return service.get<IManageUser.UserListRequest>(this.PATH + `/${workspaceId}/users`, param)
   }
+
+  // 사용자 테이블 sort
   getSortableCodes() {
     return service.get<SortCodesResponse>(this.PATH + '/users/sortable-codes')
   }
+
+  // 사용자 테이블 filter
   getPageInfo() {
     return service.get<IBaseAPI.FilterResponse>(this.PATH + '/users/filters')
+  }
+
+  // 사용자 목록 상세 조회
+  getOneById(workspaceId: string, workspaceUserId: string) {
+    // TODO response 변경 예정
+    return service.get(this.PATH + `/${workspaceId}/user/${workspaceUserId}`)
   }
 
   // 사용자 초대 이메일 중복 확인

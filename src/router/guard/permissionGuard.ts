@@ -1,26 +1,31 @@
 import { useAuthStore } from '@/stores'
 import type { Router } from 'vue-router'
-import { getAppEnvConfig } from '@/utils/env'
-import { PageEnum } from '@/constants/pageEnum'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { PagePathEnum } from '@/constants/pageEnum'
 
-const whitePathList = ['/login']
-const defaultRoutePath = PageEnum.BASE_HOME
+const defaultPagePath = PagePathEnum.BASE_HOME
 
-export function createPermissonGuard(router: Router) {
-  router.beforeEach((to, _, next) => {
+export function createPermissionGuard(router: Router) {
+  router.beforeEach(async (to, _, next) => {
     const authStore = useAuthStore()
+    const workspaceStore = useWorkspaceStore()
     const token = authStore.getToken
-    next()
-    // getAppEnvConfig()
+    console.log('token :: ', token)
 
-    // if (!!token) {
-    //   if (to.path === PageEnum.BASE_LOGIN) {
-    //     next({ path: defaultRoutePath })
-    //   } else {
-    //     next()
-    //   }
-    // } else {
-    //   return next()
-    // }
+    if (token) {
+      if (to.path === PagePathEnum.BASE_LOGIN) {
+        if (!workspaceStore.getWorkspace) {
+          return next(false)
+        } else {
+          return next(defaultPagePath)
+        }
+      } else {
+        if (to.path === PagePathEnum.BASE_HOME && !workspaceStore.getWorkspace) {
+          await workspaceStore.getUserWorkspace()
+        }
+      }
+    }
+
+    next()
   })
 }

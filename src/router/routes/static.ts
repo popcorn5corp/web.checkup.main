@@ -26,26 +26,6 @@ export const staticRoutes: RouteRecordRaw[] = [
     redirect: '/dashboard'
   },
   {
-    path: '/login2',
-    name: 'login2',
-    component: () => import(/* webpackChunkName: "login2" */ '@/views/login/index2.vue'),
-    meta: {
-      title: 'Login',
-      layout: layoutTypes.pure,
-      public: true
-    }
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
-    meta: {
-      title: 'Login',
-      layout: layoutTypes.pure,
-      public: true
-    }
-  },
-  {
     path: '/workspace',
     name: 'workspace',
     component: () => import('@/views/workspace/index.vue'),
@@ -88,7 +68,6 @@ export const staticRoutes: RouteRecordRaw[] = [
       }
     ]
   },
-
   {
     path: '/dashboard',
     // name: 'dashboard',
@@ -365,14 +344,5 @@ export const staticRoutes: RouteRecordRaw[] = [
         }
       }
     ]
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'Error404',
-    component: () => import('@/views/ErrorView.vue'),
-    meta: {
-      layout: layoutTypes.pure,
-      public: true
-    }
   }
 ]

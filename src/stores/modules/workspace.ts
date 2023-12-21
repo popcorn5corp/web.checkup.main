@@ -1,8 +1,11 @@
+import { WorkspaceService } from '@/services'
+import { store } from '@/stores'
 import { Util } from '@/utils'
 import { defineStore } from 'pinia'
 import { type Component, computed, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import type { IWorkspace } from '@/services/workspace/interface'
 import NameProfileForm from '@/views/workspace/components/NameProfileForm.vue'
 import BuisnessTypeForm from '@/views/workspace/components/create/BuisnessTypeForm.vue'
 import CreateComplete from '@/views/workspace/components/create/CreateComplete.vue'
@@ -10,7 +13,7 @@ import InviteMemberForm from '@/views/workspace/components/create/InviteMemberFo
 import WorkspaceNameForm from '@/views/workspace/components/create/WorkspaceNameForm.vue'
 import InviteCodeFormVue from '@/views/workspace/components/invite/InviteCodeForm.vue'
 import JoinCompleteVue from '@/views/workspace/components/invite/JoinComplete.vue'
-import { THEME_KEY, WORKSPACE_KEY } from '@/constants/cacheKeyEnum'
+import { WORKSPACE_ID_KEY, WORKSPACE_KEY } from '@/constants/cacheKeyEnum'
 
 export interface Workspace {
   workspaceId: string
@@ -47,6 +50,21 @@ export interface WorkspaceUsers {
   userImagePath: string
 }
 
+export type IUserWorkspace = {
+  workspaceId: string
+  workspaceName: string
+  user: {
+    workspaceUserId: string
+    email: string
+    nickname: string
+    profile: string
+    status: {
+      label: string
+      value: IWorkspace.UserStatus
+    }
+  }
+}
+
 export interface WorkspaceState {
   stepType: WorkspaceStepType
   currentStep: number
@@ -54,7 +72,8 @@ export interface WorkspaceState {
   nextBtnDisabled: boolean
   formValues: WorkspaceFormValues
   joinParam: JoinParamValues
-  selectedWorkspace: Workspace
+  workspace: IUserWorkspace | null
+  selectedWorkspaceId: string | null
 }
 
 interface WorkspaceStep {
@@ -96,32 +115,32 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       workspaceInviteLogId: '', // 워크스페이스 초대로그 id
       workspaceName: '' // 워크스페이스 이름
     },
-    selectedWorkspace: Util.Storage.get(WORKSPACE_KEY) || {
-      workspaceId: '',
-      workspaceName: ''
-    }
+    // workspace: Util.Storage.get(WORKSPACE_KEY) || {
+    //   workspaceId: '',
+    //   workspaceName: ''
+    // },
+    selectedWorkspaceId: Util.Storage.get(WORKSPACE_ID_KEY),
+    workspace: null
   })
 
   // getter
   const getStepType = computed(() => state.stepType)
-  const getWorkspace = computed(() => state.selectedWorkspace)
+  const getWorkspace = computed(() => state.workspace)
   const getCurrentStep = computed(() => state.currentStep)
   const getNextBtnDisabled = computed(() => state.nextBtnDisabled)
-  const getWorkspaceId = computed(() => state.joinParam.workspaceId)
+  const getWorkspaceId = computed(() => state.selectedWorkspaceId)
   const getWorkspaceInviteLogId = computed(() => state.joinParam.workspaceInviteLogId)
   const getWorkspaceName = computed(() => state.joinParam.workspaceName)
   const getFormValues = computed<WorkspaceFormValues>(() => state.formValues)
-  const getSteps = computed(() => {
-    return state.stepType === 'create' ? createStep : inviteStep
+  const getSteps = computed(() => (state.stepType === 'create' ? createStep : inviteStep))
+
+  watch(getCurrentStep, (currentStep: number) => {
+    if (currentStep) {
+      state.nextBtnDisabled = true
+    }
   })
 
   // action
-  function resetCurrentStep() {
-    if (state.currentStep !== FIRST_STEP_COUNT) {
-      state.currentStep = FIRST_STEP_COUNT
-    }
-  }
-
   function prevCurrentStep() {
     if (state.currentStep === FIRST_STEP_COUNT) {
       resetType()
@@ -137,17 +156,26 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     state.currentStep += 1
   }
 
-  function resetType() {
-    state.stepType = null
-  }
-
   function setStepType(setpType: WorkspaceStepType) {
     state.stepType = setpType
   }
 
-  function setSelectedWorkspace(workspace: Workspace) {
-    state.selectedWorkspace = workspace
-    Util.Storage.set(WORKSPACE_KEY, workspace)
+  function setWorkspace(params: IUserWorkspace) {
+    state.workspace = {
+      ...params
+    }
+
+    Util.Storage.set(WORKSPACE_KEY, state.workspace)
+  }
+
+  function initWorkspace() {
+    state.workspace = null
+    Util.Storage.remove(WORKSPACE_ID_KEY)
+  }
+
+  function setSelectedWorkspaceId(workspaceId: string) {
+    state.selectedWorkspaceId = workspaceId
+    Util.Storage.set(WORKSPACE_ID_KEY, workspaceId)
   }
 
   function setNextBtnDisabled(disabled: boolean) {
@@ -184,20 +212,54 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     state.formValues.ext = ext || ''
   }
 
-  function setWorkspaceIdAndName(id: string, name: string) {
-    state.joinParam.workspaceId = id
-    state.joinParam.workspaceName = name
-  }
-
-  function setWorkspaceInviteLogId(id: string) {
-    state.joinParam.workspaceInviteLogId = id
-  }
-
-  watch(getCurrentStep, (currentStep: number) => {
-    if (currentStep) {
-      state.nextBtnDisabled = true
+  function setJoinParam(param: Partial<JoinParamValues>) {
+    state.joinParam = {
+      ...state.joinParam,
+      ...param
     }
-  })
+  }
+
+  /**
+   * @description 워크스페이스 상세정보 조회
+   * @param workspaceId
+   */
+  async function getUserWorkspace(workspaceId?: string) {
+    try {
+      const { data, success } = await WorkspaceService.getUserWorkspace(
+        workspaceId || (state.selectedWorkspaceId as string)
+      )
+
+      if (success) {
+        const {
+          workspace: { workspaceId, workspaceName },
+          workspaceUser
+        } = data
+
+        state.workspace = {
+          workspaceId,
+          workspaceName,
+          user: {
+            ...workspaceUser,
+            status: {
+              ...workspaceUser.userStatus
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  function resetType() {
+    state.stepType = null
+  }
+
+  function resetCurrentStep() {
+    if (state.currentStep !== FIRST_STEP_COUNT) {
+      state.currentStep = FIRST_STEP_COUNT
+    }
+  }
 
   const createStep: WorkspaceStep[] = [
     {
@@ -285,12 +347,19 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     resetType,
     setStepType,
     setNextBtnDisabled,
-    setSelectedWorkspace,
+    setWorkspace,
+    initWorkspace,
     pushFormValueInviteEmails,
     removeFormValueInviteEmails,
     initFormValueInviteEmails,
     setFormValueImgFile,
-    setWorkspaceIdAndName,
-    setWorkspaceInviteLogId
+    getUserWorkspace,
+    setJoinParam,
+    setSelectedWorkspaceId
   }
 })
+
+// for outside the setup
+export function useWorkspaceStoreWithOut() {
+  return useWorkspaceStore(store)
+}

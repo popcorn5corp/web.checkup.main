@@ -99,4 +99,20 @@ export namespace IWorkspace {
     totalUserCount: number
     workspaceUsers: WorkspaceUsers[]
   }
+
+  export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'WITHDRAWN' | 'REVOKE'
+  export interface WorkspaceUserInfo {
+    workspaceUserId: string
+    nickname: string
+    email: string
+    profile: string
+    userStatus: {
+      label: string
+      value: UserStatus
+    }
+  }
+  export interface UserWorkspaceResponse {
+    workspace: WorkspaceInfo
+    workspaceUser: WorkspaceUserInfo
+  }
 }

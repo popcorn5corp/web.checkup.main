@@ -1,5 +1,4 @@
 import type { TableColumnsType } from 'ant-design-vue'
-import { FILTER_UI, type FilterList } from '@/components/filter-form'
 
 export const columns: TableColumnsType = [
   {
