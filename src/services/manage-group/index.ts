@@ -86,6 +86,14 @@ class ManageGroupService {
   removeUserWithGroup(groupId: string, uid: string) {
     return service.delete(this.PATH + `/group/${groupId}/user`, { uid })
   }
+
+  /**
+   * @description 그룹 사용자 삭제
+   */
+  removeGroup(param: string[]) {
+    console.log(param)
+    return service.delete(this.PATH + `/group`, { groupdIds: param })
+  }
 }
 
 export default new ManageGroupService()

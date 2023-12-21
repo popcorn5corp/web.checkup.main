@@ -67,6 +67,7 @@
 
 <script setup lang="ts" name="PostDetail">
 import { IBaseSample } from '@/services'
+import { ManagerGroupService } from '@/services'
 import { Form, Input } from 'ant-design-vue'
 import { Modal } from 'ant-design-vue'
 import type { MenuProps } from 'ant-design-vue'
@@ -141,23 +142,24 @@ watch(
 
 const showDeleteConfirm = (uid: string) => {
   modal.confirm({
-    title: '사용자를 그룹에서 제거하시겠습니까?',
+    title: '그룹을 삭제하시겠습니까?',
     icon: h(ExclamationCircleOutlined),
     okText: '삭제',
     okType: 'danger',
     cancelText: '취소',
     onOk() {
-      // console.log('OK')
-      // loading.value = true
-      // ManagerGroupService.removeUserWithGroup(props.groupId, uid)
-      //   .then(({ success }) => {
-      //     if (success) {
-      //       reload()
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
+      console.log('OK')
+
+      console.log(props.data)
+
+      ManagerGroupService.removeGroup([props.data.groupId, 1])
+        .then(({ success }) => {
+          if (success) {
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     onCancel() {
       console.log('Cancel')

@@ -6,7 +6,7 @@
       :loading="loading"
       :pagination="pagination"
       :placeholder="placeholder"
-      :filterOption="filterOption"
+      :filterOption="true"
       :style="{ width: props.width ?? '50%' }"
       :not-found-content="loading ? undefined : null"
       mode="multiple"
@@ -70,9 +70,7 @@ import type { SearchSelectProps } from '../types'
 
 const emit = defineEmits(['update:modelValue', 'search'])
 
-const props = withDefaults(defineProps<SearchSelectProps>(), {
-  filterOption: true
-})
+const props = withDefaults(defineProps<SearchSelectProps>(), {})
 const loading = ref(false)
 const value = ref()
 

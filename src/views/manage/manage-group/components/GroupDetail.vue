@@ -58,18 +58,19 @@
   <a-modal
     v-model:open="open"
     title="그룹에 사용자 추가"
-    ok-text="저장"
+    ok-text="확인"
     cancel-text="취소"
+    :destroyOnClose="true"
     @ok="onSubmit"
   >
     <SearchSelect
       width="100%"
       v-model="selectedValues"
       :options="options"
-      :filterOption="false"
       placeholder="사용자의 이름을 입력해주세요."
-      @search="getWorkspaceUserList"
-    ></SearchSelect>
+    >
+      <template #statusDisabledText>이미 가입함</template>
+    </SearchSelect>
   </a-modal>
 </template>
 
@@ -135,6 +136,7 @@ watch(
     console.log('groupId >>> ', groupId)
 
     fetchGroupUserList()
+    getWorkspaceUserList()
   },
   { immediate: true }
 )
@@ -144,22 +146,34 @@ watch(selectedValues.value, () => {
   loading.value = false
 })
 
-const getWorkspaceUserList = async (value: string) => {
+async function getWorkspaceUserList() {
   options.value = []
-  const {
-    data: {
-      posts: { content }
-    }
-  } = await ManagerGroupService.getWorkspaceUserList(getWorkspace.workspaceId, props.groupId, {
-    searchWord: value
+  await ManagerGroupService.getWorkspaceUserList(getWorkspace.workspaceId, props.groupId, {
+    searchWord: ''
   })
-
-  options.value = content.map((item: any) => ({
-    label: item.nickname,
-    value: item.uid,
-    description: item.email,
-    prefixImg: item.thumbnail?.url
-  }))
+    .then(
+      ({
+        success,
+        data: {
+          posts: { content }
+        }
+      }) => {
+        console.log(success)
+        if (success) {
+          options.value = content.map((item: any) => ({
+            label: item.nickname,
+            value: item.nickname,
+            description: item.email,
+            prefixImg: item.thumbnail?.url,
+            uid: item.uid,
+            disabled: item.status.value === 'JOINED'
+          }))
+        }
+      }
+    )
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 function reload() {
@@ -173,7 +187,7 @@ const onSubmit = () => {
   ManagerGroupService.addUserWithGroup(props.groupId, {
     workspaceId: getWorkspace.workspaceId,
     addUsers: selectedValues.value.map((item: any) => ({
-      uid: item.value,
+      uid: item.uid,
       nickname: item.label
     }))
   })
@@ -191,9 +205,9 @@ const onSubmit = () => {
 
 const showDeleteConfirm = (uid: string) => {
   modal.confirm({
-    title: '사용자를 그룹에서 제거하시겠습니까?',
+    title: '사용자를 그룹에서 내보내시겠습니까?',
     icon: h(ExclamationCircleOutlined),
-    okText: '삭제',
+    okText: '확인',
     okType: 'danger',
     cancelText: '취소',
     onOk() {

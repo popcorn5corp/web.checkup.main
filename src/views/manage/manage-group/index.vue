@@ -1,6 +1,7 @@
 <template>
   <div class="manage-group-container">
     <DynamicTable
+      ref="dynamicTableRef"
       v-model:openDetail="showDetail"
       rowKey="key"
       :columns="columns"
@@ -40,7 +41,14 @@
       </template>
     </DynamicTable>
 
-    <Modal v-if="isVisible" @cancel="onCancelModal" @ok="createGroup" class="invite-modal">
+    <Modal
+      v-if="isVisible"
+      ok-text="확인"
+      cancel-text="취소"
+      @cancel="onCancelModal"
+      @ok="createGroup"
+      class="invite-modal"
+    >
       <template #title>사용자 그룹 등록</template>
       <template #body>
         <GroupModalForm v-model="groupInfo" />
@@ -66,6 +74,7 @@ import GroupModalForm from './components/GroupModalForm.vue'
 import PostDetail from './components/PostDetail.vue'
 import { columns } from './mock'
 
+const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 const tabInfo = {
   Detail: {
     key: 'Detail',
@@ -139,9 +148,17 @@ const createGroup = async () => {
     console.log(requestBody)
 
     await ManagerGroupService.createGroup(requestBody)
-    message.success(t('common.message.saveSuccess'), 1)
+      .then(({ success }) => {
+        if (success) {
+          message.success(t('common.message.saveSuccess'), 1)
+          onCancelModal()
+          dynamicTableRef.value?.reload({ isReset: true })
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 
-    onCancelModal()
     // TODO modal 로딩스피너 넣기
   } catch (error) {
     console.log(error)

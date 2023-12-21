@@ -2,7 +2,6 @@ import { Util } from '@/utils'
 import { defineStore } from 'pinia'
 import { computed, ref, unref, watch } from 'vue'
 import { THEME_KEY } from '@/constants/cacheKeyEnum'
-import { DEFAULT_PRIMARY } from '@/constants/settings'
 import {
   DeviceTypeEnum,
   type ProjectConfigState,
@@ -10,6 +9,7 @@ import {
   type ThemeName
 } from '../interface'
 
+const DEFAULT_PRIMARY = 'rgb(24, 144, 255)'
 const defaultConfig: ProjectConfigState = {
   layout: 'default',
   language: null,
@@ -22,7 +22,7 @@ const defaultConfig: ProjectConfigState = {
     navTheme: 'light',
     isRealDarkTheme: false,
     isDark: false,
-    primaryColor: 'rgb(24, 144, 255)', // '#F5222D', // primary color of ant design
+    primaryColor: DEFAULT_PRIMARY, // '#F5222D', // primary color of ant design
     menuPosition: 'sidemenu', // nav menu position: `sidemenu` or `topmenu`
     contentWidth: 'Fluid', // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
     fixedHeader: false, // sticky header
