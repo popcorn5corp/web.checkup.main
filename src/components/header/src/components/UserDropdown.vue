@@ -20,10 +20,10 @@
           <SettingOutlined />
           {{ $t('layout.header.dropdownItemSettings') }}
         </MenuItem>
-        <MenuItem key="4">
+        <!-- <MenuItem key="4">
           <UserOutlined />
           고객센터
-        </MenuItem>
+        </MenuItem> -->
         <MenuItem key="5">
           <LogoutOutlined />
           {{ $t('layout.header.dropdownItemLogout') }}
@@ -50,7 +50,7 @@
         <TabPane key="3" :tab="$t('layout.header.settings.tabDisplaySetting')">
           <DisplaySetting />
         </TabPane>
-        <TabPane key="4" :tab="$t('layout.header.settings.tabLangRegions')">
+        <TabPane key="4" :tab="$t('layout.header.settings.tabLangRegion')">
           <LanguageSetting />
         </TabPane>
       </Tabs>

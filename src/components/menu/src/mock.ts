@@ -26,7 +26,6 @@ export const menus: any = [
         meta: {
           // title: 'routes.dashboard.workbench',
           title: '대시보드',
-          icon: 'magnifying-glass-chart',
           namePath: ['dashboard', 'dashboard'],
           fullPath: '/dashboard'
         }
@@ -34,139 +33,275 @@ export const menus: any = [
     ]
   },
   {
-    path: '/fms',
-    name: 'fms',
-    // redirect: '/dashboard/welcome',
-    component: {
-      name: 'LayoutParentView',
-      __hmrId: 'f60f4a90',
-      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
-    },
+    path: '/work',
+    name: 'work',
     meta: {
-      // title: 'routes.dashboard.dashboard',
-      title: 'FMS',
+      title: '업무',
       icon: 'satellite-dish',
-      namePath: ['fms'],
-      fullPath: '/fms'
+      namePath: ['work'],
+      fullPath: '/work'
     },
     children: [
       {
-        path: 'facility',
-        name: 'fms-facility',
+        path: 'template-manage',
+        name: 'work-template-manage',
         meta: {
-          // title: 'routes.dashboard.workbench',
-          title: '설비 이력',
-          icon: 'satellite-dish',
-          namePath: ['fms', 'facility'],
-          fullPath: '/fms/facility'
-        },
-        children: [
-          {
-            path: 'status',
-            name: 'fms-facility-status',
-            meta: {
-              title: '설비 현황',
-              icon: 'satellite-dish',
-              namePath: ['fms', 'facility', 'status'],
-              fullPath: '/fms/facility/status'
-            }
-          },
-          {
-            path: 'category',
-            name: 'fms-facility-category',
-            meta: {
-              title: '설비 카테고리',
-              icon: 'satellite-dish',
-              namePath: ['fms', 'facility', 'category'],
-              fullPath: '/fms/facility/category'
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    path: '/ems',
-    name: 'ems',
-    // redirect: '/dashboard/welcome',
-    component: {
-      name: 'LayoutParentView',
-      __hmrId: 'f60f4a90',
-      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
-    },
-    meta: {
-      // title: 'routes.dashboard.dashboard',
-      title: 'EMS',
-      icon: 'plug-circle-bolt',
-      namePath: ['ems'],
-      fullPath: '/ems'
-    },
-    children: [
+          title: '업무 템플릿 관리',
+          namePath: ['work', 'template-manage'],
+          fullPath: '/work/template-manage'
+        }
+      },
       {
-        path: 'utilities',
-        name: 'ems-utilities',
+        path: 'work-status',
+        name: 'work-work-status',
         meta: {
-          // title: 'routes.dashboard.workbench',
-          title: '수도광열비',
-          icon: 'plug-circle-bolt',
-          namePath: ['ems', 'utilities'],
-          fullPath: '/ems/utilities'
-        },
-        children: [
-          {
-            path: 'performance',
-            name: 'ems-utilities-performance',
-            meta: {
-              title: '수도광열비 실적',
-              icon: 'plug-circle-bolt',
-              namePath: ['ems', 'utilities', 'performance'],
-              fullPath: '/ems/utilities/performance'
-            }
-          },
-          {
-            path: 'site',
-            name: 'ems-utilities-site',
-            meta: {
-              title: '사업장 영업정보',
-              icon: 'plug-circle-bolt',
-              namePath: ['ems', 'utilities', 'site'],
-              fullPath: '/ems/utilities/site'
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    path: '/partner',
-    name: 'partner',
-    // redirect: '/dashboard/welcome',
-    component: {
-      name: 'LayoutParentView',
-      __hmrId: 'f60f4a90',
-      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
-    },
-    meta: {
-      // title: 'routes.dashboard.dashboard',
-      title: '파트너',
-      icon: 'handshake',
-      namePath: ['partner'],
-      fullPath: '/partner'
-    },
-    children: [
+          title: '업무 현황',
+          namePath: ['work', 'work-status'],
+          fullPath: '/work/work-status'
+        }
+      },
       {
-        path: 'search',
-        name: 'partner-search',
+        path: 'report-manage',
+        name: 'work-report-manage',
         meta: {
-          // title: 'routes.dashboard.workbench',
-          title: '파트너 검색',
-          icon: 'handshake',
-          namePath: ['partner', 'partner-search'],
-          fullPath: '/partner/search'
+          title: '레포트 관리',
+          namePath: ['work', 'report-manage'],
+          fullPath: '/work/report-manage'
         }
       }
     ]
   },
+  {
+    path: '/facility',
+    name: 'facility',
+    // redirect: '/dashboard/welcome',
+    component: {
+      name: 'LayoutParentView',
+      __hmrId: 'f60f4a90',
+      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
+    },
+    meta: {
+      // title: 'routes.dashboard.dashboard',
+      title: '설비',
+      icon: 'plug-circle-bolt',
+      namePath: ['facility'],
+      fullPath: '/facility'
+    },
+    children: [
+      {
+        path: 'status',
+        name: 'facility-status',
+        meta: {
+          title: '설비 현황',
+          namePath: ['facility', 'facility-status'],
+          fullPath: '/facility/facility-status'
+        }
+      },
+      {
+        path: 'category',
+        name: 'facility-category',
+        meta: {
+          title: '카테고리 관리',
+          namePath: ['facility', 'facility-category'],
+          fullPath: '/facility/facility-category'
+        }
+      },
+      {
+        path: 'part',
+        name: 'facility-part',
+        meta: {
+          title: '부품 관리',
+          namePath: ['facility', 'facility-part'],
+          fullPath: '/facility/facility-part'
+        }
+      }
+      // {
+      //   path: 'facility',
+      //   name: 'fms-facility',
+      //   meta: {
+      //     // title: 'routes.dashboard.workbench',
+      //     title: '설비 이력',
+      //     icon: 'satellite-dish',
+      //     namePath: ['fms', 'facility'],
+      //     fullPath: '/fms/facility'
+      //   },
+      //   children: [
+      //     {
+      //       path: 'status',
+      //       name: 'fms-facility-status',
+      //       meta: {
+      //         title: '설비 현황',
+      //         icon: 'satellite-dish',
+      //         namePath: ['fms', 'facility', 'status'],
+      //         fullPath: '/fms/facility/status'
+      //       }
+      //     },
+      //     {
+      //       path: 'category',
+      //       name: 'fms-facility-category',
+      //       meta: {
+      //         title: '설비 카테고리',
+      //         icon: 'satellite-dish',
+      //         namePath: ['fms', 'facility', 'category'],
+      //         fullPath: '/fms/facility/category'
+      //       }
+      //     }
+      //   ]
+      // }
+    ]
+  },
+  {
+    path: '/purchase',
+    name: 'purchase',
+    component: {
+      name: 'LayoutParentView',
+      __hmrId: 'f60f4a90',
+      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
+    },
+    meta: {
+      title: '구매',
+      icon: 'handshake',
+      namePath: ['purchase'],
+      fullPath: '/purchase'
+    },
+    children: [
+      {
+        path: 'apply-status',
+        name: 'purchase-apply-status',
+        meta: {
+          title: '신청 현황',
+          namePath: ['purchase', 'apply-status'],
+          fullPath: '/purchase/apply-status'
+        }
+      }
+    ]
+  },
+  {
+    path: '/manage',
+    name: 'manage',
+    component: {
+      name: 'LayoutParentView',
+      __hmrId: 'f60f4a90',
+      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
+    },
+    meta: {
+      title: '관리',
+      icon: 'users',
+      namePath: ['manage'],
+      fullPath: '/manage'
+    },
+    children: [
+      {
+        path: 'users',
+        name: 'manage-users',
+        meta: {
+          title: '사용자 관리',
+          namePath: ['manage', 'manage-users'],
+          fullPath: '/manage/users'
+        }
+      },
+      {
+        path: 'group',
+        name: 'manage-group',
+        meta: {
+          title: '그룹 관리',
+          namePath: ['manage', 'manage-group'],
+          fullPath: '/manage/group'
+        }
+      },
+      {
+        path: 'module',
+        name: 'manage-module',
+        meta: {
+          title: '모듈 관리',
+          namePath: ['manage', 'manage-module'],
+          fullPath: '/manage/module'
+        }
+      }
+    ]
+  }
+  // {
+  //   path: '/ems',
+  //   name: 'ems',
+  //   // redirect: '/dashboard/welcome',
+  //   component: {
+  //     name: 'LayoutParentView',
+  //     __hmrId: 'f60f4a90',
+  //     __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
+  //   },
+  //   meta: {
+  //     // title: 'routes.dashboard.dashboard',
+  //     title: 'EMS',
+  //     icon: 'plug-circle-bolt',
+  //     namePath: ['ems'],
+  //     fullPath: '/ems'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'utilities',
+  //       name: 'ems-utilities',
+  //       meta: {
+  //         // title: 'routes.dashboard.workbench',
+  //         title: '수도광열비',
+  //         icon: 'plug-circle-bolt',
+  //         namePath: ['ems', 'utilities'],
+  //         fullPath: '/ems/utilities'
+  //       },
+  //       children: [
+  //         {
+  //           path: 'performance',
+  //           name: 'ems-utilities-performance',
+  //           meta: {
+  //             title: '수도광열비 실적',
+  //             icon: 'plug-circle-bolt',
+  //             namePath: ['ems', 'utilities', 'performance'],
+  //             fullPath: '/ems/utilities/performance'
+  //           }
+  //         },
+  //         {
+  //           path: 'site',
+  //           name: 'ems-utilities-site',
+  //           meta: {
+  //             title: '사업장 영업정보',
+  //             icon: 'plug-circle-bolt',
+  //             namePath: ['ems', 'utilities', 'site'],
+  //             fullPath: '/ems/utilities/site'
+  //           }
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
+  // {
+  //   path: '/partner',
+  //   name: 'partner',
+  //   // redirect: '/dashboard/welcome',
+  //   component: {
+  //     name: 'LayoutParentView',
+  //     __hmrId: 'f60f4a90',
+  //     __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
+  //   },
+  //   meta: {
+  //     // title: 'routes.dashboard.dashboard',
+  //     title: '파트너',
+  //     icon: 'handshake',
+  //     namePath: ['partner'],
+  //     fullPath: '/partner'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'search',
+  //       name: 'partner-search',
+  //       meta: {
+  //         // title: 'routes.dashboard.workbench',
+  //         title: '파트너 검색',
+  //         icon: 'handshake',
+  //         namePath: ['partner', 'partner-search'],
+  //         fullPath: '/partner/search'
+  //       }
+  //     }
+  //   ]
+  // },
   // {
   //   path: '/setting',
   //   name: 'setting',
@@ -197,141 +332,104 @@ export const menus: any = [
   //     }
   //   ]
   // },
-  {
-    path: '/manage',
-    name: 'manage',
-    component: {
-      name: 'LayoutParentView',
-      __hmrId: 'f60f4a90',
-      __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
-    },
-    meta: {
-      title: '관리',
-      icon: 'users',
-      namePath: ['manage'],
-      fullPath: '/manage'
-    },
-    children: [
-      {
-        path: 'users',
-        name: 'manage-users',
-        meta: {
-          title: '사용자 관리',
-          icon: 'users',
-          namePath: ['manage', 'manage-users'],
-          fullPath: '/manage/users'
-        }
-      },
-      {
-        path: 'group',
-        name: 'manage-group',
-        meta: {
-          title: '그룹 관리',
-          icon: 'users',
-          namePath: ['manage', 'manage-group'],
-          fullPath: '/manage/group'
-        }
-      }
-    ]
-  },
-  {
-    path: '/samples',
-    name: 'samples',
-    // redirect: '/dashboard/welcome',
-    meta: {
-      // title: 'routes.dashboard.dashboard',
-      title: 'Samples',
-      icon: 'kaaba',
-      namePath: ['samples'],
-      fullPath: '/samples'
-    },
-    children: [
-      {
-        path: 'dynamic-table',
-        name: 'samples-dynamic-table',
-        meta: {
-          // title: 'routes.dashboard.workbench',
-          title: 'Dynamic Table',
-          icon: 'kaaba',
-          namePath: ['samples', 'samples-dynamic-table'],
-          fullPath: '/samples/dynamic-table'
-        }
-      }
-    ]
-  },
-  {
-    path: '/components',
-    name: 'components',
-    meta: {
-      title: 'UI Components',
-      icon: 'icons',
-      namePath: ['components'],
-      fullPath: '/components'
-    },
-    children: [
-      {
-        path: 'table',
-        name: 'components-table',
-        meta: {
-          title: 'Table',
-          namePath: ['components', 'components-table'],
-          fullPath: '/components/table'
-        }
-      },
-      {
-        path: 'accordion',
-        name: 'components-accordion',
-        meta: {
-          title: 'Accordion',
-          namePath: ['components', 'components-accordion'],
-          fullPath: '/components/accordion'
-        }
-      },
-      {
-        path: 'modal',
-        name: 'components-modal',
-        meta: {
-          title: 'Modal',
-          namePath: ['components', 'components-modal'],
-          fullPath: '/components/modal'
-        }
-      },
-      {
-        path: 'card',
-        name: 'components-card',
-        meta: {
-          title: 'Card',
-          namePath: ['components', 'components-card'],
-          fullPath: '/components/card'
-        }
-      },
-      {
-        path: 'list',
-        name: 'components-list',
-        meta: {
-          title: 'List',
-          namePath: ['components', 'components-list'],
-          fullPath: '/components/list'
-        }
-      },
-      {
-        path: 'form',
-        name: 'components-form',
-        meta: {
-          title: 'Form',
-          namePath: ['components', 'components-form'],
-          fullPath: '/components/form'
-        }
-      },
-      {
-        path: 'search-select',
-        name: 'components-search-select',
-        meta: {
-          title: 'SearchSelect',
-          namePath: ['components', 'components-search-select'],
-          fullPath: '/components/search-select'
-        }
-      }
-    ]
-  }
+  // {
+  //   path: '/samples',
+  //   name: 'samples',
+  //   // redirect: '/dashboard/welcome',
+  //   meta: {
+  //     // title: 'routes.dashboard.dashboard',
+  //     title: 'Samples',
+  //     icon: 'kaaba',
+  //     namePath: ['samples'],
+  //     fullPath: '/samples'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'dynamic-table',
+  //       name: 'samples-dynamic-table',
+  //       meta: {
+  //         // title: 'routes.dashboard.workbench',
+  //         title: 'Dynamic Table',
+  //         icon: 'kaaba',
+  //         namePath: ['samples', 'samples-dynamic-table'],
+  //         fullPath: '/samples/dynamic-table'
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/components',
+  //   name: 'components',
+  //   meta: {
+  //     title: 'UI Components',
+  //     icon: 'icons',
+  //     namePath: ['components'],
+  //     fullPath: '/components'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'components-table',
+  //       meta: {
+  //         title: 'Table',
+  //         namePath: ['components', 'components-table'],
+  //         fullPath: '/components/table'
+  //       }
+  //     },
+  //     {
+  //       path: 'accordion',
+  //       name: 'components-accordion',
+  //       meta: {
+  //         title: 'Accordion',
+  //         namePath: ['components', 'components-accordion'],
+  //         fullPath: '/components/accordion'
+  //       }
+  //     },
+  //     {
+  //       path: 'modal',
+  //       name: 'components-modal',
+  //       meta: {
+  //         title: 'Modal',
+  //         namePath: ['components', 'components-modal'],
+  //         fullPath: '/components/modal'
+  //       }
+  //     },
+  //     {
+  //       path: 'card',
+  //       name: 'components-card',
+  //       meta: {
+  //         title: 'Card',
+  //         namePath: ['components', 'components-card'],
+  //         fullPath: '/components/card'
+  //       }
+  //     },
+  //     {
+  //       path: 'list',
+  //       name: 'components-list',
+  //       meta: {
+  //         title: 'List',
+  //         namePath: ['components', 'components-list'],
+  //         fullPath: '/components/list'
+  //       }
+  //     },
+  //     {
+  //       path: 'form',
+  //       name: 'components-form',
+  //       meta: {
+  //         title: 'Form',
+  //         namePath: ['components', 'components-form'],
+  //         fullPath: '/components/form'
+  //       }
+  //     },
+  //     {
+  //       path: 'search-select',
+  //       name: 'components-search-select',
+  //       meta: {
+  //         title: 'SearchSelect',
+  //         namePath: ['components', 'components-search-select'],
+  //         fullPath: '/components/search-select'
+  //       }
+  //     }
+  //   ]
+  // }
 ]

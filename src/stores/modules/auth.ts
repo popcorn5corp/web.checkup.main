@@ -181,7 +181,6 @@ export const useAuthStore = defineStore(
     function setToken(tokenKey: TokenKey = ACCESS_TOKEN_KEY, token: string) {
       state.token = token
       Util.Storage.set(tokenKey, token)
-      console.log('state.token :: ', state.token)
     }
 
     // function getToken(tokenKey: TokenKey = ACCESS_TOKEN_KEY) {
