@@ -6,8 +6,10 @@
     :columns="columns"
     :filter-request="getFilters"
     :data-request="getDataSource"
-    :data-callback="dataCallback"
     :column-request="getColumns"
+    :data-callback="dataCallback"
+    :content-callback="contentCallback"
+    :card-content-callback="cardContentCallback"
     @row-click="onClickRow"
     @row-delete="onRemovePost"
     @row-add="onClickRegist"
@@ -75,9 +77,11 @@ import PdfImage from '@/assets/images/pdf.png'
 import PptImage from '@/assets/images/ppt.png'
 import { BaseSampleService } from '@/services'
 import { Modal, Spin, message } from 'ant-design-vue'
+import type { log } from 'console'
+import type { map } from 'lodash-es'
 import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { IBaseSample } from '@/services/BaseSample/interface'
+import type { IBaseSample } from '@/services/base-sample/interface'
 import { Button } from '@/components/button'
 import { Drawer } from '@/components/drawer'
 import { DynamicTable } from '@/components/dynamic-table'
@@ -133,9 +137,9 @@ const profileImg = computed(() => {
   }
 })
 
-// ;(() => {
-//   BaseSampleService.getPermissionCodes()
-// })()
+;(() => {
+  BaseSampleService.getPermissionCodes()
+})()
 
 const getFilters = () => {
   return BaseSampleService.getPageInfo()
@@ -181,11 +185,37 @@ const getDataSource = (param: IBaseSample.BaseSamplesParam) => {
 }
 
 /**
- * @description 데이터 테이블 조회 이후 테이블에 바인딩하기 전, 데이터에 대한 전치리
+ * @description 데이터 테이블 조회 이후 data에 대한 전치리
  * @param data
  */
-const dataCallback = (data: IBaseSample.BaseSamples['posts']['content']) => {
-  return data
+const dataCallback = (data: { posts: IBaseSample.BaseSamples['posts'] }) => {
+  const { posts } = data
+  return posts
+}
+
+/**
+ * @description 데이터 테이블 조회 이후 content에 대한 전처리
+ * @param content
+ */
+const contentCallback = (content: IBaseSample.BaseSamples['posts']['content']) => {
+  return content
+}
+
+/**
+ * @description 카드 리스트 정보 대응을 위한 content에 대한 전처리
+ * @param content
+ */
+const cardContentCallback = (content: IBaseSample.BaseSamples['posts']['content']) => {
+  return content.map((r) => {
+    return {
+      ...r,
+      title: r.boardTitle,
+      tag: r.division,
+      content: r.boardContent
+      // 포맷 안 거쳐도 되는 날짜 데이터
+      // date: r.joinDate
+    }
+  })
 }
 
 const getColumns = () => {

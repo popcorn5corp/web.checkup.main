@@ -1,5 +1,5 @@
 <template>
-  <span :class="getBadgeClass">{{ text }}</span>
+  <span :class="getBadgeClass">{{ text }}<slot /></span>
 </template>
 
 <script setup lang="ts" name="Badge">

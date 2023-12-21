@@ -2,25 +2,26 @@
   <div class="menu-header">
     <div class="user-preview">
       <div class="img-wrapper">
-        <!-- <img src="@/assets/images/avatar2.png" /> -->
-        <Avatar style="background-color: #c6c6c6">
+        <img :src="getWorkspace?.user.profile" />
+        <!-- <Avatar style="background-color: #c6c6c6">
           <template #icon>
             <UserOutlined />
           </template>
-        </Avatar>
+        </Avatar> -->
       </div>
       <div class="info" v-if="!collapsed">
-        <div class="name">{{ getUser.userName }}</div>
-        <div class="email">{{ getUser.userId }}</div>
+        <div class="name">{{ getWorkspace?.user.nickname }}</div>
+        <div class="email">{{ getWorkspace?.user.email }}</div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts" name="MenuHeader">
-import { useAuthStore } from '@/stores'
 import { Avatar } from 'ant-design-vue'
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { UserOutlined } from '@/components/icons'
 
 interface Props {
@@ -28,7 +29,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const { getUser } = useAuthStore()
+const { getWorkspace } = storeToRefs(useWorkspaceStore())
 const { getTheme } = useProjectConfigStore()
 
 const styles = computed(() => {

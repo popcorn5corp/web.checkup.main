@@ -14,6 +14,8 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 const workspaceStore = useWorkspaceStore()
 const { getCurrentStep, getSteps } = toRefs(workspaceStore)
+
+workspaceStore.initFormValues()
 </script>
 
 <style lang="scss">

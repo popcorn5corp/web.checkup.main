@@ -3,7 +3,7 @@
     <Spin :spinning="loading">
       <div class="pagination-wrapper">
         <Pagination
-          v-if="dataSource.length"
+          v-if="cardData.length"
           size="small"
           :current="pagination.current"
           :pageSize="pagination.pageSize"
@@ -14,10 +14,10 @@
       </div>
 
       <CardList
-        v-if="dataSource.length"
+        v-if="cardData.length"
         ref="cardListRef"
         :rowKey="props.rowKey"
-        :items="dataSource"
+        :items="cardData"
         :useCheckbox="true"
         :size="size"
         :detailBtnPosition="'bottom'"
@@ -52,7 +52,7 @@ const table = useTableContext()
 const { getTheme } = useProjectConfigStore()
 const cardListRef = ref<InstanceType<typeof CardList>>()
 const loading = computed(() => table.getLoading())
-const dataSource = computed(() => table.getDataSource())
+const cardData = computed(() => table.getCardData())
 const pagination = computed(
   () => unref(table.getBindValues).pagination
 ) as ComputedRef<TablePagination>

@@ -10,13 +10,19 @@ import qs from 'qs'
 import { useAuthStore } from '@/stores/modules/auth'
 import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import { ContentTypeEnum } from '@/constants/httpEnum'
+import { AxiosCanceler } from './axiosCancel'
 import type { AxiosTransform } from './axiosTransform'
+
+export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined
 
 export interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   noLoading?: boolean
   transform?: AxiosTransform
   authenticationScheme?: string
-  // requestOptions?: RequestOptions;
+  requestOptions?: {
+    errorMessageMode?: ErrorMessageMode
+    ignoreCancelToken?: boolean
+  }
 }
 
 export class AxiosHttpClient {
@@ -55,11 +61,18 @@ export class AxiosHttpClient {
       responseInterceptorsCatch
     } = transform
 
+    // const axiosCanceler = new AxiosCanceler()
+
     /**
      * @description Set Request Interceptor
      */
     this.axiosInstance.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
+        // const requestOptions =
+        //   (config as unknown as any).requestOptions ?? this.options.requestOptions
+        // const ignoreCancelToken = requestOptions?.ignoreCancelToken ?? true
+        // !ignoreCancelToken && axiosCanceler.addPending(config)
+
         return requestInterceptors(config, this.options)
       },
       (error: AxiosError) => {
@@ -72,6 +85,8 @@ export class AxiosHttpClient {
      */
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => {
+        // response && axiosCanceler.removePending(response.config)
+
         return responseInterceptors(response).data
       },
       (error: AxiosError) => {

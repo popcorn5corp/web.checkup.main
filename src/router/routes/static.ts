@@ -26,26 +26,6 @@ export const staticRoutes: RouteRecordRaw[] = [
     redirect: '/dashboard'
   },
   {
-    path: '/login2',
-    name: 'login2',
-    component: () => import(/* webpackChunkName: "login2" */ '@/views/login/index2.vue'),
-    meta: {
-      title: 'Login',
-      layout: layoutTypes.pure,
-      public: true
-    }
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
-    meta: {
-      title: 'Login',
-      layout: layoutTypes.pure,
-      public: true
-    }
-  },
-  {
     path: '/workspace',
     name: 'workspace',
     component: () => import('@/views/workspace/index.vue'),
@@ -88,7 +68,6 @@ export const staticRoutes: RouteRecordRaw[] = [
       }
     ]
   },
-
   {
     path: '/dashboard',
     // name: 'dashboard',
@@ -110,39 +89,167 @@ export const staticRoutes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: '/fms',
-    name: 'fms',
+    path: '/work',
+    name: 'work',
     meta: {
       layout: layoutTypes.default
     },
     children: [
       {
-        path: '/facility',
-        name: 'fms-facility',
-        children: [
-          {
-            path: 'status',
-            name: 'fms-facility-status',
-            component: () =>
-              import(
-                /* webpackChunkName: "fms-facility-status" */ '@/views/fms/facility/facility-status/index.vue'
-              ),
-            meta: {
-              title: '설비 현황'
-            }
-          },
-          {
-            path: 'category',
-            name: 'fms-facility-category',
-            component: () =>
-              import(
-                /* webpackChunkName: "fms-facility-category" */ '@/views/fms/facility/facility-category/index.vue'
-              ),
-            meta: {
-              title: '설비 카테고리'
-            }
-          }
-        ]
+        path: 'template-manage',
+        name: 'work-template-manage',
+        component: () =>
+          import(/* webpackChunkName: "layout" */ '@/views/work/work-template-manage/index.vue'),
+        meta: {
+          title: '업무 템플릿 관리'
+        },
+        children: []
+      },
+      {
+        path: 'work-status',
+        name: 'work-work-status',
+        component: () =>
+          import(/* webpackChunkName: "layout" */ '@/views/work/work-status/index.vue'),
+        meta: {
+          title: '업무 현황'
+        },
+        children: []
+      },
+      {
+        path: 'report-manage',
+        name: 'work-report-manage',
+        component: () =>
+          import(/* webpackChunkName: "layout" */ '@/views/work/report-manage/index.vue'),
+        meta: {
+          title: '레포트 관리'
+        },
+        children: []
+      }
+    ]
+  },
+  {
+    path: '/manage',
+    name: 'manage',
+    meta: {
+      layout: layoutTypes.default
+    },
+    component: () => import(/* webpackChunkName: "manage" */ '@/views/manage/index.vue'),
+    children: [
+      {
+        path: 'users',
+        name: 'manage-users',
+        component: () =>
+          import(/* webpackChunkName: "manage-users" */ '@/views/manage/manage-users/index.vue'),
+        meta: {
+          title: '사용자 관리'
+        }
+      },
+      {
+        path: 'group',
+        name: 'manage-group',
+        component: () =>
+          import(/* webpackChunkName: "manage-group" */ '@/views/manage/manage-group/index.vue'),
+        meta: {
+          title: '그룹 관리'
+        }
+      },
+      {
+        path: 'module',
+        name: 'manage-module',
+        component: () =>
+          import(/* webpackChunkName: "manage-group" */ '@/views/manage/manage-module/index.vue'),
+        meta: {
+          title: '모듈 관리'
+        }
+      }
+    ]
+  },
+  {
+    path: '/facility',
+    name: 'facility',
+    meta: {
+      layout: layoutTypes.default
+    },
+    children: [
+      {
+        path: 'status',
+        name: 'facility-status',
+        component: () =>
+          import(
+            /* webpackChunkName: "manage-group" */ '@/views/fms/facility/facility-status/index.vue'
+          ),
+        meta: {
+          title: '설비 현황'
+        }
+      },
+      {
+        path: 'category',
+        name: 'facility-category',
+        component: () =>
+          import(
+            /* webpackChunkName: "manage-group" */ '@/views/fms/facility/facility-category/index.vue'
+          ),
+        meta: {
+          title: '카테고리 관리'
+        }
+      },
+      {
+        path: 'part',
+        name: 'facility-part',
+        component: () =>
+          import(
+            /* webpackChunkName: "manage-group" */ '@/views/fms/facility/facility-part/index.vue'
+          ),
+        meta: {
+          title: '부품 관리'
+        }
+      }
+      // {
+      //   path: '/facility',
+      //   name: 'fms-facility',
+      //   children: [
+      //     {
+      //       path: 'status',
+      //       name: 'fms-facility-status',
+      //       component: () =>
+      //         import(
+      //           /* webpackChunkName: "fms-facility-status" */ '@/views/fms/facility/facility-status/index.vue'
+      //         ),
+      //       meta: {
+      //         title: '설비 현황'
+      //       }
+      //     },
+      //     {
+      //       path: 'category',
+      //       name: 'fms-facility-category',
+      //       component: () =>
+      //         import(
+      //           /* webpackChunkName: "fms-facility-category" */ '@/views/fms/facility/facility-category/index.vue'
+      //         ),
+      //       meta: {
+      //         title: '설비 카테고리'
+      //       }
+      //     }
+      //   ]
+      // }
+    ]
+  },
+  {
+    path: '/purchase',
+    name: 'purchase',
+    meta: {
+      layout: layoutTypes.default
+    },
+    component: () => import(/* webpackChunkName: "manage" */ '@/views/manage/index.vue'),
+    children: [
+      {
+        path: 'apply-status',
+        name: 'purchase-apply-status',
+        component: () =>
+          import(/* webpackChunkName: "manage-users" */ '@/views/purchase/apply-status/index.vue'),
+        meta: {
+          title: '신청 현황'
+        }
       }
     ]
   },
@@ -183,26 +290,26 @@ export const staticRoutes: RouteRecordRaw[] = [
       }
     ]
   },
-  {
-    path: '/partner',
-    name: 'partner',
-    meta: {
-      layout: layoutTypes.default
-    },
-    children: [
-      {
-        path: 'search',
-        name: 'partner-search',
-        component: () =>
-          import(
-            /* webpackChunkName: "partner-search" */ '@/views/partner/partner-search/index.vue'
-          ),
-        meta: {
-          title: '파트너 검색'
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/partner',
+  //   name: 'partner',
+  //   meta: {
+  //     layout: layoutTypes.default
+  //   },
+  //   children: [
+  //     {
+  //       path: 'search',
+  //       name: 'partner-search',
+  //       component: () =>
+  //         import(
+  //           /* webpackChunkName: "partner-search" */ '@/views/partner/partner-search/index.vue'
+  //         ),
+  //       meta: {
+  //         title: '파트너 검색'
+  //       }
+  //     }
+  //   ]
+  // },
   // {
   //   path: '/setting',
   //   name: 'setting',
@@ -224,34 +331,6 @@ export const staticRoutes: RouteRecordRaw[] = [
   //   ]
   // },
   {
-    path: '/manage',
-    name: 'manage',
-    meta: {
-      layout: layoutTypes.default
-    },
-    component: () => import(/* webpackChunkName: "manage" */ '@/views/manage/index.vue'),
-    children: [
-      {
-        path: 'users',
-        name: 'manage-users',
-        component: () =>
-          import(/* webpackChunkName: "manage-users" */ '@/views/manage/manage-users/index.vue'),
-        meta: {
-          title: '사용자 관리'
-        }
-      },
-      {
-        path: 'group',
-        name: 'manage-group',
-        component: () =>
-          import(/* webpackChunkName: "manage-group" */ '@/views/manage/manage-group/index.vue'),
-        meta: {
-          title: '그룹 관리'
-        }
-      }
-    ]
-  },
-  {
     path: '/samples',
     name: 'samples',
     meta: {
@@ -269,15 +348,6 @@ export const staticRoutes: RouteRecordRaw[] = [
           title: 'Dynamic Table'
         }
       }
-      // {
-      //   path: 'accordion',
-      //   name: 'samples-accordion',
-      //   component: () =>
-      //     import(/* webpackChunkName: "setting-table" */ '@/views/Sample/Accordian/index.vue'),
-      //   meta: {
-      //     title: 'Accordian'
-      //   }
-      // }
     ]
   },
   {
@@ -330,16 +400,40 @@ export const staticRoutes: RouteRecordRaw[] = [
         meta: {
           title: 'Card'
         }
+      },
+      {
+        path: 'list',
+        name: 'components-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-list" */ '@/views/components-overview/list/index.vue'
+          ),
+        meta: {
+          title: 'List'
+        }
+      },
+      {
+        path: 'form',
+        name: 'components-form',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-form" */ '@/views/components-overview/form/index.vue'
+          ),
+        meta: {
+          title: 'Form'
+        }
+      },
+      {
+        path: 'search-select',
+        name: 'components-search-select',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-search-select" */ '@/views/components-overview/search-select/index.vue'
+          ),
+        meta: {
+          title: 'SearchSelect'
+        }
       }
     ]
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'Error404',
-    component: () => import('@/views/ErrorView.vue'),
-    meta: {
-      layout: layoutTypes.pure,
-      public: true
-    }
   }
 ]

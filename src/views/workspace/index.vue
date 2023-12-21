@@ -44,11 +44,12 @@ watch(
 #workspace-container {
   width: 100vw;
   height: 100vh;
+
+  background-color: $color-white;
+  color: inherit;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: $color-white;
-  color: inherit;
 
   .content {
     width: 50%;
@@ -67,26 +68,32 @@ watch(
   .left {
     display: none;
   }
+
   .right {
     width: 90% !important;
   }
 }
+
 @include xs {
   .left {
     display: none;
   }
+
   .right {
     width: 90% !important;
   }
 }
+
 @include sm {
   .left {
     display: none;
   }
+
   .right {
     width: 80% !important;
   }
 }
+
 @include md {
   .right {
     width: 80% !important;

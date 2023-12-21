@@ -6,6 +6,9 @@ class AuthService {
 
   constructor() {}
 
+  /**
+   * @description 사용자 로그인 API
+   */
   async login(): Promise<IAuth.UserResponse> {
     return await service.get<IAuth.UserResponse>(this.PATH + '/me').then((response) => {
       const { success, data, error } = response
@@ -18,6 +21,9 @@ class AuthService {
     })
   }
 
+  /**
+   * @description 사용자 로그아웃 API
+   */
   logout() {
     return service.delete(this.PATH + '/sign-out')
   }

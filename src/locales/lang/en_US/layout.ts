@@ -16,7 +16,8 @@ export default {
       fontSizeMedium: 'Medium',
       fontSizeLarge: 'Large',
       tabLang: 'Language',
-      alarm: 'Alarm'
+      tabLangRegion: 'Languages and Regions',
+      tabAlarm: 'Alarm'
     }
   },
   menu: {
