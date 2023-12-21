@@ -28,13 +28,6 @@ class WorkspaceService {
   }
 
   /**
-   * @description 팀원 초대 이메일 중복 확인 API
-   */
-  checkDuplicatedEmail(param: IWorkspace.ExistEmailParam) {
-    return service.get<IWorkspace.ExistEmailResponse>(this.PATH + '/exist', param)
-  }
-
-  /**
    * @description 업종 조회 API
    */
   getBusinessType() {

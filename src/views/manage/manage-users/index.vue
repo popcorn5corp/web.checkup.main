@@ -29,11 +29,13 @@
         </Button>
       </template>
 
+      <template #detail-title>
+        <span>사용자 정보</span>
+      </template>
       <template #detail-content>
         <div class="detail-contents">
+          <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
           <div class="tab-wrapper">
-            <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
-
             <a-tabs v-model:activeKey="activeKey">
               <a-tab-pane key="1" tab="상세보기"> </a-tab-pane>
 
@@ -86,6 +88,7 @@ const mode = ref<ContentMode>(DEFAULT_MODE)
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 const inviteMemberRef = ref()
 const { getWorkspace } = useWorkspaceStore()
+const workspaceId = computed(() => getWorkspace.workspaceId)
 
 const showDetail = ref(false)
 const isVisible = ref(false)
@@ -106,7 +109,7 @@ watch(
 const selectedPost = ref<IManageUser.UserListRequest>(getDefaultPost())
 
 const getDataSource = (param: IManageUser.UserListParam) => {
-  return ManageUserService.getUserList(getWorkspace.workspaceId, param)
+  return ManageUserService.getUserList(workspaceId.value, param)
 }
 
 const getColumns = () => {
@@ -133,8 +136,8 @@ const cardContentCallback = (content: IManageUser.UserListRequest['workspaceUser
       title: r.nickname,
       tag: r.userStatus.label,
       content:
-        // r.phone &&
-        `<div style="display: flex; align-items: center; gap: 8px;"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path fill="#7b828e" d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>${'010-2764-0501'}</div>`,
+        r.phone &&
+        `<div style="display: flex; align-items: center; gap: 8px;"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path fill="#7b828e" d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>${r.phone}</div>`,
       date: '가입일: ' + r.joinDate
     }
   })
@@ -144,16 +147,19 @@ const onClickRow = (row: IManageUser.UserInfo): void => {
   showDetail.value = true
   isLoading.value = true
   mode.value = DEFAULT_MODE
-  console.log('row', row)
-  // ManageUserService.getOneById(row.boardId)
-  //   .then(({ success, data }) => {
-  //     if (success) {
-  //       selectedPost.value = data
-  //     }
-  //   })
-  //   .finally(() => {
-  //     isLoading.value = false
-  //   })
+
+  ManageUserService.getOneById(workspaceId.value, row.workspaceUserId)
+    .then(({ success, data }) => {
+      if (success) {
+        selectedPost.value = {
+          ...row,
+          ...data
+        }
+      }
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 }
 
 const onCompleteModal = async () => {
@@ -161,7 +167,7 @@ const onCompleteModal = async () => {
     isModalLoading.value = true
     // 사용자 초대
     const inviteEmails = inviteMemberRef.value.tags
-    await ManageUserService.inviteUsers(getWorkspace.workspaceId, {
+    await ManageUserService.inviteUsers(workspaceId.value, {
       inviteEmails: inviteEmails
     })
     message.success(t('common.message.saveSuccess'), 1)
@@ -193,26 +199,7 @@ const onClickInvite = (): void => {
 p {
   margin: 0;
 }
-.detail-contents {
-  .profile {
-    display: flex;
-    padding: 10px;
-    .img-wrapper {
-      flex: 1;
-
-      > img {
-        border: 1px solid $color-gray-5;
-        border-radius: 10px;
-      }
-    }
-
-    .info {
-      flex: 1;
-    }
-  }
-
-  .tab-wrapper {
-    padding: 10px;
-  }
+.tab-wrapper {
+  padding: 10px;
 }
 </style>

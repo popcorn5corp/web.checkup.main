@@ -1,19 +1,39 @@
 <template>
   <div class="post-detail">
-    <Form v-if="!isEdit" :layout="formState.layout" :model="formState" v-bind="formItemLayout">
-      <!-- TODO temp -->
-      <Item label="이름" name="nickname">
-        {{ formState.data.nickname }}
-      </Item>
-      <Item label="이메일" name="email">
-        {{ formState.data.email }}
-      </Item>
-      <Item label="핸드폰" name="phone">
-        {{ formState.data.phone }}
-      </Item>
-      <Item label="가입일" name="joinedAt">
-        {{ formState.data.joinedAt }}
-      </Item>
+    <Form
+      v-if="!isEdit"
+      :layout="formState.layout"
+      :model="formState"
+      v-bind="formItemLayout"
+      class="form-wrapper"
+    >
+      <div class="img-wrapper">
+        <Item name="profileImg">
+          <div class="img-wrapper">
+            <img :src="formState.data.thumbnail?.url" :width="200" :height="200" />
+          </div>
+        </Item>
+      </div>
+      <div class="form-item-wrapper">
+        <Item label="이름" name="nickname">
+          {{ formState.data.nickname }}
+        </Item>
+        <Item label="상태" name="userStatus">
+          {{ formState.data.userStatus.label }}
+        </Item>
+        <Item label="이메일" name="email">
+          {{ formState.data.email }}
+        </Item>
+        <Item label="핸드폰" name="phone">
+          {{ formState.data.phone }}
+        </Item>
+        <Item label="가입일" name="joinDate">
+          {{ formState.data.joinDate }}
+        </Item>
+      </div>
+      <div class="more-wrapper">
+        <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
+      </div>
     </Form>
 
     <Form
@@ -26,21 +46,20 @@
       <Item label="이름" name="nickname">
         <Input v-model:value="formState.data.nickname" />
       </Item>
+      <Item label="상태">
+        <Select
+          v-model:value="formState.data.userStatus.label"
+          :options="userStatusOptions"
+        ></Select>
+      </Item>
       <Item label="이메일" name="email">
         <Input v-model:value="formState.data.email" />
       </Item>
       <Item label="핸드폰" name="phone">
         <Input v-model:value="formState.data.phone" />
       </Item>
-      <Item label="가입일" name="joinedAt">
-        {{ formState.data.joinedAt }}
-      </Item>
-
-      <Item label="상태">
-        <Select
-          v-model:value="formState.data.userStatus.label"
-          :options="userStatusOptions"
-        ></Select>
+      <Item label="가입일" name="joinDate">
+        {{ formState.data.joinDate }}
       </Item>
     </Form>
   </div>
@@ -48,7 +67,6 @@
 
 <script setup lang="tsx" name="PostDetail">
 import { Form, Input, Select, type SelectProps } from 'ant-design-vue'
-import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
 import type { IManageUser } from '@/services/manage-users/interface'
@@ -57,7 +75,7 @@ import { getDefaultPost } from '../constant'
 
 const { Item } = Form
 
-type WorkspaceUsers = IManagerUser.UserListRequest
+type WorkspaceUsers = IManageUser.UserListRequest
 interface PostDetailProps {
   data: WorkspaceUsers
   isEdit: boolean
@@ -102,7 +120,6 @@ const formState: UnwrapRef<FormState> = reactive({
 })
 
 const onSubmit = async () => formRef.value.validate()
-const formattedDate = (timestamp: number) => dayjs.unix(timestamp).format('YYYY-MM-DD')
 const rollbackPost = () => (formState.data = cloneDeep(formState.cloneData))
 const getPostDetail = (): WorkspaceUsers => {
   const files = fileUploader.value.getFiles()
@@ -126,11 +143,11 @@ const formItemLayout = computed(() => {
 watch(
   () => props.data,
   (post) => {
-    console.log('pp', post)
     formState.data = {
       ...post
     }
     formState.cloneData = cloneDeep(post)
+    console.log('pp', post, formState)
   },
   {
     immediate: true
@@ -146,6 +163,35 @@ defineExpose({
 
 <style lang="scss" scoped>
 .post-detail {
+  padding: 10px;
+  position: relative;
+  .form-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .img-wrapper {
+      flex: 0.5;
+      > img {
+        border: 1px solid $color-gray-5;
+        border-radius: 10px;
+      }
+      .ant-form-item {
+        padding: 0;
+        margin-bottom: 12px;
+      }
+    }
+    .form-item-wrapper {
+      flex: 0.8;
+    }
+  }
+
+  .more-wrapper {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
   :deep(.ant-form) {
     .ant-form-item-label {
       > label {

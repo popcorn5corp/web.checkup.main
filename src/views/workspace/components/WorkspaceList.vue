@@ -164,6 +164,9 @@ async function onSelectWorkspace(workspace: Workspace) {
     overflow-y: auto;
     border: 1px solid $border-color;
     border-radius: 8px;
+    ul {
+      padding: 0;
+    }
 
     .list-li {
       display: flex;
