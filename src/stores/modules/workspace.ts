@@ -2,7 +2,7 @@ import { WorkspaceService } from '@/services'
 import { store } from '@/stores'
 import { Util } from '@/utils'
 import { defineStore } from 'pinia'
-import { type Component, computed, reactive, watch } from 'vue'
+import { type Component, computed, reactive, toRefs, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import type { IWorkspace } from '@/services/workspace/interface'
@@ -87,6 +87,23 @@ interface WorkspaceStep {
 
 const FIRST_STEP_COUNT = 1 as const
 
+const defaultFormValues = () => {
+  return {
+    workspaceName: '', // 워크스페이스 이름
+    nickname: '', // 유저가 설정한 이름
+    inviteEmails: [], // 	초대 유저 email
+    businessTypeCode: '', // 업종코드
+    employeeScaleCode: '', // 회사 규모
+    originName: '', // 프로필 이미지 이름
+    saveName: '', // 서버에 저장된 파일 이름
+    url: '', // 파일 url
+    path: '', // 파일 path
+    size: 0, // 파일 size
+    ext: '', // 파일 확장자
+    inviteCode: '' // 초대코드
+  }
+}
+
 export const useWorkspaceStore = defineStore('workspace', () => {
   const { t } = useI18n()
   const router = useRouter()
@@ -96,30 +113,13 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     currentStep: FIRST_STEP_COUNT, // 현재 step
     steps: [], // create|invite 의 step에 관한 content
     nextBtnDisabled: true, // 다음버튼 비활성화 유무
-    formValues: {
-      workspaceName: '', // 워크스페이스 이름
-      nickname: '', // 유저가 설정한 이름
-      inviteEmails: [], // 	초대 유저 email
-      businessTypeCode: '', // 업종코드
-      employeeScaleCode: '', // 회사 규모
-      originName: '', // 프로필 이미지 이름
-      saveName: '', // 서버에 저장된 파일 이름
-      url: '', // 파일 url
-      path: '', // 파일 path
-      size: 0, // 파일 size
-      ext: '', // 파일 확장자
-      inviteCode: '' // 초대코드
-    },
+    formValues: defaultFormValues(),
     joinParam: {
       workspaceId: '', // 워크스페이스 id
       workspaceInviteLogId: '', // 워크스페이스 초대로그 id
       workspaceName: '' // 워크스페이스 이름
     },
-    // workspace: Util.Storage.get(WORKSPACE_KEY) || {
-    //   workspaceId: '',
-    //   workspaceName: ''
-    // },
-    selectedWorkspaceId: Util.Storage.get(WORKSPACE_ID_KEY),
+    selectedWorkspaceId: null,
     workspace: null
   })
 
@@ -133,6 +133,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   const getWorkspaceName = computed(() => state.joinParam.workspaceName)
   const getFormValues = computed<WorkspaceFormValues>(() => state.formValues)
   const getSteps = computed(() => (state.stepType === 'create' ? createStep : inviteStep))
+  const getJoinParam = computed(() => state.joinParam)
 
   watch(getCurrentStep, (currentStep: number) => {
     if (currentStep) {
@@ -173,7 +174,11 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     Util.Storage.remove(WORKSPACE_ID_KEY)
   }
 
-  function setSelectedWorkspaceId(workspaceId: string) {
+  function setSelectedWorkspaceId(workspaceId: string | null) {
+    if (unref(getWorkspaceId) !== workspaceId) {
+      initWorkspace()
+    }
+
     state.selectedWorkspaceId = workspaceId
     Util.Storage.set(WORKSPACE_ID_KEY, workspaceId)
   }
@@ -235,7 +240,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
           workspaceUser
         } = data
 
-        state.workspace = {
+        const workspace = {
           workspaceId,
           workspaceName,
           user: {
@@ -245,6 +250,8 @@ export const useWorkspaceStore = defineStore('workspace', () => {
             }
           }
         }
+
+        setWorkspace(workspace)
       }
     } catch (error) {
       console.log(error)
@@ -259,6 +266,10 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     if (state.currentStep !== FIRST_STEP_COUNT) {
       state.currentStep = FIRST_STEP_COUNT
     }
+  }
+
+  function initFormValues() {
+    state.formValues = defaultFormValues()
   }
 
   const createStep: WorkspaceStep[] = [
@@ -332,6 +343,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   ]
 
   return {
+    ...toRefs(state),
     getStepType,
     getWorkspace,
     getCurrentStep,
@@ -341,6 +353,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     getWorkspaceInviteLogId,
     getWorkspaceName,
     getFormValues,
+    getJoinParam,
     resetCurrentStep,
     prevCurrentStep,
     nextCurrentStep,
@@ -352,6 +365,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     pushFormValueInviteEmails,
     removeFormValueInviteEmails,
     initFormValueInviteEmails,
+    initFormValues,
     setFormValueImgFile,
     getUserWorkspace,
     setJoinParam,

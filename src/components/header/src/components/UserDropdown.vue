@@ -81,7 +81,8 @@ import LanguageSetting from './LanguageSetting.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
-const { getWorkspace } = storeToRefs(useWorkspaceStore())
+const workspaceStore = useWorkspaceStore()
+const { getWorkspace } = storeToRefs(workspaceStore)
 const isOpen = ref(false)
 
 const onClickMenu: MenuProps['onClick'] = ({ key }) => {

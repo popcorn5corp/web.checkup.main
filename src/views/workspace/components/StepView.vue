@@ -82,8 +82,9 @@ const {
   getStepType,
   getNextBtnDisabled,
   getFormValues,
-  getWorkspaceId,
-  getWorkspaceInviteLogId
+  // getWorkspaceId,
+  getWorkspaceInviteLogId,
+  getJoinParam
 } = toRefs(workspaceStore)
 const isLoading = ref(false)
 
@@ -117,7 +118,7 @@ const onComplete = async () => {
         const { nickname, originName, saveName, path, size, ext } = getFormValues.value
         await WorkspaceService.joinWorkspace({
           uid: props.uid,
-          workspaceId: getWorkspaceId.value as string,
+          workspaceId: getJoinParam.value.workspaceId as string,
           workspaceInviteLogId: getWorkspaceInviteLogId.value,
           nickname,
           originName,

@@ -54,14 +54,16 @@
 
 <script setup lang="ts" name="WorkspaceList">
 import { WorkspaceService } from '@/services'
+import { Util } from '@/utils'
 import { ArrowRightOutlined, UserAddOutlined } from '@ant-design/icons-vue'
 import { Checkbox } from 'ant-design-vue'
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import type { IWorkspace } from '@/services/workspace/interface'
 import { useAuthStore } from '@/stores/modules/auth'
 import { type Workspace, useWorkspaceStore } from '@/stores/modules/workspace'
+import { WORKSPACE_ID_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
 
 type WorkspaceListInfo = IWorkspace.WorkspaceListInfo & { active: boolean; activeTxt: string }
@@ -72,19 +74,20 @@ const { setSelectedWorkspaceId, getWorkspaceId, initWorkspace } = useWorkspaceSt
 const { getUser } = useAuthStore()
 const workspaceList = ref<WorkspaceListInfo[]>()
 const listRef = ref()
+const currentWorkspaceId = ref(getWorkspaceId || Util.Storage.get(WORKSPACE_ID_KEY))
 
 ;(async () => {
   try {
     const {
       data: { workspaceInfoList }
     } = await WorkspaceService.getWorkspaceList({
-      currentWorkspaceId: getWorkspaceId
+      currentWorkspaceId: unref(currentWorkspaceId)
     })
     workspaceList.value = workspaceInfoList.map((workspace) => {
       let active = false
       let activeTxt = t('component.button.move')
 
-      if (workspace.workspaceId === getWorkspaceId) {
+      if (workspace.workspaceId === unref(currentWorkspaceId)) {
         active = true
         activeTxt = t('page.workspace.listArrowText')
       }
@@ -106,7 +109,7 @@ async function onSelectWorkspace(workspace: Workspace) {
     })
 
     // 기존에 젒속한 워크스페이스와 선택한 워크스페이스가 다를 경우
-    if (getWorkspaceId !== workspaceId) {
+    if (unref(currentWorkspaceId) !== workspaceId) {
       initWorkspace()
       setSelectedWorkspaceId(workspaceId)
     }
