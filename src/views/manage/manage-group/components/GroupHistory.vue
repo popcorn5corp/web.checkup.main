@@ -2,19 +2,19 @@
   <div class="group-history-container">
     <a-timeline :pending="loading && '잠시만 기다려주세요...'">
       <template v-for="{ issuedDate, logs } in groupLogs" :key="issuedDate">
-        <span>{{ issuedDate }}</span>
-        <template v-for="(log, index) in logs" :key="index">
-          <a-timeline-item>
-            <span>{{ log.createTime }}</span>
+        <a-timeline-item>
+          <span>{{ issuedDate }}</span>
+          <template v-for="(log, index) in logs" :key="index">
             <p>
+              <span style="margin-right: 3px">{{ log.createTime }}</span>
               <span
                 ><b>{{ log.nickname }}</b
                 >님이
               </span>
               <span>{{ log.status.label }} 되었습니다.</span>
             </p>
-          </a-timeline-item>
-        </template>
+          </template>
+        </a-timeline-item>
       </template>
     </a-timeline>
 
@@ -71,5 +71,7 @@ function fetchGroupHistory() {
 <style lang="scss" scoped>
 .group-history-container {
   padding: 1rem 1.6rem;
+  display: flex;
+  flex-direction: column;
 }
 </style>

@@ -47,7 +47,7 @@ const getUserList = (param: IManageUser.UserListParam) => {
 
     options.value = content.map((item) => ({
       label: item.nickname,
-      value: item.workspaceUserId,
+      value: item.nickname,
       prefixImg: item.thumbnail.url
     }))
   }
@@ -70,3 +70,9 @@ watch(
   { immediate: true }
 )
 </script>
+
+<style lang="scss" scoped>
+.ant-input {
+  margin-bottom: 12px !important;
+}
+</style>
