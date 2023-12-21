@@ -24,22 +24,20 @@
           <a-skeleton avatar :title="false" :loading="!!item.loading" active>
             <ListItemMeta :description="item.email">
               <template #avatar>
-                <a-avatar :src="item.picture?.large" />
+                <a-avatar :src="item.thumbnail?.url" />
               </template>
 
               <template #title>
-                <a href="#">{{ item.name.last }}</a>
+                <a href="#">{{ item.nickname }}</a>
               </template>
             </ListItemMeta>
           </a-skeleton>
 
           <template #actions>
-            <!-- <Badge theme="default" shape="squared">{{ item.status.value }}</Badge> -->
-
             <a-dropdown v-model:open="item.visible">
               <a class="ant-dropdown-link" @click.prevent> <MoreOutlined /> </a>
               <template #overlay>
-                <a-menu @click="handleMenuClick">
+                <a-menu @click="handleMenuClick(item.uid)">
                   <a-menu-item key="1">
                     <div style="display: flex; gap: 10px">
                       <MinusOutlined />
@@ -54,6 +52,7 @@
       </template>
     </List>
   </div>
+
   <contextHolder />
 
   <a-modal
@@ -63,13 +62,19 @@
     cancel-text="취소"
     @ok="onSubmit"
   >
-    <p>Bla bla ...</p>
-    <p>Bla bla ...</p>
-    <p>Bla bla ...</p>
+    <SearchSelect
+      width="100%"
+      v-model="selectedValues"
+      :options="options"
+      :filterOption="false"
+      placeholder="사용자의 이름을 입력해주세요."
+      @search="getWorkspaceUserList"
+    ></SearchSelect>
   </a-modal>
 </template>
 
 <script setup lang="ts" name="ComponentsOverviewList">
+import { ManagerGroupService } from '@/services'
 import {
   ExclamationCircleOutlined,
   MinusOutlined,
@@ -78,39 +83,113 @@ import {
 } from '@ant-design/icons-vue'
 import type { MenuProps } from 'ant-design-vue'
 import { Modal } from 'ant-design-vue'
-import { h, onMounted, ref } from 'vue'
-// import { Badge } from '@/components/badge'
+import { message } from 'ant-design-vue'
+import { h, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { List, ListItem, ListItemMeta } from '@/components/list'
+import { SearchSelect } from '@/components/search-select'
 
-const count = 3
-const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`
+const { t } = useI18n()
 
-const loading = ref(true)
+type Props = { groupId: string }
+
+const props = defineProps<Props>()
+
+const options = ref([])
+const loading = ref(false)
 const open = ref(false)
 
-const defaultDataSource = ref([{ name: '그룹에 사용자 추가' }])
 const dataSource = ref([])
+const selectedValues = ref()
+const defaultDataSource = ref([{ name: '그룹에 사용자 추가' }])
+
+const { getWorkspace } = useWorkspaceStore()
 
 const [modal, contextHolder] = Modal.useModal()
-onMounted(() => {
-  fetch(fakeDataUrl)
-    .then((res) => res.json())
-    .then((res) => {
-      loading.value = false
 
-      dataSource.value = dataSource.value.concat(
-        res.results.map((item: {}) => ({
-          ...item,
-          visible: false
-        }))
-      )
-    })
+function fetchGroupUserList() {
+  loading.value = true
+
+  ManagerGroupService.getGroupDetail(props.groupId)
+    .then(
+      ({
+        success,
+        data: {
+          posts: { content }
+        }
+      }) => {
+        if (success) {
+          dataSource.value = content
+        }
+      }
+    )
+    .catch((error) => console.log(error))
+
+  setTimeout(() => (loading.value = false), 300)
+}
+
+watch(
+  props,
+  (groupId) => {
+    console.log('groupId >>> ', groupId)
+
+    fetchGroupUserList()
+  },
+  { immediate: true }
+)
+
+watch(selectedValues.value, () => {
+  options.value = []
+  loading.value = false
 })
 
-const onSubmit = () => {
-  console.log('onSubmit')
+const getWorkspaceUserList = async (value: string) => {
+  options.value = []
+  const {
+    data: {
+      posts: { content }
+    }
+  } = await ManagerGroupService.getWorkspaceUserList(getWorkspace.workspaceId, props.groupId, {
+    searchWord: value
+  })
+
+  options.value = content.map((item: any) => ({
+    label: item.nickname,
+    value: item.uid,
+    description: item.email,
+    prefixImg: item.thumbnail?.url
+  }))
 }
-const showDeleteConfirm = () => {
+
+function reload() {
+  loading.value = true
+  message.success(t('common.message.saveSuccess'), 1)
+  fetchGroupUserList()
+
+  loading.value = false
+}
+const onSubmit = () => {
+  ManagerGroupService.addUserWithGroup(props.groupId, {
+    workspaceId: getWorkspace.workspaceId,
+    addUsers: selectedValues.value.map((item: any) => ({
+      uid: item.value,
+      nickname: item.label
+    }))
+  })
+    .then(({ success }) => {
+      if (success) {
+        open.value = false
+
+        reload()
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+const showDeleteConfirm = (uid: string) => {
   modal.confirm({
     title: '사용자를 그룹에서 제거하시겠습니까?',
     icon: h(ExclamationCircleOutlined),
@@ -120,7 +199,16 @@ const showDeleteConfirm = () => {
     onOk() {
       console.log('OK')
       loading.value = true
-      setTimeout(() => (loading.value = false), 300)
+
+      ManagerGroupService.removeUserWithGroup(props.groupId, uid)
+        .then(({ success }) => {
+          if (success) {
+            reload()
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     onCancel() {
       console.log('Cancel')
@@ -128,8 +216,8 @@ const showDeleteConfirm = () => {
   })
 }
 
-const handleMenuClick: MenuProps['onClick'] = () => {
-  showDeleteConfirm()
+const handleMenuClick: MenuProps['onClick'] = (uid: any) => {
+  showDeleteConfirm(uid)
 }
 </script>
 

@@ -1,13 +1,82 @@
-<script setup lang="tsx" name="PostDetail">
-import { BaseSampleService } from '@/services'
-import { Form, Input, Select, type SelectProps } from 'ant-design-vue'
-import dayjs from 'dayjs'
+<template>
+  <div class="post-detail">
+    <Form
+      class="post-detail-read"
+      v-if="!isEdit"
+      :layout="formState.layout"
+      :model="formState"
+      v-bind="formItemLayout"
+    >
+      <div>
+        <Item label="그룹명">{{ formState.post.name }}</Item>
+        <Item label="게시물 내용">{{ formState.post.content }}</Item>
+      </div>
+
+      <a-dropdown v-model:open="visible">
+        <a class="ant-dropdown-link" @click.prevent> <MoreOutlined /> </a>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item key="1">
+              <div style="display: flex; gap: 10px">
+                <span>수정</span>
+              </div>
+            </a-menu-item>
+            <a-menu-item key="2" @click="handleMenuClick">
+              <div style="display: flex; gap: 10px">
+                <span>그룹 삭제</span>
+              </div>
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
+    </Form>
+
+    <Form
+      v-else
+      ref="formRef"
+      :layout="formState.layout"
+      :model="formState"
+      v-bind="formItemLayout"
+    >
+      <Item label="게시물 제목" name="boardTitle">
+        <Input v-model:value="formState.post.name" />
+      </Item>
+      <Item label="게시물 내용">
+        <Input v-model:value="formState.post.boardContent" />
+      </Item>
+    </Form>
+
+    <contextHolder />
+  </div>
+</template>
+<style lang="scss" scoped>
+.post-detail {
+  :deep(.ant-form) {
+    .ant-form-item-label {
+      > label {
+        font-weight: 500;
+      }
+    }
+
+    .ant-form-item {
+      padding: 0 1rem;
+    }
+  }
+}
+</style>
+
+<script setup lang="ts" name="PostDetail">
+import { IBaseSample } from '@/services'
+import { Form, Input } from 'ant-design-vue'
+import { Modal } from 'ant-design-vue'
+import type { MenuProps } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
-import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
-import type { IBaseSample, ICode } from '@/services/BaseSample/interface'
+import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
+import { ExclamationCircleOutlined, MoreOutlined } from '@/components/icons'
 import { getDefaultPost } from '../constant'
 
 const { Item } = Form
+const [modal, contextHolder] = Modal.useModal()
 
 type Post = IBaseSample.BaseSample
 interface PostDetailProps {
@@ -26,18 +95,7 @@ const props = withDefaults(defineProps<PostDetailProps>(), {
   isEdit: false
 })
 
-const permissionCodes = ref<ICode[]>([])
-const divisionOptions = ref<SelectProps['options']>([
-  {
-    label: '비공개',
-    value: 'PRIVATE'
-  },
-  {
-    label: '공개',
-    value: 'PUBLIC'
-  }
-])
-
+const visible = ref(false)
 const formRef = ref()
 const fileUploader = ref()
 const formState: UnwrapRef<FormState> = reactive({
@@ -46,12 +104,8 @@ const formState: UnwrapRef<FormState> = reactive({
   clonePost: getDefaultPost()
 })
 
-;(async () => {
-  permissionCodes.value = BaseSampleService.permissionCodes
-})()
-
 const onSubmit = async () => formRef.value.validate()
-const formattedDate = (timestamp: number) => dayjs.unix(timestamp).format('YYYY-MM-DD')
+
 const rollbackPost = () => (formState.post = cloneDeep(formState.clonePost))
 const getPostDetail = (): Post => {
   const files = fileUploader.value.getFiles()
@@ -85,58 +139,50 @@ watch(
   }
 )
 
+const showDeleteConfirm = (uid: string) => {
+  modal.confirm({
+    title: '사용자를 그룹에서 제거하시겠습니까?',
+    icon: h(ExclamationCircleOutlined),
+    okText: '삭제',
+    okType: 'danger',
+    cancelText: '취소',
+    onOk() {
+      // console.log('OK')
+      // loading.value = true
+      // ManagerGroupService.removeUserWithGroup(props.groupId, uid)
+      //   .then(({ success }) => {
+      //     if (success) {
+      //       reload()
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
+    },
+    onCancel() {
+      console.log('Cancel')
+    }
+  })
+}
+
+const handleMenuClick: MenuProps['onClick'] = (uid: any) => {
+  showDeleteConfirm(uid)
+}
+
 defineExpose({
   getPostDetail,
   rollbackPost,
   onSubmit
 })
 </script>
-<template>
-  <div class="post-detail">
-    <Form v-if="!isEdit" :layout="formState.layout" :model="formState" v-bind="formItemLayout">
-      <Item> is refined by Checkup Team</Item>
-    </Form>
 
-    <Form
-      v-else
-      ref="formRef"
-      :layout="formState.layout"
-      :model="formState"
-      v-bind="formItemLayout"
-    >
-      <Item label="게시물 제목" name="boardTitle">
-        <Input v-model:value="formState.post.boardTitle" />
-      </Item>
-      <Item label="게시물 내용">
-        <Input v-model:value="formState.post.boardContent" />
-      </Item>
-      <Item label="생성일">
-        {{ formattedDate(formState.post.createdAt) }}
-      </Item>
-      <Item label="권한">
-        <Select
-          v-model:value="formState.post.permission.label"
-          :options="(permissionCodes as any)"
-        ></Select>
-      </Item>
-      <Item label="게시물 구분">
-        <Select v-model:value="formState.post.division.label" :options="divisionOptions"></Select>
-      </Item>
-    </Form>
-  </div>
-</template>
 <style lang="scss" scoped>
 .post-detail {
-  :deep(.ant-form) {
-    .ant-form-item-label {
-      > label {
-        font-weight: 500;
-      }
-    }
-
-    .ant-form-item {
-      padding: 0 1rem;
-    }
-  }
+  position: relative;
+}
+.ant-dropdown-link {
+  position: absolute;
+  right: 1rem;
+  top: 5px;
 }
 </style>
