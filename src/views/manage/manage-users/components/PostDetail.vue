@@ -134,8 +134,8 @@ const formItemLayout = computed(() => {
   const { layout } = formState
   return layout === 'horizontal'
     ? {
-        labelCol: { span: 6 },
-        wrapperCol: { span: 14 }
+        // labelCol: { span: 6 },
+        // wrapperCol: { span: 14 }
       }
     : {}
 })
@@ -198,12 +198,14 @@ defineExpose({
         font-weight: 900;
       }
       > label::after {
-        content: '|';
+        content: '';
         position: relative;
         margin-block: 0;
         margin-inline-start: 7px;
         margin-inline-end: 8px;
-        color: $color-gray-7;
+        width: 1.5px;
+        height: 37%;
+        background: #d1d1d1;
       }
     }
 
