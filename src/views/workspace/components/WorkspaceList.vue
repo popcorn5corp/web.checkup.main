@@ -183,7 +183,6 @@ async function onSelectWorkspace(workspace: Workspace) {
       .img-box {
         width: 55px;
         height: 55px;
-        margin-right: 22px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -200,8 +199,10 @@ async function onSelectWorkspace(workspace: Workspace) {
       }
 
       .name {
+        width: 32%;
         flex: auto;
         font-size: 22px;
+        margin: 0 20px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -211,7 +212,6 @@ async function onSelectWorkspace(workspace: Workspace) {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-left: 20px;
         padding: 12px;
         border-radius: 50%;
         background: $color-blue;
@@ -221,7 +221,7 @@ async function onSelectWorkspace(workspace: Workspace) {
 
         .text {
           display: none;
-          font-size: 18px;
+          font-size: 16px;
         }
       }
     }
@@ -244,7 +244,6 @@ async function onSelectWorkspace(workspace: Workspace) {
 
         .text {
           display: block;
-          font-size: 18px;
         }
       }
     }
@@ -350,7 +349,6 @@ async function onSelectWorkspace(workspace: Workspace) {
   }
 
   .name {
-    width: 40% !important;
     font-size: 17px !important;
   }
 

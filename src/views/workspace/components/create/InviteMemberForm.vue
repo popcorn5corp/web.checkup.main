@@ -28,6 +28,9 @@
         </div>
       </div>
     </div>
+    <div class="jump-wrapper" v-if="isShowJump">
+      <span class="jump" @click="workspaceStore.nextCurrentStep()">이 단계 건너뛰기</span>
+    </div>
   </div>
 </template>
 
@@ -48,6 +51,10 @@ const props = defineProps({
   isShowDescription: {
     type: Boolean,
     default: true
+  },
+  isShowJump: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -64,7 +71,10 @@ const errorTagStyle = computed<CSSProperties>(() => {
 })
 
 ;(async () => {
-  workspaceStore.setNextBtnDisabled(false)
+  // workspaceStore.setNextBtnDisabled(false)
+  if (getStepType.value === null) {
+    workspaceStore.initFormValueInviteEmails()
+  }
 })()
 
 const onInputEnter = async (event: KeyboardEvent) => {
@@ -96,13 +106,15 @@ const onInputEnter = async (event: KeyboardEvent) => {
 
 const onManageUsersCheckEmail = async (emailValue: string) => {
   try {
-    const {
-      data: { exist }
-    } = await ManageUserService.checkDuplicatedEmail(getWorkspace.value.workspaceId, {
-      inviteEmail: emailValue
-    })
-    if (exist) {
-      return handleError('이미 이 워크스페이스에 존재합니다.')
+    if (getWorkspace.value) {
+      const {
+        data: { exist }
+      } = await ManageUserService.checkDuplicatedEmail(getWorkspace.value.workspaceId, {
+        inviteEmail: emailValue
+      })
+      if (exist) {
+        return handleError('이미 이 워크스페이스에 존재합니다.')
+      }
     }
   } catch (err) {
     console.log(err)
@@ -203,6 +215,16 @@ defineExpose({
           box-shadow: none;
         }
       }
+    }
+  }
+  .jump-wrapper {
+    text-align: right;
+    margin-top: 8px;
+    .jump {
+      font-size: 15px;
+      color: $color-gray-7;
+      border-bottom: 1px solid $color-gray-7;
+      cursor: pointer;
     }
   }
 }

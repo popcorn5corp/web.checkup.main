@@ -9,6 +9,7 @@
       v-model:value="getFormValues.workspaceName"
       :maxlength="30"
       @input="onInput"
+      @press-enter="workspaceStore.nextCurrentStep()"
     />
   </div>
 </template>
