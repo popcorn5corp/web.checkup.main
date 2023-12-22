@@ -18,6 +18,7 @@ declare module '@vue/runtime-core' {
     ACheckboxGroup: typeof import('ant-design-vue/es')['CheckboxGroup']
     ACol: typeof import('ant-design-vue/es')['Col']
     ADatePicker: typeof import('ant-design-vue/es')['DatePicker']
+    ADivider: typeof import('ant-design-vue/es')['Divider']
     ADropdown: typeof import('ant-design-vue/es')['Dropdown']
     AInputNumber: typeof import('ant-design-vue/es')['InputNumber']
     AlarmSetting: typeof import('./src/components/header/src/components/AlarmSetting.vue')['default']
