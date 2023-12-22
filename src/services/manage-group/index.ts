@@ -71,6 +71,13 @@ class ManageGroupService {
   }
 
   /**
+   * @description 그룹 수정
+   */
+  updateGroup(groupId: string, requestBody: IManageGroup.GroupRequest) {
+    return service.put<IManageGroup.GroupRequest>(this.PATH + `/group/${groupId}`, requestBody)
+  }
+
+  /**
    * @description 그룹 사용자 추가
    */
   addUserWithGroup(groupId: string, requestBody: Partial<IManageGroup.GroupRequest>) {
@@ -90,9 +97,8 @@ class ManageGroupService {
   /**
    * @description 그룹 사용자 삭제
    */
-  removeGroup(workspaceId: string, param: string[]) {
-    console.log(param)
-    return service.delete(this.PATH + `/${workspaceId}/group`, { groupId: param })
+  removeGroup(workspaceId: string, params: string[]) {
+    return service.delete(this.PATH + `/${workspaceId}/group`, params)
   }
 }
 

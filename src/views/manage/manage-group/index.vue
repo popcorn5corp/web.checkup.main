@@ -3,7 +3,7 @@
     <DynamicTable
       ref="dynamicTableRef"
       v-model:openDetail="showDetail"
-      rowKey="key"
+      :row-key="'groupId'"
       :columns="columns"
       :data-request="getDataSource"
       :column-request="getColumns"
@@ -12,7 +12,7 @@
       :content-callback="contentCallback"
       :showRegist="false"
       @row-click="onClickRow"
-      @row-add="onClickInvite"
+      @row-delete="onRemovePost"
     >
       <template #tableBtns>
         <Button :label="'등록하기'" size="middle" @click="$emit('row-add', (isVisible = true))">
@@ -29,7 +29,7 @@
       <template #detail-content>
         <div class="detail-contents">
           <div class="tab-wrapper">
-            <PostDetail :data="selectedData" :isEdit="isEdit" :mode="mode" @reload="tableReload" />
+            <PostDetail :data="selectedData" @reload="tableReload" @isDetail="isDetail" />
 
             <a-tabs v-model:active-key="activeKey" :destroyInactiveTabPane="true">
               <a-tab-pane v-for="(tab, index) in tabInfo" :key="tab.key" :tab="tab.title">
@@ -69,7 +69,6 @@ import { DynamicTable } from '@/components/dynamic-table'
 import { PlusCircleTwoTone } from '@/components/icons'
 import { QuestionCircleTwoTone } from '@/components/icons'
 import { Modal } from '@/components/modal'
-import { contentModes as modes } from '@/constants/content'
 import GroupDetail from './components/GroupDetail.vue'
 import GroupHistory from './components/GroupHistory.vue'
 import GroupModalForm from './components/GroupModalForm.vue'
@@ -98,9 +97,6 @@ const groupInfo = ref()
 const selectedData = ref()
 
 const { t } = useI18n()
-const DEFAULT_MODE = modes.R
-const mode = ref<ContentMode>(DEFAULT_MODE)
-const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
 
 const { getWorkspace } = useWorkspaceStore()
 
@@ -125,10 +121,6 @@ const contentCallback = (content: IManageGroup.GroupTableResponse['posts']['cont
   return content
 }
 
-const initState = (): void => {
-  // isOpen.value = false
-  mode.value = DEFAULT_MODE
-}
 /**
  * @description 게시물 삭제
  * @param selectedRows
@@ -137,6 +129,7 @@ const onRemovePost = (
   selectedRows: ManagerGroupService.Content[],
   selectedRowKeys: string[]
 ): void => {
+  console.log(selectedRows, selectedRowKeys)
   modal.confirm({
     content: t('common.message.modalDeleteCheck'),
     // width: 600,
@@ -157,8 +150,6 @@ const onRemovePost = (
           }, 300)
         }
       })
-
-      initState()
     },
     async onCancel() {}
   })
@@ -196,6 +187,8 @@ const createGroup = async () => {
           onCancelModal()
 
           tableReload()
+
+          showDetail.value = false
         }
       })
       .catch((error) => {
@@ -210,17 +203,14 @@ const createGroup = async () => {
 
 const tableReload = () => {
   dynamicTableRef.value?.reload({ isReset: true })
+}
 
-  showDetail.value = false
+const isDetail = () => {
+  showDetail.value = !showDetail.value
 }
 
 const onCancelModal = (): void => {
   isVisible.value = false
-}
-
-const onClickInvite = (): void => {
-  isVisible.value = true
-  mode.value = modes.C
 }
 </script>
 

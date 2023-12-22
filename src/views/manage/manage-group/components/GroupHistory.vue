@@ -39,8 +39,6 @@ const loading = ref(false)
 watch(
   props,
   (groupId) => {
-    console.log('groupId >>> ', groupId)
-
     fetchGroupHistory()
   },
   { immediate: true }
@@ -59,7 +57,6 @@ function fetchGroupHistory() {
     }) => {
       if (success) {
         groupLogs.value = content
-        console.log(content)
       }
 
       loading.value = false

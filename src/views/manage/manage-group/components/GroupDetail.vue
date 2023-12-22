@@ -133,8 +133,6 @@ function fetchGroupUserList() {
 watch(
   props,
   (groupId) => {
-    console.log('groupId >>> ', groupId)
-
     fetchGroupUserList()
     getWorkspaceUserList()
   },
@@ -158,7 +156,6 @@ async function getWorkspaceUserList() {
           posts: { content }
         }
       }) => {
-        console.log(success)
         if (success) {
           options.value = content.map((item: any) => ({
             label: item.nickname,

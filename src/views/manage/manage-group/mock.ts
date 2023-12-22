@@ -8,7 +8,7 @@ export const columns: TableColumnsType = [
     key: 'name'
   },
   {
-    title: '사용자수',
+    title: '그룹내용',
     dataIndex: 'content',
     key: 'content'
   },
