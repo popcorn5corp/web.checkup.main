@@ -31,7 +31,12 @@
           <div class="tab-wrapper">
             <PostDetail :data="selectedData" @reload="tableReload" @isDetail="isDetail" />
 
-            <a-tabs v-model:active-key="activeKey" :destroyInactiveTabPane="true">
+            <a-tabs
+              v-model:active-key="activeKey"
+              :destroyInactiveTabPane="true"
+              :tabBarGutter="70"
+              :tabBarStyle="{ padding: '0 10%', display: 'flex' }"
+            >
               <a-tab-pane v-for="(tab, index) in tabInfo" :key="tab.key" :tab="tab.title">
                 <component :is="tab.component" :groupId="selectedData.groupId" />
               </a-tab-pane>
@@ -215,15 +220,15 @@ const onCancelModal = (): void => {
 </script>
 
 <style lang="scss" scoped>
-:deep(.ant-tabs-nav-list) {
-  width: 100%;
-  .ant-tabs-tab {
-    flex: 0.5;
-    .ant-tabs-tab-btn {
-      margin: 0 auto;
-    }
-  }
-}
+// :deep(.ant-tabs-nav-list) {
+//   width: 100%;
+//   .ant-tabs-tab {
+//     flex: 0.5;
+//     .ant-tabs-tab-btn {
+//       margin: 0 auto;
+//     }
+//   }
+// }
 
 :deep(.ant-tabs-tab-active) {
   .ant-tabs-tab-btn {
@@ -233,5 +238,10 @@ const onCancelModal = (): void => {
 
 :deep(.ant-tabs-ink-bar) {
   height: 3px !important;
+}
+
+:deep(.ant-tabs-nav-wrap) {
+  display: flex !important;
+  justify-content: space-around !important;
 }
 </style>

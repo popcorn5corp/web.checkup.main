@@ -1,6 +1,6 @@
 <template>
   <div class="post-detail">
-    <Form class="post-detail-read" v-if="!isEdit" :layout="formState.layout">
+    <Form class="post-detail-read" v-if="!isEdit" :layout="'horizontal'">
       <div>
         <Item label="그룹 제목">{{ formState.post.name ?? '-' }}</Item>
 
@@ -26,13 +26,7 @@
       </a-dropdown>
     </Form>
 
-    <Form
-      v-else
-      ref="formRef"
-      :layout="formState.layout"
-      :model="formState"
-      v-bind="formItemLayout"
-    >
+    <Form v-else ref="formRef" :layout="'horizontal'" :model="formState" v-bind="formItemLayout">
       <Item label="그룹 제목" name="boardTitle">
         <Input v-model:value="formState.clonePost.name" />
       </Item>
@@ -235,6 +229,16 @@ defineExpose({
     .ant-form-item-label {
       > label {
         font-weight: 500;
+      }
+      > label::after {
+        content: '';
+        position: relative;
+        margin-block: 0;
+        margin-inline-start: 7px;
+        margin-inline-end: 8px;
+        width: 1.5px;
+        height: 37%;
+        background: #d1d1d1;
       }
     }
 

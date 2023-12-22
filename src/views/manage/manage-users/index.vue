@@ -37,7 +37,12 @@
         <div class="detail-contents">
           <PostDetail ref="postDetailRef" :data="selectedData" :isEdit="isEdit" :mode="mode" />
           <div class="tab-wrapper">
-            <a-tabs v-model:active-key="activeKey" :destroyInactiveTabPane="true">
+            <a-tabs
+              v-model:active-key="activeKey"
+              :destroyInactiveTabPane="true"
+              :tabBarGutter="70"
+              :tabBarStyle="{ padding: '0 10%', display: 'flex' }"
+            >
               <a-tab-pane v-for="(tab, index) in tabInfo" :key="tab.key" :tab="tab.title">
                 <component :is="tab.component" :data="selectedData" />
               </a-tab-pane>
@@ -217,15 +222,15 @@ const onClickInvite = (): void => {
 p {
   margin: 0;
 }
-:deep(.ant-tabs-nav-list) {
-  width: 100%;
-  .ant-tabs-tab {
-    flex: 0.5;
-    .ant-tabs-tab-btn {
-      margin: 0 auto;
-    }
-  }
-}
+// :deep(.ant-tabs-nav-list) {
+//   width: 100%;
+//   .ant-tabs-tab {
+//     flex: 0.5;
+//     .ant-tabs-tab-btn {
+//       margin: 0 auto;
+//     }
+//   }
+// }
 
 :deep(.ant-tabs-tab-active) {
   .ant-tabs-tab-btn {
@@ -235,5 +240,10 @@ p {
 
 :deep(.ant-tabs-ink-bar) {
   height: 3px !important;
+}
+
+:deep(.ant-tabs-nav-wrap) {
+  display: flex !important;
+  justify-content: space-around !important;
 }
 </style>
