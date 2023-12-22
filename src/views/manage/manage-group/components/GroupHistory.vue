@@ -18,16 +18,18 @@
       </template>
     </a-timeline>
 
-    <a-button type="primary" style="margin-top: 16px" @click="fetchGroupHistory"
-      >더 불러오기</a-button
-    >
+    <a-button type="primary" style="margin-top: 16px" @click="fetchGroupHistory">{{
+      t('page.manage.moreContent')
+    }}</a-button>
   </div>
 </template>
 
 <script setup lang="ts" name="ComponentsOverviewList">
 import { ManagerGroupService } from '@/services'
 import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const groupLogs = ref()
 
 type Props = { groupId: string }

@@ -41,7 +41,7 @@
                   <a-menu-item key="1">
                     <div style="display: flex; gap: 10px">
                       <MinusOutlined />
-                      <span>그룹에서 제거</span>
+                      <span>{{ t('page.manage.removeUserToAGroup') }}</span>
                     </div>
                   </a-menu-item>
                 </a-menu>
@@ -57,9 +57,9 @@
 
   <a-modal
     v-model:open="open"
-    title="그룹에 사용자 추가"
-    ok-text="확인"
-    cancel-text="취소"
+    :title="t('page.manage.addUserToAGroup')"
+    :ok-text="t('component.button.save')"
+    :cancel-text="t('component.button.cancel')"
     :destroyOnClose="true"
     @ok="onSubmit"
   >
@@ -67,9 +67,9 @@
       width="100%"
       v-model="selectedValues"
       :options="options"
-      placeholder="사용자의 이름을 입력해주세요."
+      :placeholder="t('page.manage.typingUserName')"
     >
-      <template #statusDisabledText>이미 가입함</template>
+      <template #statusDisabledText>{{ t('page.manage.joined') }}</template>
     </SearchSelect>
   </a-modal>
 </template>
@@ -103,7 +103,7 @@ const open = ref(false)
 
 const dataSource = ref([])
 const selectedValues = ref()
-const defaultDataSource = ref([{ name: '그룹에 사용자 추가' }])
+const defaultDataSource = ref([{ name: t('page.manage.addUserToAGroup') }])
 
 const { getWorkspace } = useWorkspaceStore()
 
@@ -181,25 +181,28 @@ function reload() {
   loading.value = false
 }
 const onSubmit = () => {
-  ManagerGroupService.addUserWithGroup(props.groupId, {
-    workspaceId: getWorkspace.workspaceId,
-    addUsers: selectedValues.value.map((item: any) => ({
-      uid: item.uid,
-      nickname: item.label
-    }))
-  })
-    .then(({ success }) => {
-      if (success) {
-        open.value = false
-
-        reload()
-
-        message.success(t('common.message.saveSuccess'), 1)
-      }
+  console.log(selectedValues.value)
+  if (selectedValues.value) {
+    ManagerGroupService.addUserWithGroup(props.groupId, {
+      workspaceId: getWorkspace.workspaceId,
+      addUsers: selectedValues.value.map((item: any) => ({
+        uid: item.uid,
+        nickname: item.label
+      }))
     })
-    .catch((error) => {
-      console.log(error)
-    })
+      .then(({ success }) => {
+        if (success) {
+          open.value = false
+
+          reload()
+
+          message.success(t('common.message.saveSuccess'), 1)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 }
 
 const showDeleteConfirm = (uid: string) => {

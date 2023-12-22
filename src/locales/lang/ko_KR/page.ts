@@ -40,5 +40,17 @@ export default {
       selectBusinessTypeOpt: '업종 선택',
       selectEmployeeScaleOpt: '규모 선택'
     }
+  },
+
+  manage: {
+    detail: '상세보기',
+    history: '타임라인',
+    joined: '이미 가입됨',
+    addUserToAGroup: '그룹에 사용자 추가',
+    removeUserToAGroup: '그룹에서 제거',
+    typingUserName: '사용자의 이름을 입력해주세요.',
+    moreContent: '더 불러오기',
+    groupTitle: '그룹 제목',
+    groupContent: '그룹 내용'
   }
 }
