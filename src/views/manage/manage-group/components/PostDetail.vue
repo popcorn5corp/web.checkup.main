@@ -1,22 +1,17 @@
 <template>
   <div class="post-detail">
-    <Form
-      class="post-detail-read"
-      v-if="!isEdit"
-      :layout="formState.layout"
-      :model="formState"
-      v-bind="formItemLayout"
-    >
+    <Form class="post-detail-read" v-if="!isEdit" :layout="formState.layout">
       <div>
-        <Item label="그룹명">{{ formState.post.name }}</Item>
-        <Item label="게시물 내용">{{ formState.post.content }}</Item>
+        <Item label="그룹 제목">{{ formState.post.name ?? '-' }}</Item>
+
+        <Item label="그룹 내용">{{ formState.post.content ?? '-' }}</Item>
       </div>
 
-      <a-dropdown v-model:open="visible">
+      <a-dropdown v-model:open="visible" :trigger="['click']">
         <a class="ant-dropdown-link" @click.prevent> <MoreOutlined /> </a>
         <template #overlay>
           <a-menu>
-            <a-menu-item key="1">
+            <a-menu-item key="1" @click="onEditMode">
               <div style="display: flex; gap: 10px">
                 <span>수정</span>
               </div>
@@ -38,32 +33,22 @@
       :model="formState"
       v-bind="formItemLayout"
     >
-      <Item label="게시물 제목" name="boardTitle">
-        <Input v-model:value="formState.post.name" />
+      <Item label="그룹 제목" name="boardTitle">
+        <Input v-model:value="formState.clonePost.name" />
       </Item>
-      <Item label="게시물 내용">
-        <Input v-model:value="formState.post.boardContent" />
+      <Item label="그룹 내용">
+        <Input v-model:value="formState.clonePost.content" />
       </Item>
+
+      <div class="btn-wrapper">
+        <Button @click="initState"><CloseOutlined /></Button>
+        <Button @click="onSubmit" type="primary"><CheckOutlined /></Button>
+      </div>
     </Form>
 
     <contextHolder />
   </div>
 </template>
-<style lang="scss" scoped>
-.post-detail {
-  :deep(.ant-form) {
-    .ant-form-item-label {
-      > label {
-        font-weight: 500;
-      }
-    }
-
-    .ant-form-item {
-      padding: 0 1rem;
-    }
-  }
-}
-</style>
 
 <script setup lang="ts" name="PostDetail">
 import { IBaseSample } from '@/services'
@@ -76,20 +61,29 @@ import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
-import { ExclamationCircleOutlined, MoreOutlined } from '@/components/icons'
+import {
+  CheckOutlined,
+  CloseOutlined,
+  ExclamationCircleOutlined,
+  MoreOutlined,
+  ReloadOutlined
+} from '@/components/icons'
+import { contentModes as modes } from '@/constants/content'
 import { getDefaultPost } from '../constant'
+
+const DEFAULT_MODE = modes.R
+const mode = ref<ContentMode>(DEFAULT_MODE)
+const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
 
 const { Item } = Form
 const [modal, contextHolder] = Modal.useModal()
 const { t } = useI18n()
-const emit = defineEmits(['reload'])
+const emit = defineEmits(['reload', 'isDetail'])
 
 const { getWorkspace } = useWorkspaceStore()
 type Post = IBaseSample.BaseSample
 interface PostDetailProps {
   data: Post
-  isEdit: boolean
-  mode: ContentMode
 }
 
 interface FormState {
@@ -106,12 +100,38 @@ const visible = ref(false)
 const formRef = ref()
 const fileUploader = ref()
 const formState: UnwrapRef<FormState> = reactive({
-  layout: 'horizontal',
+  layout: 'vertical',
   post: getDefaultPost(),
   clonePost: getDefaultPost()
 })
 
-const onSubmit = async () => formRef.value.validate()
+const onSubmit = async () => {
+  const requestBody = {
+    workspaceId: getWorkspace?.workspaceId,
+    name: formState.clonePost.name,
+    content: formState.clonePost.content
+  }
+
+  ManagerGroupService.updateGroup(props.data.groupId, requestBody)
+    .then(({ success }) => {
+      if (success) {
+        message.success(t('common.message.saveSuccess'), 1)
+
+        initState()
+
+        emit('reload')
+
+        formState.post = {
+          ...formState.post,
+          name: formState.clonePost.name,
+          content: formState.clonePost.content
+        }
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 
 const rollbackPost = () => (formState.post = cloneDeep(formState.clonePost))
 const getPostDetail = (): Post => {
@@ -121,6 +141,16 @@ const getPostDetail = (): Post => {
     ...formState.post,
     boardFiles: files
   }
+}
+
+const initState = (): void => {
+  mode.value = DEFAULT_MODE
+
+  visible.value = false
+}
+
+const onEditMode = () => {
+  mode.value = modes.C
 }
 
 const formItemLayout = computed(() => {
@@ -150,14 +180,19 @@ const showDeleteConfirm = (uid: string) => {
   modal.confirm({
     title: '그룹을 삭제하시겠습니까?',
     icon: h(ExclamationCircleOutlined),
-    okText: '삭제',
+    okText: '확인',
     okType: 'primary',
     cancelText: '취소',
     onOk() {
-      ManagerGroupService.removeGroup(getWorkspace?.workspaceId, [props.data.groupId])
+      const params = {
+        groupId: [props.data.groupId]
+      }
+
+      ManagerGroupService.removeGroup(getWorkspace?.workspaceId, params)
         .then(({ success }) => {
           if (success) {
             emit('reload')
+            emit('isDetail')
 
             message.success(t('common.message.deleteSuccess'), 1)
           }
@@ -187,9 +222,43 @@ defineExpose({
 .post-detail {
   position: relative;
 }
+
 .ant-dropdown-link {
   position: absolute;
   right: 1rem;
   top: 5px;
+}
+.post-detail {
+  :deep(.ant-form) {
+    padding: 16px 16px;
+
+    .ant-form-item-label {
+      > label {
+        font-weight: 500;
+      }
+    }
+
+    .btn-wrapper {
+      justify-content: flex-end;
+      display: flex;
+      gap: 3px;
+      .ant-btn {
+        padding: 2px 9px;
+
+        span {
+          font-size: 10px;
+        }
+      }
+    }
+
+    .ant-form-item {
+      margin-bottom: 12px !important;
+    }
+
+    .ant-dropdown-link {
+      position: absolute;
+      top: 15px;
+    }
+  }
 }
 </style>
