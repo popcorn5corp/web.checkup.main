@@ -13,6 +13,8 @@ export interface DynamicTableProps extends TableProps {
   showRegist?: boolean
   // 다운로드 버튼 노출 여부
   showDownload?: boolean
+  // 삭제 버튼 노출 여부
+  showDelete?: boolean
   // 테이블 필터 정보에 대한 API
   filterRequest?: () => Promise<API.ResponseData<IBaseAPI.FilterResponse>>
   /**

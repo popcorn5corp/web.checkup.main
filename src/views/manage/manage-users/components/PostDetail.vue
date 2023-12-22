@@ -31,9 +31,9 @@
           {{ formState.data.joinDate }}
         </Item>
       </div>
-      <div class="more-wrapper">
+      <!-- <div class="more-wrapper">
         <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
-      </div>
+      </div> -->
     </Form>
 
     <Form
@@ -147,7 +147,6 @@ watch(
       ...post
     }
     formState.cloneData = cloneDeep(post)
-    console.log('pp', post, formState)
   },
   {
     immediate: true
@@ -194,13 +193,23 @@ defineExpose({
 
   :deep(.ant-form) {
     .ant-form-item-label {
+      text-align: left;
       > label {
-        font-weight: 500;
+        font-weight: 900;
+      }
+      > label::after {
+        content: '|';
+        position: relative;
+        margin-block: 0;
+        margin-inline-start: 7px;
+        margin-inline-end: 8px;
+        color: $color-gray-7;
       }
     }
 
     .ant-form-item {
       padding: 0 1rem;
+      margin-bottom: 10px;
     }
   }
 }

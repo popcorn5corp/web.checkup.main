@@ -16,27 +16,16 @@
       <div class="routerView">
         <div class="transition-group">
           <RouterView></RouterView>
-          <!-- <Transition name="steps" appear mode="out-in">
-            <div class="active" :key="getCurrentStep">
-              <component :is="getSteps[getCurrentStep - 1].component" />
-            </div>
-          </Transition> -->
         </div>
       </div>
 
       <div class="btns-wrapper">
         <Button
+          v-if="!getSteps[getCurrentStep - 1].isFinal"
           class="btn"
           size="large"
           :label="$t('component.button.prev')"
           @click="workspaceStore.prevCurrentStep()"
-        />
-        <Button
-          v-if="getSteps[getCurrentStep - 1].isJump"
-          class="btn"
-          size="large"
-          :label="$t('component.button.jump')"
-          @click="workspaceStore.nextCurrentStep()"
         />
         <Button
           v-if="getSteps[getCurrentStep - 1].nextBtnText"
@@ -65,7 +54,6 @@
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
 import { WorkspaceService } from '@/services'
-import { message } from 'ant-design-vue'
 import { ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
@@ -82,7 +70,6 @@ const {
   getStepType,
   getNextBtnDisabled,
   getFormValues,
-  // getWorkspaceId,
   getWorkspaceInviteLogId,
   getJoinParam
 } = toRefs(workspaceStore)
@@ -146,7 +133,7 @@ const onComplete = async () => {
 
   .step-wrapper {
     background: $color-primary;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     padding: 5px 12px;
     border-radius: 1rem;
     color: $color-white;
@@ -158,13 +145,18 @@ const onComplete = async () => {
   .btns-wrapper {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    position: relative;
     margin-top: 1rem;
+    gap: 1rem;
+    .btn {
+      width: 50%;
+    }
   }
 
   .routerView {
     width: 100%;
-    min-height: 400px;
+    min-height: 420px;
   }
 
   .text-wrapper {

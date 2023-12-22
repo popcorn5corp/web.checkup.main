@@ -13,15 +13,16 @@
       :card-content-callback="cardContentCallback"
       :showDownload="false"
       :showRegist="false"
+      :showDelete="false"
       @row-click="onClickRow"
       @row-add="onClickInvite"
     >
       <template #tableBtns>
-        <Button :label="'내보내기'" size="middle" @click="$emit('row-delete')">
+        <!-- <Button :label="'내보내기'" size="middle" @click="$emit('row-delete')">
           <template #icon>
             <DeleteTwoTone />
           </template>
-        </Button>
+        </Button> -->
         <Button :label="'초대하기'" size="middle" @click="$emit('row-add', (isVisible = true))">
           <template #icon>
             <PlusCircleTwoTone />
@@ -34,12 +35,12 @@
       </template>
       <template #detail-content>
         <div class="detail-contents">
-          <PostDetail ref="postDetailRef" :data="selectedPost" :isEdit="isEdit" :mode="mode" />
+          <PostDetail ref="postDetailRef" :data="selectedData" :isEdit="isEdit" :mode="mode" />
           <div class="tab-wrapper">
-            <a-tabs v-model:activeKey="activeKey">
-              <a-tab-pane key="1" tab="상세보기"> </a-tab-pane>
-
-              <a-tab-pane key="2" tab="타임라인" force-render> </a-tab-pane>
+            <a-tabs v-model:active-key="activeKey" :destroyInactiveTabPane="true">
+              <a-tab-pane v-for="(tab, index) in tabInfo" :key="tab.key" :tab="tab.title">
+                <component :is="tab.component" :data="selectedData" />
+              </a-tab-pane>
             </a-tabs>
           </div>
         </div>
@@ -57,9 +58,10 @@
       <template #body>
         <div class="invite-form-wrapper">
           <h4 class="title">이메일로 직장동료 추가</h4>
-          <InviteMemberForm ref="inviteMemberRef" :isShowDescription="false" />
-          <br />
-          <h4 class="title">다음 그룹으로 초대</h4>
+          <InviteMemberForm ref="inviteMemberRef" :isShowDescription="false" :isShowJump="false" />
+          <!-- TODO 추후개발 -->
+          <!-- <br />
+          <h4 class="title">다음 그룹으로 초대</h4> -->
         </div>
       </template>
     </Modal>
@@ -67,7 +69,7 @@
 </template>
 <script setup lang="ts" name="TableSample">
 import { ManageUserService } from '@/services'
-import { Spin, message } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 import { computed, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageUser } from '@/services/manage-users/interface'
@@ -78,11 +80,25 @@ import { DeleteTwoTone, PlusCircleTwoTone } from '@/components/icons'
 import { Modal } from '@/components/modal'
 import { contentModes as modes } from '@/constants/content'
 import PostDetail from './components/PostDetail.vue'
+import UserDetail from './components/UserDetail.vue'
+import UserHistory from './components/UserHistory.vue'
 import { getDefaultPost } from './constant'
 import { columns } from './mock'
 
 const { t } = useI18n()
 const DEFAULT_MODE = modes.R
+const tabInfo = {
+  Detail: {
+    key: 'Detail',
+    title: '상세보기',
+    component: UserDetail
+  },
+  History: {
+    key: 'History',
+    title: '타임라인',
+    component: UserHistory
+  }
+}
 
 const mode = ref<ContentMode>(DEFAULT_MODE)
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
@@ -94,6 +110,7 @@ const showDetail = ref(false)
 const isVisible = ref(false)
 const isLoading = ref(false)
 const isModalLoading = ref(false)
+const activeKey = ref(tabInfo.Detail.key)
 
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
 
@@ -101,12 +118,12 @@ watch(
   () => unref(showDetail),
   (showDetail) => {
     if (!showDetail) {
-      selectedPost.value = getDefaultPost()
+      selectedData.value = getDefaultPost()
     }
   }
 )
 
-const selectedPost = ref<IManageUser.UserListRequest>(getDefaultPost())
+const selectedData = ref<IManageUser.UserListRequest>(getDefaultPost())
 
 const getDataSource = (param: IManageUser.UserListParam) => {
   return ManageUserService.getUserList(workspaceId.value, param)
@@ -147,11 +164,12 @@ const onClickRow = (row: IManageUser.UserInfo): void => {
   showDetail.value = true
   isLoading.value = true
   mode.value = DEFAULT_MODE
+  activeKey.value = tabInfo.Detail.key
 
   ManageUserService.getOneById(workspaceId.value, row.workspaceUserId)
     .then(({ success, data }) => {
       if (success) {
-        selectedPost.value = {
+        selectedData.value = {
           ...row,
           ...data
         }
@@ -170,7 +188,7 @@ const onCompleteModal = async () => {
     await ManageUserService.inviteUsers(workspaceId.value, {
       inviteEmails: inviteEmails
     })
-    message.success(t('common.message.saveSuccess'), 1)
+    message.success('초대가 완료되었습니다.', 1)
     initState()
 
     isModalLoading.value = false
@@ -199,7 +217,23 @@ const onClickInvite = (): void => {
 p {
   margin: 0;
 }
-.tab-wrapper {
-  padding: 10px;
+:deep(.ant-tabs-nav-list) {
+  width: 100%;
+  .ant-tabs-tab {
+    flex: 0.5;
+    .ant-tabs-tab-btn {
+      margin: 0 auto;
+    }
+  }
+}
+
+:deep(.ant-tabs-tab-active) {
+  .ant-tabs-tab-btn {
+    font-weight: 600 !important;
+  }
+}
+
+:deep(.ant-tabs-ink-bar) {
+  height: 3px !important;
 }
 </style>
