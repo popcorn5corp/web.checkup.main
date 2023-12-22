@@ -29,7 +29,7 @@
       <template #detail-content>
         <div class="detail-contents">
           <div class="tab-wrapper">
-            <PostDetail :data="selectedData" :isEdit="isEdit" :mode="mode" />
+            <PostDetail :data="selectedData" :isEdit="isEdit" :mode="mode" @reload="tableReload" />
 
             <a-tabs v-model:active-key="activeKey" :destroyInactiveTabPane="true">
               <a-tab-pane v-for="(tab, index) in tabInfo" :key="tab.key" :tab="tab.title">
@@ -60,13 +60,14 @@
 <script setup lang="ts" name="ManageGroup">
 import { ManagerGroupService } from '@/services'
 import { message } from 'ant-design-vue'
-import { computed, ref } from 'vue'
+import { Modal } from 'ant-design-vue'
+import { computed, createVNode, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { DynamicTable } from '@/components/dynamic-table'
 import { PlusCircleTwoTone } from '@/components/icons'
-import { Modal } from '@/components/modal'
+import { QuestionCircleTwoTone } from '@/components/icons'
 import { contentModes as modes } from '@/constants/content'
 import GroupDetail from './components/GroupDetail.vue'
 import GroupHistory from './components/GroupHistory.vue'
@@ -75,6 +76,7 @@ import PostDetail from './components/PostDetail.vue'
 import { columns } from './mock'
 
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
+
 const tabInfo = {
   Detail: {
     key: 'Detail',
@@ -122,6 +124,45 @@ const contentCallback = (content: IManageGroup.GroupTableResponse['posts']['cont
   return content
 }
 
+const initState = (): void => {
+  // isOpen.value = false
+  mode.value = DEFAULT_MODE
+}
+/**
+ * @description 게시물 삭제
+ * @param selectedRows
+ */
+const onRemovePost = (
+  selectedRows: ManagerGroupService.Content[],
+  selectedRowKeys: string[]
+): void => {
+  Modal.confirm({
+    content: t('common.message.modalDeleteCheck'),
+    // width: 600,
+    icon: createVNode(QuestionCircleTwoTone),
+    onOk() {
+      const params = {
+        groupId: selectedRowKeys
+      }
+
+      console.log(selectedRowKeys)
+
+      ManagerGroupService.removeGroup(getWorkspace?.workspaceId, params).then(({ success }) => {
+        if (success) {
+          dynamicTableRef.value?.reload({ isReset: true })
+
+          setTimeout(() => {
+            message.success(t('common.message.deleteSuccess'), 1)
+          }, 300)
+        }
+      })
+
+      initState()
+    },
+    async onCancel() {}
+  })
+}
+
 const onClickRow = (row: IManageGroup.Content): void => {
   selectedData.value = row
   console.log(row)
@@ -152,7 +193,8 @@ const createGroup = async () => {
         if (success) {
           message.success(t('common.message.saveSuccess'), 1)
           onCancelModal()
-          dynamicTableRef.value?.reload({ isReset: true })
+
+          tableReload()
         }
       })
       .catch((error) => {
@@ -163,6 +205,12 @@ const createGroup = async () => {
   } catch (error) {
     console.log(error)
   }
+}
+
+const tableReload = () => {
+  dynamicTableRef.value?.reload({ isReset: true })
+
+  showDetail.value = false
 }
 
 const onCancelModal = (): void => {

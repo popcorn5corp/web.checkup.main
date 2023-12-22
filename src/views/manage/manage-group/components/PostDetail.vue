@@ -71,14 +71,20 @@ import { ManagerGroupService } from '@/services'
 import { Form, Input } from 'ant-design-vue'
 import { Modal } from 'ant-design-vue'
 import type { MenuProps } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { ExclamationCircleOutlined, MoreOutlined } from '@/components/icons'
 import { getDefaultPost } from '../constant'
 
 const { Item } = Form
 const [modal, contextHolder] = Modal.useModal()
+const { t } = useI18n()
+const emit = defineEmits(['reload'])
 
+const { getWorkspace } = useWorkspaceStore()
 type Post = IBaseSample.BaseSample
 interface PostDetailProps {
   data: Post
@@ -145,16 +151,15 @@ const showDeleteConfirm = (uid: string) => {
     title: '그룹을 삭제하시겠습니까?',
     icon: h(ExclamationCircleOutlined),
     okText: '삭제',
-    okType: 'danger',
+    okType: 'primary',
     cancelText: '취소',
     onOk() {
-      console.log('OK')
-
-      console.log(props.data)
-
-      ManagerGroupService.removeGroup([props.data.groupId, 1])
+      ManagerGroupService.removeGroup(getWorkspace?.workspaceId, [props.data.groupId])
         .then(({ success }) => {
           if (success) {
+            emit('reload')
+
+            message.success(t('common.message.deleteSuccess'), 1)
           }
         })
         .catch((error) => {

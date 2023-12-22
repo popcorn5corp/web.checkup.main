@@ -178,7 +178,7 @@ async function getWorkspaceUserList() {
 
 function reload() {
   loading.value = true
-  message.success(t('common.message.saveSuccess'), 1)
+
   fetchGroupUserList()
 
   loading.value = false
@@ -196,6 +196,8 @@ const onSubmit = () => {
         open.value = false
 
         reload()
+
+        message.success(t('common.message.saveSuccess'), 1)
       }
     })
     .catch((error) => {
@@ -208,7 +210,7 @@ const showDeleteConfirm = (uid: string) => {
     title: '사용자를 그룹에서 내보내시겠습니까?',
     icon: h(ExclamationCircleOutlined),
     okText: '확인',
-    okType: 'danger',
+    okType: 'primary',
     cancelText: '취소',
     onOk() {
       console.log('OK')
@@ -218,6 +220,8 @@ const showDeleteConfirm = (uid: string) => {
         .then(({ success }) => {
           if (success) {
             reload()
+
+            message.success(t('common.message.deleteSuccess'), 1)
           }
         })
         .catch((error) => {
