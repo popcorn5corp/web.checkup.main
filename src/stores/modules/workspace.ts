@@ -81,6 +81,7 @@ interface WorkspaceStep {
   step: number
   isComplete: boolean
   isJump: boolean
+  isFinal: boolean
   nextBtnText: string | null
   component: Component
 }
@@ -278,6 +279,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       step: 1,
       isComplete: false,
       isJump: false,
+      isFinal: false,
       nextBtnText: t('component.button.next'),
       component: WorkspaceNameForm
     },
@@ -286,6 +288,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       step: 2,
       isComplete: false,
       isJump: false,
+      isFinal: false,
       nextBtnText: t('component.button.next'),
       component: NameProfileForm
     },
@@ -294,6 +297,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       step: 3,
       isComplete: false,
       isJump: true,
+      isFinal: false,
       nextBtnText: t('component.button.next'),
       component: InviteMemberForm
     },
@@ -302,6 +306,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       step: 4,
       isComplete: true,
       isJump: false,
+      isFinal: false,
       nextBtnText: t('component.button.complete'),
       component: BuisnessTypeForm
     },
@@ -310,6 +315,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       step: 5,
       isComplete: false,
       isJump: false,
+      isFinal: true,
       nextBtnText: null,
       component: CreateComplete
     }
@@ -321,6 +327,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       step: 1,
       isComplete: false,
       isJump: false,
+      isFinal: false,
       nextBtnText: t('component.button.next'),
       component: InviteCodeFormVue
     },
@@ -329,6 +336,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       step: 2,
       isComplete: true,
       isJump: false,
+      isFinal: false,
       nextBtnText: t('component.button.joined'),
       component: NameProfileForm
     },
@@ -337,6 +345,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       step: 3,
       isComplete: false,
       isJump: false,
+      isFinal: true,
       nextBtnText: null,
       component: JoinCompleteVue
     }

@@ -14,6 +14,7 @@
               </Button>
 
               <Button
+                v-if="showDelete"
                 :label="$t('common.delete')"
                 size="middle"
                 @click="$emit('row-delete', tableRef?.selectedRows, tableRef?.selectedRowKeys)"
@@ -165,7 +166,8 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
   filters: () => [],
   showToolbar: true,
   showRegist: true,
-  showDownload: true
+  showDownload: true,
+  showDelete: true
 })
 
 defineExpose<DynamicTableExposes>({

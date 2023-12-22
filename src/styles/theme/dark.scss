@@ -2,6 +2,7 @@ $bg-color: $color-dark; // main bg color
 $bg-real-dark-color: $color-realDark;
 $text-color: $color-white; // main text color
 $sub-text-color: rgba(255, 255, 255, 0.25);
+$dark-border-color: #424242;
 
 html[data-theme='dark'] {
   .tabs-container {
@@ -71,25 +72,41 @@ html[data-theme='dark'] {
     background-color: rgba(0, 21, 41, 0.8509803922) !important;
     color: #fff !important;
     .list-wrapper {
-      border: 1px solid #424242 !important;
+      border: 1px solid $dark-border-color !important;
       .list-box {
-        border: 1px solid #424242 !important;
+        border: 1px solid $dark-border-color !important;
       }
       .list-li {
-        border-bottom-color: #424242 !important;
+        border-bottom-color: $dark-border-color !important;
       }
     }
     .invite-code-wrapper {
-      border: 1px solid #424242 !important;
+      border: 1px solid $dark-border-color !important;
+    }
+    .welcome-btns-wrapper {
+      .btn-box {
+        background: $bg-color !important;
+        border: 1px solid $dark-border-color !important;
+        color: $text-color !important;
+      }
     }
   }
   #workspace-step-btn-container {
     .form-wrapper {
       input  {
-        background-color: #fff !important;
+        background-color: $bg-color !important;
+        color: $text-color !important;
       }
       input::placeholder {
-        color: #000 !important;
+        color: $text-color !important;
+      }
+    }
+    .select-wrapper {
+      background-color: $bg-color !important;
+      border: 1px solid $dark-border-color !important;
+      .tag {
+        background-color: $sub-text-color !important;
+        color: $text-color !important;
       }
     }
   }
