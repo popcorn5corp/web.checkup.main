@@ -8,7 +8,7 @@
       ref="tableRef"
       v-if="getContextValues.layoutMode === 'table'"
       v-bind="getBindValues"
-      :scroll="{ y: 450, x: 800 }"
+      :scroll="{ y: 500, x: 800 }"
       :row-key="rowKey || 'index'"
       :custom-row="customRow"
       @change="changeTable"
@@ -38,7 +38,6 @@
 </template>
 <script setup lang="ts" name="BasicTable">
 import { Table } from 'ant-design-vue'
-import { theme } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import omit from 'lodash-es/omit'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
@@ -129,7 +128,7 @@ function setContextValues(values: Partial<TableContextValues>) {
  */
 const { setColumns, getColumns } = useColumns(getProps)
 const { getLoading, setLoading } = useLoading(getProps)
-const { customRow, rowClassName } = useCustomRow({ emit })
+const { customRow, rowClassName, initCustomRow } = useCustomRow({ emit })
 
 /**
  * @description Table 관련 기능에 대한 Hooks
@@ -143,6 +142,7 @@ const {
   initTableState,
   initDataSource,
   getDataSource,
+  getCardData,
   setPagination,
   getPagination
 } = useTable(getProps, {
@@ -178,6 +178,7 @@ const tableAction: TableAction = {
   setContextValues,
   fetchDataSource,
   getDataSource: () => unref(getDataSource),
+  getCardData: () => unref(getCardData),
   getLoading: () => unref(getLoading) as boolean,
   getSize: () => unref(getProps).size as SizeType,
   reload: async () => {
@@ -220,6 +221,8 @@ createTableContext({ wrapRef, ...tableAction, getContextValues, getBindValues })
 
 defineExpose({
   getDataSource: fetchDataSource,
+  getCardData,
+  initCustomRow,
   getColumns,
   reload: tableAction.reload,
   selectedRows,
@@ -248,50 +251,52 @@ watch(
 watch(
   () => dynamicTable?.getFilterFormItems(),
   async (filterFormItems) => {
-    const activeFilter = unref(dynamicTable.getContextValues).activeFilter
+    if (dynamicTable) {
+      const activeFilter = unref(dynamicTable.getContextValues).activeFilter
 
-    if (activeFilter && filterFormItems.length) {
-      const _filterFormItems = cloneDeep(filterFormItems)
-      const defaultParam = {
-        page: 0,
-        size: 10,
-        searchWord: ''
-      }
-
-      type ParamValue = string | number | boolean
-      const filterParam: {
-        [key: string]: ParamValue | Array<ParamValue>
-      } = {
-        ...defaultParam
-      }
-
-      _filterFormItems.map((formItem) => {
-        const { type, key, selectedItems } = formItem
-
-        // Checkbox 타입일 경우에만 search 조건이 여러개가 가능하기때문에 Array로 세팅
-        if (type === 'Checkbox') {
-          key.map((k) => {
-            filterParam[k] = []
-
-            selectedItems?.map((item) => {
-              ;(filterParam[k] as Array<ParamValue>).push(item.value)
-            })
-          })
-
-          return
+      if (activeFilter && filterFormItems.length) {
+        const _filterFormItems = cloneDeep(filterFormItems)
+        const defaultParam = {
+          page: 0,
+          size: 10,
+          searchWord: ''
         }
 
-        key.map((k, i) => {
-          if (selectedItems.length) {
-            filterParam[k] = selectedItems[i].value
+        type ParamValue = string | number | boolean
+        const filterParam: {
+          [key: string]: ParamValue | Array<ParamValue>
+        } = {
+          ...defaultParam
+        }
+
+        _filterFormItems.map((formItem) => {
+          const { type, key, selectedItems } = formItem
+
+          // Checkbox 타입일 경우에만 search 조건이 여러개가 가능하기때문에 Array로 세팅
+          if (type === 'Checkbox') {
+            key.map((k) => {
+              filterParam[k] = []
+
+              selectedItems?.map((item) => {
+                ;(filterParam[k] as Array<ParamValue>).push(item.value)
+              })
+            })
+
+            return
           }
+
+          key.map((k, i) => {
+            if (selectedItems.length) {
+              filterParam[k] = selectedItems[i].value
+            }
+          })
         })
-      })
 
-      console.log('Request Param :: ', filterParam)
+        // console.log('Request Param :: ', filterParam)
 
-      if (filterParam) {
-        await fetchDataSource({ isReset: false, filterParam })
+        if (filterParam) {
+          await fetchDataSource({ isReset: false, filterParam })
+        }
       }
     }
   },

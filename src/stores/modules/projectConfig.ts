@@ -2,13 +2,14 @@ import { Util } from '@/utils'
 import { defineStore } from 'pinia'
 import { computed, ref, unref, watch } from 'vue'
 import { THEME_KEY } from '@/constants/cacheKeyEnum'
-import { DEFAULT_PRIMARY } from '@/constants/settings'
 import {
   DeviceTypeEnum,
   type ProjectConfigState,
   type ThemeConfig,
   type ThemeName
 } from '../interface'
+
+const DEFAULT_PRIMARY = 'rgba(24, 144, 255, 1)'
 
 const defaultConfig: ProjectConfigState = {
   layout: 'default',
@@ -22,7 +23,7 @@ const defaultConfig: ProjectConfigState = {
     navTheme: 'light',
     isRealDarkTheme: false,
     isDark: false,
-    primaryColor: 'rgb(24, 144, 255)', // '#F5222D', // primary color of ant design
+    primaryColor: DEFAULT_PRIMARY, // '#F5222D', // primary color of ant design
     menuPosition: 'sidemenu', // nav menu position: `sidemenu` or `topmenu`
     contentWidth: 'Fluid', // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
     fixedHeader: false, // sticky header
@@ -41,16 +42,13 @@ const defaultConfig: ProjectConfigState = {
 
 const styleDom = document.createElement('style')
 styleDom.dataset.type = 'theme-dark'
-// styleDom.textContent = darkThemeCss
 document.head.appendChild(styleDom)
 
 const setRealDarkTheme = (navTheme?: ThemeName) => {
   if (navTheme === 'realDark') {
-    // document.documentElement.classList.add('dark')
     document.documentElement.setAttribute('data-theme', 'dark')
     styleDom.disabled = false
   } else {
-    // document.documentElement.classList.remove('dark')
     document.documentElement.removeAttribute('data-theme')
     styleDom.disabled = true
   }
@@ -82,19 +80,19 @@ export const useProjectConfigStore = defineStore('projectConfig', () => {
 
   watch(
     () => [config.value.theme.navTheme, config.value.isCollapse],
-    ([navTheme, isCollapse]) => {
+    () => {
       setLogo()
     },
-    {
-      immediate: true
-    }
+    { immediate: true }
   )
 
   function setLogo() {
-    const logoFileName = `${config.value.theme.title}_logo${
-      config.value.isCollapse ? '_simple' : ''
-    }_${config.value.theme.navTheme}.png`
+    const {
+      isCollapse,
+      theme: { title, navTheme }
+    } = unref(config)
 
+    const logoFileName = `${title}_logo${isCollapse ? '_simple' : ''}_${navTheme}.png`
     setTheme({ logoFileName })
   }
 

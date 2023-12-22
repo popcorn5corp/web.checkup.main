@@ -1,10 +1,12 @@
 import { Util } from '@/utils'
-import { type ComputedRef, computed, reactive, ref, toRefs, unref, watch } from 'vue'
+import { type ComputedRef, computed, reactive, toRefs, unref } from 'vue'
 import type { TablePagination, TableProps, TableSorter } from '../types'
 import { defaultPaginaton } from '../types'
+import { ErrorMessage, TableError } from './error'
 
 interface State {
   dataSource: any[]
+  cardData: any[]
   pagination: TablePagination
   total: number
   requestParam: Recordable
@@ -28,6 +30,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   function defaultState(): State {
     return {
       dataSource: [],
+      cardData: [],
       total: 0,
       requestParam: {},
       filterParam: {},
@@ -41,10 +44,12 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }
   }
 
-  const getDataSource = computed(() => state.dataSource)
+  const getDataSource = computed(() => unref(propsRef).dataSource || state.dataSource)
+  const getCardData = computed(() => state.cardData)
 
   function initTableState() {
     state.dataSource = []
+    state.cardData = []
     state.total = 0
     state.requestParam = {}
     state.filterParam = {}
@@ -104,40 +109,6 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }
   })
 
-  const filterParam = computed(() => {
-    return {}
-  })
-
-  const isReset = ref(false)
-  const searchWord = ref('')
-
-  // const requestParam = computed(() => {
-  //   const { initParam, options } = unref(propsRef)
-  //   console.log('requestParam :: ', requestParam, options)
-
-  //   const param: State['requestParam'] = {
-  //     ...initParam,
-  //     searchWord: unref(searchWord)
-  //   }
-
-  //   if (!unref(isReset)) {
-  //     state.pagination.current = defaultPaginaton.current
-  //   } else {
-  //     state.pagination = {
-  //       ...defaultPaginaton
-  //     }
-  //     state.sorter = []
-  //     searchWord.value = ''
-  //   }
-
-  //   options?.isPagination && Object.assign(param, paginationParam.value)
-  //   unref(isSorting) && Object.assign(param, sorterParam.value)
-
-  //   console.log('param :: ', param)
-
-  //   return param
-  // })
-
   const fetchDataSource = async (options?: {
     isReset?: boolean
     param?: { searchWord?: string }
@@ -147,17 +118,20 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       rowKey,
       dataRequest,
       dataSource,
-      initParam,
       options: propsOptions,
-      dataCallback
+      dataCallback,
+      contentCallback,
+      cardContentCallback
     } = unref(propsRef)
 
     let _dataSource = []
+    let _cardData = []
     let _total = 0
 
     if (!dataRequest) {
       if (dataSource) {
         _dataSource = dataSource
+        _cardData = dataSource
         _total = dataSource.length
       }
     } else {
@@ -166,7 +140,6 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       filterParam && (state.filterParam = filterParam)
 
       let requestParam: State['requestParam'] = {
-        // ...initParam,
         ...state.filterParam
       }
 
@@ -180,8 +153,6 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
         state.searchWord = ''
       } else {
         requestParam = {
-          // ...initParam,
-          // ...state.requestParam,
           ...state.filterParam,
           searchWord: state.searchWord
         }
@@ -200,26 +171,41 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       try {
         const { data, success } = await dataRequest(requestParam)
 
-        if (success) {
-          const {
-            posts: { content, totalElements }
-          } = data
+        if (success && dataCallback) {
+          const dcResult = dataCallback(data)
 
-          // key 설정
+          if (dcResult === undefined) {
+            throw new TableError(ErrorMessage.DATACALLBACK.NO_RETURN_VALUE)
+          }
+
+          const { content, totalElements } = dcResult
+
+          if (!content) {
+            throw new TableError(ErrorMessage.DATACALLBACK.NO_CONTENT)
+          }
+
           content.map((record: Recordable, i: number) => {
             record['index'] = i
             record['rowKey'] = record[rowKey]
           })
-          _dataSource = dataCallback ? dataCallback(content) : content
-          state.pagination.total = totalElements
+
+          _dataSource = contentCallback ? contentCallback(content) : content
+          _cardData = cardContentCallback ? cardContentCallback(content) : content
           _total = totalElements
+          state.pagination.total = totalElements
         }
-      } catch (e) {
-        console.log(e)
+      } catch (error) {
+        if (error instanceof TableError) {
+          console.warn(error.message)
+        } else {
+          console.log(error)
+          throw error
+        }
       }
     }
 
     state.dataSource = _dataSource
+    state.cardData = _cardData
     state.total = _total
 
     setTimeout(() => {
@@ -276,6 +262,7 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
   return {
     ...toRefs(state),
     getDataSource,
+    getCardData,
     initTableState,
     initDataSource,
     fetchDataSource,

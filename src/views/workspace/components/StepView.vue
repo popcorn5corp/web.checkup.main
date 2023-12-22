@@ -54,7 +54,7 @@
           type="primary"
           size="large"
           :label="$t('component.button.toMain')"
-          @click="router.push({ name: 'root' })"
+          @click="router.push(PagePathEnum.BASE_HOME)"
         />
       </div>
     </div>
@@ -70,6 +70,7 @@ import { ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { PagePathEnum } from '@/constants/pageEnum'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -81,8 +82,9 @@ const {
   getStepType,
   getNextBtnDisabled,
   getFormValues,
-  getWorkspaceId,
-  getWorkspaceInviteLogId
+  // getWorkspaceId,
+  getWorkspaceInviteLogId,
+  getJoinParam
 } = toRefs(workspaceStore)
 const isLoading = ref(false)
 
@@ -108,15 +110,15 @@ const onComplete = async () => {
 
         if (success) {
           const { workspaceId, workspaceName } = data
-          workspaceStore.setWorkspaceIdAndName(workspaceId, workspaceName)
-          workspaceStore.setSelectedWorkspace({ workspaceId, workspaceName })
+          workspaceStore.setJoinParam({ workspaceId, workspaceName })
+          workspaceStore.setSelectedWorkspaceId(workspaceId)
         }
       } else {
         // 초대 api
         const { nickname, originName, saveName, path, size, ext } = getFormValues.value
         await WorkspaceService.joinWorkspace({
           uid: props.uid,
-          workspaceId: getWorkspaceId.value,
+          workspaceId: getJoinParam.value.workspaceId as string,
           workspaceInviteLogId: getWorkspaceInviteLogId.value,
           nickname,
           originName,
@@ -129,9 +131,6 @@ const onComplete = async () => {
     }
 
     workspaceStore.nextCurrentStep()
-  } catch (err) {
-    message.error(t('common.message.reTry'))
-    console.log(err)
   } finally {
     isLoading.value = false
   }
@@ -146,11 +145,11 @@ const onComplete = async () => {
   margin: 0 auto;
 
   .step-wrapper {
-    background: #1890ff;
+    background: $color-primary;
     margin-bottom: 1.5rem;
     padding: 5px 12px;
     border-radius: 1rem;
-    color: #fff;
+    color: $color-white;
     font-size: 15px;
     font-weight: 500;
     align-self: flex-start;
@@ -178,7 +177,7 @@ const onComplete = async () => {
     p {
       font-weight: 500;
       font-size: 19px;
-      color: #888;
+      color: $sub-text-dark-gray-color;
       margin-bottom: 5px;
       line-height: 1.7;
       white-space: pre-line;
@@ -191,18 +190,18 @@ const onComplete = async () => {
     input {
       padding: 0.8rem 2rem;
       font-size: 1rem;
-      background-color: #f5f5f6;
+      background-color: $input-bg-color;
       border-radius: 0.5rem;
       border: none;
-      color: #222;
+      color: $color-dark;
     }
     input::placeholder {
-      color: #777;
+      color: $color-gray;
     }
     small {
       font-weight: 400;
       font-size: 15px;
-      color: #888;
+      color: $sub-text-dark-gray-color;
       margin-left: 3px;
     }
   }

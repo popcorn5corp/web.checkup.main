@@ -15,7 +15,9 @@ export default {
       fontSizeSmall: '작게',
       fontSizeMedium: '중간',
       fontSizeLarge: '크게',
-      tabLang: '언어'
+      tabLang: '언어',
+      tabLangRegions: '언어 및 지역',
+      tabAlarm: '알림'
     }
   },
   menu: {

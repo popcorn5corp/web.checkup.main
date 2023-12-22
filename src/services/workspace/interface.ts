@@ -27,18 +27,29 @@ export namespace IWorkspace {
     ext: string
     size: number
   }
+
+  export interface WorkspaceUserInfoResponse {
+    workspace: WorkspaceInfo
+    workspaceUser: {
+      workspaceUserId: string
+      nickname: string
+      email: string
+      profile: string
+      userStatus: {
+        label: string
+        value: string
+      }
+    }
+  }
+
+  export interface WorkspaceListParam {
+    currentWorkspaceId: string | null
+  }
   export interface WorkspaceListResponse extends DefaultWorkspceInfo {
     uid: string
     userId: string
     userName: string
     workspaceInfoList: WorkspaceListInfo[]
-  }
-  export interface ExistEmailParam {
-    inviteEmail: string
-  }
-  export interface ExistEmailResponse {
-    inviteEmail: string
-    isExist: boolean
   }
 
   export interface CreateWorkspaceResponse extends WorkspaceInfo {
@@ -87,5 +98,21 @@ export namespace IWorkspace {
   export interface GetWorkspaceInfoResponse extends WorkspaceInfo {
     totalUserCount: number
     workspaceUsers: WorkspaceUsers[]
+  }
+
+  export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'WITHDRAWN' | 'REVOKE'
+  export interface WorkspaceUserInfo {
+    workspaceUserId: string
+    nickname: string
+    email: string
+    profile: string
+    userStatus: {
+      label: string
+      value: UserStatus
+    }
+  }
+  export interface UserWorkspaceResponse {
+    workspace: WorkspaceInfo
+    workspaceUser: WorkspaceUserInfo
   }
 }

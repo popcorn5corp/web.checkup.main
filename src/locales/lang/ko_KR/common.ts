@@ -33,5 +33,6 @@ export default {
   or: '또는',
   select: '선택',
   createWorkspace: '새 워크스페이스 생성',
-  changeWorkspace: '워크스페이스 변경'
+  changeWorkspace: '워크스페이스 변경',
+  lang: '언어'
 }

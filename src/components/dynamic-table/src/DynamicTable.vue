@@ -6,10 +6,8 @@
         <!-- <Button label="Drawer" @click="showDetail = true" /> -->
         <div class="table-btns">
           <Space>
-            <slot name="tableBtns"></slot>
-
             <template v-if="getContextValues.selectedRows?.length > 0">
-              <Button :label="$t('common.download')" size="middle">
+              <Button v-if="showDownload" :label="$t('common.download')" size="middle">
                 <template #icon>
                   <DownloadOutlined />
                 </template>
@@ -26,7 +24,14 @@
               </Button>
             </template>
 
-            <Button :label="$t('common.registration')" size="middle" @click="$emit('row-add')">
+            <slot name="tableBtns"></slot>
+
+            <Button
+              v-if="showRegist"
+              :label="$t('common.registration')"
+              size="middle"
+              @click="$emit('row-add')"
+            >
               <template #icon>
                 <PlusCircleTwoTone />
               </template>
@@ -66,12 +71,14 @@
           </Table>
         </div>
 
-        <FilterForm
-          v-if="showFilter && !openDetail"
-          :items="getFilterFormItems"
-          @close="(flag: boolean) => (showFilter = flag)"
-          :style="{ width: props.showToolbar && showFilter && !openDetail ? '30%' : '' }"
-        ></FilterForm>
+        <KeepAlive>
+          <FilterForm
+            v-if="showFilter && !openDetail"
+            :items="getFilterFormItems"
+            @close="(flag: boolean) => (showFilter = flag)"
+            :style="{ width: props.showToolbar && showFilter && !openDetail ? '30%' : '' }"
+          ></FilterForm>
+        </KeepAlive>
 
         <div
           class="detail-wrapper"
@@ -80,8 +87,9 @@
           :class="[getTheme.isRealDarkTheme && 'dark']"
         >
           <div class="title">
-            <span> 게시물 상세 </span>
-            <Button :size="'small'" @click="$emit('update:openDetail', false)">
+            <slot name="detail-title"></slot>
+
+            <Button :size="'small'" @click="closeDetail" style="float: right">
               <template #icon>
                 <font-awesome-icon class="xmark" :icon="['fas', 'xmark']" />
               </template>
@@ -117,6 +125,7 @@
 <script setup lang="ts" name="DynamicTable">
 import { Divider, Space } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
+import type { KeepAlive } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
@@ -153,8 +162,10 @@ const emit = defineEmits([
   'update:openDetail'
 ])
 const props = withDefaults(defineProps<DynamicTableProps>(), {
+  filters: () => [],
   showToolbar: true,
-  filters: () => []
+  showRegist: true,
+  showDownload: true
 })
 defineExpose<DynamicTablExposes>({
   reload: (options: { isReset?: boolean }) => {
@@ -213,7 +224,7 @@ const { getFilterFormItems, clearSelectedItems, setFilterFormItem, initFilterFor
   useFilter(getProps)
 
 watch(
-  () => tableRef.value?.selectedRows,
+  () => unref(tableRef)?.selectedRows,
   (selectedRows) => {
     setContextValues({ selectedRows })
   }
@@ -229,6 +240,11 @@ watch(
     deep: true
   }
 )
+
+function closeDetail() {
+  emit('update:openDetail', false)
+  unref(tableRef)?.initCustomRow()
+}
 
 let dynamicTableAction: DynamicTableAction = {
   setProps,

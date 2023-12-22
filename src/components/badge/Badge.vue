@@ -1,8 +1,8 @@
 <template>
-  <span :class="getBadgeClass">{{ text }}</span>
+  <span :class="getBadgeClass">{{ text }}<slot /></span>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="Badge">
 import { computed } from 'vue'
 import type { BadgeProps } from './types'
 

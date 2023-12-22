@@ -1,5 +1,5 @@
 <template>
-  <div class="text-wrapper">
+  <div class="text-wrapper" v-if="props.isShowDescription">
     <h1>{{ $t('page.workspace.createStep3Tit') }}</h1>
     <p>{{ $t('page.workspace.createStep3Desc') }}</p>
   </div>
@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts" name="InviteMemberForm">
+import { ManageUserService } from '@/services'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { Input, message } from 'ant-design-vue'
 import { type CSSProperties, computed, ref, toRefs } from 'vue'
@@ -41,7 +42,14 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
-const { getFormValues } = toRefs(workspaceStore)
+const { getFormValues, getStepType, getWorkspace } = toRefs(workspaceStore)
+
+const props = defineProps({
+  isShowDescription: {
+    type: Boolean,
+    default: true
+  }
+})
 
 const isError = ref(false)
 const errMsg = ref('')
@@ -66,10 +74,17 @@ const onInputEnter = async (event: KeyboardEvent) => {
   try {
     if (!emailValue) return
     if (!regExp.test(emailValue)) {
+      // email 형식이 아닐 때
       handleError(t('common.message.emailError'))
     } else if (tags.value.includes(emailValue)) {
+      // 작성한 email 과 중복일 때
       handleError(t('common.message.emailDuplicatedError'))
+      console.log('step', getStepType.value)
     } else {
+      if (getStepType.value === null) {
+        // 사용자 관리 - 초대하기 일 떼 워크스페이스에 존재하는 email인지 검사
+        onManageUsersCheckEmail(emailValue)
+      }
       emailRef.value = ''
       workspaceStore.pushFormValueInviteEmails(emailValue.trim())
       resetError()
@@ -77,6 +92,25 @@ const onInputEnter = async (event: KeyboardEvent) => {
   } catch (err) {
     message.error(t('common.message.reTry'))
   }
+}
+
+const onManageUsersCheckEmail = async (emailValue: string) => {
+  try {
+    const {
+      data: { exist }
+    } = await ManageUserService.checkDuplicatedEmail(getWorkspace.value.workspaceId, {
+      inviteEmail: emailValue
+    })
+    if (exist) {
+      return handleError('이미 이 워크스페이스에 존재합니다.')
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const onInitInviteEmails = () => {
+  workspaceStore.initFormValueInviteEmails()
 }
 
 const onRemove = (tag: string) => {
@@ -99,6 +133,13 @@ watch(emailRef, () => {
     resetError()
   }
 })
+
+defineExpose({
+  isError,
+  tags,
+  onInputEnter,
+  onInitInviteEmails
+})
 </script>
 
 <style lang="scss" scoped>
@@ -106,7 +147,7 @@ watch(emailRef, () => {
   .select-wrapper {
     min-height: 130px;
     max-height: 227px;
-    background-color: #fff;
+    background-color: $color-white;
     border: 1px solid;
     border-color: v-bind('errorTagStyle.borderColor');
     border-radius: 6px;
@@ -123,7 +164,7 @@ watch(emailRef, () => {
         justify-content: space-between;
         align-items: center;
         background: rgba(0, 0, 0, 0.06);
-        color: #000;
+        color: $color-black;
         margin: 2px 0;
         margin-right: 7px;
         padding: 4px;

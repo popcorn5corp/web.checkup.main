@@ -20,29 +20,31 @@ export function useFilter(propsRef: ComputedRef<DynamicTableProps>) {
         innerFilters.value = filters || []
 
         if (filterRequest) {
-          const { data, success } = await filterRequest()
+          try {
+            const { data, success } = await filterRequest()
 
-          if (success) {
-            innerFilters.value = data.filters
-          }
+            if (success) {
+              innerFilters.value = data.filters
+
+              filterFormItems.value = unref(innerFilters).map((filter, index) => {
+                const selectedItems =
+                  filter.type === 'Radio'
+                    ? filter.options
+                      ? [filter.options[0]]
+                      : []
+                    : filter.selectedItems || []
+
+                return {
+                  ...filter,
+                  index,
+                  open: true,
+                  options: filter.options || [],
+                  selectedItems
+                }
+              })
+            }
+          } catch (error) {}
         }
-
-        filterFormItems.value = unref(innerFilters).map((filter, index) => {
-          const selectedItems =
-            filter.type === 'Radio'
-              ? filter.options
-                ? [filter.options[0]]
-                : []
-              : filter.selectedItems || []
-
-          return {
-            ...filter,
-            index,
-            open: true,
-            options: filter.options || [],
-            selectedItems
-          }
-        })
 
         cloneFilterFormItems.value = cloneDeep(unref(filterFormItems))
         countFlag++

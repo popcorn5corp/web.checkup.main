@@ -25,6 +25,7 @@ export interface CardProps {
   imgUrl?: string
   item: Recordable
   createdAt?: number
+  date?: string
   component?: Component
 }
 

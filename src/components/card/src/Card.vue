@@ -11,7 +11,6 @@
             </Image>
           </div>
         </template>
-
         <div class="text-box">
           <div class="text-header">
             <template v-if="props.title">
@@ -25,16 +24,21 @@
 
           <template v-if="props.item">
             <div class="content">
-              <p>
-                {{ props.content }}
-              </p>
+              <div v-html="props.content"></div>
             </div>
           </template>
 
-          <template v-if="props.createdAt">
+          <template v-if="props.date">
             <div class="created">
               <p>
-                {{ dayjs.unix(props.createdAt).format('YYYY-MM-DD') }}
+                {{ props.date }}
+              </p>
+            </div>
+          </template>
+          <template v-else>
+            <div class="created">
+              <p>
+                {{ props.createdAt && dayjs.unix(props.createdAt).format('YYYY-MM-DD') }}
               </p>
             </div>
           </template>
@@ -79,7 +83,7 @@
 import ExcelImage from '@/assets/images/excel.png'
 import PdfImage from '@/assets/images/pdf.png'
 import PptImage from '@/assets/images/ppt.png'
-import { ZoomInOutlined } from '@ant-design/icons-vue'
+import { PhoneFilled, ZoomInOutlined } from '@ant-design/icons-vue'
 import { Checkbox, Image } from 'ant-design-vue'
 import type { CheckboxChangeEvent } from 'ant-design-vue/es/checkbox/interface'
 import dayjs from 'dayjs'
@@ -144,6 +148,9 @@ a {
     overflow: hidden;
     .card {
       .img-wrapper {
+        display: flex;
+        align-items: center;
+        height: 12rem;
         max-width: 490px;
         max-height: 400px;
         text-align: center;
@@ -167,7 +174,7 @@ a {
           align-items: center;
         }
         .title {
-          width: 72%;
+          width: 56%;
           font-size: 17px;
           font-weight: 600;
           white-space: nowrap;
@@ -184,10 +191,10 @@ a {
           font-size: 14px;
         }
         .content {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 5px;
+          // display: flex;
+          // justify-content: space-between;
+          // align-items: center;
+          margin-bottom: 8px;
           font-size: 14px;
         }
         .created {

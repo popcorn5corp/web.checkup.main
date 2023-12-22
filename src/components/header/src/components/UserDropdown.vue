@@ -1,39 +1,30 @@
 <template>
-  <Dropdown class="user-dropdown" :trigger="['click']" :theme="'dark'">
+  <Dropdown class="user-dropdown" :trigger="['click']">
     <Button shape="round">
       <template #icon>
-        <Badge status="processing" :text="getWorkspace.workspaceName" color="green" />
+        <Badge status="processing" :text="getWorkspace?.workspaceName" color="green" />
         <CaretDownOutlined />
       </template>
     </Button>
     <template #overlay>
       <Menu @click="onClickMenu">
-        <!-- <MenuItem key="0" style="text-align: center">
-          <Avatar style="background-color: #d7b0f4">
-            <template #icon>
-              <UserOutlined />
-            </template>
-          </Avatar>
-        </MenuItem>
-        <MenuItem key="1" style="text-align: center"> {{ getUser.userName }} </MenuItem>
-        <MenuItem key="2"> {{ getUser.userId }} </MenuItem> -->
-        <MenuItem key="3">
+        <MenuItem key="1">
           <PlusOutlined />
           {{ $t('common.createWorkspace') }}
         </MenuItem>
-        <MenuItem key="4">
+        <MenuItem key="2">
           <SwapOutlined />
           {{ $t('common.changeWorkspace') }}
         </MenuItem>
-        <MenuItem key="5">
+        <MenuItem key="3">
           <SettingOutlined />
           {{ $t('layout.header.dropdownItemSettings') }}
         </MenuItem>
-        <MenuItem key="6">
+        <!-- <MenuItem key="4">
           <UserOutlined />
           고객센터
-        </MenuItem>
-        <MenuItem key="7">
+        </MenuItem> -->
+        <MenuItem key="5">
           <LogoutOutlined />
           {{ $t('layout.header.dropdownItemLogout') }}
         </MenuItem>
@@ -53,10 +44,13 @@
         <TabPane key="1" :tab="$t('layout.header.settings.tabAccount')" force-render>
           <UserAccount />
         </TabPane>
-        <TabPane key="2" :tab="$t('layout.header.settings.tabDisplaySetting')">
+        <TabPane key="2" :tab="$t('layout.header.settings.tabAlarm')">
+          <AlarmSetting />
+        </TabPane>
+        <TabPane key="3" :tab="$t('layout.header.settings.tabDisplaySetting')">
           <DisplaySetting />
         </TabPane>
-        <TabPane key="3" :tab="$t('layout.header.settings.tabLang')">
+        <TabPane key="4" :tab="$t('layout.header.settings.tabLangRegion')">
           <LanguageSetting />
         </TabPane>
       </Tabs>
@@ -64,10 +58,9 @@
   </Modal>
 </template>
 <script setup lang="ts" name="UserDropdown">
-import { Avatar, Badge, Dropdown, Menu, MenuItem, type MenuProps, Modal } from 'ant-design-vue'
+import { Badge, Dropdown, Menu, MenuItem, type MenuProps, Modal } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -82,37 +75,45 @@ import {
 } from '@/components/icons'
 import { Tabs } from '@/components/tabs'
 import { TabPane } from '@/components/tabs'
-import { PageEnum } from '@/constants/pageEnum'
+import { PagePathEnum } from '@/constants/pageEnum'
 import DisplaySetting from './DisplaySetting.vue'
 import LanguageSetting from './LanguageSetting.vue'
-import UserAccount from './UserAccount.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
-const { getWorkspace } = storeToRefs(useWorkspaceStore())
+const workspaceStore = useWorkspaceStore()
+const { getWorkspace } = storeToRefs(workspaceStore)
 const isOpen = ref(false)
 
-const onClickMenu: MenuProps['onClick'] = (e) => {
-  if (e.key === '3') {
-    router.push(PageEnum.WORKSPACE_CREATE)
-  } else if (e.key === '4') {
-    router.push(PageEnum.WORKSPACE_LIST)
-  } else if (e.key === '5') {
+const onClickMenu: MenuProps['onClick'] = ({ key }) => {
+  if (key === '1') {
+    router.push(PagePathEnum.WORKSPACE_CREATE)
+  } else if (key === '2') {
+    router.push(PagePathEnum.WORKSPACE_LIST)
+  } else if (key === '3') {
     isOpen.value = true
-  } else if (e.key === '7') {
-    authStore.logout()
+  } else if (key === '5') {
+    authStore.logout(true)
   }
 }
 </script>
 <style lang="scss" scoped>
 .user-dropdown {
   :deep(.ant-badge .ant-badge-status-dot) {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
   }
 }
 
 .modal-content {
   margin-top: 30px;
+
+  :deep(.tabs-container) {
+    border-radius: 15px;
+
+    .ant-tabs-content-holder {
+      padding: 10px;
+    }
+  }
 }
 </style>

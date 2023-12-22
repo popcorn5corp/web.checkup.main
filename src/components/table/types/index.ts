@@ -1,8 +1,6 @@
 import type { TableProps as ATableProps, TableColumnType } from 'ant-design-vue'
-// import type { ColumnType } from 'ant-design-vue/es/table/interface'
 import type { DefaultRecordType } from 'ant-design-vue/lib/vc-table/interface'
-import type EventEmitter from 'events'
-import type { SortCodesResponse } from '@/services/BaseSample/interface'
+import type { SortCodesResponse } from '@/services/base-sample/interface'
 
 type PaginationPositon =
   | 'topLeft'
@@ -41,46 +39,110 @@ export interface TableSorter {
 }
 
 export interface TableOptions {
+  /**
+   * 테이블 Row에 대한 Cursor: pointer 여부
+   */
   pointer?: boolean
+  /**
+   * 테이블 Pagination 적용 여부
+   */
   isPagination?: boolean
+  /**
+   * 테이블 No 칼럼 적용 여부
+   */
   isShowNo?: boolean
+  /**
+   * 테이블 Row 체크박스를 통한 Select 사용 여부
+   */
   isSelection?: boolean
 }
 
-export interface TableProps<RecordType = DefaultRecordType> extends ATableProps {
-  dataSource?: RecordType[]
-  loading?: boolean
-  total?: number
-  size?: SizeType
-  options?: TableOptions
-  pagination?: TablePagination
-  // 데이터 테이블 리스트 랜던링에 사용되는 key
-  rowKey: string | 'key'
-  // 테이블 데이터 API 처리
-  dataRequest?: (params: any) => Promise<API.ResponseData>
-  // 데이터를 후처리 할 수 있는 callback 함수 제공
-  dataCallback?: (data: any) => any
-  // 테이블 칼럼 정보에 대한 API
-  columnRequest?: () => Promise<API.ResponseData<SortCodesResponse>>
-  // API 호출을 위한 초기 Request Parameter
-  initParam?: RequestParam
-  // 정적으로 정의된 테이블 칼럼 정보
-  columns: TableColumnType[]
-  // 데이터 테이블 Toolbar 노출 여부
-  showToolbar?: boolean
-  // 테이블 레이아웃 타입 정보
-  layoutType?: TableLayoutMode
-  // Toolbar 옵선 정보
-  toolbarOptions?: ToolbarOptions
-
-  dynamicTable?: any
+export interface ToolbarOptions {
+  /**
+   * Toolbar 노출 여부
+   */
+  show: boolean
+  /**
+   * 테이블 레이아웃 모드
+   */
+  layoutMode: TableLayoutMode
 }
 
-export interface ToolbarOptions {
-  // Toolbar 노출 여부
-  show: boolean
-  // 테이블 레이아웃 모드
-  layoutMode: TableLayoutMode
+export interface TableProps<RecordType = DefaultRecordType> extends ATableProps {
+  /**
+   * 테이블 데이터
+   */
+  dataSource?: RecordType[]
+  /**
+   * 테이블 칼럼 정보
+   */
+  columns: TableColumnType[]
+  /**
+   * 테이블 로딩
+   */
+  loading?: boolean
+  /**
+   * 테이블 데이터 목록 갯수
+   */
+  total?: number
+  /**
+   * 테이블 사이즈
+   */
+  size?: SizeType
+  /**
+   * 테이블 옵션 정보
+   */
+  options?: TableOptions
+  /**
+   * 테이블 Pagination 정보
+   */
+  pagination?: TablePagination
+  /**
+   * 테이블 리스트 랜던링에 사용되는 key
+   */
+  rowKey: string | 'key'
+  /**
+   * API 호출을 위한 초기 Request Parameter
+   */
+  initParam?: RequestParam
+  /**
+   * 테이블 레이아웃 타입 정보
+   */
+  layoutType?: TableLayoutMode
+  /**
+   * 테이블 Toolbar 노출 여부
+   */
+  showToolbar?: boolean
+  /**
+   * 테이블 Toolbar 옵선 정보
+   */
+  toolbarOptions?: ToolbarOptions
+  /**
+   * 테이블 데이터관련 Reqquest API
+   * @param params Request Paramerter 정보
+   */
+  dataRequest?: (params: any) => Promise<API.ResponseData>
+  /**
+   * 테이블 칼럼 정보에 대한 Request API
+   */
+  columnRequest?: () => Promise<API.ResponseData<SortCodesResponse>>
+  /**
+   * Request API에 대한 응답 Data 처리를 위한 Callback
+   * @param data
+   */
+  dataCallback?: (
+    data: any
+  ) => Record<string, any> & { content: Array<Record<string, any>>; totalElements: number }
+  /**
+   * Request API에 대한 응답 Content 처리를 위한 Callback
+   * @param content
+   */
+  contentCallback?: (content: any) => Array<Record<string, any>>
+  /**
+   * Request API에 대한 응답 CardView 정보 대응을 위한 Content 처리 Callback
+   * @param content
+   */
+  cardContentCallback?: (content: any) => Array<Record<string, any>>
 }
 
 export interface TableAction {
@@ -91,6 +153,7 @@ export interface TableAction {
     param?: { searchWord?: string }
   }) => Promise<void>
   getDataSource: () => Recordable[]
+  getCardData: () => Recordable[]
   getSize: () => TableSize | CardSize
   getLoading: () => boolean
   reload: (isReset?: boolean) => Promise<void>

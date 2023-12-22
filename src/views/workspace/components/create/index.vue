@@ -14,18 +14,19 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 const workspaceStore = useWorkspaceStore()
 const { getCurrentStep, getSteps } = toRefs(workspaceStore)
+
+workspaceStore.initFormValues()
 </script>
 
 <style lang="scss" scoped>
 // transition
 .transition-group {
   position: relative;
-  opacity: 1;
-}
-.active {
-  width: 100%;
-  position: absolute;
-  transition: all 0.5s;
+  .active {
+    width: 100%;
+    position: absolute;
+    transition: all 0.5s;
+  }
 }
 .create-enter-from {
   opacity: 0;

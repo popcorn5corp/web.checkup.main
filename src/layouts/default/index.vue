@@ -24,7 +24,7 @@
 
     <Layout class="layout-main">
       <!-- Page Header 영역 -->
-      <PageHeader :collapsed="collapsed" :theme="getTheme">
+      <LayoutHeader :collapsed="collapsed" :theme="getTheme">
         <template v-if="config.theme.menuPosition === 'topmenu'" #default>
           <Logo :imgPath="imgPath" />
 
@@ -38,9 +38,9 @@
             />
           </div>
         </template>
-      </PageHeader>
+      </LayoutHeader>
 
-      <PageTabs />
+      <LayoutTabs />
 
       <!-- Page Content 영역 -->
       <Layout.Content class="layout-content" :class="getDarkModeClass">
@@ -53,7 +53,7 @@
           <!-- <div class="layer">상세영역</div> -->
         </div>
       </Layout.Content>
-      <!-- <PageFooter /> -->
+      <!-- <LayoutFooter /> -->
     </Layout>
 
     <CircularMenu />
@@ -63,12 +63,12 @@
 import { Divider, Layout } from 'ant-design-vue'
 import { type CSSProperties, computed, onMounted } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { Header as PageHeader } from '@/components/header'
+import { Header as LayoutHeader } from '@/components/header'
 import { Logo } from '@/components/logo'
 import { Menu as AsideMenu } from '@/components/menu'
 import { menus } from '@/components/menu/src/mock'
-import PageFooter from '../components/Footer/index.vue'
-import PageTabs from '../components/Tabs/index.vue'
+// import LayoutFooter from '../components/LayoutFooter.vue'
+import LayoutTabs from '../components/LayoutTabs.vue'
 import CircularMenu from './components/CircularMenu.vue'
 
 const { config } = useProjectConfigStore()

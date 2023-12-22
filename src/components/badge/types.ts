@@ -11,7 +11,7 @@ type BadgeTheme =
   | 'red-outline'
 
 export interface BadgeProps {
-  text: string
+  text?: string
   size?: BadgeSize
   shape?: BadgeShape
   theme?: BadgeTheme

@@ -9,7 +9,6 @@
             ref="listRef"
             v-for="item in workspaceList"
             :key="item.workspaceId"
-            :data-set="item.workspaceId"
             class="list-li"
             :class="[item.active && 'active']"
             @click="onSelectWorkspace(item)"
@@ -42,7 +41,7 @@
       </div>
       <div class="check-wrapper">
         <span>
-          <Checkbox v-model:checked="useDefaultWorkspace">
+          <Checkbox v-model:checked="getUser.useDetaulWorkspace">
             <p>
               {{ $t('page.workspace.listCheckText') }}
             </p>
@@ -55,40 +54,45 @@
 
 <script setup lang="ts" name="WorkspaceList">
 import { WorkspaceService } from '@/services'
+import { Util } from '@/utils'
 import { ArrowRightOutlined, UserAddOutlined } from '@ant-design/icons-vue'
 import { Checkbox } from 'ant-design-vue'
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import type { IWorkspace } from '@/services/workspace/interface'
+import { useAuthStore } from '@/stores/modules/auth'
 import { type Workspace, useWorkspaceStore } from '@/stores/modules/workspace'
+import { WORKSPACE_ID_KEY } from '@/constants/cacheKeyEnum'
+import { PagePathEnum } from '@/constants/pageEnum'
 
 type WorkspaceListInfo = IWorkspace.WorkspaceListInfo & { active: boolean; activeTxt: string }
 
 const { t } = useI18n()
 const router = useRouter()
-const { setSelectedWorkspace, getWorkspace } = useWorkspaceStore()
+const { setSelectedWorkspaceId, getWorkspaceId, initWorkspace } = useWorkspaceStore()
+const { getUser } = useAuthStore()
 const workspaceList = ref<WorkspaceListInfo[]>()
 const listRef = ref()
-const useDefaultWorkspace = ref(false)
+const currentWorkspaceId = ref(getWorkspaceId || Util.Storage.get(WORKSPACE_ID_KEY))
 
 ;(async () => {
   try {
-    const { data } = await WorkspaceService.getWorkspaceList()
-    workspaceList.value = data.workspaceInfoList.map((workspace) => {
+    const {
+      data: { workspaceInfoList }
+    } = await WorkspaceService.getWorkspaceList({
+      currentWorkspaceId: unref(currentWorkspaceId)
+    })
+    workspaceList.value = workspaceInfoList.map((workspace) => {
       let active = false
       let activeTxt = t('component.button.move')
 
-      if (workspace.workspaceId === getWorkspace.workspaceId) {
+      if (workspace.workspaceId === unref(currentWorkspaceId)) {
         active = true
         activeTxt = t('page.workspace.listArrowText')
       }
 
-      return {
-        ...workspace,
-        active,
-        activeTxt
-      }
+      return { ...workspace, active, activeTxt }
     })
   } catch (err) {
     console.log(err)
@@ -97,13 +101,20 @@ const useDefaultWorkspace = ref(false)
 
 async function onSelectWorkspace(workspace: Workspace) {
   try {
-    await WorkspaceService.setDefaultWorkspace({
-      defaultWorkspace: useDefaultWorkspace.value,
-      defaultWorkspaceId: workspace.workspaceId
+    const { workspaceId } = workspace
+
+    await WorkspaceService.updateDefaultWorkspace({
+      defaultWorkspace: getUser.useDetaulWorkspace,
+      defaultWorkspaceId: workspaceId
     })
 
-    setSelectedWorkspace(workspace)
-    router.push({ name: 'samples-dynamic-table' })
+    // 기존에 젒속한 워크스페이스와 선택한 워크스페이스가 다를 경우
+    if (unref(currentWorkspaceId) !== workspaceId) {
+      initWorkspace()
+      setSelectedWorkspaceId(workspaceId)
+    }
+
+    router.push({ path: PagePathEnum.BASE_HOME })
   } catch (err) {
     console.log(err)
   }
@@ -115,16 +126,19 @@ async function onSelectWorkspace(workspace: Workspace) {
   display: flex;
   justify-content: center;
   align-items: center;
+
   .fa-spin {
     color: #acb5c1 !important;
   }
 }
+
 .content {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .list-wrapper {
   width: 100%;
   height: 80%;
@@ -132,15 +146,16 @@ async function onSelectWorkspace(workspace: Workspace) {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
+
   h1 {
     text-align: center;
     margin: 1rem 0;
-    // height: 30px;
     line-height: 1;
   }
+
   .list-desc {
     text-align: center;
-    color: #888;
+    color: $sub-text-dark-gray-color;
     margin-bottom: 5px;
     font-size: 16px;
     line-height: 1.2;
@@ -150,17 +165,21 @@ async function onSelectWorkspace(workspace: Workspace) {
     margin-top: 10px;
     height: 80%;
     overflow-y: auto;
-    border: 1px solid rgba(5, 5, 5, 0.1);
+    border: 1px solid $border-color;
     border-radius: 8px;
+    ul {
+      padding: 0;
+    }
 
     .list-li {
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 18px 33px;
-      border-bottom: 1px solid rgb(5 5 5 / 10%);
+      border-bottom: 1px solid $border-color;
       transition: all 0.2s ease-in-out;
       cursor: pointer;
+
       .img-box {
         width: 55px;
         height: 55px;
@@ -169,15 +188,17 @@ async function onSelectWorkspace(workspace: Workspace) {
         align-items: center;
         justify-content: center;
         background: #3c3c3c;
-        color: #fff;
+        color: $color-white;
         padding-top: 3px;
         text-align: center;
         border-radius: 6px;
       }
+
       .img {
         font-weight: 900;
         font-size: 18px;
       }
+
       .name {
         flex: auto;
         font-size: 22px;
@@ -185,6 +206,7 @@ async function onSelectWorkspace(workspace: Workspace) {
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
       .arrow {
         display: flex;
         align-items: center;
@@ -192,28 +214,34 @@ async function onSelectWorkspace(workspace: Workspace) {
         margin-left: 20px;
         padding: 12px;
         border-radius: 50%;
-        background: #3e7cff;
+        background: $color-blue;
         font-size: 17px;
-        color: #fff;
+        color: $color-white;
         transition: transform 0.3s ease-in-out;
+
         .text {
           display: none;
           font-size: 18px;
         }
       }
     }
+
     .list-li.active {
       background: rgb(237 242 255 / 73%);
+
       .name {
         font-weight: 700;
       }
+
       .arrow {
         transform: translateX(10px);
         background: transparent;
-        color: #3e7cff;
+        color: $color-blue;
+
         .icon {
           display: none;
         }
+
         .text {
           display: block;
           font-size: 18px;
@@ -223,16 +251,20 @@ async function onSelectWorkspace(workspace: Workspace) {
 
     .list-li:hover {
       background: rgb(237 242 255 / 73%);
+
       .name {
         font-weight: 700;
       }
+
       .arrow {
         transform: translateX(10px);
         background: transparent;
-        color: #3e7cff;
+        color: $color-blue;
+
         .icon {
           display: none;
         }
+
         .text {
           display: block;
         }
@@ -240,9 +272,11 @@ async function onSelectWorkspace(workspace: Workspace) {
     }
   }
 }
+
 .btn {
   margin-top: 1rem;
 }
+
 .invite-code-wrapper {
   width: 100%;
   display: flex;
@@ -251,40 +285,47 @@ async function onSelectWorkspace(workspace: Workspace) {
   justify-content: space-between;
   padding: 1rem 2rem;
   margin-top: 1.5rem;
-  border: 1px solid rgba(5, 5, 5, 0.1);
+  border: 1px solid $border-color;
   border-radius: 8px;
   font-size: 17px;
   cursor: pointer;
+
   .invite-text {
     p {
       margin: 0;
       margin-top: 3px;
       font-weight: 600;
     }
+
     .sub {
       font-size: 16px;
       font-weight: 400;
-      color: #888;
+      color: $sub-text-dark-gray-color;
       margin-top: 7px;
+
       .user-plus-icon {
         font-size: 18px;
         margin-right: 4px;
       }
     }
   }
+
   .invite-arrow {
     font-size: 18px;
   }
 }
+
 .check-wrapper {
   text-align: center;
   margin-top: 1.5rem;
+
   p {
     display: inline-block;
     margin: 0;
     word-break: keep-all;
   }
 }
+
 :deep(.ant-checkbox-wrapper) {
   font-size: 16px;
 }
@@ -293,66 +334,84 @@ async function onSelectWorkspace(workspace: Workspace) {
   .content {
     width: 100% !important;
   }
+
   .list-wrapper {
     padding: 1rem !important;
     height: 90% !important;
+
     .list-li {
       padding: 18px !important;
     }
   }
+
   .img-box {
     width: 40px !important;
     height: 40px !important;
   }
+
   .name {
     width: 40% !important;
     font-size: 17px !important;
   }
+
   .arrow {
     margin-left: 5px !important;
+
     .text {
       font-size: 12px !important;
     }
+
     padding: 6px !important;
   }
+
   .check-wrapper {
     margin-top: 10px !important;
   }
+
   :deep(.ant-checkbox-wrapper) {
     font-size: 15px !important;
   }
 }
+
 @include xs {
   .content {
     width: 95% !important;
   }
+
   .img-box {
     width: 50px !important;
     height: 50px !important;
   }
+
   .name {
     font-size: 18px !important;
   }
+
   .arrow {
     padding: 8px !important;
   }
 }
+
 @include sm {
   .content {
     width: 90% !important;
   }
+
   .name {
     font-size: 20px !important;
   }
+
   .arrow {
     padding: 10px !important;
   }
 }
+
 @include md {
   .content {
     width: 70% !important;
   }
 }
+
 @include lg {
   .content {
     width: 60% !important;

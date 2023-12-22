@@ -2,28 +2,34 @@
   <div class="menu-header">
     <div class="user-preview">
       <div class="img-wrapper">
-        <img src="@/assets/images/avatar2.png" />
+        <img :src="getWorkspace?.user.profile" />
+        <!-- <Avatar style="background-color: #c6c6c6">
+          <template #icon>
+            <UserOutlined />
+          </template>
+        </Avatar> -->
       </div>
       <div class="info" v-if="!collapsed">
-        <div class="name">{{ getUser.userName }}</div>
-        <div class="email">{{ getUser.userId }}</div>
+        <div class="name">{{ getWorkspace?.user.nickname }}</div>
+        <div class="email">{{ getWorkspace?.user.email }}</div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts" name="MenuHeader">
-import { useAuthStore } from '@/stores'
+import { Avatar } from 'ant-design-vue'
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { UserOutlined } from '@/components/icons'
 
 interface Props {
   collapsed: boolean
 }
 
 const props = defineProps<Props>()
-const { t } = useI18n()
-const { getUser } = useAuthStore()
+const { getWorkspace } = storeToRefs(useWorkspaceStore())
 const { getTheme } = useProjectConfigStore()
 
 const styles = computed(() => {
@@ -39,9 +45,9 @@ const styles = computed(() => {
 </script>
 <style lang="scss" scoped>
 .menu-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
   // height: 50px;
 
   .user-preview {
@@ -63,6 +69,21 @@ const styles = computed(() => {
         height: 100%;
         vertical-align: top;
         max-width: 100%;
+      }
+
+      :deep(.ant-avatar) {
+        width: 100%;
+        height: 100%;
+
+        > span {
+          width: 100%;
+          height: 100%;
+
+          > svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
       }
     }
 
