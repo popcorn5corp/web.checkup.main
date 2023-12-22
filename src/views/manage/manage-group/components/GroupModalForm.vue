@@ -48,7 +48,8 @@ const getUserList = (param: IManageUser.UserListParam) => {
     options.value = content.map((item) => ({
       label: item.nickname,
       value: item.nickname,
-      prefixImg: item.thumbnail.url
+      prefixImg: item.thumbnail.url,
+      workspaceUserId: item.workspaceUserId
     }))
   }
 })()
