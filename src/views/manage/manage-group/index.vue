@@ -60,7 +60,7 @@
 <script setup lang="ts" name="ManageGroup">
 import { ManagerGroupService } from '@/services'
 import { message } from 'ant-design-vue'
-import { Modal } from 'ant-design-vue'
+import { Modal as modal } from 'ant-design-vue'
 import { computed, createVNode, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/interface'
@@ -68,6 +68,7 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { DynamicTable } from '@/components/dynamic-table'
 import { PlusCircleTwoTone } from '@/components/icons'
 import { QuestionCircleTwoTone } from '@/components/icons'
+import { Modal } from '@/components/modal'
 import { contentModes as modes } from '@/constants/content'
 import GroupDetail from './components/GroupDetail.vue'
 import GroupHistory from './components/GroupHistory.vue'
@@ -136,7 +137,7 @@ const onRemovePost = (
   selectedRows: ManagerGroupService.Content[],
   selectedRowKeys: string[]
 ): void => {
-  Modal.confirm({
+  modal.confirm({
     content: t('common.message.modalDeleteCheck'),
     // width: 600,
     icon: createVNode(QuestionCircleTwoTone),
@@ -181,7 +182,7 @@ const createGroup = async () => {
       workspaceId: getWorkspace.workspaceId,
       ...groupInfo.value,
       addUsers: groupInfo.value.addUsers.map((item: any) => ({
-        uid: item.value,
+        workspaceUserId: item.workspaceUserId,
         nickname: item.label
       }))
     }
