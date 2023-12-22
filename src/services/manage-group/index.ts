@@ -90,9 +90,9 @@ class ManageGroupService {
   /**
    * @description 그룹 사용자 삭제
    */
-  removeGroup(param: string[]) {
+  removeGroup(workspaceId: string, param: string[]) {
     console.log(param)
-    return service.delete(this.PATH + `/group`, { groupdIds: param })
+    return service.delete(this.PATH + `/${workspaceId}/group`, { groupId: param })
   }
 }
 

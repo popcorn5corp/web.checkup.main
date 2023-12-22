@@ -9,7 +9,8 @@ import {
   type ThemeName
 } from '../interface'
 
-const DEFAULT_PRIMARY = 'rgb(24, 144, 255)'
+const DEFAULT_PRIMARY = 'rgba(24, 144, 255, 1)'
+
 const defaultConfig: ProjectConfigState = {
   layout: 'default',
   language: null,
