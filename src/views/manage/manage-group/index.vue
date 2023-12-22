@@ -23,7 +23,7 @@
       </template>
 
       <template #detail-title>
-        <span> 게시물 상세 </span>
+        <span> {{ t('common.postRead') }} </span>
       </template>
 
       <template #detail-content>
@@ -48,13 +48,13 @@
 
     <Modal
       v-if="isVisible"
-      ok-text="확인"
-      cancel-text="취소"
+      :title="t('page.manage.addUserToAGroup')"
+      :ok-text="t('component.button.save')"
+      :cancel-text="t('component.button.cancel')"
       @cancel="onCancelModal"
       @ok="createGroup"
       class="invite-modal"
     >
-      <template #title>사용자 그룹 등록</template>
       <template #body>
         <GroupModalForm v-model="groupInfo" />
       </template>
@@ -82,15 +82,17 @@ import { columns } from './mock'
 
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 
+const { t } = useI18n()
+
 const tabInfo = {
   Detail: {
     key: 'Detail',
-    title: '상세보기',
+    title: t('page.manage.detail'),
     component: GroupDetail
   },
   History: {
     key: 'History',
-    title: '타임라인',
+    title: t('page.manage.history'),
     component: GroupHistory
   }
 }
@@ -100,8 +102,6 @@ const activeKey = ref(tabInfo.Detail.key)
 const isVisible = ref(false)
 const groupInfo = ref()
 const selectedData = ref()
-
-const { t } = useI18n()
 
 const { getWorkspace } = useWorkspaceStore()
 

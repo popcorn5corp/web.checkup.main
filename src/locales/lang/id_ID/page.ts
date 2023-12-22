@@ -42,5 +42,16 @@ export default {
       selectBusinessTypeOpt: 'Select business type',
       selectEmployeeScaleOpt: 'Select employee scale'
     }
+  },
+  manage: {
+    detail: 'Lihat rincian',
+    history: 'Sejarah',
+    joined: 'Sudah berlangganan',
+    addUserToAGroup: 'Menambahkan Pengguna ke Grup',
+    removeUserToAGroup: 'menghapus dari grup',
+    typingUserName: `Silakan masukkan nama pengguna`,
+    moreContent: 'Dapatkan lebih banyak konten',
+    groupTitle: 'Judul grup',
+    groupContent: 'Isi Grup'
   }
 }

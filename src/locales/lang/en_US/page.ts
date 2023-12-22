@@ -42,5 +42,16 @@ export default {
       selectBusinessTypeOpt: 'Select business type',
       selectEmployeeScaleOpt: 'Select employee scale'
     }
+  },
+  manage: {
+    detail: 'Details',
+    history: 'History',
+    joined: 'Already subscribed',
+    addUserToAGroup: 'Adding Users to a Group',
+    removeUserToAGroup: 'Removing from a Group',
+    typingUserName: `Please enter the user's name`,
+    moreContent: 'Get more content',
+    groupTitle: 'Group Title',
+    groupContent: 'Group Content'
   }
 }

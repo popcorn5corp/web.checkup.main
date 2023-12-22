@@ -2,9 +2,9 @@
   <div class="post-detail">
     <Form class="post-detail-read" v-if="!isEdit" :layout="'horizontal'">
       <div>
-        <Item label="그룹 제목">{{ formState.post.name ?? '-' }}</Item>
+        <Item :label="t('page.manage.groupTitle')">{{ formState.post.name ?? '-' }}</Item>
 
-        <Item label="그룹 내용">{{ formState.post.content ?? '-' }}</Item>
+        <Item :label="t('page.manage.groupContent')">{{ formState.post.content ?? '-' }}</Item>
       </div>
 
       <a-dropdown v-model:open="visible" :trigger="['click']">
@@ -27,10 +27,10 @@
     </Form>
 
     <Form v-else ref="formRef" :layout="'horizontal'" :model="formState" v-bind="formItemLayout">
-      <Item label="그룹 제목" name="boardTitle">
+      <Item :label="t('page.manage.groupTitle')">
         <Input v-model:value="formState.clonePost.name" />
       </Item>
-      <Item label="그룹 내용">
+      <Item :label="t('page.manage.groupContent')">
         <Input v-model:value="formState.clonePost.content" />
       </Item>
 
