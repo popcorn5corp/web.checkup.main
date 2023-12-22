@@ -11,6 +11,7 @@
       v-model:value="getFormValues.nickname"
       :maxlength="50"
       @input="onInput"
+      @press-enter="workspaceStore.nextCurrentStep()"
     />
     <div class="profile-wrapper">
       <h2>{{ $t('page.workspace.profileImg') }}</h2>
@@ -77,6 +78,7 @@ const modalVisible = ref(false)
 const profileList = ref<IWorkspace.ImageFilesInfo[]>([])
 const fileUploaderImg = computed(() => fileUploader.value?.getFiles())
 const seletedImg = ref('')
+const selectImgBtn = ref()
 
 ;(async () => {
   try {
