@@ -21,14 +21,16 @@ onMounted(() => {
       class="floating-btn"
       onclick="document.getElementById('circularMenu').classList.toggle('active');"
     >
-      <font-awesome-icon icon="fa-solid fa-circle-info" beat size="xl" />
+      <font-awesome-icon icon="fa-solid fa-circle-info" size="xl" beat />
     </a>
 
     <menu class="items-wrapper">
-      <a href="#" class="menu-item"> <font-awesome-icon icon="fa-solid fa-check" beat /></a>
-      <a href="#" class="menu-item"> <font-awesome-icon icon="fa-solid fa-check" /></a>
-      <a href="#" class="menu-item"> <font-awesome-icon icon="fa-solid fa-check" /></a>
-      <a href="#" class="menu-item"> <font-awesome-icon icon="fa-solid fa-check" /></a>
+      <a href="#" class="menu-item"> <font-awesome-icon :icon="['fas', 'comments']" size="xl" /></a>
+      <a href="#" class="menu-item"> <font-awesome-icon :icon="['fas', 'headset']" size="xl" /></a>
+      <a href="#" class="menu-item"> <font-awesome-icon :icon="['fas', 'download']" size="xl" /></a>
+      <a href="#" class="menu-item">
+        <font-awesome-icon :icon="['fas', 'magnifying-glass']" size="xl"
+      /></a>
     </menu>
   </div>
 </template>
