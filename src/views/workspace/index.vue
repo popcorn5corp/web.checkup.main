@@ -1,8 +1,8 @@
 <template>
   <div class="top-container">
-    <button class="dark-mode-btn" @click="isDark = !isDark">
-      <div class="dark-mode-box">
-        <div class="dark-mode-icon-wrapper" :class="isDark && 'active'">
+    <button class="theme-toggle-btn" @click="onChangeMode">
+      <div class="toggle-box">
+        <div class="toggle-icon-wrapper" :class="isDark && 'active'">
           <div class="moon icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -38,6 +38,7 @@
       <LanguageSetting />
     </div>
   </div>
+
   <div id="workspace-container">
     <RouterView v-if="!getStepType" />
     <StepView v-else :uid="workspaceUserInfo.uid" />
@@ -45,9 +46,10 @@
 </template>
 
 <script setup lang="ts" name="Workspace">
-import { reactive, ref, toRefs, watch } from 'vue'
+import { reactive, ref, toRefs, unref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import {
   type WorkspaceStepType,
   useWorkspaceStore,
@@ -57,6 +59,7 @@ import LanguageSetting from '@/components/header/src/components/LanguageSetting.
 import StepView from './components/StepView.vue'
 
 const router = useRouter()
+const { setTheme, setRealDarkTheme, getTheme } = useProjectConfigStore()
 const workspaceStore = useWorkspaceStore()
 const { getStepType } = toRefs(workspaceStore)
 const { getUser } = useAuthStore()
@@ -67,7 +70,7 @@ const workspaceUserInfo = reactive({
   uid: getUser.uid
 })
 
-const isDark = ref(false)
+const isDark = ref(getTheme.isRealDarkTheme)
 
 watch(
   () => router.currentRoute,
@@ -80,6 +83,14 @@ watch(
     immediate: true
   }
 )
+
+const onChangeMode = () => {
+  isDark.value = !isDark.value
+  const themeName = unref(isDark) ? 'realDark' : 'light'
+  setTheme({ navTheme: themeName })
+  setTheme({ isRealDarkTheme: themeName === 'realDark' })
+  setRealDarkTheme(themeName)
+}
 </script>
 
 <style lang="scss">
@@ -89,16 +100,20 @@ watch(
   right: 1rem;
   display: flex;
   gap: 10px;
+
   .ant-descriptions .ant-descriptions-header {
     display: none;
   }
+
   :deep(.ant-descriptions-item) {
     padding: 0;
   }
+
   .language-setting-wrapper {
     width: 200px;
   }
-  .dark-mode-btn {
+
+  .theme-toggle-btn {
     background: 0 0;
     border: none;
     cursor: pointer;
@@ -107,11 +122,13 @@ watch(
     height: 2.5rem;
     margin-right: 0.25rem;
     position: relative;
-    .dark-mode-box {
-      .dark-mode-icon-wrapper {
+
+    .toggle-box {
+      .toggle-icon-wrapper {
         opacity: 1;
         transition: all 0.3s;
         font-size: 18px;
+
         .icon {
           position: absolute;
           top: 50%;
@@ -119,10 +136,12 @@ watch(
           transform: translate(-50%, -45%);
           transition: all 0.3s;
         }
+
         .sun {
           opacity: 1;
           color: $color-black;
         }
+
         .moon {
           opacity: 0;
           color: $color-white;
@@ -130,11 +149,12 @@ watch(
         }
       }
 
-      .dark-mode-icon-wrapper.active {
+      .toggle-icon-wrapper.active {
         .sun {
           opacity: 0;
           transform: scale(1) rotate(90deg) translateZ(0px);
         }
+
         .moon {
           opacity: 1;
           transform: scale(1) rotate(3deg) translateX(-50%) translateY(-40%);
@@ -142,10 +162,12 @@ watch(
       }
     }
   }
+
   .dark-mode-btn:hover {
     background: rgb(255 255 255 / 10%);
   }
 }
+
 #workspace-container {
   width: 100vw;
   height: 100vh;
