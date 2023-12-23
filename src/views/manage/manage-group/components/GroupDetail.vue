@@ -34,7 +34,7 @@
           </a-skeleton>
 
           <template #actions>
-            <a-dropdown v-model:open="item.visible">
+            <a-dropdown v-model:open="item.visible" :trigger="['click']">
               <a class="ant-dropdown-link" @click.prevent> <MoreOutlined /> </a>
               <template #overlay>
                 <a-menu @click="handleMenuClick(item.uid)">
@@ -207,11 +207,11 @@ const onSubmit = () => {
 
 const showDeleteConfirm = (uid: string) => {
   modal.confirm({
-    title: '사용자를 그룹에서 내보내시겠습니까?',
+    title: t('page.manage.message.deleteUser'),
     icon: h(ExclamationCircleOutlined),
-    okText: '확인',
+    okText: t('component.button.ok'),
     okType: 'primary',
-    cancelText: '취소',
+    cancelText: t('component.button.cancel'),
     onOk() {
       console.log('OK')
       loading.value = true

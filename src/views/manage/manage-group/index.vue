@@ -4,7 +4,7 @@
       ref="dynamicTableRef"
       v-model:openDetail="showDetail"
       :row-key="'groupId'"
-      :columns="columns"
+      :columns="columns()"
       :data-request="getDataSource"
       :column-request="getColumns"
       :filter-request="getFilters"
@@ -15,7 +15,11 @@
       @row-delete="onRemovePost"
     >
       <template #tableBtns>
-        <Button :label="'등록하기'" size="middle" @click="$emit('row-add', (isVisible = true))">
+        <Button
+          :label="t('common.registration')"
+          size="middle"
+          @click="$emit('row-add', (isVisible = true))"
+        >
           <template #icon>
             <PlusCircleTwoTone />
           </template>
@@ -49,8 +53,8 @@
     <Modal
       v-if="isVisible"
       :title="t('page.manage.addUserToAGroup')"
-      :ok-text="t('component.button.save')"
-      :cancel-text="t('component.button.cancel')"
+      :okBtnText="t('component.button.save')"
+      :cancelBtnText="t('component.button.cancel')"
       @cancel="onCancelModal"
       @ok="createGroup"
       class="invite-modal"

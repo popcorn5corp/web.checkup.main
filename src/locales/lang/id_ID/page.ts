@@ -44,14 +44,26 @@ export default {
     }
   },
   manage: {
+    userName: '{userName}',
+    userStatus: {
+      CREATE: 'telah dibuat.',
+      JOIN: 'telah bergabung.',
+      WITHDRAWN: 'keluar dari grup.',
+      REVOKE: 'telah dikeluarkan.'
+    },
     detail: 'Lihat rincian',
     history: 'Sejarah',
     joined: 'Sudah berlangganan',
+    groupName: 'Nama Grup',
+    groupDescription: 'Keterangan Grup',
     addUserToAGroup: 'Menambahkan Pengguna ke Grup',
     removeUserToAGroup: 'menghapus dari grup',
     typingUserName: `Silakan masukkan nama pengguna`,
     moreContent: 'Dapatkan lebih banyak konten',
     groupTitle: 'Judul grup',
-    groupContent: 'Isi Grup'
+    groupContent: 'Isi Grup',
+    message: {
+      deleteUser: 'Anda yakin ingin mengekspor pengguna dari grup?'
+    }
   }
 }

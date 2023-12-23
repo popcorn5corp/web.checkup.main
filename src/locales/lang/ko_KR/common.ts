@@ -8,6 +8,8 @@ export default {
   registration: '등록',
   delete: '삭제',
   download: '다운로드',
+  createdAt: '생성일',
+  status: '상태',
   message: {
     changeLang: '해당 국가의 언어로 변경하시겠습니까?',
     modalEditCloseCheck: '내용이 저장되지 않습니다. 닫으시겠습니까?',
@@ -23,6 +25,7 @@ export default {
   },
   socialLoginText: '{ type } 계정으로 로그인',
   loginText: '로그인',
+  loading: '잠시만 기다려주세요.',
   createAccount: '회원가입 후 서비스 이용',
   newUser: '계정이 없으신가요?',
   forgotPassword: '비밀번호를 잊어버리셨나요?',
