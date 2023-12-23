@@ -13,12 +13,12 @@
           <a-menu>
             <a-menu-item key="1" @click="onEditMode">
               <div style="display: flex; gap: 10px">
-                <span>수정</span>
+                <span>{{ t('common.postModify') }}</span>
               </div>
             </a-menu-item>
             <a-menu-item key="2" @click="handleMenuClick">
               <div style="display: flex; gap: 10px">
-                <span>그룹 삭제</span>
+                <span>{{ t('common.delete') }}</span>
               </div>
             </a-menu-item>
           </a-menu>
@@ -172,11 +172,11 @@ watch(
 
 const showDeleteConfirm = (uid: string) => {
   modal.confirm({
-    title: '그룹을 삭제하시겠습니까?',
+    title: t('common.message.modalDeleteCheck'),
     icon: h(ExclamationCircleOutlined),
-    okText: '확인',
+    okText: t('component.button.ok'),
     okType: 'primary',
-    cancelText: '취소',
+    cancelText: t('component.button.cancel'),
     onOk() {
       const params = {
         groupId: [props.data.groupId]

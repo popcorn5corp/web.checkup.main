@@ -1,12 +1,12 @@
 <template>
   <Form>
     <div class="invite-form-wrapper">
-      <h4 class="title">사용자 그룹명</h4>
+      <h4 class="title">{{ t('page.manage.groupName') }}</h4>
       <Input v-model:value="groupInfo.name" />
-      <h4 class="title">설명</h4>
+      <h4 class="title">{{ t('page.manage.groupDescription') }}</h4>
       <Input v-model:value="groupInfo.content" />
       <br />
-      <h4 class="title">사용자 추가</h4>
+      <h4 class="title">{{ t('page.manage.addUserToAGroup') }}</h4>
       <SearchSelect
         v-model="groupInfo.addUsers"
         :filterOption="true"
@@ -21,10 +21,12 @@
 import { ManageUserService, ManagerGroupService } from '@/services'
 import { Input } from 'ant-design-vue'
 import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import type { SearchSelectProps } from '@/components/search-select/types'
 
+const { t } = useI18n()
 const { getWorkspace } = useWorkspaceStore()
 
 const emit = defineEmits(['update:modelValue'])

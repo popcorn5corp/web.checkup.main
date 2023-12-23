@@ -8,6 +8,8 @@ export default {
   registration: 'Registration',
   delete: 'Delete',
   download: 'Download',
+  createdAt: 'Date of creation',
+  status: 'Status',
   message: {
     changeLang: `Would you like to change to your country's language?`,
     modalEditCloseCheck: 'No modifications will be saved Do you want to close it?',
@@ -23,6 +25,7 @@ export default {
   },
   socialLoginText: 'Sign In With { type }',
   loginText: 'Sign In',
+  loading: 'Mohon tunggu sebentar.',
   createAccount: 'Create an account',
   newUser: 'New user?',
   forgotPassword: 'Forgot Password?',
