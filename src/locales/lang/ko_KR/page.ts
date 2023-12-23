@@ -43,7 +43,7 @@ export default {
   },
 
   manage: {
-    userName: '{userName} telah',
+    userName: '{userName}님이 ',
     userStatus: {
       CREATE: '생성 되었습니다.',
       JOIN: '가입 되었습니다.',
