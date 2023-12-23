@@ -15,6 +15,7 @@
   </Descriptions>
 </template>
 <script setup lang="ts" name="LanguageSetting">
+import { localeMessages } from '@/locales'
 import { Descriptions, Modal, Select } from 'ant-design-vue'
 import { createVNode, ref, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -30,12 +31,12 @@ const { setPersistedLocale, getLocale } = useLocale()
 const selectedLocale = ref<LocaleType>(unref(getLocale))
 let prevLocale = selectedLocale.value
 const router = useRouter()
-const { getLocaleMessage } = useI18n()
+const { t } = useI18n()
 
 const onChangeLang = async (locale: LocaleType) => {
-  console.log('getLocaleMessage', getLocaleMessage(locale))
   Modal.confirm({
-    content: (getLocaleMessage(locale).common as any).message.changeLang.source,
+    content: t('common.message.changeLang'),
+    // content: (localeMessages[locale].common as any).message.changeLang.source,
     width: 450,
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
