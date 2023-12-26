@@ -71,7 +71,6 @@ const errorTagStyle = computed<CSSProperties>(() => {
 })
 
 ;(async () => {
-  // workspaceStore.setNextBtnDisabled(false)
   if (getStepType.value === null) {
     workspaceStore.initFormValueInviteEmails()
   }
