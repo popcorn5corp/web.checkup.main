@@ -4,6 +4,13 @@
 
     <div class="menu-content" :class="{ 'is-side-menu': props.isSide }">
       <Menu
+        :ref="
+          (ref) => {
+            if (ref?.$el) {
+              tourStore.addStep(2, ref?.$el)
+            }
+          }
+        "
         v-model:selected-keys="state.selectedKeys"
         :open-keys="props.isSide ? state.openKeys : []"
         :mode="props.mode !== 'horizontal' && props.isSide ? 'inline' : 'horizontal'"
@@ -23,6 +30,7 @@
 import Menu from 'ant-design-vue/es/menu'
 import { computed, reactive, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useTourStore } from '@/stores/modules/tour'
 // import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { RouteNameEnum } from '@/router/interface'
 import type { MenuProps } from './'
@@ -32,6 +40,7 @@ import MenuItem from './components/MenuItem.vue'
 const props = withDefaults(defineProps<MenuProps>(), {})
 // const { config } = useProjectConfigStore()
 const currentRoute = useRoute()
+const tourStore = useTourStore()
 const router = useRouter()
 const state = reactive({
   openKeys: [] as string[],

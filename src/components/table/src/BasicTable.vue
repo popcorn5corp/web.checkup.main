@@ -1,6 +1,15 @@
 <template>
   <div ref="wrapRef" class="basic-table-container">
-    <TableToolbar v-if="props.showToolbar" />
+    <TableToolbar
+      :ref="
+        (ref) => {
+          if (ref?.$el) {
+            tourStore.addStep(5, ref.$el)
+          }
+        }
+      "
+      v-if="props.showToolbar"
+    />
 
     <SelectionPopup v-if="getContextValues.showSelectionPopup" :selectedRows="selectedRows" />
 
@@ -42,6 +51,7 @@ import { cloneDeep } from 'lodash-es'
 import omit from 'lodash-es/omit'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
 import type { CSSProperties } from 'vue'
+import { useTourStore } from '@/stores/modules/tour'
 import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import { useColumns } from '../hooks/useColumns'
 import { useCustomRow } from '../hooks/useCustomRow'
@@ -61,6 +71,7 @@ import SelectionPopup from './components/SelectionPopup.vue'
 import TableToolbar from './components/TableToolbar.vue'
 import EmptyImage from './images/no_data_2.png'
 
+const tourStore = useTourStore()
 const emit = defineEmits<TableEmits>()
 // options 정보가 props 로 넘어오게되면 options 내부 설정에 대한 Dfault 정보는 사라진다.
 const props = withDefaults(defineProps<TableProps>(), {

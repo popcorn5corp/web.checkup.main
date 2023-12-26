@@ -56,13 +56,26 @@
       <!-- <LayoutFooter /> -->
     </Layout>
 
+    <Tour
+      :open="tourStore.getMode"
+      :steps="tourStore.getStepInfo"
+      @change="onChange"
+      @close="handleOpen(false)"
+    >
+      <template #indicatorsRender="{ current, total }">
+        <span>{{ current + 1 }} / {{ total }}</span>
+      </template>
+    </Tour>
+
     <CircularMenu />
   </Layout>
 </template>
 <script setup lang="ts" name="LayoutDefault">
-import { Divider, Layout } from 'ant-design-vue'
-import { type CSSProperties, computed, onMounted } from 'vue'
+import { Divider, Layout, Tour } from 'ant-design-vue'
+import { type CSSProperties, computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useTourStore } from '@/stores/modules/tour'
 import { Header as LayoutHeader } from '@/components/header'
 import { Logo } from '@/components/logo'
 import { Menu as AsideMenu } from '@/components/menu'
@@ -72,11 +85,13 @@ import LayoutTabs from '../components/LayoutTabs.vue'
 import CircularMenu from './components/CircularMenu.vue'
 
 const { config } = useProjectConfigStore()
+const tourStore = useTourStore()
 const collapsed = computed<boolean>(() => config.isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
 const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
 const isSideMenu = computed(() => config.theme.menuPosition === 'sidemenu')
+const router = useRouter()
 const imgPath = computed(
   () => new URL(`/src/assets/images/${config.theme.logoFileName}`, import.meta.url).href
 )
@@ -109,6 +124,22 @@ const mainStyles = computed<{ size: CSSProperties }>(() => {
   }
 })
 
+/**
+ * 온보딩 관련 코드
+ */
+const open = ref(false)
+
+const onChange = (current) => {
+  console.log(current)
+  if (current === 2) {
+    router.push({ name: 'samples-dynamic-table' })
+  }
+}
+
+const handleOpen = (value) => {
+  // console.log(value)
+  tourStore.handleMode()
+}
 onMounted(() => {
   setTimeout(() => {
     document.getElementById('circularMenu')?.classList.add('active')

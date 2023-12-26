@@ -219,7 +219,7 @@ export const menus: any = [
         }
       }
     ]
-  }
+  },
   // {
   //   path: '/ems',
   //   name: 'ems',
@@ -332,31 +332,31 @@ export const menus: any = [
   //     }
   //   ]
   // },
-  // {
-  //   path: '/samples',
-  //   name: 'samples',
-  //   // redirect: '/dashboard/welcome',
-  //   meta: {
-  //     // title: 'routes.dashboard.dashboard',
-  //     title: 'Samples',
-  //     icon: 'kaaba',
-  //     namePath: ['samples'],
-  //     fullPath: '/samples'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'dynamic-table',
-  //       name: 'samples-dynamic-table',
-  //       meta: {
-  //         // title: 'routes.dashboard.workbench',
-  //         title: 'Dynamic Table',
-  //         icon: 'kaaba',
-  //         namePath: ['samples', 'samples-dynamic-table'],
-  //         fullPath: '/samples/dynamic-table'
-  //       }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/samples',
+    name: 'samples',
+    // redirect: '/dashboard/welcome',
+    meta: {
+      // title: 'routes.dashboard.dashboard',
+      title: 'Samples',
+      icon: 'kaaba',
+      namePath: ['samples'],
+      fullPath: '/samples'
+    },
+    children: [
+      {
+        path: 'dynamic-table',
+        name: 'samples-dynamic-table',
+        meta: {
+          // title: 'routes.dashboard.workbench',
+          title: 'Dynamic Table',
+          icon: 'kaaba',
+          namePath: ['samples', 'samples-dynamic-table'],
+          fullPath: '/samples/dynamic-table'
+        }
+      }
+    ]
+  }
   // {
   //   path: '/components',
   //   name: 'components',
