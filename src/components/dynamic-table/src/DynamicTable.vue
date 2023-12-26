@@ -28,6 +28,13 @@
             <slot name="tableBtns"></slot>
 
             <Button
+              :ref="
+                (ref) => {
+                  if (ref?.$el) {
+                    tourStore.addStep(3, ref.$el)
+                  }
+                }
+              "
               v-if="showRegist"
               :label="$t('common.registration')"
               size="middle"
@@ -40,6 +47,13 @@
 
             <!-- 필터 버튼 -->
             <Button
+              :ref="
+                (ref) => {
+                  if (ref?.$el) {
+                    tourStore.addStep(4, ref.$el)
+                  }
+                }
+              "
               v-if="activeFilter"
               type="primary"
               :label="$t('common.filterText')"
@@ -128,6 +142,7 @@ import { Divider, Space } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
 import type { KeepAlive } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useTourStore } from '@/stores/modules/tour'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
 import {
@@ -153,6 +168,7 @@ import type {
 import { defaultContenxtValues } from '../types'
 import TableTags from './components/TableTags.vue'
 
+const tourStore = useTourStore()
 const emit = defineEmits([
   'row-click',
   'change',

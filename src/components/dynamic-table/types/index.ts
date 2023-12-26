@@ -15,6 +15,8 @@ export interface DynamicTableProps extends TableProps {
   showDownload?: boolean
   // 삭제 버튼 노출 여부
   showDelete?: boolean
+  // 툴바 검색 input placeholder
+  phText?: string
   // 테이블 필터 정보에 대한 API
   filterRequest?: () => Promise<API.ResponseData<IBaseAPI.FilterResponse>>
   /**

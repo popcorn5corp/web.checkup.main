@@ -3,10 +3,12 @@ import { TableOutlined, UnorderedListOutlined } from '@ant-design/icons-vue'
 import { Segmented } from 'ant-design-vue'
 import type { SegmentedValue } from 'ant-design-vue/es/segmented/src/segmented'
 import { type Component, ref } from 'vue'
+import { useTourStore } from '@/stores/modules/tour'
 import { useTableContext } from '../../hooks/useTableContext'
 import type { TableLayoutMode } from '../../types'
 
 const table = useTableContext()
+const tourStore = useTourStore()
 const tableLayoutType = ref<TableLayoutMode>('table')
 const options = ref<Array<{ value: TableLayoutMode; payload: { icon: Component } }>>([
   {
@@ -32,6 +34,13 @@ async function onChangeLayoutType(val: SegmentedValue) {
 <template>
   <div class="table-segmented-button">
     <Segmented
+      :ref="
+        (ref) => {
+          if (ref?.$el) {
+            tourStore.addStep(9, ref.$el)
+          }
+        }
+      "
       v-model:value="tableLayoutType"
       :options="options"
       @change="onChangeLayoutType"

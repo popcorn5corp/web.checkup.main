@@ -26,6 +26,7 @@
 import { Layout, Space, Tag } from 'ant-design-vue'
 import { type CSSProperties, computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useTourStore } from '@/stores/modules/tour'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/icons'
 import { type HeaderProps, rollingList } from '../types'
 import RollingText from './components/RollingText.vue'
@@ -35,6 +36,7 @@ const emit = defineEmits(['update:collapsed'])
 const props = withDefaults(defineProps<HeaderProps>(), {})
 
 const { config, setCollapse } = useProjectConfigStore()
+const tourStore = useTourStore()
 
 const headerStyle = computed<CSSProperties>(() => {
   const {
