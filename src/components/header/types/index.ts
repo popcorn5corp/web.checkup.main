@@ -15,6 +15,10 @@ export const rollingList = [
     isNew: true
   },
   {
+    title: '[공지사항] 업무 모듈을 추가하여 업무 템플릿을 효율적으로 관리해보세요.',
+    isNew: true
+  },
+  {
     title: '[공지사항] 서비스 업그레이드를 통해 더 많은 기능을 이용해보세요.',
     isNew: true
   }

@@ -9,23 +9,24 @@ import ko_KR from './lang/ko_KR'
 
 const localeStore = useLocaleStoreWithOut()
 const locale = localeStore.getLocale()
+export const localeMessages = {
+  ko_KR: {
+    ...ko_KR.message
+  },
+  id_ID: {
+    ...id_ID.message
+  },
+  en_US: {
+    ...en_US.message
+  }
+}
 
 const i18n = createI18n({
   legacy: false,
   allowComposition: true,
   locale,
   fallbackLocale: localeMap.ko_KR,
-  messages: {
-    ko_KR: {
-      ...ko_KR.message
-    },
-    id_ID: {
-      ...id_ID.message
-    },
-    en_US: {
-      ...en_US.message
-    }
-  },
+  messages: localeMessages,
   globalInjection: true
 })
 

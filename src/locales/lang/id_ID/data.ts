@@ -1,5 +1,5 @@
 export default {
   menu: {
-    dashboard: 'Dashboard'
+    dashboard: 'Dasbor'
   }
 }
