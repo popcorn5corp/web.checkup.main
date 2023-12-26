@@ -64,6 +64,22 @@ export default {
     groupContent: 'Group Content',
     message: {
       deleteUser: 'Are you sure you want to export users from the group?'
+    },
+
+    userInfo: 'User Information',
+    invite: 'Invite',
+    userInvite: 'User Invitation',
+    emailInvite: 'Add coworkers by email',
+    joinDate: 'Join Date',
+    group: 'Group',
+
+    active: 'Active',
+    inActive: 'Inactive',
+    withdrawn: 'Withdrawn',
+    revoke: 'Revoke',
+    ph: {
+      userSearchPh: 'Please search your name and email.',
+      groupSearchPh: 'Please search for the group name.'
     }
   }
 }

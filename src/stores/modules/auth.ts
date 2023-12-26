@@ -105,7 +105,10 @@ export const useAuthStore = defineStore(
     async function afterLoginAction() {
       try {
         const { goPath } = await workspaceAction()
-        router.push(goPath)
+
+        setTimeout(() => {
+          router.push(goPath)
+        }, 2000)
 
         return {
           goPath

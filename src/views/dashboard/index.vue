@@ -1,396 +1,274 @@
+<!-- 
+	This is the dashboard page, it uses the dashboard layout in: 
+	"./layouts/Dashboard.vue" .
+ -->
+
 <template>
-  <div class="main-content">
-    <!-- <div class="dashboard">
-      <div class="card-icon">
-        <div class="card-icon-body">
-          <div class="card-icon-i">
-            <i class="fa fa-calendar"></i>
-          </div>
-          <h3>Calendar</h3>
-        </div>
-      </div>
-      <div class="card-icon">
-        <div class="card-icon-body">
-          <div class="card-icon-i">
-            <i class="fa fa-shopping-bag"></i>
-          </div>
-          <h3>Products</h3>
-        </div>
-      </div>
-      <div class="card-icon">
-        <div class="card-icon-body">
-          <div class="card-icon-i">
-            <i class="fa fa-cogs"></i>
-          </div>
-          <h3>Lorem ipsum dolor</h3>
-        </div>
-      </div>
-      <div class="card-icon">
-        <div class="card-icon-body">
-          <div class="card-icon-i">
-            <i class="fa fa-star"></i>
-          </div>
-          <h3>Lorem ipsum dolor</h3>
-        </div>
-      </div>
-      <div class="card-icon">
-        <div class="card-icon-body">
-          <div class="card-icon-i">
-            <i class="fa fa-star"></i>
-          </div>
-          <h3>Lorem ipsum dolor</h3>
-        </div>
-      </div>
-      <div class="table">
-        <div class="table-head">
-          <h3>Table</h3>
-        </div>
-        <div class="table-body">
-          <div class="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Name</th>
-                  <th>Name</th>
-                  <th>Name</th>
-                  <th>Buttons</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>
-                    <div class="btn-group">
-                      <a href="" title="View">
-                        <i class="fa fa-eye"></i>
-                      </a>
-                      <a href="" title="Edit">
-                        <i class="fa fa-pencil"></i>
-                      </a>
-                      <a href="" title="Delete">
-                        <i class="fa fa-trash"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>
-                    <div class="btn-group">
-                      <a href="" title="View">
-                        <i class="fa fa-eye"></i>
-                      </a>
-                      <a href="" title="Edit">
-                        <i class="fa fa-pencil"></i>
-                      </a>
-                      <a href="" title="Delete">
-                        <i class="fa fa-trash"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>
-                    <div class="btn-group">
-                      <a href="" title="View">
-                        <i class="fa fa-eye"></i>
-                      </a>
-                      <a href="" title="Edit">
-                        <i class="fa fa-pencil"></i>
-                      </a>
-                      <a href="" title="Delete">
-                        <i class="fa fa-trash"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>
-                    <div class="btn-group">
-                      <a href="" title="View">
-                        <i class="fa fa-eye"></i>
-                      </a>
-                      <a href="" title="Edit">
-                        <i class="fa fa-pencil"></i>
-                      </a>
-                      <a href="" title="Delete">
-                        <i class="fa fa-trash"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>lorem</td>
-                  <td>
-                    <div class="btn-group">
-                      <a href="" title="View">
-                        <i class="fa fa-eye"></i>
-                      </a>
-                      <a href="" title="Edit">
-                        <i class="fa fa-pencil"></i>
-                      </a>
-                      <a href="" title="Delete">
-                        <i class="fa fa-trash"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="cards">
-        <div class="card">
-          <div class="icon">
-            <i class="fa fa-users"></i>
-          </div>
-          <div class="num">1000</div>
-          <h3>Users</h3>
-        </div>
-        <div class="card">
-          <div class="icon">
-            <i class="fa fa-copy"></i>
-          </div>
-          <div class="num">3400</div>
-          <h3>Projects</h3>
-        </div>
-        <div class="card">
-          <div class="icon">
-            <i class="fa fa-shopping-bag"></i>
-          </div>
-          <div class="num">2000</div>
-          <h3>Products</h3>
-        </div>
-      </div>
-    </div> -->
+  <div>
+    <!-- Counter Widgets -->
+    <a-row :gutter="24">
+      <a-col :span="24" :lg="12" :xl="6" class="mb-24" v-for="(stat, index) in stats" :key="index">
+        <!-- Widget 1 Card -->
+        <WidgetCounter
+          :title="stat.title"
+          :value="stat.value"
+          :prefix="stat.prefix"
+          :suffix="stat.suffix"
+          :icon="stat.icon"
+          :status="stat.status"
+        ></WidgetCounter>
+        <!-- / Widget 1 Card -->
+      </a-col>
+    </a-row>
+    <!-- / Counter Widgets -->
+
+    <!-- Charts -->
+    <a-row :gutter="24" type="flex" align="stretch">
+      <a-col :span="24" :lg="10" class="mb-24">
+        <!-- Active Users Card -->
+        <CardBarChart></CardBarChart>
+        <!-- Active Users Card -->
+      </a-col>
+      <a-col :span="24" :lg="14" class="mb-24">
+        <!-- Sales Overview Card -->
+        <CardLineChart></CardLineChart>
+        <!-- / Sales Overview Card -->
+      </a-col>
+    </a-row>
+    <!-- / Charts -->
+
+    <!-- Table & Timeline -->
+    <a-row :gutter="24" type="flex" align="stretch">
+      <!-- Table -->
+      <a-col :span="24" :lg="16" class="mb-24">
+        <!-- Projects Table Card -->
+        <CardProjectTable :data="tableData" :columns="tableColumns"></CardProjectTable>
+        <!-- / Projects Table Card -->
+      </a-col>
+      <!-- / Table -->
+
+      <!-- Timeline -->
+      <a-col :span="24" :lg="8" class="mb-24">
+        <!-- Orders History Timeline Card -->
+        <CardOrderHistory></CardOrderHistory>
+        <!-- / Orders History Timeline Card -->
+      </a-col>
+      <!-- / Timeline -->
+    </a-row>
+    <!-- / Table & Timeline -->
+
+    <!-- Cards -->
+    <a-row :gutter="24" type="flex" align="stretch">
+      <a-col :span="24" :xl="14" class="mb-24">
+        <!-- Information Card 1 -->
+        <CardInfo></CardInfo>
+        <!-- / Information Card 1 -->
+      </a-col>
+      <a-col :span="24" :xl="10" class="mb-24">
+        <!-- Information Card 2 -->
+        <CardInfo2></CardInfo2>
+        <!-- / Information Card 2 -->
+      </a-col>
+    </a-row>
+    <!-- / Cards -->
   </div>
 </template>
 
-<script setup lang="ts" name="Dashboard"></script>
+<script lang="ts">
+// // Bar chart for "Active Users" card.
+import CardBarChart from './components/CardBarChart.vue' ;
 
-<!-- <style lang="scss" scoped>
-.main-content {
-  padding: 105px 25px 0 25px;
-  /* margin-left: 337px; */
-  z-index: -1;
-  min-height: 600px;
-  background-color: #f1fdf3;
+// Line chart for "Sales Overview" card.
+import CardLineChart from './components/CardLineChart.vue' ;
 
-  .dashboard {
-    display: flex;
-    flex-wrap: wrap;
+// Counter Widgets
+import WidgetCounter from './components/widgets/WidgetCounter.vue' ;
+
+// "Projects" table component.
+import CardProjectTable from './components/CardProjectTable.vue' ;
+
+// Order History card component.
+import CardOrderHistory from './components/CardOrderHistory.vue' ;
+
+// // Information card 1.
+// import CardInfo from './components/CardInfo.vue' ;
+
+// // Information card 2.
+// import CardInfo2 from './components/CardInfo2.vue' ;
+
+// Counter Widgets stats
+const stats = [
+  {
+    title: 'Number of inspections this week',
+    value: 53000,
+    prefix: '',
+    suffix: '+30%',
+    icon: `
+						<svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M8.43338 7.41784C8.58818 7.31464 8.77939 7.2224 9 7.15101L9.00001 8.84899C8.77939 8.7776 8.58818 8.68536 8.43338 8.58216C8.06927 8.33942 8 8.1139 8 8C8 7.8861 8.06927 7.66058 8.43338 7.41784Z" fill="#111827"/>
+							<path d="M11 12.849L11 11.151C11.2206 11.2224 11.4118 11.3146 11.5666 11.4178C11.9308 11.6606 12 11.8861 12 12C12 12.1139 11.9308 12.3394 11.5666 12.5822C11.4118 12.6854 11.2206 12.7776 11 12.849Z" fill="#111827"/>
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18ZM11 5C11 4.44772 10.5523 4 10 4C9.44772 4 9 4.44772 9 5V5.09199C8.3784 5.20873 7.80348 5.43407 7.32398 5.75374C6.6023 6.23485 6 7.00933 6 8C6 8.99067 6.6023 9.76515 7.32398 10.2463C7.80348 10.5659 8.37841 10.7913 9.00001 10.908L9.00002 12.8492C8.60902 12.7223 8.31917 12.5319 8.15667 12.3446C7.79471 11.9275 7.16313 11.8827 6.74599 12.2447C6.32885 12.6067 6.28411 13.2382 6.64607 13.6554C7.20855 14.3036 8.05956 14.7308 9 14.9076L9 15C8.99999 15.5523 9.44769 16 9.99998 16C10.5523 16 11 15.5523 11 15L11 14.908C11.6216 14.7913 12.1965 14.5659 12.676 14.2463C13.3977 13.7651 14 12.9907 14 12C14 11.0093 13.3977 10.2348 12.676 9.75373C12.1965 9.43407 11.6216 9.20873 11 9.09199L11 7.15075C11.391 7.27771 11.6808 7.4681 11.8434 7.65538C12.2053 8.07252 12.8369 8.11726 13.254 7.7553C13.6712 7.39335 13.7159 6.76176 13.354 6.34462C12.7915 5.69637 11.9405 5.26915 11 5.09236V5Z" fill="#111827"/>
+						</svg>`
+  },
+  {
+    title: 'Number of inspections today',
+    value: 3200,
+    suffix: '+20%',
+    icon: `
+						<svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M9 6C9 7.65685 7.65685 9 6 9C4.34315 9 3 7.65685 3 6C3 4.34315 4.34315 3 6 3C7.65685 3 9 4.34315 9 6Z" fill="#111827"/>
+							<path d="M17 6C17 7.65685 15.6569 9 14 9C12.3431 9 11 7.65685 11 6C11 4.34315 12.3431 3 14 3C15.6569 3 17 4.34315 17 6Z" fill="#111827"/>
+							<path d="M12.9291 17C12.9758 16.6734 13 16.3395 13 16C13 14.3648 12.4393 12.8606 11.4998 11.6691C12.2352 11.2435 13.0892 11 14 11C16.7614 11 19 13.2386 19 16V17H12.9291Z" fill="#111827"/>
+							<path d="M6 11C8.76142 11 11 13.2386 11 16V17H1V16C1 13.2386 3.23858 11 6 11Z" fill="#111827"/>
+						</svg>`
+  },
+  {
+    title: 'Danger',
+    value: 200,
+    prefix: '+',
+    status: 'danger',
+    suffix: '-20%',
+    icon: `
+						<svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M3.17157 5.17157C4.73367 3.60948 7.26633 3.60948 8.82843 5.17157L10 6.34315L11.1716 5.17157C12.7337 3.60948 15.2663 3.60948 16.8284 5.17157C18.3905 6.73367 18.3905 9.26633 16.8284 10.8284L10 17.6569L3.17157 10.8284C1.60948 9.26633 1.60948 6.73367 3.17157 5.17157Z" fill="#111827"/>
+						</svg>`
+  },
+  {
+    title: 'New Orders',
+    value: 13200,
+    prefix: '$',
+    suffix: '+10%',
+    icon: `
+						<svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M10 2C7.79086 2 6 3.79086 6 6V7H5C4.49046 7 4.06239 7.38314 4.00612 7.88957L3.00612 16.8896C2.97471 17.1723 3.06518 17.455 3.25488 17.6669C3.44458 17.8789 3.71556 18 4 18H16C16.2844 18 16.5554 17.8789 16.7451 17.6669C16.9348 17.455 17.0253 17.1723 16.9939 16.8896L15.9939 7.88957C15.9376 7.38314 15.5096 7 15 7H14V6C14 3.79086 12.2091 2 10 2ZM12 7V6C12 4.89543 11.1046 4 10 4C8.89543 4 8 4.89543 8 6V7H12ZM6 10C6 9.44772 6.44772 9 7 9C7.55228 9 8 9.44772 8 10C8 10.5523 7.55228 11 7 11C6.44772 11 6 10.5523 6 10ZM13 9C12.4477 9 12 9.44772 12 10C12 10.5523 12.4477 11 13 11C13.5523 11 14 10.5523 14 10C14 9.44772 13.5523 9 13 9Z" fill="#111827"/>
+						</svg>`
   }
+]
 
-  .card-icon {
-    flex: 1 1 18%;
-    background: #ffffff;
-    border-radius: 6px;
-    border: 1px solid #deebfd;
-    box-shadow: 0 3px 10px rgba(62, 85, 120, 0.045);
-    margin: 0 8px 30px;
+// "Projects" table list of columns and their properties.
+const tableColumns = [
+  {
+    title: 'GROUPS',
+    dataIndex: 'company',
+    scopedSlots: { customRender: 'company' },
+    width: 300
+  },
+  {
+    title: 'MEMBERS',
+    dataIndex: 'members',
+    scopedSlots: { customRender: 'members' }
+  },
+  {
+    title: 'Number of inspections',
+    dataIndex: 'inspections',
+    class: 'font-bold text-muted text-sm'
+  },
+  {
+    title: 'COMPLETION',
+    scopedSlots: { customRender: 'completion' },
+    dataIndex: 'completion'
   }
+]
 
-  .card-icon .card-icon-body {
-    padding: 20px;
-  }
-
-  .card-icon-i {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    background-color: #e5f4e7;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .card-icon .card-icon-body h3 {
-    text-align: center;
-    margin-bottom: 0;
-    margin-top: 10px;
-    font-size: 18px;
-    font-weight: 400;
-  }
-
-  .card-icon-i i {
-    top: 50%;
-    text-align: center;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 45px;
-    color: #5dae8b;
-  }
-
-  .table {
-    flex: 0 1 58%;
-    background: #ffffff;
-    border-radius: 6px;
-    border: 1px solid #deebfd;
-    box-shadow: 0 3px 10px rgba(62, 85, 120, 0.045);
-    margin: 0 8px 30px;
-  }
-
-  .table-responsive {
-    display: block;
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  .table .table-head {
-    border-bottom: 1px solid #eee;
-    padding: 0 15px;
-  }
-
-  .table .table-body {
-    padding: 25px;
-  }
-
-  .table .table-body table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .table table thead tr th {
-    padding: 0 10px;
-    height: 50px;
-    vertical-align: middle;
-    color: #666;
-    font-weight: 500;
-    border-bottom-color: #e2e8f0;
-    background-color: #f7f8f9;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
-  }
-
-  .table tbody tr td,
-  .table tbody tr th {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
-    font-size: 14px;
-    color: #212529;
-    text-align: center;
-  }
-
-  .btn-group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .btn-group a {
-    padding: 3px;
-    width: 26px;
-    height: 26px;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-    margin: 0 5px;
-    color: #fff;
-    background-color: #5dae8b;
-    border-color: #5dae8b;
-    border-radius: 0.375rem;
-    font-weight: 500;
-  }
-
-  .btn-group a {
-    text-align: center;
-    line-height: 25px;
-    display: block;
-  }
-
-  @media only screen and (max-width: 768px) {
-    .table {
-      flex: 1 1 100%;
-      overflow-x: scroll;
+// "Projects" table list of rows and their properties.
+const tableData = [
+  {
+    key: '1',
+    company: {
+      name: 'Soft UI Shopify Version',
+      logo: 'images/logos/logo-shopify.svg'
+    },
+    members: ['images/face-1.jpg', 'images/face-4.jpg', 'images/face-2.jpg', 'images/face-3.jpg'],
+    inspections: '14,000',
+    completion: 60
+  },
+  {
+    key: '2',
+    company: {
+      name: 'Progress Track',
+      logo: 'images/logos/logo-atlassian.svg'
+    },
+    members: ['images/face-4.jpg', 'images/face-3.jpg'],
+    inspections: '3,000',
+    completion: 10
+  },
+  {
+    key: '3',
+    company: {
+      name: 'Fix Platform Errors',
+      logo: 'images/logos/logo-slack.svg'
+    },
+    members: ['images/face-1.jpg', 'images/face-2.jpg', 'images/face-3.jpg'],
+    inspections: 'Not Set',
+    completion: {
+      label: '100',
+      status: 'success',
+      value: 100
+    }
+  },
+  {
+    key: '4',
+    company: {
+      name: 'Launch new Mobile App',
+      logo: 'images/logos/logo-spotify.svg'
+    },
+    members: ['images/face-1.jpg', 'images/face-2.jpg'],
+    inspections: '20,600',
+    completion: {
+      label: '100',
+      status: 'success',
+      value: 100
+    }
+  },
+  {
+    key: '5',
+    company: {
+      name: 'Add the New Landing Page',
+      logo: 'images/logos/logo-jira.svg'
+    },
+    members: ['images/face-1.jpg', 'images/face-4.jpg', 'images/face-2.jpg', 'images/face-3.jpg'],
+    budget: '4,000',
+    completion: 80
+  },
+  {
+    key: '6',
+    company: {
+      name: 'Redesign Online Store',
+      logo: 'images/logos/logo-invision.svg'
+    },
+    members: ['images/face-1.jpg', 'images/face-4.jpg', 'images/face-3.jpg'],
+    budget: '$2,000',
+    completion: {
+      label: 'Cancelled',
+      status: 'exception',
+      value: 100
     }
   }
+]
 
-  .cards {
-    flex: 1 1 34%;
-    flex-wrap: wrap;
-  }
+export default {
+  components: {
+    CardBarChart,
+    CardLineChart,
+    WidgetCounter,
+    CardProjectTable,
+    CardOrderHistory,
+    // CardInfo,
+    // CardInfo2,
+  },
+  data() {
+    return {
+      // Associating table data with its corresponding property.
+      tableData,
 
-  .card {
-    border-radius: 6px;
-    border: 1px solid #deebfd;
-    box-shadow: 0 3px 10px rgba(62, 85, 120, 0.045);
-    margin: 0 8px 10px;
-    position: relative;
-    background-color: #5cad8a;
-    height: 94px;
-    padding: 20px;
-  }
+      // Associating table columns with its corresponding property.
+      tableColumns,
 
-  .card .icon {
-    color: rgba(0, 0, 0, 0.1);
-    position: absolute;
-    right: 38px;
-    bottom: 69px;
-    z-index: 1;
-  }
-
-  .card .icon i {
-    font-size: 100px;
-    line-height: 0;
-    margin: 0;
-    padding: 0;
-    vertical-align: bottom;
-  }
-
-  .card .num,
-  .card h3 {
-    position: relative;
-    color: #fff;
-    z-index: 5;
-    margin: 0;
-    padding: 0;
-  }
-
-  .card .num {
-    font-size: 50px;
-    font-weight: bold;
-  }
-
-  .card h3 {
-    margin-top: 10px;
-    font-size: 20px;
-    margin-left: 5px;
-  }
-
-  @media only screen and (max-width: 768px) {
-    .cards {
-      flex: 1 1 100%;
-    }
-    .card .icon {
-      z-index: 0;
-    }
-    .card .num,
-    .card h3 {
-      z-index: 0;
+      // Counter Widgets Stats
+      stats
     }
   }
 }
-@media only screen and (max-width: 768px) {
-  .main-content {
-    margin-left: 0;
-  }
-}
-</style> -->
+</script>
+
+<style lang="scss"></style>

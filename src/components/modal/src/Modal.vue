@@ -21,10 +21,14 @@
 
     <template #footer>
       <div class="modal-btns-wrapper">
-        <Button v-if="useCancelBtn" :label="props.cancelBtnText" @click="emit('cancel')" />
+        <Button
+          v-if="useCancelBtn"
+          :label="props.cancelBtnText || $t('component.button.cancel')"
+          @click="emit('cancel')"
+        />
         <Button
           v-if="useOkBtn"
-          :label="props.okBtnText"
+          :label="props.okBtnText || $t('component.button.complete2')"
           :loading="props.isModalLoading"
           type="primary"
           @click="emit('ok')"
@@ -42,9 +46,7 @@ import type { ModalProps } from '../types'
 const emit = defineEmits(['ok', 'cancel', 'update:isVisible'])
 const props = withDefaults(defineProps<ModalProps>(), {
   positionCenter: false,
-  okBtnText: '완료',
   useOkBtn: true,
-  cancelBtnText: '취소',
   useCancelBtn: true
 })
 const isOpen = ref(true)

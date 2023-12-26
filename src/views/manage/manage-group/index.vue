@@ -11,6 +11,7 @@
       :data-callback="dataCallback"
       :content-callback="contentCallback"
       :showRegist="false"
+      :phText="$t('page.manage.ph.groupSearchPh')"
       @row-click="onClickRow"
       @row-delete="onRemovePost"
     >

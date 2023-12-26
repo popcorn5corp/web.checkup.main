@@ -55,12 +55,10 @@ import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
 import { WorkspaceService } from '@/services'
 import { ref, toRefs } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { PagePathEnum } from '@/constants/pageEnum'
 
-const { t } = useI18n()
 const router = useRouter()
 const workspaceStore = useWorkspaceStore()
 workspaceStore.resetCurrentStep()
@@ -163,7 +161,7 @@ const onComplete = async () => {
     width: 100%;
     text-align: center;
     h1 {
-      height: 30px;
+      line-height: 1;
       margin-bottom: 10px;
     }
     p {

@@ -53,6 +53,13 @@ html[data-theme='dark'] {
       color: $sub-text-color !important;
     }
   }
+
+  .user-detail-container {
+    .group-wrapper .group-item {
+      background: $bg-real-dark-color;
+      border: 1px solid $dark-border-color;
+    }
+  }
 }
 
 html[data-theme='dark'] {
@@ -111,3 +118,21 @@ html[data-theme='dark'] {
     }
   }
 }
+
+html[data-theme='dark'] {
+  .tabs-container {
+    background-color: $bg-color !important;
+  }
+  .layout-main {
+    background: $bg-real-dark-color !important;
+  }
+
+  .ant-statistic-content-prefix {
+    color: $text-color;
+  }
+
+  .ant-statistic-content-value-int {
+    color: $text-color;
+  }
+}
+

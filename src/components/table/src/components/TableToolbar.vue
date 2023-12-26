@@ -3,7 +3,7 @@
     <Input
       class="search"
       v-model:value="searchWord"
-      :placeholder="$t('common.searchPlaceholder')"
+      :placeholder="phText || $t('common.searchPlaceholder')"
       @change="onChange"
       @press-enter="onSearch"
       allow-clear
@@ -116,6 +116,7 @@ const table = useTableContext()
 const isReload = ref(false)
 const selectedSize = ref<SizeType>('middle')
 const searchWord = ref('')
+const phText = computed(() => unref(table.getBindValues).phText)
 const sizeItems = computed(() =>
   unref(table.getContextValues).layoutMode === 'table' ? tableSizeItems : cardSizeItems
 )
@@ -132,6 +133,7 @@ onMounted(() => {
 watch(
   () => unref(table.getContextValues).layoutMode,
   () => {
+    console.log(table)
     selectedSize.value = 'middle'
   }
 )

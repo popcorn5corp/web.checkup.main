@@ -82,6 +82,10 @@ const tabsDrop = () => {
 watch(
   () => route.fullPath,
   (fullPath) => {
+    if (fullPath === '/' || fullPath.includes('/login') || fullPath.includes('/workspace')) {
+      return
+    }
+
     tabsLyoutStore.addTab(getSimpleRoute(route))
     activeKey.value = fullPath
   },

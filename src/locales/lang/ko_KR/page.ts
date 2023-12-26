@@ -66,6 +66,22 @@ export default {
     groupContent: '그룹 내용',
     message: {
       deleteUser: '사용자를 그룹에서 내보내시겠습니까?'
+    },
+
+    userInfo: '사용자 정보',
+    invite: '초대하기',
+    userInvite: '사용자 초대',
+    emailInvite: '이메일로 직장동료 추가',
+    joinDate: '가입일',
+    group: '그룹',
+
+    active: '활성',
+    inActive: '비활성',
+    withdrawn: '탈퇴',
+    revoke: '퇴출',
+    ph: {
+      userSearchPh: '이름과 이메일을 검색해주세요.',
+      groupSearchPh: '그룹명을 검색해주세요.'
     }
   }
 }
