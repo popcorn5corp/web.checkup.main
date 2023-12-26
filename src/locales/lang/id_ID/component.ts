@@ -1,6 +1,7 @@
 export default {
   button: {
     save: 'Simpan',
+    ok: 'Ok',
     cancel: 'Batalkan',
     edit: 'Sunting',
     close: 'Tutup',

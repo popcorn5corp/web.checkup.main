@@ -1,6 +1,7 @@
 export default {
   button: {
     save: 'Save',
+    ok: 'Ok',
     cancel: 'Cancel',
     edit: 'Edit',
     close: 'Close',

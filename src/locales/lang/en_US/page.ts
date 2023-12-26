@@ -44,14 +44,26 @@ export default {
     }
   },
   manage: {
+    userName: '{userName} ',
+    userStatus: {
+      CREATE: 'has been created.',
+      JOIN: 'has joined.',
+      WITHDRAWN: 'has been withdrawn.',
+      REVOKE: 'has been expelled.'
+    },
     detail: 'Details',
     history: 'History',
     joined: 'Already subscribed',
+    groupName: 'Group Name',
+    groupDescription: 'Group Description',
     addUserToAGroup: 'Adding Users to a Group',
     removeUserToAGroup: 'Removing from a Group',
     typingUserName: `Please enter the user's name`,
     moreContent: 'Get more content',
     groupTitle: 'Group Title',
-    groupContent: 'Group Content'
+    groupContent: 'Group Content',
+    message: {
+      deleteUser: 'Are you sure you want to export users from the group?'
+    }
   }
 }

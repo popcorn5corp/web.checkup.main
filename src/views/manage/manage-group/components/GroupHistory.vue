@@ -1,17 +1,14 @@
 <template>
   <div class="group-history-container">
-    <a-timeline :pending="loading && '잠시만 기다려주세요...'">
+    <a-timeline :pending="loading && t('common.loading')">
       <template v-for="{ issuedDate, logs } in groupLogs" :key="issuedDate">
         <a-timeline-item>
           <span>{{ issuedDate }}</span>
           <template v-for="(log, index) in logs" :key="index">
             <p>
               <span style="margin-right: 3px">{{ log.createTime }}</span>
-              <span
-                ><b>{{ log.nickname }}</b
-                >님이
-              </span>
-              <span>{{ log.status.label }} 되었습니다.</span>
+              <span> {{ t('page.manage.userName', { userName: log.nickname }) }} </span>
+              <span>{{ t(`page.manage.userStatus.${[log.status.value]}`) }}</span>
             </p>
           </template>
         </a-timeline-item>

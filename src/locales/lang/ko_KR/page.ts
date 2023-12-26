@@ -43,14 +43,29 @@ export default {
   },
 
   manage: {
+    userName: '{userName}님이 ',
+    userStatus: {
+      CREATE: '생성 되었습니다.',
+      JOIN: '가입 되었습니다.',
+      WITHDRAWN: '탈퇴 되었습니다',
+      REVOKE: '제명 되었습니다'
+    },
+    userAction: ' bergabung.',
     detail: '상세보기',
     history: '타임라인',
     joined: '이미 가입됨',
+
+    groupName: '그룹명',
+    groupDescription: '그룹 설명',
+
     addUserToAGroup: '그룹에 사용자 추가',
     removeUserToAGroup: '그룹에서 제거',
     typingUserName: '사용자의 이름을 입력해주세요.',
     moreContent: '더 불러오기',
     groupTitle: '그룹 제목',
-    groupContent: '그룹 내용'
+    groupContent: '그룹 내용',
+    message: {
+      deleteUser: '사용자를 그룹에서 내보내시겠습니까?'
+    }
   }
 }
