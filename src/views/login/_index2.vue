@@ -1,5 +1,6 @@
 <template>
-  <div id="container" class="container" v-if="!isSuccessSocialLogin">
+  <div id="container" class="container">
+    <!-- FORM SECTION -->
     <div class="row">
       <!-- SIGN UP -->
       <div class="col align-items-center flex-col sign-up">
@@ -84,10 +85,9 @@
     <div class="row content-row">
       <!-- SIGN IN CONTENT -->
       <div class="col align-items-center flex-col">
-        <div class="text sign-in" style="margin-left: -60px">
-          <h2 style="margin: 0">순간을 모아 미래를 보다</h2>
-          <img src="@/assets/images/checkup_logo_light.png" style="width: 500px" />
-          <!-- <h2>Checkup</h2> -->
+        <div class="text sign-in">
+          <h2>Checkup</h2>
+          <h2>시설 및 안전관리를 한번에</h2>
         </div>
         <div class="img sign-in"></div>
       </div>
@@ -102,45 +102,11 @@
       <!-- END SIGN UP CONTENT -->
     </div>
     <!-- END CONTENT SECTION -->
-    <!-- FORM SECTION -->
   </div>
-  <Spinner v-else :text="$t('common.checkingLogin')" :text-width="'13rem'"></Spinner>
 </template>
 <script setup lang="ts" name="login2">
-import { useAuthStore } from '@/stores'
-import { Input } from 'ant-design-vue'
 import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { Spinner } from '@/components/spinner'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
-import { PagePathEnum } from '@/constants/pageEnum'
 import SocialLoginBnts from './components/SocialLoginBnts.vue'
-
-const { query } = useRoute()
-const router = useRouter()
-const { setToken, login, getToken } = useAuthStore()
-
-const accessToken = query.accessToken as string
-const refreshToken = query.refreshToken as string
-const isSuccessSocialLogin = !!accessToken && !!refreshToken
-
-if (isSuccessSocialLogin && !getToken) {
-  console.log('login success!')
-  setToken(ACCESS_TOKEN_KEY, accessToken)
-  // setToken(REFRESH_TOKEN_KEY, refreshToken)
-
-  login().then(
-    (user) => {
-      // const isExistWorkpace = user.workspaceCount > 1
-      // setTimeout(() => {
-      //   router.push(isExistWorkpace ? PagePathEnum.WORKSPACE_LIST : PagePathEnum.WORKSPACE)
-      // }, 1500)
-    },
-    (error) => {
-      console.log(error)
-    }
-  )
-}
 
 let container: HTMLElement | null = null
 const text = ref('회사 또는 팀이름을 알려주세요')
@@ -166,7 +132,7 @@ onMounted(() => {
   }, 200)
 })
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 :root {
   --primary-color: #4ea685;
   --secondary-color: #57b894;
@@ -181,7 +147,7 @@ onMounted(() => {
   --insta-color: #e1306c;
 }
 
-// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
 
 * {
   font-family: 'Poppins', sans-serif;
@@ -304,16 +270,16 @@ body {
   left: 1rem;
   transform: translateY(-50%);
   font-size: 1.4rem;
-  color: #757575;
+  color: var(--gray-2);
 }
 
 .input-group input {
   width: 100%;
   padding: 1rem 3rem;
   font-size: 1rem;
-  background-color: #efefef;
+  background-color: var(--gray);
   border-radius: 0.5rem;
-  border: 0.125rem solid #ffffff;
+  border: 0.125rem solid var(--white);
   outline: none;
 }
 
@@ -328,7 +294,7 @@ body {
   border-radius: 0.5rem;
   border: none;
   background-color: $color-primary;
-  color: #ffffff;
+  color: var(--white);
   font-size: 1.2rem;
   outline: none;
 }
@@ -354,7 +320,7 @@ body {
 }
 
 .social-list > div {
-  color: #ffffff;
+  color: var(--white);
   margin: 0 0.5rem;
   padding: 0.7rem;
   cursor: pointer;
@@ -429,7 +395,7 @@ body {
 
 .text {
   margin: 4rem;
-  color: #ffffff;
+  color: var(--white);
 }
 
 .text h1 {
@@ -446,10 +412,6 @@ body {
   transition: 1s ease-in-out;
 }
 
-.text img {
-  transition: 1s ease-in-out;
-}
-
 .text p {
   font-weight: 600;
   transition: 1s ease-in-out;
@@ -463,7 +425,6 @@ body {
 }
 
 .text.sign-in h2,
-.text.sign-in img,
 .text.sign-in p,
 .img.sign-in img {
   transform: translateX(-250%);
@@ -476,7 +437,6 @@ body {
 }
 
 .container.sign-in .text.sign-in h2,
-.container.sign-in .text.sign-in img,
 .container.sign-in .text.sign-in p,
 .container.sign-in .img.sign-in img,
 .container.sign-up .text.sign-up h2,
@@ -495,7 +455,7 @@ body {
   height: 100vh;
   width: 300vw;
   transform: translate(35%, 0);
-  background-image: linear-gradient(-45deg, $color-primary 0%, #57b894 100%);
+  background-image: linear-gradient(-45deg, $color-primary 0%, var(--secondary-color) 100%);
   transition: 1s ease-in-out;
   z-index: 6;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -549,7 +509,7 @@ body {
     width: 100%;
     position: absolute;
     padding: 2rem;
-    background-color: #ffffff;
+    background-color: var(--white);
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
     transform: translateY(100%);

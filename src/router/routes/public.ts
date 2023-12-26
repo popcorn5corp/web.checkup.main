@@ -3,8 +3,8 @@ import { layoutTypes } from '@/stores/interface'
 
 export const publicRoutes: RouteRecordRaw[] = [
   {
-    path: '/login2',
-    name: 'login2',
+    path: '/login',
+    name: 'login',
     component: () => import(/* webpackChunkName: "login2" */ '@/views/login/index2.vue'),
     meta: {
       title: 'Login',
@@ -13,8 +13,8 @@ export const publicRoutes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/login',
-    name: 'login',
+    path: '/login2',
+    name: 'login2',
     component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
     meta: {
       title: 'Login',

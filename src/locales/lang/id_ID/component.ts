@@ -1,22 +1,23 @@
 export default {
   button: {
-    save: 'Simpan',
+    save: 'Save',
     ok: 'Ok',
-    cancel: 'Batalkan',
-    edit: 'Sunting',
-    close: 'Tutup',
-    viewDetail: 'Lihat Rincian',
-    prev: 'Sebelumnya',
-    next: 'Berikutnya',
-    jump: 'Lewati',
-    toMain: 'Ke Utama',
-    move: 'Pindah',
-    confirm: 'Konfirmasi',
-    complete: 'Selesai',
-    joined: 'Terlibat',
-    reset: 'Atur Ulang'
+    cancel: 'Cancel',
+    edit: 'Edit',
+    close: 'Close',
+    viewDetail: 'View Details',
+    prev: 'Previous',
+    next: 'Next',
+    jump: 'Skip',
+    toMain: 'To Main',
+    move: 'Move',
+    confirm: 'Confirm',
+    complete: 'Complete',
+    complete2: 'Complete',
+    joined: 'Get involved',
+    reset: 'Reset'
   },
   ph: {
-    inputEmail: 'Silakan masukkan surel Anda.'
+    inputEmail: 'Please enter your e-mail.'
   }
 }

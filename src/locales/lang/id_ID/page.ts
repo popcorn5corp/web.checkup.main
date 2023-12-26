@@ -1,69 +1,81 @@
 export default {
   workspace: {
-    createWorkspace: 'Buat area kerja',
-    joinWorkspace: 'Masukkan kode undangan ruang kerja',
-    welcomeTit: 'Selamat datang di, {userName}!',
-    welcomeDesc: `Terima kasih sudah mendaftar untuk Check Up.
-    Sekarang, silakan pilih opsi pilihan Anda untuk mulai bekerja.`,
-    createStep1Tit: 'Masukkan nama tim atau perusahaan',
-    createStep1Desc: `Ini akan menjadi nama ruang kerja Pemeriksaan.`,
-    nameProfileDesc: `Menambahkan nama dan foto profil Anda akan membantu 
-    Timmu menemukanmu dan terhubung denganmu dengan mudah.`,
-    profileImg: 'Foto profil saya',
-    profileImgDesc: `Pastikan tim Anda tahu 
-    Mereka berbicara dengan orang yang tepat.`,
-    selectImgBtn: 'Pilih gambar bawaan',
-    selectImg: 'Pilih gambar bawaan profil',
-    createStep3Tit: 'Tambahkan anggota tim atau rekan kerja',
-    createStep3Desc: 'Harap tambahkan rekan kerja Anda dalam format email.',
-    createStep3Info: 'Masukkan kunci setelah menulis surel',
-    createStep4Tit: 'Pilih industri dan ukuran Anda',
-    createStep4Desc: `Silakan pilih industri tim/perusahaan 
-    dan ukuran (jumlah orang) tim/perusahaan.`,
-    createCompleteTit: 'Pembuatan ruang kerja selesai!',
-    createCompleteDesc: '{userName}, Mulai ruang kerja sekarang.',
-    inviteStep1Tit: 'Masukkan kode undangan ruang kerja',
-    inviteStep1Desc: `Silakan masukkan kode undangan yang Anda terima di bawah ini
-    dan melanjutkan proses verifikasi.
-    Jika Anda tidak menerima kode undangan, 
-    Silahkan hubungi perwakilan atau administrator sistem Anda.`,
-    joinCompleteTit: '{workspaceName}, kau bergabung dengan ruang kerja!',
-    joinCompleteDesc1: 'Ruang kerja Anda sekarang tersedia.',
-    joinCompleteDesc2: 'menggunakan.',
-    listTitle: 'Pilih area kerja',
-    listDesc: 'Pergi ke area kerja yang dipilih.',
-    listCheckText: 'Baku untuk area kerja yang terakhir dipakai',
-    listArrowText: 'Area kerja saat ini',
-    listInviteText: `Bukan ruang kerja yang kau cari?`,
-    listInviteSubText: 'Masukkan kode undangan',
+    createWorkspace: 'Create a workspace',
+    joinWorkspace: 'Enter the workspace invitation code',
+    welcomeTit: 'Welcome, {userName}!',
+    welcomeDesc: `Thank you for signing up for CheckUp.
+    Now, please select your preferred option to start working.`,
+    createStep1Tit: 'Enter team or company name',
+    createStep1Desc: `This will be the name of Checkup's workspace.`,
+    nameProfileDesc: `Adding your name and profile photo will help 
+    your team find you and connect with you easily.`,
+    profileImg: 'My profile picture',
+    profileImgDesc: `Make sure your team knows 
+    they're talking to the right person.`,
+    selectImgBtn: 'Select default image',
+    selectImg: 'Select profile default image',
+    createStep3Tit: 'Add team members or coworkers',
+    createStep3Desc: 'Please add your coworkers in email format.',
+    createStep3Info: 'Enter key after writing email',
+    createStep4Tit: 'Choose your industry and size',
+    createStep4Desc: `Please select the industry of the team/company 
+    and the size (number of people) of the team/company.`,
+    createCompleteTit: 'Workspace creation is complete!',
+    createCompleteDesc: '{userName}, Start the workspace now.',
+    inviteStep1Tit: 'Enter the workspace invitation code',
+    inviteStep1Desc: `Please enter the invitation code you received below
+    and proceed with the verification process.
+    If you do not receive an invitation code, 
+    please contact your representative or system administrator.`,
+    joinCompleteTit: '{workspaceName}, you joined the workspace!',
+    joinCompleteDesc1: 'Your workspace is now available.',
+    joinCompleteDesc2: 'is using.',
+    listTitle: 'Select workspace',
+    listDesc: 'Go to the selected workspace.',
+    listCheckText: 'Default to last used workspace',
+    listArrowText: 'Current workspace',
+    listInviteText: `Not the workspace you're looking for?`,
+    listInviteSubText: 'Enter invitation code',
     ph: {
-      inputTeamOrCompanyName: 'Silakan masukkan nama tim Anda atau nama perusahaan.',
-      inputInviteCode: 'Silakan masukkan kode undangan.',
-      selectBusinessTypeOpt: 'Pilih jenis bisnis',
-      selectEmployeeScaleOpt: 'Pilih skala karyawan'
+      inputTeamOrCompanyName: 'Please enter your team or company name.',
+      inputInviteCode: 'Please enter the invitation code.',
+      selectBusinessTypeOpt: 'Select business type',
+      selectEmployeeScaleOpt: 'Select employee scale'
     }
   },
   manage: {
-    userName: '{userName}',
+    userName: '{userName} ',
     userStatus: {
-      CREATE: 'telah dibuat.',
-      JOIN: 'telah bergabung.',
-      WITHDRAWN: 'keluar dari grup.',
-      REVOKE: 'telah dikeluarkan.'
+      CREATE: 'has been created.',
+      JOIN: 'has joined.',
+      WITHDRAWN: 'has been withdrawn.',
+      REVOKE: 'has been expelled.'
     },
-    detail: 'Lihat rincian',
-    history: 'Sejarah',
-    joined: 'Sudah berlangganan',
-    groupName: 'Nama Grup',
-    groupDescription: 'Keterangan Grup',
-    addUserToAGroup: 'Menambahkan Pengguna ke Grup',
-    removeUserToAGroup: 'menghapus dari grup',
-    typingUserName: `Silakan masukkan nama pengguna`,
-    moreContent: 'Dapatkan lebih banyak konten',
-    groupTitle: 'Judul grup',
-    groupContent: 'Isi Grup',
+    detail: 'Details',
+    history: 'History',
+    joined: 'Already subscribed',
+    groupName: 'Group Name',
+    groupDescription: 'Group Description',
+    addUserToAGroup: 'Adding Users to a Group',
+    removeUserToAGroup: 'Removing from a Group',
+    typingUserName: `Please enter the user's name`,
+    moreContent: 'Get more content',
+    groupTitle: 'Group Title',
+    groupContent: 'Group Content',
     message: {
-      deleteUser: 'Anda yakin ingin mengekspor pengguna dari grup?'
-    }
+      deleteUser: 'Are you sure you want to export users from the group?'
+    },
+
+    userInfo: 'User Information',
+    invite: 'Invite',
+    userInvite: 'User Invitation',
+    emailInvite: 'Add coworkers by email',
+    joinDate: 'Join Date',
+    group: 'Group',
+
+    active: 'Active',
+    inActive: 'Inactive',
+    withdrawn: 'Withdrawn',
+    revoke: 'Revoke'
   }
 }

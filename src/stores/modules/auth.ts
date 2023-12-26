@@ -175,7 +175,10 @@ export const useAuthStore = defineStore(
       state.loggedIn = false
       state.token = ''
       state.user = getDefaultUser()
-      goLogin && router.push(PagePathEnum.BASE_LOGIN)
+
+      setTimeout(() => {
+        goLogin && router.push(PagePathEnum.BASE_LOGIN)
+      }, 2000)
     }
 
     function setToken(tokenKey: TokenKey = ACCESS_TOKEN_KEY, token: string) {

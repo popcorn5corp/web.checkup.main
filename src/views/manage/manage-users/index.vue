@@ -3,7 +3,7 @@
     <DynamicTable
       v-model:openDetail="showDetail"
       ref="dynamicTableRef"
-      :columns="columns"
+      :columns="columns()"
       :row-key="'index'"
       :data-request="getDataSource"
       :column-request="getColumns"
@@ -23,7 +23,11 @@
             <DeleteTwoTone />
           </template>
         </Button> -->
-        <Button :label="'초대하기'" size="middle" @click="$emit('row-add', (isVisible = true))">
+        <Button
+          :label="$t('page.manage.invite')"
+          size="middle"
+          @click="$emit('row-add', (isVisible = true))"
+        >
           <template #icon>
             <PlusCircleTwoTone />
           </template>
@@ -31,7 +35,7 @@
       </template>
 
       <template #detail-title>
-        <span>사용자 정보</span>
+        <span>{{ $t('page.manage.userInfo') }}</span>
       </template>
       <template #detail-content>
         <div class="detail-contents">
@@ -59,10 +63,10 @@
       :isModalLoading="isModalLoading"
       class="invite-modal"
     >
-      <template #title>사용자 초대</template>
+      <template #title>{{ $t('page.manage.userInvite') }}</template>
       <template #body>
         <div class="invite-form-wrapper">
-          <h4 class="title">이메일로 직장동료 추가</h4>
+          <h4 class="title">{{ $t('page.manage.emailInvite') }}</h4>
           <InviteMemberForm ref="inviteMemberRef" :isShowDescription="false" :isShowJump="false" />
           <!-- TODO 추후개발 -->
           <!-- <br />
@@ -95,12 +99,12 @@ const DEFAULT_MODE = modes.R
 const tabInfo = {
   Detail: {
     key: 'Detail',
-    title: '상세보기',
+    title: t('page.manage.detail'),
     component: UserDetail
   },
   History: {
     key: 'History',
-    title: '타임라인',
+    title: t('page.manage.history'),
     component: UserHistory
   }
 }

@@ -37,5 +37,10 @@ export default {
   select: 'Select',
   createWorkspace: 'Create a workspace',
   changeWorkspace: 'Change workspace',
-  lang: 'Language'
+  lang: 'Language',
+  name: 'Name',
+  email: 'E-mail',
+  phone: 'Cell Phone Number',
+  detailInfo: 'More information',
+  gender: 'Gender'
 }

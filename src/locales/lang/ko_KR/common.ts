@@ -37,5 +37,10 @@ export default {
   select: '선택',
   createWorkspace: '새 워크스페이스 생성',
   changeWorkspace: '워크스페이스 변경',
-  lang: '언어'
+  lang: '언어',
+  name: '이름',
+  email: '이메일',
+  phone: '핸드폰',
+  detailInfo: '상세정보',
+  gender: '성별'
 }

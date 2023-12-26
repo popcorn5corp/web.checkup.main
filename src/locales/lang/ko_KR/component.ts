@@ -13,6 +13,7 @@ export default {
     move: '이동',
     confirm: '확인하기',
     complete: '완료하기',
+    complete2: '완료',
     joined: '참여하기',
     reset: '초기화'
   },
