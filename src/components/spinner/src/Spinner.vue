@@ -117,6 +117,7 @@ $loader-dot--size: 20px;
 
   .loader--text {
     font-weight: bold;
+    font-size: 17px;
     animation: {
       name: loading-text;
       duration: 3s;

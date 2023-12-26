@@ -105,7 +105,10 @@ export const useAuthStore = defineStore(
     async function afterLoginAction() {
       try {
         const { goPath } = await workspaceAction()
-        router.push(goPath)
+
+        setTimeout(() => {
+          router.push(goPath)
+        }, 2000)
 
         return {
           goPath
@@ -175,10 +178,7 @@ export const useAuthStore = defineStore(
       state.loggedIn = false
       state.token = ''
       state.user = getDefaultUser()
-
-      setTimeout(() => {
-        goLogin && router.push(PagePathEnum.BASE_LOGIN)
-      }, 2000)
+      goLogin && router.push(PagePathEnum.BASE_LOGIN)
     }
 
     function setToken(tokenKey: TokenKey = ACCESS_TOKEN_KEY, token: string) {
