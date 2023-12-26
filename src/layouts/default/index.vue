@@ -106,6 +106,7 @@ const logoStyles = computed<{ logo: CSSProperties; img: CSSProperties }>(() => {
     }
   }
 })
+
 const mainStyles = computed<{ size: CSSProperties }>(() => {
   const {
     theme: { menuPosition },

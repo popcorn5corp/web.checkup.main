@@ -11,7 +11,7 @@ export const useTourStore = defineStore('tour', () => {
     steps: [
       {
         title: '안녕하세요. 반갑습니다.',
-        description: '체크업 SaaS 서비스 소개를 시작하겠습니다.',
+        description: '체크업 서비스 사용 안내 입니다.',
         cover: createVNode('img', {
           alt: 'tour.png',
           src: 'https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png'
@@ -71,13 +71,13 @@ export const useTourStore = defineStore('tour', () => {
           '테이블의 데이터를 테이블 형식과 카드 형식의 레이아웃을 선택하여 볼 수 있습니다.',
         target: null,
         placement: 'left'
-      },
-      {
-        title: '테이블 컴포넌트에 대한 설명을 마칩니다.',
-        description: '체크업 SaaS 서비스를 이용해주셔서 감사합니다.',
-
-        target: () => null
       }
+      // {
+      //   title: '테이블 컴포넌트에 대한 설명을 마칩니다.',
+      //   description: '체크업 SaaS 서비스를 이용해주셔서 감사합니다.',
+
+      //   target: () => null
+      // }
     ]
   })
 
@@ -86,7 +86,6 @@ export const useTourStore = defineStore('tour', () => {
 
   // action
   function addStep(index, targetElement) {
-    console.log(state.steps)
     state.steps[index].target = targetElement
   }
 

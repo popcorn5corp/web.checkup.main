@@ -30,7 +30,7 @@ onMounted(() => {
       <a href="#" class="menu-item"> <font-awesome-icon :icon="['fas', 'comments']" size="xl" /></a>
       <a href="#" class="menu-item"> <font-awesome-icon :icon="['fas', 'headset']" size="xl" /></a>
       <!-- <a href="#" class="menu-item"> <font-awesome-icon :icon="['fas', 'download']" size="xl" /></a> -->
-      <a href="#" class="menu-item" @click="tourStore.handleMode()">
+      <a href="#" class="menu-item" @click="tourStore.handleMode">
         <font-awesome-icon :icon="['fas', 'circle-play']" size="xl"
       /></a>
       <a href="#" class="menu-item">
