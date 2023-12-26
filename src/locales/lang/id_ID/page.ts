@@ -76,6 +76,10 @@ export default {
     active: 'Active',
     inActive: 'Inactive',
     withdrawn: 'Withdrawn',
-    revoke: 'Revoke'
+    revoke: 'Revoke',
+    ph: {
+      userSearchPh: 'Please search your name and email.',
+      groupSearchPh: 'Please search for the group name.'
+    }
   }
 }

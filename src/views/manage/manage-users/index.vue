@@ -14,6 +14,7 @@
       :showDownload="false"
       :showRegist="false"
       :showDelete="false"
+      :phText="$t('page.manage.ph.userSearchPh')"
       @row-click="onClickRow"
       @row-add="onClickInvite"
     >

@@ -114,6 +114,10 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
    */
   showToolbar?: boolean
   /**
+   * 테이블 Toolbar 검색 input placeholder
+   */
+  phText?: string
+  /**
    * 테이블 Toolbar 옵선 정보
    */
   toolbarOptions?: ToolbarOptions

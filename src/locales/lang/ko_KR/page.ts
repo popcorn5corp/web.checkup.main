@@ -78,6 +78,10 @@ export default {
     active: '활성',
     inActive: '비활성',
     withdrawn: '탈퇴',
-    revoke: '퇴출'
+    revoke: '퇴출',
+    ph: {
+      userSearchPh: '이름과 이메일을 검색해주세요.',
+      groupSearchPh: '그룹명을 검색해주세요.'
+    }
   }
 }
