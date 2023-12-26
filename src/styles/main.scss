@@ -3,3 +3,21 @@
 @import './base//fonts';
 @import './base/variables';
 @import './base/mediaQuery';
+@import "./base/_utilities" ;
+
+
+// Components
+@import "./components/_avatar" ;
+@import "./components/_badge" ;
+@import "./components/_button" ;
+@import "./components/_card" ;
+@import "./components/_chart" ;
+@import "./components/_list" ;
+@import "./components/_progress" ;
+@import "./components/_settings-drawer" ;
+@import "./components/_space" ;
+@import "./components/_table" ;
+@import "./components/_tag" ;
+@import "./components/_timeline" ;
+@import "./components/_widget" ;
+@import "./components/dropdown" ;
