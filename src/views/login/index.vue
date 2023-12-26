@@ -1,4 +1,4 @@
-<script setup lang="ts" name="Login">
+<script setup lang="ts" name="Login2">
 import { AuthService } from '@/services'
 import { useAuthStore } from '@/stores'
 import { Input } from 'ant-design-vue'
