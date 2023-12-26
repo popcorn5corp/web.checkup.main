@@ -1,17 +1,17 @@
 <template>
   <div class="user-detail-container">
-    <h3 class="title">상세정보</h3>
+    <h3 class="title">{{ $t('common.detailInfo') }}</h3>
     <div class="content-wrapper">
       <Descriptions>
-        <Descriptions.Item label="가입일" :span="12">
+        <Descriptions.Item :label="$t('page.manage.joinDate')" :span="12">
           {{ state.data.detail?.joinDate }}
         </Descriptions.Item>
-        <Descriptions.Item label="성별" :span="12">
+        <Descriptions.Item :label="$t('common.gender')" :span="12">
           {{ state.data.detail?.gender.label }}
         </Descriptions.Item>
       </Descriptions>
     </div>
-    <h3 class="title">그룹</h3>
+    <h3 class="title">{{ $t('page.manage.group') }}</h3>
     <div class="content-wrapper">
       <div class="group-wrapper">
         <template v-if="props.data.groups?.length">

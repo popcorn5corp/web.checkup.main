@@ -13,6 +13,7 @@ export default {
     move: 'Move',
     confirm: 'Confirm',
     complete: 'Complete',
+    complete2: 'Complete',
     joined: 'Get involved',
     reset: 'Reset'
   },

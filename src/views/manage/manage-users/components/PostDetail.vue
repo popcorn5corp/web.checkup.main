@@ -15,19 +15,19 @@
         </Item>
       </div>
       <div class="form-item-wrapper">
-        <Item label="이름" name="nickname">
+        <Item :label="$t('common.name')" name="nickname">
           {{ formState.data.nickname }}
         </Item>
-        <Item label="상태" name="userStatus">
+        <Item :label="$t('common.status')" name="userStatus">
           {{ formState.data.userStatus.label }}
         </Item>
-        <Item label="이메일" name="email">
+        <Item :label="$t('common.email')" name="email">
           {{ formState.data.email }}
         </Item>
-        <Item label="핸드폰" name="phone">
+        <Item :label="$t('common.phone')" name="phone">
           {{ formState.data.phone }}
         </Item>
-        <Item label="가입일" name="joinDate">
+        <Item :label="$t('page.manage.joinDate')" name="joinDate">
           {{ formState.data.joinDate }}
         </Item>
       </div>
@@ -43,22 +43,22 @@
       :model="formState"
       v-bind="formItemLayout"
     >
-      <Item label="이름" name="nickname">
+      <Item :label="$t('common.name')" name="nickname">
         <Input v-model:value="formState.data.nickname" />
       </Item>
-      <Item label="상태">
+      <Item :label="$t('common.status')">
         <Select
           v-model:value="formState.data.userStatus.label"
           :options="userStatusOptions"
         ></Select>
       </Item>
-      <Item label="이메일" name="email">
+      <Item :label="$t('common.email')" name="email">
         <Input v-model:value="formState.data.email" />
       </Item>
-      <Item label="핸드폰" name="phone">
+      <Item :label="$t('common.phone')" name="phone">
         <Input v-model:value="formState.data.phone" />
       </Item>
-      <Item label="가입일" name="joinDate">
+      <Item :label="$t('page.manage.joinDate')" name="joinDate">
         {{ formState.data.joinDate }}
       </Item>
     </Form>
