@@ -2,7 +2,7 @@
   <div class="user-detail-container">
     <h3 class="title">상세정보</h3>
     <div class="content-wrapper">
-      <Descriptions col="12">
+      <Descriptions>
         <Descriptions.Item label="가입일" :span="12">
           {{ state.data.detail?.joinDate }}
         </Descriptions.Item>
@@ -14,9 +14,12 @@
     <h3 class="title">그룹</h3>
     <div class="content-wrapper">
       <div class="group-wrapper">
-        <span v-for="group in state.data.groups" :key="group.groupId" class="group-item">{{
-          group.name
-        }}</span>
+        <template v-if="props.data.groups?.length">
+          <span v-for="group in props.data.groups" :key="group.groupId" class="group-item">
+            {{ group.name }}
+          </span>
+        </template>
+        <template v-else> - </template>
       </div>
     </div>
   </div>
