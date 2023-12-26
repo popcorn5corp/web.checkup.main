@@ -1,6 +1,6 @@
-// import { useI18n } from 'vue-i18n'
-// const { t } = useI18n()
+import i18n from '@/locales'
 
+const { t } = i18n.global
 export const menus: any = [
   {
     path: '/dashboard',
@@ -13,7 +13,7 @@ export const menus: any = [
     // },
     meta: {
       // title: 'routes.dashboard.dashboard',
-      title: '대시보드',
+      title: t('data.menu.dashboard'),
       icon: 'magnifying-glass-chart',
       namePath: ['dashboard'],
       fullPath: '/dashboard',
@@ -25,7 +25,7 @@ export const menus: any = [
         name: 'dashboard',
         meta: {
           // title: 'routes.dashboard.workbench',
-          title: '대시보드',
+          title: t('data.menu.dashboard'),
           namePath: ['dashboard', 'dashboard'],
           fullPath: '/dashboard'
         }
@@ -36,7 +36,7 @@ export const menus: any = [
     path: '/work',
     name: 'work',
     meta: {
-      title: '업무',
+      title: t('data.menu.work'),
       icon: 'satellite-dish',
       namePath: ['work'],
       fullPath: '/work'
@@ -46,7 +46,7 @@ export const menus: any = [
         path: 'template-manage',
         name: 'work-template-manage',
         meta: {
-          title: '업무 템플릿 관리',
+          title: t('data.menu.workTemplateManage'),
           namePath: ['work', 'template-manage'],
           fullPath: '/work/template-manage'
         }
@@ -55,7 +55,7 @@ export const menus: any = [
         path: 'work-status',
         name: 'work-work-status',
         meta: {
-          title: '업무 현황',
+          title: t('data.menu.workStatus'),
           namePath: ['work', 'work-status'],
           fullPath: '/work/work-status'
         }
@@ -64,7 +64,7 @@ export const menus: any = [
         path: 'report-manage',
         name: 'work-report-manage',
         meta: {
-          title: '레포트 관리',
+          title: t('data.menu.reportManage'),
           namePath: ['work', 'report-manage'],
           fullPath: '/work/report-manage'
         }
@@ -82,7 +82,7 @@ export const menus: any = [
     },
     meta: {
       // title: 'routes.dashboard.dashboard',
-      title: '설비',
+      title: t('data.menu.facility'),
       icon: 'plug-circle-bolt',
       namePath: ['facility'],
       fullPath: '/facility'
@@ -92,7 +92,7 @@ export const menus: any = [
         path: 'status',
         name: 'facility-status',
         meta: {
-          title: '설비 현황',
+          title: t('data.menu.facilityStatus'),
           namePath: ['facility', 'facility-status'],
           fullPath: '/facility/facility-status'
         }
@@ -101,7 +101,7 @@ export const menus: any = [
         path: 'category',
         name: 'facility-category',
         meta: {
-          title: '카테고리 관리',
+          title: t('data.menu.facilityCategory'),
           namePath: ['facility', 'facility-category'],
           fullPath: '/facility/facility-category'
         }
@@ -110,7 +110,7 @@ export const menus: any = [
         path: 'part',
         name: 'facility-part',
         meta: {
-          title: '부품 관리',
+          title: t('data.menu.facilityPart'),
           namePath: ['facility', 'facility-part'],
           fullPath: '/facility/facility-part'
         }
@@ -159,7 +159,7 @@ export const menus: any = [
       __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
     },
     meta: {
-      title: '구매',
+      title: t('data.menu.purchase'),
       icon: 'handshake',
       namePath: ['purchase'],
       fullPath: '/purchase'
@@ -169,7 +169,7 @@ export const menus: any = [
         path: 'apply-status',
         name: 'purchase-apply-status',
         meta: {
-          title: '신청 현황',
+          title: t('data.menu.applyStatus'),
           namePath: ['purchase', 'apply-status'],
           fullPath: '/purchase/apply-status'
         }
@@ -185,7 +185,7 @@ export const menus: any = [
       __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
     },
     meta: {
-      title: '관리',
+      title: t('data.menu.manage'),
       icon: 'users',
       namePath: ['manage'],
       fullPath: '/manage'
@@ -195,7 +195,7 @@ export const menus: any = [
         path: 'users',
         name: 'manage-users',
         meta: {
-          title: '사용자 관리',
+          title: t('data.menu.manageUsers'),
           namePath: ['manage', 'manage-users'],
           fullPath: '/manage/users'
         }
@@ -204,7 +204,7 @@ export const menus: any = [
         path: 'group',
         name: 'manage-group',
         meta: {
-          title: '그룹 관리',
+          title: t('data.menu.manageGroup'),
           namePath: ['manage', 'manage-group'],
           fullPath: '/manage/group'
         }
@@ -213,7 +213,7 @@ export const menus: any = [
         path: 'module',
         name: 'manage-module',
         meta: {
-          title: '모듈 관리',
+          title: t('data.menu.manageModule'),
           namePath: ['manage', 'manage-module'],
           fullPath: '/manage/module'
         }
