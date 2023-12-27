@@ -12,8 +12,7 @@
   </a-card>
 </template>
 
-<script lang="ts">
-// Bar chart for "Active Users" card.
+<script lang="ts" name="CardLineChart">
 import ChartLine from './charts/ChartLine.vue'
 
 export default {
@@ -29,7 +28,6 @@ export default {
           {
             label: 'Mobile apps',
             tension: 0.4,
-            borderWidth: 0,
             pointRadius: 0,
             borderColor: '#1890FF',
             borderWidth: 3,
@@ -39,7 +37,6 @@ export default {
           {
             label: 'Websites',
             tension: 0.4,
-            borderWidth: 0,
             pointRadius: 0,
             borderColor: '#B37FEB',
             borderWidth: 3,

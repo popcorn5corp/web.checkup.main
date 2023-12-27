@@ -1,5 +1,4 @@
 <template>
-  <!-- Projects Table Card -->
   <a-card :bordered="false" class="header-solid h-full" :bodyStyle="{ padding: 0 }">
     <template #title>
       <a-row type="flex" align="middle">
@@ -36,13 +35,7 @@
         </template>
       </template>
 
-      <!-- <template v-slot:company="company">
-        <h6 class="m-0">
-          <img :src="company.logo" width="25" class="mr-10" />
-          {{ company.name }}
-        </h6>
-      </template> -->
-
+      <!-- @vue-skip -->
       <template v-slot:completion="completion">
         <span class="font-bold text-muted text-sm">{{
           completion.label ? completion.label : completion
@@ -79,7 +72,7 @@
   <!-- / Projects Table Card -->
 </template>
 
-<script lang="ts">
+<script lang="ts" name="CardProjectTable">
 export default {
   props: {
     data: {

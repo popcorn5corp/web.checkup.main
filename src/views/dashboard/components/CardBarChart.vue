@@ -34,7 +34,7 @@
   <!-- Active Users Card -->
 </template>
 
-<script lang="ts">
+<script lang="ts" name="CardBarChart">
 // Bar chart for "Active Users" card.
 import ChartBar from './charts/ChartBar.vue'
 

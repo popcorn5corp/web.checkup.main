@@ -89,7 +89,7 @@
   <!-- / Orders History Timeline Card -->
 </template>
 
-<script lang="ts">
+<script lang="ts" name="CardOrderHistory">
 export default {
   data() {
     return {
