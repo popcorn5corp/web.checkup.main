@@ -1,10 +1,5 @@
 <template>
-  <Dropdown
-    class="user-dropdown"
-    :trigger="['click']"
-    @click="isDropdownOpen = !isDropdownOpen"
-    :open="isDropdownOpen"
-  >
+  <Dropdown class="user-dropdown" :trigger="['click']">
     <Button
       shape="round"
       :ref="
@@ -100,7 +95,6 @@ const workspaceStore = useWorkspaceStore()
 const { getWorkspace } = storeToRefs(workspaceStore)
 const tourStore = useTourStore()
 const isOpen = ref(false)
-const isDropdownOpen = ref(false)
 
 const onClickMenu: MenuProps['onClick'] = ({ key }) => {
   if (key === '1') {
