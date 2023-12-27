@@ -13,7 +13,7 @@ interface LangModule {
 
 export const useLocale = () => {
   const localeStore = useLocaleStoreWithOut()
-  const getLocale = computed(() => localeStore.getLocale())
+  const getLocale = computed(() => localeStore.getLocale)
   const getAntdLocale = computed<Locale>(() => {
     return (i18n.global.getLocaleMessage(unref(getLocale)) as any).antdLocale
   })
