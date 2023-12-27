@@ -14,7 +14,7 @@
   </a-card>
 </template>
 
-<script lang="ts">
+<script lang="ts" name="WidgetCounter">
 export default {
   props: {
     title: {

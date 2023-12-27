@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" name="ChartBar">
 import { Chart, registerables } from 'chart.js'
 
 Chart.register(...registerables)
@@ -17,7 +17,7 @@ export default {
     }
   },
   mounted() {
-    let ctx = this.$refs.chart.getContext('2d')
+    let ctx = (this.$refs as any).chart.getContext('2d')
     this.chart = new Chart(ctx, {
       type: 'bar',
       data: this.data,
@@ -47,11 +47,13 @@ export default {
             grid: {
               display: true,
               color: 'rgba(255, 255, 255, .2)',
+              // @ts-ignore
               zeroLineColor: '#ffffff',
               borderDash: [6],
               borderDashOffset: [6]
             },
             ticks: {
+              // @ts-ignore
               suggestedMin: 0,
               suggestedMax: 1000,
               display: true,
@@ -59,7 +61,7 @@ export default {
               font: {
                 size: 14,
                 lineHeight: 1.5,
-                weight: '600',
+                weight: 'bold',
                 family: 'Open Sans'
               }
             }
@@ -74,19 +76,19 @@ export default {
               font: {
                 size: 14,
                 lineHeight: 1.5,
-                weight: '600',
+                weight: 'bold',
                 family: 'Open Sans'
               }
             }
           }
         }
       }
-    })
+    }) as any
   },
   // Right before the component is destroyed,
   // also destroy the chart.
   beforeUnmount: function () {
-    this.chart.destroy()
+    ;(this.chart as any).destroy()
   }
 }
 </script>
