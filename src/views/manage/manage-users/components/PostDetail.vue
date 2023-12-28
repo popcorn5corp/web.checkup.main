@@ -8,11 +8,7 @@
       class="form-wrapper"
     >
       <div class="img-wrapper">
-        <Item name="profileImg">
-          <div class="img-wrapper">
-            <img :src="formState.data.thumbnail?.url" :width="200" :height="200" />
-          </div>
-        </Item>
+        <img :src="formState.data.thumbnail?.url" />
       </div>
       <div class="form-item-wrapper">
         <Item :label="$t('common.name')" name="nickname">
@@ -31,9 +27,20 @@
           {{ formState.data.joinDate }}
         </Item>
       </div>
-      <!-- <div class="more-wrapper">
-        <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
-      </div> -->
+
+      <a-dropdown v-model:open="visible" :trigger="['click']">
+        <a class="ant-dropdown-link" @click.prevent><MoreOutlined /></a>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item key="1" @click="onEditMode">
+              <span>{{ t('common.postModify') }}</span>
+            </a-menu-item>
+            <a-menu-item key="2" @click="handleMenuClick">
+              <span>{{ t('page.manage.export') }}</span>
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
     </Form>
 
     <Form
@@ -61,25 +68,34 @@
       <Item :label="$t('page.manage.joinDate')" name="joinDate">
         {{ formState.data.joinDate }}
       </Item>
+      <div class="btn-wrapper">
+        <Button @click="initState"><CloseOutlined /></Button>
+        <Button @click="onSubmit" type="primary"><CheckOutlined /></Button>
+      </div>
     </Form>
   </div>
 </template>
 
 <script setup lang="tsx" name="PostDetail">
-import { Form, Input, Select, type SelectProps } from 'ant-design-vue'
+import { Form, Input, type MenuProps, Modal, Select, type SelectProps } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
-import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
+import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { IManageUser } from '@/services/manage-users/interface'
-import { contentModes } from '@/constants/content'
+import {
+  CheckOutlined,
+  CloseOutlined,
+  ExclamationCircleOutlined,
+  MoreOutlined
+} from '@/components/icons'
+import { contentModes as modes } from '@/constants/content'
 import { getDefaultPost } from '../constant'
 
-const { Item } = Form
+const DEFAULT_MODE = modes.R
 
 type WorkspaceUsers = IManageUser.UserListRequest
 interface PostDetailProps {
   data: WorkspaceUsers
-  isEdit: boolean
-  mode: contentModes
 }
 
 interface FormState {
@@ -88,9 +104,22 @@ interface FormState {
   cloneData: WorkspaceUsers
 }
 
-const props = withDefaults(defineProps<PostDetailProps>(), {
-  isEdit: false
+const { t } = useI18n()
+const { Item } = Form
+const [modal, contextHolder] = Modal.useModal()
+
+const props = defineProps<PostDetailProps>()
+
+const formItemLayout = computed(() => {
+  const { layout } = formState
+  return layout === 'horizontal'
+    ? {
+        labelCol: { span: 6 },
+        wrapperCol: { span: 12 }
+      }
+    : {}
 })
+const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
 
 const userStatusOptions = ref<SelectProps['options']>([
   {
@@ -110,7 +139,8 @@ const userStatusOptions = ref<SelectProps['options']>([
     value: 'REVOKE'
   }
 ])
-
+const mode = ref<ContentMode>(DEFAULT_MODE)
+const visible = ref(false)
 const formRef = ref()
 const fileUploader = ref()
 const formState: UnwrapRef<FormState> = reactive({
@@ -119,7 +149,6 @@ const formState: UnwrapRef<FormState> = reactive({
   cloneData: getDefaultPost()
 })
 
-const onSubmit = async () => formRef.value.validate()
 const rollbackPost = () => (formState.data = cloneDeep(formState.cloneData))
 const getPostDetail = (): WorkspaceUsers => {
   const files = fileUploader.value.getFiles()
@@ -130,15 +159,74 @@ const getPostDetail = (): WorkspaceUsers => {
   }
 }
 
-const formItemLayout = computed(() => {
-  const { layout } = formState
-  return layout === 'horizontal'
-    ? {
-        // labelCol: { span: 6 },
-        // wrapperCol: { span: 14 }
-      }
-    : {}
-})
+const onSubmit = async () => {
+  // const requestBody = {
+  //   workspaceId: getWorkspace?.workspaceId,
+  //   name: formState.clonePost.name,
+  //   content: formState.clonePost.content
+  // }
+  // ManagerUserService.updateGroup(props.data.groupId, requestBody)
+  //   .then(({ success }) => {
+  //     if (success) {
+  //       message.success(t('common.message.saveSuccess'), 1)
+  //       initState()
+  //       emit('reload')
+  //       formState.post = {
+  //         ...formState.post,
+  //         name: formState.clonePost.name,
+  //         content: formState.clonePost.content
+  //       }
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.log(error)
+  //   })
+}
+
+const onEditMode = () => {
+  mode.value = modes.C
+}
+
+const handleMenuClick: MenuProps['onClick'] = (uid: string) => {
+  console.log('uid', uid)
+  showDeleteConfirm(uid)
+}
+
+const showDeleteConfirm = (uid: string) => {
+  modal.confirm({
+    title: t('common.message.modalDeleteCheck'),
+    icon: h(ExclamationCircleOutlined),
+    okText: t('component.button.ok'),
+    okType: 'primary',
+    cancelText: t('component.button.cancel')
+    // onOk() {
+    //   const params = {
+    //     groupId: [props.data.groupId]
+    //   }
+
+    //   ManagerUserService.removeGroup(getWorkspace?.workspaceId, params)
+    //     .then(({ success }) => {
+    //       if (success) {
+    //         emit('reload')
+    //         emit('isDetail')
+
+    //         message.success(t('common.message.deleteSuccess'), 1)
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error)
+    //     })
+    // },
+    // onCancel() {
+    //   console.log('Cancel')
+    // }
+  })
+}
+
+const initState = (): void => {
+  mode.value = DEFAULT_MODE
+  visible.value = false
+}
 
 watch(
   () => props.data,
@@ -172,6 +260,7 @@ defineExpose({
     .img-wrapper {
       flex: 0.5;
       > img {
+        width: 100%;
         border: 1px solid $color-gray-5;
         border-radius: 10px;
       }
@@ -185,7 +274,20 @@ defineExpose({
     }
   }
 
-  .more-wrapper {
+  .btn-wrapper {
+    justify-content: flex-end;
+    display: flex;
+    gap: 3px;
+    .ant-btn {
+      padding: 2px 9px;
+
+      span {
+        font-size: 10px;
+      }
+    }
+  }
+
+  .ant-dropdown-link {
     position: absolute;
     top: 1rem;
     right: 1rem;
