@@ -13,17 +13,13 @@
       :card-content-callback="cardContentCallback"
       :showDownload="false"
       :showRegist="false"
-      :showDelete="false"
       :phText="$t('page.manage.ph.userSearchPh')"
+      :deleteBtnText="$t('page.manage.export')"
       @row-click="onClickRow"
-      @row-add="onClickInvite"
+      @row-add="isVisible.value = true"
+      @row-delete="onRemovePost"
     >
       <template #tableBtns>
-        <!-- <Button :label="'내보내기'" size="middle" @click="$emit('row-delete')">
-          <template #icon>
-            <DeleteTwoTone />
-          </template>
-        </Button> -->
         <Button
           :label="$t('page.manage.invite')"
           size="middle"
@@ -40,7 +36,7 @@
       </template>
       <template #detail-content>
         <div class="detail-contents">
-          <PostDetail ref="postDetailRef" :data="selectedData" :isEdit="isEdit" :mode="mode" />
+          <PostDetail ref="postDetailRef" :data="selectedData" />
           <div class="tab-wrapper">
             <a-tabs
               v-model:active-key="activeKey"
@@ -79,16 +75,16 @@
 </template>
 <script setup lang="ts" name="TableSample">
 import { ManageUserService } from '@/services'
-import { message } from 'ant-design-vue'
-import { computed, ref, unref, watch } from 'vue'
+import { message, Modal as modal } from 'ant-design-vue'
+import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import InviteMemberForm from '@/views/workspace/components/create/InviteMemberForm.vue'
 import { DynamicTable } from '@/components/dynamic-table'
-import { DeleteTwoTone, PlusCircleTwoTone } from '@/components/icons'
+import { QuestionCircleTwoTone } from '@/components/icons'
+import { PlusCircleTwoTone } from '@/components/icons'
 import { Modal } from '@/components/modal'
-import { contentModes as modes } from '@/constants/content'
 import PostDetail from './components/PostDetail.vue'
 import UserDetail from './components/UserDetail.vue'
 import UserHistory from './components/UserHistory.vue'
@@ -96,7 +92,6 @@ import { getDefaultPost } from './constant'
 import { columns } from './mock'
 
 const { t } = useI18n()
-const DEFAULT_MODE = modes.R
 const tabInfo = {
   Detail: {
     key: 'Detail',
@@ -110,19 +105,17 @@ const tabInfo = {
   }
 }
 
-const mode = ref<ContentMode>(DEFAULT_MODE)
-const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
-const inviteMemberRef = ref()
 const { getWorkspace } = useWorkspaceStore()
 const workspaceId = computed(() => getWorkspace.workspaceId)
+const selectedData = ref<IManageUser.UserListRequest>(getDefaultPost())
+const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
+const inviteMemberRef = ref()
 
 const showDetail = ref(false)
 const isVisible = ref(false)
 const isLoading = ref(false)
 const isModalLoading = ref(false)
 const activeKey = ref(tabInfo.Detail.key)
-
-const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
 
 watch(
   () => unref(showDetail),
@@ -132,8 +125,6 @@ watch(
     }
   }
 )
-
-const selectedData = ref<IManageUser.UserListRequest>(getDefaultPost())
 
 const getDataSource = (param: IManageUser.UserListParam) => {
   return ManageUserService.getUserList(workspaceId.value, param)
@@ -165,7 +156,7 @@ const cardContentCallback = (content: IManageUser.UserListRequest['workspaceUser
       content:
         r.phone &&
         `<div style="display: flex; align-items: center; gap: 8px;"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path fill="#7b828e" d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>${r.phone}</div>`,
-      date: '가입일: ' + r.joinDate
+      date: `${t('page.manage.joinDate')}: ` + r.joinDate
     }
   })
 }
@@ -173,7 +164,6 @@ const cardContentCallback = (content: IManageUser.UserListRequest['workspaceUser
 const onClickRow = (row: IManageUser.UserInfo): void => {
   showDetail.value = true
   isLoading.value = true
-  mode.value = DEFAULT_MODE
   activeKey.value = tabInfo.Detail.key
 
   ManageUserService.getOneById(workspaceId.value, row.workspaceUserId)
@@ -190,6 +180,9 @@ const onClickRow = (row: IManageUser.UserInfo): void => {
     })
 }
 
+/**
+ * @description 사용자 초대 API 요청
+ */
 const onCompleteModal = async () => {
   try {
     isModalLoading.value = true
@@ -199,27 +192,42 @@ const onCompleteModal = async () => {
       inviteEmails: inviteEmails
     })
     message.success('초대가 완료되었습니다.', 1)
-    initState()
-
+    isVisible.value = false
     isModalLoading.value = false
   } finally {
     inviteMemberRef.value.onInitInviteEmails()
   }
 }
 
+/**
+ * @description 사용자 삭제 API 요청
+ */
+const onRemovePost = (selectedRows: IBaseSample.Content[], selectedRowKeys: string[]): void => {
+  console.log(selectedRows, selectedRowKeys)
+  modal.confirm({
+    content: '선택한 사용자를 내보내시겠습니까?',
+    icon: createVNode(QuestionCircleTwoTone),
+    onOk() {
+      // const params = {
+      //   groupId: selectedRowKeys
+      // }
+      // console.log(selectedRowKeys)
+      // ManagerUserService.removeUser(getWorkspace?.workspaceId, params).then(({ success }) => {
+      //   if (success) {
+      //     dynamicTableRef.value?.reload({ isReset: true })
+      //     setTimeout(() => {
+      //       message.success(t('common.message.deleteSuccess'), 1)
+      //     }, 300)
+      //   }
+      // })
+    }
+    // async onCancel() {}
+  })
+}
+
 const onCancelModal = (): void => {
   isVisible.value = false
   inviteMemberRef.value.onInitInviteEmails()
-}
-
-const initState = (): void => {
-  isVisible.value = false
-  mode.value = DEFAULT_MODE
-}
-
-const onClickInvite = (): void => {
-  isVisible.value = true
-  mode.value = modes.C
 }
 </script>
 

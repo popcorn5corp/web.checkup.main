@@ -15,7 +15,7 @@
 
               <Button
                 v-if="showDelete"
-                :label="$t('common.delete')"
+                :label="props.deleteBtnText || $t('common.delete')"
                 size="middle"
                 @click="$emit('row-delete', tableRef?.selectedRows, tableRef?.selectedRowKeys)"
               >
@@ -145,9 +145,9 @@ import { Table } from '@/components/table'
 import { createDynamicTableContext } from '../hooks/useDynamicTableContext'
 import { useFilter } from '../hooks/useFilter'
 import type {
-  DynamicTablExposes,
   DynamicTableAction,
   DynamicTableContextValues,
+  DynamicTableExposes,
   DynamicTableProps
 } from '../types'
 import { defaultContenxtValues } from '../types'
@@ -169,7 +169,7 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
   showDownload: true,
   showDelete: true
 })
-defineExpose<DynamicTablExposes>({
+defineExpose<DynamicTableExposes>({
   reload: (options: { isReset?: boolean }) => {
     tableRef.value?.getDataSource(options)
   },

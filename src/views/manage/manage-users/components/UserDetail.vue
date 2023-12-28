@@ -2,11 +2,11 @@
   <div class="user-detail-container">
     <h3 class="title">{{ $t('common.detailInfo') }}</h3>
     <div class="content-wrapper">
-      <Descriptions>
-        <Descriptions.Item :label="$t('page.manage.joinDate')" :span="12">
+      <Descriptions :column="6">
+        <Descriptions.Item :label="$t('page.manage.joinDate')" :span="6">
           {{ state.data.detail?.joinDate }}
         </Descriptions.Item>
-        <Descriptions.Item :label="$t('common.gender')" :span="12">
+        <Descriptions.Item :label="$t('common.gender')" :span="6">
           {{ state.data.detail?.gender.label }}
         </Descriptions.Item>
       </Descriptions>
@@ -67,7 +67,6 @@ watch(
     state.data = {
       ...data
     }
-    console.log('daaadda', data)
   },
   {
     immediate: true,
