@@ -1,5 +1,5 @@
 import type { IBaseAPI } from '@/services/base/interface'
-import type { FilterFormItem, FilterList } from '@/components/filter-form'
+import type { FilterFormItem, FilterList, FilterUI } from '@/components/filter-form'
 import type { TableProps } from '@/components/table'
 
 export interface DynamicTableProps extends TableProps {
@@ -17,6 +17,8 @@ export interface DynamicTableProps extends TableProps {
   showDelete?: boolean
   // 툴바 검색 input placeholder
   phText?: string
+  // 삭제 버튼 텍스트
+  deleteBtnText?: string
   // 테이블 필터 정보에 대한 API
   filterRequest?: () => Promise<API.ResponseData<IBaseAPI.FilterResponse>>
   /**

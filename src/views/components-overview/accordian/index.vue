@@ -11,8 +11,7 @@ import {
   Select
 } from '@/components/filter-form/src/components/filter-types'
 import type { FilterUI } from '@/components/filter-form/types'
-
-// import { filterList } from '@/components/filter-form/types/mock'
+import { filterList } from '@/components/filter-form/types/mock'
 
 const filterTypeComponents: Record<FilterUI, Component> = {
   Checkbox,

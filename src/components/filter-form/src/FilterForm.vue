@@ -63,14 +63,6 @@ const filterTypeComponents: Record<FilterUI, Component> = {
 
 <style lang="scss" scoped>
 .filter-form-container {
-  // display: flex;
-  // flex-direction: column;
-  // align-items: flex-end;
-  // overflow-y: auto;
-  // height: calc(100vh - 240px);
-  // float: right;
-  // width: 25%;
-
   .filter-list {
     // width: 100%;
     background: white;
@@ -199,13 +191,4 @@ const filterTypeComponents: Record<FilterUI, Component> = {
     }
   }
 }
-// .filter-wrapper {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-end;
-// }
-
-// :deep(.ant-divider) {
-//   margin: 0 0 10px 0;
-// }
 </style>

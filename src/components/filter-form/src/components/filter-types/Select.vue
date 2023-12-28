@@ -1,3 +1,15 @@
+<template>
+  <Select
+    :allowClear="true"
+    :value="selectedValue"
+    :options="selectOptions"
+    placeholder="전체"
+    @change="onChange"
+  >
+    <slot></slot>
+  </Select>
+</template>
+
 <script setup lang="ts" name="FilterSelect">
 import { Select } from 'ant-design-vue'
 import type { SelectProps, SelectValue } from 'ant-design-vue/es/select'
@@ -26,8 +38,7 @@ watch(
     selectedValue.value = selectedItems && selectedItems.length > 0 ? selectedItems[0].value : null
   },
   {
-    immediate: true,
-    deep: true
+    immediate: true
   }
 )
 
@@ -42,17 +53,7 @@ const onChange = (value: SelectValue) => {
   dynamicTable.setFilterFormItem(filterFormItem)
 }
 </script>
-<template>
-  <Select
-    :allowClear="true"
-    :value="selectedValue"
-    :options="selectOptions"
-    placeholder="전체"
-    @change="onChange"
-  >
-    <slot></slot>
-  </Select>
-</template>
+
 <style lang="scss" scoped>
 .ant-select {
   width: 100%;

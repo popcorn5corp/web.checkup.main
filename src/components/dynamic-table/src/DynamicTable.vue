@@ -15,7 +15,7 @@
 
               <Button
                 v-if="showDelete"
-                :label="$t('common.delete')"
+                :label="props.deleteBtnText || $t('common.delete')"
                 size="middle"
                 @click="$emit('row-delete', tableRef?.selectedRows, tableRef?.selectedRowKeys)"
               >
@@ -119,28 +119,11 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="detail-wrapper" v-if="showDetail" :style="{ width: showDetail ? '25%' : '' }">
-      <div class="title">
-        <span> 상세 영역 </span>
-        <Button :size="'small'">
-          <template #icon>
-            <font-awesome-icon @click="showDetail = false" class="xmark" :icon="['fas', 'xmark']" />
-          </template>
-        </Button>
-      </div>
-
-      <Divider />
-
-      <div id="detail-content">
-      </div>
-    </div> -->
   </div>
 </template>
 <script setup lang="ts" name="DynamicTable">
 import { Divider, Space } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
-import type { KeepAlive } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTourStore } from '@/stores/modules/tour'
 import { Button } from '@/components/button'
@@ -160,9 +143,9 @@ import { Table } from '@/components/table'
 import { createDynamicTableContext } from '../hooks/useDynamicTableContext'
 import { useFilter } from '../hooks/useFilter'
 import type {
-  DynamicTablExposes,
   DynamicTableAction,
   DynamicTableContextValues,
+  DynamicTableExposes,
   DynamicTableProps
 } from '../types'
 import { defaultContenxtValues } from '../types'
@@ -185,12 +168,9 @@ const props = withDefaults(defineProps<DynamicTableProps>(), {
   showDownload: true,
   showDelete: true
 })
-defineExpose<DynamicTablExposes>({
+defineExpose<DynamicTableExposes>({
   reload: (options: { isReset?: boolean }) => {
     tableRef.value?.getDataSource(options)
-  },
-  getShowToolbar: () => {
-    return computed(() => props.showToolbar && unref(showFilter))
   }
 })
 
@@ -271,9 +251,6 @@ let dynamicTableAction: DynamicTableAction = {
   setFilterFormItem,
   clearSelectedItems,
   initFilterFormItems,
-  getShowToolbar: () => {
-    return computed(() => props.showToolbar && unref(showFilter))
-  },
   closeDetail: () => {
     emit('update:openDetail', false)
   },
@@ -303,12 +280,6 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
 </script>
 <style lang="scss" scoped>
 .dynamic-table-containter {
-  // display: flex;
-  // // height: 100%;
-  // position: relative;
-  // .dynamic-table-wrapper {
-  // flex: 1;
-  // position: relative;
   .header {
     display: flex;
     justify-content: space-between;
@@ -326,10 +297,6 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
     }
 
     :deep(.ant-space) {
-      // display: flex;
-      // width: 100%;
-      // justify-content: space-between;
-
       .search {
         display: flex;
         flex: 1;
@@ -362,17 +329,10 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
     }
 
     .detail-wrapper {
-      // flex: 2;
       background-color: $color-white;
-      // height: 100%;
-      // position: absolute;
-      // width: 500px;
       z-index: 2;
       right: 0;
-      // height: 100%;
-      // margin-right: -15px;
       margin-top: -80px;
-
       border: 0.5px solid $color-gray-4;
       box-shadow: $shadow-3;
 
@@ -396,34 +356,5 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
       }
     }
   }
-  // }
-
-  // .detail-wrapper {
-  //   flex: 2;
-  //   background-color: $color-white;
-  //   // height: 100%;
-  //   position: absolute;
-  //   width: 500px;
-  //   z-index: 2;
-  //   right: 0;
-  //   height: 100%;
-  //   margin-right: -15px;
-  //   margin-top: -15px;
-
-  //   border: 0.5px solid $color-gray-4;
-
-  //   > .title {
-  //     display: flex;
-  //     font-size: 16px;
-  //     font-weight: bold;
-  //     justify-content: space-between;
-  //     padding: 18.5px;
-  //     align-items: end;
-  //   }
-
-  //   :deep(.ant-divider) {
-  //     margin: 0;
-  //   }
-  // }
 }
 </style>

@@ -1,3 +1,29 @@
+<template>
+  <div class="table-segmented-button">
+    <Segmented
+      :ref="
+        (ref) => {
+          if (ref?.$el) {
+            tourStore.addStep(9, ref.$el)
+          }
+        }
+      "
+      v-model:value="tableLayoutType"
+      :options="options"
+      @change="onChangeLayoutType"
+      size="small"
+    >
+      <template #label="{ value: val, payload = {} }">
+        <div style="padding: 4px 4px">
+          <template v-if="payload.icon">
+            <component :is="payload.icon" />
+          </template>
+        </div>
+      </template>
+    </Segmented>
+  </div>
+</template>
+
 <script setup lang="ts" name="TableSegmentButton">
 import { TableOutlined, UnorderedListOutlined } from '@ant-design/icons-vue'
 import { Segmented } from 'ant-design-vue'
@@ -31,31 +57,7 @@ async function onChangeLayoutType(val: SegmentedValue) {
   })
 }
 </script>
-<template>
-  <div class="table-segmented-button">
-    <Segmented
-      :ref="
-        (ref) => {
-          if (ref?.$el) {
-            tourStore.addStep(9, ref.$el)
-          }
-        }
-      "
-      v-model:value="tableLayoutType"
-      :options="options"
-      @change="onChangeLayoutType"
-      size="small"
-    >
-      <template #label="{ value: val, payload = {} }">
-        <div style="padding: 4px 4px">
-          <template v-if="payload.icon">
-            <component :is="payload.icon" />
-          </template>
-        </div>
-      </template>
-    </Segmented>
-  </div>
-</template>
+
 <style lang="scss" scoped>
 .table-segmented-button {
   :deep(.ant-segmented) {

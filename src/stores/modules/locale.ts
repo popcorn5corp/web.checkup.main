@@ -2,7 +2,7 @@ import i18n from '@/locales'
 import { store } from '@/stores'
 import { Util } from '@/utils'
 import { defineStore } from 'pinia'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { type LocaleType } from '@/locales/config'
 import { LOCALE_KEY } from '@/constants/cacheKeyEnum'
 
@@ -37,9 +37,9 @@ export const useLocaleStore = defineStore('locale', () => {
     locale: Trans.persistedLocale
   })
 
-  function getLocale(): LocaleType {
-    return state.locale || Trans.browserLanguage || Trans.defaultLocale
-  }
+  const getLocale = computed<LocaleType>(
+    () => state.locale || Trans.browserLanguage || Trans.defaultLocale
+  )
 
   function setLocale(locale: LocaleType): void {
     state.locale = locale

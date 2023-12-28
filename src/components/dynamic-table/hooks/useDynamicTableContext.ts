@@ -16,7 +16,9 @@ export type RetInstance = Omit<Instance, 'getBindValues'> & {
 }
 
 export function createDynamicTableContext(instance: Instance) {
-  provide(key, instance)
+  if (instance) {
+    provide(key, instance)
+  }
 }
 
 export function useDynamicTableContext(): RetInstance {

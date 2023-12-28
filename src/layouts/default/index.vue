@@ -186,6 +186,9 @@ $tab-margin-top: 2px;
     overflow-x: auto;
     overflow-y: hidden;
     z-index: 99;
+    .header-menu {
+      min-width: 100px;
+    }
   }
   :deep(.tabs-container) {
     position: sticky;

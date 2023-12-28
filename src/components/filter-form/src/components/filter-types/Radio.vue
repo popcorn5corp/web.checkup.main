@@ -1,3 +1,11 @@
+<template>
+  <RadioGroup v-model:value="selectedValue" @change="onChange">
+    <template v-for="({ label, value }, index) in formItem.options" :key="index">
+      <Radio :value="value">{{ label }}</Radio>
+    </template>
+  </RadioGroup>
+</template>
+
 <script setup lang="ts" name="FilterRadio">
 import { Radio, type RadioChangeEvent, RadioGroup } from 'ant-design-vue'
 import { computed, ref, unref } from 'vue'
@@ -23,8 +31,7 @@ watch(
     selectedValue.value = selectedItems && selectedItems.length ? selectedItems[0].value : null
   },
   {
-    immediate: true,
-    deep: true
+    immediate: true
   }
 )
 
@@ -44,14 +51,6 @@ const onChange = (e: RadioChangeEvent) => {
   dynamicTable.setFilterFormItem(filterFormItem)
 }
 </script>
-
-<template>
-  <RadioGroup v-model:value="selectedValue" @change="onChange">
-    <template v-for="({ label, value }, index) in formItem.options" :key="index">
-      <Radio :value="value">{{ label }}</Radio>
-    </template>
-  </RadioGroup>
-</template>
 
 <style lang="scss" scoped>
 .ant-radio-group {

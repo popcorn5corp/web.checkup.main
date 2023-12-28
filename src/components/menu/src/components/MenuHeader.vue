@@ -3,11 +3,6 @@
     <div class="user-preview">
       <div class="img-wrapper">
         <img :src="getWorkspace?.user.profile" />
-        <!-- <Avatar style="background-color: #c6c6c6">
-          <template #icon>
-            <UserOutlined />
-          </template>
-        </Avatar> -->
       </div>
       <div class="info" v-if="!collapsed">
         <div class="name">{{ getWorkspace?.user.nickname }}</div>
@@ -17,12 +12,10 @@
   </div>
 </template>
 <script setup lang="ts" name="MenuHeader">
-import { Avatar } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
-import { UserOutlined } from '@/components/icons'
 
 interface Props {
   collapsed: boolean
@@ -45,11 +38,6 @@ const styles = computed(() => {
 </script>
 <style lang="scss" scoped>
 .menu-header {
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
-  // height: 50px;
-
   .user-preview {
     padding: 1rem;
     align-items: center;

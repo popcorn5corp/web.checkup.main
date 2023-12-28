@@ -5,12 +5,6 @@ export const menus: any = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    // redirect: '/dashboard/welcome',
-    // component: {
-    //   name: 'LayoutParentView',
-    //   __hmrId: 'f60f4a90',
-    //   __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
-    // },
     meta: {
       // title: 'routes.dashboard.dashboard',
       title: t('data.menu.dashboard'),
@@ -115,39 +109,6 @@ export const menus: any = [
           fullPath: '/facility/facility-part'
         }
       }
-      // {
-      //   path: 'facility',
-      //   name: 'fms-facility',
-      //   meta: {
-      //     // title: 'routes.dashboard.workbench',
-      //     title: '설비 이력',
-      //     icon: 'satellite-dish',
-      //     namePath: ['fms', 'facility'],
-      //     fullPath: '/fms/facility'
-      //   },
-      //   children: [
-      //     {
-      //       path: 'status',
-      //       name: 'fms-facility-status',
-      //       meta: {
-      //         title: '설비 현황',
-      //         icon: 'satellite-dish',
-      //         namePath: ['fms', 'facility', 'status'],
-      //         fullPath: '/fms/facility/status'
-      //       }
-      //     },
-      //     {
-      //       path: 'category',
-      //       name: 'fms-facility-category',
-      //       meta: {
-      //         title: '설비 카테고리',
-      //         icon: 'satellite-dish',
-      //         namePath: ['fms', 'facility', 'category'],
-      //         fullPath: '/fms/facility/category'
-      //       }
-      //     }
-      //   ]
-      // }
     ]
   },
   {
@@ -271,66 +232,6 @@ export const menus: any = [
   //       ]
   //     }
   //   ]
-  // }
-  // {
-  //   path: '/partner',
-  //   name: 'partner',
-  //   // redirect: '/dashboard/welcome',
-  //   component: {
-  //     name: 'LayoutParentView',
-  //     __hmrId: 'f60f4a90',
-  //     __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
-  //   },
-  //   meta: {
-  //     // title: 'routes.dashboard.dashboard',
-  //     title: '파트너',
-  //     icon: 'handshake',
-  //     namePath: ['partner'],
-  //     fullPath: '/partner'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'search',
-  //       name: 'partner-search',
-  //       meta: {
-  //         // title: 'routes.dashboard.workbench',
-  //         title: '파트너 검색',
-  //         icon: 'handshake',
-  //         namePath: ['partner', 'partner-search'],
-  //         fullPath: '/partner/search'
-  //       }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/setting',
-  //   name: 'setting',
-  //   // redirect: '/dashboard/welcome',
-  //   component: {
-  //     name: 'LayoutParentView',
-  //     __hmrId: 'f60f4a90',
-  //     __file: '/Users/insukim/Desktop/Develop/vite-vue3-admin/src/layout/routerView/index.vue'
-  //   },
-  //   meta: {
-  //     // title: 'routes.dashboard.dashboard',
-  //     title: '설정',
-  //     icon: 'gears',
-  //     namePath: ['setting'],
-  //     fullPath: '/setting'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'workspace',
-  //       name: 'setting-workspace',
-  //       meta: {
-  //         // title: 'routes.dashboard.workbench',
-  //         title: '워크스페이스 설정',
-  //         icon: 'gears',
-  //         namePath: ['setting', 'setting-workspace'],
-  //         fullPath: '/setting/workspace'
-  //       }
-  //     }
-  //   ]
   // },
   {
     path: '/samples',
@@ -356,80 +257,80 @@ export const menus: any = [
         }
       }
     ]
+  },
+  {
+    path: '/components',
+    name: 'components',
+    meta: {
+      title: 'UI Components',
+      icon: 'icons',
+      namePath: ['components'],
+      fullPath: '/components'
+    },
+    children: [
+      {
+        path: 'table',
+        name: 'components-table',
+        meta: {
+          title: 'Table',
+          namePath: ['components', 'components-table'],
+          fullPath: '/components/table'
+        }
+      },
+      {
+        path: 'accordion',
+        name: 'components-accordion',
+        meta: {
+          title: 'Accordion',
+          namePath: ['components', 'components-accordion'],
+          fullPath: '/components/accordion'
+        }
+      },
+      {
+        path: 'modal',
+        name: 'components-modal',
+        meta: {
+          title: 'Modal',
+          namePath: ['components', 'components-modal'],
+          fullPath: '/components/modal'
+        }
+      },
+      {
+        path: 'card',
+        name: 'components-card',
+        meta: {
+          title: 'Card',
+          namePath: ['components', 'components-card'],
+          fullPath: '/components/card'
+        }
+      },
+      {
+        path: 'list',
+        name: 'components-list',
+        meta: {
+          title: 'List',
+          namePath: ['components', 'components-list'],
+          fullPath: '/components/list'
+        }
+      },
+      {
+        path: 'form',
+        name: 'components-form',
+        meta: {
+          title: 'Form',
+          namePath: ['components', 'components-form'],
+          fullPath: '/components/form'
+        }
+      },
+      {
+        path: 'search-select',
+        name: 'components-search-select',
+        meta: {
+          title: 'SearchSelect',
+          namePath: ['components', 'components-search-select'],
+          fullPath: '/components/search-select'
+        }
+      }
+    ]
   }
-  // {
-  //   path: '/components',
-  //   name: 'components',
-  //   meta: {
-  //     title: 'UI Components',
-  //     icon: 'icons',
-  //     namePath: ['components'],
-  //     fullPath: '/components'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       name: 'components-table',
-  //       meta: {
-  //         title: 'Table',
-  //         namePath: ['components', 'components-table'],
-  //         fullPath: '/components/table'
-  //       }
-  //     },
-  //     {
-  //       path: 'accordion',
-  //       name: 'components-accordion',
-  //       meta: {
-  //         title: 'Accordion',
-  //         namePath: ['components', 'components-accordion'],
-  //         fullPath: '/components/accordion'
-  //       }
-  //     },
-  //     {
-  //       path: 'modal',
-  //       name: 'components-modal',
-  //       meta: {
-  //         title: 'Modal',
-  //         namePath: ['components', 'components-modal'],
-  //         fullPath: '/components/modal'
-  //       }
-  //     },
-  //     {
-  //       path: 'card',
-  //       name: 'components-card',
-  //       meta: {
-  //         title: 'Card',
-  //         namePath: ['components', 'components-card'],
-  //         fullPath: '/components/card'
-  //       }
-  //     },
-  //     {
-  //       path: 'list',
-  //       name: 'components-list',
-  //       meta: {
-  //         title: 'List',
-  //         namePath: ['components', 'components-list'],
-  //         fullPath: '/components/list'
-  //       }
-  //     },
-  //     {
-  //       path: 'form',
-  //       name: 'components-form',
-  //       meta: {
-  //         title: 'Form',
-  //         namePath: ['components', 'components-form'],
-  //         fullPath: '/components/form'
-  //       }
-  //     },
-  //     {
-  //       path: 'search-select',
-  //       name: 'components-search-select',
-  //       meta: {
-  //         title: 'SearchSelect',
-  //         namePath: ['components', 'components-search-select'],
-  //         fullPath: '/components/search-select'
-  //       }
-  //     }
-  //   ]
-  // }
 ]

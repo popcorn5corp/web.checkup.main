@@ -21,6 +21,7 @@ export interface IFilter {
 export interface FilterFormItem extends IFilter {
   index: number
   open: boolean
+  removeAll: boolean
   options: FilterOption[]
   selectedItems: FilterItem[]
 }

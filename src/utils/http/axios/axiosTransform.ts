@@ -7,6 +7,8 @@ import type {
   InternalAxiosRequestConfig
 } from 'axios'
 import axios from 'axios'
+import { unref } from 'vue'
+import { useLocale } from '@/locales/hooks/useLocale'
 import type { CustomAxiosRequestConfig } from './Axios'
 import { checkResponseErrorStatus } from './axiosErrorStatus'
 
@@ -38,6 +40,7 @@ export interface AxiosTransform {
 export const transform: AxiosTransform = {
   requestInterceptors: (config, options) => {
     const token = useAuthStore().getToken
+    const { getLocale } = useLocale()
 
     if (token) {
       config.headers.Authorization = (
@@ -45,7 +48,8 @@ export const transform: AxiosTransform = {
       ) as AxiosHeaderValue
     }
 
-    config.headers['Accept-Language'] = 'ko'
+    const lang = unref(getLocale).split('_')[0] || 'ko'
+    config.headers['Accept-Language'] = lang
 
     return config
   },

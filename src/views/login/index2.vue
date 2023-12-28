@@ -108,39 +108,25 @@
 </template>
 <script setup lang="ts" name="login2">
 import { useAuthStore } from '@/stores'
-import { Input } from 'ant-design-vue'
 import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { Spinner } from '@/components/spinner'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
-import { PagePathEnum } from '@/constants/pageEnum'
+import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import SocialLoginBnts from './components/SocialLoginBnts.vue'
 
 const { query } = useRoute()
-const router = useRouter()
 const { setToken, login, getToken } = useAuthStore()
 
 const accessToken = query.accessToken as string
 const refreshToken = query.refreshToken as string
 const isSuccessSocialLogin = !!accessToken && !!refreshToken
 
-if (isSuccessSocialLogin && !getToken) {
-  console.log('login success!')
-  setToken(ACCESS_TOKEN_KEY, accessToken)
-  // setToken(REFRESH_TOKEN_KEY, refreshToken)
-
-  login().then(
-    (user) => {
-      // const isExistWorkpace = user.workspaceCount > 1
-      // setTimeout(() => {
-      //   router.push(isExistWorkpace ? PagePathEnum.WORKSPACE_LIST : PagePathEnum.WORKSPACE)
-      // }, 1500)
-    },
-    (error) => {
-      console.log(error)
-    }
-  )
-}
+;(async () => {
+  if (isSuccessSocialLogin && !getToken) {
+    setToken(ACCESS_TOKEN_KEY, accessToken)
+    await login()
+  }
+})()
 
 let container: HTMLElement | null = null
 const text = ref('회사 또는 팀이름을 알려주세요')
@@ -162,7 +148,9 @@ onMounted(() => {
   container = document.getElementById('container')
 
   setTimeout(() => {
-    container!.classList.add('sign-in')
+    if (container?.classList) {
+      container.classList?.add('sign-in')
+    }
   }, 200)
 })
 </script>

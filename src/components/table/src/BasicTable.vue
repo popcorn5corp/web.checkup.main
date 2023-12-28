@@ -73,7 +73,7 @@ import EmptyImage from './images/no_data_2.png'
 
 const tourStore = useTourStore()
 const emit = defineEmits<TableEmits>()
-// options 정보가 props 로 넘어오게되면 options 내부 설정에 대한 Dfault 정보는 사라진다.
+// * options 정보가 props 로 넘어오게되면 options 내부 설정에 대한 Dfault 정보는 사라진다.
 const props = withDefaults(defineProps<TableProps>(), {
   showHeader: true,
   loading: false,
