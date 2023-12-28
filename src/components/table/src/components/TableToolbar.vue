@@ -8,12 +8,8 @@
       @press-enter="onSearch"
       allow-clear
     >
-      <template #suffix>
-        <font-awesome-icon
-          style="color: #d9d9d9"
-          :icon="['fas', 'magnifying-glass']"
-          @click="onSearch"
-        />
+      <template #prefix>
+        <font-awesome-icon :icon="['fas', 'magnifying-glass']" @click="onSearch" />
       </template>
     </Input>
 
@@ -70,6 +66,7 @@
     </Space>
   </div>
 </template>
+
 <script setup lang="ts" name="TableToolbar">
 import { Dropdown, Input, Menu, MenuItem, Space, Tooltip } from 'ant-design-vue'
 import type { MenuClickEventHandler } from 'ant-design-vue/es/menu/src/interface'
@@ -101,7 +98,6 @@ onMounted(() => {
 watch(
   () => unref(table.getContextValues).layoutMode,
   () => {
-    console.log(table)
     selectedSize.value = 'middle'
   }
 )
@@ -132,31 +128,12 @@ function onReload() {
   }, 1000)
 }
 </script>
+
 <style lang="scss" scoped>
 .table-toolbar-container {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-
-  .search {
-    min-width: 200px;
-    // display: flex;
-    // flex: 1;
-    // gap: 10px;
-    // height: 40px;
-
-    // :deep(.ant-input-affix-wrapper) {
-    //   height: 100%;
-    //   width: 200px;
-    // }
-
-    // :deep(.ant-select-selector) {
-    //   flex: 0.5;
-    //   height: 44px;
-    //   align-items: center;
-    //   border-radius: 9px;
-    // }
-  }
 
   @keyframes rotating {
     from {

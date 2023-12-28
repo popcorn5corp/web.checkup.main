@@ -78,14 +78,14 @@ export const useAuthStore = defineStore(
     const getToken = computed(() => state.token)
     const getUserWorkspace = computed(() => state.workspace)
 
-    function login() {
+    async function login() {
       return AuthService.login().then(
         async (user) => {
           console.log('[user]', user)
           setUser(user)
           state.loggedIn = true
           Util.Storage.set('user', user)
-          return afterLoginAction()
+          return await afterLoginAction()
         },
         (error) => {
           state.user = getDefaultUser()

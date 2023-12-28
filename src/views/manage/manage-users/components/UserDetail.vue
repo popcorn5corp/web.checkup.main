@@ -77,7 +77,7 @@ watch(
 
 <style lang="scss" scoped>
 .user-detail-container {
-  padding: 10px;
+  padding: 1rem;
   padding-bottom: 20px;
   .title {
     font-weight: 700;

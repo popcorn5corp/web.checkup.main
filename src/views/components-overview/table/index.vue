@@ -1,7 +1,7 @@
 <script setup lang="ts" name="ComponentsOverviewTable">
 import { BaseSampleService } from '@/services'
 import { ref } from 'vue'
-import type { IBaseSample } from '@/services/BaseSample/interface'
+import type { IBaseSample } from '@/services/base-sample/interface'
 import { Table } from '@/components/table'
 import { columns } from './mock'
 
@@ -28,8 +28,8 @@ const getDataSource = (param: IBaseSample.BaseSamplesParam) => {
  * @description 데이터 테이블 조회 이후 테이블에 바인딩하기 전, 데이터에 대한 전치리
  * @param data
  */
-const dataCallback = (data: IBaseSample.BaseSamples['posts']['content']) => {
-  return data
+const dataCallback = (data: { posts: IBaseSample.BaseSamples['posts']['content'] }) => {
+  return data.posts
 }
 
 const getColumns = () => {

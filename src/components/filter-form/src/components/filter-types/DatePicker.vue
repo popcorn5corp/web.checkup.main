@@ -1,41 +1,52 @@
+<template>
+  <DatePicker v-model:value="selectedDate" :allowClear="true" @change="onChange" />
+</template>
+
 <script setup lang="ts" name="FilterDatePicker">
-import type { Dayjs } from 'dayjs'
-import { type PropType, ref, toRefs, watch } from 'vue'
-import { useTableFilterStore } from '@/stores/modules/tableFilter'
-import { FILTER_UI, type FilterFormItem } from '../../../types'
+import { DatePicker } from 'ant-design-vue'
+import dayjs, { type Dayjs } from 'dayjs'
+import { computed, ref, unref, watch } from 'vue'
+import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
+import { type FilterFormItem } from '../../../types'
 
-const props = defineProps({
-  item: {
-    type: Object as PropType<FilterFormItem>,
-    default: () => {}
-  }
-})
-
-const { type, selectedItems } = toRefs(props.item)
-const { setSelectedFilterData } = useTableFilterStore()
-const date = ref<string | Dayjs | undefined>()
-
-const onRangeChange = (value: string | Dayjs, dateString: string) => {
-  const options =
-    dateString === ''
-      ? []
-      : [
-          {
-            label: dateString,
-            value: dateString,
-            type: FILTER_UI.DATE_PICKER
-          }
-        ]
-
-  setSelectedFilterData(type.value, options)
+interface FilterDatePickerProps {
+  item: FilterFormItem
 }
 
-watch(selectedItems, () => !selectedItems.value.length && (date.value = undefined))
-</script>
+const props = defineProps<FilterDatePickerProps>()
+const dynamicTable = useDynamicTableContext()
+const formItem = computed(() => props.item)
+const selectedDate = ref<string | Dayjs | undefined>()
 
-<template>
-  <a-date-picker :allowClear="true" v-model:value="date" @change="onRangeChange" />
-</template>
+/**
+ * @description 외부에서 selectedItems의 정보가 변경되었을 경우, selectedDate에 적용
+ */
+watch(
+  () => unref(formItem).selectedItems,
+  (selectedItems) => {
+    const dateString = (selectedItems && selectedItems[0]?.value) as string | undefined
+    selectedDate.value = dateString ? dayjs(dateString) : undefined
+  },
+  {
+    immediate: true
+  }
+)
+
+/**
+ * 선택된 selectedItems 정보를 setContextValues 통해 변경
+ * @param value
+ * @param dateString
+ */
+const onChange = (value: string | Dayjs, dateString: string) => {
+  const selectedItems = dateString ? [{ label: 'Date: ' + dateString, value: dateString }] : []
+  const filterFormItem: FilterFormItem = {
+    ...unref(formItem),
+    selectedItems
+  }
+
+  dynamicTable.setFilterFormItem(filterFormItem)
+}
+</script>
 
 <style lang="scss" scoped>
 .ant-picker {

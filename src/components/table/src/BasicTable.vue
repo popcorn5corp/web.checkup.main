@@ -41,7 +41,7 @@ import { Table } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import omit from 'lodash-es/omit'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
-import type { CSSProperties } from 'vue'
+import { type CSSProperties } from 'vue'
 import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import { useColumns } from '../hooks/useColumns'
 import { useCustomRow } from '../hooks/useCustomRow'
@@ -62,7 +62,7 @@ import TableToolbar from './components/TableToolbar.vue'
 import EmptyImage from './images/no_data_2.png'
 
 const emit = defineEmits<TableEmits>()
-// options 정보가 props 로 넘어오게되면 options 내부 설정에 대한 Dfault 정보는 사라진다.
+// * options 정보가 props 로 넘어오게되면 options 내부 설정에 대한 Dfault 정보는 사라진다.
 const props = withDefaults(defineProps<TableProps>(), {
   showHeader: true,
   loading: false,

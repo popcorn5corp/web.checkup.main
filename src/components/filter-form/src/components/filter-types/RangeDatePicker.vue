@@ -1,7 +1,10 @@
+<template>
+  <RangePicker v-model:value="selectedRangeDate" :allowClear="true" @change="onRangeChange" />
+</template>
+
 <script setup lang="ts" name="FilterRangeDatePicker">
 import { RangePicker } from 'ant-design-vue'
-import type { Dayjs } from 'dayjs'
-import dayjs from 'dayjs'
+import dayjs, { type Dayjs } from 'dayjs'
 import { computed, ref, unref, watch } from 'vue'
 import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import { type FilterFormItem } from '../../../types'
@@ -13,17 +16,16 @@ interface FilterRangeDatePickerProps {
 const props = defineProps<FilterRangeDatePickerProps>()
 const dynamicTable = useDynamicTableContext()
 const formItem = computed(() => props.item)
-const selectedDate = ref<[string, string] | [Dayjs, Dayjs] | undefined>()
+const selectedRangeDate = ref<[string, string] | [Dayjs, Dayjs] | undefined>()
 
 /**
- * @description 외부에서 selectedItems의 정보가 변경되었을 경우, selectedDate에 적용
+ * @description 외부에서 selectedItems의 정보가 변경되었을 경우, selectedRangeDate 적용
  */
 watch(
   () => unref(formItem).selectedItems,
   (selectedItems) => {
-    // const dateString = selectedItems[0]?.value
     const dateString = [selectedItems[0]?.value, selectedItems[1]?.value]
-    selectedDate.value =
+    selectedRangeDate.value =
       selectedItems && selectedItems.length > 0 && dateString
         ? // @ts-ignore
           [dayjs(dateString[0]), dayjs(dateString[1])]
@@ -68,10 +70,6 @@ const onRangeChange = (
   dynamicTable.setFilterFormItem(filterFormItem)
 }
 </script>
-
-<template>
-  <RangePicker v-model:value="selectedDate" :allowClear="true" @change="onRangeChange" />
-</template>
 
 <style lang="scss" scoped>
 .ant-picker-range {

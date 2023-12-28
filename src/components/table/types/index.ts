@@ -134,9 +134,7 @@ export interface TableProps<RecordType = DefaultRecordType> extends ATableProps 
    * Request API에 대한 응답 Data 처리를 위한 Callback
    * @param data
    */
-  dataCallback?: (
-    data: any
-  ) => Record<string, any> & { content: Array<Record<string, any>>; totalElements: number }
+  dataCallback?: (data: any) => any & { content: Array<Record<string, any>>; totalElements: number }
   /**
    * Request API에 대한 응답 Content 처리를 위한 Callback
    * @param content

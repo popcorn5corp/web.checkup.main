@@ -1,11 +1,9 @@
 <script setup lang="ts" name="Login2">
-import { AuthService } from '@/services'
 import { useAuthStore } from '@/stores'
 import { Input } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Spinner } from '@/components/spinner'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
-import { PagePathEnum } from '@/constants/pageEnum'
+import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import SocialLoginBtns from './components/SocialLoginBnts.vue'
 
 const { query } = useRoute()
@@ -22,12 +20,7 @@ if (isSuccessSocialLogin && !getToken) {
   // setToken(REFRESH_TOKEN_KEY, refreshToken)
 
   login().then(
-    (user) => {
-      // const isExistWorkpace = user.workspaceCount > 1
-      // setTimeout(() => {
-      //   router.push(isExistWorkpace ? PagePathEnum.WORKSPACE_LIST : PagePathEnum.WORKSPACE)
-      // }, 1500)
-    },
+    (user) => {},
     (error) => {
       console.log(error)
     }

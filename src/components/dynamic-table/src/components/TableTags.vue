@@ -1,3 +1,24 @@
+<template>
+  <div class="table-tags-container">
+    <template v-for="tag in tagList" :key="tag.key">
+      <template v-for="(item, index) in tag.selectedItems" :key="index">
+        <span v-if="item.value !== null" class="table-tag" :class="getDarkModeClass">
+          <span>{{ item.label }}</span>
+          <span @click="onRemove(tag, item)"><font-awesome-icon :icon="['fas', 'xmark']" /></span>
+        </span>
+      </template>
+    </template>
+
+    <Button
+      v-if="isShowClearBtn"
+      class="table-tag"
+      :class="getDarkModeClass"
+      :label="$t('component.button.reset')"
+      @click="dynamicTable.clearSelectedItems()"
+    />
+  </div>
+</template>
+
 <script setup lang="ts" name="TableTags">
 import { computed, unref } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
@@ -20,44 +41,20 @@ const getDarkModeClass = computed(() => ({
 }))
 
 const onRemove = (tag: FilterFormItem, removeItem: FilterItem) => {
-  const { type, selectedItems } = tag
-
-  // RangeDatePicker일 경우, start/end 둘다 제거
-  const _selectedItems =
-    type === 'RangeDatePicker'
+  const { selectedItems, removeAll } = tag
+  const filterFormItem: FilterFormItem = {
+    ...tag,
+    selectedItems: removeAll
       ? []
       : selectedItems.filter((item) => {
           return item.value !== removeItem.value
         })
-
-  const filterFormItem: FilterFormItem = {
-    ...tag,
-    selectedItems: _selectedItems
   }
 
   dynamicTable.setFilterFormItem(filterFormItem)
 }
 </script>
-<template>
-  <div class="table-tags-container">
-    <template v-for="tag in tagList" :key="tag.key">
-      <template v-for="(item, index) in tag.selectedItems" :key="index">
-        <span v-if="item.value !== null" class="table-tag" :class="getDarkModeClass">
-          <span>{{ item.label }}</span>
-          <span @click="onRemove(tag, item)"><font-awesome-icon :icon="['fas', 'xmark']" /></span>
-        </span>
-      </template>
-    </template>
 
-    <Button
-      v-if="isShowClearBtn"
-      class="table-tag"
-      :class="getDarkModeClass"
-      :label="$t('component.button.reset')"
-      @click="dynamicTable.clearSelectedItems()"
-    />
-  </div>
-</template>
 <style lang="scss" scoped>
 .table-tags-container {
   display: flex;

@@ -37,7 +37,6 @@
 import { Pagination, type PaginationProps, Spin } from 'ant-design-vue'
 import { computed, ref, unref, watch } from 'vue'
 import type { ComputedRef } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { CardList } from '@/components/card'
 import { useTableContext } from '@/components/table/hooks/useTableContext'
 import type { CardSize, TablePagination } from '../../types'
@@ -49,7 +48,6 @@ interface CardViewProps {
 
 const props = defineProps<CardViewProps>()
 const table = useTableContext()
-const { getTheme } = useProjectConfigStore()
 const cardListRef = ref<InstanceType<typeof CardList>>()
 const loading = computed(() => table.getLoading())
 const cardData = computed(() => table.getCardData())
