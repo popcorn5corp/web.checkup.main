@@ -114,8 +114,8 @@ const formItemLayout = computed(() => {
   const { layout } = formState
   return layout === 'horizontal'
     ? {
-        labelCol: { span: 6 },
-        wrapperCol: { span: 12 }
+        labelCol: { span: 7 },
+        wrapperCol: { span: 16 }
       }
     : {}
 })
@@ -254,13 +254,13 @@ defineExpose({
   position: relative;
   .form-wrapper {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
 
     .img-wrapper {
       flex: 0.5;
       > img {
-        width: 100%;
+        width: 180px;
         border: 1px solid $color-gray-5;
         border-radius: 10px;
       }
@@ -294,6 +294,7 @@ defineExpose({
   }
 
   :deep(.ant-form) {
+    gap: 1rem;
     .ant-form-item-label {
       text-align: left;
       > label {
@@ -312,9 +313,27 @@ defineExpose({
     }
 
     .ant-form-item {
-      padding: 0 1rem;
+      padding: 0;
       margin-bottom: 10px;
+      .ant-row {
+        flex-wrap: nowrap;
+      }
+      .ant-form-item-control {
+        width: 100%;
+      }
+      // .ant-form-item-control-input-content {
+      //   white-space: nowrap;
+      //   overflow: hidden;
+      //   text-overflow: ellipsis;
+      // }
     }
+  }
+}
+
+@include xxl {
+  .form-wrapper {
+    flex-direction: row !important;
+    align-items: center !important;
   }
 }
 </style>

@@ -1,6 +1,4 @@
-import type { IManageUser } from '@/services/manage-users/interface'
-
-export const getDefaultPost = (): IManageUser.UserListRequest => ({
+export const getDefaultPost = () => ({
   nickname: '',
   email: '',
   phone: '',
