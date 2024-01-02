@@ -193,9 +193,6 @@ a {
           font-size: 14px;
         }
         .content {
-          // display: flex;
-          // justify-content: space-between;
-          // align-items: center;
           margin-bottom: 8px;
           font-size: 14px;
         }
@@ -226,17 +223,18 @@ a {
       }
 
       .middle {
+        width: 100%;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        text-align: center;
         span {
-          padding: 0.4rem 0.5rem;
+          padding: 8px 16px;
           background: #fff;
           border-radius: 2rem;
           color: #222;
-          font-weight: 800;
-          font-size: 0.7rem;
+          font-size: 14px;
         }
       }
       .bottom {

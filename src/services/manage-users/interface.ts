@@ -62,6 +62,23 @@ export namespace IManageUser {
     filters: IFilter[]
   }
 
+  export interface GroupData {
+    groupId: string
+    name: string
+    url: string
+  }
+
+  export interface GetDetailResponse {
+    detail: {
+      joinDate: string
+      gender: {
+        label: string
+        value: string
+      }
+    }
+    groups: GroupData[]
+  }
+
   export interface DuplicatedEmailParam {
     inviteEmail: string
   }
