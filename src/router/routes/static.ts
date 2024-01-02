@@ -1,24 +1,6 @@
 import { type RouteRecordRaw } from 'vue-router'
 import { layoutTypes } from '@/stores/interface'
 
-// export const staticRoutes: RouteRecordRaw[] = [
-//   {
-//     path: '/',
-//     name: 'root',
-//     redirect: '/home'
-//   },
-//   {
-//     path: '/login',
-//     name: 'login',
-//     component: () => import('@/views/Login/index.vue')
-//   },
-//   {
-//     path: '/layout',
-//     name: 'layout',
-//     component: () => import('@/layouts/index.vue')
-//   }
-// ]
-
 export const staticRoutes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -70,9 +52,6 @@ export const staticRoutes: RouteRecordRaw[] = [
   },
   {
     path: '/dashboard',
-    // name: 'dashboard',
-    // redirect: '/dashboard',
-    // component: () => import(/* webpackChunkName: "layout" */ '@/views/Dashboard/index.vue'),
     meta: {
       layout: layoutTypes.default
     },
@@ -204,34 +183,6 @@ export const staticRoutes: RouteRecordRaw[] = [
           title: '부품 관리'
         }
       }
-      // {
-      //   path: '/facility',
-      //   name: 'fms-facility',
-      //   children: [
-      //     {
-      //       path: 'status',
-      //       name: 'fms-facility-status',
-      //       component: () =>
-      //         import(
-      //           /* webpackChunkName: "fms-facility-status" */ '@/views/fms/facility/facility-status/index.vue'
-      //         ),
-      //       meta: {
-      //         title: '설비 현황'
-      //       }
-      //     },
-      //     {
-      //       path: 'category',
-      //       name: 'fms-facility-category',
-      //       component: () =>
-      //         import(
-      //           /* webpackChunkName: "fms-facility-category" */ '@/views/fms/facility/facility-category/index.vue'
-      //         ),
-      //       meta: {
-      //         title: '설비 카테고리'
-      //       }
-      //     }
-      //   ]
-      // }
     ]
   },
   {
@@ -290,46 +241,6 @@ export const staticRoutes: RouteRecordRaw[] = [
       }
     ]
   },
-  // {
-  //   path: '/partner',
-  //   name: 'partner',
-  //   meta: {
-  //     layout: layoutTypes.default
-  //   },
-  //   children: [
-  //     {
-  //       path: 'search',
-  //       name: 'partner-search',
-  //       component: () =>
-  //         import(
-  //           /* webpackChunkName: "partner-search" */ '@/views/partner/partner-search/index.vue'
-  //         ),
-  //       meta: {
-  //         title: '파트너 검색'
-  //       }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/setting',
-  //   name: 'setting',
-  //   meta: {
-  //     layout: layoutTypes.default
-  //   },
-  //   children: [
-  //     {
-  //       path: 'project',
-  //       name: 'setting-workspace',
-  //       component: () =>
-  //         import(
-  //           /* webpackChunkName: "setting-workspace" */ '@/views/setting/setting-workspace/index.vue'
-  //         ),
-  //       meta: {
-  //         title: '워크스페이스 설정'
-  //       }
-  //     }
-  //   ]
-  // },
   {
     path: '/samples',
     name: 'samples',

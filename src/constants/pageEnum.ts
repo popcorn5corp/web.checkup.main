@@ -1,4 +1,5 @@
 export enum PagePathEnum {
+  ROOT = '/',
   BASE_LOGIN = '/login', // basic login path
   WORKSPACE = '/workspace',
   WORKSPACE_LIST = '/workspace/list',

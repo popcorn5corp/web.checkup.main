@@ -3,7 +3,7 @@
     <a-timeline :pending="loading && t('common.loading')">
       <template v-for="{ issuedDate, logs } in groupLogs" :key="issuedDate">
         <a-timeline-item>
-          <span>{{ issuedDate }}</span>
+          <a-divider orientation="left">{{ issuedDate }}</a-divider>
           <template v-for="(log, index) in logs" :key="index">
             <p>
               <span style="margin-right: 3px">{{ log.createTime }}</span>
@@ -15,16 +15,17 @@
       </template>
     </a-timeline>
 
-    <a-button type="primary" style="margin-top: 16px" @click="fetchGroupHistory">{{
+    <Button v-if="!loading" type="primary" @click="fetchGroupHistory">{{
       t('page.manage.moreContent')
-    }}</a-button>
+    }}</Button>
   </div>
 </template>
 
-<script setup lang="ts" name="ComponentsOverviewList">
+<script setup lang="ts" name="GroupHistory">
 import { ManagerGroupService } from '@/services'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Button } from '@/components/button'
 
 const { t } = useI18n()
 const groupLogs = ref()
@@ -69,5 +70,9 @@ function fetchGroupHistory() {
   padding: 1rem 1.6rem;
   display: flex;
   flex-direction: column;
+
+  :deep(.ant-divider) {
+    margin-bottom: 10px !important;
+  }
 }
 </style>

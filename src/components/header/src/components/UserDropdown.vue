@@ -1,6 +1,15 @@
 <template>
   <Dropdown class="user-dropdown" :trigger="['click']">
-    <Button shape="round">
+    <Button
+      shape="round"
+      :ref="
+        (ref) => {
+          if (ref?.$el) {
+            tourStore.addStep(1, ref.$el)
+          }
+        }
+      "
+    >
       <template #icon>
         <Badge status="processing" :text="getWorkspace?.workspaceName" color="green" />
         <CaretDownOutlined />
@@ -63,6 +72,7 @@ import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
+import { useTourStore } from '@/stores/modules/tour'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { Button } from '@/components/button'
 import {
@@ -83,6 +93,7 @@ const authStore = useAuthStore()
 const router = useRouter()
 const workspaceStore = useWorkspaceStore()
 const { getWorkspace } = storeToRefs(workspaceStore)
+const tourStore = useTourStore()
 const isOpen = ref(false)
 
 const onClickMenu: MenuProps['onClick'] = ({ key }) => {
@@ -96,6 +107,9 @@ const onClickMenu: MenuProps['onClick'] = ({ key }) => {
     authStore.logout(true)
   }
 }
+
+const handleDropdown = () => {}
+const openChange = () => {}
 </script>
 <style lang="scss" scoped>
 .user-dropdown {

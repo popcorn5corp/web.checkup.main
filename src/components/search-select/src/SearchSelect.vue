@@ -91,8 +91,6 @@ const onSearch = debounce((value) => {
 
 const onChange = (value: SelectValue, options: Pick<SearchSelectProps, 'options'>) => {
   emit('update:modelValue', options)
-
-  console.log(value)
 }
 </script>
 

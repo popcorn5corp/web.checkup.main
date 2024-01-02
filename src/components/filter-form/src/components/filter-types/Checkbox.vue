@@ -1,3 +1,20 @@
+<template>
+  <div class="filter-input">
+    <Input placeholder="search" v-model:value="inputValue" @keyup="onKeyup">
+      <template #suffix>
+        <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+      </template>
+    </Input>
+  </div>
+
+  <CheckboxGroup
+    name="checkboxgroup"
+    :value="checkedList"
+    :options="checkboxOptions"
+    @change="onChange"
+  />
+</template>
+
 <script setup lang="ts" name="FilterCheckbox">
 import { CheckboxGroup, Input } from 'ant-design-vue'
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
@@ -31,8 +48,7 @@ watch(
         : []
   },
   {
-    immediate: true,
-    deep: true
+    immediate: true
   }
 )
 
@@ -77,70 +93,51 @@ const onKeyup = (event: KeyboardEvent) => {
   }, 500)
 }
 </script>
-<template>
-  <div class="filter-checkbox-container">
-    <div class="filter-input">
-      <Input placeholder="search" v-model:value="inputValue" @keyup="onKeyup">
-        <template #suffix>
-          <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
-        </template>
-      </Input>
-    </div>
 
-    <CheckboxGroup
-      name="checkboxgroup"
-      :value="checkedList"
-      :options="checkboxOptions"
-      @change="onChange"
-    />
-  </div>
-</template>
 <style lang="scss" scoped>
-.filter-checkbox-container {
-  .filter-input {
-    width: 100%;
-    :deep(.ant-input) {
-      height: 28px;
+.filter-input {
+  width: 100%;
+  :deep(.ant-input) {
+    height: 28px;
+  }
+}
+
+:deep(.ant-input-suffix) {
+  color: $color-gray-5;
+}
+
+.ant-checkbox-group {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+
+  :deep(.ant-col) {
+    margin-top: 1rem;
+  }
+
+  :deep(.ant-checkbox-group-item) {
+    padding: 0.5rem;
+
+    &:hover {
+      background: rgba(229, 232, 235, 0.2);
+      border-radius: 10px;
+      cursor: pointer;
     }
   }
 
-  :deep(.ant-input-suffix) {
-    color: $color-gray-5;
+  :deep(:where(.css-dev-only-do-not-override-16iczrm).ant-checkbox .ant-checkbox-inner:after) {
+    width: 5.714286px !important;
+    height: 14.142857px !important;
+    top: 40% !important;
   }
 
-  .ant-checkbox-group {
-    padding: 1rem 0;
-    display: flex;
-    flex-direction: column;
-
-    :deep(.ant-col) {
-      margin-top: 1rem;
-    }
-
-    :deep(.ant-checkbox-group-item) {
-      padding: 0.5rem;
-
-      &:hover {
-        background: rgba(229, 232, 235, 0.2);
-        border-radius: 10px;
-        cursor: pointer;
-      }
-    }
-
-    :deep(:where(.css-dev-only-do-not-override-16iczrm).ant-checkbox .ant-checkbox-inner:after) {
-      width: 5.714286px !important;
-      height: 14.142857px !important;
-      top: 40% !important;
-    }
-
-    :deep(.ant-checkbox-inner) {
-      height: 24px !important;
-      width: 24px !important;
-    }
+  :deep(.ant-checkbox-inner) {
+    height: 24px !important;
+    width: 24px !important;
   }
+}
 
-  .ant-divider {
-    margin: 6px 0;
-  }
+.ant-divider {
+  margin: 6px 0;
 }
 </style>

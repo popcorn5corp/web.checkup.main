@@ -54,11 +54,5 @@ function onCancel() {
       color: v-bind(roundColor);
     }
   }
-
-  .count-text {
-    text-align: center;
-    line-height: 40px;
-    font-size: 13px;
-  }
 }
 </style>

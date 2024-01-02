@@ -40,11 +40,28 @@ export const columns: TableColumnsType = [
 export const filters: FilterList = [
   {
     title: '조회기간',
-    order: 1,
+    order: 3,
     key: ['searchStartDate', 'searchEndDate'],
-    type: FILTER_UI.RANGE_DATE_PICKER,
-    options: []
+    type: FILTER_UI.RANGE_DATE_PICKER
+    // options: []
+    // selectedItems: [
+    //   { label: 'Start: 2020-10-11', value: '2020-10-11' },
+    //   { label: 'End: 2020-11-11', value: '2020-11-11' }
+    // ]
   },
+  // {
+  //   title: '날짜',
+  //   order: 2,
+  //   key: ['searchDate'],
+  //   type: FILTER_UI.DATE_PICKER,
+  //   options: [],
+  //   selectedItems: [
+  //     {
+  //       label: 'Date: 2020-10-12',
+  //       value: '2020-10-12'
+  //     }
+  //   ]
+  // },
   {
     title: '게시물 구분',
     order: 2,
@@ -57,7 +74,7 @@ export const filters: FilterList = [
   },
   {
     title: '권한',
-    order: 3,
+    order: 1,
     key: ['permission'],
     type: FILTER_UI.CHECKBOX,
     options: [

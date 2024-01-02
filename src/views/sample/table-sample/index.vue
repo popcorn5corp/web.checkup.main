@@ -4,7 +4,7 @@
     ref="dynamicTableRef"
     :row-key="'boardId'"
     :columns="columns"
-    :filter-request="getFilters"
+    :filters="filters"
     :data-request="getDataSource"
     :column-request="getColumns"
     :data-callback="dataCallback"
@@ -15,7 +15,7 @@
     @row-add="onClickRegist"
   >
     <template #detail-title>
-      <span>게시물 상세</span>
+      <span>{{ $t('page.manage.userInfo') }}</span>
     </template>
     <template #detail-content>
       <div class="detail-contents">
@@ -77,8 +77,6 @@ import PdfImage from '@/assets/images/pdf.png'
 import PptImage from '@/assets/images/ppt.png'
 import { BaseSampleService } from '@/services'
 import { Modal, Spin, message } from 'ant-design-vue'
-import type { log } from 'console'
-import type { map } from 'lodash-es'
 import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IBaseSample } from '@/services/base-sample/interface'
@@ -89,7 +87,7 @@ import { QuestionCircleTwoTone } from '@/components/icons'
 import { contentModes as modes } from '@/constants/content'
 import PostDetail from './components/PostDetail.vue'
 import { getDefaultPost } from './constant'
-import { columns } from './mock'
+import { columns, filters } from './mock'
 
 const DEFAULT_MODE = modes.R
 const { t } = useI18n()
@@ -111,17 +109,6 @@ const title = computed(() => {
 })
 
 const showDetail = ref(false)
-// const initParam = ref<IBaseSample.BaseSamplesParam>({
-//   searchEndDate: '',
-//   searchStartDate: '',
-//   searchWord: '',
-//   searchDivision: '',
-//   searchPermission: '',
-//   size: 10,
-//   page: 1,
-//   sort: undefined
-// })
-
 const selectedPost = ref<IBaseSample.BaseSample>(getDefaultPost())
 const profileImg = computed(() => {
   const url = unref(selectedPost).boardFiles.length ? unref(selectedPost).boardFiles[0].url : ''
@@ -362,7 +349,6 @@ const onClickRegist = (): void => {
 
     .info {
       flex: 1;
-      // background-color: aliceblue;
     }
   }
 

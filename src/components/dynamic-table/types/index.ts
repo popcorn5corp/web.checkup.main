@@ -1,5 +1,5 @@
 import type { IBaseAPI } from '@/services/base/interface'
-import type { FilterFormItem, FilterList } from '@/components/filter-form'
+import type { FilterFormItem, FilterList, FilterUI } from '@/components/filter-form'
 import type { TableProps } from '@/components/table'
 
 export interface DynamicTableProps extends TableProps {
@@ -37,7 +37,6 @@ export interface DynamicTableEmits {}
 
 export interface DynamicTableExposes {
   reload: (options: { isReset?: boolean }) => void
-  getShowToolbar: () => void
 }
 
 export interface DynamicTableAction {
@@ -50,7 +49,6 @@ export interface DynamicTableAction {
   clearSelectedItems: () => void
   closeFilter: () => void
   closeDetail: () => void
-  getShowToolbar: () => void
   emitter: DynamicTableEmits
 }
 
