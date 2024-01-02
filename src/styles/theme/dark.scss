@@ -64,13 +64,18 @@ html[data-theme='dark'] {
 
 html[data-theme='dark'] {
   .ant-table {
-    .table-row-focus {
+    // !dark: #acc0f2
+    .ant-table-row > td.ant-table-cell-row-hover {
+      background: #5283fe !important;
+    }
+    .table-row-focus > td {
       background: #5283fe !important;
     }
 
     .table-row-focus:hover > td {
       background: #5283fe !important;
     }
+
   }
 }
 

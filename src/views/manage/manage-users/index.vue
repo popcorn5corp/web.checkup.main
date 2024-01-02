@@ -76,7 +76,7 @@
 <script setup lang="ts" name="TableSample">
 import { ManageUserService } from '@/services'
 import { message, Modal as modal } from 'ant-design-vue'
-import { computed, createVNode, ref, unref, watch } from 'vue'
+import { computed, createVNode, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -116,15 +116,6 @@ const isVisible = ref(false)
 const isLoading = ref(false)
 const isModalLoading = ref(false)
 const activeKey = ref(tabInfo.Detail.key)
-
-watch(
-  () => unref(showDetail),
-  (showDetail) => {
-    if (!showDetail) {
-      selectedData.value = getDefaultPost()
-    }
-  }
-)
 
 const getDataSource = (param: IManageUser.UserListParam) => {
   return ManageUserService.getUserList(workspaceId.value, param)

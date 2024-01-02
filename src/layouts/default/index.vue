@@ -187,7 +187,7 @@ $tab-margin-top: 2px;
     overflow-y: hidden;
     z-index: 99;
     .header-menu {
-      min-width: 100px;
+      min-width: 105px;
     }
   }
   :deep(.tabs-container) {

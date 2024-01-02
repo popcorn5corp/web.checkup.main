@@ -358,11 +358,13 @@ watch(
           .ant-table-row {
             cursor: v-bind('styles.cursor');
           }
-
-          .table-row-focus {
+          .ant-table-row > td.ant-table-cell-row-hover {
+            background: #acc0f2;
+            transition: all 0.2s;
+          }
+          .table-row-focus > td {
             background: #acc0f2;
           }
-
           .table-row-focus:hover > td {
             background: #acc0f2;
           }

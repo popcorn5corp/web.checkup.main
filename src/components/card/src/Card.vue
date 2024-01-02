@@ -70,7 +70,9 @@
               <span>{{ $t('component.button.viewDetail') }}</span>
             </template>
             <template v-if="props.detailBtnPosition === 'bottom'">
-              <div>{{ $t('component.button.viewDetail') }}</div>
+              <Button type="primary" class="btn">
+                <span>{{ $t('component.button.viewDetail') }}</span>
+              </Button>
             </template>
           </a>
         </template>
@@ -246,10 +248,13 @@ a {
         overflow: hidden;
         transition: transform 0.2s;
         transform: translateY(50px);
-        div {
-          padding: 10px 0;
+        .btn {
           width: 100%;
-          background: #1890ff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 0;
+          padding: 16px 0;
           color: #fff;
           font-weight: 600;
           font-size: 14px;
