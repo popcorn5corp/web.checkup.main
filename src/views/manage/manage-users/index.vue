@@ -26,7 +26,7 @@
           @click="$emit('row-add', (isVisible = true))"
         >
           <template #icon>
-            <PlusCircleTwoTone />
+            <UserAddOutlined style="color: #1890ff" />
           </template>
         </Button>
       </template>
@@ -82,8 +82,7 @@ import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import InviteMemberForm from '@/views/workspace/components/create/InviteMemberForm.vue'
 import { DynamicTable } from '@/components/dynamic-table'
-import { QuestionCircleTwoTone } from '@/components/icons'
-import { PlusCircleTwoTone } from '@/components/icons'
+import { QuestionCircleTwoTone, UserAddOutlined } from '@/components/icons'
 import { Modal } from '@/components/modal'
 import PostDetail from './components/PostDetail.vue'
 import UserDetail from './components/UserDetail.vue'
@@ -226,15 +225,6 @@ const onCancelModal = (): void => {
 p {
   margin: 0;
 }
-// :deep(.ant-tabs-nav-list) {
-//   width: 100%;
-//   .ant-tabs-tab {
-//     flex: 0.5;
-//     .ant-tabs-tab-btn {
-//       margin: 0 auto;
-//     }
-//   }
-// }
 
 :deep(.ant-tabs-tab-active) {
   .ant-tabs-tab-btn {

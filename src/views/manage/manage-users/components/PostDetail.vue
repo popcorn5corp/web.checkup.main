@@ -114,7 +114,6 @@ const formItemLayout = computed(() => {
   const { layout } = formState
   return layout === 'horizontal'
     ? {
-        labelCol: { span: 7 },
         wrapperCol: { span: 16 }
       }
     : {}
