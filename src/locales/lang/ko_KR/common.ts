@@ -1,5 +1,5 @@
 export default {
-  filterText: '필터',
+  filter: '필터',
   tableTotalText: '전체: {count} 건',
   searchPlaceholder: '제목을 검색해주세요.',
   postRead: '게시물 상세',

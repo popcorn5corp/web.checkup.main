@@ -1,5 +1,5 @@
 export default {
-  filterText: 'Filters',
+  filter: 'Filters',
   tableTotalText: '{count} results',
   searchPlaceholder: 'Please search for the title.',
   postRead: 'Post Details',

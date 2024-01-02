@@ -169,7 +169,7 @@ onMounted(() => {
   --insta-color: #e1306c;
 }
 
-// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
 
 * {
   font-family: 'Poppins', sans-serif;
@@ -188,6 +188,7 @@ body {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
+  background-color: var(--white);
 }
 
 .row {
@@ -301,7 +302,7 @@ body {
   font-size: 1rem;
   background-color: #efefef;
   border-radius: 0.5rem;
-  border: 0.125rem solid #ffffff;
+  border: 0.125rem solid var(--color-grayish);
   outline: none;
 }
 

@@ -2,18 +2,12 @@ import { WorkspaceService } from '@/services'
 import { store } from '@/stores'
 import { Util } from '@/utils'
 import { defineStore } from 'pinia'
-import { type Component, computed, reactive, toRefs, unref, watch } from 'vue'
+import { type Component, computed, defineAsyncComponent, reactive, toRefs, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import type { IWorkspace } from '@/services/workspace/interface'
-import NameProfileForm from '@/views/workspace/components/NameProfileForm.vue'
-import BuisnessTypeForm from '@/views/workspace/components/create/BuisnessTypeForm.vue'
-import CreateComplete from '@/views/workspace/components/create/CreateComplete.vue'
-import InviteMemberForm from '@/views/workspace/components/create/InviteMemberForm.vue'
-import WorkspaceNameForm from '@/views/workspace/components/create/WorkspaceNameForm.vue'
-import InviteCodeFormVue from '@/views/workspace/components/invite/InviteCodeForm.vue'
-import JoinCompleteVue from '@/views/workspace/components/invite/JoinComplete.vue'
 import { WORKSPACE_ID_KEY, WORKSPACE_KEY } from '@/constants/cacheKeyEnum'
+import { PagePathEnum } from '@/constants/pageEnum'
 
 export interface Workspace {
   workspaceId: string
@@ -120,7 +114,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       workspaceInviteLogId: '', // 워크스페이스 초대로그 id
       workspaceName: '' // 워크스페이스 이름
     },
-    selectedWorkspaceId: null,
+    selectedWorkspaceId: Util.Storage.get(WORKSPACE_ID_KEY),
     workspace: null
   })
 
@@ -146,9 +140,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   function prevCurrentStep() {
     if (state.currentStep === FIRST_STEP_COUNT) {
       resetType()
-      router.push({
-        name: 'workspace-welcome'
-      })
+      router.push(PagePathEnum.WORKSPACE)
     } else if (state.currentStep > FIRST_STEP_COUNT) {
       state.currentStep -= 1
     }
@@ -281,7 +273,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       isJump: false,
       isFinal: false,
       nextBtnText: t('component.button.next'),
-      component: WorkspaceNameForm
+      component: defineAsyncComponent(
+        () => import('@/views/workspace/components/create/WorkspaceNameForm.vue')
+      )
     },
     {
       title: 'nameProfile',
@@ -290,7 +284,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       isJump: false,
       isFinal: false,
       nextBtnText: t('component.button.next'),
-      component: NameProfileForm
+      component: defineAsyncComponent(
+        () => import('@/views/workspace/components/NameProfileForm.vue')
+      )
     },
     {
       title: 'inviteMember',
@@ -299,7 +295,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       isJump: true,
       isFinal: false,
       nextBtnText: t('component.button.next'),
-      component: InviteMemberForm
+      component: defineAsyncComponent(
+        () => import('@/views/workspace/components/create/InviteMemberForm.vue')
+      )
     },
     {
       title: 'buisnessType',
@@ -308,7 +306,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       isJump: false,
       isFinal: false,
       nextBtnText: t('component.button.complete'),
-      component: BuisnessTypeForm
+      component: defineAsyncComponent(
+        () => import('@/views/workspace/components/create/BuisnessTypeForm.vue')
+      )
     },
     {
       title: 'createComplete',
@@ -317,7 +317,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       isJump: false,
       isFinal: true,
       nextBtnText: null,
-      component: CreateComplete
+      component: defineAsyncComponent(
+        () => import('@/views/workspace/components/create/CreateComplete.vue')
+      )
     }
   ]
 
@@ -329,7 +331,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       isJump: false,
       isFinal: false,
       nextBtnText: t('component.button.next'),
-      component: InviteCodeFormVue
+      component: defineAsyncComponent(
+        () => import('@/views/workspace/components/invite/InviteCodeForm.vue')
+      )
     },
     {
       title: 'nameProfile',
@@ -338,7 +342,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       isJump: false,
       isFinal: false,
       nextBtnText: t('component.button.joined'),
-      component: NameProfileForm
+      component: defineAsyncComponent(
+        () => import('@/views/workspace/components/NameProfileForm.vue')
+      )
     },
     {
       title: 'inviteComplete',
@@ -347,7 +353,9 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       isJump: false,
       isFinal: true,
       nextBtnText: null,
-      component: JoinCompleteVue
+      component: defineAsyncComponent(
+        () => import('@/views/workspace/components/invite/JoinComplete.vue')
+      )
     }
   ]
 

@@ -60,7 +60,7 @@ const socialLoginTypes: SocialLoginType[] = [
     height: auto;
     padding: 0.35rem 1.25rem;
     outline: none;
-    border: 2px solid var(--color-grayish);
+    border: 0.5px solid var(--color-grayish);
     border-radius: 2rem;
     color: var(--color-black);
     background: var(--color-white);
