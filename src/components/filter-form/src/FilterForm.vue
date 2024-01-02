@@ -3,7 +3,7 @@
     <div class="filter-list">
       <!--  -->
       <div class="mobile-header">
-        <h3>{{ $t('common.filterText') }}</h3>
+        <h3>{{ $t('common.filter') }}</h3>
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
 

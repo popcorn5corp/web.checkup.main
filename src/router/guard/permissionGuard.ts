@@ -1,35 +1,37 @@
 import { useAuthStore } from '@/stores'
-import { Util } from '@/utils'
-import type { Router } from 'vue-router'
+import type { RouteLocationNormalized, Router } from 'vue-router'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
-import { ACCESS_TOKEN_KEY, WORKSPACE_ID_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
 
-const defaultPagePath = PagePathEnum.BASE_HOME
+const whiteListByPath: string[] = [PagePathEnum.BASE_LOGIN]
+const whiteListByName: string[] = []
+
+const isWhiteList = (to: RouteLocationNormalized) => {
+  return whiteListByPath.indexOf(to.path) !== -1 || whiteListByName.indexOf(to.name as any) !== -1
+}
 
 export function createPermissionGuard(router: Router) {
   router.beforeEach(async (to, _, next) => {
-    const { getWorkspace, getWorkspaceId, getUserWorkspace } = useWorkspaceStore()
-    const token = Util.Storage.get(ACCESS_TOKEN_KEY)
-    const cacheWorkspaceId = Util.Storage.get(WORKSPACE_ID_KEY)
-    // console.log('token :: ', token)
-    // console.log('getWorkspaceId :: ', getWorkspaceId)
-    // console.log('cacheWorkspaceId :: ', cacheWorkspaceId)
-    // console.log('getWorkspace :: ', getWorkspace)
-    // console.log('to path :: ', to.path)
+    const authStore = useAuthStore()
+    const { getWorkspaceId, getWorkspace, getUserWorkspace } = useWorkspaceStore()
+    const token = authStore.getToken
 
-    if (token) {
-      if (to.path === PagePathEnum.BASE_LOGIN) {
-        if (!getWorkspace) {
-          return next(PagePathEnum.BASE_LOGIN)
-        } else {
-          return next(defaultPagePath)
-        }
-      } else if (!getWorkspace && getWorkspaceId) {
-        await getUserWorkspace()
-      } else if (!getWorkspace && cacheWorkspaceId) {
-        await getUserWorkspace(cacheWorkspaceId)
+    if (!token) {
+      if (isWhiteList(to)) {
+        next()
+      } else {
+        next({ path: PagePathEnum.BASE_LOGIN })
       }
+
+      return
+    }
+
+    if (to.path === PagePathEnum.BASE_LOGIN) {
+      return next({ path: PagePathEnum.BASE_HOME })
+    }
+
+    if (getWorkspaceId && !getWorkspace) {
+      await getUserWorkspace()
     }
 
     next()

@@ -7,7 +7,7 @@
         <div class="table-btns">
           <Space>
             <template v-if="getContextValues.selectedRows?.length > 0">
-              <Button v-if="showDownload" :label="$t('common.download')" size="middle">
+              <Button v-if="showDownload" :label="buttonText.download" size="middle">
                 <template #icon>
                   <DownloadOutlined />
                 </template>
@@ -15,7 +15,7 @@
 
               <Button
                 v-if="showDelete"
-                :label="props.deleteBtnText || $t('common.delete')"
+                :label="buttonText.delete"
                 size="middle"
                 @click="$emit('row-delete', tableRef?.selectedRows, tableRef?.selectedRowKeys)"
               >
@@ -36,7 +36,7 @@
                 }
               "
               v-if="showRegist"
-              :label="$t('common.registration')"
+              :label="buttonText.registration"
               size="middle"
               @click="$emit('row-add')"
             >
@@ -56,7 +56,7 @@
               "
               v-if="activeFilter"
               type="primary"
-              :label="$t('common.filterText')"
+              :label="buttonText.filter"
               size="middle"
               @click="showFilter = !showFilter"
             >
@@ -124,6 +124,7 @@
 <script setup lang="ts" name="DynamicTable">
 import { Divider, Space } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTourStore } from '@/stores/modules/tour'
 import { Button } from '@/components/button'
@@ -176,6 +177,7 @@ defineExpose<DynamicTableExposes>({
 
 const { getTheme } = useProjectConfigStore()
 const attrs = useAttrs()
+const { t } = useI18n()
 const wrapRef = ref(null)
 const innerProps = ref<Partial<DynamicTableProps>>()
 const tableRef = ref<InstanceType<typeof Table>>()
@@ -183,6 +185,13 @@ const showFilter = ref(false)
 const activeFilter = ref(
   (props.filters && props.filters.length) || props.filterRequest ? true : false
 )
+
+const buttonText = computed(() => ({
+  delete: props.deleteBtnText || t('common.delete'),
+  download: t('common.download'),
+  registration: t('common.registration'),
+  filter: t('common.filter')
+}))
 
 const contextValues = ref<DynamicTableContextValues>({
   ...defaultContenxtValues

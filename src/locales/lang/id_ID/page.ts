@@ -27,6 +27,7 @@ export default {
     and proceed with the verification process.
     If you do not receive an invitation code, 
     please contact your representative or system administrator.`,
+    inviteStepJump: 'Skip this step',
     joinCompleteTit: '{workspaceName}, you joined the workspace!',
     joinCompleteDesc1: 'Your workspace is now available.',
     joinCompleteDesc2: 'is using.',

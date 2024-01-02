@@ -1,35 +1,39 @@
 <template>
-  <div class="text-wrapper" v-if="props.isShowDescription">
-    <h1>{{ $t('page.workspace.createStep3Tit') }}</h1>
-    <p>{{ $t('page.workspace.createStep3Desc') }}</p>
-  </div>
-  <div class="form-wrapper">
-    <small>{{ $t('page.workspace.createStep3Info') }}</small>
-    <small v-if="isError" style="color: red; margin-left: 10px">{{ errMsg }}</small>
-    <div class="select-wrapper" @click="inputRef.focus()">
-      <div class="tags-wrapper">
-        <template v-for="tag in tags" :key="tag">
-          <div class="tag">
-            <span class="text">{{ tag }}</span>
-            <span class="icon" @click="onRemove(tag)"><CloseOutlined /></span>
+  <div class="invite-member-form-container">
+    <div class="text-wrapper" v-if="props.isShowDescription">
+      <h1>{{ $t('page.workspace.createStep3Tit') }}</h1>
+      <p>{{ $t('page.workspace.createStep3Desc') }}</p>
+    </div>
+    <div class="form-wrapper">
+      <small>{{ $t('page.workspace.createStep3Info') }}</small>
+      <small v-if="isError" style="color: red; margin-left: 10px">{{ errMsg }}</small>
+      <div class="select-wrapper" @click="inputRef.focus()">
+        <div class="tags-wrapper">
+          <template v-for="tag in tags" :key="tag">
+            <div class="tag">
+              <span class="text">{{ tag }}</span>
+              <span class="icon" @click="onRemove(tag)"><CloseOutlined /></span>
+            </div>
+          </template>
+        </div>
+        <div class="input-wrapper">
+          <div class="input-box">
+            <Input
+              ref="inputRef"
+              class="input"
+              :placeholder="$t('component.ph.inputEmail')"
+              v-model:value="emailRef"
+              @pressEnter="onInputEnter"
+              @focusout="onInputEnter"
+            />
           </div>
-        </template>
-      </div>
-      <div class="input-wrapper">
-        <div class="input-box">
-          <Input
-            ref="inputRef"
-            class="input"
-            :placeholder="$t('component.ph.inputEmail')"
-            v-model:value="emailRef"
-            @pressEnter="onInputEnter"
-            @focusout="onInputEnter"
-          />
         </div>
       </div>
-    </div>
-    <div class="jump-wrapper" v-if="isShowJump">
-      <span class="jump" @click="workspaceStore.nextCurrentStep()">이 단계 건너뛰기</span>
+      <div class="jump-wrapper" v-if="isShowJump">
+        <span class="jump" @click="workspaceStore.nextCurrentStep()">{{
+          $t('page.workspace.inviteStepJump')
+        }}</span>
+      </div>
     </div>
   </div>
 </template>

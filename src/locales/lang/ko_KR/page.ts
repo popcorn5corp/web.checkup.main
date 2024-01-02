@@ -25,6 +25,7 @@ export default {
     inviteStep1Desc: `수령하신 초대 코드를 아래에 입력 후 확인 절차를 진행해주세요.
     초대 코드를 받지 못하셨을 경우,
     담당자 또는 시스템 관리자분께 문의하시기 바랍니다.`,
+    inviteStepJump: '이 단계 건너뛰기',
     joinCompleteTit: '{workspaceName} 워크스페이스에 참여되었어요!',
     joinCompleteDesc1: '이제 워크스페이스 사용이 가능합니다.',
     joinCompleteDesc2: '님이 사용중입니다.',

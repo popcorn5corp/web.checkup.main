@@ -358,9 +358,11 @@ watch(
           .ant-table-row {
             cursor: v-bind('styles.cursor');
           }
-          .ant-table-row > td.ant-table-cell-row-hover {
+          .ant-table-row > td {
+            transition: none;
+          }
+          .ant-table-row:hover > td {
             background: #acc0f2;
-            transition: all 0.2s;
           }
           .table-row-focus > td {
             background: #acc0f2;
@@ -368,6 +370,9 @@ watch(
           .table-row-focus:hover > td {
             background: #acc0f2;
           }
+        }
+        .ant-table-tbody > tr > td.ant-table-cell-row-hover {
+          background: transparent;
         }
       }
     }

@@ -28,24 +28,12 @@
 <script setup lang="ts">
 import { Descriptions } from 'ant-design-vue'
 import { reactive, watch } from 'vue'
+import type { IManageUser } from '@/services/manage-users/interface'
 
 interface PostDetailProps {
-  data: {
-    detail: {
-      joinDate: string
-      gender: {
-        label: string
-        value: string
-      }
-    }
-    groups: GroupData[]
-  }
+  data: IManageUser.GetDetailResponse
 }
-type GroupData = {
-  groupId: string
-  name: string
-  url: string
-}
+
 const props = defineProps<PostDetailProps>()
 
 const state = reactive({
@@ -57,7 +45,7 @@ const state = reactive({
         value: ''
       }
     },
-    groups: [] as GroupData[]
+    groups: [] as IManageUser.GroupData[]
   }
 })
 
