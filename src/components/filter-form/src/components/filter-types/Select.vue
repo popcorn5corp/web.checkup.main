@@ -50,7 +50,7 @@ const onChange = (value: SelectValue) => {
     selectedItems
   }
 
-  dynamicTable.setFilterFormItem(filterFormItem)
+  dynamicTable?.setFilterFormItem(filterFormItem)
 }
 </script>
 

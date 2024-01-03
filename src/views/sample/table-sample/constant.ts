@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import type { IBaseSample } from '@/services/BaseSample/interface'
+import type { IBaseSample } from '@/services/base-sample/interface'
 
 export const getDefaultPost = (): IBaseSample.BaseSample => ({
   boardContent: '',
@@ -7,7 +7,7 @@ export const getDefaultPost = (): IBaseSample.BaseSample => ({
   boardId: '',
   boardTitle: '',
   createdAt: dayjs(dayjs()).unix(),
-  division: '',
+  division: { label: '', value: 'PRIVATE' },
   thumbnail: null,
-  permission: ''
+  permission: { label: '', value: 'NORMAL' }
 })

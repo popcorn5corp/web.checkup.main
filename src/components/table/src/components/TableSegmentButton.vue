@@ -3,7 +3,9 @@
     <Segmented
       :ref="
         (ref) => {
+          // @ts-ignore
           if (ref?.$el) {
+            // @ts-ignore
             tourStore.addStep(9, ref.$el)
           }
         }

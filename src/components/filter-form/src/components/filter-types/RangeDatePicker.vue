@@ -67,7 +67,7 @@ const onRangeChange = (
     selectedItems
   }
 
-  dynamicTable.setFilterFormItem(filterFormItem)
+  dynamicTable?.setFilterFormItem(filterFormItem)
 }
 </script>
 

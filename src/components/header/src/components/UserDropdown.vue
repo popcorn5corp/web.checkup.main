@@ -4,7 +4,9 @@
       shape="round"
       :ref="
         (ref) => {
+          // @ts-ignore
           if (ref?.$el) {
+            // @ts-ignore
             tourStore.addStep(1, ref.$el)
           }
         }
