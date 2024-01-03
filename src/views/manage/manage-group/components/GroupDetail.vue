@@ -2,7 +2,7 @@
   <div class="group-detail-container">
     <List :dataSource="defaultDataSource">
       <template #renderItem="{ item }">
-        <ListItem @click="open = true" style="cursor: pointer">
+        <ListItem @click="handleShowModal" style="cursor: pointer">
           <ListItemMeta>
             <template #avatar>
               <a-avatar style="color: #1890ff; background: #1890fa2b">
@@ -37,7 +37,7 @@
             <a-dropdown v-model:open="item.visible" :trigger="['click']">
               <a class="ant-dropdown-link" @click.prevent> <MoreOutlined /> </a>
               <template #overlay>
-                <a-menu @click="handleMenuClick(item.uid)">
+                <a-menu @click="showDeleteConfirm(item.uid)">
                   <a-menu-item key="1">
                     <div style="display: flex; gap: 10px">
                       <MinusOutlined />
@@ -56,7 +56,7 @@
   <contextHolder />
 
   <a-modal
-    v-model:open="open"
+    v-model:open="showModal"
     :title="t('page.manage.addUserToAGroup')"
     :ok-text="t('component.button.save')"
     :cancel-text="t('component.button.cancel')"
@@ -82,7 +82,6 @@ import {
   MoreOutlined,
   UserAddOutlined
 } from '@ant-design/icons-vue'
-import type { MenuProps } from 'ant-design-vue'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { h, ref, watch } from 'vue'
@@ -99,18 +98,39 @@ const props = defineProps<Props>()
 
 const options = ref([])
 const loading = ref(false)
-const open = ref(false)
+const showModal = ref(false)
 
 const dataSource = ref([])
 const selectedValues = ref()
 const defaultDataSource = ref([{ name: t('page.manage.addUserToAGroup') }])
 
-const { getWorkspace } = useWorkspaceStore()
+const { getWorkspaceId } = useWorkspaceStore()
 
 const [modal, contextHolder] = Modal.useModal()
 
+const MessageType = {
+  Save: 'Save',
+  Delete: 'Delete'
+}
+
+const showMessage = (type: string) => {
+  if (type === MessageType.Save) {
+    return message.success(t('common.message.saveSuccess'), 1)
+  } else if (type === MessageType.Delete) {
+    return message.success(t('common.message.deleteSuccess'), 1)
+  }
+}
+
+const handleShowModal = () => {
+  showModal.value = !showModal.value
+}
+
+const handleLoading = () => {
+  loading.value = !loading.value
+}
+
 function fetchGroupUserList() {
-  loading.value = true
+  handleLoading()
 
   ManagerGroupService.getGroupDetail(props.groupId)
     .then(
@@ -121,70 +141,73 @@ function fetchGroupUserList() {
         }
       }) => {
         if (success) {
-          dataSource.value = content
+          dataSource.value = content as []
         }
       }
     )
     .catch((error) => console.log(error))
 
-  setTimeout(() => (loading.value = false), 300)
+  setTimeout(() => handleLoading(), 300)
 }
 
 watch(
   props,
-  (groupId) => {
+  () => {
     fetchGroupUserList()
     getWorkspaceUserList()
   },
   { immediate: true }
 )
 
-watch(selectedValues.value, () => {
-  options.value = []
-  loading.value = false
-})
+watch(
+  () => showModal.value,
+  (showModal) => {
+    if (showModal) {
+      getWorkspaceUserList()
+    }
+  }
+)
 
-async function getWorkspaceUserList() {
-  options.value = []
-  await ManagerGroupService.getWorkspaceUserList(getWorkspace.workspaceId, props.groupId, {
-    searchWord: ''
-  })
-    .then(
-      ({
-        success,
-        data: {
-          posts: { content }
-        }
-      }) => {
-        if (success) {
-          options.value = content.map((item: any) => ({
-            label: item.nickname,
-            value: item.nickname,
-            description: item.email,
-            prefixImg: item.thumbnail?.url,
-            uid: item.uid,
-            disabled: item.status.value === 'JOINED'
-          }))
-        }
-      }
-    )
-    .catch((error) => {
-      console.log(error)
-    })
+const getOptions = (content: any) => {
+  return content.map((item: any) => ({
+    label: item.nickname,
+    value: item.nickname,
+    description: item.email,
+    prefixImg: item.thumbnail?.url,
+    uid: item.uid,
+    disabled: item.status.value === 'JOINED'
+  }))
 }
 
-function reload() {
-  loading.value = true
+async function getWorkspaceUserList() {
+  const param = {
+    searchWord: ''
+  }
+
+  const {
+    success,
+    data: {
+      posts: { content }
+    }
+  } = await ManagerGroupService.getWorkspaceUserList(getWorkspaceId, props.groupId, param)
+
+  if (success) {
+    options.value = getOptions(content)
+  }
+}
+
+function reloadUserList() {
+  handleLoading()
 
   fetchGroupUserList()
 
-  loading.value = false
+  handleLoading()
 }
+
 const onSubmit = () => {
-  console.log(selectedValues.value)
   if (selectedValues.value) {
     ManagerGroupService.addUserWithGroup(props.groupId, {
-      workspaceId: getWorkspace.workspaceId,
+      workspaceId: getWorkspaceId as string,
       addUsers: selectedValues.value.map((item: any) => ({
         uid: item.uid,
         nickname: item.label
@@ -192,11 +215,11 @@ const onSubmit = () => {
     })
       .then(({ success }) => {
         if (success) {
-          open.value = false
+          showMessage(MessageType.Save)
 
-          reload()
+          reloadUserList()
 
-          message.success(t('common.message.saveSuccess'), 1)
+          handleShowModal()
         }
       })
       .catch((error) => {
@@ -213,29 +236,19 @@ const showDeleteConfirm = (uid: string) => {
     okType: 'primary',
     cancelText: t('component.button.cancel'),
     onOk() {
-      console.log('OK')
-      loading.value = true
-
       ManagerGroupService.removeUserWithGroup(props.groupId, uid)
         .then(({ success }) => {
           if (success) {
-            reload()
+            showMessage(MessageType.Delete)
 
-            message.success(t('common.message.deleteSuccess'), 1)
+            reloadUserList()
           }
         })
         .catch((error) => {
           console.log(error)
         })
-    },
-    onCancel() {
-      console.log('Cancel')
     }
   })
-}
-
-const handleMenuClick: MenuProps['onClick'] = (uid: any) => {
-  showDeleteConfirm(uid)
 }
 </script>
 

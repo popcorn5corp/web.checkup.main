@@ -24,7 +24,9 @@
           @click="onReload"
           :ref="
             (ref) => {
+              // @ts-ignore
               if (ref?.$el) {
+                // @ts-ignore
                 tourStore.addStep(6, ref.$el)
               }
             }
@@ -45,7 +47,9 @@
           size="middle"
           :ref="
             (ref) => {
+              // @ts-ignore
               if (ref?.$el) {
+                // @ts-ignore
                 tourStore.addStep(7, ref.$el)
               }
             }
@@ -66,7 +70,9 @@
             size="middle"
             :ref="
               (ref) => {
+                // @ts-ignore
                 if (ref?.$el) {
+                  // @ts-ignore
                   tourStore.addStep(8, ref.$el)
                 }
               }

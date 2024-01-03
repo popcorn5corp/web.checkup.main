@@ -64,7 +64,7 @@ const onChange = (checkedValue: CheckboxValueType[]) => {
     selectedItems
   }
 
-  dynamicTable.setFilterFormItem(filterFormItem)
+  dynamicTable?.setFilterFormItem(filterFormItem)
 }
 
 /**

@@ -3,9 +3,12 @@
     <div class="invite-form-wrapper">
       <h4 class="title">{{ t('page.manage.groupName') }}</h4>
       <Input v-model:value="groupInfo.name" />
+
       <h4 class="title">{{ t('page.manage.groupDescription') }}</h4>
       <Input v-model:value="groupInfo.content" />
+
       <br />
+
       <h4 class="title">{{ t('page.manage.addUserToAGroup') }}</h4>
       <SearchSelect
         v-model="groupInfo.addUsers"
@@ -18,60 +21,54 @@
 </template>
 
 <script setup lang="ts">
-import { ManageUserService, ManagerGroupService } from '@/services'
+import { ManageUserService } from '@/services'
 import { Input } from 'ant-design-vue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { IManageGroup } from '@/services/manage-group/interface'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import type { SearchSelectProps } from '@/components/search-select/types'
 
 const { t } = useI18n()
-const { getWorkspace } = useWorkspaceStore()
+const { getWorkspaceId } = useWorkspaceStore()
 
-const emit = defineEmits(['update:modelValue'])
+const groupInfo = ref<Partial<IManageGroup.DefaultGroupInfo>>({
+  name: undefined,
+  content: undefined,
+  addUsers: []
+})
 
-const groupInfo = ref(groupDefaultInfo())
-const options = ref([])
+const options = ref<SearchSelectProps['options']>([])
 
-const getUserList = (param: IManageUser.UserListParam) => {
-  return ManageUserService.getUserList(getWorkspace.workspaceId, param)
+const getUserListAll = async (): Promise<IManageUser.UserInfo[]> => {
+  const { data } = await ManageUserService.getUserList(getWorkspaceId)
+
+  return data.workspaceUsers.content
 }
 
-;(async () => {
-  if (!options.value.length) {
-    const {
-      data: {
-        workspaceUsers: { content }
-      }
-    } = await getUserList(getWorkspace.workspaceId)
-    console.log(content)
+const getUserOptions = (content: Partial<IManageUser.UserInfo[]>) => {
+  return content.map((item) => ({
+    label: item?.nickname,
+    value: item?.nickname,
+    prefixImg: item?.thumbnail.url,
+    workspaceUserId: item?.workspaceUserId
+  }))
+}
 
-    options.value = content.map((item) => ({
-      label: item.nickname,
-      value: item.nickname,
-      prefixImg: item.thumbnail.url,
-      workspaceUserId: item.workspaceUserId
-    }))
+;(() => {
+  if (!options.value.length) {
+    getUserListAll()
+      .then((content) => {
+        options.value = getUserOptions(content)
+      })
+      .catch((error) => console.log(error))
   }
 })()
 
-function groupDefaultInfo() {
-  return {
-    name: null,
-    content: null,
-    addUsers: []
-  }
-}
-
-watch(
-  () => groupInfo.value,
-  (groupInfo) => {
-    console.log(groupInfo)
-    emit('update:modelValue', groupInfo)
-  },
-  { immediate: true }
-)
+defineExpose({
+  getModalInfo: groupInfo.value
+})
 </script>
 
 <style lang="scss" scoped>

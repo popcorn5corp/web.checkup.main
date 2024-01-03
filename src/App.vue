@@ -20,13 +20,7 @@ import { computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useLocale } from '@/locales/hooks/useLocale'
 
-defineOptions({
-  name: 'App'
-})
-
 const { defaultAlgorithm, defaultSeed } = theme
-
-// console.log('seed ')
 
 // const dark = theme.darkAlgorithm({
 //   ...defaultSeed
@@ -37,8 +31,6 @@ const { defaultAlgorithm, defaultSeed } = theme
 //   colorBgBase: '#000',
 //   colorBgContainer: '#141414'
 // }
-
-// console.log('dddd ', darkAlgorithm)
 
 const { config } = useProjectConfigStore()
 const configTheme = computed(() => config.theme)

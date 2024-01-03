@@ -48,7 +48,7 @@ const onChange = (e: RadioChangeEvent) => {
     selectedItems
   }
 
-  dynamicTable.setFilterFormItem(filterFormItem)
+  dynamicTable?.setFilterFormItem(filterFormItem)
 }
 </script>
 

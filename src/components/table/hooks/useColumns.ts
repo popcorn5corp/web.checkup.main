@@ -1,7 +1,7 @@
 import type { TableColumnType } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type ComputedRef, computed, ref, unref } from 'vue'
-import type { SortCodesResponse } from '@/services/BaseSample/interface'
+import type { SortCodesResponse } from '@/services/base-sample/interface'
 import type { TableProps } from '../types'
 
 interface State {

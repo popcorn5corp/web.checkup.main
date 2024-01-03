@@ -4,7 +4,7 @@
     ref="dynamicTableRef"
     :row-key="'boardId'"
     :columns="columns"
-    :filters="filters"
+    :filter-request="getFilters"
     :data-request="getDataSource"
     :column-request="getColumns"
     :data-callback="dataCallback"

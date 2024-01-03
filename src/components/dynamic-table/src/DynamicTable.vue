@@ -30,7 +30,9 @@
             <Button
               :ref="
                 (ref) => {
+                  // @ts-ignore
                   if (ref?.$el) {
+                    // @ts-ignore
                     tourStore.addStep(3, ref.$el)
                   }
                 }
@@ -49,7 +51,9 @@
             <Button
               :ref="
                 (ref) => {
+                  // @ts-ignore
                   if (ref?.$el) {
+                    // @ts-ignore
                     tourStore.addStep(4, ref.$el)
                   }
                 }

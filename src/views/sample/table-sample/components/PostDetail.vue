@@ -4,9 +4,9 @@ import { Form, Input, Select, type SelectProps } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
-import type { IBaseSample, ICode } from '@/services/BaseSample/interface'
-import { FileUploader } from '@/components/file-uploader'
-import { fileTypes } from '@/constants/file'
+import type { IBaseSample, ICode } from '@/services/base-sample/interface'
+// import { FileUploader } from '@/components/file-uploader'
+// import { fileTypes } from '@/constants/file'
 import { getDefaultPost } from '../constant'
 
 const { Item } = Form
@@ -40,7 +40,7 @@ const divisionOptions = ref<SelectProps['options']>([
   }
 ])
 
-const SAMPLE_FILE_TYPE = fileTypes.TEST
+// const SAMPLE_FILE_TYPE = fileTypes.TEST
 
 const formRef = ref()
 const fileUploader = ref()
@@ -76,14 +76,14 @@ const formItemLayout = computed(() => {
     : {}
 })
 
-const buttonItemLayout = computed(() => {
-  const { layout } = formState
-  return layout === 'horizontal'
-    ? {
-        wrapperCol: { span: 14, offset: 4 }
-      }
-    : {}
-})
+// const buttonItemLayout = computed(() => {
+//   const { layout } = formState
+//   return layout === 'horizontal'
+//     ? {
+//         wrapperCol: { span: 14, offset: 4 }
+//       }
+//     : {}
+// })
 
 watch(
   () => props.data,

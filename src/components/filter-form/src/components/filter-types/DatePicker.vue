@@ -44,7 +44,7 @@ const onChange = (value: string | Dayjs, dateString: string) => {
     selectedItems
   }
 
-  dynamicTable.setFilterFormItem(filterFormItem)
+  dynamicTable?.setFilterFormItem(filterFormItem)
 }
 </script>
 
