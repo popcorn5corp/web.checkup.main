@@ -12,7 +12,7 @@ class ManageGroupService {
    * @description 그룹 리스트 조회
    * @returns 그룹 리스트 목록
    */
-  getGroupList(workspaceId: string, param: IManageGroup.GroupListParam) {
+  getGroupList(workspaceId: any, param: IManageGroup.GroupListParam) {
     return service.get(this.PATH + `/${workspaceId}/group/posts`, param)
   }
 
@@ -37,7 +37,7 @@ class ManageGroupService {
    * @returns 그룹 유저 데이터
    */
   getGroupDetail(groupId: string) {
-    return service.get<IManageGroup.Content>(this.PATH + `/group/${groupId}/users`)
+    return service.get<IManageGroup.ResponseUserList['data']>(this.PATH + `/group/${groupId}/users`)
   }
 
   /**
@@ -45,7 +45,10 @@ class ManageGroupService {
    * @returns 그룹 타임라인 데이터
    */
   getGroupHistory(groupId: string, param: any) {
-    return service.get<IManageGroup.HistoryResponse>(this.PATH + `/group/${groupId}/logs`, param)
+    return service.get<IManageGroup.ResponseHistory['data']>(
+      this.PATH + `/group/${groupId}/logs`,
+      param
+    )
   }
 
   /**
@@ -53,11 +56,11 @@ class ManageGroupService {
    * @returns 워크스페이스 사용자 데이터
    */
   getWorkspaceUserList(
-    workspaceId: string,
+    workspaceId: any,
     groupId: string,
     param: Partial<IManageGroup.GroupListParam>
   ) {
-    return service.get<IManageGroup.Content[]>(
+    return service.get<IManageGroup.ResponseUserList['data']>(
       this.PATH + `/workspace/${workspaceId}/${groupId}/users`,
       param
     )
@@ -66,22 +69,22 @@ class ManageGroupService {
   /**
    * @description 그룹 등록
    */
-  createGroup(requestBody: IManageGroup.GroupRequest) {
-    return service.post<IManageGroup.GroupRequest>(this.PATH + `/group`, requestBody)
+  createGroup(requestBody: IManageGroup.DefaultGroupInfo) {
+    return service.post<IManageGroup.DefaultGroupInfo>(this.PATH + `/group`, requestBody)
   }
 
   /**
    * @description 그룹 수정
    */
-  updateGroup(groupId: string, requestBody: IManageGroup.GroupRequest) {
-    return service.put<IManageGroup.GroupRequest>(this.PATH + `/group/${groupId}`, requestBody)
+  updateGroup(groupId: string, requestBody: Partial<IManageGroup.DefaultGroupInfo>) {
+    return service.put<IManageGroup.DefaultGroupInfo>(this.PATH + `/group/${groupId}`, requestBody)
   }
 
   /**
    * @description 그룹 사용자 추가
    */
-  addUserWithGroup(groupId: string, requestBody: Partial<IManageGroup.GroupRequest>) {
-    return service.post<IManageGroup.GroupRequest>(
+  addUserWithGroup(groupId: string, requestBody: Partial<IManageGroup.DefaultGroupInfo>) {
+    return service.post<IManageGroup.DefaultGroupInfo>(
       this.PATH + `/group/${groupId}/users`,
       requestBody
     )
@@ -97,7 +100,7 @@ class ManageGroupService {
   /**
    * @description 그룹 사용자 삭제
    */
-  removeGroup(workspaceId: string, params: string[]) {
+  removeGroup(workspaceId: any, params: any) {
     return service.delete(this.PATH + `/${workspaceId}/group`, params)
   }
 }

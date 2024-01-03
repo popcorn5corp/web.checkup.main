@@ -1,22 +1,22 @@
 <template>
   <div class="post-detail">
-    <Form class="post-detail-read" v-if="!isEdit" :layout="'horizontal'">
+    <Form class="post-detail-read" v-if="!isEdit" layout="horizontal">
       <div>
-        <Item :label="t('page.manage.groupTitle')">{{ formState.post.name ?? '-' }}</Item>
+        <Item :label="t('page.manage.groupTitle')">{{ formState.post?.name ?? '-' }}</Item>
 
-        <Item :label="t('page.manage.groupContent')">{{ formState.post.content ?? '-' }}</Item>
+        <Item :label="t('page.manage.groupContent')">{{ formState.post?.content ?? '-' }}</Item>
       </div>
 
-      <a-dropdown v-model:open="visible" :trigger="['click']">
+      <a-dropdown v-model:open="isDropdown" :trigger="['click']">
         <a class="ant-dropdown-link" @click.prevent> <MoreOutlined /> </a>
         <template #overlay>
           <a-menu>
-            <a-menu-item key="1" @click="onEditMode">
+            <a-menu-item key="1" @click="changeMode(modes.C)">
               <div style="display: flex; gap: 10px">
                 <span>{{ t('common.postModify') }}</span>
               </div>
             </a-menu-item>
-            <a-menu-item key="2" @click="handleMenuClick">
+            <a-menu-item key="2" @click="showDeleteConfirm">
               <div style="display: flex; gap: 10px">
                 <span>{{ t('common.delete') }}</span>
               </div>
@@ -26,7 +26,7 @@
       </a-dropdown>
     </Form>
 
-    <Form v-else ref="formRef" :layout="'horizontal'" :model="formState" v-bind="formItemLayout">
+    <Form v-else layout="horizontal" :model="formState">
       <Item :label="t('page.manage.groupTitle')">
         <Input v-model:value="formState.clonePost.name" />
       </Item>
@@ -40,85 +40,110 @@
       </div>
     </Form>
 
+    <!-- Modal Context -->
     <contextHolder />
   </div>
 </template>
 
 <script setup lang="ts" name="PostDetail">
-import { IBaseSample } from '@/services'
 import { ManagerGroupService } from '@/services'
 import { Form, Input } from 'ant-design-vue'
 import { Modal } from 'ant-design-vue'
-import type { MenuProps } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { IManageGroup } from '@/services/manage-group/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import {
   CheckOutlined,
   CloseOutlined,
   ExclamationCircleOutlined,
-  MoreOutlined,
-  ReloadOutlined
+  MoreOutlined
 } from '@/components/icons'
 import { contentModes as modes } from '@/constants/content'
-import { getDefaultPost } from '../constant'
+
+const { t } = useI18n()
+type PostType = Partial<IManageGroup.ResTableContent>
+
+interface PostDetailProps {
+  data: PostType
+}
+
+interface FormState {
+  post: PostType | undefined
+  clonePost: PostType
+}
+
+const props = defineProps<PostDetailProps>()
+const emit = defineEmits(['reload', 'close'])
+
+const { Item } = Form
+const { getWorkspaceId } = useWorkspaceStore()
+const [modal, contextHolder] = Modal.useModal()
 
 const DEFAULT_MODE = modes.R
 const mode = ref<ContentMode>(DEFAULT_MODE)
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
+const isDropdown = ref(false)
 
-const { Item } = Form
-const [modal, contextHolder] = Modal.useModal()
-const { t } = useI18n()
-const emit = defineEmits(['reload', 'isDetail'])
-
-const { getWorkspace } = useWorkspaceStore()
-type Post = IBaseSample.BaseSample
-interface PostDetailProps {
-  data: Post
+const MessageType = {
+  Save: 'Save',
+  Delete: 'Delete'
 }
 
-interface FormState {
-  layout: 'horizontal' | 'vertical' | 'inline'
-  post: Post
-  clonePost: Post
-}
-
-const props = withDefaults(defineProps<PostDetailProps>(), {
-  isEdit: false
-})
-
-const visible = ref(false)
-const formRef = ref()
-const fileUploader = ref()
 const formState: UnwrapRef<FormState> = reactive({
-  layout: 'vertical',
-  post: getDefaultPost(),
-  clonePost: getDefaultPost()
+  post: undefined,
+  clonePost: {
+    name: '',
+    content: ''
+  }
 })
+
+;(() => {
+  formState.post = {
+    ...props.data
+  }
+
+  formState.clonePost = cloneDeep(props.data)
+})()
+
+const showMessage = (type: string) => {
+  if (type === MessageType.Save) {
+    return message.success(t('common.message.saveSuccess'), 1)
+  } else if (type === MessageType.Delete) {
+    return message.success(t('common.message.deleteSuccess'), 1)
+  }
+}
+
+const handleDropdown = () => {
+  isDropdown.value = !isDropdown.value
+}
+
+const changeMode = (modeType: ContentMode) => {
+  mode.value = modeType
+}
 
 const onSubmit = async () => {
   const requestBody = {
-    workspaceId: getWorkspace?.workspaceId,
-    name: formState.clonePost.name,
-    content: formState.clonePost.content
+    workspaceId: getWorkspaceId,
+    name: formState.clonePost?.name,
+    content: formState.clonePost?.content
   }
 
-  ManagerGroupService.updateGroup(props.data.groupId, requestBody)
+  ManagerGroupService.updateGroup(props.data.groupId as string, requestBody as {})
     .then(({ success }) => {
       if (success) {
-        message.success(t('common.message.saveSuccess'), 1)
-
         initState()
 
         emit('reload')
 
+        showMessage(MessageType.Save)
+
         formState.post = {
           ...formState.post,
-          name: formState.clonePost.name,
-          content: formState.clonePost.content
+          name: formState.clonePost?.name,
+          content: formState.clonePost?.content
         }
       }
     })
@@ -127,50 +152,33 @@ const onSubmit = async () => {
     })
 }
 
-const rollbackPost = () => (formState.post = cloneDeep(formState.clonePost))
-const getPostDetail = (): Post => {
-  const files = fileUploader.value.getFiles()
-
-  return {
-    ...formState.post,
-    boardFiles: files
-  }
-}
-
 const initState = (): void => {
-  mode.value = DEFAULT_MODE
+  changeMode(DEFAULT_MODE)
 
-  visible.value = false
+  handleDropdown()
 }
 
-const onEditMode = () => {
-  mode.value = modes.C
-}
-
-const formItemLayout = computed(() => {
-  const { layout } = formState
-  return layout === 'horizontal'
-    ? {
-        labelCol: { span: 6 },
-        wrapperCol: { span: 14 }
-      }
-    : {}
-})
-
-watch(
-  () => props.data,
-  (post) => {
-    formState.post = {
-      ...post
-    }
-    formState.clonePost = cloneDeep(post)
-  },
-  {
-    immediate: true
+const deleteGroup = () => {
+  const params = {
+    groupId: [props.data.groupId]
   }
-)
 
-const showDeleteConfirm = (uid: string) => {
+  ManagerGroupService.removeGroup(getWorkspaceId, params)
+    .then(({ success }) => {
+      if (success) {
+        emit('reload')
+
+        emit('close')
+
+        showMessage(MessageType.Delete)
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+const showDeleteConfirm = () => {
   modal.confirm({
     title: t('common.message.modalDeleteCheck'),
     icon: h(ExclamationCircleOutlined),
@@ -178,38 +186,10 @@ const showDeleteConfirm = (uid: string) => {
     okType: 'primary',
     cancelText: t('component.button.cancel'),
     onOk() {
-      const params = {
-        groupId: [props.data.groupId]
-      }
-
-      ManagerGroupService.removeGroup(getWorkspace?.workspaceId, params)
-        .then(({ success }) => {
-          if (success) {
-            emit('reload')
-            emit('isDetail')
-
-            message.success(t('common.message.deleteSuccess'), 1)
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    onCancel() {
-      console.log('Cancel')
+      deleteGroup()
     }
   })
 }
-
-const handleMenuClick: MenuProps['onClick'] = (uid: any) => {
-  showDeleteConfirm(uid)
-}
-
-defineExpose({
-  getPostDetail,
-  rollbackPost,
-  onSubmit
-})
 </script>
 
 <style lang="scss" scoped>

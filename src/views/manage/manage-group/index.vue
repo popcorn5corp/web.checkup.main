@@ -9,18 +9,13 @@
       :column-request="getColumns"
       :filter-request="getFilters"
       :data-callback="dataCallback"
-      :content-callback="contentCallback"
       :showRegist="false"
       :phText="$t('page.manage.ph.groupSearchPh')"
       @row-click="onClickRow"
       @row-delete="onRemovePost"
     >
       <template #tableBtns>
-        <Button
-          :label="t('common.registration')"
-          size="middle"
-          @click="$emit('row-add', (isVisible = true))"
-        >
+        <Button :label="t('common.registration')" size="middle" @click="handleShowModal">
           <template #icon>
             <PlusCircleTwoTone />
           </template>
@@ -34,10 +29,10 @@
       <template #detail-content>
         <div class="detail-contents">
           <div class="tab-wrapper">
-            <PostDetail :data="selectedData" @reload="tableReload" @isDetail="isDetail" />
+            <PostDetail :data="selectedData" @reload="tableReload" @close="handleShowDetail" />
 
             <a-tabs
-              v-model:active-key="activeKey"
+              v-model:active-key="tabActiveKey"
               :destroyInactiveTabPane="true"
               :tabBarGutter="70"
               :tabBarStyle="{ padding: '0 10%', display: 'flex' }"
@@ -52,16 +47,16 @@
     </DynamicTable>
 
     <Modal
-      v-if="isVisible"
+      v-if="showModal"
       :title="t('page.manage.addUserToAGroup')"
       :okBtnText="t('component.button.save')"
       :cancelBtnText="t('component.button.cancel')"
-      @cancel="onCancelModal"
+      @cancel="handleShowModal"
       @ok="createGroup"
       class="invite-modal"
     >
       <template #body>
-        <GroupModalForm v-model="groupInfo" />
+        <GroupModalForm ref="modalRef" v-model="groupInfo" />
       </template>
     </Modal>
   </div>
@@ -71,7 +66,7 @@
 import { ManagerGroupService } from '@/services'
 import { message } from 'ant-design-vue'
 import { Modal as modal } from 'ant-design-vue'
-import { computed, createVNode, ref } from 'vue'
+import { createVNode, defineAsyncComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -79,8 +74,6 @@ import { DynamicTable } from '@/components/dynamic-table'
 import { PlusCircleTwoTone } from '@/components/icons'
 import { QuestionCircleTwoTone } from '@/components/icons'
 import { Modal } from '@/components/modal'
-import GroupDetail from './components/GroupDetail.vue'
-import GroupHistory from './components/GroupHistory.vue'
 import GroupModalForm from './components/GroupModalForm.vue'
 import PostDetail from './components/PostDetail.vue'
 import { columns } from './mock'
@@ -93,85 +86,68 @@ const tabInfo = {
   Detail: {
     key: 'Detail',
     title: t('page.manage.detail'),
-    component: GroupDetail
+    component: defineAsyncComponent(() => import('./components/GroupDetail.vue'))
   },
   History: {
     key: 'History',
     title: t('page.manage.history'),
-    component: GroupHistory
+    component: defineAsyncComponent(() => import('./components/GroupHistory.vue'))
   }
 }
 
 const showDetail = ref(false)
-const activeKey = ref(tabInfo.Detail.key)
-const isVisible = ref(false)
-const groupInfo = ref()
+const tabActiveKey = ref(tabInfo.Detail.key)
+const showModal = ref(false)
+const groupInfo = ref<IManageGroup.DefaultGroupInfo>()
 const selectedData = ref()
+const modalRef = ref()
+const { getWorkspaceId } = useWorkspaceStore()
 
-const { getWorkspace } = useWorkspaceStore()
-
-const getDataSource = (param: IManageGroup.GroupListParam) => {
-  return ManagerGroupService.getGroupList(getWorkspace.workspaceId, param)
+const handleShowDetail = () => {
+  showDetail.value = !showDetail.value
 }
 
-const getFilters = () => {
-  return ManagerGroupService.getPageInfo()
+const handleShowModal = (): void => {
+  showModal.value = !showModal.value
 }
 
-const getColumns = () => {
-  return ManagerGroupService.getSortableCodes()
-}
-
-const dataCallback = (data: { posts: IManageGroup.GroupTableResponse['posts'] }) => {
-  const { posts } = data
-  return posts
-}
-
-const contentCallback = (content: IManageGroup.GroupTableResponse['posts']['content']) => {
-  return content
+const initTabKey = () => {
+  tabActiveKey.value = tabInfo.Detail.key
 }
 
 /**
- * @description 게시물 삭제
- * @param selectedRows
+ * 다이나믹 테이블 기본세팅
  */
-const onRemovePost = (
-  selectedRows: ManagerGroupService.Content[],
-  selectedRowKeys: string[]
-): void => {
-  console.log(selectedRows, selectedRowKeys)
-  modal.confirm({
-    content: t('common.message.modalDeleteCheck'),
-    // width: 600,
-    icon: createVNode(QuestionCircleTwoTone),
-    onOk() {
-      const params = {
-        groupId: selectedRowKeys
-      }
+const getDataSource = async (param: IManageGroup.GroupListParam) => {
+  return await ManagerGroupService.getGroupList(getWorkspaceId, param)
+}
+const dataCallback = ({ posts }: IManageGroup.ResponseTable['data']) => posts
+const getFilters = () => ManagerGroupService.getPageInfo()
+const getColumns = () => ManagerGroupService.getSortableCodes()
 
-      console.log(selectedRowKeys)
-
-      ManagerGroupService.removeGroup(getWorkspace?.workspaceId, params).then(({ success }) => {
-        if (success) {
-          dynamicTableRef.value?.reload({ isReset: true })
-
-          setTimeout(() => {
-            message.success(t('common.message.deleteSuccess'), 1)
-          }, 300)
-        }
-      })
-    },
-    async onCancel() {}
-  })
+const tableReload = () => {
+  dynamicTableRef.value?.reload({ isReset: true })
 }
 
-const onClickRow = (row: IManageGroup.Content): void => {
+const MessageType = {
+  Save: 'Save',
+  Delete: 'Delete'
+}
+
+const showMessage = (type: string) => {
+  if (type === MessageType.Save) {
+    return message.success(t('common.message.saveSuccess'), 1)
+  } else if (type === MessageType.Delete) {
+    return message.success(t('common.message.deleteSuccess'), 1)
+  }
+}
+
+const onClickRow = (row: IManageGroup.ResTableContent): void => {
   selectedData.value = row
-  console.log(row)
 
-  showDetail.value = true
+  handleShowDetail()
 
-  activeKey.value = tabInfo.Detail.key
+  initTabKey()
 }
 
 /**
@@ -179,62 +155,68 @@ const onClickRow = (row: IManageGroup.Content): void => {
  */
 const createGroup = async () => {
   try {
+    const groupInfo = modalRef.value?.getModalInfo
+
     const requestBody = {
-      workspaceId: getWorkspace.workspaceId,
-      ...groupInfo.value,
-      addUsers: groupInfo.value.addUsers.map((item: any) => ({
+      ...groupInfo,
+      workspaceId: getWorkspaceId,
+      addUsers: groupInfo.addUsers.map((item: any) => ({
         workspaceUserId: item.workspaceUserId,
         nickname: item.label
       }))
     }
 
-    console.log(requestBody)
-
     await ManagerGroupService.createGroup(requestBody)
       .then(({ success }) => {
         if (success) {
-          message.success(t('common.message.saveSuccess'), 1)
-          onCancelModal()
+          showMessage(MessageType.Save)
 
           tableReload()
 
-          showDetail.value = false
+          handleShowModal()
         }
       })
       .catch((error) => {
         console.log(error)
       })
-
-    // TODO modal 로딩스피너 넣기
   } catch (error) {
     console.log(error)
   }
 }
 
-const tableReload = () => {
-  dynamicTableRef.value?.reload({ isReset: true })
-}
+/**
+ * @description 그룹 삭제 API 요청
+ * @param selectedRows
+ */
+const onRemovePost = (
+  selectedRows: IManageGroup.ResTableContent,
+  selectedRowKeys: string[]
+): void => {
+  modal.confirm({
+    content: t('common.message.modalDeleteCheck'),
+    icon: createVNode(QuestionCircleTwoTone),
+    onOk() {
+      const params = {
+        groupId: selectedRowKeys
+      }
 
-const isDetail = () => {
-  showDetail.value = !showDetail.value
-}
+      ManagerGroupService.removeGroup(getWorkspaceId, params)
+        .then(({ success }) => {
+          if (success) {
+            tableReload()
 
-const onCancelModal = (): void => {
-  isVisible.value = false
+            setTimeout(() => {
+              showMessage(MessageType.Delete)
+            }, 300)
+          }
+        })
+        .catch((error) => console.log(error))
+    }
+  })
 }
 </script>
 
 <style lang="scss" scoped>
-// :deep(.ant-tabs-nav-list) {
-//   width: 100%;
-//   .ant-tabs-tab {
-//     flex: 0.5;
-//     .ant-tabs-tab-btn {
-//       margin: 0 auto;
-//     }
-//   }
-// }
-
 :deep(.ant-tabs-tab-active) {
   .ant-tabs-tab-btn {
     font-weight: 600 !important;

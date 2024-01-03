@@ -33,35 +33,41 @@ const groupLogs = ref()
 type Props = { groupId: string }
 
 const props = defineProps<Props>()
+
 const size = ref(0)
 const loading = ref(false)
 
+const handleLoading = () => {
+  loading.value = !loading.value
+}
+
 watch(
   props,
-  (groupId) => {
+  () => {
     fetchGroupHistory()
   },
   { immediate: true }
 )
 
 function fetchGroupHistory() {
-  loading.value = true
+  handleLoading()
 
   size.value += 5
-  ManagerGroupService.getGroupHistory(props.groupId, { size: size.value }).then(
-    ({
-      success,
-      data: {
-        posts: { content }
+  ManagerGroupService.getGroupHistory(props.groupId, { size: size.value })
+    .then(
+      ({
+        success,
+        data: {
+          posts: { content }
+        }
+      }) => {
+        if (success) {
+          groupLogs.value = content
+        }
       }
-    }) => {
-      if (success) {
-        groupLogs.value = content
-      }
-
-      loading.value = false
-    }
-  )
+    )
+    .catch((err) => console.log(err))
+    .finally(() => handleLoading())
 }
 </script>
 

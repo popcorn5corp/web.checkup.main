@@ -5,16 +5,14 @@ export interface ConditionParam {
   filter?: string
 }
 export namespace IManageGroup {
-  export interface SortInfo {
-    sorted: boolean
-    unsorted: boolean
-    empty: boolean
-  }
+  export interface ResponseTable
+    extends API.ResponseData<{ posts: ResPagiInfo<ResTableContent[]> }> {}
 
-  export interface GroupListParam extends ConditionParam {
-    searchWord: string
-    searchStatus: string
-  }
+  export interface ResponseUserList
+    extends API.ResponseData<{ posts: ResPagiInfo<ResUserContent[]> }> {}
+
+  export interface ResponseHistory
+    extends API.ResponseData<{ posts: ResPagiInfo<ResHistoryContent[]> }> {}
 
   export interface PageableInfo {
     sort: SortInfo
@@ -25,36 +23,43 @@ export namespace IManageGroup {
     unpaged: boolean
   }
 
-  export interface DefaultUserInfo {
-    uid: string
-    nickname: string
+  export interface ResPagiInfo<T> {
+    content: T
+    pageable: PageableInfo[]
+    last: boolean
+    totalPages: number
+    totalElements: number
+    sort: SortInfo
+    first: boolean
+    number: number
+    numberOfElements: number
+    size: number
+    empty: boolean
   }
 
-  export interface GroupTableRowInfo {
+  export interface ResTableContent {
     content: string
     createdAt: number
     groupId: string
+    index: number
     name: string
-    status: statusInfo
+    rowKey: string
+    status: LabelValue<string>
     url: string
   }
-  export interface GroupTableResponse {
-    posts: {
-      content: GroupTableRowInfo[]
-      pageable: PageableInfo[]
-      last: boolean
-      totalPages: number
-      totalElements: number
-      sort: SortInfo
-      first: boolean
-      number: number
-      numberOfElements: number
-      size: number
-      empty: boolean
-    }
+
+  export interface ResUserContent extends DefaultUserInfo {
+    email: string
+    status: LabelValue<string>
+    thumbnail: BoardFile | null
   }
 
-  export interface GroupRequest extends DefaultUserInfo {
+  export interface ResHistoryContent {
+    issuedDate: string
+    logs: LogItem[]
+  }
+
+  export interface DefaultGroupInfo {
     workspaceId: string
     name: string
     content: string
@@ -62,9 +67,20 @@ export namespace IManageGroup {
     addUsers: DefaultUserInfo[]
   }
 
-  export interface statusInfo {
-    label: string
-    value: string
+  export interface DefaultUserInfo {
+    uid: string
+    nickname: string
+  }
+
+  export interface SortInfo {
+    sorted: boolean
+    unsorted: boolean
+    empty: boolean
+  }
+
+  export interface GroupListParam extends ConditionParam {
+    searchWord: string
+    searchStatus: string
   }
 
   export interface BoardFile {
@@ -81,20 +97,7 @@ export namespace IManageGroup {
     uid: string
     nickname: string
     createTime: string
-    status: statusInfo
-  }
-  export interface HistoryResponse {
-    issuedDate: string
-    logs: LogItem[]
-  }
-
-  export interface Content {
-    groupId: string
-    uid: string
-    nickname: string
-    email: string
-    status: statusInfo
-    thumbnail: BoardFile | null
+    status: LabelValue<string>
   }
 
   export interface FilterResponse {
