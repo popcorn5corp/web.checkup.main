@@ -17,7 +17,8 @@ export default {
       fontSizeLarge: '크게',
       tabLang: '언어',
       tabLangRegion: '언어 및 지역',
-      tabAlarm: '알림'
+      tabAlarm: '알림',
+      tabAccessibility: '접근성'
     }
   },
   menu: {

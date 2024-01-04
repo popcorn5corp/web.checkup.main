@@ -36,28 +36,12 @@
       </div>
     </Descriptions.Item>
   </Descriptions>
-  <Descriptions :title="$t('layout.header.settings.displaySettingFontSize')" :column="5">
-    <Descriptions.Item>
-      <RadioGroup v-model:value="config.theme.fontSize" @change="setLayoutFontSize">
-        <Radio v-for="(item, i) in layoutFonts" :key="i" :value="item.value">{{
-          item.label
-        }}</Radio>
-      </RadioGroup>
-    </Descriptions.Item>
-  </Descriptions>
 </template>
 <script setup lang="ts" name="DisplaySetting">
-import {
-  Descriptions,
-  Radio,
-  type RadioChangeEvent,
-  RadioGroup,
-  Tag,
-  Tooltip
-} from 'ant-design-vue'
+import { Descriptions, Tag, Tooltip } from 'ant-design-vue'
 import type { ThemeConfig } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { layoutFonts, menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'
+import { menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'
 
 const { config, setTheme, setCollapse, setRealDarkTheme } = useProjectConfigStore()
 const getThemeColorVisible = (color: string) =>
@@ -79,10 +63,6 @@ function setMenuPosition(menuPosition: ThemeConfig['menuPosition']) {
   if (menuPosition === 'topmenu' && config.isCollapse) {
     setCollapse(false)
   }
-}
-
-function setLayoutFontSize({ target: { value } }: RadioChangeEvent) {
-  setTheme({ fontSize: value })
 }
 </script>
 <style lang="scss" scoped>
