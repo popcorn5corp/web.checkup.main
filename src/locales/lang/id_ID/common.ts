@@ -1,7 +1,7 @@
 export default {
   filter: 'Filters',
   tableTotalText: '{count} results',
-  searchPlaceholder: 'Please search for the title.',
+  searchPlaceholder: 'Please enter what you want to search for.',
   postRead: 'Post Details',
   postModify: 'Modify Posts',
   postRegist: 'Register a post',

@@ -1,5 +1,8 @@
 import { Util } from '@/utils'
-import { type ComputedRef, computed, reactive, toRefs, unref } from 'vue'
+import { cloneDeep } from 'lodash-es'
+import { type ComputedRef, computed, reactive, toRefs, unref, watch } from 'vue'
+import type { DynamicTableInstance } from '@/components/dynamic-table/hooks/useDynamicTableContext'
+import { FILTER_UI } from '@/components/filter-form'
 import type { TablePagination, TableProps, TableSorter } from '../types'
 import { defaultPaginaton } from '../types'
 import { ErrorMessage, TableError } from './error'
@@ -23,7 +26,11 @@ interface ActionType {
   setLoading: (loading: boolean) => void
 }
 
-export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: ActionType) => {
+export const useTable = (
+  propsRef: ComputedRef<TableProps>,
+  context: DynamicTableInstance,
+  { setLoading }: ActionType
+) => {
   const state = reactive({
     ...defaultState()
   })
@@ -44,58 +51,14 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     }
   }
 
+  const { current, pageSize } = toRefs(state.pagination)
   const getDataSource = computed(() => unref(propsRef).dataSource || state.dataSource)
   const getCardData = computed(() => state.cardData)
-
-  function initTableState() {
-    state.dataSource = []
-    state.cardData = []
-    state.total = 0
-    state.requestParam = {}
-    state.filterParam = {}
-    state.selectedRowKeys = []
-    state.pagination = {
-      ...defaultPaginaton,
-      ...unref(propsRef).pagination
-    }
-    state.sorter = []
-    state.searchWord = ''
-  }
-
-  function initDataSource() {
-    state.dataSource = []
-  }
-
-  function initCardViewChecked() {
-    state.dataSource = getDataSource.value.map((r) => {
-      return {
-        ...r,
-        checked: false
-      }
-    })
-  }
-
+  const isSorting = computed(() => state.sorter.length)
+  const paginationParam = computed(() => ({ page: unref(current) - 1, size: unref(pageSize) }))
   const getPagination = computed(() => {
     if (!unref(propsRef).options?.isPagination) return false
     return state.pagination
-  })
-
-  async function setPagination(current: number, pageSize: number) {
-    state.pagination = {
-      ...state.pagination,
-      pageSize: pageSize as number,
-      current: current as number
-    }
-
-    await fetchDataSource()
-  }
-
-  const isSorting = computed(() => state.sorter.length)
-  const paginationParam = computed(() => {
-    return {
-      page: state.pagination.current - 1,
-      size: state.pagination.pageSize
-    }
   })
 
   const sorterParam = computed(() => {
@@ -104,16 +67,29 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
       param = param + `${i !== 0 ? ',' : ''}` + `${r.order === 'descend' ? '-' : ''}${r.columnKey}`
     })
 
+    return { sort: param === '' ? undefined : param }
+  })
+
+  const rowSelection = computed<TableProps['rowSelection']>(() => {
     return {
-      sort: param === '' ? undefined : param
+      selectedRowKeys: state.selectedRowKeys,
+      onChange: (changableRowKeys: Key[]) => {
+        state.selectedRowKeys = changableRowKeys
+      },
+      hideDefaultSelections: true
     }
   })
 
-  const fetchDataSource = async (options?: {
+  /**
+   * @description 테이블 리스트 조회
+   */
+  async function fetchDataSource(options?: {
     isReset?: boolean
     param?: { searchWord?: string }
     filterParam?: Recordable
-  }): Promise<void> => {
+  }): Promise<void> {
+    setLoading(true)
+
     const {
       rowKey,
       dataRequest,
@@ -135,7 +111,6 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
         _total = dataSource.length
       }
     } else {
-      setLoading(true)
       const filterParam = options?.filterParam
       filterParam && (state.filterParam = filterParam)
 
@@ -207,19 +182,67 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     state.dataSource = _dataSource
     state.cardData = _cardData
     state.total = _total
-
-    setTimeout(() => {
-      setLoading(false)
-    }, 300)
+    setLoading(false)
   }
 
+  /**
+   * @description DynamicTable 필터 정보를 통해 Request Paramter 생성
+   */
+  watch(
+    () => context?.getFilterFormItems(),
+    async (filterFormItems) => {
+      if (context) {
+        const activeFilter = unref(context.getContextValues).activeFilter
+
+        if (activeFilter && filterFormItems.length) {
+          const _filterFormItems = cloneDeep(filterFormItems)
+          const defaultParam = {
+            page: 0,
+            size: 10,
+            searchWord: ''
+          }
+
+          type ParamValue = string | number | boolean
+          const filterParam: {
+            [key: string]: ParamValue | Array<ParamValue>
+          } = {
+            ...defaultParam
+          }
+
+          _filterFormItems.map((formItem) => {
+            const { type, key, selectedItems } = formItem
+
+            // Checkbox 타입일 경우에만 search 조건이 여러개가 가능하기때문에 Array로 세팅
+            if (type === FILTER_UI.CHECKBOX) {
+              key.map((k) => {
+                filterParam[k] = []
+
+                selectedItems?.map((item) => {
+                  ;(filterParam[k] as Array<ParamValue>).push(item.value)
+                })
+              })
+
+              return
+            }
+
+            key.map((k, i) => {
+              selectedItems.length && (filterParam[k] = selectedItems[i].value)
+            })
+          })
+
+          filterParam && (await fetchDataSource({ isReset: false, filterParam }))
+        }
+      }
+    },
+    { immediate: true, deep: true }
+  )
+
+  /**
+   * @description 테이블 변경에 대한 Event
+   */
   const changeTable: TableProps['onChange'] = async (pagination, filters, sorter, extra) => {
     const { pageSize, current } = pagination
-    // // 페이지 사이즈 변경 시, 첫 페이지로 이동
-    // // const isChangePageSize = tablePagination.value.pageSize !== pageSize
 
-    // tablePagination.value.pageSize = pageSize
-    // tablePagination.value.current = isChangePageSize ? 1 : current
     state.pagination = {
       ...state.pagination,
       pageSize: pageSize as number,
@@ -240,24 +263,48 @@ export const useTable = (propsRef: ComputedRef<TableProps>, { setLoading }: Acti
     await fetchDataSource()
   }
 
-  const getRecordNo = (index: number) => {
-    // if (unref(propsRef).options?.isPagination) return index + 1
-
+  function getRecordNo(index: number) {
     const { pageSize, current } = state.pagination
-    // if (pageSize && current) {
     return index + 1 + pageSize * (current - 1)
-    // }
   }
 
-  const rowSelection = computed<TableProps['rowSelection']>(() => {
-    return {
-      selectedRowKeys: state.selectedRowKeys,
-      onChange: (changableRowKeys: Key[]) => {
-        state.selectedRowKeys = changableRowKeys
-      },
-      hideDefaultSelections: true
+  async function setPagination(current: number, pageSize: number) {
+    state.pagination = {
+      ...state.pagination,
+      pageSize: pageSize as number,
+      current: current as number
     }
-  })
+
+    await fetchDataSource()
+  }
+
+  function initTableState() {
+    state.dataSource = []
+    state.cardData = []
+    state.total = 0
+    state.requestParam = {}
+    state.filterParam = {}
+    state.selectedRowKeys = []
+    state.pagination = {
+      ...defaultPaginaton,
+      ...unref(propsRef).pagination
+    }
+    state.sorter = []
+    state.searchWord = ''
+  }
+
+  function initDataSource() {
+    state.dataSource = []
+  }
+
+  function initCardViewChecked() {
+    state.dataSource = getDataSource.value.map((r) => {
+      return {
+        ...r,
+        checked: false
+      }
+    })
+  }
 
   return {
     ...toRefs(state),

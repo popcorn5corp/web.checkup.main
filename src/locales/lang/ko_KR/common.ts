@@ -1,7 +1,7 @@
 export default {
   filter: '필터',
   tableTotalText: '전체: {count} 건',
-  searchPlaceholder: '제목을 검색해주세요.',
+  searchPlaceholder: '검색할 내용을 입력해주세요.',
   postRead: '게시물 상세',
   postModify: '게시물 수정',
   postRegist: '게시물 등록',
