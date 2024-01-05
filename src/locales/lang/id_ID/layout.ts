@@ -17,7 +17,8 @@ export default {
       fontSizeLarge: 'Besar',
       tabLang: 'Bahasa',
       tabLangRegion: 'Bahasa dan Daerah',
-      tabAlarm: 'Alarm'
+      tabAlarm: 'Alarm',
+      tabAccessibility: 'Accessibility'
     }
   },
   menu: {

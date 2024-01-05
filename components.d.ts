@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     ABadge: typeof import('ant-design-vue/es')['Badge']
     AButton: typeof import('ant-design-vue/es')['Button']
     ACard: typeof import('ant-design-vue/es')['Card']
+    AccessibilitySetting: typeof import('./src/components/header/src/components/AccessibilitySetting.vue')['default']
     Accordion: typeof import('./src/components/accordion/src/Accordion.vue')['default']
     AccordionPanel: typeof import('./src/components/accordion/src/AccordionPanel.vue')['default']
     ACheckbox: typeof import('ant-design-vue/es')['Checkbox']

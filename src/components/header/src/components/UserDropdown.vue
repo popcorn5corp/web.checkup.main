@@ -64,6 +64,9 @@
         <TabPane key="4" :tab="$t('layout.header.settings.tabLangRegion')">
           <LanguageSetting />
         </TabPane>
+        <TabPane key="5" :tab="$t('layout.header.settings.tabAccessibility')">
+          <AccessibilitySetting />
+        </TabPane>
       </Tabs>
     </div>
   </Modal>
