@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { ManageUserService } from '@/services'
 import { Descriptions } from 'ant-design-vue'
-import { reactive, ref, watch } from 'vue'
+import { reactive, watch } from 'vue'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 

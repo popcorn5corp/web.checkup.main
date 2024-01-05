@@ -113,7 +113,7 @@ const isVisible = ref(false)
 const isModalLoading = ref(false)
 const activeKey = ref(tabInfo.Detail.key)
 
-const getDataSource = async (param: IManageUser.UserListParam) => {
+const getDataSource = async (param: IManageUser.GetUserListParam) => {
   return await ManageUserService.getUserList(getWorkspaceId || '', param)
 }
 
@@ -125,16 +125,20 @@ const getFilters = () => {
   return ManageUserService.getPageInfo()
 }
 
-const dataCallback = (data: { workspaceUsers: IManageUser.UserListRequest['workspaceUsers'] }) => {
+const dataCallback = (data: {
+  workspaceUsers: IManageUser.GetUserListRequest['workspaceUsers']
+}) => {
   const { workspaceUsers } = data
   return workspaceUsers
 }
 
-const contentCallback = (content: IManageUser.UserListRequest['workspaceUsers']['content']) => {
+const contentCallback = (content: IManageUser.GetUserListRequest['workspaceUsers']['content']) => {
   return content
 }
 
-const cardContentCallback = (content: IManageUser.UserListRequest['workspaceUsers']['content']) => {
+const cardContentCallback = (
+  content: IManageUser.GetUserListRequest['workspaceUsers']['content']
+) => {
   return content.map((r) => {
     return {
       ...r,

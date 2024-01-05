@@ -11,7 +11,7 @@ export namespace IManageUser {
     empty: boolean
   }
 
-  export interface UserListParam extends ConditionParam {
+  export interface GetUserListParam extends ConditionParam {
     searchWord: string
     searchUserStatus: string
     size: number
@@ -39,7 +39,7 @@ export namespace IManageUser {
     unpaged: boolean
   }
 
-  export interface UserListRequest {
+  export interface GetUserListRequest {
     workspaceUsers: {
       content: UserInfo[]
       pageable: PageableInfo[]
@@ -73,10 +73,10 @@ export namespace IManageUser {
     groups: GroupData[]
   }
 
-  export interface DuplicatedEmailParam {
+  export interface GetDuplicatedEmailParam {
     inviteEmail: string
   }
-  export interface DuplicatedEmailResponse {
+  export interface GetDuplicatedEmailResponse {
     inviteEmail: string
     exist: boolean
   }

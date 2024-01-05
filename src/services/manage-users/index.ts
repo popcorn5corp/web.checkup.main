@@ -9,8 +9,8 @@ class ManageUserService {
   constructor() {}
 
   // 사용자 목록 조회
-  getUserList(workspaceId: string, param?: IManageUser.UserListParam) {
-    return service.get<IManageUser.UserListRequest>(this.PATH + `/${workspaceId}/users`, param)
+  getUserList(workspaceId: string, param?: IManageUser.GetUserListParam) {
+    return service.get<IManageUser.GetUserListRequest>(this.PATH + `/${workspaceId}/users`, param)
   }
 
   // 사용자 테이블 sort
@@ -33,8 +33,8 @@ class ManageUserService {
   }
 
   // 사용자 초대 이메일 중복 확인
-  checkDuplicatedEmail(workspaceId: string, param: IManageUser.DuplicatedEmailParam) {
-    return service.get<IManageUser.DuplicatedEmailResponse>(
+  checkDuplicatedEmail(workspaceId: string, param: IManageUser.GetDuplicatedEmailParam) {
+    return service.get<IManageUser.GetDuplicatedEmailResponse>(
       this.PATH + `/${workspaceId}/user/exist`,
       param
     )
