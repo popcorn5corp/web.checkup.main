@@ -10,12 +10,12 @@ export namespace IWorkspace {
     workspaceImagePath: string
   }
 
-  export interface DefaultWorkspceInfo {
+  export interface UpdateDefaultWorkspceInfo {
     defaultWorkspace: boolean
     defaultWorkspaceId: string
   }
 
-  export interface DefaultProfilesResponse {
+  export interface GetDefaultProfilesResponse {
     images: ImageFilesInfo[]
   }
 
@@ -35,17 +35,14 @@ export namespace IWorkspace {
       nickname: string
       email: string
       profile: string
-      userStatus: {
-        label: string
-        value: string
-      }
+      userStatus: LabelValue<string>
     }
   }
 
-  export interface WorkspaceListParam {
+  export interface GetWorkspaceListParam {
     currentWorkspaceId: string | null
   }
-  export interface WorkspaceListResponse extends DefaultWorkspceInfo {
+  export interface GetWorkspaceListResponse extends UpdateDefaultWorkspceInfo {
     uid: string
     userId: string
     userName: string
@@ -60,21 +57,16 @@ export namespace IWorkspace {
     uid: string
   }
 
-  export interface ValidateInviteCodeParam {
+  export interface GetValidateInviteCodeParam {
     inviteCode: string
   }
-  export interface ValidateInviteCodeResponse extends WorkspaceInfo {
+  export interface GetValidateInviteCodeResponse extends WorkspaceInfo {
     uid: string
     workspaceInviteLogId: string
   }
 
-  export interface BusinessOptResponse {
-    codes: BusinessOptionType[]
-  }
-
-  export interface BusinessOptionType {
-    label: string
-    value: string
+  export interface GetBusinessOptResponse {
+    codes: LabelValue<string>[]
   }
 
   export interface JoinWorkspaceParam {
@@ -111,7 +103,7 @@ export namespace IWorkspace {
       value: UserStatus
     }
   }
-  export interface UserWorkspaceResponse {
+  export interface GetUserWorkspaceResponse {
     workspace: WorkspaceInfo
     workspaceUser: WorkspaceUserInfo
   }

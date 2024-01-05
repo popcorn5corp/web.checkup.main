@@ -1,12 +1,6 @@
 <template>
   <div class="post-detail">
-    <Form
-      v-if="!isEdit"
-      :layout="formState.layout"
-      :model="formState"
-      v-bind="formItemLayout"
-      class="form-wrapper"
-    >
+    <Form v-if="!isEdit" layout="horizontal" :model="formState" class="form-wrapper">
       <div class="img-wrapper">
         <img :src="formState.data.thumbnail?.url" />
       </div>
@@ -21,7 +15,7 @@
           {{ formState.data.email }}
         </Item>
         <Item :label="$t('common.phone')" name="phone">
-          {{ formState.data.phone }}
+          {{ formState.data.phone || '-' }}
         </Item>
         <Item :label="$t('page.manage.joinDate')" name="joinDate">
           {{ formState.data.joinDate }}
@@ -29,13 +23,13 @@
       </div>
 
       <a-dropdown v-model:open="visible" :trigger="['click']">
-        <a class="ant-dropdown-link" @click.prevent><MoreOutlined /></a>
+        <a class="ant-dropdown-link" @click.prevent><MoreOutlined style="font-size: 18px" /></a>
         <template #overlay>
           <a-menu>
             <a-menu-item key="1" @click="onEditMode">
               <span>{{ t('common.postModify') }}</span>
             </a-menu-item>
-            <a-menu-item key="2" @click="handleMenuClick">
+            <a-menu-item key="2" @click="showDeleteConfirm">
               <span>{{ t('page.manage.export') }}</span>
             </a-menu-item>
           </a-menu>
@@ -43,13 +37,7 @@
       </a-dropdown>
     </Form>
 
-    <Form
-      v-else
-      ref="formRef"
-      :layout="formState.layout"
-      :model="formState"
-      v-bind="formItemLayout"
-    >
+    <Form v-else ref="formRef" layout="horizontal" :model="formState">
       <Item :label="$t('common.name')" name="nickname">
         <Input v-model:value="formState.data.nickname" />
       </Item>
@@ -73,11 +61,13 @@
         <Button @click="onSubmit" type="primary"><CheckOutlined /></Button>
       </div>
     </Form>
+
+    <contextHolder />
   </div>
 </template>
 
 <script setup lang="tsx" name="PostDetail">
-import { Form, Input, type MenuProps, Modal, Select, type SelectProps } from 'ant-design-vue'
+import { Form, Input, Modal, Select, type SelectProps } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -93,13 +83,12 @@ import { getDefaultPost } from '../constant'
 
 const DEFAULT_MODE = modes.R
 
-type WorkspaceUsers = IManageUser.UserListRequest
+type WorkspaceUsers = IManageUser.UserInfo
 interface PostDetailProps {
   data: WorkspaceUsers
 }
 
 interface FormState {
-  layout: 'horizontal' | 'vertical' | 'inline'
   data: WorkspaceUsers
   cloneData: WorkspaceUsers
 }
@@ -110,14 +99,6 @@ const [modal, contextHolder] = Modal.useModal()
 
 const props = defineProps<PostDetailProps>()
 
-const formItemLayout = computed(() => {
-  const { layout } = formState
-  return layout === 'horizontal'
-    ? {
-        wrapperCol: { span: 16 }
-      }
-    : {}
-})
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
 
 const userStatusOptions = ref<SelectProps['options']>([
@@ -141,23 +122,10 @@ const userStatusOptions = ref<SelectProps['options']>([
 const mode = ref<ContentMode>(DEFAULT_MODE)
 const visible = ref(false)
 const formRef = ref()
-const fileUploader = ref()
 const formState: UnwrapRef<FormState> = reactive({
-  layout: 'horizontal',
   data: getDefaultPost(),
   cloneData: getDefaultPost()
 })
-
-const rollbackPost = () => (formState.data = cloneDeep(formState.cloneData))
-const getPostDetail = (): WorkspaceUsers => {
-  const files = fileUploader.value.getFiles()
-
-  return {
-    ...formState.data,
-    boardFiles: files
-  }
-}
-
 const onSubmit = async () => {
   // const requestBody = {
   //   workspaceId: getWorkspace?.workspaceId,
@@ -186,12 +154,7 @@ const onEditMode = () => {
   mode.value = modes.C
 }
 
-const handleMenuClick: MenuProps['onClick'] = (uid: string) => {
-  console.log('uid', uid)
-  showDeleteConfirm(uid)
-}
-
-const showDeleteConfirm = (uid: string) => {
+const showDeleteConfirm = () => {
   modal.confirm({
     title: t('common.message.modalDeleteCheck'),
     icon: h(ExclamationCircleOutlined),
@@ -239,12 +202,6 @@ watch(
     immediate: true
   }
 )
-
-defineExpose({
-  getPostDetail,
-  rollbackPost,
-  onSubmit
-})
 </script>
 
 <style lang="scss" scoped>
@@ -254,10 +211,9 @@ defineExpose({
   .form-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 
     .img-wrapper {
-      flex: 0.5;
       > img {
         width: 180px;
         border: 1px solid $color-gray-5;
@@ -269,7 +225,9 @@ defineExpose({
       }
     }
     .form-item-wrapper {
-      flex: 0.8;
+      width: 100%;
+      align-self: flex-start;
+      padding-left: 1rem;
     }
   }
 
@@ -320,19 +278,10 @@ defineExpose({
       .ant-form-item-control {
         width: 100%;
       }
-      // .ant-form-item-control-input-content {
-      //   white-space: nowrap;
-      //   overflow: hidden;
-      //   text-overflow: ellipsis;
-      // }
+      .ant-form-item-control-input {
+        word-break: break-all;
+      }
     }
-  }
-}
-
-@include xxl {
-  .form-wrapper {
-    flex-direction: row !important;
-    align-items: center !important;
   }
 }
 </style>
