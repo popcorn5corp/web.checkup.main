@@ -35,7 +35,9 @@
 
           <template #actions>
             <a-dropdown v-model:open="item.visible" :trigger="['click']">
-              <a class="ant-dropdown-link" @click.prevent> <MoreOutlined /> </a>
+              <a class="ant-dropdown-link" @click.prevent>
+                <MoreOutlined style="font-size: 18px" />
+              </a>
               <template #overlay>
                 <a-menu @click="showDeleteConfirm(item.uid)">
                   <a-menu-item key="1">

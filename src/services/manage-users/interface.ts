@@ -24,10 +24,7 @@ export namespace IManageUser {
     email: string
     phone: string
     joinDate: string
-    userStatus: {
-      label: string
-      value: string
-    }
+    userStatus: LabelValue<string>
     thumbnail: {
       url: string
     }
@@ -71,10 +68,7 @@ export namespace IManageUser {
   export interface GetDetailResponse {
     detail: {
       joinDate: string
-      gender: {
-        label: string
-        value: string
-      }
+      gender: LabelValue<string>
     }
     groups: GroupData[]
   }

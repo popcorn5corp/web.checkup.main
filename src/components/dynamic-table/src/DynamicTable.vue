@@ -342,12 +342,16 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
     }
 
     .detail-wrapper {
+      height: calc(100vh - 145px);
       background-color: $color-white;
       z-index: 2;
       right: 0;
       margin-top: -80px;
       border: 0.5px solid $color-gray-4;
       box-shadow: $shadow-3;
+      height: calc(100vh - 145px);
+      overflow-x: hidden;
+      overflow-y: scroll;
 
       > .title {
         display: flex;
