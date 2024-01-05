@@ -8,7 +8,7 @@
       </div>
 
       <a-dropdown v-model:open="isDropdown" :trigger="['click']">
-        <a class="ant-dropdown-link" @click.prevent> <MoreOutlined /> </a>
+        <a class="ant-dropdown-link" @click.prevent> <MoreOutlined style="font-size: 18px" /> </a>
         <template #overlay>
           <a-menu>
             <a-menu-item key="1" @click="changeMode(modes.C)">

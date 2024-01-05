@@ -14,8 +14,8 @@
     <h3 class="title">{{ $t('page.manage.group') }}</h3>
     <div class="content-wrapper">
       <div class="group-wrapper">
-        <template v-if="props.data.groups?.length">
-          <span v-for="group in props.data.groups" :key="group.groupId" class="group-item">
+        <template v-if="state.data.groups?.length">
+          <span v-for="group in state.data.groups" :key="group.groupId" class="group-item">
             {{ group.name }}
           </span>
         </template>
@@ -26,15 +26,18 @@
 </template>
 
 <script setup lang="ts">
+import { ManageUserService } from '@/services'
 import { Descriptions } from 'ant-design-vue'
 import { reactive, watch } from 'vue'
 import type { IManageUser } from '@/services/manage-users/interface'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 
-interface PostDetailProps {
-  data: IManageUser.GetDetailResponse
+interface UserDetailProps {
+  workspaceUserId: string
 }
 
-const props = defineProps<PostDetailProps>()
+const props = defineProps<UserDetailProps>()
+const { getWorkspaceId } = useWorkspaceStore()
 
 const state = reactive({
   data: {
@@ -49,17 +52,25 @@ const state = reactive({
   }
 })
 
+const fetchUserDetail = async (workspaceUserId: string) => {
+  getWorkspaceId &&
+    (await ManageUserService.getOneById(getWorkspaceId, workspaceUserId).then(
+      ({ success, data }) => {
+        if (success) {
+          state.data = {
+            ...data
+          }
+        }
+      }
+    ))
+}
+
 watch(
-  () => props.data,
-  (data) => {
-    state.data = {
-      ...data
-    }
+  () => props.workspaceUserId,
+  (id) => {
+    fetchUserDetail(id)
   },
-  {
-    immediate: true,
-    deep: true
-  }
+  { immediate: true }
 )
 </script>
 

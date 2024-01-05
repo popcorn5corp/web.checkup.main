@@ -28,8 +28,8 @@ const workspaceStore = useWorkspaceStore()
 const { getFormValues } = toRefs(workspaceStore)
 
 interface ReactiveType {
-  businessTypeOpt: IWorkspace.BusinessOptionType[]
-  employeeScaleOpt: IWorkspace.BusinessOptionType[]
+  businessTypeOpt: IWorkspace.LabelValue<string>[]
+  employeeScaleOpt: IWorkspace.LabelValue<string>[]
 }
 const option = reactive<ReactiveType>({
   businessTypeOpt: [],

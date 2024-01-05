@@ -9,14 +9,14 @@ class WorkspaceService {
   /**
    * @description 워크스페이스 목록 조회 API
    */
-  getWorkspaceList(param?: IWorkspace.WorkspaceListParam) {
-    return service.get<IWorkspace.WorkspaceListResponse>(this.PATH + '/user/workspaces', param)
+  getWorkspaceList(param?: IWorkspace.GetWorkspaceListParam) {
+    return service.get<IWorkspace.GetWorkspaceListResponse>(this.PATH + '/user/workspaces', param)
   }
 
   /**
    * @description 기본 워크스페이스 설정 API
    */
-  updateDefaultWorkspace(param: IWorkspace.DefaultWorkspceInfo) {
+  updateDefaultWorkspace(param: IWorkspace.UpdateDefaultWorkspceInfo) {
     return service.post(this.PATH + '/user/workspaces/default-workspace', param)
   }
 
@@ -24,14 +24,16 @@ class WorkspaceService {
    * @description 기본 이미지 조회 API
    */
   getDefaultProfiles() {
-    return service.get<IWorkspace.DefaultProfilesResponse>(this.PATH + '/images/default-profiles')
+    return service.get<IWorkspace.GetDefaultProfilesResponse>(
+      this.PATH + '/images/default-profiles'
+    )
   }
 
   /**
    * @description 업종 조회 API
    */
   getBusinessType() {
-    return service.get<IWorkspace.BusinessOptResponse>(
+    return service.get<IWorkspace.GetBusinessOptResponse>(
       this.PATH + '/workspace/join/business-type-codes'
     )
   }
@@ -40,7 +42,7 @@ class WorkspaceService {
    * @description 규모 조회 API
    */
   getEmployeeScale() {
-    return service.get<IWorkspace.BusinessOptResponse>(
+    return service.get<IWorkspace.GetBusinessOptResponse>(
       this.PATH + '/workspace/join/employee-scale-codes'
     )
   }
@@ -55,8 +57,8 @@ class WorkspaceService {
   /**
    * @description 초대코드 유효성 체크 API
    */
-  checkInviteCode(param: IWorkspace.ValidateInviteCodeParam) {
-    return service.get<IWorkspace.ValidateInviteCodeResponse>(
+  checkInviteCode(param: IWorkspace.GetValidateInviteCodeParam) {
+    return service.get<IWorkspace.GetValidateInviteCodeResponse>(
       this.PATH + '/workspace/invite/check',
       param
     )
@@ -82,7 +84,7 @@ class WorkspaceService {
    * @description 워크스페이스 상세 정보 조회 API
    */
   getUserWorkspace(workspaceId: string) {
-    return service.get<IWorkspace.UserWorkspaceResponse>(
+    return service.get<IWorkspace.GetUserWorkspaceResponse>(
       this.PATH + `/workspaces/${workspaceId}/me`
     )
   }

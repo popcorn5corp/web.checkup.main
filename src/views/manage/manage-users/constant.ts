@@ -1,7 +1,13 @@
 export const getDefaultPost = () => ({
-  nickname: '',
   email: '',
-  phone: '',
+  // index: 0,
   joinDate: '',
-  userStatus: ''
+  nickname: '',
+  phone: '',
+  // rowKey: 0,
+  thumbnail: {
+    url: ''
+  },
+  userStatus: { label: '', value: '' },
+  workspaceUserId: ''
 })

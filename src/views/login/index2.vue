@@ -188,7 +188,7 @@ body {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background-color: var(--white);
+  background-color: $color-white;
 }
 
 .row {

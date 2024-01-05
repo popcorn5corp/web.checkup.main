@@ -16,7 +16,7 @@
       :phText="$t('page.manage.ph.userSearchPh')"
       :deleteBtnText="$t('page.manage.export')"
       @row-click="onClickRow"
-      @row-add="isVisible.value = true"
+      @row-add="isVisible = true"
       @row-delete="onRemovePost"
     >
       <template #tableBtns>
@@ -36,19 +36,17 @@
       </template>
       <template #detail-content>
         <div class="detail-contents">
-          <PostDetail ref="postDetailRef" :data="selectedData" />
-          <div class="tab-wrapper">
-            <a-tabs
-              v-model:active-key="activeKey"
-              :destroyInactiveTabPane="true"
-              :tabBarGutter="70"
-              :tabBarStyle="{ padding: '0 10%', display: 'flex' }"
-            >
-              <a-tab-pane v-for="(tab, index) in tabInfo" :key="tab.key" :tab="tab.title">
-                <component :is="tab.component" :data="selectedData" />
-              </a-tab-pane>
-            </a-tabs>
-          </div>
+          <PostDetail ref="postDetailRef" :data="selectedUserDetailData" />
+          <a-tabs
+            v-model:active-key="activeKey"
+            :destroyInactiveTabPane="true"
+            :tabBarGutter="70"
+            :tabBarStyle="{ padding: '0 10%', display: 'flex' }"
+          >
+            <a-tab-pane v-for="(tab, index) in tabInfo" :key="tab.key" :tab="tab.title">
+              <component :is="tab.component" :workspaceUserId="selectedWSUserId" />
+            </a-tab-pane>
+          </a-tabs>
         </div>
       </template>
     </DynamicTable>
@@ -76,7 +74,7 @@
 <script setup lang="ts" name="TableSample">
 import { ManageUserService } from '@/services'
 import { message, Modal as modal } from 'ant-design-vue'
-import { computed, createVNode, ref } from 'vue'
+import { createVNode, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -104,20 +102,19 @@ const tabInfo = {
   }
 }
 
-const { getWorkspace } = useWorkspaceStore()
-const workspaceId = computed(() => getWorkspace.workspaceId)
-const selectedData = ref<IManageUser.UserListRequest>(getDefaultPost())
+const { getWorkspaceId } = useWorkspaceStore()
+const selectedUserDetailData = ref(getDefaultPost())
+const selectedWSUserId = ref()
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 const inviteMemberRef = ref()
 
 const showDetail = ref(false)
 const isVisible = ref(false)
-const isLoading = ref(false)
 const isModalLoading = ref(false)
 const activeKey = ref(tabInfo.Detail.key)
 
-const getDataSource = (param: IManageUser.UserListParam) => {
-  return ManageUserService.getUserList(workspaceId.value, param)
+const getDataSource = async (param: IManageUser.GetUserListParam) => {
+  return await ManageUserService.getUserList(getWorkspaceId || '', param)
 }
 
 const getColumns = () => {
@@ -128,16 +125,20 @@ const getFilters = () => {
   return ManageUserService.getPageInfo()
 }
 
-const dataCallback = (data: { workspaceUsers: IManageUser.UserListRequest['workspaceUsers'] }) => {
+const dataCallback = (data: {
+  workspaceUsers: IManageUser.GetUserListRequest['workspaceUsers']
+}) => {
   const { workspaceUsers } = data
   return workspaceUsers
 }
 
-const contentCallback = (content: IManageUser.UserListRequest['workspaceUsers']['content']) => {
+const contentCallback = (content: IManageUser.GetUserListRequest['workspaceUsers']['content']) => {
   return content
 }
 
-const cardContentCallback = (content: IManageUser.UserListRequest['workspaceUsers']['content']) => {
+const cardContentCallback = (
+  content: IManageUser.GetUserListRequest['workspaceUsers']['content']
+) => {
   return content.map((r) => {
     return {
       ...r,
@@ -153,21 +154,10 @@ const cardContentCallback = (content: IManageUser.UserListRequest['workspaceUser
 
 const onClickRow = (row: IManageUser.UserInfo): void => {
   showDetail.value = true
-  isLoading.value = true
   activeKey.value = tabInfo.Detail.key
 
-  ManageUserService.getOneById(workspaceId.value, row.workspaceUserId)
-    .then(({ success, data }) => {
-      if (success) {
-        selectedData.value = {
-          ...row,
-          ...data
-        }
-      }
-    })
-    .finally(() => {
-      isLoading.value = false
-    })
+  selectedUserDetailData.value = row
+  selectedWSUserId.value = row.workspaceUserId
 }
 
 /**
@@ -178,9 +168,10 @@ const onCompleteModal = async () => {
     isModalLoading.value = true
     // 사용자 초대
     const inviteEmails = inviteMemberRef.value.tags
-    await ManageUserService.inviteUsers(workspaceId.value, {
-      inviteEmails: inviteEmails
-    })
+    getWorkspaceId &&
+      (await ManageUserService.inviteUsers(getWorkspaceId, {
+        inviteEmails: inviteEmails
+      }))
     message.success('초대가 완료되었습니다.', 1)
     isVisible.value = false
     isModalLoading.value = false
@@ -192,7 +183,7 @@ const onCompleteModal = async () => {
 /**
  * @description 사용자 삭제 API 요청
  */
-const onRemovePost = (selectedRows: IBaseSample.Content[], selectedRowKeys: string[]): void => {
+const onRemovePost = (selectedRows: IManageUser.UserInfo[], selectedRowKeys: string[]): void => {
   console.log(selectedRows, selectedRowKeys)
   modal.confirm({
     content: '선택한 사용자를 내보내시겠습니까?',

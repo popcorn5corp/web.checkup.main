@@ -373,9 +373,6 @@ watch(
             background: #acc0f2;
           }
         }
-        .ant-table-tbody > tr > td.ant-table-cell-row-hover {
-          background: transparent;
-        }
       }
     }
   }
