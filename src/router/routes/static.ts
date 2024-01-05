@@ -335,6 +335,17 @@ export const staticRoutes: RouteRecordRaw[] = [
         }
       },
       {
+        path: 'timeline',
+        name: 'components-timeline',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-timeline" */ '@/views/components-overview/timeline/index.vue'
+          ),
+        meta: {
+          title: 'Timeline'
+        }
+      },
+      {
         path: 'search-select',
         name: 'components-search-select',
         component: () =>
