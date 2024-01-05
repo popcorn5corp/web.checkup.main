@@ -90,6 +90,7 @@ const props = withDefaults(defineProps<TableProps>(), {
 })
 
 const dynamicTable = useDynamicTableContext()
+const attrs = useAttrs()
 const wrapRef = ref(null)
 const innerProps = ref<Partial<TableProps>>()
 const contextValues = ref<TableContextValues>({
@@ -212,7 +213,7 @@ const tableAction: TableAction = {
  */
 const getBindValues = computed<Recordable>(() => {
   let propsData = {
-    ...useAttrs(),
+    ...attrs,
     customRow,
     ...unref(getProps),
     dataSource: unref(getDataSource),
