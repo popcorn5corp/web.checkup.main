@@ -1,25 +1,39 @@
 import type { IBaseAPI } from '@/services/base/interface'
-import type { FilterFormItem, FilterList, FilterUI } from '@/components/filter-form'
+import type { FilterFormItem, FilterList } from '@/components/filter-form'
 import type { TableProps } from '@/components/table'
 
 export interface DynamicTableProps extends TableProps {
-  // 필터 목록 (filterRequest 대체 가능)
+  /**
+   * 필터 목록 (filterRequest 대체 가능)
+   */
   filters?: FilterList
-  // 상세 영역 표출
+  /**
+   * 상세 영역 표출 여부 v-model
+   */
   openDetail?: boolean
-  // 필터 버튼 노출 여부
-  showFilter?: boolean
-  // 등록 버튼 노출 여부
+  /**
+   * 등록 버튼 노출 여부
+   */
   showRegist?: boolean
-  // 다운로드 버튼 노출 여부
+  /**
+   * 다운로드 버튼 노출 여부
+   */
   showDownload?: boolean
-  // 삭제 버튼 노출 여부
+  /**
+   * 삭제 버튼 노출 여부
+   */
   showDelete?: boolean
-  // 툴바 검색 input placeholder
+  /**
+   * 검색창 Placeholder Text
+   */
   phText?: string
-  // 삭제 버튼 텍스트
+  /**
+   * 삭제 버튼 텍스트
+   */
   deleteBtnText?: string
-  // 테이블 필터 정보에 대한 API
+  /**
+   * 테이블 필터 정보에 대한 API
+   */
   filterRequest?: () => Promise<API.ResponseData<IBaseAPI.FilterResponse>>
   /**
    * Request API에 대한 응답 Content 처리를 위한 Callback
