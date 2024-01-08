@@ -8,7 +8,9 @@ import id_ID from './lang/id_ID'
 import ko_KR from './lang/ko_KR'
 
 const localeStore = useLocaleStoreWithOut()
-const locale = localeStore.getLocale
+const locale = localeStore.getLocaleInfo()
+
+console.log('locale ', locale)
 export const localeMessages = {
   ko_KR: {
     ...ko_KR.message
