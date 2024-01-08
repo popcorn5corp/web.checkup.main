@@ -37,7 +37,7 @@ class ManageGroupService {
    * @returns 그룹 유저 데이터
    */
   getGroupDetail(groupId: string) {
-    return service.get<IManageGroup.ResponseUserList['data']>(this.PATH + `/group/${groupId}/users`)
+    return service.get<IManageGroup.GetUserListResponse>(this.PATH + `/group/${groupId}/users`)
   }
 
   /**
@@ -45,7 +45,7 @@ class ManageGroupService {
    * @returns 그룹 타임라인 데이터
    */
   getGroupHistory(groupId: string, param: any) {
-    return service.get<IManageGroup.ResponseHistory['data']>(
+    return service.get<IManageGroup.GetTimelineResponse>(
       this.PATH + `/group/${groupId}/logs`,
       param
     )
@@ -60,7 +60,7 @@ class ManageGroupService {
     groupId: string,
     param: Partial<IManageGroup.GroupListParam>
   ) {
-    return service.get<IManageGroup.ResponseUserList['data']>(
+    return service.get<IManageGroup.GetUserListResponse>(
       this.PATH + `/workspace/${workspaceId}/${groupId}/users`,
       param
     )

@@ -64,7 +64,7 @@ import {
 import { contentModes as modes } from '@/constants/content'
 
 const { t } = useI18n()
-type PostType = Partial<IManageGroup.ResTableContent>
+type PostType = Partial<IManageGroup.TableDataSource>
 
 interface PostDetailProps {
   data: PostType

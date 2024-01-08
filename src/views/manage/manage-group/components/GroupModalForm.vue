@@ -28,6 +28,7 @@ import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/interface'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { Form } from '@/components/form'
 import type { SearchSelectProps } from '@/components/search-select/types'
 
 const { t } = useI18n()
@@ -42,7 +43,7 @@ const groupInfo = ref<Partial<IManageGroup.DefaultGroupInfo>>({
 const options = ref<SearchSelectProps['options']>([])
 
 const getUserListAll = async (): Promise<IManageUser.UserInfo[]> => {
-  const { data } = await ManageUserService.getUserList(getWorkspaceId)
+  const { data } = await ManageUserService.getUserList(getWorkspaceId as string)
 
   return data.workspaceUsers.content
 }

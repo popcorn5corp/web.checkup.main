@@ -125,7 +125,7 @@ const initTabKey = () => {
 const getDataSource = async (param: IManageGroup.GroupListParam) => {
   return await ManagerGroupService.getGroupList(getWorkspaceId, param)
 }
-const dataCallback = ({ posts }: IManageGroup.ResponseTable['data']) => posts
+const dataCallback = ({ posts }: IManageGroup.GetTableListResponse['data']) => posts
 const getFilters = () => ManagerGroupService.getPageInfo()
 const getColumns = () => ManagerGroupService.getSortableCodes()
 
@@ -146,7 +146,7 @@ const showMessage = (type: string) => {
   }
 }
 
-const onClickRow = (row: IManageGroup.ResTableContent): void => {
+const onClickRow = (row: IManageGroup.TableDataSource): void => {
   selectedData.value = row
 
   handleShowDetail(true)
@@ -193,7 +193,7 @@ const createGroup = async () => {
  * @param selectedRows
  */
 const onRemovePost = (
-  selectedRows: IManageGroup.ResTableContent,
+  selectedRows: IManageGroup.TableDataSource,
   selectedRowKeys: string[]
 ): void => {
   modal.confirm({

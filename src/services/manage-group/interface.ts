@@ -5,39 +5,29 @@ export interface ConditionParam {
   filter?: string
 }
 export namespace IManageGroup {
-  export interface ResponseTable
-    extends API.ResponseData<{ posts: ResPagiInfo<ResTableContent[]> }> {}
+  export interface GetTableListResponse extends ResponseData<TableDataSource[]> {}
 
-  export interface ResponseUserList
-    extends API.ResponseData<{ posts: ResPagiInfo<ResUserContent[]> }> {}
+  export interface GetUserListResponse extends ResponseData<UserInfo[]> {}
 
-  export interface ResponseHistory
-    extends API.ResponseData<{ posts: ResPagiInfo<ResHistoryContent[]> }> {}
+  export interface GetTimelineResponse extends ResponseData<TimelineInfo[]> {}
 
-  export interface PageableInfo {
-    sort: SortInfo
-    pageNumber: number
-    pageSize: number
-    offset: number
-    paged: boolean
-    unpaged: boolean
+  export interface ResponseData<T> {
+    posts: {
+      content: T
+      pageable: PageableInfo[]
+      last: boolean
+      totalPages: number
+      totalElements: number
+      sort: SortInfo
+      first: boolean
+      number: number
+      numberOfElements: number
+      size: number
+      empty: boolean
+    }
   }
 
-  export interface ResPagiInfo<T> {
-    content: T
-    pageable: PageableInfo[]
-    last: boolean
-    totalPages: number
-    totalElements: number
-    sort: SortInfo
-    first: boolean
-    number: number
-    numberOfElements: number
-    size: number
-    empty: boolean
-  }
-
-  export interface ResTableContent {
+  export interface TableDataSource {
     content: string
     createdAt: number
     groupId: string
@@ -48,13 +38,13 @@ export namespace IManageGroup {
     url: string
   }
 
-  export interface ResUserContent extends DefaultUserInfo {
+  export interface UserInfo extends DefaultUserInfo {
     email: string
     status: LabelValue<string>
     thumbnail: BoardFile | null
   }
 
-  export interface ResHistoryContent {
+  export interface TimelineInfo {
     issuedDate: string
     logs: LogItem[]
   }
@@ -103,4 +93,13 @@ export namespace IManageGroup {
   export interface FilterResponse {
     filters: IFilter[]
   }
+}
+
+export interface PageableInfo {
+  sort: SortInfo
+  pageNumber: number
+  pageSize: number
+  offset: number
+  paged: boolean
+  unpaged: boolean
 }
