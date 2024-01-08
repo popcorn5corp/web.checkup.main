@@ -50,11 +50,13 @@
             </div>
             <div class="input-group">
               <!-- <font-awesome-icon :icon="['fas', 'user']" /> -->
-              <input type="text" placeholder="Username" />
+              <!-- <input type="text" placeholder="Username" /> -->
+              <Input placeholder="input username" label="username" />
             </div>
             <div class="input-group">
               <!-- <i class="bx bxs-lock-alt"></i> -->
-              <input type="password" placeholder="Password" />
+              <!-- <input type="password" placeholder="Password" /> -->
+              <Input placeholder="input password" label="password" type="password" />
             </div>
             <button>Sign in</button>
             <p>
@@ -110,6 +112,7 @@
 import { useAuthStore } from '@/stores'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { Input } from '@/components/input'
 import { Spinner } from '@/components/spinner'
 import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import SocialLoginBnts from './components/SocialLoginBnts.vue'
@@ -222,19 +225,19 @@ body {
       &-large {
         font-size: 2rem;
         font-weight: 600;
-        color: var(--color-black);
+        color: $color-black;
       }
 
       &-normal {
         font-size: 1rem;
         font-weight: 400;
-        color: var(--color-black);
+        color: $color-black;
       }
 
       &-links {
         font-size: 1rem;
         font-weight: 400;
-        color: var(--color-blue);
+        color: $color-primary;
 
         &:hover {
           text-decoration: underline;
@@ -255,7 +258,7 @@ body {
         border: none;
         outline: none;
         height: 2px;
-        background: var(--color-grayish);
+        background: $color-grayish;
       }
 
       &-text {
@@ -263,7 +266,7 @@ body {
         font-size: 1rem;
         font-weight: 500;
         line-height: inherit;
-        color: var(--color-black);
+        color: $color-black;
         margin: 0 1rem;
       }
     }
@@ -272,7 +275,7 @@ body {
 
 .form {
   padding: 1rem;
-  background-color: var(--white);
+  background-color: $color-white;
   border-radius: 1.5rem;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -302,7 +305,7 @@ body {
   font-size: 1rem;
   background-color: #efefef;
   border-radius: 0.5rem;
-  border: 0.125rem solid var(--color-grayish);
+  border: 0.125rem solid $color-grayish;
   outline: none;
 }
 

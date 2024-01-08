@@ -355,6 +355,17 @@ export const staticRoutes: RouteRecordRaw[] = [
         meta: {
           title: 'SearchSelect'
         }
+      },
+      {
+        path: 'input',
+        name: 'components-input',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-input" */ '@/views/components-overview/input/index.vue'
+          ),
+        meta: {
+          title: 'Input'
+        }
       }
     ]
   }
