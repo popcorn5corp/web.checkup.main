@@ -29,7 +29,11 @@
       <template #detail-content>
         <div class="detail-contents">
           <div class="tab-wrapper">
-            <PostDetail :data="selectedData" @reload="tableReload" @close="handleShowDetail" />
+            <PostDetail
+              :data="selectedData"
+              @reload="tableReload"
+              @close="handleShowDetail(false)"
+            />
 
             <a-tabs
               v-model:active-key="tabActiveKey"
@@ -103,8 +107,8 @@ const selectedData = ref()
 const modalRef = ref()
 const { getWorkspaceId } = useWorkspaceStore()
 
-const handleShowDetail = () => {
-  showDetail.value = !showDetail.value
+const handleShowDetail = (val: boolean) => {
+  showDetail.value = val
 }
 
 const handleShowModal = (): void => {
@@ -145,7 +149,7 @@ const showMessage = (type: string) => {
 const onClickRow = (row: IManageGroup.ResTableContent): void => {
   selectedData.value = row
 
-  handleShowDetail()
+  handleShowDetail(true)
 
   initTabKey()
 }
