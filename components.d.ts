@@ -57,7 +57,6 @@ declare module '@vue/runtime-core' {
     CardView: typeof import('./src/components/table/src/components/CardView.vue')['default']
     Checkbox: typeof import('./src/components/filter-form/src/components/filter-types/Checkbox.vue')['default']
     copy: typeof import('./src/components/timeline/src/Timeline copy.vue')['default']
-    CustomInput: typeof import('./src/components/input/src/CustomInput.vue')['default']
     DatePicker: typeof import('./src/components/filter-form/src/components/filter-types/DatePicker.vue')['default']
     DisplaySetting: typeof import('./src/components/header/src/components/DisplaySetting.vue')['default']
     Drawer: typeof import('./src/components/drawer/src/Drawer.vue')['default']
