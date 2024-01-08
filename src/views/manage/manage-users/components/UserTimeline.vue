@@ -1,23 +1,10 @@
 <template>
   <div class="group-history-container">
-    <a-timeline :pending="loading && t('common.loading')">
-      <template v-for="{ issuedDate, logs } in groupLogs" :key="issuedDate">
-        <a-timeline-item>
-          <a-divider orientation="left">{{ issuedDate }}</a-divider>
-          <template v-for="(log, index) in logs" :key="index">
-            <p>
-              <span style="margin-right: 3px">{{ log.createTime }}</span>
-              <span> {{ t('page.manage.userName', { userName: log.nickname }) }} </span>
-              <span>{{ t(`page.manage.userStatus.${[log.status.value]}`) }}</span>
-            </p>
-          </template>
-        </a-timeline-item>
+    <Timeline :items="items" :pagination="true" :loading="loading" @reload="fetchGroupHistory">
+      <template #button-text>
+        {{ t('page.manage.moreContent') }}
       </template>
-    </a-timeline>
-
-    <Button v-if="!loading" type="primary" @click="fetchGroupHistory">{{
-      t('page.manage.moreContent')
-    }}</Button>
+    </Timeline>
   </div>
 </template>
 
@@ -25,10 +12,10 @@
 import { ManagerGroupService } from '@/services'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Button } from '@/components/button'
+import { Timeline } from '@/components/timeline'
 
 const { t } = useI18n()
-const groupLogs = ref()
+const items = ref()
 
 type Props = { groupId: string }
 
@@ -40,7 +27,7 @@ const loading = ref(false)
 
 watch(
   props,
-  (groupId) => {
+  () => {
     fetchGroupHistory()
   },
   { immediate: true }
@@ -58,7 +45,7 @@ function fetchGroupHistory() {
       }
     }) => {
       if (success) {
-        groupLogs.value = content
+        items.value = content
       }
 
       loading.value = false

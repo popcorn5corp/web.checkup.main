@@ -18,7 +18,7 @@ export default {
       tabLang: 'Bahasa',
       tabLangRegion: 'Bahasa dan Daerah',
       tabAlarm: 'Alarm',
-      tabAccessibility: 'Accessibility'
+      tabAccessibility: 'Aksesibilitas'
     }
   },
   menu: {

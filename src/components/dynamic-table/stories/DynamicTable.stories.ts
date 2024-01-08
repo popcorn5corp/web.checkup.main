@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import { Button } from '@/components/button'
+import { filterList } from '@/components/filter-form/types/mock'
 import { DynamicTable } from '../'
 import { columns, dataSource } from './mock'
 
@@ -45,12 +46,14 @@ const meta: Meta<ComponentProps<typeof DynamicTable>> = {
         defaultValue: { summary: false }
       }
     },
-    showFilter: {
-      description: '테이블 필터 노출 여부',
-      type: { name: 'boolean' },
+    filters: {
+      description: '테이블 필터 정보',
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: false }
+        type: {
+          summary: 'FilterList',
+          detail:
+            'Array<{ title: string, key: [string] | [string, string], order: number, type: FilterUI, options?: FilterOption[], selectedItems?: FilterItem[] }>'
+        }
       }
     },
     loading: {
@@ -62,11 +65,15 @@ const meta: Meta<ComponentProps<typeof DynamicTable>> = {
     }
   },
   args: {
+    rowKey: '',
     dataSource: [],
     columns: [],
-    showToolbar: false,
-    showFilter: false,
-    loading: false
+    filters: [],
+    showToolbar: true,
+    loading: false,
+    showRegist: true,
+    showDelete: true,
+    showDownload: true
   },
   parameters: {
     componentSubtitle:
@@ -81,10 +88,9 @@ export const Default: Story = {
   args: {
     ...meta.args,
     rowKey: 'id',
-    columns,
     dataSource,
-    showToolbar: true,
-    showFilter: true
+    columns,
+    filters: filterList
   }
 }
 

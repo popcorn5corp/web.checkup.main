@@ -10,7 +10,7 @@ type Instance = DynamicTableAction & {
   getBindValues: ComputedRef<Recordable>
 }
 
-export type RetInstance = Omit<Instance, 'getBindValues'> & {
+export type DynamicTableInstance = Omit<Instance, 'getBindValues'> & {
   getBindValues: ComputedRef<DynamicTableProps>
   getContextValues: ComputedRef<DynamicTableContextValues>
 }
@@ -19,6 +19,6 @@ export function createDynamicTableContext(instance: Instance) {
   provide(key, instance)
 }
 
-export function useDynamicTableContext(): RetInstance {
-  return inject(key) as RetInstance
+export function useDynamicTableContext(): DynamicTableInstance {
+  return inject(key) as DynamicTableInstance
 }

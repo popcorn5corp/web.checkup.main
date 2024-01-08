@@ -49,7 +49,6 @@
 </template>
 <script setup lang="ts" name="BasicTable">
 import { Table } from 'ant-design-vue'
-import { cloneDeep } from 'lodash-es'
 import omit from 'lodash-es/omit'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
 import type { CSSProperties } from 'vue'
@@ -89,7 +88,8 @@ const props = withDefaults(defineProps<TableProps>(), {
   })
 })
 
-const dynamicTable = useDynamicTableContext()
+const dynamicTableContext = useDynamicTableContext()
+const attrs = useAttrs()
 const wrapRef = ref(null)
 const innerProps = ref<Partial<TableProps>>()
 const contextValues = ref<TableContextValues>({
@@ -158,7 +158,7 @@ const {
   getCardData,
   setPagination,
   getPagination
-} = useTable(getProps, {
+} = useTable(getProps, dynamicTableContext, {
   setLoading
 })
 
@@ -174,7 +174,7 @@ const { rowSelection, initSelecion, setSelectedRows, selectedRows, selectedRowKe
  * @description Table 컴포넌트 초기 세팅
  */
 ;(async () => {
-  if (!dynamicTable) {
+  if (!dynamicTableContext) {
     await fetchDataSource()
   }
 
@@ -197,7 +197,7 @@ const tableAction: TableAction = {
   reload: async () => {
     initTableState()
     initSelecion()
-    dynamicTable.initFilterFormItems()
+    dynamicTableContext.initFilterFormItems()
   },
   initTableState,
   initDataSource,
@@ -212,7 +212,7 @@ const tableAction: TableAction = {
  */
 const getBindValues = computed<Recordable>(() => {
   let propsData = {
-    ...useAttrs(),
+    ...attrs,
     customRow,
     ...unref(getProps),
     dataSource: unref(getDataSource),
@@ -254,66 +254,11 @@ watch(
     setProps({ size: 'middle' })
     initTableState()
     initSelecion()
-    dynamicTable.closeFilter()
-    dynamicTable.closeDetail()
-    dynamicTable.initFilterFormItems()
+    dynamicTableContext.closeFilter()
+    dynamicTableContext.closeDetail()
+    dynamicTableContext.initFilterFormItems()
     await fetchDataSource({ isReset: true })
   }
-)
-
-watch(
-  () => dynamicTable?.getFilterFormItems(),
-  async (filterFormItems) => {
-    if (dynamicTable) {
-      const activeFilter = unref(dynamicTable.getContextValues).activeFilter
-
-      if (activeFilter && filterFormItems.length) {
-        const _filterFormItems = cloneDeep(filterFormItems)
-        const defaultParam = {
-          page: 0,
-          size: 10,
-          searchWord: ''
-        }
-
-        type ParamValue = string | number | boolean
-        const filterParam: {
-          [key: string]: ParamValue | Array<ParamValue>
-        } = {
-          ...defaultParam
-        }
-
-        _filterFormItems.map((formItem) => {
-          const { type, key, selectedItems } = formItem
-
-          // Checkbox 타입일 경우에만 search 조건이 여러개가 가능하기때문에 Array로 세팅
-          if (type === 'Checkbox') {
-            key.map((k) => {
-              filterParam[k] = []
-
-              selectedItems?.map((item) => {
-                ;(filterParam[k] as Array<ParamValue>).push(item.value)
-              })
-            })
-
-            return
-          }
-
-          key.map((k, i) => {
-            if (selectedItems.length) {
-              filterParam[k] = selectedItems[i].value
-            }
-          })
-        })
-
-        // console.log('Request Param :: ', filterParam)
-
-        if (filterParam) {
-          await fetchDataSource({ isReset: false, filterParam })
-        }
-      }
-    }
-  },
-  { immediate: true, deep: true }
 )
 
 watch(
@@ -337,6 +282,7 @@ watch(
   .row-select-toast {
     border: 1px solid;
   }
+
   .table-toolbar-container {
     text-align: right;
     // margin-bottom: 10px;
@@ -360,15 +306,19 @@ watch(
           .ant-table-row {
             cursor: v-bind('styles.cursor');
           }
+
           .ant-table-row > td {
             transition: none;
           }
+
           .ant-table-row:hover > td {
             background: #acc0f2;
           }
+
           .table-row-focus > td {
             background: #acc0f2;
           }
+
           .table-row-focus:hover > td {
             background: #acc0f2;
           }

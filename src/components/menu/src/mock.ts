@@ -323,6 +323,15 @@ export const menus: any = [
         }
       },
       {
+        path: 'timeline',
+        name: 'components-timeline',
+        meta: {
+          title: 'Timeline',
+          namePath: ['components', 'components-timeline'],
+          fullPath: '/components/timeline'
+        }
+      },
+      {
         path: 'search-select',
         name: 'components-search-select',
         meta: {
