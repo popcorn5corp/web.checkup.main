@@ -1,27 +1,25 @@
 <template>
   <div class="timeline-container">
-    <Timeline>
-      <template v-if="items && items.length">
-        <template v-for="(item, itemIdx) in items" :key="itemIdx">
-          <slot name="items" :item="{ item }">
-            <Timeline.Item>
-              <span><slot name="date" /></span>
+    <Timeline v-if="items" v-bind="{ ...props }">
+      <template v-for="(item, idx) in items" :key="idx">
+        <TimelineItem>
+          <span>{{ item.issuedDate }}</span>
 
-              <template v-for="(log, index) in item.logs" :key="index">
-                <p>
-                  <span style="margin-right: 3px"> <slot name="time" /> </span>
-
-                  <slot name="content" />
-                </p>
-              </template>
-            </Timeline.Item>
-          </slot>
-        </template>
+          <template v-for="(log, index) in item.logs" :key="index">
+            <p>
+              <span>{{ log.createTime }}</span>
+              <span> {{ t('page.manage.userName', { userName: log.nickname }) }} </span>
+              <span>{{ t(`page.manage.userStatus.${[log.status.value]}`) }}</span>
+            </p>
+          </template>
+        </TimelineItem>
       </template>
-
-      <slot v-else />
     </Timeline>
 
+    <!-- Timeline slot -->
+    <Timeline v-else v-bind="{ ...props }"> <slot /> </Timeline>
+
+    <!-- Button handle -->
     <template v-if="pagination">
       <Button type="primary" :loading="loading" @click="reload">
         <slot name="button-text" />
@@ -32,17 +30,14 @@
 
 <script setup lang="ts" name="Timeline">
 import { Timeline, TimelineItem } from 'ant-design-vue'
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/button'
 import type { TimelineProps } from '../types'
 
 const { t } = useI18n()
-const groupLogs = ref()
-
-const emit = defineEmits(['reload'])
 
 const props = defineProps<TimelineProps>()
+const emit = defineEmits(['reload'])
 
 const reload = () => {
   emit('reload')
@@ -51,12 +46,10 @@ const reload = () => {
 
 <style lang="scss" scoped>
 .timeline-container {
-  padding: 1rem 1.6rem;
-  display: flex;
-  flex-direction: column;
-
-  :deep(.ant-divider) {
-    margin-bottom: 10px !important;
+  margin: 1rem;
+  p {
+    display: flex;
+    gap: 4px;
   }
 }
 </style>

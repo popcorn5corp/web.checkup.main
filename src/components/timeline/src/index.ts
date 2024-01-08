@@ -1,5 +1,3 @@
-// export { default as Timeline } from './Timeline.vue'
-// export { default as TimelineItem } from './TimelineItem.vue'
 import Timeline from './Timeline.vue'
 import TimelineItem from './TimelineItem.vue'
 

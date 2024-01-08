@@ -1,16 +1,7 @@
-import { QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons-vue'
 import type { Meta, StoryObj } from '@storybook/vue3'
-import { Select as ASelect } from 'ant-design-vue'
-import { ref } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
-import {
-  Checkbox,
-  DatePicker,
-  Radio,
-  RangeDatePicker,
-  Select
-} from '@/components/filter-form/src/components/filter-types'
-import { filterList } from '@/components/filter-form/types/mock'
+import AlternateTimeline from '@/views/components-overview/timeline/components/AlternateTimeline.vue'
+import ReserveLoadingTimeline from '@/views/components-overview/timeline/components/ReserveLoadingTimeline.vue'
 import { Timeline } from '../src'
 
 const meta: Meta<ComponentProps<typeof Timeline>> = {
@@ -22,62 +13,46 @@ const meta: Meta<ComponentProps<typeof Timeline>> = {
   parameters: {
     layout: 'fullscreen',
 
-    componentSubtitle: '아코디언은 복잡한 영역을 그룹화하거나 숨기기 위해 사용할 수 있습니다.',
+    componentSubtitle:
+      '일련의 정보를 시간별로 정렬해야 하는 경우, 시각적 연결을 위해 타임라인이 필요한 경우에 사용할 수 있습니다. ',
     docs: {
       description: {
-        component: `아코디언은 **Children 컴포넌트**로 **<code>&lt;TimelinePanel/&gt; </code>**를 사용할 수 있습니다.`
+        component: `타임라인의 **Children 컴포넌트**로 **<code>&lt;TimelineItem/&gt; </code>를 사용할 수 있습니다.`
       }
     }
   },
 
-  // Set Args Table Description
   argTypes: {
-    expandIconPosition: {
-      description: 'Set expand icon position',
-      type: { name: 'string', required: false },
-      control: 'radio',
-      options: ['start', 'end'],
-      defaultValue: 'start',
-      table: {
-        category: 'Custom',
-        type: {
-          summary: 'start | end'
-        }
-      }
-    },
     items: {
-      description: 'Timeline-panel create data',
+      description: '타임라인 데이터'
+    },
+    default: {
+      description: '기본 슬롯, 타임라인 컴포넌트의 자식 컴포넌트인 <Timeline.Item> 사용',
       table: {
-        type: {
-          summary: 'array'
-        }
+        type: ''
       }
     },
-    bordered: {
-      description: 'Toggles rendering of the border around the collapse block',
-      type: { name: 'boolean' },
+    reload: {
+      description: '버튼 클릭 이벤트',
+
       table: {
-        category: 'Custom',
-        type: { summary: 'boolean' },
-        defaultValue: { summary: false }
+        type: 'event'
       }
     },
-    ghost: {
-      description: 'Make the collapse borderless and its background transparent',
-      type: { name: 'boolean' },
+    ['button-text']: {
+      description: '버튼 텍스트 슬롯',
+      type: { name: 'string' },
+
       table: {
-        category: 'Custom',
-        type: { summary: 'boolean' },
-        defaultValue: { summary: false }
+        type: 'string'
       }
     }
   },
 
-  // Set Args Default Data
   args: {
-    ghost: false,
-    bordered: false,
-    expandIconPosition: 'start'
+    loading: false,
+    pagination: true,
+    ['button-text']: '더 불러오기'
   }
 }
 
@@ -88,87 +63,91 @@ export const Default: Story = {
   args: {
     items: [
       {
-        title: 'This is panel header 1',
-        key: '1',
-        text: ' A dog is a type of domesticated animal. Known for its loyalty and faithfulness'
+        issuedDate: '2024-01-02',
+        logs: [
+          {
+            logId: 'a35cf87f-8b03-4f63-bed0-02f64b891c43',
+            status: {
+              label: '가입',
+              value: 'JOIN'
+            },
+            uid: 'faad2d48-5297-4980-8529-81f2b86d1af1',
+            nickname: '김길동',
+            createTime: '18:09'
+          },
+          {
+            logId: '791ed4b5-4918-47b2-b3e0-6230401256b6',
+            status: {
+              label: '생성',
+              value: 'CREATE'
+            },
+            uid: 'faad2d48-5297-4980-8529-81f2b86d1af1',
+            nickname: '이길동',
+            createTime: '18:09'
+          }
+        ]
       },
       {
-        title: 'This is panel header 2',
-        key: '2',
-        text: ' A dog is a type of domesticated animal. Known for its loyalty and faithfulness'
-      },
-      {
-        title: 'This is panel header 3',
-        key: '3',
-        text: ' A dog is a type of domesticated animal. Known for its loyalty and faithfulness'
+        issuedDate: '2024-01-05',
+        logs: [
+          {
+            logId: 'a35cf87f-8b03-4f63-bed0-02f64b891c43',
+            status: {
+              label: '가입',
+              value: 'JOIN'
+            },
+            uid: 'faad2d48-5297-4980-8529-81f2b86d1af1',
+            nickname: '박길동',
+            createTime: '18:09'
+          },
+          {
+            logId: '791ed4b5-4918-47b2-b3e0-6230401256b6',
+            status: {
+              label: '생성',
+              value: 'CREATE'
+            },
+            uid: 'faad2d48-5297-4980-8529-81f2b86d1af1',
+            nickname: '홍길동',
+            createTime: '18:09'
+          }
+        ]
       }
     ]
   },
-
   render: (args) => ({
     components: { Timeline },
     setup() {
-      return { args }
+      function onReload() {
+        args.loading = true
+        setTimeout(() => {
+          args.loading = false
+        }, 400)
+      }
+      return { args, onReload }
     },
-    template: ` 
-      <Accordion v-bind="args" :items="args.items">
-        <template #content="{ item }">
-          {{item.text}}
+
+    template: `
+      <Timeline v-bind="args"  @reload="onReload">
+        <template #button-text>
+          {{ args['button-text'] }}
         </template>
-      </Accordion>
+      </Timeline>
     `
   })
 }
 
-export const Ghost: Story = {
-  args: { ...Default.args, ghost: true },
-  render: Default.render
-}
-
-export const Bordered: Story = {
-  args: { ...Default.args, bordered: true },
-  render: Default.render
-}
-
-export const PositionArrow: Story = {
-  args: Default.args,
-  render: (args) => ({
-    setup() {
-      const expandIconPosition = ref('end')
-      const options = ['start', 'end']
-      return { args, expandIconPosition, options }
-    },
-    components: { Timeline },
-    template: ` 
-      <ASelect
-        v-model:value="expandIconPosition"
-        style="margin:1rem"
-        :options="options.map(item => ({ value: item }))"
-      />
-
-      <Accordion v-bind="args" :items="args.items" :expand-icon-position="expandIconPosition">
-        <template #content="{ item }">
-          {{item.text}}
-        </template>
-      </Accordion>
-    `
-  })
-}
-
-export const CustomIcon: Story = {
+export const CustomAlternateTimeline: Story = {
   render: () => ({
-    components: { Timeline, SettingOutlined, QuestionCircleOutlined },
+    components: { AlternateTimeline },
 
-    template: ` 
-      <Accordion expand-icon-position="end" >
-        <AccordionPanel header="This is panel header 1" text="A dog is a type of domesticated animal. Known for its loyalty and faithfulness">
-          <template #extra><SettingOutlined /></template>
-        </AccordionPanel>
+    template: `<AlternateTimeline/>`
+  })
+}
 
-        <AccordionPanel header="This is panel header 2" text="A dog is a type of domesticated animal. Known for its loyalty and faithfulness">
-          <template #extra><QuestionCircleOutlined /></template>
-        </AccordionPanel>
-      </Accordion>
-    `
+export const CustomReserveLoadingTimeline: Story = {
+  render: () => ({
+    components: { ReserveLoadingTimeline },
+
+    template: `<ReserveLoadingTimeline/>`
   })
 }
