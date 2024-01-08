@@ -50,9 +50,14 @@ export const useLocaleStore = defineStore('locale', () => {
     Trans.persistedLocale = locale
   }
 
+  function getLocaleInfo(): LocaleType {
+    return state.locale || Trans.browserLanguage || Trans.defaultLocale
+  }
+
   return {
     ...state,
     getLocale,
+    getLocaleInfo,
     setLocale,
     setPersistedLocale
   }

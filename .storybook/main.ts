@@ -24,7 +24,9 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag'
   },
-  core: {},
+  core: {
+    builder: '@storybook/builder-vite', // 👈 The builder enabled here.
+  },
   async viteFinal(config, options) {
     // const viteConfig = await loadConfigFromFile(
     //   path.resolve(__dirname, "../vite.config.ts") as any

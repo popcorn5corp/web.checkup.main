@@ -7,7 +7,11 @@ import en_US from './lang/en_US'
 import id_ID from './lang/id_ID'
 import ko_KR from './lang/ko_KR'
 
-const { getLocale } = useLocaleStoreWithOut()
+// const { getLocale } = useLocaleStoreWithOut()
+const localeStore = useLocaleStoreWithOut()
+const locale = localeStore.getLocaleInfo()
+
+console.log('locale :: ', locale)
 export const localeMessages = {
   ko_KR: {
     ...ko_KR.message
@@ -23,7 +27,7 @@ export const localeMessages = {
 const i18n = createI18n({
   legacy: false,
   allowComposition: true,
-  locale: getLocale,
+  locale,
   fallbackLocale: localeMap.ko_KR,
   messages: localeMessages,
   globalInjection: true
