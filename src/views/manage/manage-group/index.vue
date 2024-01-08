@@ -91,7 +91,7 @@ const tabInfo = {
   History: {
     key: 'History',
     title: t('page.manage.history'),
-    component: defineAsyncComponent(() => import('./components/GroupHistory.vue'))
+    component: defineAsyncComponent(() => import('./components/GroupTimeline.vue'))
   }
 }
 

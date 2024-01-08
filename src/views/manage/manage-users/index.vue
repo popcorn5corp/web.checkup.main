@@ -74,7 +74,7 @@
 <script setup lang="ts" name="TableSample">
 import { ManageUserService } from '@/services'
 import { message, Modal as modal } from 'ant-design-vue'
-import { createVNode, ref } from 'vue'
+import { createVNode, defineAsyncComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -83,22 +83,21 @@ import { DynamicTable } from '@/components/dynamic-table'
 import { QuestionCircleTwoTone, UserAddOutlined } from '@/components/icons'
 import { Modal } from '@/components/modal'
 import PostDetail from './components/PostDetail.vue'
-import UserDetail from './components/UserDetail.vue'
-import UserHistory from './components/UserHistory.vue'
 import { getDefaultPost } from './constant'
 import { columns } from './mock'
 
 const { t } = useI18n()
+
 const tabInfo = {
   Detail: {
     key: 'Detail',
     title: t('page.manage.detail'),
-    component: UserDetail
+    component: defineAsyncComponent(() => import('./components/UserDetail.vue'))
   },
   History: {
     key: 'History',
     title: t('page.manage.history'),
-    component: UserHistory
+    component: defineAsyncComponent(() => import('./components/UserTimeline.vue'))
   }
 }
 

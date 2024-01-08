@@ -21,9 +21,11 @@
 
     <!-- Button handle -->
     <template v-if="pagination">
-      <Button type="primary" :loading="loading" @click="reload">
-        <slot name="button-text" />
-      </Button>
+      <div style="text-align: center">
+        <Button type="primary" :loading="loading" @click="reload">
+          <slot name="button-text" />
+        </Button>
+      </div>
     </template>
   </div>
 </template>
@@ -47,9 +49,8 @@ const reload = () => {
 <style lang="scss" scoped>
 .timeline-container {
   margin: 1rem;
-  p {
-    display: flex;
-    gap: 4px;
+  span {
+    margin-right: 2px;
   }
 }
 </style>
