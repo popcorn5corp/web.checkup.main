@@ -339,6 +339,15 @@ export const menus: any = [
           namePath: ['components', 'components-search-select'],
           fullPath: '/components/search-select'
         }
+      },
+      {
+        path: 'input',
+        name: 'components-input',
+        meta: {
+          title: 'Input',
+          namePath: ['components', 'components-input'],
+          fullPath: '/components/input'
+        }
       }
     ]
   }
