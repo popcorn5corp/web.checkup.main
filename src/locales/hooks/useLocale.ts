@@ -14,8 +14,9 @@ interface LangModule {
 export const useLocale = () => {
   const localeStore = useLocaleStoreWithOut()
   const getLocale = computed(() => localeStore.getLocale)
-  const getAntdLocale = computed<Locale>(() => {
-    return (i18n.global.getLocaleMessage(unref(getLocale)) as any).antdLocale
+  const getAntdLocale = computed((): any => {
+    const localeMessage = i18n.global.getLocaleMessage<{ antdLocale: Locale }>(unref(getLocale))
+    return localeMessage?.antdLocale ?? {}
   })
 
   async function _loadLocaleMessages(locale: LocaleType) {

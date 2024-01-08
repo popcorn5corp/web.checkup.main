@@ -1,21 +1,14 @@
-import { unref } from 'vue'
 import { createI18n } from 'vue-i18n'
 // import type { I18n, I18nOptions } from 'vue-i18n'
 // import { setHtmlPageLang, setLoadLocalePool } from '@/helpers/locale'
-// import { useLocaleStoreWithOut } from '@/stores/modules/locale'
-import { useLocale } from '@/locales/hooks/useLocale'
+import { useLocaleStoreWithOut } from '@/stores/modules/locale'
 import { localeMap } from './config'
 import en_US from './lang/en_US'
 import id_ID from './lang/id_ID'
 import ko_KR from './lang/ko_KR'
 
-// const { getLocale } = useLocaleStoreWithOut()
-// const localeStore = useLocaleStoreWithOut()
-// const locale = localeStore.getLocaleInfo()
-const { getLocale } = useLocale()
-const locale = unref(getLocale)
-
-console.log('locale :: ', locale)
+const localeStore = useLocaleStoreWithOut()
+const locale = localeStore.getLocale
 export const localeMessages = {
   ko_KR: {
     ...ko_KR.message
