@@ -129,7 +129,7 @@ const onChangeMode = () => {
   }
 
   .theme-toggle-btn {
-    background: 0 0;
+    background: transparent;
     border: none;
     cursor: pointer;
     border-radius: 50%;
@@ -178,7 +178,7 @@ const onChangeMode = () => {
     }
   }
 
-  .dark-mode-btn:hover {
+  .theme-toggle-btn:hover {
     background: rgb(255 255 255 / 10%);
   }
 }

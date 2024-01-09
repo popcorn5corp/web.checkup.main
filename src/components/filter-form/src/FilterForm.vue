@@ -65,7 +65,7 @@ const filterTypeComponents: Record<FilterUI, Component> = {
 .filter-form-container {
   .filter-list {
     // width: 100%;
-    background: white;
+    background: $color-white;
     z-index: 999;
 
     .mobile-header {

@@ -53,6 +53,7 @@ defineExpose({
 .custom-input-container {
   margin: 1rem 0;
   position: relative;
+  background: inherit;
 
   .custom-input {
     padding: 10px 13px;
