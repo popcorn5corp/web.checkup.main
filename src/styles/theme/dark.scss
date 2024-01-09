@@ -60,6 +60,14 @@ html[data-theme='dark'] {
       border: 1px solid $dark-border-color;
     }
   }
+  .custom-input-container {
+    .custom-input {
+      border-color: $dark-border-color;
+    }
+    .custom-input.active ~ label {
+      background-color: $bg-color;
+    }
+  }
 }
 
 html[data-theme='dark'] {

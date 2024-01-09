@@ -9,7 +9,7 @@
 
             <div class="input-group">
               <i class="bx bxs-user"></i>
-              <input type="text" :placeholder="text3" />
+              <Input :label="text3" />
             </div>
             <!-- <div class="input-group">
               <i class="bx bx-mail-send"></i>
@@ -50,12 +50,10 @@
             </div>
             <div class="input-group">
               <!-- <font-awesome-icon :icon="['fas', 'user']" /> -->
-              <!-- <input type="text" placeholder="Username" /> -->
               <Input placeholder="input username" label="username" />
             </div>
             <div class="input-group">
               <!-- <i class="bx bxs-lock-alt"></i> -->
-              <!-- <input type="password" placeholder="Password" /> -->
               <Input placeholder="input password" label="password" type="password" />
             </div>
             <button>Sign in</button>
@@ -112,6 +110,7 @@
 import { useAuthStore } from '@/stores'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Input } from '@/components/input'
 import { Spinner } from '@/components/spinner'
 import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
@@ -119,6 +118,7 @@ import SocialLoginBnts from './components/SocialLoginBnts.vue'
 
 const { query } = useRoute()
 const { setToken, login, getToken } = useAuthStore()
+const { setTheme, setRealDarkTheme } = useProjectConfigStore()
 
 const accessToken = query.accessToken as string
 const refreshToken = query.refreshToken as string
@@ -129,6 +129,12 @@ const isSuccessSocialLogin = !!accessToken && !!refreshToken
     setToken(ACCESS_TOKEN_KEY, accessToken)
     await login()
   }
+
+  // set theme
+  const themeName = 'light'
+  setTheme({ navTheme: themeName })
+  setTheme({ isRealDarkTheme: false })
+  setRealDarkTheme(themeName)
 })()
 
 let container: HTMLElement | null = null
