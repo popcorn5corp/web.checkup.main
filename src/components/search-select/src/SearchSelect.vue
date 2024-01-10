@@ -8,7 +8,6 @@
       :placeholder="placeholder"
       :filterOption="true"
       :style="{ width: props.width ?? '50%' }"
-      :not-found-content="loading ? undefined : null"
       mode="multiple"
       size="large"
       @search="onSearch"

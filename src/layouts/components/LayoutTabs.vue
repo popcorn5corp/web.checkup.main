@@ -178,7 +178,9 @@ onUnmounted(() => {
               visibility: visible;
               padding-left: 6px;
             }
-
+            .ant-tabs-tab-btn {
+              color: v-bind(activeTabBorderColor);
+            }
             .ant-tabs-tab-remove {
               width: unset;
             }

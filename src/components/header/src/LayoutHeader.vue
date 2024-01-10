@@ -15,10 +15,12 @@
         </template>
       </RollingText>
     </Space>
-
-    <Space :size="20">
-      <UserDropdown />
-    </Space>
+    <div style="display: flex; align-items: center; gap: 0.1rem">
+      <ThemeToggle />
+      <Space :size="20">
+        <UserDropdown />
+      </Space>
+    </div>
   </Layout.Header>
 </template>
 
@@ -28,6 +30,7 @@ import { type CSSProperties, computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTourStore } from '@/stores/modules/tour'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/icons'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { type HeaderProps, rollingList } from '../types'
 import RollingText from './components/RollingText.vue'
 import UserDropdown from './components/UserDropdown.vue'

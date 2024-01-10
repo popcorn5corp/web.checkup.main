@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Timeline pending="Recording..." :reverse="reverse">
+    <Timeline pending="Recording..." :showBtn="true" :reverse="reverse" @click="handleReverse">
       <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
       <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
       <Timeline.Item>Technical testing 2015-09-01</Timeline.Item>
-    </Timeline>
 
-    <a-button type="primary" style="margin-top: 16px" @click="handleClick">Toggle Reverse</a-button>
+      <template #button-text> Toggle Reverse </template>
+    </Timeline>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ import { Timeline } from '@/components/timeline'
 
 const reverse = ref<boolean>(false)
 
-const handleClick = () => {
+const handleReverse = () => {
   reverse.value = !reverse.value
 }
 </script>

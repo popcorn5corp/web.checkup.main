@@ -20,10 +20,10 @@
     <Timeline v-else v-bind="{ ...props }"> <slot /> </Timeline>
 
     <!-- Button handle -->
-    <template v-if="pagination">
+    <template v-if="showBtn">
       <div style="text-align: center">
-        <Button type="primary" :loading="loading" @click="reload">
-          <slot name="button-text" />
+        <Button type="primary" :loading="loading" :block="true" @click="onClick">
+          <slot v-if="!loading" name="button-text">더 불러오기</slot>
         </Button>
       </div>
     </template>
@@ -39,10 +39,10 @@ import type { TimelineProps } from '../types'
 const { t } = useI18n()
 
 const props = defineProps<TimelineProps>()
-const emit = defineEmits(['reload'])
+const emit = defineEmits(['click'])
 
-const reload = () => {
-  emit('reload')
+const onClick = () => {
+  emit('click')
 }
 </script>
 

@@ -194,7 +194,7 @@ $tab-margin-top: 2px;
     position: sticky;
     top: $header-height + $tab-margin-top - 2px;
     z-index: 99;
-    background: $color-white;
+    background: inherit;
   }
 
   .layout-content {
@@ -231,7 +231,6 @@ $tab-margin-top: 2px;
       }
     }
   }
-
   .dark-mode {
     background: $color-realDark !important;
     color: $color-white !important;

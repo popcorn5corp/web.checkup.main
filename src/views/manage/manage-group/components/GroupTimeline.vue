@@ -1,10 +1,6 @@
 <template>
   <div class="group-history-container">
-    <Timeline :items="items" :pagination="true" :loading="loading" @reload="fetchGroupHistory">
-      <template #button-text>
-        {{ t('page.manage.moreContent') }}
-      </template>
-    </Timeline>
+    <Timeline :items="items" :showBtn="true" :loading="loading" @click="fetchGroupHistory" />
   </div>
 </template>
 
@@ -41,20 +37,17 @@ function fetchGroupHistory() {
 
   size.value += 5
   ManagerGroupService.getGroupHistory(props.groupId, { size: size.value })
-    .then(
-      ({
-        success,
-        data: {
-          posts: { content }
-        }
-      }) => {
-        if (success) {
-          items.value = content
-        }
+    .then(({ success, data }) => {
+      if (success) {
+        items.value = data.posts.content
       }
-    )
+    })
     .catch((err) => console.log(err))
-    .finally(() => handleLoading())
+    .finally(() =>
+      setTimeout(() => {
+        handleLoading()
+      }, 300)
+    )
 }
 </script>
 

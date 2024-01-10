@@ -29,7 +29,11 @@
       <template #detail-content>
         <div class="detail-contents">
           <div class="tab-wrapper">
-            <PostDetail :data="selectedData" @reload="tableReload" @close="handleShowDetail" />
+            <PostDetail
+              :data="selectedData"
+              @reload="tableReload"
+              @close="handleShowDetail(false)"
+            />
 
             <a-tabs
               v-model:active-key="tabActiveKey"
@@ -103,8 +107,8 @@ const selectedData = ref()
 const modalRef = ref()
 const { getWorkspaceId } = useWorkspaceStore()
 
-const handleShowDetail = () => {
-  showDetail.value = !showDetail.value
+const handleShowDetail = (val: boolean) => {
+  showDetail.value = val
 }
 
 const handleShowModal = (): void => {
@@ -121,7 +125,7 @@ const initTabKey = () => {
 const getDataSource = async (param: IManageGroup.GroupListParam) => {
   return await ManagerGroupService.getGroupList(getWorkspaceId, param)
 }
-const dataCallback = ({ posts }: IManageGroup.ResponseTable['data']) => posts
+const dataCallback = ({ posts }: IManageGroup.GetTableListResponse['data']) => posts
 const getFilters = () => ManagerGroupService.getPageInfo()
 const getColumns = () => ManagerGroupService.getSortableCodes()
 
@@ -142,10 +146,10 @@ const showMessage = (type: string) => {
   }
 }
 
-const onClickRow = (row: IManageGroup.ResTableContent): void => {
+const onClickRow = (row: IManageGroup.TableDataSource): void => {
   selectedData.value = row
 
-  handleShowDetail()
+  handleShowDetail(true)
 
   initTabKey()
 }
@@ -189,7 +193,7 @@ const createGroup = async () => {
  * @param selectedRows
  */
 const onRemovePost = (
-  selectedRows: IManageGroup.ResTableContent,
+  selectedRows: IManageGroup.TableDataSource,
   selectedRowKeys: string[]
 ): void => {
   modal.confirm({

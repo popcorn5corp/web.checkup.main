@@ -6,7 +6,7 @@ import type {
 export interface TimelineProps extends ATimelineProps {
   items?: Item[]
   loading?: boolean
-  pagination?: boolean
+  showBtn?: boolean
 }
 
 export interface Item {

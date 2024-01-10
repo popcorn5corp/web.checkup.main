@@ -1,12 +1,8 @@
 <template>
   <Form>
     <div class="invite-form-wrapper">
-      <!-- <h4 class="title">{{ t('page.manage.groupName') }}</h4>
-      <Input v-model:value="groupInfo.name" /> -->
       <Input v-model:value="groupInfo.name" :label="t('page.manage.groupName')" />
 
-      <!-- <h4 class="title">{{ t('page.manage.groupDescription') }}</h4>
-      <Input v-model:value="groupInfo.content" /> -->
       <Input v-model:value="groupInfo.content" :label="t('page.manage.groupDescription')" />
 
       <br />
@@ -29,7 +25,7 @@ import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/interface'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
-// import { Input } from 'ant-design-vue'
+import { Form } from '@/components/form'
 import { Input } from '@/components/input'
 import type { SearchSelectProps } from '@/components/search-select/types'
 
@@ -45,7 +41,7 @@ const groupInfo = ref<Partial<IManageGroup.DefaultGroupInfo>>({
 const options = ref<SearchSelectProps['options']>([])
 
 const getUserListAll = async (): Promise<IManageUser.UserInfo[]> => {
-  const { data } = await ManageUserService.getUserList(getWorkspaceId)
+  const { data } = await ManageUserService.getUserList(getWorkspaceId as string)
 
   return data.workspaceUsers.content
 }

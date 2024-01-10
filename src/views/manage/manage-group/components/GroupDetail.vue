@@ -88,6 +88,7 @@ import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { h, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { IManageGroup } from '@/services/manage-group/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { List, ListItem, ListItemMeta } from '@/components/list'
 import { SearchSelect } from '@/components/search-select'
@@ -102,7 +103,7 @@ const options = ref([])
 const loading = ref(false)
 const showModal = ref(false)
 
-const dataSource = ref([])
+const dataSource = ref<IManageGroup.UserInfo[] | []>([])
 const selectedValues = ref()
 const defaultDataSource = ref([{ name: t('page.manage.addUserToAGroup') }])
 
@@ -135,18 +136,11 @@ function fetchGroupUserList() {
   handleLoading()
 
   ManagerGroupService.getGroupDetail(props.groupId)
-    .then(
-      ({
-        success,
-        data: {
-          posts: { content }
-        }
-      }) => {
-        if (success) {
-          dataSource.value = content as []
-        }
+    .then(({ success, data }) => {
+      if (success) {
+        dataSource.value = data.posts.content
       }
-    )
+    })
     .catch((error) => console.log(error))
 
   setTimeout(() => handleLoading(), 300)
