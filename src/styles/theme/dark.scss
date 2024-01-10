@@ -11,8 +11,12 @@ html[data-theme='dark'] {
   .layout-default .layout-content .title {
     color: $color-white;
   }
-  .layout-header, .layout-sider,.ant-menu-dark  {
+  .layout-header, .layout-sider, .ant-menu-dark  {
     background: inherit;
+  }
+
+  .tabs-container {
+    background-color: $container-color !important;
   }
 
   .filter-form-container {
@@ -126,11 +130,20 @@ html[data-theme='dark'] {
   }
 
   .custom-input-container {
+    .custom-input {
+      border-color: $dark-border-color;
+    }
     .input-label {
       background: inherit;
+      color: $dark-border-color;
     }
     .custom-input.active ~ label {
       background: $bg-color;
+    }
+    .custom-input.active {
+      input::placeholder {
+        color: $dark-border-color !important;
+      }
     }
   }
 }

@@ -14,7 +14,6 @@ $color-realDark: rgba(40,42,66); // #001529d9;
 $color-white: #ffffff;
 
 // / Base Colors
-$border-color: #ebebff45;
 
 // Neutral Colors
 $color-gray-1: #ffffff;
@@ -51,6 +50,7 @@ $xl: 1200px;
 $xxl: 1600px;
 // / Responsive Breakpoints
 
+$border-color: $color-gray-5;
 // Ant Design Vars
 $btn-height-base: 40px;
 $btn-height-lg: 48px;

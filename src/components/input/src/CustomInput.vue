@@ -82,7 +82,7 @@ defineExpose({
 .custom-input.active,
 input:valid {
   outline: none;
-  border: 1.5px solid v-bind('themeColorStyle.color');
+  border: 1.5px solid v-bind('themeColorStyle.color') !important;
 }
 
 .custom-input.active ~ label,
@@ -92,7 +92,7 @@ input:valid ~ label {
   transform: translateY(-45%) scale(0.9);
   background-color: $color-white;
   padding: 0 5px;
-  color: v-bind('themeColorStyle.color');
+  color: v-bind('themeColorStyle.color') !important;
   z-index: 99;
 }
 

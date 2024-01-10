@@ -43,7 +43,7 @@
       <LayoutTabs />
 
       <!-- Page Content 영역 -->
-      <Layout.Content class="layout-content">
+      <Layout.Content class="layout-content" :class="getDarkModeClass">
         <div class="title">{{ $route.meta.title }}</div>
 
         <Divider />
@@ -89,6 +89,7 @@ const tourStore = useTourStore()
 const collapsed = computed<boolean>(() => config.isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
+const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
 const isSideMenu = computed(() => config.theme.menuPosition === 'sidemenu')
 const router = useRouter()
 const imgPath = computed(
@@ -229,6 +230,10 @@ $tab-margin-top: 2px;
         height: 100%;
       }
     }
+  }
+  .dark-mode {
+    background: $color-realDark !important;
+    color: $color-white !important;
   }
 }
 </style>
