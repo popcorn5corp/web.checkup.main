@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <Timeline :items="items" :pagination="pagination" :loading="loading" @reload="onReload">
-      <template #button-text>
-        {{ t('page.manage.moreContent') }}
-      </template>
-    </Timeline>
-  </div>
+  <Timeline :items="items" :showBtn="true" :loading="loading" @click="onReload" />
 </template>
 
 <script setup lang="ts" name="ComponentsOverviewTimeline">
@@ -16,7 +10,6 @@ import { Timeline } from '@/components/timeline'
 const { t } = useI18n()
 
 const loading = ref(false)
-const pagination = ref(true)
 
 const handleLoading = (val: boolean) => {
   loading.value = val

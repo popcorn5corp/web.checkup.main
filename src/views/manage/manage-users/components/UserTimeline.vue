@@ -1,10 +1,6 @@
 <template>
   <div class="group-history-container">
-    <Timeline :items="items" :pagination="true" :loading="loading" @reload="fetchGroupHistory">
-      <template #button-text>
-        {{ t('page.manage.moreContent') }}
-      </template>
-    </Timeline>
+    <Timeline :items="items" :showBtn="true" :loading="loading" @click="fetchGroupHistory" />
   </div>
 </template>
 
