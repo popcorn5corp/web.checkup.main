@@ -50,7 +50,8 @@ function onCancel() {
     z-index: 10;
     border-radius: 20px;
 
-    .ant-alert-message {
+    .ant-alert-message,
+    .ant-alert-action .ant-btn-link {
       color: v-bind(roundColor);
     }
   }

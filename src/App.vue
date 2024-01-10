@@ -31,12 +31,21 @@ const { defaultAlgorithm, darkAlgorithm, defaultSeed } = theme
 //   colorBgBase: `#282a42`,
 //   colorBgContainer: `#30334d`
 // }
+const { config } = useProjectConfigStore()
+const configTheme = computed(() => config.theme)
+const customSeed = computed(() => {
+  return { ...defaultSeed, colorPrimary: configTheme.value.primaryColor }
+})
+const mergeToken = computed(() => darkAlgorithm(customSeed.value))
+const themeAlgorithm = computed(() =>
+  config.theme.navTheme === 'realDark' ? customDarkAlgorithm : defaultAlgorithm
+)
+
+const { getAntdLocale } = useLocale()
 
 const customDarkAlgorithm = () => {
-  const mergeToken = darkAlgorithm(defaultSeed)
-
   return {
-    ...mergeToken,
+    ...mergeToken.value,
     colorBgBase: 'rgba(40,42,66)',
     colorBgContainer: '#30334d',
     colorBgLayout: 'rgba(40,42,66)',
@@ -44,14 +53,6 @@ const customDarkAlgorithm = () => {
     colorBorder: '#ebebff45'
   }
 }
-
-const { config } = useProjectConfigStore()
-const configTheme = computed(() => config.theme)
-const themeAlgorithm = computed(() =>
-  config.theme.navTheme === 'realDark' ? [customDarkAlgorithm] : defaultAlgorithm
-)
-
-const { getAntdLocale } = useLocale()
 </script>
 <style lang="scss" scoped></style>
 

@@ -189,9 +189,6 @@ onUnmounted(() => {
 
         .ant-tabs-tab-active {
           border-top: 2px solid v-bind(activeTabBorderColor);
-          .ant-tabs-tab-btn {
-            color: v-bind(activeTabBorderColor);
-          }
         }
       }
     }
