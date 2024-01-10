@@ -47,7 +47,11 @@ function fetchGroupHistory() {
       }
     })
     .catch((err) => console.log(err))
-    .finally(() => handleLoading())
+    .finally(() =>
+      setTimeout(() => {
+        handleLoading()
+      }, 300)
+    )
 }
 </script>
 

@@ -22,8 +22,8 @@
     <!-- Button handle -->
     <template v-if="pagination">
       <div style="text-align: center">
-        <Button type="primary" :loading="loading" @click="reload">
-          <slot name="button-text" />
+        <Button type="primary" :loading="loading" :block="true" @click="reload">
+          <slot v-if="!loading" name="button-text" />
         </Button>
       </div>
     </template>
