@@ -103,6 +103,7 @@ declare module '@vue/runtime-core' {
     TableToolbar: typeof import('./src/components/table/src/components/TableToolbar.vue')['default']
     TabPane: typeof import('./src/components/tabs/src/TabPane.vue')['default']
     Tabs: typeof import('./src/components/tabs/src/Tabs.vue')['default']
+    ThemeToggle: typeof import('./src/components/theme-toggle/src/ThemeToggle.vue')['default']
     Timeline: typeof import('./src/components/timeline/src/Timeline.vue')['default']
     TimelineItem: typeof import('./src/components/timeline/src/TimelineItem.vue')['default']
     UserAccount: typeof import('./src/components/header/src/components/UserAccount.vue')['default']
