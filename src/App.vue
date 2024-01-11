@@ -34,9 +34,14 @@ const { defaultAlgorithm, darkAlgorithm, defaultSeed } = theme
 const { config } = useProjectConfigStore()
 const configTheme = computed(() => config.theme)
 const customSeed = computed(() => {
-  return { ...defaultSeed, colorPrimary: configTheme.value.primaryColor }
+  return {
+    ...defaultSeed,
+    colorPrimary: configTheme.value.primaryColor,
+    fontSize: configTheme.value.fontSize
+  }
 })
 const mergeToken = computed(() => darkAlgorithm(customSeed.value))
+console.log(mergeToken)
 const themeAlgorithm = computed(() =>
   config.theme.navTheme === 'realDark' ? customDarkAlgorithm : defaultAlgorithm
 )
