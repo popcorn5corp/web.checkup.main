@@ -41,7 +41,6 @@ const customSeed = computed(() => {
   }
 })
 const mergeToken = computed(() => darkAlgorithm(customSeed.value))
-console.log(mergeToken)
 const themeAlgorithm = computed(() =>
   config.theme.navTheme === 'realDark' ? customDarkAlgorithm : defaultAlgorithm
 )
