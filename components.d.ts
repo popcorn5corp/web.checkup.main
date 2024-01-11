@@ -74,7 +74,6 @@ declare module '@vue/runtime-core' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
-    Input: typeof import('./src/components/input/src/CustomInput.vue')['default']
     Label: typeof import('./src/components/label/src/Label.vue')['default']
     LanguageSetting: typeof import('./src/components/header/src/components/LanguageSetting.vue')['default']
     LayoutHeader: typeof import('./src/components/header/src/LayoutHeader.vue')['default']

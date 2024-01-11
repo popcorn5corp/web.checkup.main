@@ -1,11 +1,9 @@
 <template>
   <Form>
     <div class="invite-form-wrapper">
-      <h4 class="title">{{ t('page.manage.groupName') }}</h4>
-      <Input v-model:value="groupInfo.name" />
+      <Input v-model:value="groupInfo.name" :label="t('page.manage.groupName')" />
 
-      <h4 class="title">{{ t('page.manage.groupDescription') }}</h4>
-      <Input v-model:value="groupInfo.content" />
+      <Input v-model:value="groupInfo.content" :label="t('page.manage.groupDescription')" />
 
       <br />
 
@@ -22,13 +20,13 @@
 
 <script setup lang="ts">
 import { ManageUserService } from '@/services'
-import { Input } from 'ant-design-vue'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/interface'
 import type { IManageUser } from '@/services/manage-users/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { Form } from '@/components/form'
+import { Input } from '@/components/input'
 import type { SearchSelectProps } from '@/components/search-select/types'
 
 const { t } = useI18n()
@@ -72,8 +70,4 @@ defineExpose({
 })
 </script>
 
-<style lang="scss" scoped>
-.ant-input {
-  margin-bottom: 12px !important;
-}
-</style>
+<style lang="scss" scoped></style>

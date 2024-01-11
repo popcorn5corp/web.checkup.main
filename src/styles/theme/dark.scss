@@ -138,7 +138,7 @@ html[data-theme='dark'] {
       color: $dark-border-color;
     }
     .custom-input.active ~ label {
-      background: $bg-color;
+      background: $container-color;
     }
     .custom-input.active {
       input::placeholder {
