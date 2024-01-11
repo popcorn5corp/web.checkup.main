@@ -2,22 +2,24 @@
   <div class="custom-input-container">
     <template v-if="props.type === 'password'">
       <Input.Password
-        v-model:value="inputValue"
+        :value="inputValue"
         v-bind="props"
         class="custom-input"
-        :class="isActive && 'active'"
-        @focus="isActive = true"
-        @focusout="inputValue || (isActive = false)"
+        :class="[isActive && 'active', isColored && 'colored']"
+        @focus="onFocus"
+        @focusout="onFocusout"
+        @input="onInput"
       />
     </template>
     <template v-else>
       <Input
-        v-model:value="inputValue"
+        :value="inputValue"
         v-bind="props"
         class="custom-input"
-        :class="isActive && 'active'"
-        @focus="isActive = true"
-        @focusout="inputValue || (isActive = false)"
+        :class="[isActive && 'active', isColored && 'colored']"
+        @focus="onFocus"
+        @focusout="onFocusout"
+        @input="onInput"
       />
     </template>
     <label class="input-label">{{ props.label }}</label>
@@ -29,6 +31,8 @@ import { Input } from 'ant-design-vue'
 import { computed, ref } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import type { InputProps } from '../types'
+
+const emit = defineEmits('update:value')
 
 const props = defineProps<InputProps>()
 const {
@@ -42,8 +46,28 @@ const themeColorStyle = computed<CSSProperties>(() => {
 })
 
 const isActive = ref(false)
-const inputValue = ref()
+const isColored = ref(false)
+const inputValue = computed(() => props.value)
 
+;(async () => {
+  if (inputValue.value) isActive.value = true
+})()
+
+const onFocus = () => {
+  isActive.value = true
+  isColored.value = true
+}
+
+const onFocusout = () => {
+  if (!inputValue.value) isActive.value = false
+  isColored.value = false
+}
+
+const onInput = (e: Event) => {
+  const input = (e.target as HTMLInputElement).value
+
+  emit('update:value', input)
+}
 defineExpose({
   inputValue
 })
@@ -51,7 +75,7 @@ defineExpose({
 
 <style lang="scss" scoped>
 .custom-input-container {
-  margin: 1rem 0;
+  margin: 8px 0;
   position: relative;
   background: inherit;
 
@@ -79,21 +103,20 @@ defineExpose({
   }
 }
 
-.custom-input.active,
-input:valid {
-  outline: none;
+.custom-input.active.colored {
   border: 1.5px solid v-bind('themeColorStyle.color') !important;
 }
 
-.custom-input.active ~ label,
-input:valid ~ label {
+.custom-input.active ~ label {
   top: 0;
   left: -5px;
   transform: translateY(-45%) scale(0.9);
   background-color: $color-white;
   padding: 0 5px;
-  color: v-bind('themeColorStyle.color') !important;
   z-index: 99;
+}
+.custom-input.active.colored ~ label {
+  color: v-bind('themeColorStyle.color') !important;
 }
 
 .custom-input {

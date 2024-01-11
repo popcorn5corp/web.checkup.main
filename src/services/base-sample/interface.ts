@@ -48,7 +48,7 @@ export namespace IBaseSample {
     boardId: string // 샘플 게시판 아이디
     boardTitle: string // 샘플 게시판 제목
     boardContent: string // 샘플 게시판 내용
-    createdAt: number // 생성일
+    createdAt: string | number // 생성일
     thumbnail: BoardFile | null
     permission: ICode<'GUEST' | 'NORMAL' | 'ADMIN'>['value']
     division: ICode<'PRIVATE' | 'PUBLIC'>['value'] // 샘플 게시판 구분

@@ -27,11 +27,11 @@
     </Form>
 
     <Form v-else layout="horizontal" :model="formState">
-      <Item :label="t('page.manage.groupTitle')">
-        <Input v-model:value="formState.clonePost.name" />
+      <Item>
+        <Input v-model:value="formState.clonePost.name" :label="t('page.manage.groupTitle')" />
       </Item>
-      <Item :label="t('page.manage.groupContent')">
-        <Input v-model:value="formState.clonePost.content" />
+      <Item>
+        <Input v-model:value="formState.clonePost.content" :label="t('page.manage.groupContent')" />
       </Item>
 
       <div class="btn-wrapper">
@@ -47,7 +47,7 @@
 
 <script setup lang="ts" name="PostDetail">
 import { ManagerGroupService } from '@/services'
-import { Form, Input } from 'ant-design-vue'
+import { Form } from 'ant-design-vue'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
@@ -61,6 +61,7 @@ import {
   ExclamationCircleOutlined,
   MoreOutlined
 } from '@/components/icons'
+import { Input } from '@/components/input'
 import { contentModes as modes } from '@/constants/content'
 
 const { t } = useI18n()
@@ -226,6 +227,7 @@ const showDeleteConfirm = () => {
       justify-content: flex-end;
       display: flex;
       gap: 3px;
+      margin-top: 10px;
       .ant-btn {
         padding: 2px 9px;
 
@@ -236,7 +238,7 @@ const showDeleteConfirm = () => {
     }
 
     .ant-form-item {
-      margin-bottom: 12px !important;
+      margin-bottom: 0;
     }
 
     .ant-dropdown-link {

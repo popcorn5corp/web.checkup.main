@@ -70,8 +70,4 @@ defineExpose({
 })
 </script>
 
-<style lang="scss" scoped>
-.ant-input {
-  margin-bottom: 12px !important;
-}
-</style>
+<style lang="scss" scoped></style>

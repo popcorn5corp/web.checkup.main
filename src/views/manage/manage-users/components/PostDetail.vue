@@ -38,23 +38,29 @@
     </Form>
 
     <Form v-else ref="formRef" layout="horizontal" :model="formState">
-      <Item :label="$t('common.name')" name="nickname">
-        <Input v-model:value="formState.data.nickname" />
+      <Item name="nickname">
+        <Input v-model:value="formState.data.nickname" :label="$t('common.name')" />
       </Item>
       <Item :label="$t('common.status')">
         <Select
           v-model:value="formState.data.userStatus.label"
           :options="userStatusOptions"
         ></Select>
+        <!-- <Input v-model:value="formState.data.email" :label="$t('common.status')" /> -->
       </Item>
-      <Item :label="$t('common.email')" name="email">
-        <Input v-model:value="formState.data.email" />
+      <Item name="email">
+        <Input v-model:value="formState.data.email" :label="$t('common.email')" />
       </Item>
-      <Item :label="$t('common.phone')" name="phone">
-        <Input v-model:value="formState.data.phone" />
+      <Item name="phone">
+        <Input v-model:value="formState.data.phone" :label="$t('common.phone')" />
       </Item>
-      <Item :label="$t('page.manage.joinDate')" name="joinDate">
-        {{ formState.data.joinDate }}
+      <Item name="joinDate">
+        <!-- {{ formState.data.joinDate }} -->
+        <Input
+          v-model:value="formState.data.joinDate"
+          :label="$t('page.manage.joinDate')"
+          disabled
+        />
       </Item>
       <div class="btn-wrapper">
         <Button @click="initState"><CloseOutlined /></Button>
@@ -67,7 +73,7 @@
 </template>
 
 <script setup lang="tsx" name="PostDetail">
-import { Form, Input, Modal, Select, type SelectProps } from 'ant-design-vue'
+import { Form, Modal, Select, type SelectProps } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -78,6 +84,7 @@ import {
   ExclamationCircleOutlined,
   MoreOutlined
 } from '@/components/icons'
+import { Input } from '@/components/input'
 import { contentModes as modes } from '@/constants/content'
 import { getDefaultPost } from '../constant'
 
@@ -126,7 +133,9 @@ const formState: UnwrapRef<FormState> = reactive({
   data: getDefaultPost(),
   cloneData: getDefaultPost()
 })
+
 const onSubmit = async () => {
+  console.log('click onSubmit')
   // const requestBody = {
   //   workspaceId: getWorkspace?.workspaceId,
   //   name: formState.clonePost.name,
@@ -219,10 +228,6 @@ watch(
         border: 1px solid $color-gray-5;
         border-radius: 10px;
       }
-      .ant-form-item {
-        padding: 0;
-        margin-bottom: 12px;
-      }
     }
     .form-item-wrapper {
       width: 100%;
@@ -235,6 +240,8 @@ watch(
     justify-content: flex-end;
     display: flex;
     gap: 3px;
+    margin-top: 10px;
+
     .ant-btn {
       padding: 2px 9px;
 
@@ -271,7 +278,7 @@ watch(
 
     .ant-form-item {
       padding: 0;
-      margin-bottom: 10px;
+      margin-bottom: 0;
       .ant-row {
         flex-wrap: nowrap;
       }
