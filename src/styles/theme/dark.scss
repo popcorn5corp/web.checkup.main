@@ -146,4 +146,28 @@ html[data-theme='dark'] {
       }
     }
   }
+  .custom-select-container {
+    .custom-select {
+      .ant-select-selector {
+        border: 1.5px solid $dark-border-color;
+      }
+    }
+    .custom-select:hover {
+      .ant-select-selector {
+        border-color: $dark-border-color !important;
+      }
+    }
+    .select-label {
+      background: inherit;
+      color: $dark-border-color;
+    }
+    .custom-select.active ~ label {
+      background: $container-color;
+    }
+    .custom-select.active {
+      .ant-select-selection-placeholder {
+        color: $dark-border-color;
+      }
+    }
+  }
 }
