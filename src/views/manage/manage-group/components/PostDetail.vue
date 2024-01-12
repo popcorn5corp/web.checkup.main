@@ -208,6 +208,7 @@ const showDeleteConfirm = () => {
     padding: 16px 16px;
 
     .ant-form-item-label {
+      width: 70px;
       > label {
         font-weight: 500;
       }

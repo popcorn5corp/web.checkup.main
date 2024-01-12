@@ -47,9 +47,10 @@ const themeColorStyle = computed<CSSProperties>(() => {
 
 const isActive = ref(false)
 const isColored = ref(false)
-const inputValue = computed(() => props.value)
+const inputValue = ref()
 
 ;(async () => {
+  inputValue.value = props.value
   if (inputValue.value) isActive.value = true
 })()
 
@@ -65,9 +66,10 @@ const onFocusout = () => {
 
 const onInput = (e: Event) => {
   const input = (e.target as HTMLInputElement).value
-
+  inputValue.value = input
   emit('update:value', input)
 }
+
 defineExpose({
   inputValue
 })
@@ -75,7 +77,7 @@ defineExpose({
 
 <style lang="scss" scoped>
 .custom-input-container {
-  margin: 8px 0;
+  margin: 10px 0;
   position: relative;
   background: inherit;
 

@@ -41,12 +41,12 @@
       <Item name="nickname">
         <Input v-model:value="formState.data.nickname" :label="$t('common.name')" />
       </Item>
-      <Item :label="$t('common.status')">
+      <Item>
         <Select
-          v-model:value="formState.data.userStatus.label"
+          v-model:value="formState.data.userStatus"
           :options="userStatusOptions"
+          :label="$t('common.status')"
         ></Select>
-        <!-- <Input v-model:value="formState.data.email" :label="$t('common.status')" /> -->
       </Item>
       <Item name="email">
         <Input v-model:value="formState.data.email" :label="$t('common.email')" />
@@ -55,7 +55,6 @@
         <Input v-model:value="formState.data.phone" :label="$t('common.phone')" />
       </Item>
       <Item name="joinDate">
-        <!-- {{ formState.data.joinDate }} -->
         <Input
           v-model:value="formState.data.joinDate"
           :label="$t('page.manage.joinDate')"
@@ -73,7 +72,7 @@
 </template>
 
 <script setup lang="tsx" name="PostDetail">
-import { Form, Modal, Select, type SelectProps } from 'ant-design-vue'
+import { Form, Modal, type SelectProps } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -85,6 +84,7 @@ import {
   MoreOutlined
 } from '@/components/icons'
 import { Input } from '@/components/input'
+import { Select } from '@/components/select'
 import { contentModes as modes } from '@/constants/content'
 import { getDefaultPost } from '../constant'
 
@@ -197,6 +197,7 @@ const showDeleteConfirm = () => {
 const initState = (): void => {
   mode.value = DEFAULT_MODE
   visible.value = false
+  formState.data = formState.cloneData
 }
 
 watch(
@@ -260,7 +261,7 @@ watch(
   :deep(.ant-form) {
     gap: 1rem;
     .ant-form-item-label {
-      text-align: left;
+      width: 55px;
       > label {
         font-weight: 900;
       }
