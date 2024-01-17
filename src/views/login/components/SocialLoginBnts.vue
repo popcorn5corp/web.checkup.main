@@ -19,8 +19,10 @@ interface SocialLoginType {
   icon: string
 }
 
+const AUTH_API_URL = 'http://dev-auth.checkup-api.co.kr'
+
 const onSocialLogin = (loginType: SocialLoginType) => {
-  const link = import.meta.env.VITE_AUTH_SERVER_API_URL + loginType.url
+  const link = AUTH_API_URL + loginType.url
   window.location.href = link
 }
 
