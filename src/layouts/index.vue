@@ -1,9 +1,7 @@
 <template>
-  <KeepAlive>
-    <component :is="LayoutComponents[layout]">
-      <RouterView></RouterView>
-    </component>
-  </KeepAlive>
+  <component :is="LayoutComponents[layout]">
+    <RouterView></RouterView>
+  </component>
 
   <!-- <ThemeDrawer /> -->
 </template>

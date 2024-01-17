@@ -1,6 +1,6 @@
 <template>
   <Layout class="layout-pure">
-    <RouterView />
+    <slot />
   </Layout>
 </template>
 
