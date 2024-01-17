@@ -39,12 +39,12 @@ export function isDevMode(): boolean {
 export function getAppEnvConfig() {
   const ENV = import.meta.env
 
-  const { VITE_GLOB_APP_TITLE, VITE_API_URL, VITE_AUTH_SERVER_API_URL, VITE_DEFAULT_LOCALE } = ENV
+  const { VITE_GLOB_APP_TITLE, VITE_API_URL, VITE_AUTH_API_URL, VITE_DEFAULT_LOCALE } = ENV
 
   return {
     VITE_GLOB_APP_TITLE,
     VITE_API_URL,
-    VITE_AUTH_SERVER_API_URL,
+    VITE_AUTH_API_URL,
     VITE_DEFAULT_LOCALE
   }
 }
