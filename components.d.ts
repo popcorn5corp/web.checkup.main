@@ -107,6 +107,7 @@ declare module '@vue/runtime-core' {
     ThemeToggle: typeof import('./src/components/theme-toggle/src/ThemeToggle.vue')['default']
     Timeline: typeof import('./src/components/timeline/src/Timeline.vue')['default']
     TimelineItem: typeof import('./src/components/timeline/src/TimelineItem.vue')['default']
+    Tour: typeof import('./src/components/tour/src/Tour.vue')['default']
     UserAccount: typeof import('./src/components/header/src/components/UserAccount.vue')['default']
     UserDropdown: typeof import('./src/components/header/src/components/UserDropdown.vue')['default']
   }

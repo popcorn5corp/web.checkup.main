@@ -28,15 +28,7 @@
             <slot name="tableBtns"></slot>
 
             <Button
-              :ref="
-                (ref) => {
-                  // @ts-ignore
-                  if (ref?.$el) {
-                    // @ts-ignore
-                    tourStore.addStep(3, ref.$el)
-                  }
-                }
-              "
+              :ref="(ref) => tourStore.setStep(3, ref?.$el)"
               v-if="showRegist"
               :label="buttonText.registration"
               size="middle"
@@ -49,15 +41,7 @@
 
             <!-- 필터 버튼 -->
             <Button
-              :ref="
-                (ref) => {
-                  // @ts-ignore
-                  if (ref?.$el) {
-                    // @ts-ignore
-                    tourStore.addStep(4, ref.$el)
-                  }
-                }
-              "
+              :ref="(ref) => tourStore.setStep(4, ref?.$el)"
               v-if="activeFilter"
               type="primary"
               :label="buttonText.filter"
@@ -156,7 +140,6 @@ import type {
 import { defaultContenxtValues } from '../types'
 import TableTags from './components/TableTags.vue'
 
-const tourStore = useTourStore()
 const emit = defineEmits([
   'row-click',
   'change',
@@ -180,6 +163,7 @@ defineExpose<DynamicTableExposes>({
 })
 
 const { getTheme } = useProjectConfigStore()
+const tourStore = useTourStore()
 const attrs = useAttrs()
 const { t } = useI18n()
 const wrapRef = ref(null)

@@ -1,15 +1,7 @@
 <template>
   <div class="table-segmented-button">
     <Segmented
-      :ref="
-        (ref) => {
-          // @ts-ignore
-          if (ref?.$el) {
-            // @ts-ignore
-            tourStore.addStep(9, ref.$el)
-          }
-        }
-      "
+      :ref="(ref) => tourStore.setStep(9, ref?.$el)"
       v-model:value="tableLayoutType"
       :options="options"
       @change="onChangeLayoutType"
