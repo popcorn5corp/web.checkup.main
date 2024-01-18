@@ -83,5 +83,49 @@ export default {
       userSearchPh: 'Please search your name and email.',
       groupSearchPh: 'Please search for the group name.'
     }
+  },
+  tour: {
+    step1: {
+      title: 'Halo, senang bertemu denganmu.',
+      description: 'Ini adalah panduan untuk menggunakan layanan check-up.'
+    },
+    step2: {
+      title: 'Menyediakan kemampuan drop-down',
+      description:
+        'Anda dapat mengatur konfigurasi seperti pengaturan tampilan dan pengaturan multibahasa layanan SaaS.'
+    },
+    step3: {
+      title: 'Mengonfigurasi menu dengan menambahkan modul',
+      description: 'Berbagai fungsi tersedia dengan menambahkan modul.'
+    },
+    step4: {
+      title: 'Menyediakan kemampuan pendaftaran pos',
+      description: 'Anda dapat mendaftarkan posting Anda.'
+    },
+    step5: {
+      title: 'Menyediakan fungsionalitas filter',
+      description: 'Kami juga menyediakan fungsi filter dari tabel.'
+    },
+    step6: {
+      title: 'Menyediakan fungsionalitas toolbar',
+      description: 'Memperkenalkan fungsionalitas toolbar tabel.'
+    },
+    step7: {
+      title: 'Menyediakan kemampuan penyegaran tabel',
+      description: 'Kemampuan untuk menyegarkan data dalam tabel.'
+    },
+    step8: {
+      title: 'Menyediakan kemampuan unduhan tabel',
+      description: 'Kemampuan untuk mengunduh data dari tabel.'
+    },
+    step9: {
+      title: 'Menyediakan kemampuan ukuran tabel',
+      description: 'Ini adalah fungsi yang memungkinkan Anda untuk menyesuaikan ukuran tabel.'
+    },
+    step10: {
+      title: 'Menyediakan pengaturan tata letak data tabel',
+      description:
+        'Anda dapat melihat data dalam tabel dengan memilih tata letak format tabel dan format kartu.'
+    }
   }
 }

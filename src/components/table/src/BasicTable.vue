@@ -1,17 +1,6 @@
 <template>
   <div ref="wrapRef" class="basic-table-container">
-    <TableToolbar
-      :ref="
-        (ref) => {
-          // @ts-ignore
-          if (ref?.$el) {
-            // @ts-ignore
-            tourStore.addStep(5, ref.$el)
-          }
-        }
-      "
-      v-if="props.showToolbar"
-    />
+    <TableToolbar :ref="(ref) => tourStore.setStep(5, ref?.$el)" v-if="props.showToolbar" />
 
     <SelectionPopup v-if="getContextValues.showSelectionPopup" :selectedRows="selectedRows" />
 

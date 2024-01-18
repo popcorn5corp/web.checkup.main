@@ -377,17 +377,6 @@ export const staticRoutes: RouteRecordRaw[] = [
         meta: {
           title: 'Select'
         }
-      },
-      {
-        path: 'tour',
-        name: 'components-tour',
-        component: () =>
-          import(
-            /* webpackChunkName: "components-tour" */ '@/views/components-overview/tour/index.vue'
-          ),
-        meta: {
-          title: 'Tour'
-        }
       }
     ]
   }

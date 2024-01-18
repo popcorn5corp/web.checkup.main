@@ -57,10 +57,10 @@
     </Layout>
 
     <Tour
-      :open="tourStore.getMode"
-      :steps="tourStore.getStepInfo"
-      @change="onChange"
-      @close="handleOpen(false)"
+      :open="tourStore.isOpen"
+      :steps="tourStore.getSteps"
+      @change="(current: number) => tourStore.changeStep(current)"
+      @close="tourStore.handleOpen(false)"
     >
       <template #indicatorsRender="{ current, total }">
         <span>{{ current + 1 }} / {{ total }}</span>
@@ -73,7 +73,6 @@
 <script setup lang="ts" name="LayoutDefault">
 import { Divider, Layout, Tour } from 'ant-design-vue'
 import { type CSSProperties, computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTourStore } from '@/stores/modules/tour'
 import { Header as LayoutHeader } from '@/components/header'
@@ -91,7 +90,7 @@ const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
 const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
 const isSideMenu = computed(() => config.theme.menuPosition === 'sidemenu')
-const router = useRouter()
+
 const imgPath = computed(
   () => new URL(`/src/assets/images/${config.theme.logoFileName}`, import.meta.url).href
 )
@@ -125,22 +124,6 @@ const mainStyles = computed<{ size: CSSProperties }>(() => {
   }
 })
 
-/**
- * 온보딩 관련 코드
- */
-const open = ref(false)
-
-const onChange = (current) => {
-  console.log(current)
-  if (current === 2) {
-    router.push({ name: 'samples-dynamic-table' })
-  }
-}
-
-const handleOpen = (value) => {
-  // console.log(value)
-  tourStore.handleMode()
-}
 onMounted(() => {
   setTimeout(() => {
     document.getElementById('circularMenu')?.classList.add('active')

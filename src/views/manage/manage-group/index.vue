@@ -125,7 +125,7 @@ const initTabKey = () => {
 const getDataSource = async (param: IManageGroup.GroupListParam) => {
   return await ManagerGroupService.getGroupList(getWorkspaceId, param)
 }
-const dataCallback = ({ posts }: IManageGroup.GetTableListResponse['data']) => posts
+const dataCallback = ({ posts }: IManageGroup.GetTableListResponse) => posts
 const getFilters = () => ManagerGroupService.getPageInfo()
 const getColumns = () => ManagerGroupService.getSortableCodes()
 

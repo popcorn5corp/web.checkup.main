@@ -1,17 +1,6 @@
 <template>
   <Dropdown class="user-dropdown" :trigger="['click']">
-    <Button
-      shape="round"
-      :ref="
-        (ref) => {
-          // @ts-ignore
-          if (ref?.$el) {
-            // @ts-ignore
-            tourStore.addStep(1, ref.$el)
-          }
-        }
-      "
-    >
+    <Button shape="round" :ref="(ref) => tourStore.setStep(1, ref?.$el)">
       <template #icon>
         <Badge status="processing" :text="getWorkspace?.workspaceName" color="green" />
         <CaretDownOutlined />
@@ -112,9 +101,6 @@ const onClickMenu: MenuProps['onClick'] = ({ key }) => {
     authStore.logout(true)
   }
 }
-
-const handleDropdown = () => {}
-const openChange = () => {}
 </script>
 <style lang="scss" scoped>
 .user-dropdown {

@@ -83,5 +83,49 @@ export default {
       userSearchPh: 'Please search your name and email.',
       groupSearchPh: 'Please search for the group name.'
     }
+  },
+  tour: {
+    step1: {
+      title: 'Hello. Nice to meet you.',
+      description: 'This is a guide to using the check-up service.'
+    },
+    step2: {
+      title: 'Provides drop-down capabilities',
+      description:
+        'You can set configurations such as display settings and multilingual settings of SaaS services.'
+    },
+    step3: {
+      title: 'Configuring menus by adding modules',
+      description: 'Various functions are available by adding modules.'
+    },
+    step4: {
+      title: 'Provides post registration capabilities',
+      description: 'You can register your posts.'
+    },
+    step5: {
+      title: 'Provides filter functionality',
+      description: 'We also provide a filter function of the table.'
+    },
+    step6: {
+      title: 'Provides toolbar functionality',
+      description: 'Introducing the toolbar functionality of the table.'
+    },
+    step7: {
+      title: 'Provides table refresh capability',
+      description: 'The ability to refresh the data in the table.'
+    },
+    step8: {
+      title: 'Provides table download capabilities',
+      description: 'The ability to download data from the table.'
+    },
+    step9: {
+      title: 'Provides table sizing capability',
+      description: 'It is a function that allows you to adjust the table size.'
+    },
+    step10: {
+      title: 'Provides table data layout settings',
+      description:
+        'You can view the data in the table by selecting the layout of the table format and card format.'
+    }
   }
 }

@@ -4,13 +4,7 @@
 
     <div class="menu-content" :class="{ 'is-side-menu': props.isSide }">
       <Menu
-        :ref="
-          (ref) => {
-            if (ref?.$el) {
-              tourStore.addStep(2, ref?.$el)
-            }
-          }
-        "
+        :ref="(ref) => tourStore.setStep(2, ref?.$el)"
         v-model:selected-keys="state.selectedKeys"
         :open-keys="props.isSide ? state.openKeys : []"
         :mode="props.mode !== 'horizontal' && props.isSide ? 'inline' : 'horizontal'"
