@@ -21,18 +21,24 @@ export default {
     emailError: 'The email format is incorrect. Please write again.',
     emailDuplicatedError: 'This email has already been added. Please write again.',
     reTry: 'Please try again in a few minutes.',
-    checkInviteCode: 'Please check the invitation code again.'
+    checkInviteCode: 'Please check the invitation code again.',
+    checkPassword: 'Please check your password.',
+    signUpValidate: 'Please enter all items.'
   },
   socialLoginText: 'Sign In With { type }',
   loginText: 'Sign In',
+  signUpText: 'Sign Up',
+  join: 'Join',
   loading: 'Mohon tunggu sebentar.',
   createAccount: 'Create an account',
   newUser: 'New user?',
   forgotPassword: 'Forgot Password?',
   idText: 'ID',
   passwordText: 'Password',
+  rePasswordText: 'Verify password',
   checkingLogin: 'Checking user information',
   inputName: 'Please input your name.',
+  inputEmail: 'Please enter it in email format.',
   or: 'Or',
   select: 'Select',
   createWorkspace: 'Create a workspace',
@@ -42,5 +48,11 @@ export default {
   email: 'E-mail',
   phone: 'Cell Phone Number',
   detailInfo: 'More information',
-  gender: 'Gender'
+  gender: 'Gender',
+  findId: 'Find ID',
+  findPassword: 'Find Password',
+  backToLogin: 'Back to login',
+  signUpDesc: 'Already have an account?',
+  signUpComplete: `{ name }'s registration has been completed.`,
+  signUpTerms: 'I agree to privacy policy & terms'
 }

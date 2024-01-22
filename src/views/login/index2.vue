@@ -1,81 +1,108 @@
 <template>
-  <div id="container" class="container" v-if="!isSuccessSocialLogin">
+  <div id="container" class="container" v-if="!isSuccessSocialLogin && !isSuccessLogin">
     <div class="row">
       <!-- SIGN UP -->
       <div class="col align-items-center flex-col sign-up">
         <div class="form-wrapper align-items-center">
-          <div class="form sign-up">
-            <h3>{{ text2 }}</h3>
-
-            <div class="input-group">
-              <i class="bx bxs-user"></i>
-              <Input :label="text3" />
-            </div>
-            <!-- <div class="input-group">
-              <i class="bx bx-mail-send"></i>
-              <input type="email" placeholder="Email" />
-            </div> -->
-            <!-- <div class="input-group">
-              <i class="bx bxs-lock-alt"></i>
-              <input type="password" placeholder="Password" />
-            </div>
-            <div class="input-group">
-              <i class="bx bxs-lock-alt"></i>
-              <input type="password" placeholder="Confirm password" />
-            </div> -->
-            <button @click="onNext">다음</button>
-            <p>
-              <span> Already have an account? </span>
-              <b @click="onToggle" class="pointer"> Sign in here </b>
-            </p>
-          </div>
+          <SignUp :onToggle="onToggle" />
         </div>
       </div>
       <!-- END SIGN UP -->
 
       <!-- SIGN IN -->
-      <div class="col align-items-center flex-col sign-in">
-        <div class="form-wrapper align-items-center">
-          <div class="form sign-in">
-            <div class="heading">
-              <h1 class="text text-large">{{ $t('common.loginText') }}</h1>
-              <p class="text text-normal">
-                {{ $t('common.newUser') }}
-                <span @click="onToggle"
-                  ><a href="#" class="text text-links" style="color: rgb(37, 104, 249)">{{
-                    $t('common.createAccount')
-                  }}</a></span
-                >
-              </p>
-            </div>
-            <div class="input-group">
-              <!-- <font-awesome-icon :icon="['fas', 'user']" /> -->
-              <Input placeholder="input username" label="username" />
-            </div>
-            <div class="input-group">
-              <!-- <i class="bx bxs-lock-alt"></i> -->
-              <Input placeholder="input password" label="password" type="password" />
-            </div>
-            <button>Sign in</button>
-            <p>
-              <b> Forgot password? </b>
-            </p>
-            <p>
-              <span> Don't have an account? </span>
-              <b @click="onToggle" class="pointer"> Sign up here </b>
-            </p>
+      <template v-if="isLogin">
+        <div class="col align-items-center flex-col sign-in">
+          <div class="form-wrapper align-items-center">
+            <div class="form sign-in">
+              <div class="heading">
+                <h1 class="text text-title">{{ $t('common.loginText') }}</h1>
+              </div>
 
-            <div class="striped">
-              <span class="striped-line"></span>
-              <span class="striped-text">OR</span>
-              <span class="striped-line"></span>
-            </div>
+              <Form :model="formData" @validate="onValidate" @finish="onFinish" :rules="rules">
+                <FormItem name="userId">
+                  <Input
+                    id="loginEmail"
+                    type="email"
+                    :placeholder="$t('component.ph.inputId')"
+                    :label="$t('common.idText')"
+                    v-model:value="formData.userId"
+                  />
+                </FormItem>
+                <FormItem name="password">
+                  <Input
+                    id="loginPassword"
+                    :placeholder="$t('component.ph.inputPassword')"
+                    :label="$t('common.passwordText')"
+                    type="password"
+                    v-model:value="formData.password"
+                  />
+                </FormItem>
+                <FormItem>
+                  <Button
+                    :label="$t('common.loginText')"
+                    type="primary"
+                    size="large"
+                    html-type="submit"
+                    :loading="isLoading"
+                  />
+                </FormItem>
+              </Form>
 
-            <SocialLoginBnts />
+              <div class="text-btn-wrapper">
+                <div class="text-btn pointer join" @click="onToggle">
+                  {{ $t('common.signUpText') }}
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px">
+                  <div
+                    class="text-btn pointer"
+                    @click="
+                      () => {
+                        isLogin = false
+                        findType = 'id'
+                      }
+                    "
+                  >
+                    {{ $t('common.findId') }}
+                  </div>
+                  <div class="dot" />
+                  <div
+                    class="text-btn pointer find-password"
+                    @click="
+                      () => {
+                        isLogin = false
+                        findType = 'password'
+                      }
+                    "
+                  >
+                    {{ $t('common.findPassword') }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="striped">
+                <span class="striped-line"></span>
+                <span class="striped-text">OR</span>
+                <span class="striped-line"></span>
+              </div>
+
+              <SocialLoginBnts />
+            </div>
           </div>
         </div>
-        <div class="form-wrapper"></div>
-      </div>
+      </template>
+      <template v-else>
+        <div class="col align-items-center">
+          <div class="form-wrapper align-items-center flex-col">
+            <!-- <FindUser :type="findType" /> -->
+            <p style="margin: 1rem 0">
+              <b @click="isLogin = true" class="pointer">
+                <LeftOutlined />
+                {{ $t('common.backToLogin') }}
+              </b>
+            </p>
+          </div>
+        </div>
+      </template>
       <!-- END SIGN IN -->
     </div>
     <!-- END FORM SECTION -->
@@ -84,10 +111,9 @@
     <div class="row content-row">
       <!-- SIGN IN CONTENT -->
       <div class="col align-items-center flex-col">
-        <div class="text sign-in" style="margin-left: -60px">
+        <div class="text sign-in">
           <h2 style="margin: 0">순간을 모아 미래를 보다</h2>
-          <img src="@/assets/images/checkup_logo_light.png" style="width: 500px" />
-          <!-- <h2>Checkup</h2> -->
+          <img src="@/assets/images/checkup_logo_light.png" style="width: 500px" class="logo" />
         </div>
         <div class="img sign-in"></div>
       </div>
@@ -96,7 +122,7 @@
       <div class="col align-items-center flex-col">
         <div class="img sign-up"></div>
         <div class="text sign-up">
-          <h2>{{ text }}</h2>
+          <h2>체크업의 계정을 만들어보세요</h2>
         </div>
       </div>
       <!-- END SIGN UP CONTENT -->
@@ -104,53 +130,90 @@
     <!-- END CONTENT SECTION -->
     <!-- FORM SECTION -->
   </div>
-  <Spinner v-else :text="$t('common.checkingLogin')" :text-width="'13rem'"></Spinner>
+  <Spinner v-else :text="$t('common.checkingLogin')" :text-width="'13rem'" />
 </template>
 <script setup lang="ts" name="login2">
+import { AuthService } from '@/services'
 import { useAuthStore } from '@/stores'
-import { onMounted, ref } from 'vue'
+import { message } from 'ant-design-vue'
+import type { Rule } from 'ant-design-vue/es/form'
+import { onMounted, reactive, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { LeftOutlined } from '@/components/icons'
 import { Input } from '@/components/input'
 import { Spinner } from '@/components/spinner'
-import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
+// import FindUser from './components/FindUser.vue'
+import SignUp from './components/SignUp.vue'
 import SocialLoginBnts from './components/SocialLoginBnts.vue'
 
 const { query } = useRoute()
-const { setToken, login, getToken } = useAuthStore()
+const { t } = useI18n()
+const { setToken, setRefreshToken, login, getToken } = useAuthStore()
 const { setTheme, setRealDarkTheme } = useProjectConfigStore()
 
 const accessToken = query.accessToken as string
 const refreshToken = query.refreshToken as string
 const isSuccessSocialLogin = !!accessToken && !!refreshToken
+const isSuccessLogin = ref(false)
 
 ;(async () => {
   if (isSuccessSocialLogin && !getToken) {
+    console.log('##############')
     setToken(ACCESS_TOKEN_KEY, accessToken)
     await login()
   }
 
-  // set theme
+  // set default theme
   const themeName = 'light'
+  const defaultPrimary = 'rgba(24, 144, 255, 1)'
   setTheme({ navTheme: themeName })
   setTheme({ isRealDarkTheme: false })
+  setTheme({ primaryColor: defaultPrimary })
   setRealDarkTheme(themeName)
 })()
 
 let container: HTMLElement | null = null
-const text = ref('회사 또는 팀이름을 알려주세요')
-const text2 = ref('Checkup 워크스페이스의 이름이 됩니다.')
-const text3 = ref('회사 또는 팀이름')
+const isLogin = ref(true)
+const findType = ref()
+const isLoading = ref(false)
+const formData = reactive({
+  userId: '',
+  password: ''
+})
+
+const rules: Record<string, Rule[]> = {
+  userId: [{ required: true, message: 'Please input your email!', trigger: 'change' }],
+  password: [{ required: true, message: 'Please input your password!', trigger: 'change' }]
+}
 
 const onToggle = () => {
   container!.classList.toggle('sign-up')
   container!.classList.toggle('sign-in')
 }
 
-const onNext = () => {
-  text.value = '체크업팀에 또 누가 있나요?'
-  text2.value = '이메일로 직장동료를 추가해주세요'
-  text3.value = '이메일 검색'
+const onValidate = (...args: [string, boolean, string[]]) => {
+  if (!args[1]) return message.error(t('common.message.signUpValidate'))
+}
+
+const onFinish = async () => {
+  try {
+    isLoading.value = true
+    const { data, success } = await AuthService.signIn(formData)
+    if (success) {
+      setToken(ACCESS_TOKEN_KEY, data.accessToken)
+      setRefreshToken(REFRESH_TOKEN_KEY, data.refreshToken)
+      isSuccessLogin.value = true
+
+      await login()
+    }
+  } catch (err) {
+    console.log(err)
+  } finally {
+    isLoading.value = false
+  }
 }
 
 onMounted(() => {
@@ -228,12 +291,6 @@ body {
       text-transform: unset;
       text-rendering: optimizeLegibility;
 
-      &-large {
-        font-size: 2rem;
-        font-weight: 600;
-        color: $color-black;
-      }
-
       &-normal {
         font-size: 1rem;
         font-weight: 400;
@@ -284,10 +341,17 @@ body {
   background-color: $color-white;
   border-radius: 1.5rem;
   width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transform: scale(0);
   transition: 0.5s ease-in-out;
-  transition-delay: 1s;
+  transition-delay: 0.6s;
+}
+
+.text-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 3rem;
+  color: $color-black !important;
 }
 
 .input-group {
@@ -320,15 +384,8 @@ body {
 }
 
 .form button {
-  cursor: pointer;
   width: 100%;
-  padding: 0.6rem 0;
-  border-radius: 0.5rem;
-  border: none;
-  background-color: $color-primary;
-  color: #ffffff;
-  font-size: 1.2rem;
-  outline: none;
+  font-size: 16px;
 }
 
 .form p {
@@ -340,12 +397,16 @@ body {
   flex-direction: column;
 }
 
+.terms-wrapper {
+  margin: 15px 0;
+}
+
 .social-list {
   margin: 2rem 0;
   padding: 1rem;
   border-radius: 1.5rem;
   width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transform: scale(0);
   transition: 0.5s ease-in-out;
   transition-delay: 1.2s;
@@ -426,7 +487,7 @@ body {
 }
 
 .text {
-  margin: 4rem;
+  // margin: 3rem;
   color: #ffffff;
 }
 
@@ -434,30 +495,52 @@ body {
   font-size: 4rem;
   font-weight: 800;
   margin: 2rem 0;
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
 }
 
 .text h2 {
   font-size: 3.5rem;
   font-weight: 800;
   margin: 2rem 0;
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
 }
 
 .text img {
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
 }
 
 .text p {
   font-weight: 600;
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
   transition-delay: 0.2s;
 }
 
 .img img {
   width: 30vw;
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
   transition-delay: 0.4s;
+}
+
+.text-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  margin: 1.5rem 0;
+
+  .text-btn {
+    padding: 2px;
+    color: $color-primary;
+    font-weight: 600;
+  }
+  .join {
+    color: $color-gray-6;
+  }
+  .dot {
+    width: 5px;
+    height: 5px;
+    background: $color-gray-5;
+    border-radius: 50%;
+  }
 }
 
 .text.sign-in h2,
@@ -494,9 +577,9 @@ body {
   width: 300vw;
   transform: translate(35%, 0);
   background-image: linear-gradient(-45deg, $color-primary 0%, #57b894 100%);
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
   z-index: 6;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-bottom-right-radius: max(50vw, 50vh);
   border-top-left-radius: max(50vw, 50vh);
 }
@@ -511,9 +594,24 @@ body {
   right: 50%;
 }
 
+.form-container {
+  width: 100%;
+}
+
+:deep(.custom-input-container) {
+  margin: 0;
+}
+
+:deep(.ant-form) {
+  .ant-form-item {
+    margin: 0;
+    margin-bottom: 1.2rem;
+  }
+}
+
 /* RESPONSIVE */
 
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width: 576px) {
   .container::before,
   .container.sign-in::before,
   .container.sign-up::before {
@@ -531,7 +629,11 @@ body {
 
   .container.sign-in .col.sign-in,
   .container.sign-up .col.sign-up {
-    transform: translateY(0);
+    // transform: translateY(0);
+    transform: translateY(330px);
+    height: 100%;
+    justify-content: flex-start;
+    padding-top: 50px;
   }
 
   .content-row {
@@ -551,7 +653,7 @@ body {
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
     transform: translateY(100%);
-    transition: 1s ease-in-out;
+    transition: 0.6s ease-in-out;
   }
 
   .row {
@@ -567,7 +669,7 @@ body {
   }
 
   .text {
-    margin: 0;
+    margin: 30px;
   }
 
   .text p {
@@ -576,7 +678,54 @@ body {
 
   .text h2 {
     margin: 0.5rem;
-    font-size: 2rem;
+    font-size: 2.2rem;
+  }
+
+  .logo {
+    width: 100% !important;
+  }
+}
+
+// @include xxs {
+//   .text h2 {
+//     font-size: 2.3rem;
+//   }
+//   .logo {
+//     width: 400px !important;
+//   }
+// }
+// @include xs {
+//   .text h2 {
+//     font-size: 2.3rem;
+//   }
+//   .logo {
+//     width: 400px !important;
+//   }
+// }
+@include sm {
+  .text h2 {
+    font-size: 1.8rem;
+  }
+  .logo {
+    width: 330px !important;
+  }
+}
+@include md {
+  .text h2 {
+    font-size: 2.3rem;
+  }
+  .logo {
+    width: 400px !important;
+  }
+}
+@include lg {
+  .text h2 {
+    font-size: 2.8rem;
+  }
+}
+@include xl {
+  .text h2 {
+    font-size: 3.1rem;
   }
 }
 </style>
