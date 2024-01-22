@@ -18,6 +18,8 @@ export default {
     reset: 'Atur Ulang'
   },
   ph: {
-    inputEmail: 'Silakan masukkan surel Anda.'
+    inputEmail: 'Silakan masukkan surel Anda.',
+    inputId: 'Silakan masukkan ID Anda.',
+    inputPassword: 'Silakan masukkan kata sandi.'
   }
 }

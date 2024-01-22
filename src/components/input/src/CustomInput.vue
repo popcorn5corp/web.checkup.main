@@ -67,12 +67,7 @@ const onFocusout = () => {
 const onInput = (e: Event) => {
   const input = (e.target as HTMLInputElement).value
   inputValue.value = input
-  emit('update:value', input)
 }
-
-defineExpose({
-  inputValue
-})
 </script>
 
 <style lang="scss" scoped>

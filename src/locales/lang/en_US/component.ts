@@ -18,6 +18,8 @@ export default {
     reset: 'Reset'
   },
   ph: {
-    inputEmail: 'Please enter your e-mail.'
+    inputEmail: 'Please enter your e-mail.',
+    inputId: 'Please enter your ID.',
+    inputPassword: 'Please enter a password.'
   }
 }

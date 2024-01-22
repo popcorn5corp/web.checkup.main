@@ -1,10 +1,13 @@
 <template>
   <div class="method">
     <div class="method-control" v-for="item in socialLoginTypes" :key="item.url">
-      <a class="method-action" @click="onSocialLogin(item)">
-        <img :src="item.icon" style="width: 25px; margin-right: 5px" />
-        <span>{{ $t('common.socialLoginText', { type: item.type }) }}</span>
-      </a>
+      <Tooltip>
+        <template #title>{{ $t('common.socialLoginText', { type: item.type }) }}</template>
+        <a class="method-action" @click="onSocialLogin(item)">
+          <img :src="item.icon" style="width: 25px; margin-right: 5px" />
+          <!-- <span>{{ $t('common.socialLoginText', { type: item.type }) }}</span> -->
+        </a>
+      </Tooltip>
     </div>
   </div>
 </template>
@@ -12,6 +15,7 @@
 import NaverIcon from '@/assets/images/btnG_icon_square.png'
 import GoogleIcon from '@/assets/svgs/google_g_logo.svg.webp'
 import KakaoIcon from '@/assets/svgs/kakaotalk.svg'
+import { Tooltip } from 'ant-design-vue'
 
 interface SocialLoginType {
   type: 'google' | 'naver' | 'kakao'
@@ -46,6 +50,9 @@ const socialLoginTypes: SocialLoginType[] = [
 </script>
 <style lang="scss" scoped>
 .method {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &-control {
     margin-bottom: 1rem;
   }
