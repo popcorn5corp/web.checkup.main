@@ -22,15 +22,7 @@
           :label="''"
           size="middle"
           @click="onReload"
-          :ref="
-            (ref) => {
-              // @ts-ignore
-              if (ref?.$el) {
-                // @ts-ignore
-                tourStore.addStep(6, ref.$el)
-              }
-            }
-          "
+          :ref="(ref) => tourStore.setStep(6, ref?.$el)"
         >
           <template #icon>
             <font-awesome-icon icon="rotate" :class="[isReload && 'rotating']" />
@@ -42,19 +34,7 @@
         <template #title>
           <span>Full Download</span>
         </template>
-        <Button
-          :label="''"
-          size="middle"
-          :ref="
-            (ref) => {
-              // @ts-ignore
-              if (ref?.$el) {
-                // @ts-ignore
-                tourStore.addStep(7, ref.$el)
-              }
-            }
-          "
-        >
+        <Button :label="''" size="middle" :ref="(ref) => tourStore.setStep(7, ref?.$el)">
           <template #icon>
             <DownloadOutlined />
           </template>
@@ -66,18 +46,7 @@
           <span>Size</span>
         </template>
         <Dropdown :trigger="['click']">
-          <Button
-            size="middle"
-            :ref="
-              (ref) => {
-                // @ts-ignore
-                if (ref?.$el) {
-                  // @ts-ignore
-                  tourStore.addStep(8, ref.$el)
-                }
-              }
-            "
-          >
+          <Button size="middle" :ref="(ref) => tourStore.setStep(8, ref?.$el)">
             <template #icon>
               <ColumnHeightOutlined />
             </template>
