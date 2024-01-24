@@ -93,7 +93,7 @@
       <template v-else>
         <div class="col align-items-center">
           <div class="form-wrapper align-items-center flex-col">
-            <!-- <FindUser :type="findType" /> -->
+            <FindUser :type="findType" />
             <p style="margin: 1rem 0">
               <b @click="isLogin = true" class="pointer">
                 <LeftOutlined />
@@ -145,7 +145,7 @@ import { LeftOutlined } from '@/components/icons'
 import { Input } from '@/components/input'
 import { Spinner } from '@/components/spinner'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
-// import FindUser from './components/FindUser.vue'
+import FindUser from './components/FindUser.vue'
 import SignUp from './components/SignUp.vue'
 import SocialLoginBnts from './components/SocialLoginBnts.vue'
 
@@ -161,7 +161,6 @@ const isSuccessLogin = ref(false)
 
 ;(async () => {
   if (isSuccessSocialLogin && !getToken) {
-    console.log('##############')
     setToken(ACCESS_TOKEN_KEY, accessToken)
     await login()
   }
@@ -185,8 +184,8 @@ const formData = reactive({
 })
 
 const rules: Record<string, Rule[]> = {
-  userId: [{ required: true, message: 'Please input your email!', trigger: 'change' }],
-  password: [{ required: true, message: 'Please input your password!', trigger: 'change' }]
+  userId: [{ required: true, message: t('component.ph.inputId'), trigger: 'change' }],
+  password: [{ required: true, message: t('component.ph.inputPassword'), trigger: 'change' }]
 }
 
 const onToggle = () => {
