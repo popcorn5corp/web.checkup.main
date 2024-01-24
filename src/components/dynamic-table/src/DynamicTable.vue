@@ -28,7 +28,7 @@
             <slot name="tableBtns"></slot>
 
             <Button
-              :ref="(ref) => tourStore.setStep(3, ref?.$el)"
+              :ref="(ref) => tour.setTour(3, ref as Element)"
               v-if="showRegist"
               :label="buttonText.registration"
               size="middle"
@@ -41,7 +41,7 @@
 
             <!-- 필터 버튼 -->
             <Button
-              :ref="(ref) => tourStore.setStep(4, ref?.$el)"
+              :ref="(ref) => tour.setTour(4, ref as Element)"
               v-if="activeFilter"
               type="primary"
               :label="buttonText.filter"
@@ -114,7 +114,6 @@ import { Divider, Space } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { useTourStore } from '@/stores/modules/tour'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
 import {
@@ -129,6 +128,7 @@ import {
   UserAddOutlined
 } from '@/components/icons'
 import { Table } from '@/components/table'
+import { useTour } from '@/components/tour/hooks/useTour'
 import { createDynamicTableContext } from '../hooks/useDynamicTableContext'
 import { useFilter } from '../hooks/useFilter'
 import type {
@@ -163,7 +163,7 @@ defineExpose<DynamicTableExposes>({
 })
 
 const { getTheme } = useProjectConfigStore()
-const tourStore = useTourStore()
+const tour = useTour()
 const attrs = useAttrs()
 const { t } = useI18n()
 const wrapRef = ref(null)
