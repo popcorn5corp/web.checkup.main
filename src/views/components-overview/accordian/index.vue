@@ -11,7 +11,6 @@ import {
   Select
 } from '@/components/filter-form/src/components/filter-types'
 import type { FilterUI } from '@/components/filter-form/types'
-import { filters } from './constant'
 
 const filterTypeComponents: Record<FilterUI, Component> = {
   Checkbox,

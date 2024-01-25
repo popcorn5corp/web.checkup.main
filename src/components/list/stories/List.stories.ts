@@ -20,7 +20,14 @@ const meta: Meta<ComponentProps<typeof List>> = {
         component: `리스트의 **Children 컴포넌트**로 **<code>&lt;ListItem/&gt; </code>,<code>&lt;ListItemMeta/&gt; </code>**를 사용할 수 있습니다.`
       }
     }
-  }
+  },
+  argTypes: {
+    itemLayout: {
+      control: 'select',
+      options: ['horizontal', 'vertical']
+    }
+  },
+  args: { itemLayout: 'horizontal' }
 }
 
 export default meta

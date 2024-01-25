@@ -50,8 +50,8 @@ const meta: Meta<ComponentProps<typeof Timeline>> = {
   },
 
   args: {
+    showBtn: true,
     loading: false,
-    pagination: true,
     ['button-text']: '더 불러오기'
   }
 }

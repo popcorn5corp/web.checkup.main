@@ -15,11 +15,11 @@ export interface TourProps extends ATourProps {
 
 export interface TourSteps extends ATourStepProps {
   /**
-   * 타이틀
+   * 투어 타이틀
    */
   title?: string
   /**
-   * 설명
+   * 투어 설명
    */
   description?: string
   /**

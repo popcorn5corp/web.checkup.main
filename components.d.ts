@@ -22,6 +22,7 @@ declare module '@vue/runtime-core' {
     ACol: typeof import('ant-design-vue/es')['Col']
     ADivider: typeof import('ant-design-vue/es')['Divider']
     ADropdown: typeof import('ant-design-vue/es')['Dropdown']
+    ADropdownButton: typeof import('ant-design-vue/es')['DropdownButton']
     AInputNumber: typeof import('ant-design-vue/es')['InputNumber']
     AlarmSetting: typeof import('./src/components/header/src/components/AlarmSetting.vue')['default']
     AMenu: typeof import('ant-design-vue/es')['Menu']
