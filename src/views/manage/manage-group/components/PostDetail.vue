@@ -51,7 +51,7 @@ import { Form } from 'ant-design-vue'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
-import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
+import { type UnwrapRef, computed, h, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -65,14 +65,14 @@ import { Input } from '@/components/input'
 import { contentModes as modes } from '@/constants/content'
 
 const { t } = useI18n()
-type PostType = Partial<IManageGroup.TableDataSource>
+type PostType = Pick<IManageGroup.TableDataSource, 'name' | 'content'>
 
 interface PostDetailProps {
-  data: PostType
+  data: PostType & { groupId: string }
 }
 
 interface FormState {
-  post: PostType | undefined
+  post: PostType
   clonePost: PostType
 }
 
@@ -93,12 +93,14 @@ const MessageType = {
   Delete: 'Delete'
 }
 
+const defaultFormState = {
+  name: '',
+  content: ''
+}
+
 const formState: UnwrapRef<FormState> = reactive({
-  post: undefined,
-  clonePost: {
-    name: '',
-    content: ''
-  }
+  post: defaultFormState,
+  clonePost: defaultFormState
 })
 
 ;(() => {
@@ -127,12 +129,12 @@ const changeMode = (modeType: ContentMode) => {
 
 const onSubmit = async () => {
   const requestBody = {
-    workspaceId: getWorkspaceId,
-    name: formState.clonePost?.name,
-    content: formState.clonePost?.content
+    workspaceId: getWorkspaceId as string,
+    name: formState.clonePost.name,
+    content: formState.clonePost.content
   }
 
-  ManagerGroupService.updateGroup(props.data.groupId as string, requestBody as {})
+  ManagerGroupService.updateGroup(props.data.groupId, requestBody)
     .then(({ success }) => {
       if (success) {
         initState()
