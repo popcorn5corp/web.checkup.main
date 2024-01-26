@@ -5,7 +5,6 @@
         <template #title>{{ $t('common.socialLoginText', { type: item.type }) }}</template>
         <a class="method-action" @click="onSocialLogin(item)">
           <img :src="item.icon" style="width: 25px; margin-right: 5px" />
-          <!-- <span>{{ $t('common.socialLoginText', { type: item.type }) }}</span> -->
         </a>
       </Tooltip>
     </div>
