@@ -223,6 +223,7 @@ const onFinish = async () => {
 .form button {
   width: 100%;
   font-size: 16px;
+  margin-top: 10px;
 }
 
 .form p {

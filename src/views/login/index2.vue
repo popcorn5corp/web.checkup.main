@@ -16,22 +16,60 @@
       <!-- END SIGN UP -->
 
       <!-- SIGN IN -->
-      <template v-if="isLogin">
+      <template v-if="renderComponentType === 'login'">
         <div class="col align-items-center flex-col sign-in">
           <div class="form-wrapper align-items-center">
             <div class="form sign-in">
-              <SignIn :onToggle="onToggle" :isSuccessLogin="isSuccessLogin" :isLogin="isLogin" />
+              <SignIn :onToggle="onToggle" :isSuccessLogin="isSuccessLogin" />
+              <div class="text-btn-wrapper">
+                <div class="text-btn pointer join" @click="onToggle">
+                  {{ $t('common.signUpText') }}
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px">
+                  <div
+                    class="text-btn pointer"
+                    @click="
+                      () => {
+                        renderComponentType = 'findUser'
+                        findType = 'id'
+                      }
+                    "
+                  >
+                    {{ $t('common.findId') }}
+                  </div>
+                  <div class="dot" />
+                  <div
+                    class="text-btn pointer find-password"
+                    @click="
+                      () => {
+                        renderComponentType = 'findUser'
+                        findType = 'password'
+                      }
+                    "
+                  >
+                    {{ $t('common.findPassword') }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="striped">
+                <span class="striped-line"></span>
+                <span class="striped-text">OR</span>
+                <span class="striped-line"></span>
+              </div>
+
+              <SocialLoginBnts />
             </div>
           </div>
         </div>
       </template>
       <!-- FIND USER -->
-      <template v-else>
+      <template v-if="renderComponentType === 'findUser'">
         <div class="col align-items-center">
           <div class="form-wrapper align-items-center flex-col">
             <!-- <FindUser :type="findType" /> -->
             <p style="margin: 1rem 0">
-              <b @click="isLogin = true" class="pointer">
+              <b @click="renderComponentType = 'login'" class="pointer">
                 <LeftOutlined />
                 {{ $t('common.backToLogin') }}
               </b>
@@ -80,6 +118,7 @@ import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import SignIn from './components/SignIn.vue'
 // import FindUser from './components/FindUser.vue'
 import SignUp from './components/SignUp.vue'
+import SocialLoginBnts from './components/SocialLoginBnts.vue'
 
 const { query } = useRoute()
 const { t } = useI18n()
@@ -91,7 +130,13 @@ const refreshToken = query.refreshToken as string
 const isSuccessSocialLogin = !!accessToken && !!refreshToken
 const isSuccessLogin = ref(false)
 const resetKey = ref(0)
-const isLogin = ref(true)
+const findType = ref()
+const componentType = {
+  login: 'login',
+  findUser: 'findUser'
+} as const
+type ComponentType = (typeof componentType)[keyof typeof componentType]
+const renderComponentType = ref<ComponentType>('login')
 
 const titleMsg = reactive({
   signIn: t('common.signInTitle'),
@@ -190,6 +235,7 @@ body {
 .form button {
   width: 100%;
   font-size: 16px;
+  margin-top: 10px;
 }
 
 .form p {
@@ -203,6 +249,57 @@ body {
 
 .pointer {
   cursor: pointer;
+}
+
+.sign-in {
+  .text {
+    font-family: inherit;
+    line-height: inherit;
+    text-transform: unset;
+    text-rendering: optimizeLegibility;
+
+    &-normal {
+      font-size: 1rem;
+      font-weight: 400;
+      color: $color-black;
+    }
+
+    &-links {
+      font-size: 1rem;
+      font-weight: 400;
+      color: $color-primary;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .striped {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+
+    &-line {
+      flex: auto;
+      flex-basis: auto;
+      border: none;
+      outline: none;
+      height: 2px;
+      background: $color-grayish;
+    }
+
+    &-text {
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: inherit;
+      color: $color-black;
+      margin: 0 1rem;
+    }
+  }
 }
 
 .container.sign-in .form.sign-in,
@@ -262,6 +359,28 @@ body {
   width: 30vw;
   transition: 0.6s ease-in-out;
   transition-delay: 0.4s;
+}
+
+.text-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  margin: 1.5rem 0;
+
+  .text-btn {
+    padding: 2px;
+    color: $color-primary;
+    font-weight: 600;
+  }
+  .join {
+    color: $color-gray-6;
+  }
+  .dot {
+    width: 5px;
+    height: 5px;
+    background: $color-gray-5;
+    border-radius: 50%;
+  }
 }
 
 .text.sign-in h2,

@@ -40,45 +40,6 @@
         />
       </FormItem>
     </Form>
-
-    <div class="text-btn-wrapper">
-      <div class="text-btn pointer join" @click="props.onToggle">
-        {{ $t('common.signUpText') }}
-      </div>
-      <div style="display: flex; align-items: center; gap: 5px">
-        <div
-          class="text-btn pointer"
-          @click="
-            () => {
-              emit('update:isLogin', false)
-              findType = 'id'
-            }
-          "
-        >
-          {{ $t('common.findId') }}
-        </div>
-        <div class="dot" />
-        <div
-          class="text-btn pointer find-password"
-          @click="
-            () => {
-              emit('update:isLogin', false)
-              findType = 'password'
-            }
-          "
-        >
-          {{ $t('common.findPassword') }}
-        </div>
-      </div>
-    </div>
-
-    <div class="striped">
-      <span class="striped-line"></span>
-      <span class="striped-text">OR</span>
-      <span class="striped-line"></span>
-    </div>
-
-    <SocialLoginBnts />
   </div>
 </template>
 
@@ -89,16 +50,13 @@ import { reactive, ref } from 'vue'
 import type { IAuth } from '@/services/auth/interface'
 import { Input } from '@/components/input'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
-import SocialLoginBnts from './SocialLoginBnts.vue'
 
 interface Props {
   onToggle: () => void
-  // updateSuccessLogin?: () => void
   isSuccessLogin?: boolean
-  isLogin?: boolean
 }
-const props = withDefaults(defineProps<Props>(), {})
-const emit = defineEmits(['update:isSuccessLogin', 'update:isLogin'])
+withDefaults(defineProps<Props>(), {})
+const emit = defineEmits(['update:isSuccessLogin'])
 
 const { setToken, setRefreshToken, login } = useAuthStore()
 
@@ -111,11 +69,9 @@ const errorState = reactive<Record<string, boolean>>({
   password: false
 })
 const isLoading = ref(false)
-const findType = ref()
 
 const onValidateFields = (e: Event, value: string) => {
   const fieldsValue = (e.target as HTMLInputElement).value
-  console.log(fieldsValue)
   if (fieldsValue) {
     errorState[value] = !fieldsValue
   } else {
@@ -175,37 +131,12 @@ const onFinish = async () => {
       }
     }
   }
-
-  .striped {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin: 1rem 0;
-
-    &-line {
-      flex: auto;
-      flex-basis: auto;
-      border: none;
-      outline: none;
-      height: 2px;
-      background: $color-grayish;
-    }
-
-    &-text {
-      font-family: inherit;
-      font-size: 1rem;
-      font-weight: 500;
-      line-height: inherit;
-      color: $color-black;
-      margin: 0 1rem;
-    }
-  }
 }
 
 .form button {
   width: 100%;
   font-size: 16px;
+  margin-top: 10px;
 }
 
 .form p {
@@ -252,28 +183,6 @@ const onFinish = async () => {
   font-size: 2rem;
   font-weight: 600;
   color: $color-black !important;
-}
-
-.text-btn-wrapper {
-  display: flex;
-  justify-content: space-between;
-  font-size: 15px;
-  margin: 1.5rem 0;
-
-  .text-btn {
-    padding: 2px;
-    color: $color-primary;
-    font-weight: 600;
-  }
-  .join {
-    color: $color-gray-6;
-  }
-  .dot {
-    width: 5px;
-    height: 5px;
-    background: $color-gray-5;
-    border-radius: 50%;
-  }
 }
 
 .text.sign-in h2,
