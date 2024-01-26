@@ -154,7 +154,7 @@ const onValidateFields = (e: Event, value: string) => {
 
   if (fieldsValue) {
     if (value === 'email') {
-      errorState.email = !Util.Data.isEmail(fieldsValue)
+      errorState.email = !Util.Validate.isEmail(fieldsValue)
       emailErrorMsg.value = t('common.inputEmail')
     } else if (value === 'password') {
       errorState.password = fieldsValue.length < 8
@@ -169,7 +169,7 @@ const onValidateFields = (e: Event, value: string) => {
 }
 
 const onInputPhoneNumber = (e: Event) => {
-  const phoneNumber = Util.Data.phoneDash((e.target as HTMLInputElement).value)
+  const phoneNumber = Util.Format.phoneDash((e.target as HTMLInputElement).value)
   formData.phone = phoneNumber
   errorState.phone = !phoneNumber
 }
@@ -281,10 +281,18 @@ const onFinish = async () => {
   .text {
     margin: 30px;
   }
+  .text-title {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
+  }
 }
 @include xs {
   .text {
     margin: 30px;
+  }
+  .text-title {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
   }
 }
 </style>

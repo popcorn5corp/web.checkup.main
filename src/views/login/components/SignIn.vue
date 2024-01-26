@@ -201,4 +201,18 @@ const onFinish = async () => {
     margin-bottom: 24px;
   }
 }
+
+@include xxs {
+  .text-title {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+@include xs {
+  .text-title {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
+  }
+}
 </style>

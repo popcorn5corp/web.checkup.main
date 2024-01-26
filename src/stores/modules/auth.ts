@@ -78,7 +78,7 @@ export const useAuthStore = defineStore(
     const getUserWorkspace = computed(() => state.workspace)
 
     async function login() {
-      return AuthService.loginWS().then(
+      return AuthService.getUser().then(
         async (user) => {
           console.log('[user]', user)
           setUser(user)

@@ -448,14 +448,22 @@ body {
 
   .container.sign-in .col.sign-in,
   .container.sign-up .col.sign-up {
-    transform: translateY(330px);
-    height: 100%;
+    transform: translateY(0px);
+    height: 72%;
+    overflow: scroll;
     justify-content: flex-start;
     padding-top: 50px;
   }
 
   .content-row {
     align-items: flex-start !important;
+    .text {
+      word-break: keep-all;
+      margin: 0 23px;
+    }
+    .sign-up.text {
+      margin-top: 40px;
+    }
   }
 
   .content-row .col {
