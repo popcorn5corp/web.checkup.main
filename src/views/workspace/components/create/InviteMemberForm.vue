@@ -86,7 +86,7 @@ const onInputEnter = async (event: KeyboardEvent) => {
 
   try {
     if (!emailValue) return
-    if (!Util.Data.isEmail(emailValue)) {
+    if (!Util.Validate.isEmail(emailValue)) {
       // email 형식이 아닐 때
       handleError(t('common.message.emailError'))
     } else if (tags.value.includes(emailValue)) {

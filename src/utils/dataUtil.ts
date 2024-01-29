@@ -9,14 +9,6 @@ function deepMerge<T extends object | null | undefined, U extends object | null 
   })
 }
 
-function phoneDash(target: string) {
-  return target.replace(/[^0-9]/g, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)
-}
-
-function isEmail(target: string) {
-  const regExp = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/
-  return regExp.test(target)
-}
 // export function deepMerge<T extends object | null | undefined, U extends object | null | undefined>(
 //   target: T,
 //   source: U
@@ -31,7 +23,5 @@ function isEmail(target: string) {
 // }
 
 export const DataUtil = {
-  deepMerge,
-  phoneDash,
-  isEmail
+  deepMerge
 }

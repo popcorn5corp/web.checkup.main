@@ -5,7 +5,7 @@
         :value="inputValue"
         v-bind="props"
         class="custom-input"
-        :class="[isActive && 'active', isColored && 'colored']"
+        :class="[isActive && 'active', isColored && 'colored', isError && 'error']"
         @focus="onFocus"
         @focusout="onFocusout"
         @input="onInput"
@@ -16,7 +16,7 @@
         :value="inputValue"
         v-bind="props"
         class="custom-input"
-        :class="[isActive && 'active', isColored && 'colored']"
+        :class="[isActive && 'active', isColored && 'colored', isError && 'error']"
         @focus="onFocus"
         @focusout="onFocusout"
         @input="onInput"
@@ -28,11 +28,9 @@
 
 <script setup lang="ts" name="CustomInput">
 import { Input } from 'ant-design-vue'
-import { computed, ref } from 'vue'
+import { type CSSProperties, computed, ref, watch } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import type { InputProps } from '../types'
-
-const emit = defineEmits('update:value')
 
 const props = defineProps<InputProps>()
 const {
@@ -47,6 +45,7 @@ const themeColorStyle = computed<CSSProperties>(() => {
 
 const isActive = ref(false)
 const isColored = ref(false)
+const isError = ref(false)
 const inputValue = ref()
 
 ;(async () => {
@@ -68,6 +67,19 @@ const onInput = (e: Event) => {
   const input = (e.target as HTMLInputElement).value
   inputValue.value = input
 }
+
+watch(
+  () => props,
+  () => {
+    if (props.isError) {
+      isError.value = true
+      isActive.value = true
+    } else {
+      isError.value = false
+    }
+  },
+  { immediate: true, deep: true }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -104,6 +116,11 @@ const onInput = (e: Event) => {
   border: 1.5px solid v-bind('themeColorStyle.color') !important;
 }
 
+.custom-input.error,
+.custom-input.error.active {
+  border: 1.5px solid #ff4d4f !important;
+}
+
 .custom-input.active ~ label {
   top: 0;
   left: -5px;
@@ -114,6 +131,11 @@ const onInput = (e: Event) => {
 }
 .custom-input.active.colored ~ label {
   color: v-bind('themeColorStyle.color') !important;
+}
+
+.custom-input.error ~ label,
+.custom-input.error.active ~ label {
+  color: #ff4d4f !important;
 }
 
 .custom-input {

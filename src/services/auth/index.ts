@@ -17,7 +17,7 @@ class AuthService {
   /**
    * @description 사용자 로그인(workspace) API
    */
-  async loginWS(): Promise<IAuth.UserResponse> {
+  async getUser(): Promise<IAuth.UserResponse> {
     return await service.get<IAuth.UserResponse>(this.PATH + '/me').then((response) => {
       const { success, data, error } = response
 
