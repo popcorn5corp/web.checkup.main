@@ -58,7 +58,7 @@ class ManageGroupService {
   getWorkspaceUserList(
     workspaceId: any,
     groupId: string,
-    param: Partial<IManageGroup.GroupListParam>
+    param: Pick<IManageGroup.GroupListParam, 'searchWord'>
   ) {
     return service.get<IManageGroup.GetUserListResponse>(
       this.PATH + `/workspace/${workspaceId}/${groupId}/users`,
@@ -76,14 +76,20 @@ class ManageGroupService {
   /**
    * @description 그룹 수정
    */
-  updateGroup(groupId: string, requestBody: Partial<IManageGroup.DefaultGroupInfo>) {
+  updateGroup(
+    groupId: string,
+    requestBody: Pick<IManageGroup.DefaultGroupInfo, 'workspaceId' | 'name' | 'content'>
+  ) {
     return service.put<IManageGroup.DefaultGroupInfo>(this.PATH + `/group/${groupId}`, requestBody)
   }
 
   /**
    * @description 그룹 사용자 추가
    */
-  addUserWithGroup(groupId: string, requestBody: Partial<IManageGroup.DefaultGroupInfo>) {
+  addUserWithGroup(
+    groupId: string,
+    requestBody: Pick<IManageGroup.DefaultGroupInfo, 'addUsers' | 'workspaceId'>
+  ) {
     return service.post<IManageGroup.DefaultGroupInfo>(
       this.PATH + `/group/${groupId}/users`,
       requestBody

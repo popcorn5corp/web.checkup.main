@@ -32,8 +32,34 @@ const meta: Meta<ComponentProps<typeof Accordion>> = {
 
   // Set Args Table Description
   argTypes: {
+    default: {
+      table: { type: '' }
+    },
+    extra: {
+      table: { type: '' }
+    },
+    content: {
+      table: { type: '' }
+    },
+    ghost: {
+      type: { name: 'boolean' },
+      table: {
+        category: 'Custom',
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+
+    bordered: {
+      type: { name: 'boolean' },
+      table: {
+        category: 'Custom',
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+
     expandIconPosition: {
-      description: 'Set expand icon position',
       type: { name: 'string', required: false },
       control: 'radio',
       options: ['start', 'end'],
@@ -43,32 +69,6 @@ const meta: Meta<ComponentProps<typeof Accordion>> = {
         type: {
           summary: 'start | end'
         }
-      }
-    },
-    items: {
-      description: 'accordion-panel create data',
-      table: {
-        type: {
-          summary: 'array'
-        }
-      }
-    },
-    bordered: {
-      description: 'Toggles rendering of the border around the collapse block',
-      type: { name: 'boolean' },
-      table: {
-        category: 'Custom',
-        type: { summary: 'boolean' },
-        defaultValue: { summary: false }
-      }
-    },
-    ghost: {
-      description: 'Make the collapse borderless and its background transparent',
-      type: { name: 'boolean' },
-      table: {
-        category: 'Custom',
-        type: { summary: 'boolean' },
-        defaultValue: { summary: false }
       }
     }
   },

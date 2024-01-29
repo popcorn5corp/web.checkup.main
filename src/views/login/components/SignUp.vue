@@ -1,110 +1,145 @@
 <template>
-  <Form :model="formData" :rules="rules" @validate="onValidate" @finish="onFinish">
-    <div class="form sign-up">
-      <h1 class="text text-title">{{ $t('common.signUpText') }}</h1>
-
+  <div class="sign-up-container">
+    <Form :model="formData" @finish="onFinish">
       <template v-if="!signUpComplete">
+        <h1 class="text text-title">{{ $t('common.signUpText') }}</h1>
         <FormItem name="email">
           <Input
             type="email"
-            :label="`${$t('common.idText')} (${$t('common.email')})`"
             v-model:value="formData.email"
+            :label="`${$t('common.idText')} (${$t('common.email')})`"
             :placeholder="$t('common.inputEmail')"
+            :isError="errorState.email"
+            @change="onValidateFields($event, 'email')"
           />
+          <div class="errorMsg" v-if="errorState.email">{{ emailErrorMsg }}</div>
         </FormItem>
         <FormItem name="password">
           <Input
             type="password"
-            :label="$t('common.passwordText')"
             v-model:value="formData.password"
+            :isError="errorState.password"
+            :label="$t('common.passwordText')"
+            :min="8"
+            @change="onValidateFields($event, 'password')"
           />
+          <div class="errorMsg" v-if="errorState.password">
+            {{ $t('common.message.checkPassword') }}
+          </div>
         </FormItem>
         <FormItem name="verifyPassword">
           <Input
             type="password"
-            :label="$t('common.rePasswordText')"
             v-model:value="formData.verifyPassword"
+            :label="$t('common.rePasswordText')"
+            :isError="errorState.verifyPassword"
+            @change="onValidateFields($event, 'verifyPassword')"
           />
+          <div class="errorMsg" v-if="errorState.verifyPassword">
+            {{ $t('common.message.checkVerifyPassword') }}
+          </div>
         </FormItem>
         <FormItem name="name">
-          <Input :label="$t('common.name')" v-model:value="formData.name" />
+          <Input
+            :label="$t('common.name')"
+            v-model:value="formData.name"
+            :isError="errorState.name"
+            @change="onValidateFields($event, 'name')"
+          />
+          <div class="errorMsg" v-if="errorState.name">{{ $t('common.inputName') }}</div>
         </FormItem>
         <FormItem name="phone">
           <Input
-            :label="$t('common.phone')"
-            @change="onInputPhoneNumber"
             v-model:value="formData.phone"
+            :label="$t('common.phone')"
             :maxlength="13"
+            :isError="errorState.phone"
+            @change="onInputPhoneNumber"
           />
+          <div class="errorMsg" v-if="errorState.phone">{{ $t('common.message.inputPhone') }}</div>
         </FormItem>
         <div class="terms-wrapper">
-          <Checkbox v-model:checked="agreeTerms">
-            {{ $t('common.signUpTerms') }}
-          </Checkbox>
-          <span>
-            <a>{{ $t('component.button.viewDetail') }}</a>
-          </span>
+          <FormItem>
+            <Checkbox
+              v-model:checked="agreeTerms"
+              @change="
+                (value) => {
+                  errorState.check = !value
+                }
+              "
+            >
+              {{ $t('common.signUpTerms') }}
+            </Checkbox>
+            <span>
+              <a>{{ $t('component.button.viewDetail') }}</a>
+            </span>
+            <div class="errorMsg" v-if="errorState.check">
+              {{ $t('common.message.checkTerms') }}
+            </div>
+          </FormItem>
         </div>
-      </template>
-      <template v-else-if="signUpComplete && !isLoading">
-        <p style="font-size: 15px; margin: 30px 0">
-          {{ $t('common.signUpComplete', { name: formData.name }) }}
-        </p>
-      </template>
-      <template v-if="!signUpComplete">
         <FormItem>
           <Button
-            :label="$t('common.join')"
             type="primary"
             size="large"
             html-type="submit"
+            :label="$t('common.join')"
             :loading="isLoading"
-            :disabled="!agreeTerms"
           />
         </FormItem>
+        <p>
+          <span>
+            {{ $t('common.signUpDesc') }}
+          </span>
+          <span>
+            <b>
+              <a @click="props.onToggle">
+                {{ ' ' + $t('common.backToLogin') }}
+              </a>
+            </b>
+          </span>
+        </p>
       </template>
-      <template v-else>
-        <Button
-          @click="props.onToggle()"
-          :label="$t('common.loginText')"
-          type="primary"
-          size="large"
-        />
+      <template v-else-if="signUpComplete && !isLoading">
+        <p class="complete-msg">🎉 {{ $t('common.signUpComplete', { name: formData.name }) }} 🎉</p>
+        <Button size="large" label="로그인하러가기" @click="props.onToggle()">
+          <template #icon><LeftOutlined /></template>
+        </Button>
       </template>
-      <p>
-        <span>
-          {{ $t('common.signUpDesc') }}
-        </span>
-        <span>
-          <b>
-            <a @click="props.onToggle">
-              {{ ' ' + $t('common.backToLogin') }}
-            </a>
-          </b>
-        </span>
-      </p>
-    </div>
-  </Form>
+    </Form>
+  </div>
 </template>
 
 <script setup lang="ts" name="SignUp">
 import { AuthService } from '@/services'
 import { Util } from '@/utils'
-import { Checkbox, message } from 'ant-design-vue'
-import type { Rule } from 'ant-design-vue/es/form'
+import { Checkbox } from 'ant-design-vue'
 import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { LeftOutlined } from '@/components/icons'
 import { Input } from '@/components/input'
 
 interface Props {
   onToggle: () => void
+  updateTitleMsg?: () => void
 }
 const props = withDefaults(defineProps<Props>(), {})
+const emit = defineEmits(['updateTitleMsg'])
 const { t } = useI18n()
 
 const signUpComplete = ref(false)
 const agreeTerms = ref(false)
 const isLoading = ref(false)
+
+const emailErrorMsg = ref(t('component.ph.inputEmail'))
+const errorState = reactive<Record<string, boolean>>({
+  email: false,
+  password: false,
+  verifyPassword: false,
+  name: false,
+  phone: false,
+  check: false
+})
 
 const formData = reactive<Record<string, string>>({
   email: '',
@@ -114,33 +149,52 @@ const formData = reactive<Record<string, string>>({
   phone: ''
 })
 
-const rules: Record<string, Rule[]> = {
-  email: [{ required: true, message: 'Please input your ID!', trigger: 'change' }],
-  password: [{ required: true, message: 'Please input your password!', trigger: 'change' }],
-  verifyPassword: [
-    { required: true, message: 'Please input your verify password!', trigger: 'change' }
-  ],
-  name: [{ required: true, message: 'Please input your name!', trigger: 'change' }],
-  phone: [{ required: true, message: 'Please input your phone!', trigger: 'change' }]
+const onValidateFields = (e: Event, value: string) => {
+  const fieldsValue = (e.target as HTMLInputElement).value
+
+  if (fieldsValue) {
+    if (value === 'email') {
+      errorState.email = !Util.Validate.isEmail(fieldsValue)
+      emailErrorMsg.value = t('common.inputEmail')
+    } else if (value === 'password') {
+      errorState.password = fieldsValue.length < 8
+    } else if (value === 'verifyPassword') {
+      errorState.verifyPassword = formData.password !== fieldsValue
+    } else {
+      errorState[value] = !fieldsValue
+    }
+  } else {
+    errorState[value] = true
+  }
 }
 
 const onInputPhoneNumber = (e: Event) => {
-  const phoneNumber = Util.Data.phoneDash((e.target as HTMLInputElement).value)
+  const phoneNumber = Util.Format.phoneDash((e.target as HTMLInputElement).value)
   formData.phone = phoneNumber
+  errorState.phone = !phoneNumber
 }
 
-const onValidate = (...args: [string, boolean, string[]]) => {
-  console.log(args)
-  if (!args[1]) {
-    return message.error(t('common.message.signUpValidate'))
-  } else {
-    // 패스워드, 패스워드확인 같은지 검사
-    if (formData.password !== formData.verifyPassword) {
-      return message.error(t('common.message.checkPassword'))
+const checkValidation = () => {
+  Object.keys(formData).forEach((field) => {
+    if (!formData[field]) {
+      errorState[field] = true
     }
-  }
+  })
+  if (!agreeTerms.value) errorState.check = true
 }
+
 const onFinish = async () => {
+  checkValidation()
+  if (
+    errorState.email ||
+    errorState.password ||
+    errorState.verifyPassword ||
+    errorState.name ||
+    errorState.phone ||
+    errorState.check
+  )
+    return
+
   try {
     isLoading.value = true
     for (let k in formData) {
@@ -154,7 +208,8 @@ const onFinish = async () => {
       name,
       phone
     })
-    console.log(data)
+    console.log('sign up complete', data)
+    emit('updateTitleMsg', '환영합니다!')
     signUpComplete.value = true
   } catch (err) {
     console.log(err)
@@ -165,30 +220,24 @@ const onFinish = async () => {
 </script>
 
 <style lang="scss" scoped>
-.form {
-  padding: 1rem;
-  background-color: $color-white;
-  border-radius: 1.5rem;
-  width: 100%;
-  // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  transform: scale(0);
-  transition: 0.5s ease-in-out;
-  transition-delay: 1s;
-}
-
-.container.sign-in .form.sign-in,
-.container.sign-up .form.sign-up {
-  transform: scale(1);
-}
-
 .form button {
   width: 100%;
   font-size: 16px;
+  margin-top: 10px;
 }
 
 .form p {
   margin: 1rem 0;
   font-size: 14px;
+}
+
+.form .errorMsg {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translate(-50%);
+  color: #ff4d4f;
+  font-size: 13px;
 }
 
 .form-container {
@@ -199,10 +248,6 @@ const onFinish = async () => {
   font-size: 2rem;
   font-weight: 600;
   color: $color-black !important;
-}
-
-.terms-wrapper {
-  margin: 1.2rem 0;
 }
 
 .text {
@@ -222,6 +267,11 @@ const onFinish = async () => {
   transition-delay: 0.2s;
 }
 
+.complete-msg {
+  font-size: 24px !important;
+  margin: 40px 0px !important;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -231,10 +281,18 @@ const onFinish = async () => {
   .text {
     margin: 30px;
   }
+  .text-title {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
+  }
 }
 @include xs {
   .text {
     margin: 30px;
+  }
+  .text-title {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
   }
 }
 </style>

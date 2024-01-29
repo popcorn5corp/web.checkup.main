@@ -7,7 +7,7 @@
     :loading="loading"
     :style="style"
     :disabled="disabled"
-    @click="$emit('click')"
+    @click="onClick"
   >
     <ButtonIcon v-if="icon" :icon="icon" />
     <slot v-else name="icon"></slot>
@@ -37,6 +37,10 @@ const getButtonClass = computed(() => {
     }
   ]
 })
+
+const onClick = (e: Event) => {
+  emit('click', e)
+}
 </script>
 
 <style lang="scss" scoped>

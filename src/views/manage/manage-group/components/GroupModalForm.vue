@@ -32,9 +32,11 @@ import type { SearchSelectProps } from '@/components/search-select/types'
 const { t } = useI18n()
 const { getWorkspaceId } = useWorkspaceStore()
 
-const groupInfo = ref<Partial<IManageGroup.DefaultGroupInfo>>({
-  name: undefined,
-  content: undefined,
+type GroupInfoType = Pick<IManageGroup.DefaultGroupInfo, 'name' | 'content' | 'addUsers'>
+
+const groupInfo = ref<GroupInfoType>({
+  name: '',
+  content: '',
   addUsers: []
 })
 
@@ -46,7 +48,7 @@ const getUserListAll = async (): Promise<IManageUser.UserInfo[]> => {
   return data.workspaceUsers.content
 }
 
-const getUserOptions = (content: Partial<IManageUser.UserInfo[]>) => {
+const getUserOptions = (content: IManageUser.UserInfo[]) => {
   return content.map((item) => ({
     label: item?.nickname,
     value: item?.nickname,

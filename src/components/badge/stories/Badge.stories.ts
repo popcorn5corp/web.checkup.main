@@ -7,12 +7,13 @@ const meta = {
   tags: ['autodocs'],
 
   argTypes: {
+    default: {
+      table: { type: '' }
+    },
     text: {
-      description: 'set the title of badge',
       type: { name: 'string', required: true }
     },
     size: {
-      description: 'set the size of badge',
       type: { name: 'string', required: false },
       options: ['small', 'middle', 'large'],
       control: 'select',
@@ -22,7 +23,6 @@ const meta = {
       }
     },
     theme: {
-      description: 'set the theme of badge',
       type: { name: 'string', required: false },
       options: [
         'primary',
@@ -44,7 +44,6 @@ const meta = {
       }
     },
     shape: {
-      description: 'can be set badge shape',
       type: { name: 'string', required: false },
       options: ['squared', 'round', 'pill'],
       control: 'select',

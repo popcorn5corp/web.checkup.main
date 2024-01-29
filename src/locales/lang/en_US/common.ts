@@ -22,8 +22,11 @@ export default {
     emailDuplicatedError: 'This email has already been added. Please write again.',
     reTry: 'Please try again in a few minutes.',
     checkInviteCode: 'Please check the invitation code again.',
-    checkPassword: 'Please check your password.',
-    signUpValidate: 'Please enter all items.'
+    checkPassword: 'Please enter a password of at least 8 characters.',
+    signUpValidate: 'Please enter all items.',
+    inputPhone: 'Please enter your mobile phone number.',
+    checkVerifyPassword: 'It does not match your password.',
+    checkTerms: 'Please agree to the terms and conditions.'
   },
   socialLoginText: 'Sign In With { type }',
   loginText: 'Sign In',
@@ -53,6 +56,8 @@ export default {
   findPassword: 'Find Password',
   backToLogin: 'Back to login',
   signUpDesc: 'Already have an account?',
-  signUpComplete: `{ name }'s registration has been completed.`,
-  signUpTerms: 'I agree to privacy policy & terms'
+  signUpComplete: `{ name }'s registration has been completed`,
+  signUpTerms: 'I agree to privacy policy & terms',
+  signInTitle: 'Collect moments to see the future',
+  signUpTitle: 'Create a Checkup account'
 }
