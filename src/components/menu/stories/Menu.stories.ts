@@ -30,6 +30,10 @@ const meta: Meta<ComponentProps<typeof Menu>> = {
           detail: `'horizontal' | 'vertical' | 'inline'`
         }
       }
+    },
+    theme: {
+      control: 'select',
+      options: ['dark', 'light']
     }
   },
   parameters: {
@@ -39,7 +43,8 @@ const meta: Meta<ComponentProps<typeof Menu>> = {
     items: menus,
     mode: 'inline',
     collapsed: false,
-    isSide: true
+    isSide: true,
+    theme: 'light'
   }
 }
 
@@ -50,7 +55,7 @@ export const Default: Story = {
   render: (args) => ({
     components: { Menu, Sider: Layout.Sider, Button, MenuUnfoldOutlined, MenuFoldOutlined },
     setup() {
-      const { collapsed, mode, isSide } = toRefs(args)
+      const { collapsed, mode, isSide, theme } = toRefs(args)
       const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
       const menuMode = computed(() => (isSide?.value ? 'inline' : mode?.value))
 
@@ -61,6 +66,7 @@ export const Default: Story = {
       return {
         ...args,
         isSide,
+        theme,
         mode,
         asiderWidth,
         menuMode,
@@ -81,14 +87,15 @@ export const Default: Story = {
         v-if="isSide"
         class="layout-sider"
         v-model:collapsed="collapsed"
+  
         :width="asiderWidth"
         :trigger="null"
         collapsible
       >    
-        <Menu :items="items" :collapsed="collapsed" :mode="menuMode" :isSide="isSide" />
+        <Menu :items="items" :theme="theme" :collapsed="collapsed" :mode="menuMode" :isSide="isSide" />
       </Sider>
 
-      <Menu v-else :items="items" :collapsed="collapsed" :mode="menuMode" :isSide="isSide" />
+      <Menu v-else :items="items" :theme="theme" :collapsed="collapsed" :mode="menuMode" :isSide="isSide" />
     `
   })
 }

@@ -1,6 +1,4 @@
-import type { ListProps as AListProps } from 'ant-design-vue'
-
-export interface ListProps extends AListProps {
+export interface ListProps {
   /**
    * 로딩 스피너
    */

@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
+import { ref } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import DefaultSearchSelect from '@/views/components-overview/search-select/components/DefaultSearchSelect.vue'
 import ImgSearchSelect from '@/views/components-overview/search-select/components/ImgSearchSelect.vue'
+import { CheckOutlined } from '@/components/icons'
 import { SearchSelect } from '../'
 
 const meta: Meta<ComponentProps<typeof SearchSelect>> = {
@@ -27,35 +29,80 @@ const meta: Meta<ComponentProps<typeof SearchSelect>> = {
         type: { summary: 'string' }
       }
     },
-    search: {
-      description: '검색 이벤트',
-      table: {
-        type: { summary: 'event' }
-      }
-    },
     width: {
       description: '넓이 조정',
+      type: { name: 'string' },
       table: {
-        type: { summary: 'string' }
+        type: { summary: 'px, %, em, ref ...' },
+        defaultValue: { summary: '50%' }
       }
     },
     options: {
-      description: '리스트 정보',
+      control: Object,
       table: {
         type: { summary: 'SelectOptions[]' }
       }
     },
     pagination: {
-      description: '데이터 Pagination 정보',
+      control: Object,
+      description: '데이터 Pagination 정보',
       table: {
         type: { summary: 'Recordable' }
       }
+    },
+
+    ['update:modelValue']: {
+      description: '선택된 데이터 목록',
+      control: Object,
+      table: {
+        type: { summary: 'Array' }
+      }
+    },
+    search: {
+      description: '검색시 호출되는 Callback',
+      control: Object,
+      table: { type: { summary: '() => void' } }
     }
+  },
+
+  args: {
+    width: '50%',
+    statusSelectedText: '선택됨',
+    statusDisabledText: '비활성화',
+    placeholder: '텍스트를 입력해주세요.'
   }
 }
 
 export default meta
 type Story = StoryObj<typeof SearchSelect>
+
+export const Default: Story = {
+  render: (args) => ({
+    components: { SearchSelect, CheckOutlined },
+    setup() {
+      const options = ref()
+      fetch('https://randomuser.me/api/?results=5')
+        .then((response) => response.json())
+        .then((data) => {
+          options.value = data.results.map((user: any, index: any) => ({
+            label: `${user.name.first} ${user.name.last}`,
+            description: `(${user.email})`,
+            value: user.name.first,
+            prefixImg: user.picture.large,
+            disabled: index % 2 === 0 ? false : true
+          }))
+        })
+
+      return { args, options }
+    },
+    template: `
+      <SearchSelect v-bind="args" :options="options" :placeholder="args.placeholder">
+        <template #statusDisabledText>{{args.statusDisabledText}}</template>
+        <template #statusSelectedText>{{args.statusSelectedText}}</template>
+      </SearchSelect>
+    `
+  })
+}
 
 export const CustomImgSearchSelect: Story = {
   render: () => ({

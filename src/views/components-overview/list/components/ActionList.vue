@@ -1,5 +1,5 @@
 <template>
-  <List :dataSource="list" :loading="initLoading" :itemLayout="'vertical'">
+  <List :dataSource="list" :loading="initLoading" itemLayout="horizontal">
     <template #loadMore>
       <div v-if="!initLoading && !loading" style="text-align: center; margin: 1rem">
         <Button @click="onLoadMore">loading more</Button>
@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts" name="ComponentsOverviewList">
-import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons-vue'
 import { onMounted, ref, toRefs } from 'vue'
 import { Button } from '@/components/button'
 import { List, ListItem, ListItemMeta } from '@/components/list'
@@ -69,9 +68,7 @@ onMounted(() => {
 })
 
 const onLoadMore = () => {
-  loading.value = true
-
-  list.value = data.value.concat(
+  list.value = list.value.concat(
     [...new Array(count)].map(() => ({ loading: true, name: {}, picture: {} })) as []
   )
 
@@ -79,8 +76,6 @@ const onLoadMore = () => {
     .then((res) => res.json())
     .then((res) => {
       const newData = data.value.concat(res.results)
-
-      loading.value = false
 
       data.value = newData
       list.value = newData.map((item: any) => ({
@@ -90,3 +85,13 @@ const onLoadMore = () => {
     })
 }
 </script>
+
+<style lang="scss" scoped>
+:deep(.ant-list-item) {
+  display: flex !important;
+}
+
+:deep(.ant-skeleton-paragraph > li) {
+  width: 90% !important;
+}
+</style>

@@ -28,19 +28,14 @@ const meta: Meta<ComponentProps<typeof Select>> = {
   tags: ['autodocs'],
   argTypes: {
     label: {
-      description: 'select label',
-      control: {
-        type: 'text'
-      },
+      description: '라벨 텍스트',
+
       table: {
         type: { summary: 'string' }
       }
     },
     width: {
-      description: 'select width',
-      control: {
-        type: 'string'
-      },
+      description: '라벨 넓이 조정',
       table: {
         type: { summary: 'string' }
       }
@@ -55,7 +50,7 @@ const meta: Meta<ComponentProps<typeof Select>> = {
       }
     },
     placeholder: {
-      description: 'select placeholder',
+      description: '선택시 표출되는 placeholder',
       control: {
         type: 'text'
       },
@@ -75,8 +70,10 @@ const meta: Meta<ComponentProps<typeof Select>> = {
     }
   },
   args: {
-    label: 'label',
-    options: options
+    placeholder: '내용을 선택해주세요.',
+    width: '50%',
+    options: options,
+    allowClear: false
   },
   parameters: {
     componentSubtitle:

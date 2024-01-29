@@ -28,7 +28,7 @@ import { computed, ref } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import type { SelectProps } from '../types'
 
-const emit = defineEmits('update:value')
+const emit = defineEmits(['update:value'])
 
 const props = withDefaults(defineProps<SelectProps>(), {})
 

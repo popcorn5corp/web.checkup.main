@@ -41,11 +41,77 @@ const meta: Meta<ComponentProps<typeof Table>> = {
       table: {
         type: { summary: 'boolean' }
       }
+    },
+    size: {
+      control: 'select',
+      options: ['small', 'middle', 'large']
+    },
+    phText: {
+      control: 'text'
+    },
+
+    pagination: {
+      control: Object
+    },
+    rowKey: {
+      control: Object
+    },
+    initParam: {
+      control: Object
+    },
+    toolbarOptions: {
+      control: Object
+    },
+    dataRequest: {
+      control: Object
+    },
+    columnRequest: {
+      control: Object
+    },
+    dataCallback: {
+      control: Object
+    },
+    contentCallback: {
+      control: Object
+    },
+    cardContentCallback: {
+      control: Object
+    },
+    ['row-click']: {
+      control: Object
+    },
+    ['row-dbClick']: {
+      control: Object
+    },
+    bodyCell: {
+      control: Object,
+      table: { type: '' }
+    },
+    item: {
+      control: Object,
+      table: { type: '' }
+    },
+    showToolbar: {
+      control: 'boolean'
+    },
+    layoutType: {
+      contorl: 'select',
+      options: ['all', , 'table', 'card']
+    },
+    showHeader: {
+      control: 'boolean'
     }
   },
   args: {
     columns,
-    dataSource: []
+    dataSource: [],
+    loading: false,
+    total: dataSource.length,
+    layoutType: 'table',
+    phText: '',
+    size: 'middle',
+    showToolbar: true,
+    showHeader: true
   },
   parameters: {
     componentSubtitle:

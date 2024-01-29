@@ -22,7 +22,7 @@
             </template>
           </div>
 
-          <template v-if="props.item">
+          <template v-if="props.content">
             <div class="content">
               <div v-html="props.content"></div>
             </div>

@@ -1,5 +1,5 @@
 <template>
-  <List :dataSource="list" :loading="initLoading" :itemLayout="'vertical'">
+  <List :dataSource="list" :loading="initLoading" itemLayout="vertical">
     <template #loadMore>
       <div v-if="!initLoading && !loading" style="text-align: center; margin: 1rem">
         <Button @click="onLoadMore">loading more</Button>
@@ -9,15 +9,17 @@
     <template #renderItem="{ item }">
       <ListItem>
         <template #actions>
-          <span v-for="{ icon, text } in actions" :key="icon">
-            <component :is="icon" style="margin-right: 8px" />
-            {{ text }}
-          </span>
+          <div v-if="!item.loading" style="display: flex; gap: 15px">
+            <span v-for="{ icon, text } in actions" :key="icon">
+              <component :is="icon" style="margin-right: 2px" />
+              {{ text }}
+            </span>
 
-          <template v-if="editMode">
-            <a key="list-loadmore-edit">edit</a>
-            <a key="list-loadmore-more">more</a>
-          </template>
+            <template v-if="editMode">
+              <a key="list-loadmore-edit">edit</a>
+              <a key="list-loadmore-more">more</a>
+            </template>
+          </div>
         </template>
 
         <a-skeleton avatar :title="false" :loading="!!item.loading" active>
@@ -82,7 +84,7 @@ onMounted(() => {
 const onLoadMore = () => {
   loading.value = true
 
-  list.value = data.value.concat(
+  list.value = list.value.concat(
     [...new Array(count)].map(() => ({ loading: true, name: {}, picture: {} })) as []
   )
 
