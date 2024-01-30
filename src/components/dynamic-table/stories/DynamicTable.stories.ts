@@ -38,6 +38,7 @@ const meta: Meta<ComponentProps<typeof DynamicTable>> = {
         }
       }
     },
+
     showToolbar: {
       description: '테이블 툴바 노출 여부',
       type: { name: 'boolean' },
@@ -66,9 +67,12 @@ const meta: Meta<ComponentProps<typeof DynamicTable>> = {
   },
   args: {
     rowKey: '',
+    phText: '',
+    deleteBtnText: '',
     dataSource: [],
     columns: [],
     filters: [],
+    openDetail: false,
     showToolbar: true,
     loading: false,
     showRegist: true,
