@@ -8,8 +8,18 @@ const meta = {
 
   argTypes: {
     default: {
-      table: { type: '' }
+      table: { type: '' },
+      control: Object
     },
+    click: {
+      table: { type: '' },
+      control: Object
+    },
+    style: {
+      table: { type: '' },
+      control: Object
+    },
+
     label: {
       type: { name: 'string', required: false },
       defaultValue: 'button',

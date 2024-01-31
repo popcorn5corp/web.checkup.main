@@ -33,14 +33,31 @@ const meta: Meta<ComponentProps<typeof Accordion>> = {
   // Set Args Table Description
   argTypes: {
     default: {
+      control: Object,
       table: { type: '' }
     },
     extra: {
+      control: Object,
+      table: { type: '' }
+    },
+    style: {
+      control: Object,
+      table: { type: '' }
+    },
+    activeKey: {
+      control: Object,
       table: { type: '' }
     },
     content: {
+      control: Object,
       table: { type: '' }
     },
+    change: {
+      description: 'active 상태 변경시 호출되는 Callback 함수',
+      control: Object,
+      table: { type: '' }
+    },
+
     ghost: {
       type: { name: 'boolean' },
       table: {

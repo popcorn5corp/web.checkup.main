@@ -4,8 +4,17 @@ import type {
 } from 'ant-design-vue'
 
 export interface TimelineProps extends ATimelineProps {
+  /**
+   * 타임라인 데이터
+   */
   items?: Item[]
+  /**
+   *  로딩스피너
+   */
   loading?: boolean
+  /**
+   * 하단 버튼 여부
+   */
   showBtn?: boolean
 }
 

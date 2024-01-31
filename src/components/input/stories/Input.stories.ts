@@ -69,7 +69,11 @@ const meta: Meta<ComponentProps<typeof Input>> = {
     }
   },
   args: {
-    label: 'label'
+    label: 'label',
+    placeholder: '입력해주세요.',
+    allowClear: false,
+    maxlength: 100,
+    showCount: false
   },
   parameters: {
     componentSubtitle:

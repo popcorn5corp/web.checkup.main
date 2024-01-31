@@ -23,21 +23,22 @@ const meta: Meta<ComponentProps<typeof Timeline>> = {
   },
 
   argTypes: {
-    items: {
-      description: '타임라인 데이터'
-    },
     default: {
       description: '기본 슬롯, 타임라인 컴포넌트의 자식 컴포넌트인 <Timeline.Item> 사용',
+      table: {
+        type: ''
+      },
+      control: Object
+    },
+
+    click: {
+      control: Object,
       table: {
         type: ''
       }
     },
     reload: {
-      description: '버튼 클릭 이벤트',
-
-      table: {
-        type: 'event'
-      }
+      description: '버튼 클릭 이벤트'
     },
     ['button-text']: {
       description: '버튼 텍스트 슬롯',

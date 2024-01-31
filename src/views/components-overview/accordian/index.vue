@@ -11,6 +11,7 @@ import {
   Select
 } from '@/components/filter-form/src/components/filter-types'
 import type { FilterUI } from '@/components/filter-form/types'
+import { filterList } from '@/components/filter-form/types/mock'
 
 const filterTypeComponents: Record<FilterUI, Component> = {
   Checkbox,
@@ -76,23 +77,21 @@ const expandIconPosition = ref<CollapseProps['expandIconPosition']>('end')
       </AccordionPanel>
     </Accordion>
 
+    <!-- Accordion case 4 -->
     <div style="display: flex; justify-content: space-evenly; margin-top: 1rem">
-      <!-- Accordion case 4 -->
-      <!-- @vue-skip -->
-      <Accordion :items="filters" :style="customStyle" :ghost="false" bordered>
+      <Accordion :items="filterList" :style="customStyle" :ghost="false" bordered>
         <template #content="{ item }">
           <keep-alive>
-            <component :is="filterTypeComponents[item.type as FilterType]" :item="item" />
+            <component :is="filterTypeComponents[item.type as FilterUI]" :item="item" />
           </keep-alive>
         </template>
       </Accordion>
 
       <!-- Accordion case 5 -->
-      <!-- @vue-skip -->
-      <Accordion :items="filters" :style="customStyle" ghost>
+      <Accordion :items="filterList" :style="customStyle" ghost>
         <template #content="{ item }">
           <keep-alive>
-            <component :is="filterTypeComponents[item.type as FilterType]" :item="item" />
+            <component :is="filterTypeComponents[item.type as FilterUI]" :item="item" />
           </keep-alive>
         </template>
       </Accordion>

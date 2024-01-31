@@ -82,7 +82,13 @@ const meta: Meta<ComponentProps<typeof Card>> = {
   args: {
     useCheckbox: false,
     imgPreview: true,
-    imgUrl: checkupLogo
+    imgUrl: checkupLogo,
+    detailBtnPosition: 'middle',
+    title: '카드제목',
+    date: '',
+    content: '123',
+    tag: '태그',
+    createdAt: 1706511810
   },
   parameters: {
     componentSubtitle:
@@ -96,7 +102,7 @@ type Story = StoryObj<typeof Card>
 
 export const Default: Story = {
   args: {
-    item: '카드 컴포넌트를 사용하여 단일 주제와 관련된 콘텐츠를 표시할 수 있습니다.'
+    content: '카드 컴포넌트를 사용하여 단일 주제와 관련된 콘텐츠를 표시할 수 있습니다.'
   }
 }
 
@@ -120,7 +126,7 @@ export const ImgPreview: Story = {
   args: {
     ...Default.args,
     title: '카드 제목',
-    item: '카드 컴포넌트를 사용하여 단일 주제와 관련된 콘텐츠를 표시할 수 있습니다.',
+    content: '카드 컴포넌트를 사용하여 단일 주제와 관련된 콘텐츠를 표시할 수 있습니다.',
     imgUrl: checkupLogo,
     imgPreview: true
   }

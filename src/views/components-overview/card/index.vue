@@ -12,7 +12,7 @@ import { baseContent } from './mock'
       :imgUrl="checkupLogo"
       title="카드 타이틀"
       tag="구분태그"
-      item="내용내용내용내용내용내용내용내용내용내용내용내용내용"
+      content="내용내용내용내용내용내용내용내용내용내용내용내용내용"
       :detailBtnPosition="'middle'"
     />
     <hr style="margin: 1rem 0" />
@@ -21,7 +21,7 @@ import { baseContent } from './mock'
       :imgUrl="checkupLogo"
       title="카드 타이틀"
       tag="구분태그"
-      item="내용내용내용내용내용내용내용내용내용내용내용내용내용"
+      content="내용내용내용내용내용내용내용내용내용내용내용내용내용"
       :detailBtnPosition="'bottom'"
     />
     <hr style="margin: 1rem 0" />
@@ -30,7 +30,7 @@ import { baseContent } from './mock'
       :imgUrl="checkupLogo"
       title="카드 타이틀"
       tag="구분태그"
-      item="내용내용내용내용내용내용내용내용내용내용내용내용내용"
+      content="내용내용내용내용내용내용내용내용내용내용내용내용내용"
       :detailBtnPosition="'bottom'"
     />
     <hr style="margin: 1rem 0" />

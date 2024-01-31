@@ -5,11 +5,11 @@ import type { AccordionProps } from '../types'
 import AccordionPanel from './AccordionPanel.vue'
 
 const props = defineProps<AccordionProps>()
-
+const emit = defineEmits(['change'])
 const activeKey = ref(props.activeKey)
 
-const onChange = (key: Key | Key[]) => {
-  // console.log(key)
+const onChange = (key: string[]) => {
+  emit('change', key)
 }
 </script>
 

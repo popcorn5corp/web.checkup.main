@@ -69,7 +69,9 @@ const meta: Meta<ComponentProps<typeof CardList>> = {
     useCheckbox: false,
     imgPreview: true,
     imgUrl: checkupLogo,
-    items: baseContent
+    items: baseContent,
+    size: 'middle',
+    detailBtnPosition: 'middle'
   },
   parameters: {
     componentSubtitle: '카드 컴포넌트를 사용하여 카드 리스트를 구현 할 수 있습니다.',

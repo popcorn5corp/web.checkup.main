@@ -8,7 +8,8 @@ const meta = {
 
   argTypes: {
     default: {
-      table: { type: '' }
+      table: { type: '' },
+      control: Object
     },
     text: {
       type: { name: 'string', required: true }
