@@ -31,7 +31,7 @@
                     @click="
                       () => {
                         renderComponentType = 'findUser'
-                        findType = 'id'
+                        findUserType = 'id'
                       }
                     "
                   >
@@ -43,7 +43,7 @@
                     @click="
                       () => {
                         renderComponentType = 'findUser'
-                        findType = 'password'
+                        findUserType = 'password'
                       }
                     "
                   >
@@ -65,15 +65,17 @@
       </template>
       <!-- FIND USER -->
       <template v-if="renderComponentType === 'findUser'">
-        <div class="col align-items-center">
-          <div class="form-wrapper align-items-center flex-col">
-            <FindUser :type="findType" />
-            <p style="margin: 1rem 0">
-              <b @click="renderComponentType = 'login'" class="pointer">
-                <LeftOutlined />
-                {{ $t('common.backToLogin') }}
-              </b>
-            </p>
+        <div class="col align-items-center flex-col find-user">
+          <div class="form-wrapper">
+            <div class="find-user-wrapper">
+              <FindUser :type="findUserType" />
+              <p style="margin: 1rem 0; font-size: 14px">
+                <b @click="renderComponentType = 'login'" class="pointer">
+                  <LeftOutlined />
+                  {{ $t('common.backToLogin') }}
+                </b>
+              </p>
+            </div>
           </div>
         </div>
       </template>
@@ -114,11 +116,12 @@ import { useRoute } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { LeftOutlined } from '@/components/icons'
 import { Spinner } from '@/components/spinner'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
+import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import FindUser from './components/FindUser.vue'
 import SignIn from './components/SignIn.vue'
 import SignUp from './components/SignUp.vue'
 import SocialLoginBnts from './components/SocialLoginBnts.vue'
+import type { FindUserType, RenderComponentType } from './types'
 
 const { query } = useRoute()
 const { t } = useI18n()
@@ -130,13 +133,8 @@ const refreshToken = query.refreshToken as string
 const isSuccessSocialLogin = !!accessToken && !!refreshToken
 const isSuccessLogin = ref(false)
 const resetKey = ref(0)
-const findType = ref()
-const componentType = {
-  login: 'login',
-  findUser: 'findUser'
-} as const
-type ComponentType = (typeof componentType)[keyof typeof componentType]
-const renderComponentType = ref<ComponentType>('login')
+const findUserType = ref<FindUserType>('id')
+const renderComponentType = ref<RenderComponentType>('login')
 
 const titleMsg = reactive({
   signIn: t('common.signInTitle'),
@@ -302,6 +300,11 @@ body {
   }
 }
 
+.find-user-wrapper {
+  padding: 1rem;
+  transition: 0.5s ease-in-out;
+}
+
 .container.sign-in .form.sign-in,
 .container.sign-up .form.sign-up {
   transform: scale(1);
@@ -329,6 +332,7 @@ body {
 
 .text {
   color: $color-white;
+  word-break: keep-all;
 }
 
 .text h1 {
@@ -447,9 +451,10 @@ body {
   }
 
   .container.sign-in .col.sign-in,
-  .container.sign-up .col.sign-up {
+  .container.sign-up .col.sign-up,
+  .col.find-user {
     transform: translateY(0px);
-    height: 72%;
+    height: 68%;
     overflow: scroll;
     justify-content: flex-start;
     padding-top: 50px;
@@ -458,11 +463,7 @@ body {
   .content-row {
     align-items: flex-start !important;
     .text {
-      word-break: keep-all;
-      margin: 0 23px;
-    }
-    .sign-up.text {
-      margin-top: 40px;
+      margin: 0 20px;
     }
   }
 
@@ -487,8 +488,8 @@ body {
     justify-content: flex-end;
   }
 
-  .form {
-    box-shadow: none;
+  .form,
+  .find-user-wrapper {
     margin: 0;
     padding: 0;
   }

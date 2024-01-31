@@ -1,44 +1,66 @@
 <template>
-  <div class="find-user-container">
-    <h2>{{ props.type === 'id' ? '아이디' : '비밀번호' }} 찾기</h2>
-    <RadioGroup style="margin: 1rem" v-model:value="certificationType" size="large">
-      <Radio value="phone">휴대폰 번호로 인증</Radio>
-      <Radio value="email">e-mail로 인증</Radio>
-    </RadioGroup>
-    <FindUserForm :findType="props.type" :certificationType="certificationType" />
-  </div>
+  <Transition name="find-user" appear>
+    <div class="find-user-container">
+      <h1 class="text-title">{{ props.type === 'id' ? '아이디' : '비밀번호' }} 찾기</h1>
+      <template v-if="props.type === 'id'">
+        <FindIdForm />
+      </template>
+      <template v-else>
+        <FindPasswordForm />
+      </template>
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts" name="FindUser">
-import { Radio, RadioGroup } from 'ant-design-vue'
-import { reactive, ref } from 'vue'
-import { FormItem } from '@/components/form'
-import { Input } from '@/components/input'
-import FindUserForm from './FindUserForm.vue'
+import type { FindUserType } from '../types'
+import FindIdForm from './FindIdForm.vue'
+import FindPasswordForm from './FindPasswordForm.vue'
 
-export interface FindProps {
-  type: 'id' | 'password'
+interface Props {
+  type: FindUserType
 }
-const props = withDefaults(defineProps<FindProps>(), {})
-const certificationType = ref('phone')
+const props = withDefaults(defineProps<Props>(), {})
 </script>
 
 <style lang="scss" scoped>
 .find-user-container {
   width: 100%;
+  transition: 0.5s ease-in-out;
 }
 .ant-radio-group {
   label {
     font-size: 15px;
   }
 }
-:deep(.ant-form) {
-  .ant-form-item {
-    margin: 0;
-    // margin-bottom: 10px;
+.text-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #121212;
+  margin: 3rem;
+}
+
+// transition
+.find-user-enter-from {
+  transform: scale(0);
+}
+.find-user-enter-to {
+  transform: scale(1);
+}
+.find-user-leave-from {
+  transform: scale(1);
+}
+
+@include xxs {
+  .text-title {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
   }
-  .form-item-wrapper {
-    margin-bottom: 10px;
+}
+@include xs {
+  .text-title {
+    margin: 0px !important;
+    margin-bottom: 20px !important;
   }
 }
 </style>

@@ -49,12 +49,13 @@ export namespace IAuth {
   export interface FindType {
     authenticationType: string
     userName: string
-    uuid: string
+    auth_uuid: string
+    contact: ContactType
   }
-  export interface FindIdParam extends FindType {
-    contact: {
-      email: string
-    }
+
+  export interface ContactType {
+    email?: string
+    phone?: string
   }
 
   export interface FindIdResponse {
@@ -63,23 +64,10 @@ export namespace IAuth {
 
   export interface FindPasswordParam extends FindType {
     userId: string
-    contact: {
-      phone: string
-    }
-  }
-
-  export interface FindPasswordResponse {
-    // === UidType
-    uid: string
   }
 
   export interface ResetPasswordParam extends UidType {
     newPassword: string
-  }
-
-  export interface ResetPasswordResponse {
-    // === UidType
-    uid: string
   }
 
   export interface SendEmailParam {
@@ -88,7 +76,7 @@ export namespace IAuth {
   }
 
   export interface SendEmailResponse {
-    uuid: string
+    auth_uuid: string
     logKey: string
     validSec: number
     sendDate: string
@@ -97,14 +85,8 @@ export namespace IAuth {
   export interface ValidEmailParam {
     certificationType: string
     email: string
-    uuid: string
+    auth_uuid: string
     certificationNumber: string
-  }
-
-  export interface ValidEmailResponse {
-    // === ValidResponse
-    message: string
-    code: string
   }
 
   export interface SendPhoneParam {
@@ -112,22 +94,8 @@ export namespace IAuth {
     phone: string
   }
 
-  export interface SendPhoneResponse {
-    // === SendEmailResponse
-    uuid: string
-    logKey: string
-    validSec: number
-    sendDate: string
-  }
-
   export interface ValidPhoneParam extends SendPhoneParam {
-    uuid: string
+    auth_uuid: string
     certificationNumber: string
-  }
-
-  export interface ValidPhoneResponse {
-    // === ValidResponse
-    message: string
-    code: string
   }
 }

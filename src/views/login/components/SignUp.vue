@@ -238,6 +238,7 @@ const onFinish = async () => {
   transform: translate(-50%);
   color: #ff4d4f;
   font-size: 13px;
+  text-wrap: nowrap;
 }
 
 .form-container {
