@@ -2,8 +2,8 @@
   <div class="find-id-form-container">
     <template v-if="!isSuccessFindId">
       <RadioGroup style="margin: 1rem" v-model:value="authenticationType" size="large">
-        <Radio value="phone">휴대폰 번호로 인증</Radio>
-        <Radio value="email" :disabled="true">e-mail로 인증</Radio>
+        <Radio :value="IAuth.authenticationTypes.PHONE">휴대폰 번호로 인증</Radio>
+        <Radio :value="IAuth.authenticationTypes.EMAIL" :disabled="true">e-mail로 인증</Radio>
       </RadioGroup>
       <Form :model="formData" @finish="onFindId">
         <FormItem name="userName">
@@ -20,45 +20,49 @@
           <template v-if="authenticationType === 'EMAIL'">
             <!-- email로 인증 -->
             <FormItem name="email">
-              <Input
-                type="email"
-                v-model:value="formData.email"
-                placeholder="이메일을 입력해주세요."
-                label="이메일"
-                style="width: 100%"
-                :isError="errorState.email"
-                @change="onValidateFields($event, 'email')"
-              />
+              <div class="input-wrapper">
+                <Input
+                  type="email"
+                  v-model:value="formData.email"
+                  placeholder="이메일을 입력해주세요."
+                  label="이메일"
+                  style="width: 100%"
+                  :isError="errorState.email"
+                  @change="onValidateFields($event, 'email')"
+                />
+                <Button
+                  label="인증번호 전송"
+                  class="certification-btn"
+                  :loading="isSendLoading"
+                  :disabled="!formData.email"
+                  @click="onSendEmail"
+                />
+              </div>
               <div class="errorMsg" v-if="errorState.email">이메일을 입력해주세요</div>
-              <Button
-                label="인증번호 전송"
-                class="certification-btn"
-                :loading="isSendLoading"
-                :disabled="!formData.email"
-                @click="onSendEmail"
-              />
             </FormItem>
           </template>
           <template v-else>
             <!-- phone으로 인증 -->
             <FormItem name="phone">
-              <Input
-                v-model:value="formData.phone"
-                placeholder="휴대폰 번호를 입력해주세요."
-                label="휴대폰"
-                style="width: 100%"
-                :maxlength="13"
-                :isError="errorState.phone"
-                @change="onInputPhoneNumber"
-              />
+              <div class="input-wrapper">
+                <Input
+                  v-model:value="formData.phone"
+                  placeholder="휴대폰 번호를 입력해주세요."
+                  label="휴대폰"
+                  style="width: 100%"
+                  :maxlength="13"
+                  :isError="errorState.phone"
+                  @change="onInputPhoneNumber"
+                />
+                <Button
+                  label="인증번호 전송"
+                  class="certification-btn"
+                  :loading="isSendLoading"
+                  :disabled="!formData.phone"
+                  @click="onSendPhone"
+                />
+              </div>
               <div class="errorMsg" v-if="errorState.phone">휴대폰 번호를 입력해주세요</div>
-              <Button
-                label="인증번호 전송"
-                class="certification-btn"
-                :loading="isSendLoading"
-                :disabled="!formData.phone"
-                @click="onSendPhone"
-              />
             </FormItem>
           </template>
         </div>
@@ -380,9 +384,10 @@ watch(
   }
   :deep(.ant-form-item-control-input-content) {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+  }
+  .input-wrapper {
+    display: flex;
     gap: 8px;
   }
   .certification-btn {

@@ -237,6 +237,11 @@ const onFinish = async () => {
   margin-left: 3px;
 }
 
+.terms-wrapper .errorMsg {
+  text-align: center;
+  margin-top: 0;
+}
+
 .form-container {
   width: 100%;
 }
