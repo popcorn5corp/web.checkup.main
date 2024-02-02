@@ -71,7 +71,7 @@ const meta: Meta<ComponentProps<typeof Select>> = {
   },
   args: {
     placeholder: '내용을 선택해주세요.',
-    width: '50%',
+    width: '300px',
     options: options,
     allowClear: false
   },
