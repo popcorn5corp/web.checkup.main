@@ -7,8 +7,8 @@
           id="loginEmail"
           type="email"
           v-model:value="formData.userId"
-          :placeholder="$t('component.ph.inputId')"
-          :label="$t('common.idText')"
+          placeholder="checkup@gmail.com"
+          :label="$t('common.email')"
           :isError="errorState.userId"
           @change="onValidateFields($event, 'userId')"
         />
@@ -21,7 +21,6 @@
           id="loginPassword"
           type="password"
           v-model:value="formData.password"
-          :placeholder="$t('component.ph.inputPassword')"
           :label="$t('common.passwordText')"
           :isError="errorState.password"
           @change="onValidateFields($event, 'password')"
@@ -85,7 +84,8 @@ const onFinish = async () => {
       errorState[field] = true
     }
   })
-  if (!formData.userId || !formData.password) {
+  const { userId, password } = errorState
+  if (userId || password) {
     return
   }
 
@@ -145,12 +145,12 @@ const onFinish = async () => {
 }
 
 .form .errorMsg {
-  position: absolute;
-  bottom: -22px;
-  left: 50%;
-  transform: translate(-50%);
-  color: #ff4d4f;
+  color: $color-danger;
   font-size: 13px;
+  text-align: left;
+  text-wrap: nowrap;
+  margin-top: 0.3rem;
+  margin-left: 3px;
 }
 
 .pointer {

@@ -2,24 +2,20 @@
   <div class="custom-input-container">
     <template v-if="props.type === 'password'">
       <Input.Password
-        :value="inputValue"
         v-bind="props"
         class="custom-input"
         :class="[isActive && 'active', isColored && 'colored', isError && 'error']"
         @focus="onFocus"
         @focusout="onFocusout"
-        @input="onInput"
       />
     </template>
     <template v-else>
       <Input
-        :value="inputValue"
         v-bind="props"
         class="custom-input"
         :class="[isActive && 'active', isColored && 'colored', isError && 'error']"
         @focus="onFocus"
         @focusout="onFocusout"
-        @input="onInput"
       />
     </template>
     <label class="input-label">{{ props.label }}</label>
@@ -46,11 +42,9 @@ const themeColorStyle = computed<CSSProperties>(() => {
 const isActive = ref(false)
 const isColored = ref(false)
 const isError = ref(false)
-const inputValue = ref()
 
 ;(async () => {
-  inputValue.value = props.value
-  if (inputValue.value) isActive.value = true
+  if (props.value) isActive.value = true
 })()
 
 const onFocus = () => {
@@ -59,13 +53,8 @@ const onFocus = () => {
 }
 
 const onFocusout = () => {
-  if (!inputValue.value) isActive.value = false
+  if (!props.value) isActive.value = false
   isColored.value = false
-}
-
-const onInput = (e: Event) => {
-  const input = (e.target as HTMLInputElement).value
-  inputValue.value = input
 }
 
 watch(
@@ -118,7 +107,7 @@ watch(
 
 .custom-input.error,
 .custom-input.error.active {
-  border: 1.5px solid #ff4d4f !important;
+  border: 1.5px solid $color-danger !important;
 }
 
 .custom-input.active ~ label {
@@ -135,7 +124,7 @@ watch(
 
 .custom-input.error ~ label,
 .custom-input.error.active ~ label {
-  color: #ff4d4f !important;
+  color: $color-danger !important;
 }
 
 .custom-input {

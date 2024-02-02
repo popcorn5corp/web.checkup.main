@@ -7,8 +7,8 @@
           <Input
             type="email"
             v-model:value="formData.email"
-            :label="`${$t('common.idText')} (${$t('common.email')})`"
-            :placeholder="$t('common.inputEmail')"
+            :label="$t('common.email')"
+            placeholder="checkup@gmail.com"
             :isError="errorState.email"
             @change="onValidateFields($event, 'email')"
           />
@@ -102,7 +102,7 @@
       </template>
       <template v-else-if="signUpComplete && !isLoading">
         <p class="complete-msg">🎉 {{ $t('common.signUpComplete', { name: formData.name }) }} 🎉</p>
-        <Button size="large" label="로그인하러가기" @click="props.onToggle()">
+        <Button size="large" label="로그인으로 돌아가기" @click="props.onToggle()">
           <template #icon><LeftOutlined /></template>
         </Button>
       </template>
@@ -152,18 +152,18 @@ const formData = reactive<Record<string, string>>({
 const onValidateFields = (e: Event, value: string) => {
   const fieldsValue = (e.target as HTMLInputElement).value
 
-  if (fieldsValue) {
-    if (value === 'email') {
-      errorState.email = !Util.Validate.isEmail(fieldsValue)
-      emailErrorMsg.value = t('common.inputEmail')
-    } else if (value === 'password') {
-      errorState.password = fieldsValue.length < 8
-    } else if (value === 'verifyPassword') {
-      errorState.verifyPassword = formData.password !== fieldsValue
-    } else {
-      errorState[value] = !fieldsValue
-    }
+  if (value === 'email') {
+    errorState.email = !Util.Validate.isEmail(fieldsValue)
+    emailErrorMsg.value = t('common.inputEmail')
+  } else if (value === 'password') {
+    errorState.password = fieldsValue.length < 8
+  } else if (value === 'verifyPassword') {
+    errorState.verifyPassword = formData.password !== fieldsValue
   } else {
+    errorState[value] = !fieldsValue
+  }
+
+  if (!fieldsValue) {
     errorState[value] = true
   }
 }
@@ -174,7 +174,7 @@ const onInputPhoneNumber = (e: Event) => {
   errorState.phone = !phoneNumber
 }
 
-const checkValidation = () => {
+const isFormValid = () => {
   Object.keys(formData).forEach((field) => {
     if (!formData[field]) {
       errorState[field] = true
@@ -182,21 +182,15 @@ const checkValidation = () => {
   })
   if (!agreeTerms.value) errorState.check = true
 
-  if (
-    errorState.email ||
-    errorState.password ||
-    errorState.verifyPassword ||
-    errorState.name ||
-    errorState.phone ||
-    errorState.check
-  ) {
+  const { email, password, verifyPassword, name, phone, check } = errorState
+  if (email || password || verifyPassword || name || phone || check) {
     return false
   }
   return true
 }
 
 const onFinish = async () => {
-  if (!checkValidation()) return
+  if (!isFormValid()) return
 
   try {
     isLoading.value = true
@@ -235,12 +229,17 @@ const onFinish = async () => {
 }
 
 .form .errorMsg {
-  position: absolute;
-  bottom: -22px;
-  left: 50%;
-  transform: translate(-50%);
-  color: #ff4d4f;
+  color: $color-danger;
   font-size: 13px;
+  text-align: left;
+  text-wrap: nowrap;
+  margin-top: 0.3rem;
+  margin-left: 3px;
+}
+
+.terms-wrapper .errorMsg {
+  text-align: center;
+  margin-top: 0;
 }
 
 .form-container {

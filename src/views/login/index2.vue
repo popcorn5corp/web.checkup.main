@@ -5,11 +5,9 @@
       <div class="col align-items-center flex-col sign-up">
         <div class="form-wrapper align-items-center">
           <div class="form sign-up">
-            <SignUp
-              :onToggle="onToggle"
-              :key="resetKey"
-              @updateTitleMsg="(value) => (titleMsg.signUp = value)"
-            />
+            <template v-if="signRenderType === 'signUp'">
+              <SignUp :onToggle="onToggle" @updateTitleMsg="(value) => (titleMsg.signUp = value)" />
+            </template>
           </div>
         </div>
       </div>
@@ -20,7 +18,9 @@
         <div class="col align-items-center flex-col sign-in">
           <div class="form-wrapper align-items-center">
             <div class="form sign-in">
-              <SignIn :onToggle="onToggle" :isSuccessLogin="isSuccessLogin" />
+              <template v-if="signRenderType === 'signIn'">
+                <SignIn :onToggle="onToggle" :isSuccessLogin="isSuccessLogin" />
+              </template>
               <div class="text-btn-wrapper">
                 <div class="text-btn pointer join" @click="onToggle">
                   {{ $t('common.signUpText') }}
@@ -31,7 +31,7 @@
                     @click="
                       () => {
                         renderComponentType = 'findUser'
-                        findType = 'id'
+                        findUserType = 'id'
                       }
                     "
                   >
@@ -43,7 +43,7 @@
                     @click="
                       () => {
                         renderComponentType = 'findUser'
-                        findType = 'password'
+                        findUserType = 'password'
                       }
                     "
                   >
@@ -65,15 +65,17 @@
       </template>
       <!-- FIND USER -->
       <template v-if="renderComponentType === 'findUser'">
-        <div class="col align-items-center">
-          <div class="form-wrapper align-items-center flex-col">
-            <!-- <FindUser :type="findType" /> -->
-            <p style="margin: 1rem 0">
-              <b @click="renderComponentType = 'login'" class="pointer">
-                <LeftOutlined />
-                {{ $t('common.backToLogin') }}
-              </b>
-            </p>
+        <div class="col align-items-center flex-col find-user">
+          <div class="form-wrapper">
+            <div class="find-user-wrapper">
+              <FindUser :type="findUserType" />
+              <p style="margin: 1rem 0; font-size: 14px">
+                <b @click="renderComponentType = 'login'" class="pointer">
+                  <LeftOutlined />
+                  {{ $t('common.backToLogin') }}
+                </b>
+              </p>
+            </div>
           </div>
         </div>
       </template>
@@ -115,8 +117,8 @@ import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { LeftOutlined } from '@/components/icons'
 import { Spinner } from '@/components/spinner'
 import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
+import FindUser from './components/FindUser.vue'
 import SignIn from './components/SignIn.vue'
-// import FindUser from './components/FindUser.vue'
 import SignUp from './components/SignUp.vue'
 import SocialLoginBnts from './components/SocialLoginBnts.vue'
 
@@ -125,18 +127,17 @@ const { t } = useI18n()
 const { setToken, login, getToken } = useAuthStore()
 const { setTheme, setRealDarkTheme } = useProjectConfigStore()
 
+type SignRenderTypes = 'signUp' | 'signIn'
+type ComponentType = 'login' | 'findUser'
+export type FindUserFormTypes = 'id' | 'password'
+
 const accessToken = query.accessToken as string
 const refreshToken = query.refreshToken as string
 const isSuccessSocialLogin = !!accessToken && !!refreshToken
 const isSuccessLogin = ref(false)
-const resetKey = ref(0)
-const findType = ref()
-const componentType = {
-  login: 'login',
-  findUser: 'findUser'
-} as const
-type ComponentType = (typeof componentType)[keyof typeof componentType]
+const signRenderType = ref<SignRenderTypes>('signIn')
 const renderComponentType = ref<ComponentType>('login')
+const findUserType = ref<FindUserFormTypes>('id')
 
 const titleMsg = reactive({
   signIn: t('common.signInTitle'),
@@ -162,12 +163,10 @@ let container: HTMLElement | null = null
 const onToggle = () => {
   container!.classList.toggle('sign-up')
   container!.classList.toggle('sign-in')
-  resetForm()
-}
-
-const resetForm = () => {
-  resetKey.value++
   titleMsg.signUp = t('common.signUpTitle')
+
+  if (signRenderType.value === 'signUp') signRenderType.value = 'signIn'
+  else signRenderType.value = 'signUp'
 }
 
 onMounted(() => {
@@ -302,6 +301,11 @@ body {
   }
 }
 
+.find-user-wrapper {
+  padding: 1rem;
+  transition: 0.5s ease-in-out;
+}
+
 .container.sign-in .form.sign-in,
 .container.sign-up .form.sign-up {
   transform: scale(1);
@@ -323,12 +327,13 @@ body {
 :deep(.ant-form) {
   .ant-form-item {
     margin: 0;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.1rem;
   }
 }
 
 .text {
   color: $color-white;
+  word-break: keep-all;
 }
 
 .text h1 {
@@ -447,9 +452,10 @@ body {
   }
 
   .container.sign-in .col.sign-in,
-  .container.sign-up .col.sign-up {
+  .container.sign-up .col.sign-up,
+  .col.find-user {
     transform: translateY(0px);
-    height: 72%;
+    height: 68%;
     overflow: scroll;
     justify-content: flex-start;
     padding-top: 50px;
@@ -458,11 +464,7 @@ body {
   .content-row {
     align-items: flex-start !important;
     .text {
-      word-break: keep-all;
-      margin: 0 23px;
-    }
-    .sign-up.text {
-      margin-top: 40px;
+      margin: 0 20px;
     }
   }
 
@@ -487,8 +489,8 @@ body {
     justify-content: flex-end;
   }
 
-  .form {
-    box-shadow: none;
+  .form,
+  .find-user-wrapper {
     margin: 0;
     padding: 0;
   }
