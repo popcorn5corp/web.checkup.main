@@ -386,7 +386,7 @@ watch(
 
 <style scoped lang="scss">
 .transition-form {
-  transition: 0.4s ease-in-out;
+  transition: 0.5s ease-in-out;
 }
 .certification-wrapper {
   .custom-input-container {
