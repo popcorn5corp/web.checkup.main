@@ -1,106 +1,107 @@
 <template>
   <div class="find-password-form-container">
     <template v-if="!isSuccessFindPassword">
-      <RadioGroup style="margin: 1rem" v-model:value="authenticationType" size="large">
+      <RadioGroup class="radio-wrapper" v-model:value="authenticationType" size="large">
         <Radio :value="IAuth.authenticationTypes.PHONE">휴대폰 번호로 인증</Radio>
         <Radio :value="IAuth.authenticationTypes.EMAIL">e-mail로 인증</Radio>
       </RadioGroup>
-      <Form :model="formData" @finish="onFindPassword">
-        <FormItem name="userId">
-          <Input
-            type="email"
-            v-model:value="formData.userId"
-            placeholder="아이디를 입력해주세요."
-            label="아이디"
-            :isError="errorState.userId"
-            @change="onValidateFields($event, 'userId')"
-          />
-          <div class="errorMsg" v-if="errorState.userId">아이디를 입력해주세요</div>
-        </FormItem>
-        <FormItem name="userName">
-          <Input
-            v-model:value="formData.userName"
-            placeholder="이름을 입력해주세요."
-            label="이름"
-            :isError="errorState.userName"
-            @change="onValidateFields($event, 'userName')"
-          />
-          <div class="errorMsg" v-if="errorState.userName">이름을 입력해주세요</div>
-        </FormItem>
-        <div class="certification-wrapper">
-          <template v-if="authenticationType === IAuth.authenticationTypes.EMAIL">
-            <!-- email로 인증 -->
-            <FormItem name="email">
-              <div class="input-wrapper">
-                <Input
-                  type="email"
-                  v-model:value="formData.email"
-                  placeholder="이메일을 입력해주세요."
-                  label="이메일"
-                  style="width: 100%"
-                  :isError="errorState.email"
-                  @change="onValidateFields($event, 'email')"
-                />
-                <Button
-                  label="인증번호 전송"
-                  class="certification-btn"
-                  :loading="isSendLoading"
-                  :disabled="!formData.email"
-                  @click="onSendEmail"
-                />
-              </div>
-              <div class="errorMsg" v-if="errorState.email">이메일을 입력해주세요</div>
-            </FormItem>
-          </template>
-          <template v-else>
-            <!-- phone으로 인증 -->
-            <FormItem name="phone">
-              <div class="input-wrapper">
-                <Input
-                  v-model:value="formData.phone"
-                  placeholder="휴대폰 번호를 입력해주세요."
-                  label="휴대폰"
-                  style="width: 100%"
-                  :maxlength="13"
-                  :isError="errorState.phone"
-                  @change="onInputPhoneNumber"
-                />
-                <Button
-                  label="인증번호 전송"
-                  class="certification-btn"
-                  :loading="isSendLoading"
-                  :disabled="!formData.phone"
-                  @click="onSendPhone"
-                />
-              </div>
-              <div class="errorMsg" v-if="errorState.phone">휴대폰 번호를 입력해주세요</div>
-            </FormItem>
-          </template>
-        </div>
-        <FormItem name="certificationNumber">
-          <Input
-            v-model:value="formData.certificationNumber"
-            placeholder="인증번호를 입력해주세요."
-            label="인증번호"
-            :isError="errorState.certificationNumber"
-            @change="onValidateFields($event, 'certificationNumber')"
-          />
-          <div class="errorMsg" v-if="errorState.certificationNumber">인증번호를 입력해주세요</div>
-          <p v-if="validData.validSec" class="timer">
-            <small class="text-danger">{{ validData.timeStr }}</small>
-          </p>
-        </FormItem>
-        <FormItem>
-          <Button
-            label="다음"
-            html-type="submit"
-            type="primary"
-            size="large"
-            class="next-btn"
-            :loading="isLoading"
-          />
-        </FormItem>
-      </Form>
+      <Transition name="find-password" appear :key="authenticationType">
+        <Form :model="formData" @finish="onFindPassword" class="transition-form">
+          <FormItem name="userId">
+            <Input
+              type="email"
+              v-model:value="formData.userId"
+              placeholder="checkup@gmail.com"
+              label="아이디"
+              :isError="errorState.userId"
+              @change="onValidateFields($event, 'userId')"
+            />
+            <div class="errorMsg" v-if="errorState.userId">아이디를 입력해주세요</div>
+          </FormItem>
+          <FormItem name="userName">
+            <Input
+              v-model:value="formData.userName"
+              label="이름"
+              :isError="errorState.userName"
+              @change="onValidateFields($event, 'userName')"
+            />
+            <div class="errorMsg" v-if="errorState.userName">이름을 입력해주세요</div>
+          </FormItem>
+          <div class="certification-wrapper">
+            <template v-if="authenticationType === IAuth.authenticationTypes.EMAIL">
+              <!-- email로 인증 -->
+              <FormItem name="email">
+                <div class="input-wrapper">
+                  <Input
+                    type="email"
+                    v-model:value="formData.email"
+                    placeholder="checkup@gmail.com"
+                    label="이메일"
+                    style="width: 100%"
+                    :isError="errorState.email"
+                    @change="onValidateFields($event, 'email')"
+                  />
+                  <Button
+                    label="인증번호 전송"
+                    class="certification-btn"
+                    :loading="isSendLoading"
+                    :disabled="!formData.email"
+                    @click="onSendEmail"
+                  />
+                </div>
+                <div class="errorMsg" v-if="errorState.email">이메일을 입력해주세요</div>
+              </FormItem>
+            </template>
+            <template v-else>
+              <!-- phone으로 인증 -->
+              <FormItem name="phone">
+                <div class="input-wrapper">
+                  <Input
+                    v-model:value="formData.phone"
+                    label="휴대폰"
+                    style="width: 100%"
+                    :maxlength="13"
+                    :isError="errorState.phone"
+                    @change="onInputPhoneNumber"
+                  />
+                  <Button
+                    label="인증번호 전송"
+                    class="certification-btn"
+                    :loading="isSendLoading"
+                    :disabled="!formData.phone"
+                    @click="onSendPhone"
+                  />
+                </div>
+                <div class="errorMsg" v-if="errorState.phone">휴대폰 번호를 입력해주세요</div>
+              </FormItem>
+            </template>
+          </div>
+          <FormItem name="certificationNumber">
+            <Input
+              v-model:value="formData.certificationNumber"
+              label="인증번호"
+              :isError="errorState.certificationNumber"
+              @change="onValidateFields($event, 'certificationNumber')"
+            />
+            <div class="errorMsg" v-if="errorState.certificationNumber">
+              인증번호를 입력해주세요
+            </div>
+            <p v-if="validData.validSec" class="timer">
+              <small class="text-danger">{{ validData.timeStr }}</small>
+            </p>
+          </FormItem>
+          <FormItem>
+            <Button
+              label="다음"
+              html-type="submit"
+              type="primary"
+              size="large"
+              class="next-btn"
+              :loading="isLoading"
+            />
+          </FormItem>
+        </Form>
+      </Transition>
     </template>
     <template v-else>
       <ResetPasswordForm :uid="uid" />
@@ -384,6 +385,9 @@ watch(
 </script>
 
 <style scoped lang="scss">
+.transition-form {
+  transition: 0.4s ease-in-out;
+}
 .certification-wrapper {
   .custom-input-container {
     margin: 0;
@@ -401,6 +405,17 @@ watch(
     border: 1.5px solid $color-gray-5;
     border-radius: 8px;
     padding: 5px 7px;
+  }
+}
+.radio-wrapper {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  :deep(.ant-radio-wrapper) {
+    span {
+      word-break: keep-all;
+    }
   }
 }
 
@@ -426,5 +441,16 @@ watch(
   width: 100%;
   margin-top: 10px;
   font-size: 15px;
+}
+
+// transition
+.find-password-enter-from {
+  transform: scale(0);
+}
+.find-password-enter-to {
+  transform: scale(1);
+}
+.find-password-leave-from {
+  transform: scale(1);
 }
 </style>

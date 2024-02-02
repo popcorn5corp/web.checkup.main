@@ -1,7 +1,7 @@
 <template>
   <div class="find-id-form-container">
     <template v-if="!isSuccessFindId">
-      <RadioGroup style="margin: 1rem" v-model:value="authenticationType" size="large">
+      <RadioGroup class="radio-wrapper" v-model:value="authenticationType" size="large">
         <Radio :value="IAuth.authenticationTypes.PHONE">휴대폰 번호로 인증</Radio>
         <Radio :value="IAuth.authenticationTypes.EMAIL" :disabled="true">e-mail로 인증</Radio>
       </RadioGroup>
@@ -9,7 +9,6 @@
         <FormItem name="userName">
           <Input
             v-model:value="formData.userName"
-            placeholder="이름을 입력해주세요."
             label="이름"
             :isError="errorState.userName"
             @change="onValidateFields($event, 'userName')"
@@ -24,7 +23,7 @@
                 <Input
                   type="email"
                   v-model:value="formData.email"
-                  placeholder="이메일을 입력해주세요."
+                  placeholder="checkup@gmail.com"
                   label="이메일"
                   style="width: 100%"
                   :isError="errorState.email"
@@ -47,7 +46,6 @@
               <div class="input-wrapper">
                 <Input
                   v-model:value="formData.phone"
-                  placeholder="휴대폰 번호를 입력해주세요."
                   label="휴대폰"
                   style="width: 100%"
                   :maxlength="13"
@@ -69,7 +67,6 @@
         <FormItem name="certificationNumber">
           <Input
             v-model:value="formData.certificationNumber"
-            placeholder="인증번호를 입력해주세요."
             label="인증번호"
             :isError="errorState.certificationNumber"
             @change="onValidateFields($event, 'certificationNumber')"
@@ -395,6 +392,18 @@ watch(
     border: 1.5px solid $color-gray-5;
     border-radius: 8px;
     padding: 5px 7px;
+  }
+}
+
+.radio-wrapper {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  :deep(.ant-radio-wrapper) {
+    span {
+      word-break: keep-all;
+    }
   }
 }
 
