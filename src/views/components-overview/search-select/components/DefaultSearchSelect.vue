@@ -6,6 +6,7 @@
       placeholder="Select a person"
       :bordered="true"
       @search="onSearch"
+      width="700px"
     >
       <template #statusDisabledText>비활성화</template>
       <template #statusSelectedText> <CheckOutlined /> </template>

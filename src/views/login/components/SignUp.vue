@@ -181,10 +181,7 @@ const checkValidation = () => {
     }
   })
   if (!agreeTerms.value) errorState.check = true
-}
 
-const onFinish = async () => {
-  checkValidation()
   if (
     errorState.email ||
     errorState.password ||
@@ -192,8 +189,14 @@ const onFinish = async () => {
     errorState.name ||
     errorState.phone ||
     errorState.check
-  )
-    return
+  ) {
+    return false
+  }
+  return true
+}
+
+const onFinish = async () => {
+  if (!checkValidation()) return
 
   try {
     isLoading.value = true

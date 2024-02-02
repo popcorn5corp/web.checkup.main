@@ -66,7 +66,7 @@ const meta: Meta<ComponentProps<typeof SearchSelect>> = {
   },
 
   args: {
-    width: '50%',
+    width: '700px',
     statusSelectedText: '선택됨',
     statusDisabledText: '비활성화',
     placeholder: '텍스트를 입력해주세요.'
@@ -105,20 +105,28 @@ export const Default: Story = {
 }
 
 export const CustomImgSearchSelect: Story = {
-  render: () => ({
+  render: (args) => ({
     components: {
       ImgSearchSelect
     },
 
-    template: `<ImgSearchSelect/>`
+    setup() {
+      return { args }
+    },
+
+    template: `<ImgSearchSelect width="args.width"/>`
   })
 }
 
 export const CustomSearchSelect: Story = {
-  render: () => ({
+  render: (args) => ({
     components: {
       DefaultSearchSelect
     },
-    template: `<DefaultSearchSelect/>`
+
+    setup() {
+      return { args }
+    },
+    template: `<DefaultSearchSelect width="args.width"/>`
   })
 }
