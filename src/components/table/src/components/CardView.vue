@@ -27,7 +27,7 @@
 
       <div v-else :class="['img-wrapper']">
         <img :src="EmptyImage" />
-        <div>{{ $t('common.message.noData') }}</div>
+        <div>{{ $t('message.validate.noData') }}</div>
       </div>
     </Spin>
   </div>

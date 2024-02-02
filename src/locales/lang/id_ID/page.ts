@@ -127,5 +127,13 @@ export default {
       description:
         'Anda dapat melihat data dalam tabel dengan memilih tata letak format tabel dan format kartu.'
     }
+  },
+  login: {
+    createAccount: 'Create an account',
+    newUser: 'New user?',
+    forgotPassword: 'Forgot Password?',
+    signUpDesc: 'Already have an account?',
+    signUpComplete: `{ name }'s registration has been completed`,
+    signUpTerms: 'I agree to privacy policy & terms'
   }
 }

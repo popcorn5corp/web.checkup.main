@@ -144,7 +144,7 @@ const onSubmit = async () => {
   // ManagerUserService.updateGroup(props.data.groupId, requestBody)
   //   .then(({ success }) => {
   //     if (success) {
-  //       message.success(t('common.message.saveSuccess'), 1)
+  //       message.success(t('message.saveSuccess'), 1)
   //       initState()
   //       emit('reload')
   //       formState.post = {
@@ -165,7 +165,7 @@ const onEditMode = () => {
 
 const showDeleteConfirm = () => {
   modal.confirm({
-    title: t('common.message.modalDeleteCheck'),
+    title: t('message.modalDeleteCheck'),
     icon: h(ExclamationCircleOutlined),
     okText: t('component.button.ok'),
     okType: 'primary',
@@ -181,7 +181,7 @@ const showDeleteConfirm = () => {
     //         emit('reload')
     //         emit('isDetail')
 
-    //         message.success(t('common.message.deleteSuccess'), 1)
+    //         message.success(t('message.deleteSuccess'), 1)
     //       }
     //     })
     //     .catch((error) => {

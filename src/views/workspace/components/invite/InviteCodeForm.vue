@@ -59,7 +59,7 @@ const onCheckInviteCode = async () => {
         workspaceStore.setNextBtnDisabled(false)
         isConfirm.value = true
       } else {
-        message.error(t('common.message.checkInviteCode'))
+        message.error(t('message.validate.checkInviteCode'))
         workspaceStore.setNextBtnDisabled(true)
       }
     }

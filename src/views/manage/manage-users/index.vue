@@ -196,7 +196,7 @@ const onRemovePost = (selectedRows: IManageUser.UserInfo[], selectedRowKeys: str
       //   if (success) {
       //     dynamicTableRef.value?.reload({ isReset: true })
       //     setTimeout(() => {
-      //       message.success(t('common.message.deleteSuccess'), 1)
+      //       message.success(t('message.deleteSuccess'), 1)
       //     }, 300)
       //   }
       // })

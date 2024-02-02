@@ -13,7 +13,7 @@
             @change="onValidateFields($event, 'password')"
           />
           <div class="errorMsg" v-if="errorState.password">
-            {{ $t('common.message.checkPassword') }}
+            {{ $t('message.validate.checkPassword') }}
           </div>
         </FormItem>
         <FormItem name="verifyPassword">
@@ -25,7 +25,7 @@
             @change="onValidateFields($event, 'verifyPassword')"
           />
           <div class="errorMsg" v-if="errorState.verifyPassword">
-            {{ $t('common.message.checkVerifyPassword') }}
+            {{ $t('message.validate.checkVerifyPassword') }}
           </div>
         </FormItem>
         <FormItem>

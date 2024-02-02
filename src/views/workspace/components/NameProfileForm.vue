@@ -1,13 +1,13 @@
 <template>
   <div class="text-wrapper">
-    <h1>{{ $t('common.inputName') }}</h1>
+    <h1>{{ $t('message.validate.checkName') }}</h1>
     <p>
       {{ $t('page.workspace.nameProfileDesc') }}
     </p>
   </div>
   <div class="form-wrapper">
     <Input
-      :placeholder="$t('common.inputName')"
+      :placeholder="$t('message.validate.checkName')"
       v-model:value="getFormValues.nickname"
       :maxlength="50"
       @input="onInput"

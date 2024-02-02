@@ -42,7 +42,6 @@ export default {
       selectEmployeeScaleOpt: '규모 선택'
     }
   },
-
   manage: {
     userName: '{userName}님이 ',
     userStatus: {
@@ -127,5 +126,13 @@ export default {
       title: '테이블 데이터 레이아웃 설정 기능 제공',
       description: '테이블의 데이터를 테이블 형식과 카드 형식의 레이아웃을 선택하여 볼 수 있습니다.'
     }
+  },
+  login: {
+    createAccount: '회원가입 후 서비스 이용',
+    newUser: '계정이 없으신가요?',
+    forgotPassword: '비밀번호를 잊어버리셨나요?',
+    signUpDesc: '이미 계정이 있으신가요?',
+    signUpComplete: '{ name } 님 가입이 완료되었습니다',
+    signUpTerms: '개인정보 보호정책 및 약관에 동의합니다.'
   }
 }

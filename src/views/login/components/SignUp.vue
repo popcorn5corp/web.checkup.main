@@ -8,7 +8,7 @@
             type="email"
             v-model:value="formData.email"
             :label="`${$t('common.idText')} (${$t('common.email')})`"
-            :placeholder="$t('common.inputEmail')"
+            :placeholder="$t('message.validate.checkEmail')"
             :isError="errorState.email"
             @change="onValidateFields($event, 'email')"
           />
@@ -24,7 +24,7 @@
             @change="onValidateFields($event, 'password')"
           />
           <div class="errorMsg" v-if="errorState.password">
-            {{ $t('common.message.checkPassword') }}
+            {{ $t('message.validate.checkPassword') }}
           </div>
         </FormItem>
         <FormItem name="verifyPassword">
@@ -36,7 +36,7 @@
             @change="onValidateFields($event, 'verifyPassword')"
           />
           <div class="errorMsg" v-if="errorState.verifyPassword">
-            {{ $t('common.message.checkVerifyPassword') }}
+            {{ $t('message.validate.checkVerifyPassword') }}
           </div>
         </FormItem>
         <FormItem name="name">
@@ -46,7 +46,7 @@
             :isError="errorState.name"
             @change="onValidateFields($event, 'name')"
           />
-          <div class="errorMsg" v-if="errorState.name">{{ $t('common.inputName') }}</div>
+          <div class="errorMsg" v-if="errorState.name">{{ $t('message.validate.checkName') }}</div>
         </FormItem>
         <FormItem name="phone">
           <Input
@@ -56,7 +56,9 @@
             :isError="errorState.phone"
             @change="onInputPhoneNumber"
           />
-          <div class="errorMsg" v-if="errorState.phone">{{ $t('common.message.inputPhone') }}</div>
+          <div class="errorMsg" v-if="errorState.phone">
+            {{ $t('message.validate.checkPhone') }}
+          </div>
         </FormItem>
         <div class="terms-wrapper">
           <FormItem>
@@ -74,7 +76,7 @@
               <a>{{ $t('component.button.viewDetail') }}</a>
             </span>
             <div class="errorMsg" v-if="errorState.check">
-              {{ $t('common.message.checkTerms') }}
+              {{ $t('message.validate.checkTerms') }}
             </div>
           </FormItem>
         </div>
@@ -154,7 +156,7 @@ const onValidateFields = (e: Event, value: string) => {
 
   if (value === 'email') {
     errorState.email = !Util.Validate.isEmail(fieldsValue)
-    emailErrorMsg.value = t('common.inputEmail')
+    emailErrorMsg.value = t('message.validate.checkEmail')
   } else if (value === 'password') {
     errorState.password = fieldsValue.length < 8
   } else if (value === 'verifyPassword') {

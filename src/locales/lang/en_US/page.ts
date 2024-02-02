@@ -127,5 +127,13 @@ export default {
       description:
         'You can view the data in the table by selecting the layout of the table format and card format.'
     }
+  },
+  login: {
+    createAccount: 'Create an account',
+    newUser: 'New user?',
+    forgotPassword: 'Forgot Password?',
+    signUpDesc: 'Already have an account?',
+    signUpComplete: `{ name }'s registration has been completed`,
+    signUpTerms: 'I agree to privacy policy & terms'
   }
 }
