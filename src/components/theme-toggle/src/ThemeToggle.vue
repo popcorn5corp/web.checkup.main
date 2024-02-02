@@ -1,7 +1,7 @@
 <template>
   <button class="theme-toggle-btn" @click="onChangeMode">
     <div class="toggle-box">
-      <div class="toggle-icon-wrapper" :class="isDark && 'active'">
+      <div class="toggle-icon-wrapper" :class="isDark ? 'active' : ''">
         <div class="moon icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -51,19 +51,26 @@
 </template>
 
 <script lang="ts" setup name="ThemeToggle">
-import { ref, unref } from 'vue'
+import { computed, unref } from 'vue'
+import type { ThemeName } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 
 const { setTheme, setRealDarkTheme, getTheme } = useProjectConfigStore()
 
-const isDark = ref(getTheme.isRealDarkTheme)
+const isDark = computed({
+  get() {
+    return getTheme.isRealDarkTheme
+  },
+  set(newVal) {
+    setTheme({ isRealDarkTheme: newVal })
+    setRealDarkTheme('realDark' as ThemeName)
+  }
+})
 
 const onChangeMode = () => {
   isDark.value = !isDark.value
   const themeName = unref(isDark) ? 'realDark' : 'light'
   setTheme({ navTheme: themeName })
-  setTheme({ isRealDarkTheme: themeName === 'realDark' })
-  setRealDarkTheme(themeName)
 }
 </script>
 
