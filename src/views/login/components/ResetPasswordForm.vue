@@ -81,14 +81,14 @@ const onValidateFields = (e: Event, value: string) => {
   }
 }
 
-const checkValidation = () => {
+const isFormValid = () => {
   Object.keys(formData).forEach((field) => {
     if (!formData[field]) {
       errorState[field] = true
     }
   })
-
-  if (errorState.password || errorState.verifyPassword) return false
+  const { password, verifyPassword } = errorState
+  if (password || verifyPassword) return false
 
   return true
 }
@@ -101,7 +101,7 @@ const resetFields = () => {
 }
 
 const onFinish = async () => {
-  if (!checkValidation()) return
+  if (!isFormValid()) return
   try {
     isLoading.value = true
     await AuthService.resetPassword({
@@ -128,13 +128,12 @@ const onFinish = async () => {
   }
 
   .errorMsg {
-    position: absolute;
-    bottom: -22px;
-    left: 50%;
-    transform: translate(-50%);
-    color: #ff4d4f;
+    color: $color-danger;
     font-size: 13px;
+    text-align: left;
     text-wrap: nowrap;
+    margin-top: 0.3rem;
+    margin-left: 3px;
   }
 
   button {

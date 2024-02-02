@@ -2,23 +2,18 @@
   <Transition name="find-user" appear>
     <div class="find-user-container">
       <h1 class="text-title">{{ props.type === 'id' ? '아이디' : '비밀번호' }} 찾기</h1>
-      <template v-if="props.type === 'id'">
-        <FindIdForm />
-      </template>
-      <template v-else>
-        <FindPasswordForm />
-      </template>
+      <component :is="props.type === 'id' ? FindIdForm : FindPasswordForm" />
     </div>
   </Transition>
 </template>
 
 <script setup lang="ts" name="FindUser">
-import type { FindUserType } from '../types'
+import type { FindUserFormTypes } from '../index2.vue'
 import FindIdForm from './FindIdForm.vue'
 import FindPasswordForm from './FindPasswordForm.vue'
 
 interface Props {
-  type: FindUserType
+  type: FindUserFormTypes
 }
 const props = withDefaults(defineProps<Props>(), {})
 </script>

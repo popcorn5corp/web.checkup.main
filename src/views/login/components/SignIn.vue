@@ -85,7 +85,8 @@ const onFinish = async () => {
       errorState[field] = true
     }
   })
-  if (!formData.userId || !formData.password) {
+  const { userId, password } = errorState
+  if (userId || password) {
     return
   }
 
@@ -145,13 +146,12 @@ const onFinish = async () => {
 }
 
 .form .errorMsg {
-  position: absolute;
-  bottom: -22px;
-  left: 50%;
-  transform: translate(-50%);
-  color: #ff4d4f;
+  color: $color-danger;
   font-size: 13px;
+  text-align: left;
   text-wrap: nowrap;
+  margin-top: 0.3rem;
+  margin-left: 3px;
 }
 
 .pointer {

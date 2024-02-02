@@ -1,4 +1,16 @@
 export namespace IAuth {
+  export const authenticationTypes = {
+    PHONE: 'PHONE',
+    EMAIL: 'EMAIL'
+  } as const
+  export type AuthenticationType = (typeof authenticationTypes)[keyof typeof authenticationTypes]
+
+  export const certificationTypes = {
+    SIGNUP: 'SIGNUP',
+    EMAIL_AUTH: 'EMAIL_AUTH'
+  } as const
+  export type CertificationType = (typeof certificationTypes)[keyof typeof certificationTypes]
+
   export interface User {
     uid: string
     userId: string
@@ -47,7 +59,7 @@ export namespace IAuth {
   }
 
   export interface FindType {
-    authenticationType: string
+    authenticationType: AuthenticationType
     userName: string
     auth_uuid: string
     contact: ContactType
@@ -71,7 +83,7 @@ export namespace IAuth {
   }
 
   export interface SendEmailParam {
-    certificationType: string
+    certificationType: CertificationType
     email: string
   }
 
@@ -82,15 +94,13 @@ export namespace IAuth {
     sendDate: string
   }
 
-  export interface ValidEmailParam {
-    certificationType: string
-    email: string
+  export interface ValidEmailParam extends SendEmailParam {
     auth_uuid: string
     certificationNumber: string
   }
 
   export interface SendPhoneParam {
-    certificationType: string
+    certificationType: CertificationType
     phone: string
   }
 

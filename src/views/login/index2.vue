@@ -5,11 +5,9 @@
       <div class="col align-items-center flex-col sign-up">
         <div class="form-wrapper align-items-center">
           <div class="form sign-up">
-            <SignUp
-              :onToggle="onToggle"
-              :key="resetKey"
-              @updateTitleMsg="(value) => (titleMsg.signUp = value)"
-            />
+            <template v-if="signRenderType === 'signUp'">
+              <SignUp :onToggle="onToggle" @updateTitleMsg="(value) => (titleMsg.signUp = value)" />
+            </template>
           </div>
         </div>
       </div>
@@ -20,7 +18,9 @@
         <div class="col align-items-center flex-col sign-in">
           <div class="form-wrapper align-items-center">
             <div class="form sign-in">
-              <SignIn :onToggle="onToggle" :isSuccessLogin="isSuccessLogin" />
+              <template v-if="signRenderType === 'signIn'">
+                <SignIn :onToggle="onToggle" :isSuccessLogin="isSuccessLogin" />
+              </template>
               <div class="text-btn-wrapper">
                 <div class="text-btn pointer join" @click="onToggle">
                   {{ $t('common.signUpText') }}
@@ -121,20 +121,23 @@ import FindUser from './components/FindUser.vue'
 import SignIn from './components/SignIn.vue'
 import SignUp from './components/SignUp.vue'
 import SocialLoginBnts from './components/SocialLoginBnts.vue'
-import type { FindUserType, RenderComponentType } from './types'
 
 const { query } = useRoute()
 const { t } = useI18n()
 const { setToken, login, getToken } = useAuthStore()
 const { setTheme, setRealDarkTheme } = useProjectConfigStore()
 
+type SignRenderTypes = 'signUp' | 'signIn'
+type ComponentType = 'login' | 'findUser'
+export type FindUserFormTypes = 'id' | 'password'
+
 const accessToken = query.accessToken as string
 const refreshToken = query.refreshToken as string
 const isSuccessSocialLogin = !!accessToken && !!refreshToken
 const isSuccessLogin = ref(false)
-const resetKey = ref(0)
-const findUserType = ref<FindUserType>('id')
-const renderComponentType = ref<RenderComponentType>('login')
+const signRenderType = ref<SignRenderTypes>('signIn')
+const renderComponentType = ref<ComponentType>('login')
+const findUserType = ref<FindUserFormTypes>('id')
 
 const titleMsg = reactive({
   signIn: t('common.signInTitle'),
@@ -160,12 +163,10 @@ let container: HTMLElement | null = null
 const onToggle = () => {
   container!.classList.toggle('sign-up')
   container!.classList.toggle('sign-in')
-  resetForm()
-}
-
-const resetForm = () => {
-  resetKey.value++
   titleMsg.signUp = t('common.signUpTitle')
+
+  if (signRenderType.value === 'signUp') signRenderType.value = 'signIn'
+  else signRenderType.value = 'signUp'
 }
 
 onMounted(() => {
@@ -326,7 +327,7 @@ body {
 :deep(.ant-form) {
   .ant-form-item {
     margin: 0;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.1rem;
   }
 }
 

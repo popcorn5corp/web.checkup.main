@@ -28,7 +28,7 @@
           <div class="errorMsg" v-if="errorState.userName">이름을 입력해주세요</div>
         </FormItem>
         <div class="certification-wrapper">
-          <template v-if="authenticationType === 'email'">
+          <template v-if="authenticationType === IAuth.authenticationTypes.EMAIL">
             <!-- email로 인증 -->
             <FormItem name="email">
               <Input
@@ -45,7 +45,7 @@
                 label="인증번호 전송"
                 class="certification-btn"
                 :loading="isSendLoading"
-                :disabled="validData.isRunning || !formData.email"
+                :disabled="!formData.email"
                 @click="onSendEmail"
               />
             </FormItem>
@@ -67,7 +67,7 @@
                 label="인증번호 전송"
                 class="certification-btn"
                 :loading="isSendLoading"
-                :disabled="validData.isRunning || !formData.phone"
+                :disabled="!formData.phone"
                 @click="onSendPhone"
               />
             </FormItem>
@@ -111,6 +111,7 @@ import { Radio, RadioGroup } from 'ant-design-vue'
 import { reactive } from 'vue'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { IAuth } from '@/services/auth/interface'
 import { FormItem } from '@/components/form'
 import { Input } from '@/components/input'
 import ResetPasswordForm from './ResetPasswordForm.vue'
@@ -147,7 +148,7 @@ const isValidSuccess = reactive({
 })
 
 const uid = ref('')
-const authenticationType = ref('phone')
+const authenticationType = ref<IAuth.AuthenticationType>(IAuth.authenticationTypes.PHONE)
 const isLoading = ref(false)
 const isSendLoading = ref(false)
 const isSuccessFindPassword = ref(false)
@@ -170,25 +171,26 @@ const onValidateFields = (e: Event, value: string) => {
 /**
  * @description 폼 벨리데이션 체크
  */
-const checkValidation = () => {
+const isFormValid = () => {
   Object.keys(formData).forEach((field) => {
     if (!formData[field]) {
       errorState[field] = true
     }
   })
 
-  if (errorState.userId || errorState.userName || errorState.certificationNumber) return false
-  if (authenticationType.value === 'phone') {
-    if (errorState.phone) return false
+  const { userId, userName, certificationNumber, phone, email } = errorState
+
+  if (userId || userName || certificationNumber) return false
+  if (authenticationType.value === IAuth.authenticationTypes.PHONE) {
+    if (phone) return false
     if (!isValidSuccess.phone) return false
   } else {
-    if (errorState.email) return false
+    if (email) return false
     if (!isValidSuccess.email) return false
   }
 
   return true
 }
-
 const resetFields = () => {
   Object.keys(formData).forEach((field) => {
     errorState[field] = false
@@ -203,7 +205,7 @@ const onSendEmail = async () => {
   isSendLoading.value = true
   try {
     const reqData = {
-      certificationType: 'EMAIL_AUTH',
+      certificationType: IAuth.certificationTypes.EMAIL_AUTH,
       email: formData.email.trim()
     }
     const { data } = await AuthService.sendEmail(reqData)
@@ -231,7 +233,7 @@ const onSendPhone = async () => {
 
   try {
     const reqData = {
-      certificationType: 'SIGNUP',
+      certificationType: IAuth.certificationTypes.SIGNUP,
       phone: formData.phone.trim()
     }
     const { data } = await AuthService.sendPhone(reqData)
@@ -255,7 +257,7 @@ const onSendPhone = async () => {
  * @description 비밀번호 찾기
  */
 const onFindPassword = async () => {
-  if (!checkValidation()) return
+  if (!isFormValid()) return
 
   try {
     isLoading.value = true
@@ -265,24 +267,36 @@ const onFindPassword = async () => {
     const { userId, userName, email, phone, certificationNumber } = formData
 
     const validReqData = {
-      certificationType: '',
+      certificationType: IAuth.certificationTypes.SIGNUP,
       auth_uuid: validData.auth_uuid,
       certificationNumber
     }
     const findReqData = {
       userId,
-      authenticationType: '',
+      authenticationType: IAuth.authenticationTypes.PHONE,
       userName,
       auth_uuid: validData.auth_uuid,
       contact: {}
     }
 
-    if (authenticationType.value === 'email') {
+    if (authenticationType.value === IAuth.authenticationTypes.EMAIL) {
       // 이메일 인증번호 확인
-      await handleAuthentication(validReqData, findReqData, 'EMAIL_AUTH', 'EMAIL', { email: email })
+      await handleAuthentication(
+        validReqData,
+        findReqData,
+        IAuth.certificationTypes.EMAIL_AUTH,
+        IAuth.authenticationTypes.EMAIL,
+        { email: email }
+      )
     } else {
       // 휴대폰 인증번호 확인
-      await handleAuthentication(validReqData, findReqData, 'SIGNUP', 'PHONE', { phone: phone })
+      await handleAuthentication(
+        validReqData,
+        findReqData,
+        IAuth.certificationTypes.SIGNUP,
+        IAuth.authenticationTypes.PHONE,
+        { phone: phone }
+      )
     }
 
     const { data } = await AuthService.findPassword(findReqData)
@@ -300,12 +314,12 @@ const onFindPassword = async () => {
 const handleAuthentication = async (
   validReqData: any,
   findReqData: any,
-  certificationType: string,
-  authenticationType: string,
+  certificationType: IAuth.CertificationType,
+  authenticationType: IAuth.AuthenticationType,
   contact: any
 ) => {
   let data
-  if (authenticationType === 'EMAIL') {
+  if (authenticationType === IAuth.authenticationTypes.EMAIL) {
     data = await AuthService.validEmail({
       ...validReqData,
       certificationType,
@@ -379,27 +393,26 @@ watch(
   }
   .certification-btn {
     height: 43px;
-    border: 1.5px solid #d9d9d9;
+    border: 1.5px solid $color-gray-5;
     border-radius: 8px;
     padding: 5px 7px;
   }
 }
 
 .errorMsg {
-  position: absolute;
-  bottom: -22px;
-  left: 50%;
-  transform: translate(-50%);
-  color: #ff4d4f;
+  color: $color-danger;
   font-size: 13px;
+  text-align: left;
   text-wrap: nowrap;
+  margin-top: 0.3rem;
+  margin-left: 3px;
 }
 
 .timer {
   position: absolute;
   bottom: -22px;
   left: 0;
-  color: #ff4d4f;
+  color: $color-danger;
   font-size: 13px;
   margin: 0;
 }

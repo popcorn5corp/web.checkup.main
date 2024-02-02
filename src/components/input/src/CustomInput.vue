@@ -118,7 +118,7 @@ watch(
 
 .custom-input.error,
 .custom-input.error.active {
-  border: 1.5px solid #ff4d4f !important;
+  border: 1.5px solid $color-danger !important;
 }
 
 .custom-input.active ~ label {
@@ -135,7 +135,7 @@ watch(
 
 .custom-input.error ~ label,
 .custom-input.error.active ~ label {
-  color: #ff4d4f !important;
+  color: $color-danger !important;
 }
 
 .custom-input {
