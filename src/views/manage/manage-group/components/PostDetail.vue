@@ -27,11 +27,11 @@
     </Form>
 
     <Form v-else layout="horizontal" :model="formState">
-      <Item :label="t('page.manage.groupTitle')">
-        <Input v-model:value="formState.clonePost.name" />
+      <Item>
+        <Input v-model:value="formState.clonePost.name" :label="t('page.manage.groupTitle')" />
       </Item>
-      <Item :label="t('page.manage.groupContent')">
-        <Input v-model:value="formState.clonePost.content" />
+      <Item>
+        <Input v-model:value="formState.clonePost.content" :label="t('page.manage.groupContent')" />
       </Item>
 
       <div class="btn-wrapper">
@@ -47,11 +47,11 @@
 
 <script setup lang="ts" name="PostDetail">
 import { ManagerGroupService } from '@/services'
-import { Form, Input } from 'ant-design-vue'
+import { Form } from 'ant-design-vue'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
-import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
+import { type UnwrapRef, computed, h, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -61,17 +61,18 @@ import {
   ExclamationCircleOutlined,
   MoreOutlined
 } from '@/components/icons'
+import { Input } from '@/components/input'
 import { contentModes as modes } from '@/constants/content'
 
 const { t } = useI18n()
-type PostType = Partial<IManageGroup.ResTableContent>
+type PostType = Pick<IManageGroup.TableDataSource, 'name' | 'content'>
 
 interface PostDetailProps {
-  data: PostType
+  data: PostType & { groupId: string }
 }
 
 interface FormState {
-  post: PostType | undefined
+  post: PostType
   clonePost: PostType
 }
 
@@ -92,12 +93,14 @@ const MessageType = {
   Delete: 'Delete'
 }
 
+const defaultFormState = {
+  name: '',
+  content: ''
+}
+
 const formState: UnwrapRef<FormState> = reactive({
-  post: undefined,
-  clonePost: {
-    name: '',
-    content: ''
-  }
+  post: defaultFormState,
+  clonePost: defaultFormState
 })
 
 ;(() => {
@@ -126,12 +129,12 @@ const changeMode = (modeType: ContentMode) => {
 
 const onSubmit = async () => {
   const requestBody = {
-    workspaceId: getWorkspaceId,
-    name: formState.clonePost?.name,
-    content: formState.clonePost?.content
+    workspaceId: getWorkspaceId as string,
+    name: formState.clonePost.name,
+    content: formState.clonePost.content
   }
 
-  ManagerGroupService.updateGroup(props.data.groupId as string, requestBody as {})
+  ManagerGroupService.updateGroup(props.data.groupId, requestBody)
     .then(({ success }) => {
       if (success) {
         initState()
@@ -207,6 +210,7 @@ const showDeleteConfirm = () => {
     padding: 16px 16px;
 
     .ant-form-item-label {
+      width: 70px;
       > label {
         font-weight: 500;
       }
@@ -226,6 +230,7 @@ const showDeleteConfirm = () => {
       justify-content: flex-end;
       display: flex;
       gap: 3px;
+      margin-top: 10px;
       .ant-btn {
         padding: 2px 9px;
 
@@ -236,7 +241,7 @@ const showDeleteConfirm = () => {
     }
 
     .ant-form-item {
-      margin-bottom: 12px !important;
+      margin-bottom: 0;
     }
 
     .ant-dropdown-link {

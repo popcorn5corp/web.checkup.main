@@ -20,25 +20,43 @@ import { computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useLocale } from '@/locales/hooks/useLocale'
 
-const { defaultAlgorithm, defaultSeed } = theme
+const { defaultAlgorithm, darkAlgorithm, defaultSeed } = theme
 
 // const dark = theme.darkAlgorithm({
 //   ...defaultSeed
 // })
 
-// const darkAlgorithm: any = {
-//   ...theme.darkAlgorithm(defaultSeed),
-//   colorBgBase: '#000',
-//   colorBgContainer: '#141414'
+// const customDarkAlgorithm: any = {
+//   ...defaultSeed,
+//   colorBgBase: `#282a42`,
+//   colorBgContainer: `#30334d`
 // }
-
 const { config } = useProjectConfigStore()
 const configTheme = computed(() => config.theme)
+const customSeed = computed(() => {
+  return {
+    ...defaultSeed,
+    colorPrimary: configTheme.value.primaryColor,
+    fontSize: configTheme.value.fontSize
+  }
+})
+const mergeToken = computed(() => darkAlgorithm(customSeed.value))
 const themeAlgorithm = computed(() =>
-  config.theme.navTheme === 'realDark' ? theme.darkAlgorithm : theme.defaultAlgorithm
+  config.theme.navTheme === 'realDark' ? customDarkAlgorithm : defaultAlgorithm
 )
 
 const { getAntdLocale } = useLocale()
+
+const customDarkAlgorithm = () => {
+  return {
+    ...mergeToken.value,
+    colorBgBase: 'rgba(40,42,66)',
+    colorBgContainer: '#30334d',
+    colorBgLayout: 'rgba(40,42,66)',
+    colorBgElevated: '#30334d',
+    colorBorder: '#ebebff45'
+  }
+}
 </script>
 <style lang="scss" scoped></style>
 

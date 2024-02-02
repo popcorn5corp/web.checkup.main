@@ -18,6 +18,8 @@ export default {
     reset: '초기화'
   },
   ph: {
-    inputEmail: '이메일을 입력해주세요.'
+    inputEmail: '이메일을 입력해주세요.',
+    inputId: '아이디를 입력해주세요.',
+    inputPassword: '비밀번호를 입력해주세요.'
   }
 }

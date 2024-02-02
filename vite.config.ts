@@ -70,16 +70,18 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
     server: {
       cors: true,
       proxy: {
-        '^/api': {
+        '/app-api': {
+          target: 'http://dev.checkup-api.co.kr',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(new RegExp(`^/app-api`), ''),
+          secure: false,
+          ws: true
+        },
+        '/auth-api': {
           target: 'http://dev-auth.checkup-api.co.kr',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
-        },
-        '^/auth': {
-          target: env.VITE_AUTH_SERVER_API_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/auth/, ''),
-          // secure: false,
+          rewrite: (path) => path.replace(new RegExp(`^/auth-api`), ''),
+          secure: false,
           ws: true
         }
       },

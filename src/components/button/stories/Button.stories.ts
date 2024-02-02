@@ -7,8 +7,20 @@ const meta = {
   tags: ['autodocs'],
 
   argTypes: {
+    default: {
+      table: { type: '' },
+      control: Object
+    },
+    click: {
+      table: { type: '' },
+      control: Object
+    },
+    style: {
+      table: { type: '' },
+      control: Object
+    },
+
     label: {
-      description: 'set the inner text of button',
       type: { name: 'string', required: false },
       defaultValue: 'button',
       control: {
@@ -16,7 +28,6 @@ const meta = {
       }
     },
     type: {
-      description: 'can be set button type',
       type: { name: 'string', required: false },
       options: ['default', 'primary', 'dashed', 'text', 'link'],
       control: 'select',
@@ -26,7 +37,7 @@ const meta = {
       }
     },
     icon: {
-      description: 'set the icon of button',
+      description: '아이콘 추가',
       type: { name: 'string', required: false },
       options: ['download', 'plusCircle', 'excel'],
       control: 'select',
@@ -35,17 +46,15 @@ const meta = {
       }
     },
     size: {
-      description: 'set the size of button',
       type: { name: 'string', required: false },
-      options: ['small', 'medium', 'large'],
+      options: ['small', 'middle', 'large'],
       control: 'select',
       table: {
-        type: { summary: 'large | medium | small' },
-        defaultValue: { summary: 'medium' }
+        type: { summary: 'large | middle | small' },
+        defaultValue: { summary: 'middle' }
       }
     },
     shape: {
-      description: 'can be set button shape',
       type: { name: 'string', required: false },
       options: ['default', 'round', 'circle'],
       control: 'select',
@@ -55,7 +64,6 @@ const meta = {
       }
     },
     loading: {
-      description: 'set the loading status of button',
       type: { name: 'boolean', required: false },
       table: {
         type: { summary: 'boolean | { delay: number }' },
@@ -63,7 +71,6 @@ const meta = {
       }
     },
     disabled: {
-      description: 'disabled state of button',
       type: { name: 'boolean', required: false },
       table: {
         type: { summary: 'boolean' },
@@ -71,7 +78,7 @@ const meta = {
       }
     }
   },
-  args: { loading: false, disabled: false }, // default value
+  args: { loading: false, disabled: false, size: 'middle', shape: 'default' }, // default value
   parameters: {
     componentSubtitle:
       'Button 컴포넌트의 클릭이벤트를 활용하여 다양한 비즈니스 로직을 수행할 수 있습니다.'
@@ -80,20 +87,6 @@ const meta = {
 
 export default meta
 type Story = StoryObj<typeof meta>
-
-export const Default: Story = {
-  render: (args) => ({
-    components: { Button },
-    setup() {
-      return {
-        args: {
-          label: 'Default'
-        }
-      }
-    },
-    template: '<Button v-bind="args"></Button>'
-  })
-}
 
 export const Primary: Story = {
   args: {

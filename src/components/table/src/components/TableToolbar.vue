@@ -22,15 +22,7 @@
           :label="''"
           size="middle"
           @click="onReload"
-          :ref="
-            (ref) => {
-              // @ts-ignore
-              if (ref?.$el) {
-                // @ts-ignore
-                tourStore.addStep(6, ref.$el)
-              }
-            }
-          "
+          :ref="(ref) => tour.setTour(6, ref as Element)"
         >
           <template #icon>
             <font-awesome-icon icon="rotate" :class="[isReload && 'rotating']" />
@@ -42,19 +34,7 @@
         <template #title>
           <span>Full Download</span>
         </template>
-        <Button
-          :label="''"
-          size="middle"
-          :ref="
-            (ref) => {
-              // @ts-ignore
-              if (ref?.$el) {
-                // @ts-ignore
-                tourStore.addStep(7, ref.$el)
-              }
-            }
-          "
-        >
+        <Button :label="''" size="middle" :ref="(ref) => tour.setTour(7, ref as Element)">
           <template #icon>
             <DownloadOutlined />
           </template>
@@ -66,18 +46,7 @@
           <span>Size</span>
         </template>
         <Dropdown :trigger="['click']">
-          <Button
-            size="middle"
-            :ref="
-              (ref) => {
-                // @ts-ignore
-                if (ref?.$el) {
-                  // @ts-ignore
-                  tourStore.addStep(8, ref.$el)
-                }
-              }
-            "
-          >
+          <Button size="middle" :ref="(ref) => tour.setTour(8, ref as Element)">
             <template #icon>
               <ColumnHeightOutlined />
             </template>
@@ -107,14 +76,14 @@
 import { Dropdown, Input, Menu, MenuItem, Space, Tooltip } from 'ant-design-vue'
 import type { MenuClickEventHandler } from 'ant-design-vue/es/menu/src/interface'
 import { computed, onMounted, ref, unref, watch } from 'vue'
-import { useTourStore } from '@/stores/modules/tour'
 import { Button } from '@/components/button'
 import { ColumnHeightOutlined, DownloadOutlined } from '@/components/icons'
+import { useTour } from '@/components/tour/hooks/useTour'
 import { useTableContext } from '../../hooks/useTableContext'
 import { type SizeType, cardSizeItems, tableSizeItems } from '../../types'
 import TableSegmentButton from './TableSegmentButton.vue'
 
-const tourStore = useTourStore()
+const tour = useTour()
 const table = useTableContext()
 const isReload = ref(false)
 const selectedSize = ref<SizeType>('middle')

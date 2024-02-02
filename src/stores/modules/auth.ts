@@ -72,14 +72,13 @@ export const useAuthStore = defineStore(
       loggedIn: false,
       workspace: getDefaultWorkspace()
     })
-
     const { setSelectedWorkspaceId } = useWorkspaceStore()
     const getUser = computed(() => state.user)
     const getToken = computed(() => state.token)
     const getUserWorkspace = computed(() => state.workspace)
 
     async function login() {
-      return AuthService.login().then(
+      return AuthService.getUser().then(
         async (user) => {
           console.log('[user]', user)
           setUser(user)
@@ -106,9 +105,7 @@ export const useAuthStore = defineStore(
       try {
         const { goPath } = await workspaceAction()
 
-        setTimeout(() => {
-          router.push(goPath)
-        }, 2000)
+        router.push(goPath)
 
         return {
           goPath
@@ -186,6 +183,10 @@ export const useAuthStore = defineStore(
       Util.Storage.set(tokenKey, token)
     }
 
+    function setRefreshToken(tokenKey: TokenKey = REFRESH_TOKEN_KEY, token: string) {
+      Util.Storage.set(tokenKey, token)
+    }
+
     // function getToken(tokenKey: TokenKey = ACCESS_TOKEN_KEY) {
     //   return Util.Storage.get<string>(tokenKey)
     // }
@@ -207,6 +208,7 @@ export const useAuthStore = defineStore(
       afterLoginAction,
       logout,
       setToken,
+      setRefreshToken,
       removeToken,
       removeUser
     }

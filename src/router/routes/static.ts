@@ -335,6 +335,17 @@ export const staticRoutes: RouteRecordRaw[] = [
         }
       },
       {
+        path: 'timeline',
+        name: 'components-timeline',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-timeline" */ '@/views/components-overview/timeline/index.vue'
+          ),
+        meta: {
+          title: 'Timeline'
+        }
+      },
+      {
         path: 'search-select',
         name: 'components-search-select',
         component: () =>
@@ -343,6 +354,39 @@ export const staticRoutes: RouteRecordRaw[] = [
           ),
         meta: {
           title: 'SearchSelect'
+        }
+      },
+      {
+        path: 'input',
+        name: 'components-input',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-input" */ '@/views/components-overview/input/index.vue'
+          ),
+        meta: {
+          title: 'Input'
+        }
+      },
+      {
+        path: 'select',
+        name: 'components-select',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-select" */ '@/views/components-overview/select/index.vue'
+          ),
+        meta: {
+          title: 'Select'
+        }
+      },
+      {
+        path: 'tour',
+        name: 'components-tour',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-tour" */ '@/views/components-overview/tour/index.vue'
+          ),
+        meta: {
+          title: 'Tour'
         }
       }
     ]

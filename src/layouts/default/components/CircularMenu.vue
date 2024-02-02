@@ -1,11 +1,11 @@
 <script setup lang="ts" name="CircularMenu">
 import { computed, onMounted } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { useTourStore } from '@/stores/modules/tour'
+import { useTour } from '@/components/tour/hooks/useTour'
 
 const { config } = useProjectConfigStore()
 const circularMenuColor = computed(() => config.theme.primaryColor)
-const tourStore = useTourStore()
+const tour = useTour()
 
 onMounted(() => {
   setTimeout(() => {
@@ -30,7 +30,7 @@ onMounted(() => {
       <a href="#" class="menu-item"> <font-awesome-icon :icon="['fas', 'comments']" size="xl" /></a>
       <a href="#" class="menu-item"> <font-awesome-icon :icon="['fas', 'headset']" size="xl" /></a>
       <!-- <a href="#" class="menu-item"> <font-awesome-icon :icon="['fas', 'download']" size="xl" /></a> -->
-      <a href="#" class="menu-item" @click="tourStore.handleMode">
+      <a href="#" class="menu-item" @click="$emit('tourStart')">
         <font-awesome-icon :icon="['fas', 'circle-play']" size="xl"
       /></a>
       <a href="#" class="menu-item">

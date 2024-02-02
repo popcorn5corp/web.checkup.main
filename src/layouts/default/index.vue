@@ -2,6 +2,7 @@
   <Layout class="layout-default">
     <!-- Page Side 영역 -->
     <Layout.Sider
+      :ref="(ref) => tour.setTour(1, ref as Element, TOUR_TYPE.CHECKUP_TOUR_DEMO)"
       v-if="config.theme.menuPosition === 'sidemenu'"
       class="layout-sider"
       v-model:collapsed="collapsed"
@@ -24,7 +25,11 @@
 
     <Layout class="layout-main">
       <!-- Page Header 영역 -->
-      <LayoutHeader :collapsed="collapsed" :theme="getTheme">
+      <LayoutHeader
+        :ref="(ref) => tour.setTour(2, ref as Element, TOUR_TYPE.CHECKUP_TOUR_DEMO)"
+        :collapsed="collapsed"
+        :theme="getTheme"
+      >
         <template v-if="config.theme.menuPosition === 'topmenu'" #default>
           <Logo :imgPath="imgPath" />
 
@@ -43,7 +48,11 @@
       <LayoutTabs />
 
       <!-- Page Content 영역 -->
-      <Layout.Content class="layout-content" :class="getDarkModeClass">
+      <Layout.Content
+        :ref="(ref) => tour.setTour(4, ref as Element, TOUR_TYPE.CHECKUP_TOUR_DEMO)"
+        class="layout-content"
+        :class="getDarkModeClass"
+      >
         <div class="title">{{ $route.meta.title }}</div>
 
         <Divider />
@@ -56,31 +65,27 @@
       <!-- <LayoutFooter /> -->
     </Layout>
 
-    <Tour
-      :open="tourStore.getMode"
-      :steps="tourStore.getStepInfo"
-      @change="onChange"
-      @close="handleOpen(false)"
-    >
-      <template #indicatorsRender="{ current, total }">
-        <span>{{ current + 1 }} / {{ total }}</span>
-      </template>
-    </Tour>
+    <Tour :steps="steps" v-model:open="open" />
 
-    <CircularMenu />
+    <CircularMenu
+      :ref="(ref) => tour.setTour(3, ref as Element, TOUR_TYPE.CHECKUP_TOUR_DEMO)"
+      @tourStart="handleOpen"
+    />
   </Layout>
 </template>
 <script setup lang="ts" name="LayoutDefault">
-import { Divider, Layout, Tour } from 'ant-design-vue'
+import { Divider, Layout } from 'ant-design-vue'
 import { type CSSProperties, computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useTourStore } from '@/stores/modules/tour'
 import { Header as LayoutHeader } from '@/components/header'
 import { Logo } from '@/components/logo'
 import { Menu as AsideMenu } from '@/components/menu'
 import { menus } from '@/components/menu/src/mock'
+import { Tour } from '@/components/tour'
+import { useTour } from '@/components/tour/hooks/useTour'
 // import LayoutFooter from '../components/LayoutFooter.vue'
+import { TOUR_TYPE } from '@/components/tour/types'
 import LayoutTabs from '../components/LayoutTabs.vue'
 import CircularMenu from './components/CircularMenu.vue'
 
@@ -91,7 +96,16 @@ const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
 const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
 const isSideMenu = computed(() => config.theme.menuPosition === 'sidemenu')
-const router = useRouter()
+
+const tour = useTour()
+const tourType = TOUR_TYPE.CHECKUP_TOUR
+const steps = computed(() => tourStore.getTour(tourType))
+const open = ref(false)
+
+const handleOpen = () => {
+  open.value = true
+}
+
 const imgPath = computed(
   () => new URL(`/src/assets/images/${config.theme.logoFileName}`, import.meta.url).href
 )
@@ -125,22 +139,6 @@ const mainStyles = computed<{ size: CSSProperties }>(() => {
   }
 })
 
-/**
- * 온보딩 관련 코드
- */
-const open = ref(false)
-
-const onChange = (current) => {
-  console.log(current)
-  if (current === 2) {
-    router.push({ name: 'samples-dynamic-table' })
-  }
-}
-
-const handleOpen = (value) => {
-  // console.log(value)
-  tourStore.handleMode()
-}
 onMounted(() => {
   setTimeout(() => {
     document.getElementById('circularMenu')?.classList.add('active')
@@ -194,7 +192,7 @@ $tab-margin-top: 2px;
     position: sticky;
     top: $header-height + $tab-margin-top - 2px;
     z-index: 99;
-    background: $color-white;
+    background: inherit;
   }
 
   .layout-content {
@@ -231,7 +229,6 @@ $tab-margin-top: 2px;
       }
     }
   }
-
   .dark-mode {
     background: $color-realDark !important;
     color: $color-white !important;

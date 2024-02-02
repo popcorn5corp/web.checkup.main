@@ -1,81 +1,85 @@
 <template>
-  <div id="container" class="container" v-if="!isSuccessSocialLogin">
+  <div id="container" class="container" v-if="!isSuccessSocialLogin && !isSuccessLogin">
     <div class="row">
       <!-- SIGN UP -->
       <div class="col align-items-center flex-col sign-up">
         <div class="form-wrapper align-items-center">
           <div class="form sign-up">
-            <h3>{{ text2 }}</h3>
-
-            <div class="input-group">
-              <i class="bx bxs-user"></i>
-              <input type="text" :placeholder="text3" />
-            </div>
-            <!-- <div class="input-group">
-              <i class="bx bx-mail-send"></i>
-              <input type="email" placeholder="Email" />
-            </div> -->
-            <!-- <div class="input-group">
-              <i class="bx bxs-lock-alt"></i>
-              <input type="password" placeholder="Password" />
-            </div>
-            <div class="input-group">
-              <i class="bx bxs-lock-alt"></i>
-              <input type="password" placeholder="Confirm password" />
-            </div> -->
-            <button @click="onNext">다음</button>
-            <p>
-              <span> Already have an account? </span>
-              <b @click="onToggle" class="pointer"> Sign in here </b>
-            </p>
+            <template v-if="signRenderType === 'signUp'">
+              <SignUp :onToggle="onToggle" @updateTitleMsg="(value) => (titleMsg.signUp = value)" />
+            </template>
           </div>
         </div>
       </div>
       <!-- END SIGN UP -->
 
       <!-- SIGN IN -->
-      <div class="col align-items-center flex-col sign-in">
-        <div class="form-wrapper align-items-center">
-          <div class="form sign-in">
-            <div class="heading">
-              <h1 class="text text-large">{{ $t('common.loginText') }}</h1>
-              <p class="text text-normal">
-                {{ $t('common.newUser') }}
-                <span @click="onToggle"
-                  ><a href="#" class="text text-links" style="color: rgb(37, 104, 249)">{{
-                    $t('common.createAccount')
-                  }}</a></span
-                >
-              </p>
-            </div>
-            <div class="input-group">
-              <!-- <font-awesome-icon :icon="['fas', 'user']" /> -->
-              <input type="text" placeholder="Username" />
-            </div>
-            <div class="input-group">
-              <!-- <i class="bx bxs-lock-alt"></i> -->
-              <input type="password" placeholder="Password" />
-            </div>
-            <button>Sign in</button>
-            <p>
-              <b> Forgot password? </b>
-            </p>
-            <p>
-              <span> Don't have an account? </span>
-              <b @click="onToggle" class="pointer"> Sign up here </b>
-            </p>
+      <template v-if="renderComponentType === 'login'">
+        <div class="col align-items-center flex-col sign-in">
+          <div class="form-wrapper align-items-center">
+            <div class="form sign-in">
+              <template v-if="signRenderType === 'signIn'">
+                <SignIn :onToggle="onToggle" :isSuccessLogin="isSuccessLogin" />
+              </template>
+              <div class="text-btn-wrapper">
+                <div class="text-btn pointer join" @click="onToggle">
+                  {{ $t('common.signUpText') }}
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px">
+                  <div
+                    class="text-btn pointer"
+                    @click="
+                      () => {
+                        renderComponentType = 'findUser'
+                        findUserType = 'id'
+                      }
+                    "
+                  >
+                    {{ $t('common.findId') }}
+                  </div>
+                  <div class="dot" />
+                  <div
+                    class="text-btn pointer find-password"
+                    @click="
+                      () => {
+                        renderComponentType = 'findUser'
+                        findUserType = 'password'
+                      }
+                    "
+                  >
+                    {{ $t('common.findPassword') }}
+                  </div>
+                </div>
+              </div>
 
-            <div class="striped">
-              <span class="striped-line"></span>
-              <span class="striped-text">OR</span>
-              <span class="striped-line"></span>
-            </div>
+              <div class="striped">
+                <span class="striped-line"></span>
+                <span class="striped-text">OR</span>
+                <span class="striped-line"></span>
+              </div>
 
-            <SocialLoginBnts />
+              <SocialLoginBnts />
+            </div>
           </div>
         </div>
-        <div class="form-wrapper"></div>
-      </div>
+      </template>
+      <!-- FIND USER -->
+      <template v-if="renderComponentType === 'findUser'">
+        <div class="col align-items-center flex-col find-user">
+          <div class="form-wrapper">
+            <div class="find-user-wrapper">
+              <FindUser :type="findUserType" />
+              <p style="margin: 1rem 0; font-size: 14px">
+                <b @click="renderComponentType = 'login'" class="pointer">
+                  <LeftOutlined />
+                  {{ $t('common.backToLogin') }}
+                </b>
+              </p>
+            </div>
+          </div>
+        </div>
+      </template>
+      <!-- END FIND USER -->
       <!-- END SIGN IN -->
     </div>
     <!-- END FORM SECTION -->
@@ -84,19 +88,17 @@
     <div class="row content-row">
       <!-- SIGN IN CONTENT -->
       <div class="col align-items-center flex-col">
-        <div class="text sign-in" style="margin-left: -60px">
-          <h2 style="margin: 0">순간을 모아 미래를 보다</h2>
-          <img src="@/assets/images/checkup_logo_light.png" style="width: 500px" />
-          <!-- <h2>Checkup</h2> -->
+        <div class="text sign-in">
+          <h2 style="margin: 0">{{ titleMsg.signIn }}</h2>
+          <img src="@/assets/images/checkup_logo_light.png" style="width: 500px" class="logo" />
         </div>
-        <div class="img sign-in"></div>
       </div>
       <!-- END SIGN IN CONTENT -->
       <!-- SIGN UP CONTENT -->
       <div class="col align-items-center flex-col">
         <div class="img sign-up"></div>
         <div class="text sign-up">
-          <h2>{{ text }}</h2>
+          <h2>{{ titleMsg.signUp }}</h2>
         </div>
       </div>
       <!-- END SIGN UP CONTENT -->
@@ -104,49 +106,71 @@
     <!-- END CONTENT SECTION -->
     <!-- FORM SECTION -->
   </div>
-  <Spinner v-else :text="$t('common.checkingLogin')" :text-width="'13rem'"></Spinner>
+  <Spinner v-else :text="$t('common.checkingLogin')" :text-width="'13rem'" />
 </template>
 <script setup lang="ts" name="login2">
 import { useAuthStore } from '@/stores'
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { LeftOutlined } from '@/components/icons'
 import { Spinner } from '@/components/spinner'
 import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
+import FindUser from './components/FindUser.vue'
+import SignIn from './components/SignIn.vue'
+import SignUp from './components/SignUp.vue'
 import SocialLoginBnts from './components/SocialLoginBnts.vue'
 
 const { query } = useRoute()
+const { t } = useI18n()
 const { setToken, login, getToken } = useAuthStore()
+const { setTheme, setRealDarkTheme } = useProjectConfigStore()
+
+type SignRenderTypes = 'signUp' | 'signIn'
+type ComponentType = 'login' | 'findUser'
+export type FindUserFormTypes = 'id' | 'password'
 
 const accessToken = query.accessToken as string
 const refreshToken = query.refreshToken as string
 const isSuccessSocialLogin = !!accessToken && !!refreshToken
+const isSuccessLogin = ref(false)
+const signRenderType = ref<SignRenderTypes>('signIn')
+const renderComponentType = ref<ComponentType>('login')
+const findUserType = ref<FindUserFormTypes>('id')
+
+const titleMsg = reactive({
+  signIn: t('common.signInTitle'),
+  signUp: t('common.signUpTitle')
+})
+let container: HTMLElement | null = null
 
 ;(async () => {
   if (isSuccessSocialLogin && !getToken) {
     setToken(ACCESS_TOKEN_KEY, accessToken)
     await login()
   }
-})()
 
-let container: HTMLElement | null = null
-const text = ref('회사 또는 팀이름을 알려주세요')
-const text2 = ref('Checkup 워크스페이스의 이름이 됩니다.')
-const text3 = ref('회사 또는 팀이름')
+  // set default theme
+  const themeName = 'light'
+  const defaultPrimary = 'rgba(24, 144, 255, 1)'
+  setTheme({ navTheme: themeName })
+  setTheme({ isRealDarkTheme: false })
+  setTheme({ primaryColor: defaultPrimary })
+  setRealDarkTheme(themeName)
+})()
 
 const onToggle = () => {
   container!.classList.toggle('sign-up')
   container!.classList.toggle('sign-in')
-}
+  titleMsg.signUp = t('common.signUpTitle')
 
-const onNext = () => {
-  text.value = '체크업팀에 또 누가 있나요?'
-  text2.value = '이메일로 직장동료를 추가해주세요'
-  text3.value = '이메일 검색'
+  if (signRenderType.value === 'signUp') signRenderType.value = 'signIn'
+  else signRenderType.value = 'signUp'
 }
 
 onMounted(() => {
   container = document.getElementById('container')
-
   setTimeout(() => {
     if (container?.classList) {
       container.classList?.add('sign-in')
@@ -154,25 +178,9 @@ onMounted(() => {
   }, 200)
 })
 </script>
+
 <style lang="scss" scoped>
-:root {
-  --primary-color: #4ea685;
-  --secondary-color: #57b894;
-  --black: #000000;
-  --white: #ffffff;
-  --gray: #efefef;
-  --gray-2: #757575;
-
-  --facebook-color: #4267b2;
-  --google-color: #db4437;
-  --twitter-color: #1da1f2;
-  --insta-color: #e1306c;
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
-
 * {
-  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -211,115 +219,22 @@ body {
 .form-wrapper {
   width: 100%;
   max-width: 28rem;
-
-  .sign-in {
-    .text {
-      font-family: inherit;
-      line-height: inherit;
-      text-transform: unset;
-      text-rendering: optimizeLegibility;
-
-      &-large {
-        font-size: 2rem;
-        font-weight: 600;
-        color: var(--color-black);
-      }
-
-      &-normal {
-        font-size: 1rem;
-        font-weight: 400;
-        color: var(--color-black);
-      }
-
-      &-links {
-        font-size: 1rem;
-        font-weight: 400;
-        color: var(--color-blue);
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-
-    .striped {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      margin: 1rem 0;
-
-      &-line {
-        flex: auto;
-        flex-basis: auto;
-        border: none;
-        outline: none;
-        height: 2px;
-        background: var(--color-grayish);
-      }
-
-      &-text {
-        font-family: inherit;
-        font-size: 1rem;
-        font-weight: 500;
-        line-height: inherit;
-        color: var(--color-black);
-        margin: 0 1rem;
-      }
-    }
-  }
 }
 
 .form {
   padding: 1rem;
-  background-color: var(--white);
+  background-color: $color-white;
   border-radius: 1.5rem;
   width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transform: scale(0);
   transition: 0.5s ease-in-out;
-  transition-delay: 1s;
-}
-
-.input-group {
-  position: relative;
-  width: 100%;
-  margin: 1rem 0;
-}
-
-.input-group i {
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-  transform: translateY(-50%);
-  font-size: 1.4rem;
-  color: #757575;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 1rem 3rem;
-  font-size: 1rem;
-  background-color: #efefef;
-  border-radius: 0.5rem;
-  border: 0.125rem solid var(--color-grayish);
-  outline: none;
-}
-
-.input-group input:focus {
-  border: 0.125rem solid $color-primary;
+  transition-delay: 0.6s;
 }
 
 .form button {
-  cursor: pointer;
   width: 100%;
-  padding: 0.6rem 0;
-  border-radius: 0.5rem;
-  border: none;
-  background-color: $color-primary;
-  color: #ffffff;
-  font-size: 1.2rem;
-  outline: none;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
 .form p {
@@ -331,79 +246,68 @@ body {
   flex-direction: column;
 }
 
-.social-list {
-  margin: 2rem 0;
-  padding: 1rem;
-  border-radius: 1.5rem;
-  width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  transform: scale(0);
-  transition: 0.5s ease-in-out;
-  transition-delay: 1.2s;
-}
-
-.social-list > div {
-  color: #ffffff;
-  margin: 0 0.5rem;
-  padding: 0.7rem;
-  cursor: pointer;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transform: scale(0);
-  transition: 0.5s ease-in-out;
-}
-
-.social-list > div:nth-child(1) {
-  transition-delay: 1.4s;
-}
-
-.social-list > div:nth-child(2) {
-  transition-delay: 1.6s;
-}
-
-.social-list > div:nth-child(3) {
-  transition-delay: 1.8s;
-}
-
-.social-list > div:nth-child(4) {
-  transition-delay: 2s;
-}
-
-.social-list > div > i {
-  font-size: 1.5rem;
-  transition: 0.4s ease-in-out;
-}
-
-.social-list > div:hover i {
-  transform: scale(1.5);
-}
-
-.facebook-bg {
-  background-color: var(--facebook-color);
-}
-
-.google-bg {
-  background-color: var(--google-color);
-}
-
-.twitter-bg {
-  background-color: var(--twitter-color);
-}
-
-.insta-bg {
-  background-color: var(--insta-color);
-}
-
 .pointer {
   cursor: pointer;
 }
 
+.sign-in {
+  .text {
+    font-family: inherit;
+    line-height: inherit;
+    text-transform: unset;
+    text-rendering: optimizeLegibility;
+
+    &-normal {
+      font-size: 1rem;
+      font-weight: 400;
+      color: $color-black;
+    }
+
+    &-links {
+      font-size: 1rem;
+      font-weight: 400;
+      color: $color-primary;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .striped {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+
+    &-line {
+      flex: auto;
+      flex-basis: auto;
+      border: none;
+      outline: none;
+      height: 2px;
+      background: $color-grayish;
+    }
+
+    &-text {
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: inherit;
+      color: $color-black;
+      margin: 0 1rem;
+    }
+  }
+}
+
+.find-user-wrapper {
+  padding: 1rem;
+  transition: 0.5s ease-in-out;
+}
+
 .container.sign-in .form.sign-in,
-.container.sign-in .social-list.sign-in,
-.container.sign-in .social-list.sign-in > div,
-.container.sign-up .form.sign-up,
-.container.sign-up .social-list.sign-up,
-.container.sign-up .social-list.sign-up > div {
+.container.sign-up .form.sign-up {
   transform: scale(1);
 }
 
@@ -416,39 +320,72 @@ body {
   width: 100%;
 }
 
+:deep(.custom-input-container) {
+  margin: 0;
+}
+
+:deep(.ant-form) {
+  .ant-form-item {
+    margin: 0;
+    margin-bottom: 1.1rem;
+  }
+}
+
 .text {
-  margin: 4rem;
-  color: #ffffff;
+  color: $color-white;
+  word-break: keep-all;
 }
 
 .text h1 {
   font-size: 4rem;
   font-weight: 800;
   margin: 2rem 0;
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
 }
 
 .text h2 {
   font-size: 3.5rem;
   font-weight: 800;
   margin: 2rem 0;
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
 }
 
 .text img {
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
 }
 
 .text p {
   font-weight: 600;
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
   transition-delay: 0.2s;
 }
 
 .img img {
   width: 30vw;
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
   transition-delay: 0.4s;
+}
+
+.text-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  margin: 1.5rem 0;
+
+  .text-btn {
+    padding: 2px;
+    color: $color-primary;
+    font-weight: 600;
+  }
+  .join {
+    color: $color-gray-6;
+  }
+  .dot {
+    width: 5px;
+    height: 5px;
+    background: $color-gray-5;
+    border-radius: 50%;
+  }
 }
 
 .text.sign-in h2,
@@ -485,9 +422,8 @@ body {
   width: 300vw;
   transform: translate(35%, 0);
   background-image: linear-gradient(-45deg, $color-primary 0%, #57b894 100%);
-  transition: 1s ease-in-out;
+  transition: 0.6s ease-in-out;
   z-index: 6;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-bottom-right-radius: max(50vw, 50vh);
   border-top-left-radius: max(50vw, 50vh);
 }
@@ -503,8 +439,7 @@ body {
 }
 
 /* RESPONSIVE */
-
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width: 576px) {
   .container::before,
   .container.sign-in::before,
   .container.sign-up::before {
@@ -516,17 +451,21 @@ body {
     right: 0;
   }
 
-  /* .container.sign-in .col.sign-up {
-        transform: translateY(100%);
-    } */
-
   .container.sign-in .col.sign-in,
-  .container.sign-up .col.sign-up {
-    transform: translateY(0);
+  .container.sign-up .col.sign-up,
+  .col.find-user {
+    transform: translateY(0px);
+    height: 68%;
+    overflow: scroll;
+    justify-content: flex-start;
+    padding-top: 50px;
   }
 
   .content-row {
     align-items: flex-start !important;
+    .text {
+      margin: 0 20px;
+    }
   }
 
   .content-row .col {
@@ -538,11 +477,11 @@ body {
     width: 100%;
     position: absolute;
     padding: 2rem;
-    background-color: #ffffff;
+    background-color: $color-white;
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
     transform: translateY(100%);
-    transition: 1s ease-in-out;
+    transition: 0.6s ease-in-out;
   }
 
   .row {
@@ -551,14 +490,13 @@ body {
   }
 
   .form,
-  .social-list {
-    box-shadow: none;
+  .find-user-wrapper {
     margin: 0;
     padding: 0;
   }
 
   .text {
-    margin: 0;
+    margin: 30px;
   }
 
   .text p {
@@ -567,7 +505,56 @@ body {
 
   .text h2 {
     margin: 0.5rem;
-    font-size: 2rem;
+    font-size: 2.2rem;
+  }
+
+  .logo {
+    width: 100% !important;
+  }
+}
+
+@include sm {
+  .text h2 {
+    font-size: 1.8rem;
+  }
+  .logo {
+    width: 330px !important;
+  }
+}
+@include md {
+  .text h2 {
+    font-size: 2.3rem;
+  }
+  .logo {
+    width: 400px !important;
+  }
+}
+@include lg {
+  .text h2 {
+    font-size: 2.8rem;
+  }
+}
+@include xl {
+  .text h2 {
+    font-size: 3.1rem;
+  }
+  .content-row {
+    .sign-in {
+      padding-right: 20px;
+    }
+    .sign-up {
+      padding-left: 20px;
+    }
+  }
+}
+@include xxl {
+  .content-row {
+    .sign-in {
+      padding-right: 20px;
+    }
+    .sign-up {
+      padding-left: 20px;
+    }
   }
 }
 </style>

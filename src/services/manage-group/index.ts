@@ -37,7 +37,7 @@ class ManageGroupService {
    * @returns 그룹 유저 데이터
    */
   getGroupDetail(groupId: string) {
-    return service.get<IManageGroup.ResponseUserList['data']>(this.PATH + `/group/${groupId}/users`)
+    return service.get<IManageGroup.GetUserListResponse>(this.PATH + `/group/${groupId}/users`)
   }
 
   /**
@@ -45,7 +45,7 @@ class ManageGroupService {
    * @returns 그룹 타임라인 데이터
    */
   getGroupHistory(groupId: string, param: any) {
-    return service.get<IManageGroup.ResponseHistory['data']>(
+    return service.get<IManageGroup.GetTimelineResponse>(
       this.PATH + `/group/${groupId}/logs`,
       param
     )
@@ -58,9 +58,9 @@ class ManageGroupService {
   getWorkspaceUserList(
     workspaceId: any,
     groupId: string,
-    param: Partial<IManageGroup.GroupListParam>
+    param: Pick<IManageGroup.GroupListParam, 'searchWord'>
   ) {
-    return service.get<IManageGroup.ResponseUserList['data']>(
+    return service.get<IManageGroup.GetUserListResponse>(
       this.PATH + `/workspace/${workspaceId}/${groupId}/users`,
       param
     )
@@ -76,14 +76,20 @@ class ManageGroupService {
   /**
    * @description 그룹 수정
    */
-  updateGroup(groupId: string, requestBody: Partial<IManageGroup.DefaultGroupInfo>) {
+  updateGroup(
+    groupId: string,
+    requestBody: Pick<IManageGroup.DefaultGroupInfo, 'workspaceId' | 'name' | 'content'>
+  ) {
     return service.put<IManageGroup.DefaultGroupInfo>(this.PATH + `/group/${groupId}`, requestBody)
   }
 
   /**
    * @description 그룹 사용자 추가
    */
-  addUserWithGroup(groupId: string, requestBody: Partial<IManageGroup.DefaultGroupInfo>) {
+  addUserWithGroup(
+    groupId: string,
+    requestBody: Pick<IManageGroup.DefaultGroupInfo, 'addUsers' | 'workspaceId'>
+  ) {
     return service.post<IManageGroup.DefaultGroupInfo>(
       this.PATH + `/group/${groupId}/users`,
       requestBody

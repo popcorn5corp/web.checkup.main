@@ -1,15 +1,7 @@
 <template>
   <div class="table-segmented-button">
     <Segmented
-      :ref="
-        (ref) => {
-          // @ts-ignore
-          if (ref?.$el) {
-            // @ts-ignore
-            tourStore.addStep(9, ref.$el)
-          }
-        }
-      "
+      :ref="(ref) => tour.setTour(9, ref as Element)"
       v-model:value="tableLayoutType"
       :options="options"
       @change="onChangeLayoutType"
@@ -31,12 +23,12 @@ import { TableOutlined, UnorderedListOutlined } from '@ant-design/icons-vue'
 import { Segmented } from 'ant-design-vue'
 import type { SegmentedValue } from 'ant-design-vue/es/segmented/src/segmented'
 import { type Component, ref } from 'vue'
-import { useTourStore } from '@/stores/modules/tour'
+import { useTour } from '@/components/tour/hooks/useTour'
 import { useTableContext } from '../../hooks/useTableContext'
 import type { TableLayoutMode } from '../../types'
 
 const table = useTableContext()
-const tourStore = useTourStore()
+const tour = useTour()
 const tableLayoutType = ref<TableLayoutMode>('table')
 const options = ref<Array<{ value: TableLayoutMode; payload: { icon: Component } }>>([
   {

@@ -5,7 +5,7 @@
       :options="options"
       :bordered="true"
       placeholder="Select a person"
-      width="100%"
+      width="700px"
       @search="onSearch"
     >
       <template #statusDisabledText> 이미 이 채널에 있음 </template>

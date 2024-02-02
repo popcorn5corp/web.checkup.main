@@ -16,12 +16,30 @@ export interface FormRules {
 }
 
 export interface FormProps extends AFormProps {
+  /**
+   * 폼 내부 데이터
+   */
   model?: Recordable
+  /**
+   *
+   */
   rulesRef?: Recordable<FormRules>
-  colon?: boolean
+
+  /**
+   *  비활성화
+   */
   disabled?: boolean
+  /**
+   *  모든 항목의 필수 여부 숨김
+   */
   hideRequiredMark?: boolean
+  /**
+   *  라벨 텍스트 정렬
+   */
   labelAlign?: FormLabelAlign
+  /**
+   *  폼 레이아웃 정렬
+   */
   layout?: FormLayout
 }
 

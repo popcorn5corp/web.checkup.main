@@ -41,7 +41,6 @@ export const transform: AxiosTransform = {
   requestInterceptors: (config, options) => {
     const token = useAuthStore().getToken
     const { getLocale } = useLocale()
-
     if (token) {
       config.headers.Authorization = (
         options.authenticationScheme ? `${options.authenticationScheme} ${token}` : token

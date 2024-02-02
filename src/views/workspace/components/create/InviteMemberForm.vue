@@ -40,6 +40,7 @@
 
 <script setup lang="ts" name="InviteMemberForm">
 import { ManageUserService } from '@/services'
+import { Util } from '@/utils'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { Input, message } from 'ant-design-vue'
 import { type CSSProperties, computed, ref, toRefs } from 'vue'
@@ -82,11 +83,10 @@ const errorTagStyle = computed<CSSProperties>(() => {
 
 const onInputEnter = async (event: KeyboardEvent) => {
   const emailValue = (event.target as HTMLInputElement).value
-  const regExp = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/
 
   try {
     if (!emailValue) return
-    if (!regExp.test(emailValue)) {
+    if (!Util.Validate.isEmail(emailValue)) {
       // email 형식이 아닐 때
       handleError(t('common.message.emailError'))
     } else if (tags.value.includes(emailValue)) {

@@ -323,12 +323,48 @@ export const menus: any = [
         }
       },
       {
+        path: 'timeline',
+        name: 'components-timeline',
+        meta: {
+          title: 'Timeline',
+          namePath: ['components', 'components-timeline'],
+          fullPath: '/components/timeline'
+        }
+      },
+      {
         path: 'search-select',
         name: 'components-search-select',
         meta: {
           title: 'SearchSelect',
           namePath: ['components', 'components-search-select'],
           fullPath: '/components/search-select'
+        }
+      },
+      {
+        path: 'input',
+        name: 'components-input',
+        meta: {
+          title: 'Input',
+          namePath: ['components', 'components-input'],
+          fullPath: '/components/input'
+        }
+      },
+      {
+        path: 'select',
+        name: 'components-select',
+        meta: {
+          title: 'Select',
+          namePath: ['components', 'components-select'],
+          fullPath: '/components/select'
+        }
+      },
+      {
+        path: 'tour',
+        name: 'components-tour',
+        meta: {
+          title: 'Tour',
+          namePath: ['components', 'components-tour'],
+          fullPath: '/components/tour'
         }
       }
     ]
