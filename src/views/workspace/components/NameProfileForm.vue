@@ -25,7 +25,7 @@
           </p>
           <div class="btn-wrapper">
             <Button
-              :label="$t('page.workspace.selectImgBtn')"
+              :label="$t('component.button.selectImgBtn')"
               class="btn"
               @click="modalVisible = true"
             />
@@ -38,7 +38,7 @@
   </div>
   <Modal
     :open="modalVisible"
-    :title="$t('page.workspace.selectImg')"
+    :title="$t('component.button.selectImg')"
     width="64%"
     centered
     :bodyStyle="{

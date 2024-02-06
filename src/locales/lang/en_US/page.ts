@@ -12,8 +12,6 @@ export default {
     profileImg: 'My profile picture',
     profileImgDesc: `Make sure your team knows 
     they're talking to the right person.`,
-    selectImgBtn: 'Select default image',
-    selectImg: 'Select profile default image',
     createStep3Tit: 'Add team members or coworkers',
     createStep3Desc: 'Please add your coworkers in email format.',
     createStep3Info: 'Enter key after writing email',
@@ -36,13 +34,7 @@ export default {
     listCheckText: 'Default to last used workspace',
     listArrowText: 'Current workspace',
     listInviteText: `Not the workspace you're looking for?`,
-    listInviteSubText: 'Enter invitation code',
-    ph: {
-      inputTeamOrCompanyName: 'Please enter your team or company name.',
-      inputInviteCode: 'Please enter the invitation code.',
-      selectBusinessTypeOpt: 'Select business type',
-      selectEmployeeScaleOpt: 'Select employee scale'
-    }
+    listInviteSubText: 'Enter invitation code'
   },
   manage: {
     userName: '{userName} ',
@@ -52,7 +44,6 @@ export default {
       WITHDRAWN: 'has been withdrawn.',
       REVOKE: 'has been expelled.'
     },
-    detail: 'Details',
     history: 'History',
     joined: 'Already subscribed',
     groupName: 'Group Name',
@@ -63,70 +54,10 @@ export default {
     moreContent: 'Get more content',
     groupTitle: 'Group Title',
     groupContent: 'Group Content',
-    message: {
-      deleteUser: 'Are you sure you want to export users from the group?'
-    },
-
     userInfo: 'User Information',
-    invite: 'Invite',
     userInvite: 'User Invitation',
     emailInvite: 'Add coworkers by email',
-    joinDate: 'Join Date',
-    group: 'Group',
-
-    active: 'Active',
-    inActive: 'Inactive',
-    withdrawn: 'Withdrawn',
-    revoke: 'Revoke',
-    export: 'Export',
-    ph: {
-      userSearchPh: 'Please search your name and email.',
-      groupSearchPh: 'Please search for the group name.'
-    }
-  },
-  tour: {
-    step1: {
-      title: 'Hello. Nice to meet you.',
-      description: 'This is a guide to using the check-up service.'
-    },
-    step2: {
-      title: 'Provides drop-down capabilities',
-      description:
-        'You can set configurations such as display settings and multilingual settings of SaaS services.'
-    },
-    step3: {
-      title: 'Configuring menus by adding modules',
-      description: 'Various functions are available by adding modules.'
-    },
-    step4: {
-      title: 'Provides post registration capabilities',
-      description: 'You can register your posts.'
-    },
-    step5: {
-      title: 'Provides filter functionality',
-      description: 'We also provide a filter function of the table.'
-    },
-    step6: {
-      title: 'Provides toolbar functionality',
-      description: 'Introducing the toolbar functionality of the table.'
-    },
-    step7: {
-      title: 'Provides table refresh capability',
-      description: 'The ability to refresh the data in the table.'
-    },
-    step8: {
-      title: 'Provides table download capabilities',
-      description: 'The ability to download data from the table.'
-    },
-    step9: {
-      title: 'Provides table sizing capability',
-      description: 'It is a function that allows you to adjust the table size.'
-    },
-    step10: {
-      title: 'Provides table data layout settings',
-      description:
-        'You can view the data in the table by selecting the layout of the table format and card format.'
-    }
+    group: 'Group'
   },
   login: {
     createAccount: 'Create an account',
@@ -134,6 +65,12 @@ export default {
     forgotPassword: 'Forgot Password?',
     signUpDesc: 'Already have an account?',
     signUpComplete: `{ name }'s registration has been completed`,
-    signUpTerms: 'I agree to privacy policy & terms'
+    signUpTerms: 'I agree to privacy policy & terms',
+    authPhone: 'Verify by mobile phone number',
+    authEmail: 'Verify by email',
+    certifiSuccessText: 'This ID is confirmed with authentication information.',
+    certifiFailText: 'You are an unregistered user.',
+    resetPassword: 'Reset password',
+    successResetPassword: 'Password reset has been completed.'
   }
 }

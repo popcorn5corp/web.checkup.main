@@ -17,7 +17,7 @@
         <Item :label="$t('common.phone')" name="phone">
           {{ formState.data.phone || '-' }}
         </Item>
-        <Item :label="$t('page.manage.joinDate')" name="joinDate">
+        <Item :label="$t('common.joinDate')" name="joinDate">
           {{ formState.data.joinDate }}
         </Item>
       </div>
@@ -30,7 +30,7 @@
               <span>{{ t('common.postModify') }}</span>
             </a-menu-item>
             <a-menu-item key="2" @click="showDeleteConfirm">
-              <span>{{ t('page.manage.export') }}</span>
+              <span>{{ t('component.button.export') }}</span>
             </a-menu-item>
           </a-menu>
         </template>
@@ -55,11 +55,7 @@
         <Input v-model:value="formState.data.phone" :label="$t('common.phone')" />
       </Item>
       <Item name="joinDate">
-        <Input
-          v-model:value="formState.data.joinDate"
-          :label="$t('page.manage.joinDate')"
-          disabled
-        />
+        <Input v-model:value="formState.data.joinDate" :label="$t('common.joinDate')" disabled />
       </Item>
       <div class="btn-wrapper">
         <Button @click="initState"><CloseOutlined /></Button>

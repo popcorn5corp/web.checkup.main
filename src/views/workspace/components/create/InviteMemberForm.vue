@@ -21,7 +21,7 @@
             <Input
               ref="inputRef"
               class="input"
-              :placeholder="$t('component.ph.inputEmail')"
+              :placeholder="$t('message.validate.checkEmail')"
               v-model:value="emailRef"
               @pressEnter="onInputEnter"
               @focusout="onInputEnter"
@@ -88,10 +88,10 @@ const onInputEnter = async (event: KeyboardEvent) => {
     if (!emailValue) return
     if (!Util.Validate.isEmail(emailValue)) {
       // email 형식이 아닐 때
-      handleError(t('message.validate.emailError'))
+      handleError(t('message.validate.checkEmailForm'))
     } else if (tags.value.includes(emailValue)) {
       // 작성한 email 과 중복일 때
-      handleError(t('message.validate.emailDuplicatedError'))
+      handleError(t('message.validate.checkDuplicatedEmail'))
       console.log('step', getStepType.value)
     } else {
       if (getStepType.value === null) {

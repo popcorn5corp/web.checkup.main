@@ -2,13 +2,13 @@
   <div class="sign-up-container">
     <Form :model="formData" @finish="onFinish">
       <template v-if="!signUpComplete">
-        <h1 class="text text-title">{{ $t('common.signUpText') }}</h1>
+        <h1 class="text text-title">{{ $t('component.button.signUpText') }}</h1>
         <FormItem name="email">
           <Input
             type="email"
             v-model:value="formData.email"
+            placeholder="example@gmail.com"
             :label="`${$t('common.idText')} (${$t('common.email')})`"
-            :placeholder="$t('message.validate.checkEmail')"
             :isError="errorState.email"
             @change="onValidateFields($event, 'email')"
           />
@@ -70,7 +70,7 @@
                 }
               "
             >
-              {{ $t('common.signUpTerms') }}
+              {{ $t('page.login.signUpTerms') }}
             </Checkbox>
             <span>
               <a>{{ $t('component.button.viewDetail') }}</a>
@@ -85,13 +85,13 @@
             type="primary"
             size="large"
             html-type="submit"
-            :label="$t('common.join')"
+            :label="$t('component.button.join')"
             :loading="isLoading"
           />
         </FormItem>
         <p>
           <span>
-            {{ $t('common.signUpDesc') }}
+            {{ $t('page.login.signUpDesc') }}
           </span>
           <span>
             <b>
@@ -103,8 +103,10 @@
         </p>
       </template>
       <template v-else-if="signUpComplete && !isLoading">
-        <p class="complete-msg">🎉 {{ $t('common.signUpComplete', { name: formData.name }) }} 🎉</p>
-        <Button size="large" label="로그인으로 돌아가기" @click="props.onToggle()">
+        <p class="complete-msg">
+          🎉 {{ $t('page.login.signUpComplete', { name: formData.name }) }} 🎉
+        </p>
+        <Button size="large" :label="$t('common.backToLogin')" @click="props.onToggle()">
           <template #icon><LeftOutlined /></template>
         </Button>
       </template>
@@ -133,7 +135,7 @@ const signUpComplete = ref(false)
 const agreeTerms = ref(false)
 const isLoading = ref(false)
 
-const emailErrorMsg = ref(t('component.ph.inputEmail'))
+const emailErrorMsg = ref(t('message.validate.checkEmail'))
 const errorState = reactive<Record<string, boolean>>({
   email: false,
   password: false,

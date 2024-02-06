@@ -29,7 +29,7 @@
 
       <template #emptyText>
         <img :src="EmptyImage" style="width: 200px" />
-        <div>{{ $t('message.validate.noData') }}</div>
+        <div>{{ $t('message.validate.checkData') }}</div>
       </template>
     </Table>
 

@@ -12,8 +12,8 @@ export function tours(): TourStpesState['tours'] {
   return {
     CHECKUP_TOUR: [
       {
-        title: t('page.tour.step1.title'),
-        description: t('page.tour.step1.description'),
+        title: t('component.tour.step1.title'),
+        description: t('component.tour.step1.description'),
         cover: createVNode('img', {
           alt: 'tour.png',
           src: 'https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png'
@@ -21,49 +21,49 @@ export function tours(): TourStpesState['tours'] {
         placement: 'top'
       },
       {
-        title: t('page.tour.step2.title'),
-        description: t('page.tour.step2.description'),
+        title: t('component.tour.step2.title'),
+        description: t('component.tour.step2.description'),
         placement: 'topRight'
       },
       {
-        title: t('page.tour.step3.title'),
-        description: t('page.tour.step3.description'),
+        title: t('component.tour.step3.title'),
+        description: t('component.tour.step3.description'),
         placement: 'left'
       },
       {
-        title: t('page.tour.step4.title'),
-        description: t('page.tour.step4.description'),
+        title: t('component.tour.step4.title'),
+        description: t('component.tour.step4.description'),
         placement: 'right',
         goPage: path.DYNAMIC_TABLE
       },
       {
-        title: t('page.tour.step5.title'),
-        description: t('page.tour.step5.description'),
+        title: t('component.tour.step5.title'),
+        description: t('component.tour.step5.description'),
         placement: 'right'
       },
       {
-        title: t('page.tour.step6.title'),
-        description: t('page.tour.step6.description'),
+        title: t('component.tour.step6.title'),
+        description: t('component.tour.step6.description'),
         placement: 'bottom'
       },
       {
-        title: t('page.tour.step7.title'),
-        description: t('page.tour.step7.description'),
+        title: t('component.tour.step7.title'),
+        description: t('component.tour.step7.description'),
         placement: 'left'
       },
       {
-        title: t('page.tour.step8.title'),
-        description: t('page.tour.step8.description'),
+        title: t('component.tour.step8.title'),
+        description: t('component.tour.step8.description'),
         placement: 'left'
       },
       {
-        title: t('page.tour.step9.title'),
-        description: t('page.tour.step9.description'),
+        title: t('component.tour.step9.title'),
+        description: t('component.tour.step9.description'),
         placement: 'left'
       },
       {
-        title: t('page.tour.step10.title'),
-        description: t('page.tour.step10.description'),
+        title: t('component.tour.step10.title'),
+        description: t('component.tour.step10.description'),
 
         placement: 'left'
       }
@@ -71,8 +71,8 @@ export function tours(): TourStpesState['tours'] {
 
     CHECKUP_TOUR_DEMO: [
       {
-        title: t('page.tour.step1.title'),
-        description: t('page.tour.step1.description'),
+        title: t('component.tour.step1.title'),
+        description: t('component.tour.step1.description'),
         cover: createVNode('img', {
           alt: 'tour.png',
           src: '/.storybook/public/storybook_intro.png'
@@ -80,8 +80,8 @@ export function tours(): TourStpesState['tours'] {
         placement: 'top'
       },
       {
-        title: t('page.tour.step3.title'),
-        description: t('page.tour.step3.description'),
+        title: t('component.tour.step3.title'),
+        description: t('component.tour.step3.description'),
         placement: 'right'
       },
       {

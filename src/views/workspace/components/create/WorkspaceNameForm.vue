@@ -5,7 +5,7 @@
   </div>
   <div class="form-wrapper">
     <Input
-      :placeholder="$t('page.workspace.ph.inputTeamOrCompanyName')"
+      :placeholder="$t('component.ph.inputTeamOrCompanyName')"
       v-model:value="getFormValues.workspaceName"
       :maxlength="30"
       @input="onInput"

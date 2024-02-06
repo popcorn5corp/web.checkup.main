@@ -6,7 +6,7 @@
   <div class="form-wrapper">
     <div class="input-wrapper">
       <Input
-        :placeholder="$t('page.workspace.ph.inputInviteCode')"
+        :placeholder="$t('component.ph.inputInviteCode')"
         v-model:value="getFormValues.inviteCode"
         @input="
           () => {

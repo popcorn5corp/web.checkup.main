@@ -3,7 +3,7 @@
     <div class="filter-list">
       <!--  -->
       <div class="mobile-header">
-        <h3>{{ $t('common.filter') }}</h3>
+        <h3>{{ $t('component.button.filter') }}</h3>
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
 
@@ -17,8 +17,13 @@
 
       <div class="mobile-footer">
         <div class="btn-group">
-          <Button label="Clear all" size="large" @click="onFilter" />
-          <Button label="Done" type="primary" size="large" @click="onFilter" />
+          <Button :label="$t('component.button.reset')" size="large" @click="onFilter" />
+          <Button
+            :label="$t('component.button.ok')"
+            type="primary"
+            size="large"
+            @click="onFilter"
+          />
         </div>
       </div>
     </div>

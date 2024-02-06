@@ -32,11 +32,11 @@ if (isSuccessSocialLogin && !getToken) {
     <div class="container">
       <section class="wrapper" v-if="!isSuccessSocialLogin">
         <div class="heading">
-          <h1 class="text text-large">{{ $t('common.loginText') }}</h1>
+          <h1 class="text text-large">{{ $t('component.button.loginText') }}</h1>
           <p class="text text-normal">
             {{ $t('common.newUser') }}
             <span
-              ><a href="#" class="text text-links">{{ $t('common.createAccount') }}</a></span
+              ><a href="#" class="text text-links">{{ $t('page.login.createAccount') }}</a></span
             >
           </p>
         </div>
@@ -68,7 +68,7 @@ if (isSuccessSocialLogin && !getToken) {
               type="submit"
               name="submit"
               class="input-submit"
-              :value="$t('common.loginText')"
+              :value="$t('component.button.loginText')"
               disabled
             />
           </div>
@@ -81,8 +81,8 @@ if (isSuccessSocialLogin && !getToken) {
 
         <SocialLoginBtns />
       </section>
-      <!-- <Spin v-else :tip="$t('common.checkingLogin')" size="large" :indicator="indicator" /> -->
-      <Spinner v-else :text="$t('common.checkingLogin')" :text-width="'13rem'"></Spinner>
+      <!-- <Spin v-else :tip="$t('message.checkingLogin')" size="large" :indicator="indicator" /> -->
+      <Spinner v-else :text="$t('message.checkingLogin')" :text-width="'13rem'"></Spinner>
     </div>
   </main>
 </template>

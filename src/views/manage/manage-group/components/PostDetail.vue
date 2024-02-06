@@ -18,7 +18,7 @@
             </a-menu-item>
             <a-menu-item key="2" @click="showDeleteConfirm">
               <div style="display: flex; gap: 10px">
-                <span>{{ t('common.delete') }}</span>
+                <span>{{ t('component.button.delete') }}</span>
               </div>
             </a-menu-item>
           </a-menu>

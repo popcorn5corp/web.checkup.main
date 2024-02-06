@@ -175,10 +175,10 @@ const activeFilter = ref(
 )
 
 const buttonText = computed(() => ({
-  delete: props.deleteBtnText || t('common.delete'),
-  download: t('common.download'),
-  registration: t('common.registration'),
-  filter: t('common.filter')
+  delete: props.deleteBtnText || t('component.button.delete'),
+  download: t('component.button.download'),
+  registration: t('component.button.registration'),
+  filter: t('component.button.filter')
 }))
 
 const contextValues = ref<DynamicTableContextValues>({

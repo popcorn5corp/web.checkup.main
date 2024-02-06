@@ -226,7 +226,7 @@ const onSubmit = () => {
 
 const showDeleteConfirm = (uid: string) => {
   modal.confirm({
-    title: t('page.manage.message.deleteUser'),
+    title: t('message.deleteUser'),
     icon: h(ExclamationCircleOutlined),
     okText: t('component.button.ok'),
     okType: 'primary',

@@ -10,12 +10,12 @@
       :filter-request="getFilters"
       :data-callback="dataCallback"
       :showRegist="false"
-      :phText="$t('page.manage.ph.groupSearchPh')"
+      :phText="$t('component.ph.groupSearchPh')"
       @row-click="onClickRow"
       @row-delete="onRemovePost"
     >
       <template #tableBtns>
-        <Button :label="t('common.registration')" size="middle" @click="handleShowModal">
+        <Button :label="t('component.button.registration')" size="middle" @click="handleShowModal">
           <template #icon>
             <PlusCircleTwoTone />
           </template>
@@ -89,7 +89,7 @@ const { t } = useI18n()
 const tabInfo = {
   Detail: {
     key: 'Detail',
-    title: t('page.manage.detail'),
+    title: t('common.detail'),
     component: defineAsyncComponent(() => import('./components/GroupDetail.vue'))
   },
   History: {

@@ -2,30 +2,35 @@
   <div class="find-password-form-container">
     <template v-if="!isSuccessFindPassword">
       <RadioGroup style="margin: 1rem" v-model:value="authenticationType" size="large">
-        <Radio :value="IAuth.authenticationTypes.PHONE">휴대폰 번호로 인증</Radio>
-        <Radio :value="IAuth.authenticationTypes.EMAIL">e-mail로 인증</Radio>
+        <Radio :value="IAuth.authenticationTypes.PHONE">{{ $t('page.login.authPhone') }}</Radio>
+        <Radio :value="IAuth.authenticationTypes.EMAIL">
+          {{ $t('page.login.authEmail') }}
+        </Radio>
       </RadioGroup>
       <Form :model="formData" @finish="onFindPassword">
         <FormItem name="userId">
           <Input
             type="email"
             v-model:value="formData.userId"
-            placeholder="아이디를 입력해주세요."
-            label="아이디"
+            placeholder="example@gmail.com"
+            :label="$t('common.idText')"
             :isError="errorState.userId"
             @change="onValidateFields($event, 'userId')"
           />
-          <div class="errorMsg" v-if="errorState.userId">아이디를 입력해주세요</div>
+          <div class="errorMsg" v-if="errorState.userId">
+            {{ $t('message.validate.checkUserId') }}
+          </div>
         </FormItem>
         <FormItem name="userName">
           <Input
             v-model:value="formData.userName"
-            placeholder="이름을 입력해주세요."
-            label="이름"
+            :label="$t('common.name')"
             :isError="errorState.userName"
             @change="onValidateFields($event, 'userName')"
           />
-          <div class="errorMsg" v-if="errorState.userName">이름을 입력해주세요</div>
+          <div class="errorMsg" v-if="errorState.userName">
+            {{ $t('message.validate.checkName') }}
+          </div>
         </FormItem>
         <div class="certification-wrapper">
           <template v-if="authenticationType === IAuth.authenticationTypes.EMAIL">
@@ -35,21 +40,23 @@
                 <Input
                   type="email"
                   v-model:value="formData.email"
-                  placeholder="이메일을 입력해주세요."
-                  label="이메일"
                   style="width: 100%"
+                  placeholder="example@gmail.com"
+                  :label="$t('common.email')"
                   :isError="errorState.email"
                   @change="onValidateFields($event, 'email')"
                 />
                 <Button
-                  label="인증번호 전송"
+                  :label="$t('component.button.sendCertifiNum')"
                   class="certification-btn"
                   :loading="isSendLoading"
                   :disabled="!formData.email"
                   @click="onSendEmail"
                 />
               </div>
-              <div class="errorMsg" v-if="errorState.email">이메일을 입력해주세요</div>
+              <div class="errorMsg" v-if="errorState.email">
+                {{ $t('message.validate.checkEmail') }}
+              </div>
             </FormItem>
           </template>
           <template v-else>
@@ -58,41 +65,43 @@
               <div class="input-wrapper">
                 <Input
                   v-model:value="formData.phone"
-                  placeholder="휴대폰 번호를 입력해주세요."
-                  label="휴대폰"
+                  :label="$t('common.phone')"
                   style="width: 100%"
                   :maxlength="13"
                   :isError="errorState.phone"
                   @change="onInputPhoneNumber"
                 />
                 <Button
-                  label="인증번호 전송"
+                  :label="$t('component.button.sendCertifiNum')"
                   class="certification-btn"
                   :loading="isSendLoading"
                   :disabled="!formData.phone"
                   @click="onSendPhone"
                 />
               </div>
-              <div class="errorMsg" v-if="errorState.phone">휴대폰 번호를 입력해주세요</div>
+              <div class="errorMsg" v-if="errorState.phone">
+                {{ $t('message.validate.checkPhone') }}
+              </div>
             </FormItem>
           </template>
         </div>
         <FormItem name="certificationNumber">
           <Input
             v-model:value="formData.certificationNumber"
-            placeholder="인증번호를 입력해주세요."
-            label="인증번호"
+            :label="$t('common.certificationNumber')"
             :isError="errorState.certificationNumber"
             @change="onValidateFields($event, 'certificationNumber')"
           />
-          <div class="errorMsg" v-if="errorState.certificationNumber">인증번호를 입력해주세요</div>
+          <div class="errorMsg" v-if="errorState.certificationNumber">
+            {{ $t('message.validate.checkCertifiNum') }}
+          </div>
           <p v-if="validData.validSec" class="timer">
             <small class="text-danger">{{ validData.timeStr }}</small>
           </p>
         </FormItem>
         <FormItem>
           <Button
-            label="다음"
+            :label="$t('component.button.next')"
             html-type="submit"
             type="primary"
             size="large"

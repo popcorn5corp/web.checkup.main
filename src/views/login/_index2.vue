@@ -39,12 +39,12 @@
         <div class="form-wrapper align-items-center">
           <div class="form sign-in">
             <div class="heading">
-              <h1 class="text text-large">{{ $t('common.loginText') }}</h1>
+              <h1 class="text text-large">{{ $t('component.button.loginText') }}</h1>
               <p class="text text-normal">
                 {{ $t('common.newUser') }}
                 <span @click="onToggle"
                   ><a href="#" class="text text-links" style="color: rgb(37, 104, 249)">{{
-                    $t('common.createAccount')
+                    $t('page.login.createAccount')
                   }}</a></span
                 >
               </p>

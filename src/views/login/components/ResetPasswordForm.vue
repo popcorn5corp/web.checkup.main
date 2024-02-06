@@ -1,7 +1,9 @@
 <template>
   <div class="reset-password-container">
     <template v-if="!isSuccess">
-      <div class="title">비밀번호 재설정</div>
+      <div class="title">
+        {{ $t('page.login.resetPassword') }}
+      </div>
       <Form :model="formData" @finish="onFinish">
         <FormItem name="password">
           <Input
@@ -33,14 +35,16 @@
             type="primary"
             size="large"
             html-type="submit"
-            label="확인"
+            :label="$t('component.button.ok')"
             :loading="isLoading"
           />
         </FormItem>
       </Form>
     </template>
     <template v-else>
-      <div class="success-msg">비밀번호 재설정이 완료되었습니다.</div>
+      <div class="success-msg">
+        {{ $t('page.login.successResetPassword') }}
+      </div>
     </template>
   </div>
 </template>

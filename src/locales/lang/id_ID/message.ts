@@ -1,25 +1,25 @@
 export default {
-  // common 에서 가져옴
-  changeLang: `Would you like to change to your country's language?`,
-  modalEditCloseCheck: 'No modifications will be saved Do you want to close it?',
-  modalDeleteCheck: 'Are you sure you want to delete the selected items?',
-  modalSaveCheck: 'Do you want to save this content?',
-  saveSuccess: 'Your save is complete.',
-  deleteSuccess: 'Deletion completed.',
-  checkingLogin: 'Checking user information',
-  // component 에서 가져옴
+  changeLang: `Apakah Anda ingin mengubah ke bahasa negara Anda?`,
+  modalEditCloseCheck: 'Tidak ada modifikasi yang akan disimpan. Apakah Anda ingin menutupnya?',
+  modalDeleteCheck: 'Apakah Anda yakin ingin menghapus item yang dipilih?',
+  modalSaveCheck: 'Apakah Anda ingin menyimpan konten ini?',
+  saveSuccess: 'Penyimpanan Anda selesai.',
+  deleteSuccess: 'Penghapusan selesai.',
+  reTry: 'Silakan coba lagi dalam beberapa menit.',
+  checkingLogin: 'Memeriksa informasi pengguna',
+  deleteUser: 'Anda yakin ingin mengekspor pengguna dari grup?',
   validate: {
-    reTry: 'Please try again in a few minutes.',
-    noData: 'No information matches the criteria.',
-    emailError: 'The email format is incorrect.',
-    emailDuplicatedError: 'This email has already been added.',
-    checkInviteCode: 'Please check the invitation code again.',
-    checkPassword: 'Please enter a password of at least 8 characters.',
-    signUpValidate: 'Please enter all items.',
-    checkPhone: 'Please enter your mobile phone number.',
-    checkVerifyPassword: 'It does not match your password.',
-    checkTerms: 'Please agree to the terms and conditions.',
-    checkName: 'Please input your name.',
-    checkEmail: 'Please enter it in email format.'
+    checkData: 'Tidak ada informasi yang sesuai dengan kriteria.',
+    checkEmailForm: 'Format email salah.',
+    checkDuplicatedEmail: 'Email ini telah ditambahkan.',
+    checkInviteCode: 'Silakan periksa kembali kode undangannya.',
+    checkPassword: 'Silakan masukkan kata sandi minimal 8 karakter.',
+    checkPhone: 'Silakan masukkan nomor ponsel Anda.',
+    checkVerifyPassword: 'Itu tidak cocok dengan kata sandi Anda.',
+    checkTerms: 'Harap setujui syarat dan ketentuan.',
+    checkName: 'Silakan masukkan nama Anda.',
+    checkUserId: 'Silakan masukkan ID Anda.',
+    checkEmail: 'Silakan masukkan dalam format email.',
+    checkCertifiNum: 'Silakan masukkan nomor otentikasi Anda.'
   }
 }
