@@ -16,7 +16,7 @@
     "start": "vite preview --port 8080",
     "build:typecheck": "run-p type-check build-only",
     "build": "run-p build-only",
-    "build:dev": "yarn build --mode=development",
+    "build:dev": "yarn build",
     "build:storybook": "storybook build",
     "preview": "vite preview",
     "test:unit": "vitest",
