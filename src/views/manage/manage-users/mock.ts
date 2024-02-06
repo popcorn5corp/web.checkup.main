@@ -20,7 +20,7 @@ export const columns = (): TableColumnsType => {
       key: 'phone'
     },
     {
-      title: `${t('page.manage.joinDate')}`,
+      title: `${t('common.joinDate')}`,
       dataIndex: 'joinDate',
       key: 'joinDate'
     },

@@ -2,13 +2,13 @@
   <div class="sign-up-container">
     <Form :model="formData" @finish="onFinish">
       <template v-if="!signUpComplete">
-        <h1 class="text text-title">{{ $t('common.signUpText') }}</h1>
+        <h1 class="text text-title">{{ $t('component.button.signUpText') }}</h1>
         <FormItem name="email">
           <Input
             type="email"
             v-model:value="formData.email"
+            placeholder="example@gmail.com"
             :label="$t('common.email')"
-            placeholder="checkup@gmail.com"
             :isError="errorState.email"
             @change="onValidateFields($event, 'email')"
           />
@@ -24,7 +24,7 @@
             @change="onValidateFields($event, 'password')"
           />
           <div class="errorMsg" v-if="errorState.password">
-            {{ $t('common.message.checkPassword') }}
+            {{ $t('message.validate.checkPassword') }}
           </div>
         </FormItem>
         <FormItem name="verifyPassword">
@@ -36,7 +36,7 @@
             @change="onValidateFields($event, 'verifyPassword')"
           />
           <div class="errorMsg" v-if="errorState.verifyPassword">
-            {{ $t('common.message.checkVerifyPassword') }}
+            {{ $t('message.validate.checkVerifyPassword') }}
           </div>
         </FormItem>
         <FormItem name="name">
@@ -46,7 +46,7 @@
             :isError="errorState.name"
             @change="onValidateFields($event, 'name')"
           />
-          <div class="errorMsg" v-if="errorState.name">{{ $t('common.inputName') }}</div>
+          <div class="errorMsg" v-if="errorState.name">{{ $t('message.validate.checkName') }}</div>
         </FormItem>
         <FormItem name="phone">
           <Input
@@ -56,7 +56,9 @@
             :isError="errorState.phone"
             @change="onInputPhoneNumber"
           />
-          <div class="errorMsg" v-if="errorState.phone">{{ $t('common.message.inputPhone') }}</div>
+          <div class="errorMsg" v-if="errorState.phone">
+            {{ $t('message.validate.checkPhone') }}
+          </div>
         </FormItem>
         <div class="terms-wrapper">
           <FormItem>
@@ -68,13 +70,13 @@
                 }
               "
             >
-              {{ $t('common.signUpTerms') }}
+              {{ $t('page.login.signUpTerms') }}
             </Checkbox>
             <span>
               <a>{{ $t('component.button.viewDetail') }}</a>
             </span>
             <div class="errorMsg" v-if="errorState.check">
-              {{ $t('common.message.checkTerms') }}
+              {{ $t('message.validate.checkTerms') }}
             </div>
           </FormItem>
         </div>
@@ -83,13 +85,13 @@
             type="primary"
             size="large"
             html-type="submit"
-            :label="$t('common.join')"
+            :label="$t('component.button.join')"
             :loading="isLoading"
           />
         </FormItem>
         <p>
           <span>
-            {{ $t('common.signUpDesc') }}
+            {{ $t('page.login.signUpDesc') }}
           </span>
           <span>
             <b>
@@ -101,8 +103,10 @@
         </p>
       </template>
       <template v-else-if="signUpComplete && !isLoading">
-        <p class="complete-msg">🎉 {{ $t('common.signUpComplete', { name: formData.name }) }} 🎉</p>
-        <Button size="large" label="로그인으로 돌아가기" @click="props.onToggle()">
+        <p class="complete-msg">
+          🎉 {{ $t('page.login.signUpComplete', { name: formData.name }) }} 🎉
+        </p>
+        <Button size="large" :label="$t('common.backToLogin')" @click="props.onToggle()">
           <template #icon><LeftOutlined /></template>
         </Button>
       </template>
@@ -131,7 +135,7 @@ const signUpComplete = ref(false)
 const agreeTerms = ref(false)
 const isLoading = ref(false)
 
-const emailErrorMsg = ref(t('component.ph.inputEmail'))
+const emailErrorMsg = ref(t('message.validate.checkEmail'))
 const errorState = reactive<Record<string, boolean>>({
   email: false,
   password: false,
@@ -154,7 +158,7 @@ const onValidateFields = (e: Event, value: string) => {
 
   if (value === 'email') {
     errorState.email = !Util.Validate.isEmail(fieldsValue)
-    emailErrorMsg.value = t('common.inputEmail')
+    emailErrorMsg.value = t('message.validate.checkEmail')
   } else if (value === 'password') {
     errorState.password = fieldsValue.length < 8
   } else if (value === 'verifyPassword') {

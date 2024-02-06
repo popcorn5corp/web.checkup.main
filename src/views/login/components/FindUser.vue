@@ -1,7 +1,9 @@
 <template>
   <Transition name="find-user" appear>
     <div class="find-user-container">
-      <h1 class="text-title">{{ props.type === 'id' ? '아이디' : '비밀번호' }} 찾기</h1>
+      <h1 class="text-title">
+        {{ props.type === 'id' ? $t('common.findId') : $t('common.findPassword') }}
+      </h1>
       <component :is="props.type === 'id' ? FindIdForm : FindPasswordForm" />
     </div>
   </Transition>

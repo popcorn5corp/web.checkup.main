@@ -23,7 +23,7 @@
               </template>
               <div class="text-btn-wrapper">
                 <div class="text-btn pointer join" @click="onToggle">
-                  {{ $t('common.signUpText') }}
+                  {{ $t('component.button.signUpText') }}
                 </div>
                 <div style="display: flex; align-items: center; gap: 5px">
                   <div
@@ -106,7 +106,7 @@
     <!-- END CONTENT SECTION -->
     <!-- FORM SECTION -->
   </div>
-  <Spinner v-else :text="$t('common.checkingLogin')" :text-width="'13rem'" />
+  <Spinner v-else :text="$t('message.checkingLogin')" :text-width="'13rem'" />
 </template>
 <script setup lang="ts" name="login2">
 import { useAuthStore } from '@/stores'

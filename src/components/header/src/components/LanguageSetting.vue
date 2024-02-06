@@ -35,7 +35,7 @@ const { t } = useI18n()
 
 const onChangeLang = async (locale: LocaleType) => {
   Modal.confirm({
-    content: t('common.message.changeLang'),
+    content: t('message.changeLang'),
     // content: (localeMessages[locale].common as any).message.changeLang.source,
     width: 450,
     icon: createVNode(QuestionCircleTwoTone),

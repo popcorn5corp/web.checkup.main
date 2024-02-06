@@ -214,7 +214,7 @@ const getColumns = () => {
  */
 const onOpenSaveModal = (): void => {
   Modal.confirm({
-    content: t('common.message.modalSaveCheck'),
+    content: t('message.modalSaveCheck'),
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
       postDetailRef.value.onSubmit().then(() => {
@@ -223,7 +223,7 @@ const onOpenSaveModal = (): void => {
           initState()
 
           setTimeout(() => {
-            message.success(t('common.message.saveSuccess'), 1)
+            message.success(t('message.saveSuccess'), 1)
           }, 300)
         })
       })
@@ -238,7 +238,7 @@ const onOpenSaveModal = (): void => {
  */
 const onRemovePost = (selectedRows: IBaseSample.Content[], selectedRowKeys: string[]): void => {
   Modal.confirm({
-    content: t('common.message.modalDeleteCheck'),
+    content: t('message.modalDeleteCheck'),
     // width: 600,
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
@@ -251,7 +251,7 @@ const onRemovePost = (selectedRows: IBaseSample.Content[], selectedRowKeys: stri
           dynamicTableRef.value?.reload({ isReset: true })
 
           setTimeout(() => {
-            message.success(t('common.message.deleteSuccess'), 1)
+            message.success(t('message.deleteSuccess'), 1)
           }, 300)
         }
       })
@@ -300,7 +300,7 @@ const callServiceByMode = (callback: Function): void => {
 const onCloseModal = (): void => {
   if (isEdit.value) {
     Modal.confirm({
-      content: t('common.message.modalEditCloseCheck'),
+      content: t('message.modalEditCloseCheck'),
       // width: 600,
       icon: createVNode(QuestionCircleTwoTone),
       onOk() {
