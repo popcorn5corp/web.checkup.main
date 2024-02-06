@@ -20,6 +20,7 @@ export default {
     checkName: 'Silakan masukkan nama Anda.',
     checkUserId: 'Silakan masukkan ID Anda.',
     checkEmail: 'Silakan masukkan dalam format email.',
-    checkCertifiNum: 'Silakan masukkan nomor otentikasi Anda.'
+    checkCertifiNum: 'Silakan masukkan nomor otentikasi Anda.',
+    checkErrorCertifiNum: 'Nomor otentikasi tidak valid.'
   }
 }

@@ -348,7 +348,7 @@ const handleAuthentication = async (
 
   if (!data.success) {
     errorState.certificationNumber = true
-    throw new Error('인증번호가 유효하지 않습니다.')
+    throw new Error(t('message.validate.checkErrorCertifiNum'))
   }
 
   Object.assign(findReqData, {

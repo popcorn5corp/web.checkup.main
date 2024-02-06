@@ -20,6 +20,7 @@ export default {
     checkName: '이름을 입력해주세요.',
     checkUserId: '아이디를 입력해주세요.',
     checkEmail: '이메일 형식으로 입력해주세요.',
-    checkCertifiNum: '인증번호를 입력해주세요.'
+    checkCertifiNum: '인증번호를 입력해주세요.',
+    checkErrorCertifiNum: '인증번호가 유효하지 않습니다.'
   }
 }

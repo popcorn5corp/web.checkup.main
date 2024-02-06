@@ -20,6 +20,7 @@ export default {
     checkName: 'Please input your name.',
     checkUserId: 'Please enter your ID.',
     checkEmail: 'Please enter it in email format.',
-    checkCertifiNum: 'Please enter your authentication number.'
+    checkCertifiNum: 'Please enter your authentication number.',
+    checkErrorCertifiNum: 'The authentication number is invalid.'
   }
 }
