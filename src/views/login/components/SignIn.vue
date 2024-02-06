@@ -1,19 +1,19 @@
 <template>
   <div class="sign-in-container">
-    <h1 class="text text-title">{{ $t('common.loginText') }}</h1>
+    <h1 class="text text-title">{{ $t('component.button.loginText') }}</h1>
     <Form :model="formData" @finish="onFinish">
       <FormItem name="userId">
         <Input
           id="loginEmail"
           type="email"
           v-model:value="formData.userId"
-          placeholder="checkup@gmail.com"
-          :label="$t('common.email')"
+          placeholder="example@gmail.com"
+          :label="$t('common.idText')"
           :isError="errorState.userId"
           @change="onValidateFields($event, 'userId')"
         />
         <div class="errorMsg" v-if="errorState.userId">
-          {{ $t('component.ph.inputEmail') }}
+          {{ $t('message.validate.checkEmail') }}
         </div>
       </FormItem>
       <FormItem name="password">
@@ -26,12 +26,12 @@
           @change="onValidateFields($event, 'password')"
         />
         <div class="errorMsg" v-if="errorState.password">
-          {{ $t('common.message.checkPassword') }}
+          {{ $t('message.validate.checkPassword') }}
         </div>
       </FormItem>
       <FormItem>
         <Button
-          :label="$t('common.loginText')"
+          :label="$t('component.button.loginText')"
           type="primary"
           size="large"
           html-type="submit"

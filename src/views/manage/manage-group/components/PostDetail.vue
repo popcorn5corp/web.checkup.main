@@ -18,7 +18,7 @@
             </a-menu-item>
             <a-menu-item key="2" @click="showDeleteConfirm">
               <div style="display: flex; gap: 10px">
-                <span>{{ t('common.delete') }}</span>
+                <span>{{ t('component.button.delete') }}</span>
               </div>
             </a-menu-item>
           </a-menu>
@@ -113,9 +113,9 @@ const formState: UnwrapRef<FormState> = reactive({
 
 const showMessage = (type: string) => {
   if (type === MessageType.Save) {
-    return message.success(t('common.message.saveSuccess'), 1)
+    return message.success(t('message.saveSuccess'), 1)
   } else if (type === MessageType.Delete) {
-    return message.success(t('common.message.deleteSuccess'), 1)
+    return message.success(t('message.deleteSuccess'), 1)
   }
 }
 
@@ -183,7 +183,7 @@ const deleteGroup = () => {
 
 const showDeleteConfirm = () => {
   modal.confirm({
-    title: t('common.message.modalDeleteCheck'),
+    title: t('message.modalDeleteCheck'),
     icon: h(ExclamationCircleOutlined),
     okText: t('component.button.ok'),
     okType: 'primary',

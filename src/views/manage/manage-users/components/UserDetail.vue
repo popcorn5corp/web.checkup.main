@@ -3,7 +3,7 @@
     <h3 class="title">{{ $t('common.detailInfo') }}</h3>
     <div class="content-wrapper">
       <Descriptions :column="6">
-        <Descriptions.Item :label="$t('page.manage.joinDate')" :span="6">
+        <Descriptions.Item :label="$t('common.joinDate')" :span="6">
           {{ state.data.detail?.joinDate }}
         </Descriptions.Item>
         <Descriptions.Item :label="$t('common.gender')" :span="6">

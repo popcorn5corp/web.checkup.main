@@ -6,7 +6,7 @@
   <div class="form-wrapper">
     <div class="input-wrapper">
       <Input
-        :placeholder="$t('page.workspace.ph.inputInviteCode')"
+        :placeholder="$t('component.ph.inputInviteCode')"
         v-model:value="getFormValues.inviteCode"
         @input="
           () => {
@@ -59,7 +59,7 @@ const onCheckInviteCode = async () => {
         workspaceStore.setNextBtnDisabled(false)
         isConfirm.value = true
       } else {
-        message.error(t('common.message.checkInviteCode'))
+        message.error(t('message.validate.checkInviteCode'))
         workspaceStore.setNextBtnDisabled(true)
       }
     }

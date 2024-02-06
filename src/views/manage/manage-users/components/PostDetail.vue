@@ -17,7 +17,7 @@
         <Item :label="$t('common.phone')" name="phone">
           {{ formState.data.phone || '-' }}
         </Item>
-        <Item :label="$t('page.manage.joinDate')" name="joinDate">
+        <Item :label="$t('common.joinDate')" name="joinDate">
           {{ formState.data.joinDate }}
         </Item>
       </div>
@@ -30,7 +30,7 @@
               <span>{{ t('common.postModify') }}</span>
             </a-menu-item>
             <a-menu-item key="2" @click="showDeleteConfirm">
-              <span>{{ t('page.manage.export') }}</span>
+              <span>{{ t('component.button.export') }}</span>
             </a-menu-item>
           </a-menu>
         </template>
@@ -55,11 +55,7 @@
         <Input v-model:value="formState.data.phone" :label="$t('common.phone')" />
       </Item>
       <Item name="joinDate">
-        <Input
-          v-model:value="formState.data.joinDate"
-          :label="$t('page.manage.joinDate')"
-          disabled
-        />
+        <Input v-model:value="formState.data.joinDate" :label="$t('common.joinDate')" disabled />
       </Item>
       <div class="btn-wrapper">
         <Button @click="initState"><CloseOutlined /></Button>
@@ -144,7 +140,7 @@ const onSubmit = async () => {
   // ManagerUserService.updateGroup(props.data.groupId, requestBody)
   //   .then(({ success }) => {
   //     if (success) {
-  //       message.success(t('common.message.saveSuccess'), 1)
+  //       message.success(t('message.saveSuccess'), 1)
   //       initState()
   //       emit('reload')
   //       formState.post = {
@@ -165,7 +161,7 @@ const onEditMode = () => {
 
 const showDeleteConfirm = () => {
   modal.confirm({
-    title: t('common.message.modalDeleteCheck'),
+    title: t('message.modalDeleteCheck'),
     icon: h(ExclamationCircleOutlined),
     okText: t('component.button.ok'),
     okType: 'primary',
@@ -181,7 +177,7 @@ const showDeleteConfirm = () => {
     //         emit('reload')
     //         emit('isDetail')
 
-    //         message.success(t('common.message.deleteSuccess'), 1)
+    //         message.success(t('message.deleteSuccess'), 1)
     //       }
     //     })
     //     .catch((error) => {

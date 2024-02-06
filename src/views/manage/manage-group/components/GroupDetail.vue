@@ -118,9 +118,9 @@ const MessageType = {
 
 const showMessage = (type: string) => {
   if (type === MessageType.Save) {
-    return message.success(t('common.message.saveSuccess'), 1)
+    return message.success(t('message.saveSuccess'), 1)
   } else if (type === MessageType.Delete) {
-    return message.success(t('common.message.deleteSuccess'), 1)
+    return message.success(t('message.deleteSuccess'), 1)
   }
 }
 
@@ -226,7 +226,7 @@ const onSubmit = () => {
 
 const showDeleteConfirm = (uid: string) => {
   modal.confirm({
-    title: t('page.manage.message.deleteUser'),
+    title: t('message.deleteUser'),
     icon: h(ExclamationCircleOutlined),
     okText: t('component.button.ok'),
     okType: 'primary',
