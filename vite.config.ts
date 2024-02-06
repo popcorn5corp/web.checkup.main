@@ -68,23 +68,26 @@ export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
       }
     },
     server: {
+      host: true, // 0.0.0.0
+      port: 4000,
+      strictPort: true,
       cors: true,
-      proxy: {
-        '/app-api': {
-          target: 'http://dev.checkup-api.co.kr',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp(`^/app-api`), ''),
-          secure: false,
-          ws: true
-        },
-        '/auth-api': {
-          target: 'http://dev-auth.checkup-api.co.kr',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp(`^/auth-api`), ''),
-          secure: false,
-          ws: true
-        }
-      },
+      // proxy: {
+      //   '/app-api': {
+      //     target: 'http://dev.checkup-api.co.kr',
+      //     changeOrigin: isDev,
+      //     rewrite: (path) => path.replace(new RegExp(`^/app-api`), ''),
+      //     secure: !isDev,
+      //     ws: true
+      //   },
+      //   '/auth-api': {
+      //     target: 'http://dev-auth.checkup-api.co.kr',
+      //     changeOrigin: isDev,
+      //     rewrite: (path) => path.replace(new RegExp(`^/auth-api`), ''),
+      //     secure: !isDev,
+      //     ws: true
+      //   }
+      // },
       hmr: {
         overlay: false
       }
