@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 import type { App } from 'vue'
 // @ts-ignore
 import './index.scss'
+import ConfigProvider from './ConfigProvider.vue'
 
 // import { themes } from '@storybook/theming';
 
@@ -17,6 +18,21 @@ setup((app: App) => {
 })
 
 const preview: Preview = {
+  globalTypes: {
+    theme: {
+      description: 'Global theme for components',
+      defaultValue: 'light',
+      toolbar: {
+        // The label to show for this toolbar item
+        title: 'Theme',
+        icon: 'circlehollow',
+        // Array of plain string values or MenuItem shape (see below)
+        items: ['light', 'realDark'],
+        // Change title based on selected value
+        dynamicTitle: true,
+      },
+    },
+  },
   parameters: {
     layout: 'centered',
     actions: { argTypesRegex: '^on[A-Z].*' },
@@ -37,10 +53,14 @@ const preview: Preview = {
     // },
   },
   decorators: [
-    (story) => ({
-      components: { story },
-      template: '<div class="hihello" style="margin: 1em;padding:1em"><story /></div>'
-    })
+    (story, context) => {
+const theme : string= context.globals.theme
+console.log(theme)
+      return {
+        components: { story,ConfigProvider },
+        template:`<ConfigProvider theme="${theme}"><story /></ConfigProvider>`
+      }
+    }
   ]
 }
 
