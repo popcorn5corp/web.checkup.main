@@ -1,7 +1,7 @@
 <template>
   <div class="find-password-form-container">
     <template v-if="!isSuccessFindPassword">
-      <RadioGroup style="margin: 1rem" v-model:value="authenticationType" size="large">
+      <RadioGroup class="radio-wrapper" v-model:value="authenticationType" size="large">
         <Radio :value="IAuth.authenticationTypes.PHONE">{{ $t('page.login.authPhone') }}</Radio>
         <Radio :value="IAuth.authenticationTypes.EMAIL">
           {{ $t('page.login.authEmail') }}
@@ -393,6 +393,9 @@ watch(
 </script>
 
 <style scoped lang="scss">
+.transition-form {
+  transition: 0.5s ease-in-out;
+}
 .certification-wrapper {
   .custom-input-container {
     margin: 0;
@@ -410,6 +413,17 @@ watch(
     border: 1.5px solid $color-gray-5;
     border-radius: 8px;
     padding: 5px 7px;
+  }
+}
+.radio-wrapper {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  :deep(.ant-radio-wrapper) {
+    span {
+      word-break: keep-all;
+    }
   }
 }
 
@@ -435,5 +449,16 @@ watch(
   width: 100%;
   margin-top: 10px;
   font-size: 15px;
+}
+
+// transition
+.find-password-enter-from {
+  transform: scale(0);
+}
+.find-password-enter-to {
+  transform: scale(1);
+}
+.find-password-leave-from {
+  transform: scale(1);
 }
 </style>

@@ -8,7 +8,7 @@
             type="email"
             v-model:value="formData.email"
             placeholder="example@gmail.com"
-            :label="`${$t('common.idText')} (${$t('common.email')})`"
+            :label="$t('common.email')"
             :isError="errorState.email"
             @change="onValidateFields($event, 'email')"
           />

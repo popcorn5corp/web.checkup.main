@@ -1,7 +1,7 @@
 <template>
   <div class="find-id-form-container">
     <template v-if="!isSuccessFindId">
-      <RadioGroup style="margin: 1rem" v-model:value="authenticationType" size="large">
+      <RadioGroup class="radio-wrapper" v-model:value="authenticationType" size="large">
         <Radio :value="IAuth.authenticationTypes.PHONE">{{ $t('page.login.authPhone') }}</Radio>
         <Radio :value="IAuth.authenticationTypes.EMAIL" disabled>
           {{ $t('page.login.authEmail') }}
@@ -402,6 +402,18 @@ watch(
     border: 1.5px solid $color-gray-5;
     border-radius: 8px;
     padding: 5px 7px;
+  }
+}
+
+.radio-wrapper {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  :deep(.ant-radio-wrapper) {
+    span {
+      word-break: keep-all;
+    }
   }
 }
 

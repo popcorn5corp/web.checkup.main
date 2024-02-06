@@ -30,8 +30,8 @@ const styles = computed(() => {
   const { navTheme } = getTheme
 
   return {
-    imgWidth: collapsed ? '2rem' : '6rem',
-    imgHeight: collapsed ? '2rem' : '6rem',
+    imgWidth: collapsed ? '2rem' : '5rem',
+    imgHeight: collapsed ? '2rem' : '5rem',
     nameColor: navTheme === 'dark' ? '#ffffff' : '#121212'
   }
 })
@@ -39,7 +39,8 @@ const styles = computed(() => {
 <style lang="scss" scoped>
 .menu-header {
   .user-preview {
-    padding: 1rem;
+    // padding: 1rem;
+    padding: 10px;
     align-items: center;
     flex-direction: column;
     width: 100%;
