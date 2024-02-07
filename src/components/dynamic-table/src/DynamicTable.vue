@@ -117,15 +117,10 @@ import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
 import {
-  DeleteOutlined,
   DeleteTwoTone,
   DownloadOutlined,
-  FilterOutlined,
   FilterTwoTone,
-  PlusCircleOutlined,
-  PlusCircleTwoTone,
-  PlusOutlined,
-  UserAddOutlined
+  PlusCircleTwoTone
 } from '@/components/icons'
 import { Table } from '@/components/table'
 import { useTour } from '@/components/tour/hooks/useTour'

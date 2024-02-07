@@ -44,7 +44,7 @@ import { type CSSProperties, computed, onMounted, onUnmounted, ref, unref, watch
 import { type RouteLocationNormalized, useRoute } from 'vue-router'
 import type { RouteItem } from '@/stores/interface'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { useTabsLayoutStore } from '@/stores/modules/tabsLayout'
+import { useTabsLayoutStore } from '@/stores/modules/tabs-layout'
 import { TABS_ROUTES_KEY } from '@/constants/cacheKeyEnum'
 
 const { TabPane } = Tabs
