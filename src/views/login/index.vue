@@ -1,7 +1,7 @@
 <script setup lang="ts" name="Login2">
-import { useAuthStore } from '@/stores'
 import { Input } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/modules/auth'
 import { Spinner } from '@/components/spinner'
 import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import SocialLoginBtns from './components/SocialLoginBnts.vue'

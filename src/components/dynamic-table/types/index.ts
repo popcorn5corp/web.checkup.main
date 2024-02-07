@@ -1,4 +1,4 @@
-import type { IBaseAPI } from '@/services/base/interface'
+import type { IBaseAPI } from '@/services/base/types'
 import type { FilterFormItem, FilterList } from '@/components/filter-form'
 import type { TableProps } from '@/components/table'
 

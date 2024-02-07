@@ -61,7 +61,7 @@ import { PagePathEnum } from '@/constants/pageEnum'
 
 const router = useRouter()
 const workspaceStore = useWorkspaceStore()
-workspaceStore.resetCurrentStep()
+workspaceStore.initCurrentStep()
 const {
   getCurrentStep,
   getSteps,

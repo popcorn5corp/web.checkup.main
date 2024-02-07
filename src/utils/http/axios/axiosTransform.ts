@@ -1,4 +1,3 @@
-import { useAuthStore } from '@/stores'
 import type {
   AxiosError,
   AxiosHeaderValue,
@@ -8,6 +7,7 @@ import type {
 } from 'axios'
 import axios from 'axios'
 import { unref } from 'vue'
+import { useAuthStore } from '@/stores/modules/auth'
 import { useLocale } from '@/locales/hooks/useLocale'
 import type { CustomAxiosRequestConfig } from './Axios'
 import { checkResponseErrorStatus } from './axiosErrorStatus'

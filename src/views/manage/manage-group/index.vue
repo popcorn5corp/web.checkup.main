@@ -67,12 +67,12 @@
 </template>
 
 <script setup lang="ts" name="ManageGroup">
-import { ManagerGroupService } from '@/services'
+import { ManageGroupService } from '@/services'
 import { message } from 'ant-design-vue'
 import { Modal as modal } from 'ant-design-vue'
 import { createVNode, defineAsyncComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { IManageGroup } from '@/services/manage-group/interface'
+import type { IManageGroup } from '@/services/manage-group/types'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { DynamicTable } from '@/components/dynamic-table'
 import { PlusCircleTwoTone } from '@/components/icons'
@@ -123,11 +123,11 @@ const initTabKey = () => {
  * 다이나믹 테이블 기본세팅
  */
 const getDataSource = async (param: IManageGroup.GroupListParam) => {
-  return await ManagerGroupService.getGroupList(getWorkspaceId, param)
+  return await ManageGroupService.getGroupList(getWorkspaceId, param)
 }
 const dataCallback = ({ posts }: IManageGroup.GetTableListResponse) => posts
-const getFilters = () => ManagerGroupService.getPageInfo()
-const getColumns = () => ManagerGroupService.getSortableCodes()
+const getFilters = () => ManageGroupService.getPageInfo()
+const getColumns = () => ManageGroupService.getSortableCodes()
 
 const tableReload = () => {
   dynamicTableRef.value?.reload({ isReset: true })
@@ -170,7 +170,7 @@ const createGroup = async () => {
       }))
     }
 
-    await ManagerGroupService.createGroup(requestBody)
+    await ManageGroupService.createGroup(requestBody)
       .then(({ success }) => {
         if (success) {
           showMessage(MessageType.Save)
@@ -204,7 +204,7 @@ const onRemovePost = (
         groupId: selectedRowKeys
       }
 
-      ManagerGroupService.removeGroup(getWorkspaceId, params)
+      ManageGroupService.removeGroup(getWorkspaceId, params)
         .then(({ success }) => {
           if (success) {
             tableReload()

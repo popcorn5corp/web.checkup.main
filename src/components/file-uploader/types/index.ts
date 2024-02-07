@@ -1,4 +1,4 @@
-import type { IFileManager } from '@/services/FileManager/interface'
+import type { IFileManager } from '@/services/file-manager/types'
 
 export type FileList = IFileManager.FileContent[]
 export interface FileUploaderProps {

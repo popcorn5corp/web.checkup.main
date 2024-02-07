@@ -46,14 +46,14 @@
 </template>
 
 <script setup lang="ts" name="PostDetail">
-import { ManagerGroupService } from '@/services'
+import { ManageGroupService } from '@/services'
 import { Form } from 'ant-design-vue'
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { IManageGroup } from '@/services/manage-group/interface'
+import type { IManageGroup } from '@/services/manage-group/types'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import {
   CheckOutlined,
@@ -134,7 +134,7 @@ const onSubmit = async () => {
     content: formState.clonePost.content
   }
 
-  ManagerGroupService.updateGroup(props.data.groupId, requestBody)
+  ManageGroupService.updateGroup(props.data.groupId, requestBody)
     .then(({ success }) => {
       if (success) {
         initState()
@@ -166,7 +166,7 @@ const deleteGroup = () => {
     groupId: [props.data.groupId]
   }
 
-  ManagerGroupService.removeGroup(getWorkspaceId, params)
+  ManageGroupService.removeGroup(getWorkspaceId, params)
     .then(({ success }) => {
       if (success) {
         emit('reload')
