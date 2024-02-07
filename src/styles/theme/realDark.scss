@@ -4,7 +4,7 @@ $text-color: $color-white; // main text color
 $sub-text-color: rgb(255 255 255 / 50%);
 $dark-border-color: #ebebff45;
 
-html[data-theme='dark'] {
+html[data-theme='realDark'] {
   .layout-main,
   .ant-menu-inline {
     background: $bg-color !important;
@@ -18,9 +18,9 @@ html[data-theme='dark'] {
     background: inherit;
   }
 
-  .tabs-container {
-    background-color: $container-color !important;
-  }
+  //   .tabs-container {
+  //     background-color: $container-color !important;
+  //   }
 
   .filter-form-container {
     .filter-list,
@@ -36,6 +36,11 @@ html[data-theme='dark'] {
       background-color: $bg-color;
       color: $text-color;
     }
+  }
+
+  .layout-header {
+    background: transparent !important;
+    color: $text-color;
   }
 
   .selection-popup-container {
