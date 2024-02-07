@@ -71,6 +71,8 @@ const onChangeMode = () => {
   isDark.value = !isDark.value
   const themeName = unref(isDark) ? 'realDark' : 'light'
   setTheme({ navTheme: themeName })
+
+  isDark.value ? setRealDarkTheme('realDark' as ThemeName) : setRealDarkTheme()
 }
 </script>
 
