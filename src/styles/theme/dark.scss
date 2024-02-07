@@ -43,6 +43,11 @@ html[data-theme='dark'] {
     }
   }
 
+  .card-container {
+    .card-box {
+      color: $color-white !important;
+    }
+  }
   .card-view-container {
     .img-wrapper {
       color: $sub-text-color;

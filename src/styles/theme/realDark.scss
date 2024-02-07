@@ -1,0 +1,182 @@
+$bg-color: $color-realDark; // main bg color
+$container-color: $color-dark;
+$text-color: $color-white; // main text color
+$sub-text-color: rgb(255 255 255 / 50%);
+$dark-border-color: #ebebff45;
+
+html[data-theme='dark'] {
+  .layout-main,
+  .ant-menu-inline {
+    background: $bg-color !important;
+  }
+  .layout-default .layout-content .title {
+    color: $color-white;
+  }
+  .layout-header,
+  .layout-sider,
+  .ant-menu-dark {
+    background: inherit;
+  }
+
+  .tabs-container {
+    background-color: $container-color !important;
+  }
+
+  .filter-form-container {
+    .filter-list,
+    .filter-form-container,
+    .mobile-footer {
+      background-color: $container-color;
+      color: $text-color;
+    }
+  }
+
+  .table-tags-container {
+    .table-tag {
+      background-color: $bg-color;
+      color: $text-color;
+    }
+  }
+
+  .selection-popup-container {
+    .ant-alert {
+      background-color: $bg-color !important;
+      color: $text-color !important;
+      box-shadow: unset;
+    }
+  }
+
+  .card-container {
+    .card-box {
+      color: $color-white !important;
+    }
+  }
+  .card-view-container {
+    .img-wrapper {
+      color: $sub-text-color;
+    }
+  }
+
+  .menu-header .user-preview .info {
+    .name {
+      color: $text-color !important;
+    }
+
+    .email {
+      color: $sub-text-color !important;
+    }
+  }
+
+  .user-detail-container {
+    .group-wrapper .group-item {
+      background: $bg-color;
+      border: 1px solid $dark-border-color;
+    }
+  }
+
+  #workspace-container {
+    background-color: rgba(0, 21, 41, 0.8509803922) !important;
+    color: #fff !important;
+    .list-wrapper {
+      border: 1px solid $dark-border-color !important;
+      .list-box {
+        border: 1px solid $dark-border-color !important;
+      }
+      .list-li {
+        border-bottom-color: $dark-border-color !important;
+      }
+    }
+    .invite-code-wrapper {
+      border: 1px solid $dark-border-color !important;
+    }
+    .welcome-btns-wrapper {
+      .btn-box {
+        background: $bg-color !important;
+        border: 1px solid $dark-border-color !important;
+        color: $text-color !important;
+      }
+    }
+  }
+  #workspace-step-btn-container {
+    .form-wrapper {
+      input {
+        background-color: $bg-color !important;
+        color: $text-color !important;
+      }
+      input::placeholder {
+        color: $text-color !important;
+      }
+    }
+  }
+  .invite-member-form-container {
+    .select-wrapper {
+      background-color: $bg-color !important;
+      border: 1px solid $dark-border-color !important;
+      .tag {
+        background-color: $sub-text-color !important;
+        color: $text-color !important;
+      }
+    }
+  }
+
+  .ant-table {
+    // !dark: #acc0f2
+    .ant-table-row:hover > td {
+      background: #5283fe !important;
+    }
+    .table-row-focus > td {
+      background: #5283fe !important;
+    }
+
+    .table-row-focus:hover > td {
+      background: #5283fe !important;
+    }
+  }
+
+  .ant-statistic-content-prefix,
+  .ant-statistic-content-value-int {
+    color: $text-color;
+  }
+
+  .custom-input-container {
+    .custom-input {
+      border-color: $dark-border-color;
+    }
+    .input-label {
+      background: inherit;
+      color: $dark-border-color;
+    }
+    .custom-input.active ~ label {
+      background: $container-color;
+    }
+    .custom-input.active {
+      input::placeholder {
+        color: $dark-border-color !important;
+      }
+    }
+  }
+  .custom-select-container {
+    .custom-select {
+      .ant-select-selector {
+        border: 1.5px solid $dark-border-color;
+      }
+    }
+    .custom-select:hover {
+      .ant-select-selector {
+        border-color: $dark-border-color !important;
+      }
+    }
+    .select-label {
+      background: inherit;
+      color: $dark-border-color;
+    }
+    .custom-select.active ~ label {
+      background: $container-color;
+    }
+    .custom-select.active {
+      .ant-select-selection-placeholder {
+        color: $dark-border-color;
+      }
+    }
+  }
+}

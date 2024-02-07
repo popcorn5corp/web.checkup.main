@@ -3,9 +3,11 @@ import { setupFontAwesome, setupI18n } from '@/plugins'
 import { type Preview, StoryContext, setup } from '@storybook/vue3'
 import { createPinia } from 'pinia'
 import type { App } from 'vue'
+import '@/styles/theme/dark.scss'
+import '@/styles/theme/realDark.scss'
+import ConfigProvider from './components/ConfigProvider.vue'
 // @ts-ignore
 import './index.scss'
-import ConfigProvider from './ConfigProvider.vue'
 
 // import { themes } from '@storybook/theming';
 
@@ -21,19 +23,29 @@ const preview: Preview = {
   globalTypes: {
     theme: {
       description: 'Global theme for components',
-      defaultValue: 'light',
+      defaultValue: 'Daybreak',
       toolbar: {
-        // The label to show for this toolbar item
-        title: 'Theme',
+        title: 'Primary Color',
         icon: 'circlehollow',
-        // Array of plain string values or MenuItem shape (see below)
-        items: ['light', 'realDark'],
-        // Change title based on selected value
-        dynamicTitle: true,
-      },
-    },
+        items: ['Daybreak', 'Dust', 'Volcano', 'Sunset', 'Cyan', 'Green', 'Geekblue', 'Purple'],
+        dynamicTitle: true
+      }
+    }
   },
   parameters: {
+    backgrounds: {
+      default: 'light',
+      values: [
+        {
+          name: 'light',
+          value: '#ffffff'
+        },
+        {
+          name: 'realDark',
+          value: 'rgba(40,42,66)'
+        }
+      ]
+    },
     layout: 'centered',
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
@@ -42,23 +54,15 @@ const preview: Preview = {
         date: /Date$/
       }
     }
-    // docs: {
-    //   theme: themes.dark
-    // }
-
-    // options: {
-    //   storySort: {
-    //     order: ['Intro', 'Pages', ['Home', 'Login', 'Admin'], 'Components'],
-    //   },
-    // },
   },
   decorators: [
     (story, context) => {
-const theme : string= context.globals.theme
-console.log(theme)
+      const theme = context.globals?.backgrounds?.value === 'rgba(40,42,66)' ? 'realDark' : 'light'
+      const colorPrimary = context.globals.theme
+
       return {
-        components: { story,ConfigProvider },
-        template:`<ConfigProvider theme="${theme}"><story /></ConfigProvider>`
+        components: { story, ConfigProvider },
+        template: `<html data-theme="${theme}" class="container" style="padding: 1rem;"><ConfigProvider theme="${theme}" colorPrimary="${colorPrimary}"><story /></ConfigProvider></html>`
       }
     }
   ]
