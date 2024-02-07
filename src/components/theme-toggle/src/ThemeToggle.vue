@@ -63,7 +63,7 @@ const isDark = computed({
   },
   set(newVal) {
     setTheme({ isRealDarkTheme: newVal })
-    setRealDarkTheme('realDark' as ThemeName)
+    setRealDarkTheme(newVal ? 'realDark' : undefined)
   }
 })
 
@@ -71,8 +71,6 @@ const onChangeMode = () => {
   isDark.value = !isDark.value
   const themeName = unref(isDark) ? 'realDark' : 'light'
   setTheme({ navTheme: themeName })
-
-  isDark.value ? setRealDarkTheme('realDark' as ThemeName) : setRealDarkTheme()
 }
 </script>
 
