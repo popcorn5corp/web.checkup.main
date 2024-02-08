@@ -1,7 +1,7 @@
 import { service } from '@/utils/http'
-import type { SortCodesResponse } from '../base-sample/interface'
-import type { IBaseAPI } from '../base/interface'
-import type { IManageUser } from './interface'
+import type { SortCodesResponse } from '../base-sample/types'
+import type { IBaseAPI } from '../base/types'
+import type { IManageUser } from './types'
 
 class ManageUserService {
   private readonly PATH = '/workspace/v1.0/management/workspaces'

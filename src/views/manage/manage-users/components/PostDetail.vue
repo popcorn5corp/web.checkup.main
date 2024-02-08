@@ -72,7 +72,7 @@ import { Form, Modal, type SelectProps } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { IManageUser } from '@/services/manage-users/interface'
+import type { IManageUser } from '@/services/manage-users/types'
 import {
   CheckOutlined,
   CloseOutlined,

@@ -1,5 +1,5 @@
 import { authService, service } from '@/utils/http'
-import type { IAuth } from './interface'
+import type { IAuth } from './types'
 
 class AuthService {
   readonly PATH: string = '/workspace/v1.0/user'

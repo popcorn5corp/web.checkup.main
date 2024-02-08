@@ -16,11 +16,8 @@
 import { reactive, toRefs, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
-import {
-  type WorkspaceStepType,
-  useWorkspaceStore,
-  workspaceStepTypes
-} from '@/stores/modules/workspace'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { type WorkspaceStepType, workspaceStepTypes } from '@/stores/modules/workspace/types'
 import LanguageSetting from '@/components/header/src/components/LanguageSetting.vue'
 import { ThemeToggle } from '@/components/theme-toggle'
 import StepView from './components/StepView.vue'

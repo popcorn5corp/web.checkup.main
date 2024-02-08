@@ -1,67 +1,12 @@
 import { router } from '@/router'
 import { AuthService, WorkspaceService } from '@/services'
 import { Util } from '@/utils'
-import { message } from 'ant-design-vue'
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
-import type { IAuth } from '@/services/auth/interface'
-import type { IWorkspace } from '@/services/workspace/interface'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
-// import { store } from '../'
-import type { TokenKey } from '../interface'
-import { useWorkspaceStore } from './workspace'
-
-export type IUser = IAuth.UserResponse & { useDetaulWorkspace: boolean }
-export type IUserWorkspace = {
-  workspaceId: string
-  workspaceName: string
-  user: {
-    workspaceUserId: string
-    email: string
-    nickname: string
-    profile: string
-    status: {
-      label: string
-      value: IWorkspace.UserStatus
-    }
-  }
-}
-
-interface AuthState {
-  user: IUser
-  loggedIn: boolean
-  token: string
-  workspace: IUserWorkspace
-}
-
-function getDefaultUser(): IUser {
-  return {
-    uid: '',
-    userId: '',
-    userName: '',
-    workspaceCount: 0,
-    userEmail: '',
-    useDetaulWorkspace: false
-  }
-}
-
-function getDefaultWorkspace(): IUserWorkspace {
-  return {
-    workspaceId: '',
-    workspaceName: '',
-    user: {
-      workspaceUserId: '',
-      email: '',
-      nickname: '',
-      profile: '',
-      status: {
-        label: '',
-        value: 'ACTIVE'
-      }
-    }
-  }
-}
+import type { AuthState, IUser, TokenKey } from './types'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -69,13 +14,11 @@ export const useAuthStore = defineStore(
     const state = reactive<AuthState>({
       user: Util.Storage.get<IUser>('user') || getDefaultUser(),
       token: Util.Storage.get<string>(ACCESS_TOKEN_KEY),
-      loggedIn: false,
-      workspace: getDefaultWorkspace()
+      loggedIn: false
     })
     const { setSelectedWorkspaceId } = useWorkspaceStore()
     const getUser = computed(() => state.user)
     const getToken = computed(() => state.token)
-    const getUserWorkspace = computed(() => state.workspace)
 
     async function login() {
       return AuthService.getUser().then(
@@ -203,7 +146,6 @@ export const useAuthStore = defineStore(
     return {
       getUser,
       getToken,
-      getUserWorkspace,
       login,
       afterLoginAction,
       logout,
@@ -217,3 +159,14 @@ export const useAuthStore = defineStore(
     persist: true
   }
 )
+
+function getDefaultUser(): IUser {
+  return {
+    uid: '',
+    userId: '',
+    userName: '',
+    workspaceCount: 0,
+    userEmail: '',
+    useDetaulWorkspace: false
+  }
+}

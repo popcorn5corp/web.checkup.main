@@ -36,13 +36,13 @@
 import welcomeImg from '@/assets/images/workspace2.png'
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
-import { useAuthStore } from '@/stores'
 import { ArrowRightOutlined } from '@ant-design/icons-vue'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { useWorkspaceStore } from '@/stores/modules/workspace'
-import { type WorkspaceStepType } from '@/stores/modules/workspace'
+import { useWorkspaceStore } from '@/stores/modules'
+import { useAuthStore } from '@/stores/modules/auth'
+import type { WorkspaceStepType } from '@/stores/modules/workspace/types'
 
 const { t } = useI18n()
 const router = useRouter()

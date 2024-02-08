@@ -1,4 +1,4 @@
-import type { WorkspaceFormValues, WorkspaceUsers } from '@/stores/modules/workspace'
+import type { WorkspaceFormValues, WorkspaceUsers } from '@/stores/modules/workspace/type'
 
 export namespace IWorkspace {
   export interface WorkspaceInfo {
@@ -16,10 +16,10 @@ export namespace IWorkspace {
   }
 
   export interface GetDefaultProfilesResponse {
-    images: ImageFilesInfo[]
+    images: ImageFileInfo[]
   }
 
-  export interface ImageFilesInfo {
+  export interface ImageFileInfo {
     name: string
     originName: string
     url: string

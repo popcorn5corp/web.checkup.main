@@ -44,9 +44,9 @@
 
 <script setup lang="ts" name="SignIn">
 import { AuthService } from '@/services'
-import { useAuthStore } from '@/stores'
 import { reactive, ref } from 'vue'
-import type { IAuth } from '@/services/auth/interface'
+import type { IAuth } from '@/services/auth/types'
+import { useAuthStore } from '@/stores/modules/auth'
 import { Input } from '@/components/input'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 

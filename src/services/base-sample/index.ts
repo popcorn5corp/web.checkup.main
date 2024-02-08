@@ -1,6 +1,6 @@
 import { service } from '@/utils/http'
-import type { IBaseAPI } from '../base/interface'
-import type { CodeResponse, IBaseSample, PermissionCodes, SortCodesResponse } from './interface'
+import type { IBaseAPI } from '../base/types'
+import type { CodeResponse, IBaseSample, PermissionCodes, SortCodesResponse } from './types'
 
 class BaseSampleService {
   readonly PATH: string = '/workspace/sample-board'

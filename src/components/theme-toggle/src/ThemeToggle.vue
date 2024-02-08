@@ -63,7 +63,7 @@ const isDark = computed({
   },
   set(newVal) {
     setTheme({ isRealDarkTheme: newVal })
-    setRealDarkTheme('realDark' as ThemeName)
+    setRealDarkTheme(newVal ? 'realDark' : undefined)
   }
 })
 

@@ -148,7 +148,6 @@ const onEdit = (targetKey: Key | MouseEvent | KeyboardEvent, action: 'add' | 're
 // }
 .tabs-container .ant-tabs-content .ant-tabs-tabpane {
   padding: 16px;
-  background: #fff;
 }
 // .tabs-container > .ant-tabs-card > .ant-tabs-nav::before {
 //   display: none;

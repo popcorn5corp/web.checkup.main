@@ -5,19 +5,22 @@ $sub-text-color: rgb(255 255 255 / 50%);
 $dark-border-color: #ebebff45;
 
 html[data-theme='dark'] {
-  .layout-main, .ant-menu-inline {
+  .layout-main,
+  .ant-menu-inline {
     background: $bg-color !important;
   }
   .layout-default .layout-content .title {
     color: $color-white;
   }
-  .layout-header, .layout-sider, .ant-menu-dark  {
+  .layout-header,
+  .layout-sider,
+  .ant-menu-dark {
     background: inherit;
   }
 
-  .tabs-container {
-    background-color: $container-color !important;
-  }
+  //   .tabs-container {
+  //     background-color: $container-color !important;
+  //   }
 
   .filter-form-container {
     .filter-list,
@@ -35,6 +38,11 @@ html[data-theme='dark'] {
     }
   }
 
+  .layout-header {
+    background: transparent !important;
+    color: $text-color;
+  }
+
   .selection-popup-container {
     .ant-alert {
       background-color: $bg-color !important;
@@ -43,6 +51,11 @@ html[data-theme='dark'] {
     }
   }
 
+  .card-container {
+    .card-box {
+      color: $color-white !important;
+    }
+  }
   .card-view-container {
     .img-wrapper {
       color: $sub-text-color;
@@ -91,7 +104,7 @@ html[data-theme='dark'] {
   }
   #workspace-step-btn-container {
     .form-wrapper {
-      input  {
+      input {
         background-color: $bg-color !important;
         color: $text-color !important;
       }
@@ -125,7 +138,8 @@ html[data-theme='dark'] {
     }
   }
 
-  .ant-statistic-content-prefix, .ant-statistic-content-value-int {
+  .ant-statistic-content-prefix,
+  .ant-statistic-content-value-int {
     color: $text-color;
   }
 

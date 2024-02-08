@@ -3,6 +3,9 @@ import { setupFontAwesome, setupI18n } from '@/plugins'
 import { type Preview, StoryContext, setup } from '@storybook/vue3'
 import { createPinia } from 'pinia'
 import type { App } from 'vue'
+import '@/styles/theme/dark.scss'
+import '@/styles/theme/realDark.scss'
+import ConfigProvider from './components/ConfigProvider.vue'
 // @ts-ignore
 import './index.scss'
 
@@ -17,7 +20,32 @@ setup((app: App) => {
 })
 
 const preview: Preview = {
+  globalTypes: {
+    theme: {
+      description: 'Global theme for components',
+      defaultValue: 'Daybreak',
+      toolbar: {
+        title: 'Primary Color',
+        icon: 'circlehollow',
+        items: ['Daybreak', 'Dust', 'Volcano', 'Sunset', 'Cyan', 'Green', 'Geekblue', 'Purple'],
+        dynamicTitle: true
+      }
+    }
+  },
   parameters: {
+    backgrounds: {
+      default: 'light',
+      values: [
+        {
+          name: 'light',
+          value: '#ffffff'
+        },
+        {
+          name: 'realDark',
+          value: 'rgba(40,42,66)'
+        }
+      ]
+    },
     layout: 'centered',
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
@@ -26,21 +54,17 @@ const preview: Preview = {
         date: /Date$/
       }
     }
-    // docs: {
-    //   theme: themes.dark
-    // }
-
-    // options: {
-    //   storySort: {
-    //     order: ['Intro', 'Pages', ['Home', 'Login', 'Admin'], 'Components'],
-    //   },
-    // },
   },
   decorators: [
-    (story) => ({
-      components: { story },
-      template: '<div class="hihello" style="margin: 1em;padding:1em"><story /></div>'
-    })
+    (story, context) => {
+      const theme = context.globals?.backgrounds?.value === 'rgba(40,42,66)' ? 'realDark' : 'light'
+      const colorPrimary = context.globals.theme
+
+      return {
+        components: { story, ConfigProvider },
+        template: `<html data-theme="${theme}" class="container" style="padding: 1rem;"><ConfigProvider theme="${theme}" colorPrimary="${colorPrimary}"><story /></ConfigProvider></html>`
+      }
+    }
   ]
 }
 

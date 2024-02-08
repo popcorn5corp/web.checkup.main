@@ -27,7 +27,7 @@
 import { WorkspaceService } from '@/services'
 import { reactive, ref, toRefs, unref } from 'vue'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
-import type { WorkspaceUsers } from '@/stores/modules/workspace'
+import type { WorkspaceUsers } from '@/stores/modules/workspace/types'
 
 const workspaceStore = useWorkspaceStore()
 const { getJoinParam } = toRefs(workspaceStore)

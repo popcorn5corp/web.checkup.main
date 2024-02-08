@@ -3,12 +3,8 @@ import { store } from '@/stores'
 import { Util } from '@/utils'
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
-import { type LocaleType } from '@/locales/config'
 import { LOCALE_KEY } from '@/constants/cacheKeyEnum'
-
-interface LocaleState {
-  locale: LocaleType
-}
+import type { LocaleState } from './types'
 
 const Trans = {
   get defaultLocale() {
@@ -37,16 +33,14 @@ export const useLocaleStore = defineStore('locale', () => {
     locale: Trans.persistedLocale
   })
 
-  const getLocale = computed<LocaleType>(
-    () => state.locale || Trans.browserLanguage || Trans.defaultLocale
-  )
+  const getLocale = computed(() => state.locale || Trans.browserLanguage || Trans.defaultLocale)
 
-  function setLocale(locale: LocaleType): void {
+  function setLocale(locale: LocaleState['locale']): void {
     state.locale = locale
     Trans.persistedLocale = locale
   }
 
-  function setPersistedLocale(locale: LocaleType) {
+  function setPersistedLocale(locale: LocaleState['locale']) {
     Trans.persistedLocale = locale
   }
 

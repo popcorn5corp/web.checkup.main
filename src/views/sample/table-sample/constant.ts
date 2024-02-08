@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import type { IBaseSample } from '@/services/base-sample/interface'
+import type { IBaseSample } from '@/services/base-sample/types'
 
 export const getDefaultPost = (): IBaseSample.BaseSample => ({
   boardContent: '',

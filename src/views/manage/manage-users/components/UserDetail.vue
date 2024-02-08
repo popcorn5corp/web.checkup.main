@@ -29,7 +29,7 @@
 import { ManageUserService } from '@/services'
 import { Descriptions } from 'ant-design-vue'
 import { reactive, watch } from 'vue'
-import type { IManageUser } from '@/services/manage-users/interface'
+import type { IManageUser } from '@/services/manage-users/types'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 interface UserDetailProps {

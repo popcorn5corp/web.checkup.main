@@ -1,5 +1,5 @@
-import { useAuthStore } from '@/stores'
 import type { RouteLocationNormalized, Router } from 'vue-router'
+import { useAuthStore } from '@/stores/modules/auth'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { PagePathEnum } from '@/constants/pageEnum'
 

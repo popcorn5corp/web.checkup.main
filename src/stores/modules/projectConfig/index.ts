@@ -2,12 +2,7 @@ import { Util } from '@/utils'
 import { defineStore } from 'pinia'
 import { computed, ref, unref, watch } from 'vue'
 import { THEME_KEY } from '@/constants/cacheKeyEnum'
-import {
-  DeviceTypeEnum,
-  type ProjectConfigState,
-  type ThemeConfig,
-  type ThemeName
-} from '../interface'
+import { DeviceTypeEnum, type ProjectConfigState, type ThemeConfig, type ThemeName } from './types'
 
 const DEFAULT_PRIMARY = 'rgba(24, 144, 255, 1)'
 
@@ -18,7 +13,7 @@ const defaultConfig: ProjectConfigState = {
   primary: DEFAULT_PRIMARY,
   isDark: false,
   isCollapse: false,
-  // device: DeviceTypeEnum.Desktop,
+  device: DeviceTypeEnum.Desktop,
   theme: {
     navTheme: 'light',
     isRealDarkTheme: false,

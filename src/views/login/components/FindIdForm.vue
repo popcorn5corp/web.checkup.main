@@ -121,7 +121,7 @@ import { Radio, RadioGroup } from 'ant-design-vue'
 import { reactive } from 'vue'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IAuth } from '@/services/auth/interface'
+import { IAuth } from '@/services/auth/types'
 import { FormItem } from '@/components/form'
 import { Input } from '@/components/input'
 

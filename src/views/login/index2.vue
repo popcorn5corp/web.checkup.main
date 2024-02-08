@@ -109,10 +109,10 @@
   <Spinner v-else :text="$t('message.checkingLogin')" :text-width="'13rem'" />
 </template>
 <script setup lang="ts" name="login2">
-import { useAuthStore } from '@/stores'
 import { onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/modules/auth'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { LeftOutlined } from '@/components/icons'
 import { Spinner } from '@/components/spinner'
