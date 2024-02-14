@@ -183,7 +183,7 @@ const onComplete = async () => {
       background-color: $input-bg-color;
       border-radius: 0.5rem;
       border: none;
-      color: $color-dark;
+      color: $color-semiDark;
     }
     input::placeholder {
       color: $color-gray-7;

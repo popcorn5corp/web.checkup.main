@@ -6,8 +6,8 @@
 
 /* Dark Mode Variables
    ========================================================================== */
-$darkmode-color-background: $color-realDark; // darkmode main background color
-$darkmode-color-background-sub: $color-dark;
+$darkmode-color-background: $color-dark; // darkmode main background color
+$darkmode-color-background-sub: $color-semiDark;
 $darkmode-color-text: $color-white; // darkmode main text color
 $darkmode-color-text-sub: $color-text-50;
 $darkmode-color-border: #ebebff45;
@@ -38,7 +38,7 @@ html[data-theme='realDark'] {
 
   .table-tags-container {
     .table-tag {
-      background-color: $color-dark;
+      background-color: $color-semiDark;
       color: $color-white;
     }
   }
