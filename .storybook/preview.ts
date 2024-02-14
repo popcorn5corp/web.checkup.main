@@ -4,6 +4,7 @@ import { type Preview, StoryContext, setup } from '@storybook/vue3'
 import { createPinia } from 'pinia'
 import type { App } from 'vue'
 import '@/styles/theme/dark.scss'
+import '@/styles/theme/light.scss'
 import '@/styles/theme/realDark.scss'
 import ConfigProvider from './components/ConfigProvider.vue'
 // @ts-ignore

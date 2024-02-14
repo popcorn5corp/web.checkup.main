@@ -2,7 +2,7 @@
   <div class="table-tags-container">
     <template v-for="tag in tagList" :key="tag.key">
       <template v-for="(item, index) in tag.selectedItems" :key="index">
-        <span v-if="item.value !== null" class="table-tag" :class="getDarkModeClass">
+        <span v-if="item.value !== null" class="table-tag">
           <span>{{ item.label }}</span>
           <span @click="onRemove(tag, item)"><font-awesome-icon :icon="['fas', 'xmark']" /></span>
         </span>
@@ -12,7 +12,6 @@
     <Button
       v-if="isShowClearBtn"
       class="table-tag"
-      :class="getDarkModeClass"
       :label="$t('component.button.reset')"
       @click="dynamicTable.clearSelectedItems()"
     />
@@ -21,7 +20,6 @@
 
 <script setup lang="ts" name="TableTags">
 import { computed, unref } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Button } from '@/components/button'
 import type { FilterFormItem } from '@/components/filter-form'
 import type { FilterItem } from '@/components/filter-form/types'
@@ -33,12 +31,9 @@ interface TableTagsProps {
 
 const props = defineProps<TableTagsProps>()
 const dynamicTable = useDynamicTableContext()
-const { config } = useProjectConfigStore()
+
 const tagList = computed(() => props.items)
 const isShowClearBtn = computed(() => unref(tagList).some((item) => item.selectedItems.length > 0))
-const getDarkModeClass = computed(() => ({
-  'dark-mode': config.theme.navTheme === 'realDark'
-}))
 
 const onRemove = (tag: FilterFormItem, removeItem: FilterItem) => {
   const { selectedItems, removeAll } = tag
@@ -74,11 +69,6 @@ const onRemove = (tag: FilterFormItem, removeItem: FilterItem) => {
     font-weight: 500;
     font-size: 14px;
     gap: 14px;
-
-    &.dark-mode {
-      background: $color-dark;
-      color: $color-white;
-    }
 
     :nth-child(2) {
       cursor: pointer;

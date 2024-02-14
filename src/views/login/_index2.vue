@@ -284,7 +284,7 @@ body {
 }
 
 .input-group input:focus {
-  border: 0.125rem solid $color-primary;
+  border: 0.125rem solid $color-blue-6;
 }
 
 .form button {
@@ -293,7 +293,7 @@ body {
   padding: 0.6rem 0;
   border-radius: 0.5rem;
   border: none;
-  background-color: $color-primary;
+  background-color: $color-blue-6;
   color: var(--white);
   font-size: 1.2rem;
   outline: none;
@@ -455,7 +455,7 @@ body {
   height: 100vh;
   width: 300vw;
   transform: translate(35%, 0);
-  background-image: linear-gradient(-45deg, $color-primary 0%, var(--secondary-color) 100%);
+  background-image: linear-gradient(-45deg, $color-blue-6 0%, var(--secondary-color) 100%);
   transition: 1s ease-in-out;
   z-index: 6;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

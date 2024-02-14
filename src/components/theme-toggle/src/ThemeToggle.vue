@@ -101,7 +101,7 @@ const onChangeMode = () => {
 
       .sun {
         opacity: 1;
-        color: $color-black;
+        color: $color-text-10;
       }
 
       .moon {

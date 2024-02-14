@@ -61,7 +61,7 @@ const isOpen = ref(true)
     margin-top: 10px;
   }
   .modal-desc {
-    color: $sub-text-dark-gray-color;
+    color: $color-gray-7;
     text-align: center;
   }
   .modal-body {

@@ -75,7 +75,7 @@ function setMenuPosition(menuPosition: ThemeConfig['menuPosition']) {
     position: absolute;
     bottom: 10px;
     right: 12px;
-    color: $color-gray;
+    color: $color-gray-7;
   }
 }
 </style>

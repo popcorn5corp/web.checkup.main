@@ -152,7 +152,7 @@ watch(
   }
 }
 p {
-  color: $sub-text-dark-gray-color;
+  color: $color-gray-7;
   line-height: 1.4;
   font-size: 17px;
 }
@@ -180,7 +180,7 @@ p {
     opacity: 0;
 
     span {
-      color: $color-black;
+      color: $color-text-10;
       position: absolute;
       top: 50%;
       left: 50%;

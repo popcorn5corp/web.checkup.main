@@ -1,43 +1,43 @@
 @import './variables';
-// $xs: 480px;
-// $sm: 576px;
-// $md: 768px;
-// $lg: 992px;
-// $xl: 1200px;
-// $xxl: 1600px;
+// $size-screen-xs: 480px;
+// $size-screen-sm: 576px;
+// $size-screen-md: 768px;
+// $size-screen-lg: 992px;
+// $size-screen-xl: 1200px;
+// $size-screen-xxl: 1600px;
 
 @mixin xxs {
-  @media (max-width: #{$xs}){
-      @content;
+  @media (max-width: #{$size-screen-xs}) {
+    @content;
   }
 }
 @mixin xs {
-  @media (min-width: #{$xs}) and (max-width: #{$sm}){
-      @content;
+  @media (min-width: #{$size-screen-xs}) and (max-width: #{$size-screen-sm}) {
+    @content;
   }
 }
 @mixin sm {
-  @media (min-width: #{$sm}) and (max-width: #{$md}){
+  @media (min-width: #{$size-screen-sm}) and (max-width: #{$size-screen-md}) {
     @content;
   }
 }
 @mixin md {
-  @media (min-width: #{$md}) and (max-width: #{$lg}){
+  @media (min-width: #{$size-screen-md}) and (max-width: #{$size-screen-lg}) {
     @content;
   }
 }
 @mixin lg {
-  @media (min-width: #{$lg}) and (max-width: #{$xl}){
+  @media (min-width: #{$size-screen-lg}) and (max-width: #{$size-screen-xl}) {
     @content;
   }
 }
 @mixin xl {
-  @media (min-width: #{$xl}) and (max-width: #{$xxl}){
+  @media (min-width: #{$size-screen-xl}) and (max-width: #{$size-screen-xxl}) {
     @content;
   }
 }
 @mixin xxl {
-  @media (min-width : #{$xxl}){
+  @media (min-width : #{$size-screen-xxl}) {
     @content;
   }
 }

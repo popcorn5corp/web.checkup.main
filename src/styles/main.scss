@@ -1,23 +1,21 @@
-@import './base//normalize';
-@import './base/reset';
-@import './base//fonts';
-@import './base/variables';
-@import './base/mediaQuery';
-@import "./base/_utilities" ;
+// Reset
+@import 'ant-design-vue/dist/reset.css';
+@import './base/_normalize';
 
+// Base
+@import './base/_fonts';
+@import './base/_mediaQuery';
+@import './base/_utilities';
+
+// Variable
+@import './base/_variables';
+
+// Theme
+@import './theme/light.scss';
+@import './theme/dark.scss';
 
 // Components
-// @import "./components/_avatar" ;
-// @import "./components/_badge" ;
-// // @import "./components/_button" ;
-@import "./components/_card" ;
-@import "./components/_chart" ;
-// @import "./components/_list" ;
-// @import "./components/_progress" ;
-// @import "./components/_settings-drawer" ;
-// @import "./components/_space" ;
-@import "./components/_table" ;
-// @import "./components/_tag" ;
-// @import "./components/_timeline" ;
-@import "./components/_widget" ;
-// @import "./components/dropdown" ;
+@import './components/_card';
+@import './components/_chart';
+@import './components/_table';
+@import './components/_widget';

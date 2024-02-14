@@ -179,7 +179,7 @@ defineExpose({
         justify-content: space-between;
         align-items: center;
         background: rgba(0, 0, 0, 0.06);
-        color: $color-black;
+        color: $color-text-10;
         margin: 2px 0;
         margin-right: 7px;
         padding: 4px;

@@ -91,13 +91,13 @@ const getLabelClass = computed(() => {
 
 .Label-red {
   background: #fff2f0;
-  color: $color-danger;
+  color: $color-feedback-error;
   border-color: #ffccc7;
 }
 
 .Label-red-outline {
-  border-color: $color-danger;
-  color: $color-danger;
+  border-color: $color-feedback-error;
+  color: $color-feedback-error;
   background: transparent;
 }
 
