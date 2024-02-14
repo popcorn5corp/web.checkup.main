@@ -40,8 +40,8 @@ import { ArrowRightOutlined } from '@ant-design/icons-vue'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { useWorkspaceStore } from '@/stores/modules'
 import { useAuthStore } from '@/stores/modules/auth'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import type { WorkspaceStepType } from '@/stores/modules/workspace/types'
 
 const { t } = useI18n()
