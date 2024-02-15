@@ -95,6 +95,15 @@ export const Primary: Story = {
   }
 }
 
+export const ColorsOnly: Story = {
+  args: { ...Primary.args },
+  parameters: {
+    designToken: {
+      tabs: ['Colors']
+    }
+  }
+}
+
 export const Secondary: Story = {
   args: {
     label: 'Button'

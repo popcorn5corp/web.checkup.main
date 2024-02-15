@@ -1,0 +1,1 @@
+import{s as u,k as r,m as t,j as a}from"./vue.esm-bundler-06433f34.js";import{u as c}from"./responsiveObserve-dd206e94.js";function f(){const s=u({});let e=null;const n=c();return r(()=>{e=n.value.subscribe(o=>{s.value=o})}),t(()=>{n.value.unsubscribe(e)}),s}function v(s){const e=u();return a(()=>{e.value=s()},{flush:"sync"}),e}export{v as e,f as u};

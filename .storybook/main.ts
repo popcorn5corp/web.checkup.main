@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/vue3-vite'
+
 // import { mergeConfig, loadConfigFromFile, ConfigEnv, UserConfig } from 'vite';
 // import path from 'path';
 
@@ -7,7 +8,13 @@ const config: StorybookConfig = {
     name: '@storybook/vue3-vite',
     options: {}
   },
-  stories: [ './docs/*.mdx', '../src/components/**/stories/*.stories.@(js|jsx|ts|tsx)'],
+  stories: [
+    './docs/*.mdx',
+    './design-tokens/*.mdx',
+    './design-tokens/*.stories.ts',
+
+    '../src/components/**/stories/*.stories.@(js|jsx|ts|tsx)'
+  ],
   features: {
     // storyStoreV7: false, // 👈 Opt out of on-demand story loading
   },
@@ -19,7 +26,8 @@ const config: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/addon-mdx-gfm',
     '@storybook/preset-scss',
-    '@storybook/addon-docs'
+    '@storybook/addon-docs',
+    'storybook-design-token'
   ],
   docs: {
     autodocs: 'tag'
@@ -43,7 +51,7 @@ const config: StorybookConfig = {
     //     ],
     //   },
     // });
-    return config;
-  },
+    return config
+  }
 }
 export default config

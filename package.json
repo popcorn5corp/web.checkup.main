@@ -54,6 +54,7 @@
     "radium": "^0.26.2",
     "sass": "^1.63.2",
     "sortablejs": "^1.15.0",
+    "storybook-design-token": "^3.0.0",
     "string-width": "^6.1.0",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-svg-icons": "^2.0.1",
