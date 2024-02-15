@@ -1,5 +1,5 @@
 <template>
-  <div id="container" class="container" v-if="!isSuccessSocialLogin && !isSuccessLogin">
+  <div id="container" class="container" v-if="!isSuccessSocialLogin || !isSuccessLogin">
     <div class="row">
       <!-- SIGN UP -->
       <div class="col align-items-center flex-col sign-up">
@@ -322,6 +322,9 @@ body {
 
 :deep(.custom-input-container) {
   margin: 0;
+}
+:deep(.custom-input-container .input-label) {
+  background: $color-white !important;
 }
 
 :deep(.ant-form) {
