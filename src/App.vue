@@ -4,8 +4,8 @@
     :theme="{
       algorithm: themeAlgorithm,
       token: {
-        colorPrimary: configTheme.primaryColor,
-        fontSize: configTheme.fontSize
+        colorPrimary: getTheme.primaryColor,
+        fontSize: getTheme.fontSize
       }
     }"
   >
@@ -18,6 +18,7 @@ import { ConfigProvider } from 'ant-design-vue'
 import { theme } from 'ant-design-vue'
 import { computed } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useTheme } from '@/hooks/useTheme'
 import { useLocale } from '@/locales/hooks/useLocale'
 
 const { defaultAlgorithm, darkAlgorithm, defaultSeed } = theme
@@ -31,18 +32,21 @@ const { defaultAlgorithm, darkAlgorithm, defaultSeed } = theme
 //   colorBgBase: `#282a42`,
 //   colorBgContainer: `#30334d`
 // }
-const { config } = useProjectConfigStore()
-const configTheme = computed(() => config.theme)
+const { getTheme } = useTheme()
+console.log('getTheme :: ', getTheme.value)
+
+// const { config } = useProjectConfigStore()
+// const configTheme = computed(() => config.theme)
 const customSeed = computed(() => {
   return {
     ...defaultSeed,
-    colorPrimary: configTheme.value.primaryColor,
-    fontSize: configTheme.value.fontSize
+    colorPrimary: getTheme.value.primaryColor,
+    fontSize: getTheme.value.fontSize
   }
 })
 const mergeToken = computed(() => darkAlgorithm(customSeed.value))
 const themeAlgorithm = computed(() =>
-  config.theme.navTheme === 'realDark' ? customDarkAlgorithm : defaultAlgorithm
+  getTheme.value.isDark ? customDarkAlgorithm : defaultAlgorithm
 )
 
 const { getAntdLocale } = useLocale()

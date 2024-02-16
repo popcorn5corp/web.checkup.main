@@ -15,7 +15,7 @@
   </Descriptions>
 </template>
 <script setup lang="ts" name="LanguageSetting">
-import { localeMessages } from '@/locales'
+// import { localeMessages } from '@/locales'
 import { Descriptions, Modal, Select } from 'ant-design-vue'
 import { createVNode, ref, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -27,7 +27,7 @@ import { QuestionCircleTwoTone } from '@/components/icons'
 
 const { Option } = Select
 
-const { setPersistedLocale, getLocale } = useLocale()
+const { setPersistedLocale, getLocale, setLocale } = useLocale()
 const selectedLocale = ref<LocaleType>(unref(getLocale))
 let prevLocale = selectedLocale.value
 const router = useRouter()
@@ -40,8 +40,8 @@ const onChangeLang = async (locale: LocaleType) => {
     width: 450,
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
-      setPersistedLocale(locale)
-      router.go(0)
+      setLocale(locale)
+      // router.go(0)
     },
     onCancel() {
       selectedLocale.value = prevLocale

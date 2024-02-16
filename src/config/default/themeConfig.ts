@@ -8,7 +8,13 @@ import {
   themeNames
 } from '@/stores/interface'
 
-const { t } = i18n.global
+// const { t } = i18n.global
+
+export const DEFAULT_PRIMARY_COLOR = '#1890ff'
+export const DEFAULT_FONT_SIZE = 13
+export const DEFAULT_THEME_NAME = 'light'
+export const DEFAULT_MENU_POSITION = 'side'
+export const DEFAULT_MENU_THEME_NAME = 'light'
 
 export const themeStyle: ReadonlyArray<LabelValue<ThemeName>> = [
   {
@@ -16,12 +22,12 @@ export const themeStyle: ReadonlyArray<LabelValue<ThemeName>> = [
     value: themeNames.light
   },
   {
-    label: 'Dark',
-    value: themeNames.dark
+    label: 'Semi Dark',
+    value: themeNames.semiDark
   },
   {
-    label: 'Real Dark',
-    value: themeNames.realDark
+    label: 'Dark',
+    value: themeNames.dark
   }
 ] as const
 
@@ -37,18 +43,18 @@ export const menuLayouts: ReadonlyArray<LabelValue<MenuPosition>> = [
 ] as const
 
 export const layoutFonts: ReadonlyArray<LabelValue<LayoutFontSize>> = [
-  {
-    label: t('layout.header.settings.fontSizeSmall'),
-    value: layoutFontSizes.small
-  },
-  {
-    label: t('layout.header.settings.fontSizeMedium'),
-    value: layoutFontSizes.medium
-  },
-  {
-    label: t('layout.header.settings.fontSizeLarge'),
-    value: layoutFontSizes.large
-  }
+  // {
+  //   label: t('layout.header.settings.fontSizeSmall'),
+  //   value: layoutFontSizes.small
+  // },
+  // {
+  //   label: t('layout.header.settings.fontSizeMedium'),
+  //   value: layoutFontSizes.medium
+  // },
+  // {
+  //   label: t('layout.header.settings.fontSizeLarge'),
+  //   value: layoutFontSizes.large
+  // }
 ] as const
 
 export const themeColors: ReadonlyArray<LabelValue<string>> = [

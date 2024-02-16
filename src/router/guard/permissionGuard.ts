@@ -1,3 +1,5 @@
+import { storeToRefs } from 'pinia'
+import { unref } from 'vue'
 import type { RouteLocationNormalized, Router } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -13,7 +15,9 @@ const isWhiteList = (to: RouteLocationNormalized) => {
 export function createPermissionGuard(router: Router) {
   router.beforeEach(async (to, _, next) => {
     const authStore = useAuthStore()
-    const { getWorkspaceId, getWorkspace, getUserWorkspace } = useWorkspaceStore()
+    const workspaceStore = useWorkspaceStore()
+    const { getUserWorkspace } = workspaceStore
+    const { getWorkspace, getWorkspaceId } = storeToRefs(workspaceStore)
     const token = authStore.getToken
 
     // 인증이 되지 않은 경우
@@ -35,10 +39,13 @@ export function createPermissionGuard(router: Router) {
     }
 
     // 워크스페이지가 존재하지 않을 경우, 워크스페이스 정보를 조회
-    if (getWorkspaceId && !getWorkspace) {
-      await getUserWorkspace()
+    if (unref(getWorkspaceId) && !unref(getWorkspace)) {
+      await getUserWorkspace().then(() => {
+        console.log('getWorkspace', getWorkspace)
+        next()
+      })
     }
 
-    next()
+    // next()
   })
 }

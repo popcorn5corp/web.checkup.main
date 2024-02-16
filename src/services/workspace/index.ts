@@ -95,6 +95,16 @@ class WorkspaceService {
   getWorkspaceSettings(workspaceId: string) {
     return service.get(this.PATH + `/workspaces/${workspaceId}/set`)
   }
+
+  /**
+   * @description 워크스페이스 환결설정 정보 수정 API
+   */
+  updateWorkspaceSettings(workspaceId: string, param: IWorkspace.UpdateWorkspaceSettingsParam) {
+    return service.put<IWorkspace.UpdateWorkspaceSettingsResponse>(
+      this.PATH + `/workspaces/${workspaceId}/set`,
+      param
+    )
+  }
 }
 
 export default new WorkspaceService()

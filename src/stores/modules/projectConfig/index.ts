@@ -4,7 +4,8 @@ import { computed, ref, unref, watch } from 'vue'
 import { THEME_KEY } from '@/constants/cacheKeyEnum'
 import { DeviceTypeEnum, type ProjectConfigState, type ThemeConfig, type ThemeName } from './types'
 
-const DEFAULT_PRIMARY = 'rgba(24, 144, 255, 1)'
+// const DEFAULT_PRIMARY = 'rgba(24, 144, 255, 1)'
+const DEFAULT_PRIMARY = '#1890ff'
 
 const defaultConfig: ProjectConfigState = {
   layout: 'default',
