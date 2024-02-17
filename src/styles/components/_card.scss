@@ -11,7 +11,7 @@
 .layout-dashboard {
   .ant-card {
     border-radius: 12px;
-    box-shadow: $shadow-1;
+    box-shadow: $elevation-1;
   }
 }
 
@@ -83,7 +83,7 @@
     background-size: cover;
     background-position: center;
     border-radius: 8px;
-    box-shadow: $shadow-2;
+    box-shadow: $elevation-2;
     position: relative;
     overflow: hidden;
 
@@ -251,7 +251,7 @@
       }
     }
     .ant-avatar {
-      box-shadow: $shadow-3;
+      box-shadow: $elevation-3;
       border-radius: 8px;
       margin: 0;
     }
@@ -277,7 +277,7 @@
 
   .ant-card-cover img {
     border-radius: 8px;
-    box-shadow: $shadow-2;
+    box-shadow: $elevation-2;
   }
   .ant-card-body {
     padding: 16px 0 0;
@@ -305,7 +305,7 @@
   width: 100%;
   max-width: 500px;
   margin: auto;
-  box-shadow: $shadow-1;
+  box-shadow: $elevation-1;
   border-radius: 12px;
   margin-top: -190px;
   margin-bottom: 20px;

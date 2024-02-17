@@ -7,7 +7,7 @@ const config: StorybookConfig = {
     name: '@storybook/vue3-vite',
     options: {}
   },
-  stories: [ './docs/*.mdx', '../src/components/**/stories/*.stories.@(js|jsx|ts|tsx)'],
+  stories: [ './docs/*.mdx', './tokens/*.stories.@(js|jsx|ts|tsx)', '../src/components/**/stories/*.stories.@(js|jsx|ts|tsx)'],
   features: {
     // storyStoreV7: false, // 👈 Opt out of on-demand story loading
   },
