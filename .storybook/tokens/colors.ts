@@ -26,8 +26,6 @@ export const base = {
 }
 
 export const theme = {
-
-
   daybreak: [
     {variables: '$color-blue-1', value: '#e6f4ff'},
     {variables: '$color-blue-2', value: '#bae0ff'},

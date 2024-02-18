@@ -42,7 +42,6 @@ function TokenContainer(token) {
             </>
           )}
         </>
-
       )
     })}
     </>
@@ -79,7 +78,6 @@ function TokenTd(tokenType: string, value: string) {
     </>
   )
 }
-
 
 
 export const BaseColors = {
