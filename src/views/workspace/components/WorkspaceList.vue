@@ -41,7 +41,7 @@
       </div>
       <div class="check-wrapper">
         <span>
-          <Checkbox v-model:checked="getUser.useDetaulWorkspace">
+          <Checkbox v-model:checked="getUser.useDefaultWorkspace">
             <p>
               {{ $t('page.workspace.listCheckText') }}
             </p>
@@ -60,9 +60,10 @@ import { Checkbox } from 'ant-design-vue'
 import { ref, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import type { IWorkspace } from '@/services/workspace/interface'
+import type { IWorkspace } from '@/services/workspace/types'
 import { useAuthStore } from '@/stores/modules/auth'
-import { type Workspace, useWorkspaceStore } from '@/stores/modules/workspace'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
+import type { Workspace } from '@/stores/modules/workspace/types'
 import { WORKSPACE_ID_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
 
@@ -104,7 +105,7 @@ async function onSelectWorkspace(workspace: Workspace) {
     const { workspaceId } = workspace
 
     await WorkspaceService.updateDefaultWorkspace({
-      defaultWorkspace: getUser.useDetaulWorkspace,
+      defaultWorkspace: getUser.useDefaultWorkspace,
       defaultWorkspaceId: workspaceId
     })
 
@@ -155,7 +156,7 @@ async function onSelectWorkspace(workspace: Workspace) {
 
   .list-desc {
     text-align: center;
-    color: $sub-text-dark-gray-color;
+    color: $color-gray-7;
     margin-bottom: 5px;
     font-size: 16px;
     line-height: 1.2;
@@ -165,7 +166,7 @@ async function onSelectWorkspace(workspace: Workspace) {
     margin-top: 10px;
     height: 80%;
     overflow-y: auto;
-    border: 1px solid $border-color;
+    border: 1px solid $color-gray-5;
     border-radius: 8px;
     ul {
       padding: 0;
@@ -176,7 +177,7 @@ async function onSelectWorkspace(workspace: Workspace) {
       justify-content: center;
       align-items: center;
       padding: 18px 33px;
-      border-bottom: 1px solid $border-color;
+      border-bottom: 1px solid $color-gray-5;
       transition: all 0.2s ease-in-out;
       cursor: pointer;
 
@@ -214,7 +215,7 @@ async function onSelectWorkspace(workspace: Workspace) {
         justify-content: center;
         padding: 12px;
         border-radius: 50%;
-        background: $color-blue;
+        background: $color-blue-6;
         font-size: 17px;
         color: $color-white;
         transition: transform 0.3s ease-in-out;
@@ -236,7 +237,7 @@ async function onSelectWorkspace(workspace: Workspace) {
       .arrow {
         transform: translateX(10px);
         background: transparent;
-        color: $color-blue;
+        color: $color-blue-6;
 
         .icon {
           display: none;
@@ -258,7 +259,7 @@ async function onSelectWorkspace(workspace: Workspace) {
       .arrow {
         transform: translateX(10px);
         background: transparent;
-        color: $color-blue;
+        color: $color-blue-6;
 
         .icon {
           display: none;
@@ -284,7 +285,7 @@ async function onSelectWorkspace(workspace: Workspace) {
   justify-content: space-between;
   padding: 1rem 2rem;
   margin-top: 1.5rem;
-  border: 1px solid $border-color;
+  border: 1px solid $color-gray-5;
   border-radius: 8px;
   font-size: 17px;
   cursor: pointer;
@@ -299,7 +300,7 @@ async function onSelectWorkspace(workspace: Workspace) {
     .sub {
       font-size: 16px;
       font-weight: 400;
-      color: $sub-text-dark-gray-color;
+      color: $color-gray-7;
       margin-top: 7px;
 
       .user-plus-icon {

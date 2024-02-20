@@ -1,5 +1,5 @@
 <template>
-  <button class="theme-toggle-btn" @click="onChangeMode">
+  <button class="theme-toggle-btn" @click="isDark = !isDark">
     <div class="toggle-box">
       <div class="toggle-icon-wrapper" :class="isDark ? 'active' : ''">
         <div class="moon icon">
@@ -53,25 +53,19 @@
 <script lang="ts" setup name="ThemeToggle">
 import { computed, unref } from 'vue'
 import type { ThemeName } from '@/stores/interface'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useTheme } from '@/hooks/useTheme'
 
-const { setTheme, setRealDarkTheme, getTheme } = useProjectConfigStore()
-
+const { getTheme, setThemeName, setDataTheme } = useTheme()
 const isDark = computed({
   get() {
-    return getTheme.isRealDarkTheme
+    return unref(getTheme).isDark
   },
   set(newVal) {
-    setTheme({ isRealDarkTheme: newVal })
-    setRealDarkTheme('realDark' as ThemeName)
+    const themeName: ThemeName = newVal ? 'dark' : 'light'
+    setThemeName(themeName)
+    setDataTheme(themeName)
   }
 })
-
-const onChangeMode = () => {
-  isDark.value = !isDark.value
-  const themeName = unref(isDark) ? 'realDark' : 'light'
-  setTheme({ navTheme: themeName })
-}
 </script>
 
 <style lang="scss" scoped>
@@ -101,7 +95,7 @@ const onChangeMode = () => {
 
       .sun {
         opacity: 1;
-        color: $color-black;
+        color: $color-text-10;
       }
 
       .moon {

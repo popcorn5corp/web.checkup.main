@@ -1,6 +1,6 @@
-import type { UploadProgressEvent } from 'ant-design-vue/es/vc-upload/interface'
+// import type { UploadProgressEvent } from 'ant-design-vue/es/vc-upload/interface'
 import { service } from '@/utils/http'
-import type { IFileManager } from './interface'
+import type { IFileManager } from './types'
 
 class FileManagerService {
   private readonly PATH = '/workspace/file'

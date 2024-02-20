@@ -21,15 +21,14 @@
 import { WorkspaceService } from '@/services'
 import { Select } from 'ant-design-vue'
 import { reactive, toRefs, watch } from 'vue'
-import type { IWorkspace } from '@/services/workspace/interface'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 const workspaceStore = useWorkspaceStore()
 const { getFormValues } = toRefs(workspaceStore)
 
 interface ReactiveType {
-  businessTypeOpt: IWorkspace.LabelValue<string>[]
-  employeeScaleOpt: IWorkspace.LabelValue<string>[]
+  businessTypeOpt: LabelValue<string>[]
+  employeeScaleOpt: LabelValue<string>[]
 }
 const option = reactive<ReactiveType>({
   businessTypeOpt: [],

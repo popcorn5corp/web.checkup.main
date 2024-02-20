@@ -48,6 +48,7 @@
       </template>
 
       <!-- 드롭다운 선택된 아이템 상태 표출 -->
+      <!-- @vue-skip -->
       <template #menuItemSelectedIcon><slot name="statusSelectedText" /></template>
 
       <template #notFoundContent v-if="loading">
@@ -62,8 +63,8 @@ import { Util } from '@/utils'
 import { Select } from 'ant-design-vue'
 import type { SelectValue } from 'ant-design-vue/es/tree-select'
 import { debounce } from 'lodash-es'
-import { computed, ref } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { computed, ref, unref } from 'vue'
+import { useTheme } from '@/hooks/useTheme'
 import { CloseOutlined } from '@/components/icons'
 import type { SearchSelectProps } from '../types'
 
@@ -73,11 +74,8 @@ const props = withDefaults(defineProps<SearchSelectProps>(), {})
 const loading = ref(false)
 const value = ref()
 
-const {
-  config: { theme }
-} = useProjectConfigStore()
-
-const getPrimaryColor = computed(() => theme.primaryColor)
+const { getTheme } = useTheme()
+const getPrimaryColor = computed(() => unref(getTheme).primaryColor)
 const getLowColorOpacity = computed(() => Util.Color.formatRgbaOpacity(getPrimaryColor.value, 0.1))
 
 const onSearch = debounce((value) => {
@@ -88,7 +86,7 @@ const onSearch = debounce((value) => {
   loading.value = false
 }, 300)
 
-const onChange = (value: SelectValue, options: Pick<SearchSelectProps, 'options'>) => {
+const onChange: SearchSelectProps['onChange'] = (value, options) => {
   emit('update:modelValue', options)
 }
 </script>
@@ -150,4 +148,3 @@ const onChange = (value: SelectValue, options: Pick<SearchSelectProps, 'options'
   font-size: 15px;
 }
 </style>
-@/utils/colorUtil

@@ -36,13 +36,13 @@
 import welcomeImg from '@/assets/images/workspace2.png'
 import createImg from '@/assets/images/workspace_create.png'
 import inviteImg from '@/assets/images/workspace_invite.png'
-import { useAuthStore } from '@/stores'
 import { ArrowRightOutlined } from '@ant-design/icons-vue'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/modules/auth'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
-import { type WorkspaceStepType } from '@/stores/modules/workspace'
+import type { WorkspaceStepType } from '@/stores/modules/workspace/types'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -86,7 +86,7 @@ const onBtnClick = (type: WorkspaceStepType) => {
   }
 
   p {
-    color: $sub-text-dark-gray-color;
+    color: $color-gray-7;
     margin-bottom: 5px;
     font-size: 18px;
     white-space: pre-line;
@@ -102,10 +102,10 @@ const onBtnClick = (type: WorkspaceStepType) => {
     align-items: center;
     justify-content: space-between;
     padding: 3.5rem 2rem;
-    border: 1px solid $border-color;
+    border: 1px solid $color-gray-5;
     border-radius: 10px;
     background: $color-white;
-    color: $color-black;
+    color: $color-text-10;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     .img {

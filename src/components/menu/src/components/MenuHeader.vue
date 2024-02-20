@@ -14,7 +14,6 @@
 <script setup lang="ts" name="MenuHeader">
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 interface Props {
@@ -23,23 +22,19 @@ interface Props {
 
 const props = defineProps<Props>()
 const { getWorkspace } = storeToRefs(useWorkspaceStore())
-const { getTheme } = useProjectConfigStore()
 
 const styles = computed(() => {
   const { collapsed } = props
-  const { navTheme } = getTheme
 
   return {
     imgWidth: collapsed ? '2rem' : '5rem',
-    imgHeight: collapsed ? '2rem' : '5rem',
-    nameColor: navTheme === 'dark' ? '#ffffff' : '#121212'
+    imgHeight: collapsed ? '2rem' : '5rem'
   }
 })
 </script>
 <style lang="scss" scoped>
 .menu-header {
   .user-preview {
-    // padding: 1rem;
     padding: 10px;
     align-items: center;
     flex-direction: column;
@@ -93,7 +88,6 @@ const styles = computed(() => {
         line-height: 1.5;
         text-align: center;
         width: 100%;
-        color: v-bind('styles.nameColor');
       }
 
       .email {

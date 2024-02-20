@@ -43,7 +43,7 @@ const styles = computed(() => {
 .table-layout-form-container {
   .detail-wrapper {
     flex: 2;
-    background-color: $bg-color;
+    background-color: $color-white;
     // height: 100%;
     position: absolute;
     width: 500px;

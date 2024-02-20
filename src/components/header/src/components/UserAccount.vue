@@ -7,17 +7,17 @@
 import MenuHeader from '@/components/menu/src/components/MenuHeader.vue'
 </script>
 <style lang="scss" scoped>
-.user-account {
-  :deep(.menu-header) {
-    .user-preview .info {
-      .name {
-        color: $text-color;
-      }
+// .user-account {
+//   :deep(.menu-header) {
+//     .user-preview .info {
+//       .name {
+//         color: $color-text-10;
+//       }
 
-      .email {
-        color: $color-gray-7;
-      }
-    }
-  }
-}
+//       .email {
+//         color: $color-gray-7;
+//       }
+//     }
+//   }
+// }
 </style>

@@ -24,21 +24,17 @@
 
 <script setup lang="ts" name="CustomSelect">
 import { Select, SelectOption } from 'ant-design-vue'
-import { computed, ref } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { type CSSProperties, computed, ref, unref } from 'vue'
+import { useTheme } from '@/hooks/useTheme'
 import type { SelectProps } from '../types'
 
 const emit = defineEmits(['update:value'])
-
 const props = withDefaults(defineProps<SelectProps>(), {})
 
-const {
-  config: { theme }
-} = useProjectConfigStore()
-
+const { getTheme } = useTheme()
 const themeColorStyle = computed<CSSProperties>(() => {
   return {
-    color: theme.primaryColor
+    color: unref(getTheme).primaryColor
   }
 })
 
@@ -61,7 +57,7 @@ const onFocusout = () => {
   isColored.value = false
 }
 
-const onChange = (value, options) => {
+const onChange: SelectProps['onChange'] = (value, options) => {
   selectValue.value = value
   emit('update:value', options)
 }
@@ -82,7 +78,7 @@ defineExpose({
     :deep(.ant-select-selector) {
       height: auto;
       padding: 5px 13px;
-      border: 1.5px solid $border-color;
+      border: 1.5px solid $color-gray-5;
       border-radius: 8px;
     }
     .ant-select-selector:after {
@@ -102,7 +98,7 @@ defineExpose({
   }
   .custom-select:hover {
     :deep(.ant-select-selector) {
-      border-color: $border-color !important;
+      border-color: $color-gray-5 !important;
     }
   }
   .select-label {
@@ -113,7 +109,7 @@ defineExpose({
     pointer-events: none;
     transform: translateY(-51%);
     transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    color: $border-color;
+    color: $color-gray-5;
     background: transparent;
     z-index: 99;
   }
@@ -128,7 +124,6 @@ defineExpose({
     top: 0;
     left: -5px;
     transform: translateY(-45%) scale(0.9);
-    background-color: $color-white;
     padding: 0 5px;
     z-index: 99;
   }
@@ -143,7 +138,7 @@ defineExpose({
 }
 .custom-select.active {
   :deep(.ant-select-selection-placeholder) {
-    color: $border-color;
+    color: $color-gray-5;
   }
 }
 </style>

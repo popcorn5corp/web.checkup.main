@@ -91,13 +91,13 @@ const getBadgeClass = computed(() => {
 
 .badge-red {
   background: #fff2f0;
-  color: $color-danger;
+  color: $color-feedback-error;
   border-color: #ffccc7;
 }
 
 .badge-red-outline {
-  border-color: $color-danger;
-  color: $color-danger;
+  border-color: $color-feedback-error;
+  color: $color-feedback-error;
   background: transparent;
 }
 

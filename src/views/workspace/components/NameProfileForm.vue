@@ -65,7 +65,7 @@
 import { WorkspaceService } from '@/services'
 import { Input, Modal } from 'ant-design-vue'
 import { computed, ref, toRefs, watch } from 'vue'
-import type { IWorkspace } from '@/services/workspace/interface'
+import type { IWorkspace } from '@/services/workspace/types'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { Button } from '@/components/button'
 import { FileUploader } from '@/components/file-uploader'
@@ -75,10 +75,9 @@ const { getFormValues } = toRefs(workspaceStore)
 
 const fileUploader = ref()
 const modalVisible = ref(false)
-const profileList = ref<IWorkspace.ImageFilesInfo[]>([])
+const profileList = ref<IWorkspace.ImageFileInfo[]>([])
 const fileUploaderImg = computed(() => fileUploader.value?.getFiles())
 const seletedImg = ref('')
-const selectImgBtn = ref()
 
 ;(async () => {
   try {
@@ -105,7 +104,7 @@ const onInput = (e: Event) => {
   workspaceStore.setNextBtnDisabled(nameValue.length > 0 ? false : true)
 }
 
-const onClickImg = (imgValue: IWorkspace.ImageFilesInfo) => {
+const onClickImg = (imgValue: IWorkspace.ImageFileInfo) => {
   seletedImg.value = imgValue.url
   modalVisible.value = false
 
@@ -153,7 +152,7 @@ watch(
   }
 }
 p {
-  color: $sub-text-dark-gray-color;
+  color: $color-gray-7;
   line-height: 1.4;
   font-size: 17px;
 }
@@ -181,7 +180,7 @@ p {
     opacity: 0;
 
     span {
-      color: $color-black;
+      color: $color-text-10;
       position: absolute;
       top: 50%;
       left: 50%;

@@ -43,8 +43,8 @@ import Sortable from 'sortablejs'
 import { type CSSProperties, computed, onMounted, onUnmounted, ref, unref, watch } from 'vue'
 import { type RouteLocationNormalized, useRoute } from 'vue-router'
 import type { RouteItem } from '@/stores/interface'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { useTabsLayoutStore } from '@/stores/modules/tabsLayout'
+import { useTabsLayoutStore } from '@/stores/modules/tabs-layout'
+import { useTheme } from '@/hooks/useTheme'
 import { TABS_ROUTES_KEY } from '@/constants/cacheKeyEnum'
 
 const { TabPane } = Tabs
@@ -52,17 +52,15 @@ const { Storage } = Util
 
 const route = useRoute()
 const tabsLyoutStore = useTabsLayoutStore()
-const {
-  config: { theme }
-} = useProjectConfigStore()
+const { getTheme } = useTheme()
 const activeKey = ref(route.fullPath)
 const newTabIndex = ref(0)
 const tabsRef = ref()
 
-const activeTabBorderColor = computed(() => theme.primaryColor)
+const activeTabBorderColor = computed(() => unref(getTheme).primaryColor)
 const tabsStyle = computed<CSSProperties>(() => {
   return {
-    backgroundColor: theme.navTheme !== 'realDark' ? 'rgba(255, 255, 255, 0.85)' : ''
+    backgroundColor: unref(getTheme).themeName !== 'dark' ? 'rgba(255, 255, 255, 0.85)' : ''
   }
 })
 

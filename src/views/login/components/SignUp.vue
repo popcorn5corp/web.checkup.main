@@ -233,7 +233,7 @@ const onFinish = async () => {
 }
 
 .form .errorMsg {
-  color: $color-danger;
+  color: $color-feedback-error;
   font-size: 13px;
   text-align: left;
   text-wrap: nowrap;
@@ -253,7 +253,7 @@ const onFinish = async () => {
 .text-title {
   font-size: 2rem;
   font-weight: 600;
-  color: $color-black !important;
+  color: $color-text-10 !important;
 }
 
 .text {

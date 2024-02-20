@@ -24,18 +24,15 @@
 
 <script setup lang="ts" name="CustomInput">
 import { Input } from 'ant-design-vue'
-import { type CSSProperties, computed, ref, watch } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { type CSSProperties, computed, ref, unref, watch } from 'vue'
+import { useTheme } from '@/hooks/useTheme'
 import type { InputProps } from '../types'
 
 const props = defineProps<InputProps>()
-const {
-  config: { theme }
-} = useProjectConfigStore()
-
+const { getTheme } = useTheme()
 const themeColorStyle = computed<CSSProperties>(() => {
   return {
-    color: theme.primaryColor
+    color: unref(getTheme).primaryColor
   }
 })
 
@@ -107,14 +104,13 @@ watch(
 
 .custom-input.error,
 .custom-input.error.active {
-  border: 1.5px solid $color-danger !important;
+  border: 1.5px solid $color-feedback-error !important;
 }
 
 .custom-input.active ~ label {
   top: 0;
   left: -5px;
   transform: translateY(-45%) scale(0.9);
-  background-color: $color-white;
   padding: 0 5px;
   z-index: 99;
 }
@@ -124,7 +120,7 @@ watch(
 
 .custom-input.error ~ label,
 .custom-input.error.active ~ label {
-  color: $color-danger !important;
+  color: $color-feedback-error !important;
 }
 
 .custom-input {

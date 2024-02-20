@@ -1,8 +1,7 @@
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
-import { isEqualWith } from 'lodash-es'
 import type { RouteLocation } from 'vue-router'
-import type { IAuth } from '@/services/auth/interface'
-import { type FilterFormItem, type FilterList } from '@/components/filter-form'
+import type { IAuth } from '@/services/auth/types'
+import { type FilterFormItem } from '@/components/filter-form'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 
 // export type LayoutType = 'default' | 'vertical' | 'transverse' | 'columns'
@@ -32,9 +31,15 @@ export const layouts = {
 
 export const themeNames = {
   light: 'light',
-  dark: 'dark',
-  realDark: 'realDark'
+  semiDark: 'semiDark',
+  dark: 'dark'
 } as const
+
+// export const themeNames = {
+//   light: 'light',
+//   dark: 'dark',
+//   realDark: 'realDark'
+// } as const
 
 export const layoutFontSizes = {
   small: 12,
@@ -43,8 +48,8 @@ export const layoutFontSizes = {
 } as const
 
 export const menuPositions = {
-  side: 'sidemenu',
-  top: 'topmenu'
+  side: 'side',
+  top: 'top'
 } as const
 
 export type LayoutType = (typeof layoutTypes)[keyof typeof layoutTypes]
@@ -57,7 +62,7 @@ export interface ThemeConfig {
   isRealDarkTheme: boolean
   isDark: boolean
   primaryColor: string // '#F5222D', // primary color of ant design
-  menuPosition: MenuPosition // nav menu position: `sidemenu` or `topmenu`
+  menuPosition: MenuPosition // nav menu position: `side` or `top`
   contentWidth: 'Fluid' | 'Fixed' // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
   fixedHeader: boolean // sticky header
   fixSiderbar: boolean // sticky siderbar

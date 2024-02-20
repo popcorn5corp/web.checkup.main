@@ -124,7 +124,7 @@ import { Radio, RadioGroup } from 'ant-design-vue'
 import { reactive } from 'vue'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { IAuth } from '@/services/auth/interface'
+import { IAuth } from '@/services/auth/types'
 import { FormItem } from '@/components/form'
 import { Input } from '@/components/input'
 import ResetPasswordForm from './ResetPasswordForm.vue'
@@ -428,7 +428,7 @@ watch(
 }
 
 .errorMsg {
-  color: $color-danger;
+  color: $color-feedback-error;
   font-size: 13px;
   text-align: left;
   text-wrap: nowrap;
@@ -440,7 +440,7 @@ watch(
   position: absolute;
   bottom: -22px;
   left: 0;
-  color: $color-danger;
+  color: $color-feedback-error;
   font-size: 13px;
   margin: 0;
 }

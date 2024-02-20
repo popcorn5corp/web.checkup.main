@@ -2,14 +2,14 @@
   <Layout class="layout-default">
     <!-- Page Side 영역 -->
     <Layout.Sider
-      :ref="(ref) => tour.setTour(1, ref as Element, TOUR_TYPE.CHECKUP_TOUR_DEMO)"
-      v-if="config.theme.menuPosition === 'sidemenu'"
       class="layout-sider"
+      v-if="getTheme.menuPosition === 'side'"
+      :ref="(ref) => tour.setTour(1, ref as Element, TOUR_TYPE.CHECKUP_TOUR_DEMO)"
       v-model:collapsed="collapsed"
       :width="asiderWidth"
       :trigger="null"
       collapsible
-      :theme="getTheme"
+      :theme="getTheme.themeName === 'dark' || getTheme.themeName === 'semiDark' ? 'dark' : 'light'"
     >
       <Logo :imgPath="imgPath" />
 
@@ -17,7 +17,7 @@
       <AsideMenu
         :items="menus"
         :collapsed="collapsed"
-        :theme="getTheme"
+        :theme="getTheme.menuThemeName"
         :mode="'inline'"
         :isSide="isSideMenu"
       />
@@ -28,9 +28,9 @@
       <LayoutHeader
         :ref="(ref) => tour.setTour(2, ref as Element, TOUR_TYPE.CHECKUP_TOUR_DEMO)"
         :collapsed="collapsed"
-        :theme="getTheme"
+        :theme="getTheme.themeName === 'dark' ? 'dark' : 'light'"
       >
-        <template v-if="config.theme.menuPosition === 'topmenu'" #default>
+        <template v-if="getTheme.menuPosition === 'top'" #default>
           <Logo :imgPath="imgPath" />
 
           <!-- Header Menu 영역 -->
@@ -38,7 +38,7 @@
             <AsideMenu
               :items="menus"
               :collapsed="collapsed"
-              :theme="getTheme"
+              :theme="getTheme.menuThemeName"
               :isSide="isSideMenu"
             />
           </div>
@@ -51,7 +51,6 @@
       <Layout.Content
         :ref="(ref) => tour.setTour(4, ref as Element, TOUR_TYPE.CHECKUP_TOUR_DEMO)"
         class="layout-content"
-        :class="getDarkModeClass"
       >
         <div class="title">{{ $route.meta.title }}</div>
 
@@ -75,28 +74,27 @@
 </template>
 <script setup lang="ts" name="LayoutDefault">
 import { Divider, Layout } from 'ant-design-vue'
-import { type CSSProperties, computed, onMounted, ref } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { storeToRefs } from 'pinia'
+import { type CSSProperties, computed, onMounted, ref, unref } from 'vue'
+import { useAppStore } from '@/stores/modules/app'
 import { useTourStore } from '@/stores/modules/tour'
+import { useTheme } from '@/hooks/useTheme'
 import { Header as LayoutHeader } from '@/components/header'
 import { Logo } from '@/components/logo'
 import { Menu as AsideMenu } from '@/components/menu'
 import { menus } from '@/components/menu/src/mock'
 import { Tour } from '@/components/tour'
 import { useTour } from '@/components/tour/hooks/useTour'
-// import LayoutFooter from '../components/LayoutFooter.vue'
 import { TOUR_TYPE } from '@/components/tour/types'
 import LayoutTabs from '../components/LayoutTabs.vue'
 import CircularMenu from './components/CircularMenu.vue'
 
-const { config } = useProjectConfigStore()
+const { getTheme } = useTheme()
+const { getSettings } = storeToRefs(useAppStore())
 const tourStore = useTourStore()
-const collapsed = computed<boolean>(() => config.isCollapse)
+const collapsed = computed<boolean>(() => unref(getSettings).isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
-const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
-const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
-const isSideMenu = computed(() => config.theme.menuPosition === 'sidemenu')
-
+const isSideMenu = computed(() => unref(getTheme).menuPosition === 'side')
 const tour = useTour()
 const tourType = TOUR_TYPE.CHECKUP_TOUR
 const steps = computed(() => tourStore.getTour(tourType))
@@ -107,34 +105,31 @@ const handleOpen = () => {
 }
 
 const imgPath = computed(
-  () => new URL(`/src/assets/images/${config.theme.logoFileName}`, import.meta.url).href
+  () => new URL(`/src/assets/images/${unref(getSettings).logoFileName}`, import.meta.url).href
 )
 
 const logoStyles = computed<{ logo: CSSProperties; img: CSSProperties }>(() => {
+  const { isCollapse } = unref(getSettings)
+
   return {
     logo: {
-      padding: config.isCollapse ? '10px' : ''
+      padding: isCollapse ? '10px' : ''
     },
     img: {
-      width: config.isCollapse ? '60px' : '220px'
+      width: isCollapse ? '60px' : '220px'
     }
   }
 })
 
 const mainStyles = computed<{ size: CSSProperties }>(() => {
-  const {
-    theme: { menuPosition },
-    isCollapse
-  } = config
+  const { menuPosition } = unref(getTheme)
+  const { isCollapse } = unref(getSettings)
+
   return {
     size: {
       width:
-        menuPosition === 'topmenu'
-          ? '100%'
-          : isCollapse
-          ? 'calc(100% - 80px)'
-          : 'calc(100% - 220px)',
-      paddingLeft: menuPosition === 'topmenu' ? '0' : isCollapse ? '80px' : '220px'
+        menuPosition === 'top' ? '100%' : isCollapse ? 'calc(100% - 80px)' : 'calc(100% - 220px)',
+      paddingLeft: menuPosition === 'top' ? '0' : isCollapse ? '80px' : '220px'
     }
   }
 })
@@ -177,7 +172,6 @@ $tab-margin-top: 2px;
     width: v-bind('mainStyles.size.width');
     margin-left: v-bind('mainStyles.size.paddingLeft');
     overflow: auto;
-    background: $color-white;
   }
   .layout-header {
     height: $header-height;
@@ -228,10 +222,6 @@ $tab-margin-top: 2px;
         height: 100%;
       }
     }
-  }
-  .dark-mode {
-    background: $color-realDark !important;
-    color: $color-white !important;
   }
 }
 </style>

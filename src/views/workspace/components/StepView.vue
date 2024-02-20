@@ -61,7 +61,7 @@ import { PagePathEnum } from '@/constants/pageEnum'
 
 const router = useRouter()
 const workspaceStore = useWorkspaceStore()
-workspaceStore.resetCurrentStep()
+workspaceStore.initCurrentStep()
 const {
   getCurrentStep,
   getSteps,
@@ -130,7 +130,7 @@ const onComplete = async () => {
   margin: 0 auto;
 
   .step-wrapper {
-    background: $color-primary;
+    background: $color-blue-6;
     margin-bottom: 1rem;
     padding: 5px 12px;
     border-radius: 1rem;
@@ -167,7 +167,7 @@ const onComplete = async () => {
     p {
       font-weight: 500;
       font-size: 19px;
-      color: $sub-text-dark-gray-color;
+      color: $color-gray-7;
       margin-bottom: 5px;
       line-height: 1.7;
       white-space: pre-line;
@@ -183,15 +183,15 @@ const onComplete = async () => {
       background-color: $input-bg-color;
       border-radius: 0.5rem;
       border: none;
-      color: $color-dark;
+      color: $color-semiDark;
     }
     input::placeholder {
-      color: $color-gray;
+      color: $color-gray-7;
     }
     small {
       font-weight: 400;
       font-size: 15px;
-      color: $sub-text-dark-gray-color;
+      color: $color-gray-7;
       margin-left: 3px;
     }
   }

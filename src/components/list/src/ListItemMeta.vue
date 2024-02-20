@@ -3,7 +3,9 @@
     <ListItemMeta v-bind="{ ...props }">
       <template #title>
         <slot name="title" />
-        <span class="description"><slot name="content"> </slot></span>
+        <span class="description ant-list-item-meta-description"
+          ><slot name="content"> </slot
+        ></span>
       </template>
       <template #avatar><slot name="avatar" /></template>
     </ListItemMeta>

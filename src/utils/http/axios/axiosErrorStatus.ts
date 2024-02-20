@@ -1,5 +1,5 @@
-import { useAuthStore } from '@/stores'
 import type { AxiosError } from 'axios'
+import { useAuthStore } from '@/stores/modules/auth'
 import { useMessage } from '@/hooks/useMessage'
 
 const { createMessage } = useMessage()

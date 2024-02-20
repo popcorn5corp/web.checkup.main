@@ -1,12 +1,12 @@
 <template>
-  <div class="top-container">
-    <ThemeToggle />
-    <div class="language-setting-wrapper">
-      <LanguageSetting />
-    </div>
-  </div>
-
   <div id="workspace-container">
+    <div class="header">
+      <ThemeToggle />
+      <div class="language-setting-wrapper">
+        <LanguageSetting />
+      </div>
+    </div>
+
     <RouterView v-if="!getStepType" />
     <StepView v-else :uid="workspaceUserInfo.uid" />
   </div>
@@ -16,11 +16,8 @@
 import { reactive, toRefs, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
-import {
-  type WorkspaceStepType,
-  useWorkspaceStore,
-  workspaceStepTypes
-} from '@/stores/modules/workspace'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { type WorkspaceStepType, workspaceStepTypes } from '@/stores/modules/workspace/types'
 import LanguageSetting from '@/components/header/src/components/LanguageSetting.vue'
 import { ThemeToggle } from '@/components/theme-toggle'
 import StepView from './components/StepView.vue'
@@ -50,26 +47,6 @@ watch(
 </script>
 
 <style lang="scss">
-.top-container {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  display: flex;
-  gap: 10px;
-
-  .ant-descriptions .ant-descriptions-header {
-    display: none;
-  }
-
-  :deep(.ant-descriptions-item) {
-    padding: 0;
-  }
-
-  .language-setting-wrapper {
-    width: 200px;
-  }
-}
-
 #workspace-container {
   width: 100vw;
   height: 100vh;
@@ -79,6 +56,26 @@ watch(
   display: flex;
   justify-content: space-around;
   align-items: center;
+
+  .header {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 10px;
+
+    .ant-descriptions .ant-descriptions-header {
+      display: none;
+    }
+
+    :deep(.ant-descriptions-item) {
+      padding: 0;
+    }
+
+    .language-setting-wrapper {
+      width: 200px;
+    }
+  }
 
   .content {
     width: 50%;

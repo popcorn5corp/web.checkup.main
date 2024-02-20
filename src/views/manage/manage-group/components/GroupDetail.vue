@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts" name="ComponentsOverviewList">
-import { ManagerGroupService } from '@/services'
+import { ManageGroupService } from '@/services'
 import {
   ExclamationCircleOutlined,
   MinusOutlined,
@@ -88,7 +88,7 @@ import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { h, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { IManageGroup } from '@/services/manage-group/interface'
+import type { IManageGroup } from '@/services/manage-group/types'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { List, ListItem, ListItemMeta } from '@/components/list'
 import { SearchSelect } from '@/components/search-select'
@@ -135,7 +135,7 @@ const handleLoading = () => {
 function fetchGroupUserList() {
   handleLoading()
 
-  ManagerGroupService.getGroupDetail(props.groupId)
+  ManageGroupService.getGroupDetail(props.groupId)
     .then(({ success, data }) => {
       if (success) {
         dataSource.value = data.posts.content
@@ -185,7 +185,7 @@ async function getWorkspaceUserList() {
     data: {
       posts: { content }
     }
-  } = await ManagerGroupService.getWorkspaceUserList(getWorkspaceId, props.groupId, param)
+  } = await ManageGroupService.getWorkspaceUserList(getWorkspaceId, props.groupId, param)
 
   if (success) {
     options.value = getOptions(content)
@@ -202,7 +202,7 @@ function reloadUserList() {
 
 const onSubmit = () => {
   if (selectedValues.value) {
-    ManagerGroupService.addUserWithGroup(props.groupId, {
+    ManageGroupService.addUserWithGroup(props.groupId, {
       workspaceId: getWorkspaceId as string,
       addUsers: selectedValues.value.map((item: any) => ({
         uid: item.uid,
@@ -232,7 +232,7 @@ const showDeleteConfirm = (uid: string) => {
     okType: 'primary',
     cancelText: t('component.button.cancel'),
     onOk() {
-      ManagerGroupService.removeUserWithGroup(props.groupId, uid)
+      ManageGroupService.removeUserWithGroup(props.groupId, uid)
         .then(({ success }) => {
           if (success) {
             showMessage(MessageType.Delete)

@@ -1,5 +1,5 @@
 import { service } from '@/utils/http'
-import type { IWorkspace } from './interface'
+import type { IWorkspace } from './types'
 
 class WorkspaceService {
   private readonly PATH = '/workspace/v1.0'
@@ -86,6 +86,23 @@ class WorkspaceService {
   getUserWorkspace(workspaceId: string) {
     return service.get<IWorkspace.GetUserWorkspaceResponse>(
       this.PATH + `/workspaces/${workspaceId}/me`
+    )
+  }
+
+  /**
+   * @description 워크스페이스 환경설정 정보 조회 API
+   */
+  getWorkspaceSettings(workspaceId: string) {
+    return service.get(this.PATH + `/workspaces/${workspaceId}/set`)
+  }
+
+  /**
+   * @description 워크스페이스 환결설정 정보 수정 API
+   */
+  updateWorkspaceSettings(workspaceId: string, param: IWorkspace.UpdateWorkspaceSettingsParam) {
+    return service.put<IWorkspace.UpdateWorkspaceSettingsResponse>(
+      this.PATH + `/workspaces/${workspaceId}/set`,
+      param
     )
   }
 }

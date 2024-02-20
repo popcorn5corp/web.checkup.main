@@ -83,12 +83,7 @@
           ></FilterForm>
         </KeepAlive>
 
-        <div
-          class="detail-wrapper"
-          v-if="openDetail"
-          :style="{ width: openDetail ? '30%' : '' }"
-          :class="[getTheme.isRealDarkTheme && 'dark']"
-        >
+        <div class="detail-wrapper" v-if="openDetail" :style="{ width: openDetail ? '30%' : '' }">
           <div class="title">
             <slot name="detail-title"></slot>
 
@@ -113,19 +108,13 @@
 import { Divider, Space } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Button } from '@/components/button'
 import { FilterForm } from '@/components/filter-form'
 import {
-  DeleteOutlined,
   DeleteTwoTone,
   DownloadOutlined,
-  FilterOutlined,
   FilterTwoTone,
-  PlusCircleOutlined,
-  PlusCircleTwoTone,
-  PlusOutlined,
-  UserAddOutlined
+  PlusCircleTwoTone
 } from '@/components/icons'
 import { Table } from '@/components/table'
 import { useTour } from '@/components/tour/hooks/useTour'
@@ -162,7 +151,6 @@ defineExpose<DynamicTableExposes>({
   }
 })
 
-const { getTheme } = useProjectConfigStore()
 const tour = useTour()
 const attrs = useAttrs()
 const { t } = useI18n()
@@ -327,7 +315,6 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
 
     .detail-wrapper {
       height: calc(100vh - 145px);
-      background-color: $color-white;
       z-index: 2;
       right: 0;
       margin-top: -80px;
@@ -348,12 +335,6 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
 
       :deep(.ant-divider) {
         margin: 0;
-      }
-
-      &.dark {
-        background: $color-dark;
-        color: $color-white;
-        border: 1.5px solid $color-gray-10;
       }
     }
   }

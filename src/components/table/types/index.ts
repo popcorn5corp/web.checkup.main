@@ -1,6 +1,6 @@
 import type { TableProps as ATableProps, TableColumnType } from 'ant-design-vue'
 import type { DefaultRecordType } from 'ant-design-vue/lib/vc-table/interface'
-import type { SortCodesResponse } from '@/services/base-sample/interface'
+import type { SortCodesResponse } from '@/services/base-sample/types'
 
 type PaginationPositon =
   | 'topLeft'

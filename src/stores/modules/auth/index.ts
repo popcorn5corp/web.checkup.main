@@ -1,67 +1,12 @@
 import { router } from '@/router'
 import { AuthService, WorkspaceService } from '@/services'
 import { Util } from '@/utils'
-import { message } from 'ant-design-vue'
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
-import type { IAuth } from '@/services/auth/interface'
-import type { IWorkspace } from '@/services/workspace/interface'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
-// import { store } from '../'
-import type { TokenKey } from '../interface'
-import { useWorkspaceStore } from './workspace'
-
-export type IUser = IAuth.UserResponse & { useDetaulWorkspace: boolean }
-export type IUserWorkspace = {
-  workspaceId: string
-  workspaceName: string
-  user: {
-    workspaceUserId: string
-    email: string
-    nickname: string
-    profile: string
-    status: {
-      label: string
-      value: IWorkspace.UserStatus
-    }
-  }
-}
-
-interface AuthState {
-  user: IUser
-  loggedIn: boolean
-  token: string
-  workspace: IUserWorkspace
-}
-
-function getDefaultUser(): IUser {
-  return {
-    uid: '',
-    userId: '',
-    userName: '',
-    workspaceCount: 0,
-    userEmail: '',
-    useDetaulWorkspace: false
-  }
-}
-
-function getDefaultWorkspace(): IUserWorkspace {
-  return {
-    workspaceId: '',
-    workspaceName: '',
-    user: {
-      workspaceUserId: '',
-      email: '',
-      nickname: '',
-      profile: '',
-      status: {
-        label: '',
-        value: 'ACTIVE'
-      }
-    }
-  }
-}
+import type { AuthState, IUser, TokenKey } from './types'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -69,13 +14,11 @@ export const useAuthStore = defineStore(
     const state = reactive<AuthState>({
       user: Util.Storage.get<IUser>('user') || getDefaultUser(),
       token: Util.Storage.get<string>(ACCESS_TOKEN_KEY),
-      loggedIn: false,
-      workspace: getDefaultWorkspace()
+      loggedIn: false
     })
     const { setSelectedWorkspaceId } = useWorkspaceStore()
     const getUser = computed(() => state.user)
     const getToken = computed(() => state.token)
-    const getUserWorkspace = computed(() => state.workspace)
 
     async function login() {
       return AuthService.getUser().then(
@@ -104,7 +47,6 @@ export const useAuthStore = defineStore(
     async function afterLoginAction() {
       try {
         const { goPath } = await workspaceAction()
-
         router.push(goPath)
 
         return {
@@ -132,11 +74,15 @@ export const useAuthStore = defineStore(
            * - workspace 목록 조회 API 호출
            ************************************************************/
           const { data } = await WorkspaceService.getWorkspaceList()
-          const { defaultWorkspace, defaultWorkspaceId, workspaceInfoList } = data
-          setUser({ useDetaulWorkspace: defaultWorkspace })
+          const {
+            defaultWorkspace: useDefaultWorkspace,
+            defaultWorkspaceId,
+            workspaceInfoList
+          } = data
+          setUser({ useDefaultWorkspace })
           console.log('[workspaces] :: ', data)
 
-          if (defaultWorkspace) {
+          if (useDefaultWorkspace) {
             /************************************************************
              * case: defaultWorkspace 설정한 경우
              * - workspace 상세 조회 API 호출
@@ -144,7 +90,7 @@ export const useAuthStore = defineStore(
              ************************************************************/
             setSelectedWorkspaceId(defaultWorkspaceId)
             goPath = PagePathEnum.BASE_HOME
-          } else if (!defaultWorkspace && workspaceInfoList.length === 1) {
+          } else if (!useDefaultWorkspace && workspaceInfoList.length === 1) {
             /************************************************************
              * case: defaultWorkspace 설정하지 않고 workspace 목록이 한개일 경우
              * - workspace 상세 조회 API 호출
@@ -153,7 +99,7 @@ export const useAuthStore = defineStore(
              ************************************************************/
             setSelectedWorkspaceId(workspaceInfoList[0].workspaceId)
             goPath = PagePathEnum.BASE_HOME
-          } else if (!defaultWorkspace && workspaceInfoList.length > 1) {
+          } else if (!useDefaultWorkspace && workspaceInfoList.length > 1) {
             /************************************************************
              * case: defaultWorkspace 설정하지 않고 workspace 목록이 여러개일 경우
              * - workspace 목록 화면으로 이동
@@ -203,7 +149,6 @@ export const useAuthStore = defineStore(
     return {
       getUser,
       getToken,
-      getUserWorkspace,
       login,
       afterLoginAction,
       logout,
@@ -217,3 +162,14 @@ export const useAuthStore = defineStore(
     persist: true
   }
 )
+
+function getDefaultUser(): IUser {
+  return {
+    uid: '',
+    userId: '',
+    userName: '',
+    workspaceCount: 0,
+    userEmail: '',
+    useDefaultWorkspace: false
+  }
+}

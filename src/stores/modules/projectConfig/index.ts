@@ -2,14 +2,10 @@ import { Util } from '@/utils'
 import { defineStore } from 'pinia'
 import { computed, ref, unref, watch } from 'vue'
 import { THEME_KEY } from '@/constants/cacheKeyEnum'
-import {
-  DeviceTypeEnum,
-  type ProjectConfigState,
-  type ThemeConfig,
-  type ThemeName
-} from '../interface'
+import { DeviceTypeEnum, type ProjectConfigState, type ThemeConfig, type ThemeName } from './types'
 
-const DEFAULT_PRIMARY = 'rgba(24, 144, 255, 1)'
+// const DEFAULT_PRIMARY = 'rgba(24, 144, 255, 1)'
+const DEFAULT_PRIMARY = '#1890ff'
 
 const defaultConfig: ProjectConfigState = {
   layout: 'default',
@@ -18,13 +14,13 @@ const defaultConfig: ProjectConfigState = {
   primary: DEFAULT_PRIMARY,
   isDark: false,
   isCollapse: false,
-  // device: DeviceTypeEnum.Desktop,
+  device: DeviceTypeEnum.Desktop,
   theme: {
     navTheme: 'light',
     isRealDarkTheme: false,
     isDark: false,
     primaryColor: DEFAULT_PRIMARY, // '#F5222D', // primary color of ant design
-    menuPosition: 'sidemenu', // nav menu position: `sidemenu` or `topmenu`
+    menuPosition: 'side', // nav menu position: `side` or `top`
     contentWidth: 'Fluid', // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
     fixedHeader: false, // sticky header
     fixSiderbar: false, // sticky siderbar
@@ -44,14 +40,19 @@ const styleDom = document.createElement('style')
 styleDom.dataset.type = 'theme-dark'
 document.head.appendChild(styleDom)
 
-const setRealDarkTheme = (navTheme?: ThemeName) => {
-  if (navTheme === 'realDark') {
-    document.documentElement.setAttribute('data-theme', 'dark')
-    styleDom.disabled = false
-  } else {
-    document.documentElement.removeAttribute('data-theme')
-    styleDom.disabled = true
-  }
+// const setRealDarkTheme = (navTheme?: ThemeName) => {
+//   if (navTheme === 'realDark') {
+//     document.documentElement.setAttribute('data-theme', 'dark')
+//     styleDom.disabled = false
+//   } else {
+//     document.documentElement.removeAttribute('data-theme')
+//     styleDom.disabled = true
+//   }
+// }
+
+const setRealDarkTheme = (themeName: ThemeName) => {
+  document.documentElement.setAttribute('data-theme', themeName)
+  styleDom.disabled = false
 }
 
 const getLocalTheme = (): ThemeConfig => {

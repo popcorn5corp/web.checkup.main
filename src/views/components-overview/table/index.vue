@@ -1,7 +1,7 @@
 <script setup lang="ts" name="ComponentsOverviewTable">
 import { BaseSampleService } from '@/services'
 import { ref } from 'vue'
-import type { IBaseSample } from '@/services/base-sample/interface'
+import type { IBaseSample } from '@/services/base-sample/types'
 import { Table } from '@/components/table'
 import { columns } from './mock'
 
