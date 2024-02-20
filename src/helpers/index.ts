@@ -1,5 +1,5 @@
 import { LocaleHelper } from './localeHelper'
 
-export const Helper: Recordable = {
+export const Helper = {
   Locale: LocaleHelper
 }
