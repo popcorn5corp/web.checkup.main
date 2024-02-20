@@ -1,16 +1,12 @@
-
-
 export const spacing = {
   spacing: [
-    {variables: '$size-xxs', value: '4px'},
-    {variables: '$size-xs', value: '8px'},
-    {variables: '$size-sm', value: '12px'},
-    {variables: '$size', value: '16px'},
-    {variables: '$size-ms', value: '16px'},
-    {variables: '$size-md', value: '20px'},
-    {variables: '$size-lg', value: '24px'},
-    {variables: '$size-xl', value: '32px'},
-    {variables: '$size-xxl', value: '48px'},
-  ],
+    { variables: '$spacing-xxs', value: '4px' },
+    { variables: '$spacing-xs', value: '8px' },
+    { variables: '$spacing-sm', value: '12px' },
+    { variables: '$spacing-ms', value: '16px' },
+    { variables: '$spacing-md', value: '20px' },
+    { variables: '$spacing-lg', value: '24px' },
+    { variables: '$spacing-xl', value: '32px' },
+    { variables: '$spacing-xxl', value: '46px' }
+  ]
 }
-
