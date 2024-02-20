@@ -319,7 +319,7 @@ createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, ge
       right: 0;
       margin-top: -80px;
       border: 0.5px solid $color-gray-4;
-      box-shadow: $shadow-3;
+      box-shadow: $elevation-3;
       height: calc(100vh - 145px);
       overflow-x: hidden;
       overflow-y: scroll;
