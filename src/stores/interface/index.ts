@@ -47,11 +47,6 @@ export const layoutFontSizes = {
   large: 14
 } as const
 
-// export const menuPositions = {
-//   side: 'sidemenu',
-//   top: 'topmenu'
-// } as const
-
 export const menuPositions = {
   side: 'side',
   top: 'top'
@@ -67,7 +62,7 @@ export interface ThemeConfig {
   isRealDarkTheme: boolean
   isDark: boolean
   primaryColor: string // '#F5222D', // primary color of ant design
-  menuPosition: MenuPosition // nav menu position: `sidemenu` or `topmenu`
+  menuPosition: MenuPosition // nav menu position: `side` or `top`
   contentWidth: 'Fluid' | 'Fixed' // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
   fixedHeader: boolean // sticky header
   fixSiderbar: boolean // sticky siderbar

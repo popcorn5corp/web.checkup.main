@@ -5,6 +5,8 @@ import { defineStore } from 'pinia'
 import { computed, reactive, toRefs, unref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import type { IWorkspace } from '@/services/workspace/types'
+import { useTheme } from '@/hooks/useTheme'
+import { useLocale } from '@/locales/hooks/useLocale'
 import { WORKSPACE_ID_KEY, WORKSPACE_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
 import { getDefaultWorkspaceSettings, getStepsInfo } from './data'
@@ -21,6 +23,8 @@ const FIRST_STEP_COUNT = 1 as const
 
 export const useWorkspaceStore = defineStore('workspace', () => {
   const router = useRouter()
+  const { setLocale } = useLocale()
+  const { initTheme, setDataTheme } = useTheme()
   const state = reactive<WorkspaceState>({
     stepType: null, // 'create' | 'invite' | null
     currentStep: FIRST_STEP_COUNT, // 현재 step
@@ -132,7 +136,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
    * @description 워크스페이스 상세정보 조회
    * @param workspaceId
    */
-  async function getUserWorkspace(): Promise<string> {
+  async function getUserWorkspace(): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
         const { success, data } = await WorkspaceService.getUserWorkspace(
@@ -159,7 +163,13 @@ export const useWorkspaceStore = defineStore('workspace', () => {
           settings: workspaceSettings
         }
 
+        console.log('workspace', workspace.settings.language)
+
+        // initialize workspace
         setWorkspace(workspace)
+        setDataTheme(workspace.settings.display.themeName)
+        await setLocale(workspaceSettings.language.language)
+        resolve()
       } catch (error) {
         console.log(error)
         reject(error)

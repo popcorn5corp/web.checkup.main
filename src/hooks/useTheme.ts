@@ -1,6 +1,7 @@
+import type { MenuTheme } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
 import { computed, ref, unref, watch, watchEffect } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useAppStore } from '@/stores/modules/app'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { getDefaultWorkspaceSettings } from '@/stores/modules/workspace/data'
 import type { WorkspaceSettings } from '@/stores/modules/workspace/types'
@@ -41,7 +42,7 @@ import {
 
 type DefaultThemeName = typeof DEFAULT_THEME_NAME
 export type ThemeName = DefaultThemeName | 'semiDark' | 'dark'
-export type MenuThemeName = 'light' | 'dark'
+export type MenuThemeName = MenuTheme
 export type MenuPosition = 'side' | 'top'
 
 export interface ITheme {
@@ -65,7 +66,9 @@ const defaultTheme: ITheme = {
 }
 
 export const useTheme = () => {
-  const { config, setCollapse } = useProjectConfigStore()
+  const appStore = useAppStore()
+  const { setCollapse } = appStore
+  const { getSettings } = storeToRefs(appStore)
   const workspaceStore = useWorkspaceStore()
   const { getWorkspace } = storeToRefs(workspaceStore)
   const theme = ref<ITheme>(defaultTheme)
@@ -93,8 +96,6 @@ export const useTheme = () => {
           fontSize
         }
       }
-
-      console.log('theme ::: ', theme.value)
     },
     {
       deep: true,
@@ -108,15 +109,29 @@ export const useTheme = () => {
     })
   }
 
-  function _setTheme(values: Partial<WorkspaceSettings>) {
-    workspaceStore.setWorkspaceSettings(values)
+  async function _setTheme(values: Partial<WorkspaceSettings>) {
+    await workspaceStore.setWorkspaceSettings(values)
   }
 
   function setThemeName(themeName: ThemeName) {
+    const menuThemeName: MenuThemeName =
+      themeName === 'dark' || themeName === 'semiDark' ? 'dark' : 'light'
+
     _setTheme({
       display: {
         ...unref(settings).display,
-        themeName
+        themeName,
+        menuThemeName
+      }
+    }).then(() => {
+      setDataTheme(themeName)
+    })
+  }
+
+  function setFontSize(fontSize: number) {
+    _setTheme({
+      accessibility: {
+        fontSize
       }
     })
   }
@@ -136,42 +151,39 @@ export const useTheme = () => {
         ...unref(settings).display,
         menuPosition
       }
+    }).then(() => {
+      if (menuPosition === 'top' && unref(getSettings).isCollapse) {
+        setCollapse(false)
+      }
     })
+  }
 
-    if (menuPosition === 'top' && config.isCollapse) {
-      setCollapse(false)
+  function setLocaleTheme(_theme: Partial<ITheme>) {
+    theme.value = {
+      ...unref(theme),
+      ..._theme
     }
   }
 
-  const setDataTheme = (navTheme?: ThemeName) => {
-    if (navTheme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark')
-    } else {
-      document.documentElement.removeAttribute('data-theme')
-    }
-  }
-
-  // console.log(getTheme)
-  // const { config, setConfig } = useProjectConfigStore()
-  // // const getTheme = computed(() => config.theme)
-  // const getTheme = ref(config.theme)
-  // function setTheme(theme: Partial<ThemeConfig>): void {
-  //   Object.entries(theme).map(([key]) => {
-  //     const themeKey = key as keyof Partial<ThemeConfig>
-  //     // config.theme[themeKey] = theme[themeKey] as never
-  //     setConfig({
-  //       theme: {
-  //         ...config.theme,
-  //         [themeKey]: theme[themeKey]
-  //       }
-  //     })
-  //   })
+  // const setDataTheme = (navTheme?: ThemeName) => {
+  //   if (navTheme === 'dark') {
+  //     document.documentElement.setAttribute('data-theme', 'dark')
+  //   } else {
+  //     document.documentElement.removeAttribute('data-theme')
+  //   }
   // }
+
+  const setDataTheme = (themeName: ThemeName) => {
+    document.documentElement.setAttribute('data-theme', themeName)
+  }
   return {
     initTheme,
     getTheme,
     setThemeName,
+    setFontSize,
     setMenuPosition,
-    setPrimaryColor
+    setPrimaryColor,
+    setDataTheme,
+    setLocaleTheme
   }
 }

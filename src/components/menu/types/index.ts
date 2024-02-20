@@ -1,4 +1,5 @@
 import type { MenuMode, MenuTheme } from 'ant-design-vue'
+import type { MenuThemeName } from '@/hooks/useTheme'
 
 export type MenuList = MenuItem[]
 export interface MenuItem {
@@ -16,9 +17,9 @@ export interface MenuItem {
 export interface MenuProps {
   items: any
   collapsed: boolean
-  theme?: MenuTheme
+  theme?: MenuThemeName
   mode?: MenuMode
   isSide: boolean
 }
 
-export type { MenuTheme }
+export type { MenuThemeName }

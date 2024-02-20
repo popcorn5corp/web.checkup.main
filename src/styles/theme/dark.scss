@@ -6,9 +6,9 @@
 
 /* Dark Mode Variables
    ========================================================================== */
-$darkmode-color-background: $color-dark;
+$darkmode-color-background: $color-dark; // darkmode main background color
 $darkmode-color-background-sub: $color-semiDark;
-$darkmode-color-text: $color-white;
+$darkmode-color-text: $color-white; // darkmode main text color
 $darkmode-color-text-sub: $color-text-50;
 $darkmode-color-border: $border-color;
 
@@ -24,7 +24,8 @@ html[data-theme='dark'] {
   .layout-header,
   .layout-sider,
   .ant-menu-dark {
-    background: inherit;
+    background: $darkmode-color-background !important;
+    color: $darkmode-color-text;
   }
 
   .filter-form-container {
@@ -38,7 +39,7 @@ html[data-theme='dark'] {
 
   .table-tags-container {
     .table-tag {
-      background-color: $darkmode-color-background-sub;
+      background-color: $color-semiDark;
       color: $color-white;
     }
   }
@@ -85,13 +86,16 @@ html[data-theme='dark'] {
   }
 
   #workspace-container {
-    background-color: rgba(0, 21, 41, 0.8509803922) !important;
-    color: #fff !important;
+    background-color: $darkmode-color-background;
+    color: $darkmode-color-text;
+    
     .list-wrapper {
       border: 1px solid $darkmode-color-border !important;
+
       .list-box {
         border: 1px solid $darkmode-color-border !important;
       }
+
       .list-li {
         border-bottom-color: $darkmode-color-border !important;
       }
@@ -99,6 +103,7 @@ html[data-theme='dark'] {
     .invite-code-wrapper {
       border: 1px solid $darkmode-color-border !important;
     }
+
     .welcome-btns-wrapper {
       .btn-box {
         background: $darkmode-color-background !important;
@@ -107,6 +112,7 @@ html[data-theme='dark'] {
       }
     }
   }
+  
   #workspace-step-btn-container {
     .form-wrapper {
       input {

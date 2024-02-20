@@ -2,7 +2,6 @@ import { Helper } from '@/helpers'
 import type { Locale } from 'ant-design-vue/es/locale-provider'
 import { computed, nextTick, unref } from 'vue'
 import { useLocaleStoreWithOut } from '@/stores/modules/locale'
-import { useWorkspaceStore } from '@/stores/modules/workspace'
 import i18n from '@/locales/'
 import type { LocaleType } from '@/locales/config'
 
@@ -13,7 +12,6 @@ interface LangModule {
 }
 
 export const useLocale = () => {
-  const { setWorkspaceSettings } = useWorkspaceStore()
   const localeStore = useLocaleStoreWithOut()
   const getLocale = computed(() => localeStore.getLocale)
   const getAntdLocale = computed<Locale>(() => {
@@ -42,32 +40,22 @@ export const useLocale = () => {
     localeStore.setLocale(locale)
   }
 
-  // async function setLocale(locale: LocaleType) {
-  //   const globalI18n = i18n.global
-  //   const currentLocale = globalI18n.locale.value
-  //   if (currentLocale === locale) {
-  //     return locale
-  //   }
-
-  //   if (Helper.Locale.loadLocalePool.includes(locale)) {
-  //     setI18nLanguage(locale)
-  //     return locale
-  //   }
-
-  //   // loadLocaleMessages(locale)
-  //   Helper.Locale.loadLocalePool.push(locale)
-  //   setI18nLanguage(locale)
-  //   return locale
-  // }
-
-  async function setLocale(locale: LocaleType) {
-    return setWorkspaceSettings({
-      language: {
-        language: locale
+  async function setLocale(locale: LocaleType): Promise<LocaleType> {
+    return new Promise((resolve) => {
+      const globalI18n = i18n.global
+      const currentLocale = globalI18n.locale.value
+      if (currentLocale === locale) {
+        resolve(locale)
       }
-    }).then((res) => {
-      console.log('res ', res)
-      setPersistedLocale(locale)
+
+      if (Helper.Locale.loadLocalePool.includes(locale)) {
+        setI18nLanguage(locale)
+        resolve(locale)
+      }
+
+      Helper.Locale.loadLocalePool.push(locale)
+      setI18nLanguage(locale)
+      resolve(locale)
     })
   }
 

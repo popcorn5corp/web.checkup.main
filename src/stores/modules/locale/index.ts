@@ -1,9 +1,8 @@
 import i18n from '@/locales'
 import { store } from '@/stores'
 import { Util } from '@/utils'
-import { defineStore, storeToRefs } from 'pinia'
-import { computed, reactive, unref, watch } from 'vue'
-import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { defineStore } from 'pinia'
+import { computed, reactive } from 'vue'
 import { LOCALE_KEY } from '@/constants/cacheKeyEnum'
 import type { LocaleState } from './types'
 
@@ -30,31 +29,15 @@ const Trans = {
 }
 
 export const useLocaleStore = defineStore('locale', () => {
-  const { getSettings, getWorkspace } = storeToRefs(useWorkspaceStore())
   const state = reactive<LocaleState>({
     locale: Trans.persistedLocale
-    // locale: unref(getSettings).language.language
-    // locale: null
   })
 
-  watch(
-    () => unref(getWorkspace),
-    (workspace) => {
-      console.log('watch lang ', workspace)
-    },
-    {
-      immediate: false,
-      deep: true
-    }
-  )
-
-  const getLocale = computed(() => state.locale)
-
-  console.log('getLocale :: ', getLocale)
+  const getLocale = computed(() => state.locale || Trans.browserLanguage || Trans.defaultLocale)
 
   function setLocale(locale: LocaleState['locale']): void {
     state.locale = locale
-    Trans.persistedLocale = locale
+    setPersistedLocale(locale)
   }
 
   function setPersistedLocale(locale: LocaleState['locale']) {

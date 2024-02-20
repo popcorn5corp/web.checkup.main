@@ -8,7 +8,7 @@ import {
   themeNames
 } from '@/stores/interface'
 
-// const { t } = i18n.global
+const { t } = i18n.global
 
 export const DEFAULT_PRIMARY_COLOR = '#1890ff'
 export const DEFAULT_FONT_SIZE = 13
@@ -33,28 +33,28 @@ export const themeStyle: ReadonlyArray<LabelValue<ThemeName>> = [
 
 export const menuLayouts: ReadonlyArray<LabelValue<MenuPosition>> = [
   {
-    label: 'Side Menu',
-    value: menuPositions.side
-  },
-  {
     label: 'Top Menu',
     value: menuPositions.top
+  },
+  {
+    label: 'Side Menu',
+    value: menuPositions.side
   }
 ] as const
 
 export const layoutFonts: ReadonlyArray<LabelValue<LayoutFontSize>> = [
-  // {
-  //   label: t('layout.header.settings.fontSizeSmall'),
-  //   value: layoutFontSizes.small
-  // },
-  // {
-  //   label: t('layout.header.settings.fontSizeMedium'),
-  //   value: layoutFontSizes.medium
-  // },
-  // {
-  //   label: t('layout.header.settings.fontSizeLarge'),
-  //   value: layoutFontSizes.large
-  // }
+  {
+    label: t('layout.header.settings.fontSizeSmall'),
+    value: layoutFontSizes.small
+  },
+  {
+    label: t('layout.header.settings.fontSizeMedium'),
+    value: layoutFontSizes.medium
+  },
+  {
+    label: t('layout.header.settings.fontSizeLarge'),
+    value: layoutFontSizes.large
+  }
 ] as const
 
 export const themeColors: ReadonlyArray<LabelValue<string>> = [
