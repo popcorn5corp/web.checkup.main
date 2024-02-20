@@ -118,13 +118,13 @@ const onFinish = async () => {
     &-normal {
       font-size: 1rem;
       font-weight: 400;
-      color: $color-black;
+      color: $color-text-10;
     }
 
     &-links {
       font-size: 1rem;
       font-weight: 400;
-      color: $color-primary;
+      color: $color-blue-6;
 
       &:hover {
         text-decoration: underline;
@@ -145,7 +145,7 @@ const onFinish = async () => {
 }
 
 .form .errorMsg {
-  color: $color-danger;
+  color: $color-feedback-error;
   font-size: 13px;
   text-align: left;
   text-wrap: nowrap;
@@ -182,7 +182,7 @@ const onFinish = async () => {
 .text-title {
   font-size: 2rem;
   font-weight: 600;
-  color: $color-black !important;
+  color: $color-text-10 !important;
 }
 
 .text.sign-in h2,

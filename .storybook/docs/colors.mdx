@@ -1,0 +1,60 @@
+import { ColorItem, ColorPalette, Meta } from '@storybook/blocks'
+import { base, theme } from '../tokens/colors'
+
+<Meta title="Colors" />
+
+## ColorPalette
+
+#### 체크업 서비스에서 사용되는 색상 정의 문서 입니다.
+
+###### A document that defines the colors required for the development of check-up services.
+
+<br/>
+<ColorPalette>
+  <ColorItem
+    title="Primary"
+    subtitle=""
+    colors={{ '$color-primary': '#1890FF' }}
+  />
+
+<ColorItem
+  title="Light"
+  subtitle="Lighter day-break"
+  colors={theme.daybreak.map((color) => color.value).splice(0, 10)}
+/>
+
+<ColorItem
+  title="Dark"
+  subtitle="Darker day-break"
+  colors={theme.daybreak.map((color) => color.value).splice(10, 20)}
+/>
+
+<ColorItem
+  title="Background"
+  subtitle="Darkmode handle"
+  colors={{ lightMode: '#ffffff', darkMode: '#282a42' }}
+/>
+
+<ColorItem
+  title="Base"
+  subtitle="default colors"
+  colors={{
+    white: '#ffffff',
+    semiDark: '#30334d',
+    dark: '#282a42',
+    black: '#000000'
+  }}
+/>
+
+<ColorItem
+  title="Feedback"
+  subtitle="default colors"
+  colors={{
+    success: '#52c41a',
+    info: '#1890ff',
+    warning: '#fadb14',
+    error: '#ff4d49'
+  }}
+/>
+
+</ColorPalette>

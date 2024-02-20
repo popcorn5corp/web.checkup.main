@@ -51,7 +51,6 @@
       <Layout.Content
         :ref="(ref) => tour.setTour(4, ref as Element, TOUR_TYPE.CHECKUP_TOUR_DEMO)"
         class="layout-content"
-        :class="getDarkModeClass"
       >
         <div class="title">{{ $route.meta.title }}</div>
 
@@ -94,7 +93,7 @@ const tourStore = useTourStore()
 const collapsed = computed<boolean>(() => config.isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
 const getTheme = computed(() => (config.theme.navTheme === 'light' ? 'light' : 'dark'))
-const getDarkModeClass = computed(() => ({ 'dark-mode': config.theme.navTheme === 'realDark' }))
+
 const isSideMenu = computed(() => config.theme.menuPosition === 'sidemenu')
 
 const tour = useTour()
@@ -177,7 +176,6 @@ $tab-margin-top: 2px;
     width: v-bind('mainStyles.size.width');
     margin-left: v-bind('mainStyles.size.paddingLeft');
     overflow: auto;
-    background: $color-white;
   }
   .layout-header {
     height: $header-height;
@@ -228,10 +226,6 @@ $tab-margin-top: 2px;
         height: 100%;
       }
     }
-  }
-  .dark-mode {
-    background: $color-realDark !important;
-    color: $color-white !important;
   }
 }
 </style>

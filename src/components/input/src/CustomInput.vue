@@ -107,14 +107,13 @@ watch(
 
 .custom-input.error,
 .custom-input.error.active {
-  border: 1.5px solid $color-danger !important;
+  border: 1.5px solid $color-feedback-error !important;
 }
 
 .custom-input.active ~ label {
   top: 0;
   left: -5px;
   transform: translateY(-45%) scale(0.9);
-  background-color: $color-white;
   padding: 0 5px;
   z-index: 99;
 }
@@ -124,7 +123,7 @@ watch(
 
 .custom-input.error ~ label,
 .custom-input.error.active ~ label {
-  color: $color-danger !important;
+  color: $color-feedback-error !important;
 }
 
 .custom-input {

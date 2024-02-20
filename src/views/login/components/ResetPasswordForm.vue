@@ -132,7 +132,7 @@ const onFinish = async () => {
   }
 
   .errorMsg {
-    color: $color-danger;
+    color: $color-feedback-error;
     font-size: 13px;
     text-align: left;
     text-wrap: nowrap;

@@ -11,7 +11,7 @@ import MenuHeader from '@/components/menu/src/components/MenuHeader.vue'
   :deep(.menu-header) {
     .user-preview .info {
       .name {
-        color: $text-color;
+        color: $color-text-10;
       }
 
       .email {

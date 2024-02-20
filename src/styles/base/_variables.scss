@@ -1,21 +1,18 @@
-// _variables.scss
-//
-// Template's variables for colors, font weight and... .
-//
+/** ========================================================================== 
+ *  Colors Tokens (--color-**-**)
+ *
+ *  - Base Color Palettes
+ *  - Feedback Color
+ *  - Text color 
+ *  ======================================================================== */
 
-// Base Colors
-$color-primary: #1890ff;
-$color-secondary: #b37feb;
-$color-success: #52c41a;
-$color-warning: #fadb14;
-$color-danger: #ff4d49;
-$color-dark: #30334d; // #141414;
-$color-realDark: rgba(40,42,66); // #001529d9;
+/* Base Color Palettes
+   ========================================================================== */
 $color-white: #ffffff;
+$color-black: #000000;
+$color-semiDark: #30334d;
+$color-dark: #282a42;
 
-// / Base Colors
-
-// Neutral Colors
 $color-gray-1: #ffffff;
 $color-gray-2: #fafafa;
 $color-gray-3: #f5f5f5;
@@ -29,79 +26,409 @@ $color-gray-10: #262626;
 $color-gray-11: #1f1f1f;
 $color-gray-12: #141414;
 $color-muted: $color-gray-7;
-// / Neutral Colors
 
-// Font Weights
-$fw-regular: 400;
-$fw-semibold: 600;
-$fw-bold: 700;
-// / Font Weights
+//  Daybreak
+$color-blue-1: #e6f7ff;
+$color-blue-2: #bae7ff;
+$color-blue-3: #91d5ff;
+$color-blue-4: #69c0ff;
+$color-blue-5: #40a9ff;
+$color-blue-6: #1890ff;
+$color-blue-7: #096dd9;
+$color-blue-8: #0050b3;
+$color-blue-9: #003a8c;
+$color-blue-10: #002766;
 
-// Font Family
-$f-family: 'open sans', Helvetica, Arial, sans-serif;
-// / Font Family
+$color-blue-dark-1: #111a2c;
+$color-blue-dark-2: #112545;
+$color-blue-dark-3: #15325b;
+$color-blue-dark-4: #15417e;
+$color-blue-dark-5: #1554ad;
+$color-blue-dark-6: #1668dc;
+$color-blue-dark-7: #3c89e8;
+$color-blue-dark-8: #65a9f3;
+$color-blue-dark-9: #8dc5f8;
+$color-blue-dark-10: #b7dcfa;
 
-// Responsive Breakpoints
-$xs: 480px;
-$sm: 576px;
-$md: 768px;
-$lg: 992px;
-$xl: 1200px;
-$xxl: 1600px;
-// / Responsive Breakpoints
+//  Dust
+$color-red-1: #fff1f0;
+$color-red-2: #ffccc7;
+$color-red-3: #ffa39e;
+$color-red-4: #ff7875;
+$color-red-5: #ff4d4f;
+$color-red-6: #f5222d;
+$color-red-7: #cf1322;
+$color-red-8: #a8071a;
+$color-red-9: #820014;
+$color-red-10: #5c0011;
 
-$border-color: $color-gray-5;
-// Ant Design Vars
+$color-red-dark-1: #2a1215;
+$color-red-dark-2: #431418;
+$color-red-dark-3: #58181c;
+$color-red-dark-4: #791a1f;
+$color-red-dark-5: #a61d24;
+$color-red-dark-6: #d32029;
+$color-red-dark-7: #e84749;
+$color-red-dark-8: #f37370;
+$color-red-dark-9: #f89f9a;
+$color-red-dark-10: #fac8c3;
+
+//  Volcano
+$color-volcano-1: #fff2e8;
+$color-volcano-2: #ffd8bf;
+$color-volcano-3: #ffbb96;
+$color-volcano-4: #ff9c6e;
+$color-volcano-5: #ff7a45;
+$color-volcano-6: #fa541c;
+$color-volcano-7: #d4380d;
+$color-volcano-8: #ad2102;
+$color-volcano-9: #871400;
+$color-volcano-10: #610b00;
+
+$color-volcano-dark-1: #2b1611;
+$color-volcano-dark-2: #441d12;
+$color-volcano-dark-3: #592716;
+$color-volcano-dark-4: #7c3118;
+$color-volcano-dark-5: #aa3e19;
+$color-volcano-dark-6: #d84a1b;
+$color-volcano-dark-7: #e87040;
+$color-volcano-dark-8: #f3956a;
+$color-volcano-dark-9: #f8b692;
+$color-volcano-dark-10: #fad4bc;
+
+//  Sunset
+$color-yellow-1: #feffe6;
+$color-yellow-2: #ffffb8;
+$color-yellow-3: #fffb8f;
+$color-yellow-4: #fff566;
+$color-yellow-5: #ffec3d;
+$color-yellow-6: #fadb14;
+$color-yellow-7: #d4b104;
+$color-yellow-8: #ad8b00;
+$color-yellow-9: #876800;
+$color-yellow-10: #614700;
+
+$color-yellow-dark-1: #2b2611;
+$color-yellow-dark-2: #443b11;
+$color-yellow-dark-3: #595014;
+$color-yellow-dark-4: #7c6e14;
+$color-yellow-dark-5: #aa9514;
+$color-yellow-dark-6: #d8bd14;
+$color-yellow-dark-7: #e8d639;
+$color-yellow-dark-8: #f3ea62;
+$color-yellow-dark-9: #f8f48b;
+$color-yellow-dark-10: #fafab5;
+
+//  Cyan
+$color-cyan-1: #e6fffb;
+$color-cyan-2: #b5f5ec;
+$color-cyan-3: #87e8de;
+$color-cyan-4: #5cdbd3;
+$color-cyan-5: #36cfc9;
+$color-cyan-6: #13c2c2;
+$color-cyan-7: #08979c;
+$color-cyan-8: #006d75;
+$color-cyan-9: #00474f;
+$color-cyan-10: #002329;
+
+$color-cyan-dark-1: #112123;
+$color-cyan-dark-2: #113536;
+$color-cyan-dark-3: #144848;
+$color-cyan-dark-4: #146262;
+$color-cyan-dark-5: #138585;
+$color-cyan-dark-6: #13a8a8;
+$color-cyan-dark-7: #33bcb7;
+$color-cyan-dark-8: #58d1c9;
+$color-cyan-dark-9: #84e2d8;
+$color-cyan-dark-10: #b2f1e8;
+
+// Green
+$color-green-1: #f6ffed;
+$color-green-2: #d9f7be;
+$color-green-3: #b7eb8f;
+$color-green-4: #95de64;
+$color-green-5: #73d13d;
+$color-green-6: #52c41a;
+$color-green-7: #389e0d;
+$color-green-8: #237804;
+$color-green-9: #135200;
+$color-green-10: #092b00;
+
+$color-green-dark-1: #162312;
+$color-green-dark-2: #1d3712;
+$color-green-dark-3: #274916;
+$color-green-dark-4: #306317;
+$color-green-dark-5: #3c8618;
+$color-green-dark-6: #49aa19;
+$color-green-dark-7: #6abe39;
+$color-green-dark-8: #8fd460;
+$color-green-dark-9: #b2e58b;
+$color-green-dark-10: #d5f2bb;
+
+//  Geek Blue
+$color-geekblue-1: #f0f5ff;
+$color-geekblue-2: #d6e4ff;
+$color-geekblue-3: #adc6ff;
+$color-geekblue-4: #85a5ff;
+$color-geekblue-5: #597ef7;
+$color-geekblue-6: #2f54eb;
+$color-geekblue-7: #1d39c4;
+$color-geekblue-8: #10239e;
+$color-geekblue-9: #061178;
+$color-geekblue-10: #030852;
+
+$color-geekblue-dark-1: #131629;
+$color-geekblue-dark-2: #161d40;
+$color-geekblue-dark-3: #1c2755;
+$color-geekblue-dark-4: #203175;
+$color-geekblue-dark-5: #263ea0;
+$color-geekblue-dark-6: #2b4acb;
+$color-geekblue-dark-7: #5273e0;
+$color-geekblue-dark-8: #7f9ef3;
+$color-geekblue-dark-9: #a8c1f8;
+$color-geekblue-dark-10: #d2e0fa;
+
+//  Purple
+$color-purple-1: #f9f0ff;
+$color-purple-2: #efdbff;
+$color-purple-3: #d3adf7;
+$color-purple-4: #b37feb;
+$color-purple-5: #9254de;
+$color-purple-6: #722ed1;
+$color-purple-7: #531dab;
+$color-purple-8: #391085;
+$color-purple-9: #22075e;
+$color-purple-10: #120338;
+
+$color-purple-dark-1: #1a1325;
+$color-purple-dark-2: #24163a;
+$color-purple-dark-3: #301c4d;
+$color-purple-dark-4: #3e2069;
+$color-purple-dark-5: #51258f;
+$color-purple-dark-6: #642ab5;
+$color-purple-dark-7: #854eca;
+$color-purple-dark-8: #ab7ae0;
+$color-purple-dark-9: #cda8f0;
+$color-purple-dark-10: #ebd7fa;
+
+// Gold
+$color-gold-1: #fffbe6;
+$color-gold-2: #fff1b8;
+$color-gold-3: #ffe58f;
+$color-gold-4: #ffd666;
+$color-gold-5: #ffc53d;
+$color-gold-6: #faad14;
+$color-gold-7: #d48806;
+$color-gold-8: #ad6800;
+$color-gold-9: #874d00;
+$color-gold-10: #613400;
+
+$color-gold-dark-1: #2b2111;
+$color-gold-dark-2: #443111;
+$color-gold-dark-3: #594214;
+$color-gold-dark-4: #7c5914;
+$color-gold-dark-5: #aa7714;
+$color-gold-dark-6: #d89614;
+$color-gold-dark-7: #e8b339;
+$color-gold-dark-8: #f3cc62;
+$color-gold-dark-9: #f8df88;
+$color-gold-dark-10: #faedb5;
+
+// Lime
+$color-lime-1: #f6ffed;
+$color-lime-2: #d9f7be;
+$color-lime-3: #b7eb8f;
+$color-lime-4: #95de64;
+$color-lime-5: #73d13d;
+$color-lime-6: #52c41a;
+$color-lime-7: #389e0d;
+$color-lime-8: #237804;
+$color-lime-9: #135200;
+$color-lime-10: #092b00;
+
+$color-lime-dark-1: #162312;
+$color-lime-dark-2: #1d3712;
+$color-lime-dark-3: #274916;
+$color-lime-dark-4: #306317;
+$color-lime-dark-5: #3c8618;
+$color-lime-dark-6: #49aa19;
+$color-lime-dark-7: #6abe39;
+$color-lime-dark-8: #8fd460;
+$color-lime-dark-9: #b2e58b;
+$color-lime-dark-10: #d5f2bb;
+
+/* Feedback Color
+   ========================================================================== */
+$color-feedback-info: #1890ff;
+$color-feedback-success: #52c41a;
+$color-feedback-error: #ff4d49;
+$color-feedback-warning: #fadb14;
+$color-feedback-secondary: #b37feb;
+
+/* Text color Tokens
+   ========================================================================== */
+$color-text-10: #000000e0;
+$color-text-20: #343332;
+$color-text-30: #676765;
+$color-text-40: #81807e;
+$color-text-50: #ffffff80;
+
+$color-text-sub-10: #555555;
+$color-text-sub-20: rgba(0, 0, 0, 0.25);
+$color-text-disabled: #000000;
+$color-text-placeholder: #000000;
+
+/** ========================================================================== 
+ *  Size Tokens(--size-**-**)
+ *
+ *  - Spacing
+ *  - Screen Size
+ *  - Component Height
+ *  ======================================================================== */
+
+/* Spacing
+    ========================================================================== */
+$spacing-xxs: 4;
+$spacing-xs: 8;
+$spacing-sm: 12;
+$spacing-ms: 16;
+$spacing-md: 20;
+$spacing-lg: 24;
+$spacing-xl: 32;
+$spacing-xxl: 46;
+
+/*  Screen Size
+    ========================================================================== */
+$size-screen-xs: 480px;
+$size-screen-sm: 576px;
+$size-screen-md: 768px;
+$size-screen-lg: 992px;
+$size-screen-xl: 1200px;
+$size-screen-xxl: 1600px;
+
+/*  Component Height
+    ========================================================================== */
+$size-component-height-small: 20px;
+$size-component-height-medium: 23px;
+$size-component-height-large: 25px;
+
+/** ========================================================================== 
+ *  Border Tokens(--border-**-**)
+ *
+ *  - Border Color
+ *  - Border Radius Shape
+ *  ======================================================================== */
+
+/* Border Color
+   ========================================================================== */
+$border-color: #ebebff45;
+
+/* Border Radius
+   ========================================================================== */
+$radius-square: 0px;
+$radius-round-1: 6px;
+$radius-round-2: 8px;
+$radius-round-3: 24px;
+$radius-round-4: 40px;
+$radius-circle: 50%;
+
+/** ========================================================================== 
+ *  Shadows Tokens(--shadow-**-**)
+ *
+ *  - Box Shadows
+ *  ======================================================================== */
+
+/* Box Shadows
+   ========================================================================== */
+$elevation-1: 0px 20px 27px rgba(0, 0, 0, 0.05);
+$elevation-2: 0px 4px 6px rgba(0, 0, 0, 0.12);
+$elevation-3: 0px 5px 10px rgba(0, 0, 0, 0.12);
+
+/** ========================================================================== 
+ *  Font Tokens(--font-**-**)
+ *
+ *  - Font Weight
+ *  - Font Family
+ *  ======================================================================== */
+
+/* Font Size
+   ========================================================================== */
+$font-size-micro: 10px;
+$font-size-xsmall: 12px;
+$font-size-small: 14px;
+$font-size-base: 16px;
+$font-size-large: 20px;
+$font-size-xlarge: 24px;
+
+/* Font Weight
+   ========================================================================== */
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+/* Font Family
+      ========================================================================== */
+$font-family-default: 'open sans', Helvetica, Arial, sans-serif;
+
+/** ========================================================================== 
+ *  Component General(--[component name]-**-**)
+ *
+ *  - Button
+ *  - Input
+ *  - Select
+ *  ======================================================================== */
+
+/* Button
+   ========================================================================== */
+
+// Height
 $btn-height-base: 40px;
 $btn-height-lg: 48px;
 $btn-height-sm: 34px;
-$btn-padding-base: 0px 15px;
-$btn-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
-$btn-border-radius-base: 6px;
+
+// Font Size
 $btn-font-size-base: 12px;
 $btn-font-size-lg: 16px;
 $btn-font-size-sm: 12px;
-$btn-font-weight: $fw-bold;
-$input-color: $color-gray-7;
-$input-border-color: $border-color;
-$input-bg-color: $color-gray-3;
-$input-hover-border-color: $color-primary;
+
+// Shadow
+$btn-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+
+// Border
+$btn-border-radius-base: 6px;
+
+$btn-padding-base: 0px 15px;
+$btn-font-weight: $font-weight-bold;
+
+/* Input
+   ========================================================================== */
+// Height
 $input-height-base: $btn-height-base;
 $input-height-lg: $btn-height-lg;
 $input-height-sm: $btn-height-sm;
+
+// Color
+$input-color: $color-gray-7;
+
+// Background Color
+$input-bg-color: $color-gray-3;
+
+$input-border-color: $color-gray-5;
+
+// Shadow
+$input-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
+
+// Hover
+$input-hover-border-color: $color-blue-6;
+
+/* Select
+   ========================================================================== */
+// Color
 $select-color: $color-gray-7;
-$select-border-color: $border-color;
-$select-hover-border-color: $color-primary;
-// / Ant Design Vars
 
-// Template Vars
-$shadow-0: none;
-$shadow-1: 0px 20px 27px rgba(0, 0, 0, 0.05);
-$shadow-2: 0px 4px 6px rgba(0, 0, 0, 0.12);
-$shadow-3: 0px 5px 10px rgba(0, 0, 0, 0.12);
+// Border Color
+$select-border-color: $color-gray-5;
 
-$submenu-links-p: 10px 16px;
-// / Template Vars
-
-
-$color-white: #ffffff;
-$color-light: #f1f5f9;
-$color-black: #121212;
-$color-night: #001632;
-
-$color-red: #f44336;
-$color-blue: #1a73e8;
-$color-gray: #80868b;
-$color-grayish: #dadce0;
-
-$shadow-normal: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-$shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-$shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-
-// Text Color
-$text-color: $color-black;
-$sub-text-color: rgba(0, 0, 0, 0.25);
-$sub-text-dark-gray-color: #888;
-
-// Backgroud Color
-$bg-color: $color-white;
+// Hover
+$select-hover-border-color: $color-blue-6;

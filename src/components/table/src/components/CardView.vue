@@ -92,7 +92,7 @@ const onPagination: PaginationProps['onChange'] = (current: number, pageSize: nu
 
   .img-wrapper {
     text-align: center;
-    color: $sub-text-color;
+    color: $color-text-sub-20;
 
     > img {
       width: 200px;

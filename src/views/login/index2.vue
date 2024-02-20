@@ -1,5 +1,5 @@
 <template>
-  <div id="container" class="container" v-if="!isSuccessSocialLogin && !isSuccessLogin">
+  <div id="container" class="container" v-if="!isSuccessSocialLogin || !isSuccessLogin">
     <div class="row">
       <!-- SIGN UP -->
       <div class="col align-items-center flex-col sign-up">
@@ -260,13 +260,13 @@ body {
     &-normal {
       font-size: 1rem;
       font-weight: 400;
-      color: $color-black;
+      color: $color-text-10;
     }
 
     &-links {
       font-size: 1rem;
       font-weight: 400;
-      color: $color-primary;
+      color: $color-blue-6;
 
       &:hover {
         text-decoration: underline;
@@ -287,7 +287,7 @@ body {
       border: none;
       outline: none;
       height: 2px;
-      background: $color-grayish;
+      background: $color-gray-5;
     }
 
     &-text {
@@ -295,7 +295,7 @@ body {
       font-size: 1rem;
       font-weight: 500;
       line-height: inherit;
-      color: $color-black;
+      color: $color-text-10;
       margin: 0 1rem;
     }
   }
@@ -322,6 +322,9 @@ body {
 
 :deep(.custom-input-container) {
   margin: 0;
+}
+:deep(.custom-input-container .input-label) {
+  background: $color-white !important;
 }
 
 :deep(.ant-form) {
@@ -374,7 +377,7 @@ body {
 
   .text-btn {
     padding: 2px;
-    color: $color-primary;
+    color: $color-blue-6;
     font-weight: 600;
   }
   .join {
@@ -421,7 +424,7 @@ body {
   height: 100vh;
   width: 300vw;
   transform: translate(35%, 0);
-  background-image: linear-gradient(-45deg, $color-primary 0%, #57b894 100%);
+  background-image: linear-gradient(-45deg, $color-blue-6 0%, #57b894 100%);
   transition: 0.6s ease-in-out;
   z-index: 6;
   border-bottom-right-radius: max(50vw, 50vh);

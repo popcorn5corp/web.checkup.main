@@ -418,7 +418,7 @@ watch(
 }
 
 .errorMsg {
-  color: $color-danger;
+  color: $color-feedback-error;
   font-size: 13px;
   text-align: left;
   text-wrap: nowrap;
@@ -430,7 +430,7 @@ watch(
   position: absolute;
   bottom: -22px;
   left: 0;
-  color: $color-danger;
+  color: $color-feedback-error;
   font-size: 13px;
   margin: 0;
 }

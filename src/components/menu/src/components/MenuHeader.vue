@@ -23,16 +23,13 @@ interface Props {
 
 const props = defineProps<Props>()
 const { getWorkspace } = storeToRefs(useWorkspaceStore())
-const { getTheme } = useProjectConfigStore()
 
 const styles = computed(() => {
   const { collapsed } = props
-  const { navTheme } = getTheme
 
   return {
     imgWidth: collapsed ? '2rem' : '5rem',
-    imgHeight: collapsed ? '2rem' : '5rem',
-    nameColor: navTheme === 'dark' ? '#ffffff' : '#121212'
+    imgHeight: collapsed ? '2rem' : '5rem'
   }
 })
 </script>
@@ -93,7 +90,6 @@ const styles = computed(() => {
         line-height: 1.5;
         text-align: center;
         width: 100%;
-        color: v-bind('styles.nameColor');
       }
 
       .email {
