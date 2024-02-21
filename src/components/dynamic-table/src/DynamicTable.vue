@@ -1,68 +1,75 @@
 <template>
   <div ref="wrapRef" class="dynamic-table-containter">
     <div class="dynamic-table-wrapper">
-      <div class="header">
-        <TableTags :items="getFilterFormItems" />
-        <!-- <Button label="Drawer" @click="showDetail = true" /> -->
-        <div class="table-btns">
-          <Space>
-            <template v-if="getContextValues.selectedRows?.length > 0">
-              <Button v-if="showDownload" :label="buttonText.download" size="middle">
-                <template #icon>
-                  <DownloadOutlined />
-                </template>
-              </Button>
-
-              <Button
-                v-if="showDelete"
-                :label="buttonText.delete"
-                size="middle"
-                @click="$emit('row-delete', tableRef?.selectedRows, tableRef?.selectedRowKeys)"
-              >
-                <template #icon>
-                  <DeleteTwoTone />
-                </template>
-              </Button>
-            </template>
-
-            <slot name="tableBtns"></slot>
-
-            <Button
-              :ref="(ref) => tour.setTour(3, ref as Element)"
-              v-if="showRegist"
-              :label="buttonText.registration"
-              size="middle"
-              @click="$emit('row-add')"
-            >
-              <template #icon>
-                <PlusCircleTwoTone />
-              </template>
-            </Button>
-
-            <!-- 필터 버튼 -->
-            <Button
-              :ref="(ref) => tour.setTour(4, ref as Element)"
-              v-if="activeFilter"
-              type="primary"
-              :label="buttonText.filter"
-              size="middle"
-              @click="showFilter = !showFilter"
-            >
-              <template #icon>
-                <FilterTwoTone />
-              </template>
-            </Button>
-          </Space>
-        </div>
-      </div>
-
-      <Divider></Divider>
-
-      <div class="body">
+      <div class="body" ref="bodyRef">
         <div
           class="content"
-          :style="{ width: (props.showToolbar && showFilter) || openDetail ? '70%' : '100%' }"
+          ref="leftRef"
+          :style="{
+            width: props.showToolbar && showFilter ? '70%' : '100%',
+            paddingRight: props.showToolbar && showFilter ? '20px' : '0'
+          }"
         >
+          <div class="header">
+            <TableTags :items="getFilterFormItems" />
+            <!-- <Button label="Drawer" @click="showDetail = true" /> -->
+            <div class="table-btns">
+              <Space>
+                <template v-if="getContextValues.selectedRows?.length > 0">
+                  <Button v-if="showDownload" :label="buttonText.download" size="middle">
+                    <template #icon>
+                      <DownloadOutlined />
+                    </template>
+                  </Button>
+
+                  <Button
+                    v-if="showDelete"
+                    :label="buttonText.delete"
+                    size="middle"
+                    @click="$emit('row-delete', tableRef?.selectedRows, tableRef?.selectedRowKeys)"
+                  >
+                    <template #icon>
+                      <DeleteTwoTone />
+                    </template>
+                  </Button>
+                </template>
+
+                <slot name="tableBtns"></slot>
+
+                <Button
+                  :ref="(ref) => tour.setTour(3, ref as Element)"
+                  v-if="showRegist"
+                  :label="buttonText.registration"
+                  size="middle"
+                  @click="$emit('row-add')"
+                >
+                  <template #icon>
+                    <PlusCircleTwoTone />
+                  </template>
+                </Button>
+
+                <!-- 필터 버튼 -->
+                <Button
+                  :ref="(ref) => tour.setTour(4, ref as Element)"
+                  v-if="activeFilter"
+                  type="primary"
+                  :label="buttonText.filter"
+                  size="middle"
+                  @click="
+                    () => {
+                      showFilter = !showFilter
+                      closeDetail()
+                    }
+                  "
+                >
+                  <template #icon>
+                    <FilterTwoTone />
+                  </template>
+                </Button>
+              </Space>
+            </div>
+          </div>
+          <Divider />
           <Table
             ref="tableRef"
             v-bind="{ ...props }"
@@ -80,26 +87,8 @@
             :items="getFilterFormItems"
             @close="(flag: boolean) => (showFilter = flag)"
             :style="{ width: props.showToolbar && showFilter && !openDetail ? '30%' : '' }"
-          ></FilterForm>
+          />
         </KeepAlive>
-
-        <div class="detail-wrapper" v-if="openDetail" :style="{ width: openDetail ? '30%' : '' }">
-          <div class="title">
-            <slot name="detail-title"></slot>
-
-            <Button :size="'small'" @click="closeDetail" style="float: right">
-              <template #icon>
-                <font-awesome-icon class="xmark" :icon="['fas', 'xmark']" />
-              </template>
-            </Button>
-          </div>
-
-          <Divider />
-
-          <div class="detail-content">
-            <slot name="detail-content"></slot>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -224,6 +213,14 @@ watch(
   }
 )
 
+watch(
+  () => props.openDetail,
+  () => {
+    // 필터와 상세보기 동시에 안 열리게
+    if (props.openDetail && showFilter.value) showFilter.value = false
+  }
+)
+
 function closeDetail() {
   emit('update:openDetail', false)
   unref(tableRef)?.initCustomRow()
@@ -238,6 +235,7 @@ let dynamicTableAction: DynamicTableAction = {
   initFilterFormItems,
   closeDetail: () => {
     emit('update:openDetail', false)
+    unref(tableRef)?.initCustomRow()
   },
   closeFilter: () => {
     unref(showFilter) && (showFilter.value = false)
@@ -263,64 +261,61 @@ setContextValues({
  */
 createDynamicTableContext({ wrapRef, ...dynamicTableAction, getContextValues, getBindValues })
 </script>
+
 <style lang="scss" scoped>
+$body-min-height: calc(100vh - 165px);
+$header-btns-height: 15px;
+
 .dynamic-table-containter {
-  .header {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-
-    .table-btns {
-      height: 32px;
-    }
-
-    .total-count {
-      font-size: 14px;
-      font-weight: 400;
-      display: inline-block;
-      width: 80px;
-    }
-
-    :deep(.ant-space) {
-      .search {
-        display: flex;
-        flex: 1;
-        gap: 10px;
-        height: 40px;
-        width: 500px;
-
-        :deep(.ant-input-affix-wrapper) {
-          height: 100%;
-        }
-
-        :deep(.ant-select-selector) {
-          flex: 0.5;
-          height: 44px;
-          align-items: center;
-          border-radius: 9px;
-        }
-      }
-    }
-  }
-
   .body {
     display: flex;
-    flex-direction: row;
+    width: 100%;
+    min-height: $body-min-height;
 
     .content {
-      .basic-table-container {
-        margin-right: 20px;
+      .header {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+
+        .table-btns {
+          height: 32px;
+        }
+
+        .total-count {
+          font-size: 14px;
+          font-weight: 400;
+          display: inline-block;
+          width: 80px;
+        }
+
+        :deep(.ant-space) {
+          .search {
+            display: flex;
+            flex: 1;
+            gap: 10px;
+            height: 40px;
+            width: 500px;
+
+            :deep(.ant-input-affix-wrapper) {
+              height: 100%;
+            }
+
+            :deep(.ant-select-selector) {
+              flex: 0.5;
+              height: 44px;
+              align-items: center;
+              border-radius: 9px;
+            }
+          }
+        }
       }
     }
 
     .detail-wrapper {
-      height: calc(100vh - 145px);
-      z-index: 2;
-      right: 0;
-      margin-top: -80px;
-      border: 0.5px solid $color-gray-4;
-      box-shadow: $shadow-3;
-      height: calc(100vh - 145px);
+      position: relative;
+      border-left: 0.5px solid $color-gray-4;
+      box-shadow: $shadow-4;
       overflow-x: hidden;
       overflow-y: scroll;
 
