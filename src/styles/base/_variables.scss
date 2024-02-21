@@ -28,16 +28,16 @@ $color-gray-12: #141414;
 $color-muted: $color-gray-7;
 
 //  Daybreak
-$color-blue-1: #e6f4ff;
-$color-blue-2: #bae0ff;
-$color-blue-3: #91caff;
-$color-blue-4: #69b1ff;
-$color-blue-5: #4096ff;
-$color-blue-6: #1677ff;
-$color-blue-7: #0958d9;
-$color-blue-8: #003eb3;
-$color-blue-9: #002c8c;
-$color-blue-10: #001d66;
+$color-blue-1: #e6f7ff;
+$color-blue-2: #bae7ff;
+$color-blue-3: #91d5ff;
+$color-blue-4: #69c0ff;
+$color-blue-5: #40a9ff;
+$color-blue-6: #1890ff;
+$color-blue-7: #096dd9;
+$color-blue-8: #0050b3;
+$color-blue-9: #003a8c;
+$color-blue-10: #002766;
 
 $color-blue-dark-1: #111a2c;
 $color-blue-dark-2: #112545;
@@ -267,7 +267,7 @@ $color-feedback-secondary: #b37feb;
 
 /* Text color Tokens
    ========================================================================== */
-$color-text-10: #121212;
+$color-text-10: #000000e0;
 $color-text-20: #343332;
 $color-text-30: #676765;
 $color-text-40: #81807e;
@@ -288,15 +288,14 @@ $color-text-placeholder: #000000;
 
 /* Spacing
     ========================================================================== */
-$size-xxs: 4;
-$size-xs: 8;
-$size-sm: 12;
-$size: 16;
-$size-ms: 16;
-$size-md: 20;
-$size-lg: 24;
-$size-xl: 32;
-$size-xxl: 48;
+$spacing-xxs: 4;
+$spacing-xs: 8;
+$spacing-sm: 12;
+$spacing-ms: 16;
+$spacing-md: 20;
+$spacing-lg: 24;
+$spacing-xl: 32;
+$spacing-xxl: 46;
 
 /*  Screen Size
     ========================================================================== */
@@ -326,9 +325,12 @@ $border-color: #ebebff45;
 
 /* Border Radius
    ========================================================================== */
-$shape-square: 0px;
-$shape-round: 7px;
-$shape-fill: 24px;
+$radius-square: 0px;
+$radius-round-1: 6px;
+$radius-round-2: 8px;
+$radius-round-3: 24px;
+$radius-round-4: 40px;
+$radius-circle: 50%;
 
 /** ========================================================================== 
  *  Shadows Tokens(--shadow-**-**)
@@ -338,10 +340,10 @@ $shape-fill: 24px;
 
 /* Box Shadows
    ========================================================================== */
-$shadow-1: 0px 20px 27px rgba(0, 0, 0, 0.05);
-$shadow-2: 0px 4px 6px rgba(0, 0, 0, 0.12);
-$shadow-3: 0px 5px 10px rgba(0, 0, 0, 0.12);
-$shadow-4: -2px 3px 8px rgba(0, 0, 0, 0.12); // dynamicTable resize shadow
+$elevation-1: 0px 20px 27px rgba(0, 0, 0, 0.05);
+$elevation-2: 0px 4px 6px rgba(0, 0, 0, 0.12);
+$elevation-3: 0px 5px 10px rgba(0, 0, 0, 0.12);
+$elevation-4: -2px 3px 8px rgba(0, 0, 0, 0.12); // dynamicTable resize shadow
 
 /** ========================================================================== 
  *  Font Tokens(--font-**-**)
@@ -350,9 +352,19 @@ $shadow-4: -2px 3px 8px rgba(0, 0, 0, 0.12); // dynamicTable resize shadow
  *  - Font Family
  *  ======================================================================== */
 
+/* Font Size
+   ========================================================================== */
+$font-size-micro: 10px;
+$font-size-xsmall: 12px;
+$font-size-small: 14px;
+$font-size-base: 16px;
+$font-size-large: 20px;
+$font-size-xlarge: 24px;
+
 /* Font Weight
    ========================================================================== */
-$font-weight-regular: 400;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
 

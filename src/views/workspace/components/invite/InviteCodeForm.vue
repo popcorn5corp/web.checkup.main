@@ -32,10 +32,12 @@
 <script setup lang="ts" name="InviteCodeForm">
 import { WorkspaceService } from '@/services'
 import { CheckOutlined } from '@ant-design/icons-vue'
-import { Input, message } from 'ant-design-vue'
 import { ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { useMessage } from '@/hooks/useMessage'
+
+const { createMessage } = useMessage()
 
 const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
@@ -59,14 +61,14 @@ const onCheckInviteCode = async () => {
         workspaceStore.setNextBtnDisabled(false)
         isConfirm.value = true
       } else {
-        message.error(t('message.validate.checkInviteCode'))
+        createMessage.error(t('message.validate.checkInviteCode'))
         workspaceStore.setNextBtnDisabled(true)
       }
     }
   } catch (err: any) {
     isLoading.value = false
     console.log(err)
-    message.error(err.response.data.error.message)
+    createMessage.error(err.response.data.error.message)
     workspaceStore.setNextBtnDisabled(true)
   } finally {
     isLoading.value = false

@@ -315,7 +315,7 @@ $header-btns-height: 15px;
     .detail-wrapper {
       position: relative;
       border-left: 0.5px solid $color-gray-4;
-      box-shadow: $shadow-4;
+      box-shadow: $elevation-3;
       overflow-x: hidden;
       overflow-y: scroll;
 

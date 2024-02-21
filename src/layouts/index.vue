@@ -10,8 +10,6 @@
 import { type Component, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { type LayoutType, layoutTypes } from '@/stores/interface'
-// import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-// import ThemeDrawer from './components/ThemeDrawer/index.vue'
 import LayoutDefault from './default/index.vue'
 import LayoutPure from './pure/index.vue'
 
@@ -21,7 +19,6 @@ const LayoutComponents: Record<LayoutType, Component> = {
   pure: LayoutPure
 }
 
-// const { config } = useProjectConfigStore()
 const layout = computed(() => (route.meta.layout as LayoutType) || layoutTypes.default)
 </script>
 

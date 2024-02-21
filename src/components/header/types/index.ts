@@ -1,8 +1,10 @@
-import type { MenuTheme } from 'ant-design-vue'
+import type { ThemeName } from '@/hooks/useTheme'
+
+// import type { MenuTheme } from 'ant-design-vue'
 
 export interface HeaderProps {
   collapsed?: boolean
-  theme?: MenuTheme
+  theme?: ThemeName
 }
 
 export const rollingList = [

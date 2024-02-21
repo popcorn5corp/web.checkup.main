@@ -73,15 +73,17 @@ import {
   LogoutOutlined,
   PlusOutlined,
   SettingOutlined,
-  SwapOutlined,
-  UserOutlined
+  SwapOutlined
 } from '@/components/icons'
 import { Tabs } from '@/components/tabs'
 import { TabPane } from '@/components/tabs'
 import { useTour } from '@/components/tour/hooks/useTour'
 import { PagePathEnum } from '@/constants/pageEnum'
+import AccessibilitySetting from './AccessibilitySetting.vue'
+import AlarmSetting from './AlarmSetting.vue'
 import DisplaySetting from './DisplaySetting.vue'
 import LanguageSetting from './LanguageSetting.vue'
+import UserAccount from './UserAccount.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()

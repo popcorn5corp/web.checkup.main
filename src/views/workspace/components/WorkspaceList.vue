@@ -41,7 +41,7 @@
       </div>
       <div class="check-wrapper">
         <span>
-          <Checkbox v-model:checked="getUser.useDetaulWorkspace">
+          <Checkbox v-model:checked="getUser.useDefaultWorkspace">
             <p>
               {{ $t('page.workspace.listCheckText') }}
             </p>
@@ -105,7 +105,7 @@ async function onSelectWorkspace(workspace: Workspace) {
     const { workspaceId } = workspace
 
     await WorkspaceService.updateDefaultWorkspace({
-      defaultWorkspace: getUser.useDetaulWorkspace,
+      defaultWorkspace: getUser.useDefaultWorkspace,
       defaultWorkspaceId: workspaceId
     })
 
