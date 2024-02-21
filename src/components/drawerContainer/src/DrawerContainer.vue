@@ -245,7 +245,7 @@ $transition: all 0.3s;
   }
   .resizer-line.active {
     background-color: $color-blue-5;
-    box-shadow: $shadow-2;
+    box-shadow: $elevation-2;
   }
 
   .content {
@@ -299,7 +299,7 @@ $transition: all 0.3s;
   }
 
   .drawer.active {
-    box-shadow: $shadow-4;
+    box-shadow: $elevation-4;
   }
 
   .drawer.right {
