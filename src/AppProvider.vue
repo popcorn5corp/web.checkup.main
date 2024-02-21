@@ -14,13 +14,21 @@
 </template>
 <script setup lang="ts" name="AppProvider">
 import { theme as ATheme, ConfigProvider } from 'ant-design-vue'
-import { computed, unref } from 'vue'
+import { computed, unref, watch } from 'vue'
 import { useTheme } from '@/hooks/useTheme'
 import { useLocale } from '@/locales/hooks/useLocale'
 
 const { defaultAlgorithm, darkAlgorithm, defaultSeed } = ATheme
-const { getTheme } = useTheme()
+const { getTheme, theme } = useTheme()
 const { getAntdLocale } = useLocale()
+
+watch(
+  () => getTheme.value,
+  (a) => {
+    console.log('watch1 :: ', a)
+  }
+  // { immediate: true, deep: true }
+)
 
 // const theme = unref(getTheme)
 const customSeed = computed(() => {

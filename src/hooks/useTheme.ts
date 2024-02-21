@@ -76,10 +76,18 @@ export const useTheme = () => {
   const settings = ref(getDefaultWorkspaceSettings())
 
   watch(
+    () => getTheme.value,
+    (a) => {
+      console.log('watch2 ', a)
+    }
+  )
+
+  watch(
     () => unref(getWorkspace)?.settings,
     (_settings) => {
       if (_settings) {
         settings.value = _settings
+        console.log('ggggg')
 
         const {
           display: { themeName, menuPosition, menuThemeName, primaryColor },
@@ -159,10 +167,16 @@ export const useTheme = () => {
   }
 
   function setLocaleTheme(_theme: Partial<ITheme>) {
+    // Object.entries(_theme).map(([key]) => {
+    //   const themeKey = key as keyof Partial<ITheme>
+    //   theme.value[themeKey] = _theme[themeKey] as never
+    // })
+
     theme.value = {
-      ...unref(theme),
+      ...defaultTheme,
       ..._theme
     }
+    console.log('setLocaleTheme ', theme.value)
   }
 
   // const setDataTheme = (navTheme?: ThemeName) => {
@@ -177,6 +191,7 @@ export const useTheme = () => {
     document.documentElement.setAttribute('data-theme', themeName)
   }
   return {
+    theme,
     initTheme,
     getTheme,
     setThemeName,
