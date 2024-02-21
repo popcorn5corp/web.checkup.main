@@ -48,4 +48,5 @@ const i18n = createI18n({
   globalInjection: true
 })
 
+console.log(i18n)
 export default i18n

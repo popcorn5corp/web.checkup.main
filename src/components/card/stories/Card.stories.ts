@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import { Card } from '../src'
 
+console.log('card components')
 const meta: Meta<ComponentProps<typeof Card>> = {
   // type card
   /**

@@ -6,6 +6,7 @@ import { filterList } from '@/components/filter-form/types/mock'
 import { DynamicTable } from '../'
 import { columns, dataSource } from './mock'
 
+console.log('dynamic components')
 const meta: Meta<ComponentProps<typeof DynamicTable>> = {
   title: 'checkupuikit/Organism/DynamicTable',
   component: DynamicTable,
@@ -127,7 +128,7 @@ export const FetchData: Story = {
         <Button label="Clear Data" @click="clearData" style="margin-left: 10px"/>  
       </div>
      
-      <DynamicTable ref="tableRef" v-bind="{ ...args }" :columns="columns" :dataSource="dataSource" :loading="loading"/>
+
     `
   }),
   args: {
