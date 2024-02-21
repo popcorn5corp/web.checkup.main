@@ -20,6 +20,25 @@ export const localeMessages = {
   }
 }
 
+// function createI18nOptions() {
+//   const localeStore = useLocaleStoreWithOut();
+//   const locale = localeStore.getLocale;
+//   const message = {
+//     ko_KR: {
+//       ...ko_KR.message
+//     },
+//     id_ID: {
+//       ...id_ID.message
+//     },
+//     en_US: {
+//       ...en_US.message
+//     }
+//   }
+
+//   Helper.Locale.setHtmlPageLang(locale);
+
+// }
+
 const i18n = createI18n({
   legacy: false,
   allowComposition: true,

@@ -47,7 +47,6 @@ export const useAuthStore = defineStore(
     async function afterLoginAction() {
       try {
         const { goPath } = await workspaceAction()
-
         router.push(goPath)
 
         return {
@@ -75,11 +74,15 @@ export const useAuthStore = defineStore(
            * - workspace 목록 조회 API 호출
            ************************************************************/
           const { data } = await WorkspaceService.getWorkspaceList()
-          const { defaultWorkspace, defaultWorkspaceId, workspaceInfoList } = data
-          setUser({ useDetaulWorkspace: defaultWorkspace })
+          const {
+            defaultWorkspace: useDefaultWorkspace,
+            defaultWorkspaceId,
+            workspaceInfoList
+          } = data
+          setUser({ useDefaultWorkspace })
           console.log('[workspaces] :: ', data)
 
-          if (defaultWorkspace) {
+          if (useDefaultWorkspace) {
             /************************************************************
              * case: defaultWorkspace 설정한 경우
              * - workspace 상세 조회 API 호출
@@ -87,7 +90,7 @@ export const useAuthStore = defineStore(
              ************************************************************/
             setSelectedWorkspaceId(defaultWorkspaceId)
             goPath = PagePathEnum.BASE_HOME
-          } else if (!defaultWorkspace && workspaceInfoList.length === 1) {
+          } else if (!useDefaultWorkspace && workspaceInfoList.length === 1) {
             /************************************************************
              * case: defaultWorkspace 설정하지 않고 workspace 목록이 한개일 경우
              * - workspace 상세 조회 API 호출
@@ -96,7 +99,7 @@ export const useAuthStore = defineStore(
              ************************************************************/
             setSelectedWorkspaceId(workspaceInfoList[0].workspaceId)
             goPath = PagePathEnum.BASE_HOME
-          } else if (!defaultWorkspace && workspaceInfoList.length > 1) {
+          } else if (!useDefaultWorkspace && workspaceInfoList.length > 1) {
             /************************************************************
              * case: defaultWorkspace 설정하지 않고 workspace 목록이 여러개일 경우
              * - workspace 목록 화면으로 이동
@@ -167,6 +170,6 @@ function getDefaultUser(): IUser {
     userName: '',
     workspaceCount: 0,
     userEmail: '',
-    useDetaulWorkspace: false
+    useDefaultWorkspace: false
   }
 }

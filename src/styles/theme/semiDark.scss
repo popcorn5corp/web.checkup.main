@@ -1,0 +1,27 @@
+/** ========================================================================== 
+ *  Dark Mode (_dark.scss)
+ *
+ *  Dark Mode styles.
+ *  ======================================================================== */
+
+/* Dark Mode Variables
+   ========================================================================== */
+$darkmode-color-background: $color-dark;
+$darkmode-color-background-sub: $color-semiDark;
+$darkmode-color-text: $color-white;
+$darkmode-color-text-sub: $color-text-50;
+$darkmode-color-border: $border-color;
+
+html[data-theme='semiDark'] {
+   .menu-container {
+      .menu-header .user-preview .info {
+         .name {
+           color: $darkmode-color-text;
+         }
+     
+         .email {
+           color: $darkmode-color-text-sub !important;
+         }
+       }
+   }
+}

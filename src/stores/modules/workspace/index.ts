@@ -5,13 +5,16 @@ import { defineStore } from 'pinia'
 import { computed, reactive, toRefs, unref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import type { IWorkspace } from '@/services/workspace/types'
+import { useTheme } from '@/hooks/useTheme'
+import { useLocale } from '@/locales/hooks/useLocale'
 import { WORKSPACE_ID_KEY, WORKSPACE_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
-import { getStepsInfo } from './data'
+import { getDefaultWorkspaceSettings, getStepsInfo } from './data'
+import { getDefaultFormValues } from './data'
 import type {
   JoinParamValues,
   UserWorkspace,
-  WorkspaceFormValues,
+  WorkspaceSettings,
   WorkspaceState,
   WorkspaceStepType
 } from './types'
@@ -20,6 +23,8 @@ const FIRST_STEP_COUNT = 1 as const
 
 export const useWorkspaceStore = defineStore('workspace', () => {
   const router = useRouter()
+  const { setLocale } = useLocale()
+  const { initTheme, setDataTheme } = useTheme()
   const state = reactive<WorkspaceState>({
     stepType: null, // 'create' | 'invite' | null
     currentStep: FIRST_STEP_COUNT, // 현재 step
@@ -32,11 +37,14 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       workspaceName: '' // 워크스페이스 이름
     },
     selectedWorkspaceId: Util.Storage.get(WORKSPACE_ID_KEY),
-    workspace: null
+    workspace: null,
+    settings: getDefaultWorkspaceSettings(),
+    isCompleteWorkspaceLoad: false
   })
 
   const getStepType = computed(() => state.stepType)
   const getWorkspace = computed(() => state.workspace)
+  const getSettings = computed(() => state.settings)
   const getCurrentStep = computed(() => state.currentStep)
   const getNextBtnDisabled = computed(() => state.nextBtnDisabled)
   const getWorkspaceId = computed(() => state.selectedWorkspaceId)
@@ -69,15 +77,16 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     state.stepType = setpType
   }
 
-  function setWorkspace(params: UserWorkspace) {
+  function setWorkspace(params: Partial<UserWorkspace>) {
     state.workspace = {
+      ...state.workspace,
       ...params
-    }
+    } as UserWorkspace
 
     Util.Storage.set(WORKSPACE_KEY, state.workspace)
   }
 
-  function setSelectedWorkspaceId(workspaceId: string | null) {
+  function setSelectedWorkspaceId(workspaceId: string) {
     if (unref(getWorkspaceId) !== workspaceId) {
       initWorkspace()
     }
@@ -127,19 +136,22 @@ export const useWorkspaceStore = defineStore('workspace', () => {
    * @description 워크스페이스 상세정보 조회
    * @param workspaceId
    */
-  async function getUserWorkspace(workspaceId?: string) {
-    try {
-      const { data, success } = await WorkspaceService.getUserWorkspace(
-        workspaceId || (state.selectedWorkspaceId as string)
-      )
+  async function getUserWorkspace(): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { success, data } = await WorkspaceService.getUserWorkspace(
+          state.selectedWorkspaceId as string
+        )
 
-      if (success) {
+        if (!success) reject()
+
         const {
           workspace: { workspaceId, workspaceName },
-          workspaceUser
+          workspaceUser,
+          workspaceSettings
         } = data
 
-        const workspace = {
+        const workspace: UserWorkspace = {
           workspaceId,
           workspaceName,
           user: {
@@ -147,14 +159,50 @@ export const useWorkspaceStore = defineStore('workspace', () => {
             status: {
               ...workspaceUser.userStatus
             }
-          }
+          },
+          settings: workspaceSettings
         }
 
+        console.log('workspace', workspace.settings.language)
+
+        // initialize workspace
         setWorkspace(workspace)
+        setDataTheme(workspace.settings.display.themeName)
+        await setLocale(workspaceSettings.language.language)
+        resolve()
+      } catch (error) {
+        console.log(error)
+        reject(error)
       }
-    } catch (error) {
-      console.log(error)
+    })
+  }
+
+  function setWorkspaceSettings(values: Partial<WorkspaceSettings>): Promise<void> {
+    const settings = {
+      ...(state.workspace as UserWorkspace).settings,
+      ...values
     }
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { success, data } = await WorkspaceService.updateWorkspaceSettings(
+          state.selectedWorkspaceId,
+          settings
+        )
+
+        if (!success) reject()
+
+        setWorkspace({
+          settings
+        })
+
+        state.settings = data
+        resolve()
+      } catch (error) {
+        console.log(error)
+        reject(error)
+      }
+    })
   }
 
   function initFormValueInviteEmails() {
@@ -180,6 +228,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     ...toRefs(state),
     getStepType,
     getWorkspace,
+    getSettings,
     getCurrentStep,
     getSteps,
     getNextBtnDisabled,
@@ -202,28 +251,12 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     setFormValueImgFile,
     getUserWorkspace,
     setJoinParam,
-    setSelectedWorkspaceId
+    setSelectedWorkspaceId,
+    setWorkspaceSettings
   }
 })
 
 // for outside the setup
 export function useWorkspaceStoreWithOut() {
   return useWorkspaceStore(store)
-}
-
-function getDefaultFormValues(): WorkspaceFormValues {
-  return {
-    workspaceName: '', // 워크스페이스 이름
-    nickname: '', // 유저가 설정한 이름
-    inviteEmails: [], // 	초대 유저 email
-    businessTypeCode: '', // 업종코드
-    employeeScaleCode: '', // 회사 규모
-    originName: '', // 프로필 이미지 이름
-    saveName: '', // 서버에 저장된 파일 이름
-    url: '', // 파일 url
-    path: '', // 파일 path
-    size: 0, // 파일 size
-    ext: '', // 파일 확장자
-    inviteCode: '' // 초대코드
-  }
 }

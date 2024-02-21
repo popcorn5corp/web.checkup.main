@@ -37,7 +37,7 @@ export const useLocaleStore = defineStore('locale', () => {
 
   function setLocale(locale: LocaleState['locale']): void {
     state.locale = locale
-    Trans.persistedLocale = locale
+    setPersistedLocale(locale)
   }
 
   function setPersistedLocale(locale: LocaleState['locale']) {

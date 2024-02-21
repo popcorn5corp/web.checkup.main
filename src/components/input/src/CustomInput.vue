@@ -24,18 +24,15 @@
 
 <script setup lang="ts" name="CustomInput">
 import { Input } from 'ant-design-vue'
-import { type CSSProperties, computed, ref, watch } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { type CSSProperties, computed, ref, unref, watch } from 'vue'
+import { useTheme } from '@/hooks/useTheme'
 import type { InputProps } from '../types'
 
 const props = defineProps<InputProps>()
-const {
-  config: { theme }
-} = useProjectConfigStore()
-
+const { getTheme } = useTheme()
 const themeColorStyle = computed<CSSProperties>(() => {
   return {
-    color: theme.primaryColor
+    color: unref(getTheme).primaryColor
   }
 })
 

@@ -89,8 +89,8 @@ import { PhoneFilled, ZoomInOutlined } from '@ant-design/icons-vue'
 import { Checkbox, Image } from 'ant-design-vue'
 import type { CheckboxChangeEvent } from 'ant-design-vue/es/checkbox/interface'
 import dayjs from 'dayjs'
-import { type CSSProperties, computed, ref } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { type CSSProperties, computed, ref, unref } from 'vue'
+import { useTheme } from '@/hooks/useTheme'
 import type { CardProps } from '../types'
 
 const emit = defineEmits<{
@@ -102,6 +102,7 @@ const props = withDefaults(defineProps<CardProps>(), {
   imgPreview: true
 })
 
+const { getTheme } = useTheme()
 const checked = ref(false)
 const imgUrl = computed(() => {
   if (props.imgUrl?.includes('.xlsx') || props.imgUrl?.includes('.xlsx')) {
@@ -119,13 +120,9 @@ const onChange = ({ target: { checked } }: CheckboxChangeEvent, item: Recordable
   emit('checked', item, checked)
 }
 
-const {
-  config: { theme }
-} = useProjectConfigStore()
-
 const cardBoxStyle = computed<CSSProperties>(() => {
   return {
-    borderColor: theme.navTheme === 'realDark' ? 'rgba(102, 102, 102, 0.65)' : 'none'
+    borderColor: unref(getTheme).themeName === 'dark' ? 'rgba(102, 102, 102, 0.65)' : 'none'
   }
 })
 
