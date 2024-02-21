@@ -3,9 +3,9 @@
     v-model:openDetail="showDetail"
     :drawerTitle="$t('page.manage.userInfo')"
     :useResize="true"
-    :isFloating="false"
+    :isFloating="true"
     :isFloatResize="true"
-    :useMask="false"
+    :useMask="true"
     drawerWidth="30%"
     drawerPosition="right"
   >

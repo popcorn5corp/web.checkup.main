@@ -104,7 +104,7 @@ export const Default: Story = {
         v-bind="args"
       >
         <template #content>
-          <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #c7e5fe; padding: 1rem 0;">
+          <div style="height: 950px; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #c7e5fe; padding: 1rem 0;">
             <div>content 영역</div>
             <br />
             <Button label="drawer 열기" @click="openDetail = true"/>
