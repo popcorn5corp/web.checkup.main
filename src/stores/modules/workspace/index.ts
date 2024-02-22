@@ -24,7 +24,7 @@ const FIRST_STEP_COUNT = 1 as const
 export const useWorkspaceStore = defineStore('workspace', () => {
   const router = useRouter()
   const { setLocale } = useLocale()
-  const { initTheme, setDataTheme } = useTheme()
+  const { setHtmlDataTheme } = useTheme()
   const state = reactive<WorkspaceState>({
     stepType: null, // 'create' | 'invite' | null
     currentStep: FIRST_STEP_COUNT, // 현재 step
@@ -137,41 +137,50 @@ export const useWorkspaceStore = defineStore('workspace', () => {
    * @param workspaceId
    */
   async function getUserWorkspace(): Promise<void> {
+    try {
+      const { success, data } = await WorkspaceService.getUserWorkspace(
+        state.selectedWorkspaceId as string
+      )
+
+      if (!success) return Promise.reject()
+
+      const {
+        workspace: { workspaceId, workspaceName },
+        workspaceUser,
+        workspaceSettings
+      } = data
+
+      const workspace: UserWorkspace = {
+        workspaceId,
+        workspaceName,
+        user: {
+          ...workspaceUser,
+          status: {
+            ...workspaceUser.userStatus
+          }
+        },
+        settings: workspaceSettings
+      }
+
+      return await afterWorkspaceAction(workspace)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+  async function afterWorkspaceAction(workspace: UserWorkspace): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
-        const { success, data } = await WorkspaceService.getUserWorkspace(
-          state.selectedWorkspaceId as string
-        )
-
-        if (!success) reject()
-
         const {
-          workspace: { workspaceId, workspaceName },
-          workspaceUser,
-          workspaceSettings
-        } = data
+          settings: { display, language }
+        } = workspace
 
-        const workspace: UserWorkspace = {
-          workspaceId,
-          workspaceName,
-          user: {
-            ...workspaceUser,
-            status: {
-              ...workspaceUser.userStatus
-            }
-          },
-          settings: workspaceSettings
-        }
-
-        console.log('workspace', workspace.settings.language)
-
-        // initialize workspace
         setWorkspace(workspace)
-        setDataTheme(workspace.settings.display.themeName)
-        await setLocale(workspaceSettings.language.language)
+        setHtmlDataTheme(display.themeName)
+        await setLocale(language.language)
+
         resolve()
       } catch (error) {
-        console.log(error)
         reject(error)
       }
     })
@@ -199,7 +208,6 @@ export const useWorkspaceStore = defineStore('workspace', () => {
         state.settings = data
         resolve()
       } catch (error) {
-        console.log(error)
         reject(error)
       }
     })

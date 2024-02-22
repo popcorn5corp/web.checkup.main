@@ -17,9 +17,7 @@ export const useAppStore = defineStore('app', () => {
 
   const getSettings = computed(() => settings.value)
 
-  const { getTheme, setDataTheme } = useTheme()
-
-  function initApp() {}
+  const { getTheme } = useTheme()
 
   watch(
     () => [unref(getTheme).themeName, unref(settings).isCollapse],

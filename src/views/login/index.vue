@@ -125,7 +125,6 @@ import SocialLoginBnts from './components/SocialLoginBnts.vue'
 const { query } = useRoute()
 const { t } = useI18n()
 const { setToken, login, getToken } = useAuthStore()
-const { setLocaleTheme, setDataTheme } = useTheme()
 
 type SignRenderTypes = 'signUp' | 'signIn'
 type ComponentType = 'login' | 'findUser'
@@ -150,20 +149,7 @@ let container: HTMLElement | null = null
     setToken(ACCESS_TOKEN_KEY, accessToken)
     await login()
   }
-
-  initLoginTheme()
 })()
-
-function initLoginTheme() {
-  const themeName = 'light'
-  const defaultPrimary = 'rgba(24, 144, 255, 1)'
-  setLocaleTheme({
-    themeName,
-    primaryColor: defaultPrimary
-  })
-
-  setDataTheme(themeName)
-}
 
 const onToggle = () => {
   container!.classList.toggle('sign-up')
