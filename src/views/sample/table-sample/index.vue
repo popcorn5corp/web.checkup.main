@@ -1,23 +1,33 @@
 <template>
-  <DynamicTable
+  <DrawerContainer
     v-model:openDetail="showDetail"
-    ref="dynamicTableRef"
-    :row-key="'boardId'"
-    :columns="columns"
-    :filter-request="getFilters"
-    :data-request="getDataSource"
-    :column-request="getColumns"
-    :data-callback="dataCallback"
-    :content-callback="contentCallback"
-    :card-content-callback="cardContentCallback"
-    @row-click="onClickRow"
-    @row-delete="onRemovePost"
-    @row-add="onClickRegist"
+    :drawerTitle="$t('page.manage.userInfo')"
+    :useResize="true"
+    :isFloating="true"
+    :isFloatResize="true"
+    :useMask="true"
+    drawerWidth="30%"
+    drawerPosition="right"
   >
-    <template #detail-title>
-      <span>{{ $t('page.manage.userInfo') }}</span>
+    <template #content>
+      <DynamicTable
+        v-model:openDetail="showDetail"
+        ref="dynamicTableRef"
+        :row-key="'boardId'"
+        :columns="columns"
+        :filter-request="getFilters"
+        :data-request="getDataSource"
+        :column-request="getColumns"
+        :data-callback="dataCallback"
+        :content-callback="contentCallback"
+        :card-content-callback="cardContentCallback"
+        @row-click="onClickRow"
+        @row-delete="onRemovePost"
+        @row-add="onClickRegist"
+      />
     </template>
-    <template #detail-content>
+
+    <template #drawerContent>
       <div class="detail-contents">
         <div class="profile">
           <div class="img-wrapper">
@@ -36,7 +46,7 @@
         </div>
       </div>
     </template>
-  </DynamicTable>
+  </DrawerContainer>
 
   <!-- <Drawer v-model:open="openDrawer" /> -->
 

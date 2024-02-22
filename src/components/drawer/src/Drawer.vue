@@ -9,9 +9,8 @@
     placement="right"
     @after-open-change="emits('update:open', $event)"
   >
-    <!-- <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p> -->
+    <slot name="drawerHeader" />
+    <slot name="drawerContent" />
   </Drawer>
 </template>
 <script setup lang="ts" name="Drawer">
