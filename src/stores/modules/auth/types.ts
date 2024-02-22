@@ -1,7 +1,7 @@
 import type { IAuth } from '@/services/auth/types'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 
-export type IUser = IAuth.UserResponse & { useDetaulWorkspace: boolean }
+export type IUser = IAuth.UserResponse & { useDefaultWorkspace: boolean }
 
 export interface AuthState {
   user: IUser

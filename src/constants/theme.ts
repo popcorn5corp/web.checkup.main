@@ -4,12 +4,12 @@ export const themeStyle = [
     value: 'light'
   },
   {
-    label: 'Dark',
-    value: 'dark'
+    label: 'Semi Dark',
+    value: 'semiDark'
   },
   {
-    label: 'Real Dark',
-    value: 'realDark'
+    label: 'Dark',
+    value: 'dark'
   }
 ] as const
 
@@ -51,10 +51,10 @@ export const themeColors = [
 export const layouts = [
   {
     label: 'Side Menu',
-    value: 'sidemenu'
+    value: 'side'
   },
   {
     label: 'Top Menu',
-    value: 'topmenu'
+    value: 'top'
   }
 ] as const

@@ -1,10 +1,10 @@
 <script setup lang="ts" name="CircularMenu">
-import { computed, onMounted } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { computed, onMounted, unref } from 'vue'
+import { useTheme } from '@/hooks/useTheme'
 import { useTour } from '@/components/tour/hooks/useTour'
 
-const { config } = useProjectConfigStore()
-const circularMenuColor = computed(() => config.theme.primaryColor)
+const { getTheme } = useTheme()
+const circularMenuColor = computed(() => unref(getTheme).primaryColor)
 const tour = useTour()
 
 onMounted(() => {

@@ -10,7 +10,7 @@ export default {
       tabDisplaySetting: '디스플레이',
       displaySettingTheme: '테마',
       displaySettingMenuPosition: '메뉴 위치',
-      displaySettingColor: '색상',
+      displaySettingColor: '메인 색상',
       displaySettingFontSize: '글자 크기',
       fontSizeSmall: '작게',
       fontSizeMedium: '중간',

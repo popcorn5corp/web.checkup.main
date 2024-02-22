@@ -40,22 +40,25 @@ export const useLocale = () => {
     localeStore.setLocale(locale)
   }
 
-  async function setLocale(locale: LocaleType) {
-    const globalI18n = i18n.global
-    const currentLocale = globalI18n.locale.value
-    if (currentLocale === locale) {
-      return locale
-    }
+  async function setLocale(locale: LocaleType): Promise<LocaleType> {
+    return new Promise((resolve, reject) => {
+      if (!locale) reject()
 
-    if (Helper.Locale.loadLocalePool.includes(locale)) {
+      const globalI18n = i18n.global
+      const currentLocale = globalI18n.locale.value
+      if (currentLocale === locale) {
+        resolve(locale)
+      }
+
+      if (Helper.Locale.loadLocalePool.includes(locale)) {
+        setI18nLanguage(locale)
+        resolve(locale)
+      }
+
+      Helper.Locale.loadLocalePool.push(locale)
       setI18nLanguage(locale)
-      return locale
-    }
-
-    // loadLocaleMessages(locale)
-    Helper.Locale.loadLocalePool.push(locale)
-    setI18nLanguage(locale)
-    return locale
+      resolve(locale)
+    })
   }
 
   function setPersistedLocale(locale: LocaleType) {

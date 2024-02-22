@@ -14,7 +14,6 @@
 <script setup lang="ts" name="MenuHeader">
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 interface Props {
@@ -36,7 +35,6 @@ const styles = computed(() => {
 <style lang="scss" scoped>
 .menu-header {
   .user-preview {
-    // padding: 1rem;
     padding: 10px;
     align-items: center;
     flex-direction: column;

@@ -17,7 +17,8 @@
       <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
         <slot :name="item" v-bind="data || {}"></slot>
       </template>
-      <template #bodyCell="{ record, column, index, text }">
+      <!-- @vue-skip -->
+      <template #bodyCell="{ text, record, index, column }">
         <template v-if="column">
           <template v-if="column.key === 'index'">
             {{ getRecordNo(index) }}

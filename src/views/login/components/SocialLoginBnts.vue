@@ -2,7 +2,9 @@
   <div class="method">
     <div class="method-control" v-for="item in socialLoginTypes" :key="item.url">
       <Tooltip>
-        <template #title>{{ $t('common.socialLoginText', { type: item.type }) }}</template>
+        <template #title>{{
+          $t('common.socialLoginText', { type: Util.Format.toFirstUpperCase(item.type) })
+        }}</template>
         <a class="method-action" @click="onSocialLogin(item)">
           <img :src="item.icon" style="width: 25px; margin-right: 5px" />
         </a>
@@ -14,6 +16,7 @@
 import NaverIcon from '@/assets/images/btnG_icon_square.png'
 import GoogleIcon from '@/assets/svgs/google_g_logo.svg.webp'
 import KakaoIcon from '@/assets/svgs/kakaotalk.svg'
+import { Util } from '@/utils'
 import { Tooltip } from 'ant-design-vue'
 
 interface SocialLoginType {

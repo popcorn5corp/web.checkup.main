@@ -14,8 +14,8 @@
 </template>
 <script setup lang="ts" name="SelectionPopup">
 import { Alert } from 'ant-design-vue'
-import { computed } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { computed, unref } from 'vue'
+import { useTheme } from '@/hooks/useTheme'
 import { Button } from '@/components/button'
 import { useTableContext } from '../../hooks/useTableContext'
 
@@ -24,9 +24,9 @@ interface SelectionPopupProps {
 }
 
 const props = defineProps<SelectionPopupProps>()
-const { getTheme } = useProjectConfigStore()
+const { getTheme } = useTheme()
 const table = useTableContext()
-const roundColor = computed(() => getTheme.primaryColor)
+const roundColor = computed(() => unref(getTheme).primaryColor)
 const message = computed(() => props.selectedRows.length + '개의 행이 선택되었습니다.')
 
 function onCancel() {
