@@ -112,7 +112,7 @@ export const Default: Story = {
         </template>
 
         <template #drawerContent>
-          <div style="padding: 1rem;">drawer 영역</div>
+          <div style="padding: 1rem; height: 840px; display: flex; justify-content: center; align-items: center;">drawer 영역</div>
         </template>
       </DrawerContainer>
     `
