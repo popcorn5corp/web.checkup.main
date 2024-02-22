@@ -55,7 +55,7 @@ export interface ITheme {
   fontSize: number
 }
 
-const defaultTheme: ITheme = {
+export const defaultTheme: ITheme = {
   themeName: 'light',
   menuThemeName: 'light',
   isDark: false,
@@ -63,7 +63,7 @@ const defaultTheme: ITheme = {
   menuPosition: 'side',
   title: 'checkup',
   fontSize: DEFAULT_FONT_SIZE
-}
+} as const
 
 export const useTheme = () => {
   const appStore = useAppStore()
@@ -76,18 +76,10 @@ export const useTheme = () => {
   const settings = ref(getDefaultWorkspaceSettings())
 
   watch(
-    () => getTheme.value,
-    (a) => {
-      console.log('watch2 ', a)
-    }
-  )
-
-  watch(
     () => unref(getWorkspace)?.settings,
     (_settings) => {
       if (_settings) {
         settings.value = _settings
-        console.log('ggggg')
 
         const {
           display: { themeName, menuPosition, menuThemeName, primaryColor },
@@ -113,7 +105,7 @@ export const useTheme = () => {
 
   function initTheme() {
     watchEffect(() => {
-      setDataTheme(theme.value.themeName || DEFAULT_THEME_NAME)
+      setHtmlDataTheme(theme.value.themeName || DEFAULT_THEME_NAME)
     })
   }
 
@@ -132,7 +124,7 @@ export const useTheme = () => {
         menuThemeName
       }
     }).then(() => {
-      setDataTheme(themeName)
+      setHtmlDataTheme(themeName)
     })
   }
 
@@ -166,28 +158,7 @@ export const useTheme = () => {
     })
   }
 
-  function setLocaleTheme(_theme: Partial<ITheme>) {
-    // Object.entries(_theme).map(([key]) => {
-    //   const themeKey = key as keyof Partial<ITheme>
-    //   theme.value[themeKey] = _theme[themeKey] as never
-    // })
-
-    theme.value = {
-      ...defaultTheme,
-      ..._theme
-    }
-    console.log('setLocaleTheme ', theme.value)
-  }
-
-  // const setDataTheme = (navTheme?: ThemeName) => {
-  //   if (navTheme === 'dark') {
-  //     document.documentElement.setAttribute('data-theme', 'dark')
-  //   } else {
-  //     document.documentElement.removeAttribute('data-theme')
-  //   }
-  // }
-
-  const setDataTheme = (themeName: ThemeName) => {
+  const setHtmlDataTheme = (themeName: ThemeName) => {
     document.documentElement.setAttribute('data-theme', themeName)
   }
   return {
@@ -198,7 +169,6 @@ export const useTheme = () => {
     setFontSize,
     setMenuPosition,
     setPrimaryColor,
-    setDataTheme,
-    setLocaleTheme
+    setHtmlDataTheme
   }
 }

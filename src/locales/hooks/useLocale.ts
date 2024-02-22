@@ -41,7 +41,9 @@ export const useLocale = () => {
   }
 
   async function setLocale(locale: LocaleType): Promise<LocaleType> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
+      if (!locale) reject()
+
       const globalI18n = i18n.global
       const currentLocale = globalI18n.locale.value
       if (currentLocale === locale) {

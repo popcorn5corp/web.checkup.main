@@ -55,7 +55,7 @@ import { computed, unref } from 'vue'
 import type { ThemeName } from '@/stores/interface'
 import { useTheme } from '@/hooks/useTheme'
 
-const { getTheme, setThemeName, setDataTheme } = useTheme()
+const { getTheme, setThemeName, setHtmlDataTheme } = useTheme()
 const isDark = computed({
   get() {
     return unref(getTheme).isDark
@@ -63,7 +63,7 @@ const isDark = computed({
   set(newVal) {
     const themeName: ThemeName = newVal ? 'dark' : 'light'
     setThemeName(themeName)
-    setDataTheme(themeName)
+    setHtmlDataTheme(themeName)
   }
 })
 </script>
