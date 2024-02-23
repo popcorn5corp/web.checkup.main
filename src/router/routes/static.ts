@@ -388,6 +388,17 @@ export const staticRoutes: RouteRecordRaw[] = [
         meta: {
           title: 'Tour'
         }
+      },
+      {
+        path: 'drawer',
+        name: 'components-drawer',
+        component: () =>
+          import(
+            /* webpackChunkName: "components-drawer" */ '@/views/components-overview/drawer/index.vue'
+          ),
+        meta: {
+          title: 'Drawer'
+        }
       }
     ]
   }

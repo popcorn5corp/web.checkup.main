@@ -13,61 +13,53 @@
           cursor: resizerCursor
         }"
       />
-      <slot name="content"></slot>
+      <slot></slot>
     </div>
-    <div class="drawer-mask" v-if="openDetail && useMask"></div>
-    <div ref="drawerRef" class="drawer" :class="drawerClasses">
-      <!-- <Drawer :open="openDetail"> -->
-      <div
-        v-if="drawerPosition === 'right'"
-        class="resizer-line"
-        ref="resizerRef"
-        id="resizer"
-        @mouseover="isResizerActive = true"
-        @mouseleave="isResizerActive = false"
-        :class="resizerClasses"
-        :style="{
-          cursor: resizerCursor
-        }"
-      />
+    <Transition name="drawerContainer" appear>
+      <div ref="drawerRef" class="drawer" :class="drawerClasses">
+        <div
+          v-if="drawerPosition === 'right'"
+          class="resizer-line"
+          ref="resizerRef"
+          id="resizer"
+          @mouseover="isResizerActive = true"
+          @mouseleave="isResizerActive = false"
+          :class="resizerClasses"
+          :style="{
+            cursor: resizerCursor
+          }"
+        />
 
-      <!-- <template #drawerHeader> -->
-      <div class="title-wrapper">
-        <span>
-          {{ drawerTitle }}
-        </span>
-
-        <Button :size="'small'" style="float: right" @click="handleClose">
-          <template #icon>
-            <font-awesome-icon class="xmark" :icon="['fas', 'xmark']" />
+        <Drawer
+          v-if="openDetail"
+          minHeight="calc(100vh - 165px + 15px)"
+          :resize="true"
+          :floating="false"
+          :mask="false"
+          :openDetail="openDetail"
+          :drawerTitle="drawerTitle"
+          @onClose="emit('update:openDetail', false)"
+        >
+          <template #drawerContent>
+            <slot name="drawerContent" />
           </template>
-        </Button>
+        </Drawer>
       </div>
-      <!-- </template> -->
-
-      <Divider style="margin-top: 0" />
-
-      <!-- <template #drawerContent> -->
-      <slot name="drawerContent" />
-      <!-- </template> -->
-      <!-- </Drawer> -->
-    </div>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts" name="DrawerContainer">
-import { Divider } from 'ant-design-vue'
+// import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import { computed, ref, watch } from 'vue'
 import { Drawer } from '@/components/drawer'
-// import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
 import type { DrawerContainerProps } from '../types'
 
 // const { closeFilter, closeDetail } = useDynamicTableContext()
 const emit = defineEmits(['update:openDetail'])
 const props = withDefaults(defineProps<DrawerContainerProps>(), {
-  drawerPosition: 'right',
   drawerWidth: '30%',
-  useResize: true
+  resize: true
 })
 
 const isResizerActive = ref(false)
@@ -78,12 +70,12 @@ const containerRef = ref()
 
 const contentWidth = computed(() => `${100 - parseInt(props.drawerWidth)}%`)
 const contentStyles = computed(() => {
-  const { isFloating, openDetail, drawerPosition } = props
+  const { floating, openDetail, drawerPosition } = props
   return {
-    paddingRight: !isFloating && openDetail && drawerPosition === 'right' ? '20px' : '0',
-    paddingLeft: !isFloating && openDetail && drawerPosition === 'left' ? '20px' : '0',
-    width: openDetail && !isFloating ? contentWidth.value : '100%',
-    maxWidth: openDetail && !isFloating ? contentWidth.value : '100%',
+    paddingRight: !floating && openDetail && drawerPosition === 'right' ? '20px' : '0',
+    paddingLeft: !floating && openDetail && drawerPosition === 'left' ? '20px' : '0',
+    width: openDetail && !floating ? contentWidth.value : '100%',
+    maxWidth: openDetail && !floating ? contentWidth.value : '100%',
     float: drawerPosition === 'left' ? 'right' : ''
   }
 })
@@ -96,24 +88,15 @@ const drawerStyles = computed(() => {
 })
 
 const resizerClasses = computed(() => ({
-  active: props.useResize && isResizerActive.value
+  active: props.resize && isResizerActive.value
 }))
-
-const resizerCursor = computed(() => (props.useResize ? 'col-resize' : 'default'))
-
 const drawerClasses = computed(() => [
   props.drawerPosition === 'left' ? 'left' : 'right',
   props.openDetail ? 'active' : '',
-  props.isFloating && props.useMask ? 'full-height' : ''
+  props.floating && props.mask ? 'full-height' : ''
 ])
 
-const handleClose = () => {
-  // dynamicTable?.closeFilter()
-  // dynamicTable?.closeDetail()
-  emit('update:openDetail', false)
-  contentRef.value.style.width = '100%'
-  drawerRef.value.style.width = '0'
-}
+const resizerCursor = computed(() => (props.resize ? 'col-resize' : 'default'))
 
 const resizingHandler = () => {
   let startX = 0
@@ -140,7 +123,7 @@ const resizingHandler = () => {
    */
   const mouseMoveHandler = (e) => {
     if (!contentRef.value || !drawerRef.value || !containerRef.value) return
-    const { isFloating, drawerPosition, isFloatResize } = props
+    const { floating, drawerPosition, resizeOption } = props
 
     // 크기 조절 중 마우스 커서를 변경함(container 영역으로)
     containerRef.value.style.cursor = 'col-resize'
@@ -148,22 +131,22 @@ const resizingHandler = () => {
     setElementStyles('none', 'none', 'none')
 
     let newDrawerWidth = 0
-    const dx = isFloating ? startX - e.clientX : e.clientX - startX
+    const dx = floating ? startX - e.clientX : e.clientX - startX
 
     if (drawerPosition === 'right') {
       // 오른쪽 drawer 너비 재정의
-      newDrawerWidth = isFloating
+      newDrawerWidth = floating
         ? ((drawerWidth + dx) * 100) / containerWidth
         : ((drawerWidth - dx) * 100) / containerWidth
       drawerRef.value.style.width = `${newDrawerWidth}%`
     } else {
       // 왼쪽 drawer 너비 재정의
-      newDrawerWidth = isFloating
+      newDrawerWidth = floating
         ? ((drawerWidth - dx) * 100) / containerWidth
         : ((drawerWidth + dx) * 100) / containerWidth
       drawerRef.value.style.width = `${newDrawerWidth}%`
     }
-    if (!isFloating && !isFloatResize) {
+    if (!floating && resizeOption === 'push') {
       // 밀면서 들어오기 content 너비 재정의
       const newContentWidth = 100 - newDrawerWidth
       contentRef.value.style.width = `${newContentWidth}%`
@@ -204,30 +187,39 @@ const resizingHandler = () => {
 watch(
   () => resizerRef,
   () => {
-    if (props.useResize) {
+    if (props.resize) {
       resizingHandler()
     }
   },
   { immediate: true, deep: true }
 )
+
+watch(
+  () => props.openDetail,
+  (openDetail) => {
+    if (!openDetail) {
+      contentRef.value.style.width = '100%'
+      drawerRef.value.style.width = '0'
+    }
+  }
+)
 </script>
 
 <style lang="scss" scoped>
-$body-min-height: calc(100vh - 165px);
+$container-min-height: calc(100vh - 160px);
 $header-btns-height: 15px;
 $transition: all 0.3s;
 
 .drawer-container {
   width: 100%;
+  height: 100%;
   position: relative;
-  min-height: $body-min-height;
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: hidden;
 
   .resizer-line {
     width: 5px;
     height: 100%;
-    min-height: $body-min-height;
+    min-height: $container-min-height;
     position: absolute;
     top: 0;
     user-select: none;
@@ -260,32 +252,23 @@ $transition: all 0.3s;
     position: relative;
 
     .resizer-line {
-      min-height: calc($body-min-height + $header-btns-height);
+      min-height: $container-min-height;
       top: -15px;
       left: 0;
     }
   }
 
-  .drawer-mask {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.45);
-    z-index: 999;
-  }
   .drawer {
     width: v-bind('drawerStyles.width');
     min-width: v-bind('drawerStyles.minWidth');
-    min-height: calc($body-min-height + $header-btns-height);
+    min-height: calc($container-min-height + $header-btns-height);
     max-width: 90%;
     position: absolute;
     top: -$header-btns-height;
     z-index: 1000;
     background: $color-white;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    box-sizing: border-box;
+    overflow: hidden;
     transition: $transition;
 
     > .title-wrapper {
@@ -304,7 +287,6 @@ $transition: all 0.3s;
 
   .drawer.right {
     right: -100%;
-    border-left: 0.5px solid $color-gray-4;
   }
   .drawer.right.active {
     right: 0;
@@ -312,7 +294,6 @@ $transition: all 0.3s;
 
   .drawer.left {
     left: -100%;
-    border-right: 0.5px solid $color-gray-4;
   }
   .drawer.left.active {
     left: 0;
@@ -323,6 +304,76 @@ $transition: all 0.3s;
     position: fixed;
     top: 0;
     border: none;
+  }
+}
+
+// transition
+.drawerContainer-enter-from {
+  opacity: 0;
+  translate: 500px 0;
+}
+.drawerContainer-enter-to {
+  opacity: 1;
+  translate: 0 0;
+}
+.drawerContainer-leave-from {
+  translate: 0 0;
+}
+
+// mobile
+@media screen and (max-width: 830px) {
+  .drawer.active {
+    animation: slideUp 0.5s;
+    background: $color-white;
+    position: fixed !important;
+    top: 0px;
+    left: 0px;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh;
+    :deep(.drawer-wrapper) {
+      .drawer {
+        min-height: 100vh;
+      }
+    }
+  }
+
+  .slideUp {
+    -webkit-animation-name: slideUp;
+    animation-name: slideUp;
+  }
+
+  @-webkit-keyframes slideUp {
+    0% {
+      -webkit-transform-origin: 0 0;
+      transform-origin: 0 0;
+      -webkit-transform: translateY(0%);
+      transform: translateY(0%);
+    }
+
+    100% {
+      -webkit-transform-origin: 0 0;
+      transform-origin: 0 0;
+      -webkit-transform: translateY(-100%);
+      transform: translateY(-100%);
+    }
+  }
+
+  @keyframes slideUp {
+    0% {
+      -webkit-transform-origin: 0 0;
+      transform-origin: 0 0;
+      -webkit-transform: translateY(100%);
+      transform: translateY(100%);
+    }
+
+    100% {
+      -webkit-transform-origin: 0 0;
+      transform-origin: 0 0;
+
+      -webkit-transform: translateY(0%);
+      transform: translateY(0%);
+    }
   }
 }
 </style>
