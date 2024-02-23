@@ -42,7 +42,7 @@ export const localeMessages = {
 const i18n = createI18n({
   legacy: false,
   allowComposition: true,
-  locale: getLocale,
+  locale: 'ko_KR',
   fallbackLocale: localeMap.ko_KR,
   messages: localeMessages,
   globalInjection: true
