@@ -4,6 +4,8 @@ export class TableError extends Error {
     this.name = '[CUI :: TableError] '
     this.message = this.name + message
   }
+
+  getError() {}
 }
 
 export const ErrorMessage = {

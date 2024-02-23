@@ -1,5 +1,7 @@
-import { LocaleHelper } from './localeHelper'
+import * as Locale from './localeHelper'
+import * as Menu from './menuHelper'
 
 export const Helper = {
-  Locale: LocaleHelper
+  Locale,
+  Menu
 }

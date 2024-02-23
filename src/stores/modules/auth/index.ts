@@ -3,10 +3,11 @@ import { AuthService, WorkspaceService } from '@/services'
 import { Util } from '@/utils'
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
+import type { IAuth } from '@/services/auth/types'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, USER_INFO_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
-import type { AuthState, IUser, TokenKey } from './types'
+import type { AuthState, IUser } from './types'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -14,106 +15,184 @@ export const useAuthStore = defineStore(
     const state = reactive<AuthState>({
       user: Util.Storage.get<IUser>('user') || getDefaultUser(),
       token: Util.Storage.get<string>(ACCESS_TOKEN_KEY),
-      loggedIn: false
+      loggedIn: false,
+      loading: false
     })
     const { setSelectedWorkspaceId } = useWorkspaceStore()
     const getUser = computed(() => state.user)
     const getToken = computed(() => state.token)
+    const getLoggedIn = computed(() => state.loggedIn)
+    const getLoading = computed(() => state.loading)
 
-    async function login() {
-      return AuthService.getUser().then(
-        async (user) => {
-          console.log('[user]', user)
-          setUser(user)
-          state.loggedIn = true
-          Util.Storage.set('user', user)
-          return await afterLoginAction()
-        },
-        (error) => {
+    /**
+     * @description [1-1] 사용자 내부 로그인
+     */
+    function login(param: IAuth.SignInParam): Promise<{ goPath: string }> {
+      return new Promise(async (resolve, reject) => {
+        state.loading = true
+
+        try {
+          const { data, success } = await AuthService.signIn(param)
+
+          if (success) {
+            const { accessToken, refreshToken } = data
+
+            setToken(accessToken)
+            setRefreshToken(refreshToken)
+
+            const { userInfo, goPath, workspaceId, useDefaultWorkspace } = await afterLoginAction()
+
+            setUser({
+              ...userInfo,
+              useDefaultWorkspace
+            })
+
+            workspaceId && setSelectedWorkspaceId(workspaceId)
+            state.loggedIn = true
+            state.loading = false
+
+            resolve({
+              goPath
+            })
+          }
+        } catch (error) {
           state.user = getDefaultUser()
           state.loggedIn = false
-          return Promise.reject(error)
+          state.loading = false
+          reject(error)
         }
-      )
+      })
     }
 
-    function setUser(values: Partial<IUser>) {
-      state.user = {
-        ...state.user,
-        ...values
-      }
-    }
+    /**
+     * @description [1-2] 사용자 소셜 로그인
+     */
+    function loginSocial(): Promise<{ goPath: string }> {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const { userInfo, goPath, workspaceId, useDefaultWorkspace } = await afterLoginAction()
 
-    async function afterLoginAction() {
-      try {
-        const { goPath } = await workspaceAction()
-        router.push(goPath)
+          setUser({
+            ...userInfo,
+            useDefaultWorkspace
+          })
 
-        return {
-          goPath
+          workspaceId && setSelectedWorkspaceId(workspaceId)
+          state.loggedIn = true
+
+          resolve({
+            goPath
+          })
+        } catch (error) {
+          state.user = getDefaultUser()
+          state.loggedIn = false
+
+          reject(error)
         }
-      } catch (error) {
-        return Promise.reject(error)
-      }
+      })
     }
 
-    async function workspaceAction() {
-      try {
-        let goPath = ''
-        const workspaceCount = state.user.workspaceCount
+    /**
+     * @description [2] 사용자 로그인 이후 처리
+     */
+    function afterLoginAction(): Promise<{
+      userInfo: IAuth.UserResponse
+      goPath: string
+      workspaceId: string | null
+      useDefaultWorkspace: boolean
+    }> {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const userInfo = await getUserInfo()
+          const { goPath, workspaceId, useDefaultWorkspace } = await workspaceAction(userInfo)
 
-        if (workspaceCount === 0) {
-          /************************************************************
-           * case: workspace 없을 경우
-           * - workspace 목록 조회 API 호출
-           ************************************************************/
-          goPath = PagePathEnum.WORKSPACE
-        } else {
-          /************************************************************
-           * case: workspace 존재할 경우
-           * - workspace 목록 조회 API 호출
-           ************************************************************/
-          const { data } = await WorkspaceService.getWorkspaceList()
-          const {
-            defaultWorkspace: useDefaultWorkspace,
-            defaultWorkspaceId,
-            workspaceInfoList
-          } = data
-          setUser({ useDefaultWorkspace })
-          console.log('[workspaces] :: ', data)
+          resolve({
+            userInfo,
+            goPath,
+            workspaceId,
+            useDefaultWorkspace
+          })
+        } catch (error) {
+          reject(error)
+        }
+      })
+    }
 
-          if (useDefaultWorkspace) {
+    /**
+     * @description [3] 사용자 정보 조회
+     */
+    function getUserInfo(): Promise<IAuth.UserResponse> {
+      return AuthService.getUserInfo()
+    }
+
+    /**
+     * @description [4] 사용자 워크스페이스 플로우
+     */
+    function workspaceAction(
+      userInfo: IAuth.UserResponse
+    ): Promise<{ goPath: string; workspaceId: string | null; useDefaultWorkspace: boolean }> {
+      return new Promise(async (resolve, reject) => {
+        try {
+          let goPath = ''
+          let useDefaultWorkspace = false
+          let workspaceId = null
+          const workspaceCount = userInfo.workspaceCount
+
+          if (workspaceCount === 0) {
             /************************************************************
-             * case: defaultWorkspace 설정한 경우
-             * - workspace 상세 조회 API 호출
-             * - 메인 화면으로 이동
+             * case: workspace 없을 경우
+             * - workspace 목록 조회 API 호출
              ************************************************************/
-            setSelectedWorkspaceId(defaultWorkspaceId)
-            goPath = PagePathEnum.BASE_HOME
-          } else if (!useDefaultWorkspace && workspaceInfoList.length === 1) {
+            goPath = PagePathEnum.WORKSPACE
+          } else {
             /************************************************************
-             * case: defaultWorkspace 설정하지 않고 workspace 목록이 한개일 경우
-             * - workspace 상세 조회 API 호출
-             * - data.workspaceInfoList[0].workspaceId로 호풀
-             * - 메인 화면으로 이동
+             * case: workspace 존재할 경우
+             * - workspace 목록 조회 API 호출
              ************************************************************/
-            setSelectedWorkspaceId(workspaceInfoList[0].workspaceId)
-            goPath = PagePathEnum.BASE_HOME
-          } else if (!useDefaultWorkspace && workspaceInfoList.length > 1) {
-            /************************************************************
-             * case: defaultWorkspace 설정하지 않고 workspace 목록이 여러개일 경우
-             * - workspace 목록 화면으로 이동
-             ************************************************************/
-            goPath = PagePathEnum.WORKSPACE_LIST
+            const { data, success } = await WorkspaceService.getWorkspaceList()
+
+            if (success) {
+              const { defaultWorkspace, defaultWorkspaceId, workspaceInfoList } = data
+              useDefaultWorkspace = defaultWorkspace
+
+              if (useDefaultWorkspace) {
+                /************************************************************
+                 * case: defaultWorkspace 설정한 경우
+                 * - workspace 상세 조회 API 호출
+                 * - 메인 화면으로 이동
+                 ************************************************************/
+                workspaceId = defaultWorkspaceId
+                // setSelectedWorkspaceId(defaultWorkspaceId)
+                goPath = PagePathEnum.BASE_HOME
+              } else if (!useDefaultWorkspace && workspaceInfoList.length === 1) {
+                /************************************************************
+                 * case: defaultWorkspace 설정하지 않고 workspace 목록이 한개일 경우
+                 * - workspace 상세 조회 API 호출
+                 * - data.workspaceInfoList[0].workspaceId로 호풀
+                 * - 메인 화면으로 이동
+                 ************************************************************/
+                workspaceId = workspaceInfoList[0].workspaceId
+                // setSelectedWorkspaceId(workspaceInfoList[0].workspaceId)
+                goPath = PagePathEnum.BASE_HOME
+              } else if (!useDefaultWorkspace && workspaceInfoList.length > 1) {
+                /************************************************************
+                 * case: defaultWorkspace 설정하지 않고 workspace 목록이 여러개일 경우
+                 * - workspace 목록 화면으로 이동
+                 ************************************************************/
+                goPath = PagePathEnum.WORKSPACE_LIST
+              }
+            }
           }
-        }
 
-        return {
-          goPath
+          resolve({
+            goPath,
+            workspaceId,
+            useDefaultWorkspace
+          })
+        } catch (error) {
+          reject(error)
         }
-      } catch (error) {
-        return Promise.reject(error)
-      }
+      })
     }
 
     function logout(goLogin = true) {
@@ -124,13 +203,22 @@ export const useAuthStore = defineStore(
       goLogin && router.push(PagePathEnum.BASE_LOGIN)
     }
 
-    function setToken(tokenKey: TokenKey = ACCESS_TOKEN_KEY, token: string) {
-      state.token = token
-      Util.Storage.set(tokenKey, token)
+    function setUser(values: Partial<IUser>) {
+      state.user = {
+        ...state.user,
+        ...values
+      }
+
+      Util.Storage.set(USER_INFO_KEY, state.user)
     }
 
-    function setRefreshToken(tokenKey: TokenKey = REFRESH_TOKEN_KEY, token: string) {
-      Util.Storage.set(tokenKey, token)
+    function setToken(token: string) {
+      state.token = token
+      Util.Storage.set(ACCESS_TOKEN_KEY, token)
+    }
+
+    function setRefreshToken(token: string) {
+      Util.Storage.set(REFRESH_TOKEN_KEY, token)
     }
 
     // function getToken(tokenKey: TokenKey = ACCESS_TOKEN_KEY) {
@@ -149,9 +237,13 @@ export const useAuthStore = defineStore(
     return {
       getUser,
       getToken,
-      login,
+      getLoggedIn,
+      getLoading,
+      getUserInfo,
       afterLoginAction,
+      login,
       logout,
+      loginSocial,
       setToken,
       setRefreshToken,
       removeToken,

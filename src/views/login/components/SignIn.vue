@@ -1,7 +1,7 @@
 <template>
   <div class="sign-in-container">
     <h1 class="text text-title">{{ $t('component.button.loginText') }}</h1>
-    <Form :model="formData" @finish="onFinish">
+    <Form :model="formData" @finish="onLogin">
       <FormItem name="userId">
         <Input
           id="loginEmail"
@@ -35,7 +35,7 @@
           type="primary"
           size="large"
           html-type="submit"
-          :loading="isLoading"
+          :loading="getLoggedIn"
         />
       </FormItem>
     </Form>
@@ -43,21 +43,22 @@
 </template>
 
 <script setup lang="ts" name="SignIn">
-import { AuthService } from '@/services'
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import type { IAuth } from '@/services/auth/types'
 import { useAuthStore } from '@/stores/modules/auth'
 import { Input } from '@/components/input'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 
 interface Props {
   onToggle: () => void
   isSuccessLogin?: boolean
 }
-withDefaults(defineProps<Props>(), {})
-const emit = defineEmits(['update:isSuccessLogin'])
 
-const { setToken, setRefreshToken, login } = useAuthStore()
+// const emit = defineEmits(['update:isSuccessLogin'])
+withDefaults(defineProps<Props>(), {})
+
+const router = useRouter()
+const { login, getLoggedIn } = useAuthStore()
 
 const formData = reactive<IAuth.SignInParam>({
   userId: '',
@@ -67,7 +68,6 @@ const errorState = reactive<Record<string, boolean>>({
   userId: false,
   password: false
 })
-const isLoading = ref(false)
 
 const onValidateFields = (e: Event, value: string) => {
   const fieldsValue = (e.target as HTMLInputElement).value
@@ -78,31 +78,23 @@ const onValidateFields = (e: Event, value: string) => {
   }
 }
 
-const onFinish = async () => {
+const onLogin = async () => {
   ;(Object.keys(formData) as Array<keyof typeof formData>).forEach((field) => {
     if (!formData[field]) {
       errorState[field] = true
     }
   })
+
   const { userId, password } = errorState
   if (userId || password) {
     return
   }
 
   try {
-    isLoading.value = true
-    const { data, success } = await AuthService.signIn(formData)
-    if (success) {
-      setToken(ACCESS_TOKEN_KEY, data.accessToken)
-      setRefreshToken(REFRESH_TOKEN_KEY, data.refreshToken)
-      emit('update:isSuccessLogin', true)
-
-      await login()
-    }
-  } catch (err) {
-    console.log(err)
-  } finally {
-    isLoading.value = false
+    const { goPath } = await login(formData)
+    router.push(goPath)
+  } catch (error) {
+    console.log(error)
   }
 }
 </script>

@@ -63,10 +63,4 @@ function genMessage(langs: Recordable<Recordable>, prefix = 'lang') {
   return obj
 }
 
-export const LocaleHelper = {
-  locales,
-  loadLocalePool,
-  setHtmlPageLang,
-  setLoadLocalePool,
-  genMessage
-}
+export { locales, loadLocalePool, setHtmlPageLang, setLoadLocalePool, genMessage }

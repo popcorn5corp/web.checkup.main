@@ -105,19 +105,27 @@ export const useTheme = () => {
 
   function initTheme() {
     watchEffect(() => {
-      setHtmlDataTheme(theme.value.themeName || DEFAULT_THEME_NAME)
+      // setHtmlDataTheme(theme.value.themeName || DEFAULT_THEME_NAME)
+      const { primaryColor, themeName, isDark } = defaultTheme
+      theme.value.primaryColor = primaryColor
+      theme.value.themeName = themeName
+      theme.value.isDark = isDark
+      setHtmlDataTheme(themeName)
+      // setLocale(Helper.Locale.locales.browserLanguage)
     })
   }
 
-  async function _setTheme(values: Partial<WorkspaceSettings>) {
-    await workspaceStore.setWorkspaceSettings(values)
+  async function _setSttings(values: Partial<WorkspaceSettings>) {
+    if (unref(getWorkspace)?.workspaceId) {
+      await workspaceStore.updateWorkspaceSettings(values)
+    }
   }
 
   function setThemeName(themeName: ThemeName) {
     const menuThemeName: MenuThemeName =
       themeName === 'dark' || themeName === 'semiDark' ? 'dark' : 'light'
 
-    _setTheme({
+    _setSttings({
       display: {
         ...unref(settings).display,
         themeName,
@@ -129,7 +137,7 @@ export const useTheme = () => {
   }
 
   function setFontSize(fontSize: number) {
-    _setTheme({
+    _setSttings({
       accessibility: {
         fontSize
       }
@@ -137,7 +145,7 @@ export const useTheme = () => {
   }
 
   function setPrimaryColor(primaryColor: string) {
-    _setTheme({
+    _setSttings({
       display: {
         ...unref(settings).display,
         primaryColor
@@ -146,7 +154,7 @@ export const useTheme = () => {
   }
 
   function setMenuPosition(menuPosition: MenuPosition) {
-    _setTheme({
+    _setSttings({
       display: {
         ...unref(settings).display,
         menuPosition

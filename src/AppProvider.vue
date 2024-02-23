@@ -25,7 +25,7 @@ const themeBlackList = [PagePathEnum.BASE_LOGIN] as string[]
 
 const { defaultAlgorithm, darkAlgorithm, defaultSeed } = ATheme
 const route = useRoute()
-const { getTheme, setHtmlDataTheme } = useTheme()
+const { getTheme, setHtmlDataTheme, initTheme } = useTheme()
 const { getAntdLocale, setLocale } = useLocale()
 const theme = computed({
   get: () => getTheme.value,
@@ -41,6 +41,7 @@ const customSeed = computed(() => {
     fontSize
   }
 })
+
 const themeAlgorithm = computed(() =>
   unref(theme).isDark ? customDarkAlgorithm : defaultAlgorithm
 )
@@ -58,6 +59,8 @@ const customDarkAlgorithm = () => {
   }
 }
 
+// initTheme()
+
 watch(
   () => route.path,
   (path) => {
@@ -67,12 +70,12 @@ watch(
   }
 )
 
-function initTheme() {
-  const { primaryColor, themeName, isDark } = defaultTheme
-  theme.value.primaryColor = primaryColor
-  theme.value.themeName = themeName
-  theme.value.isDark = isDark
-  setHtmlDataTheme(themeName)
-  setLocale(Helper.Locale.locales.browserLanguage)
-}
+// function initTheme() {
+//   const { primaryColor, themeName, isDark } = defaultTheme
+//   theme.value.primaryColor = primaryColor
+//   theme.value.themeName = themeName
+//   theme.value.isDark = isDark
+//   setHtmlDataTheme(themeName)
+//   setLocale(Helper.Locale.locales.browserLanguage)
+// }
 </script>

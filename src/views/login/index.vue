@@ -1,5 +1,5 @@
 <template>
-  <div id="container" class="container" v-if="!isSuccessSocialLogin || !isSuccessLogin">
+  <div id="container" class="container" v-if="!getLoading">
     <div class="row">
       <!-- SIGN UP -->
       <div class="col align-items-center flex-col sign-up">
@@ -109,47 +109,35 @@
   <Spinner v-else :text="$t('message.checkingLogin')" :text-width="'13rem'" />
 </template>
 <script setup lang="ts" name="Login">
+import { storeToRefs } from 'pinia'
 import { onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
-import { useTheme } from '@/hooks/useTheme'
 import { LeftOutlined } from '@/components/icons'
 import { Spinner } from '@/components/spinner'
-import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import FindUser from './components/FindUser.vue'
 import SignIn from './components/SignIn.vue'
 import SignUp from './components/SignUp.vue'
 import SocialLoginBnts from './components/SocialLoginBnts.vue'
 
-const { query } = useRoute()
-const { t } = useI18n()
-const { setToken, login, getToken } = useAuthStore()
-
 type SignRenderTypes = 'signUp' | 'signIn'
 type ComponentType = 'login' | 'findUser'
 export type FindUserFormTypes = 'id' | 'password'
 
-const accessToken = query.accessToken as string
-const refreshToken = query.refreshToken as string
-const isSuccessSocialLogin = !!accessToken && !!refreshToken
+const { t } = useI18n()
+
+const authStore = useAuthStore()
+const { getLoading } = storeToRefs(authStore)
 const isSuccessLogin = ref(false)
 const signRenderType = ref<SignRenderTypes>('signIn')
 const renderComponentType = ref<ComponentType>('login')
 const findUserType = ref<FindUserFormTypes>('id')
-
 const titleMsg = reactive({
   signIn: t('common.signInTitle'),
   signUp: t('common.signUpTitle')
 })
-let container: HTMLElement | null = null
 
-;(async () => {
-  if (isSuccessSocialLogin && !getToken) {
-    setToken(ACCESS_TOKEN_KEY, accessToken)
-    await login()
-  }
-})()
+let container: HTMLElement | null = null
 
 const onToggle = () => {
   container!.classList.toggle('sign-up')
@@ -166,7 +154,7 @@ onMounted(() => {
     if (container?.classList) {
       container.classList?.add('sign-in')
     }
-  }, 200)
+  })
 })
 </script>
 
