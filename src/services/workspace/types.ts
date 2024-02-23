@@ -136,4 +136,21 @@ export namespace IWorkspace {
 
   export type UpdateWorkspaceSettingsParam = WorkspaceSettings
   export type UpdateWorkspaceSettingsResponse = WorkspaceSettings
+
+  export interface MenuDto {
+    menuId: string
+    name: string
+    title: string
+    link: string
+    icon: string
+    hasLink: boolean
+    isNew: boolean
+    seq: number
+    depth: number
+    subMenus: MenuDto[]
+  }
+
+  export interface GetWorkspaceMenuResponse {
+    menus: MenuDto[]
+  }
 }

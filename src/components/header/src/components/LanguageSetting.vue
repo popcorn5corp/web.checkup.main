@@ -28,7 +28,7 @@ import { QuestionCircleTwoTone } from '@/components/icons'
 const { Option } = Select
 
 const { getLocale } = useLocale()
-const { setWorkspaceSettings } = useWorkspaceStore()
+const { updateWorkspaceSettings } = useWorkspaceStore()
 const selectedLocale = ref<LocaleType>(unref(getLocale))
 let prevLocale = selectedLocale.value
 const router = useRouter()
@@ -42,7 +42,7 @@ const onChangeLang = async (locale: LocaleType) => {
     icon: createVNode(QuestionCircleTwoTone),
     async onOk() {
       try {
-        await setWorkspaceSettings({
+        await updateWorkspaceSettings({
           language: {
             language: locale
           }

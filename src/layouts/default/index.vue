@@ -15,7 +15,7 @@
 
       <!-- Side Menu 영역 -->
       <AsideMenu
-        :items="menus"
+        :items="getMenus"
         :collapsed="collapsed"
         :theme="getTheme.menuThemeName"
         :mode="'inline'"
@@ -36,7 +36,7 @@
           <!-- Header Menu 영역 -->
           <div class="header-menu">
             <AsideMenu
-              :items="menus"
+              :items="getMenus"
               :collapsed="collapsed"
               :theme="getTheme.menuThemeName"
               :isSide="isSideMenu"
@@ -78,11 +78,11 @@ import { storeToRefs } from 'pinia'
 import { type CSSProperties, computed, onMounted, ref, unref } from 'vue'
 import { useAppStore } from '@/stores/modules/app'
 import { useTourStore } from '@/stores/modules/tour'
+import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { useTheme } from '@/hooks/useTheme'
 import { Header as LayoutHeader } from '@/components/header'
 import { Logo } from '@/components/logo'
 import { Menu as AsideMenu } from '@/components/menu'
-import { menus } from '@/components/menu/src/mock'
 import { Tour } from '@/components/tour'
 import { useTour } from '@/components/tour/hooks/useTour'
 import { TOUR_TYPE } from '@/components/tour/types'
@@ -91,6 +91,7 @@ import CircularMenu from './components/CircularMenu.vue'
 
 const { getTheme } = useTheme()
 const { getSettings } = storeToRefs(useAppStore())
+const { getMenus } = storeToRefs(useWorkspaceStore())
 const tourStore = useTourStore()
 const collapsed = computed<boolean>(() => unref(getSettings).isCollapse)
 const asiderWidth = computed(() => (collapsed.value ? 80 : 220))

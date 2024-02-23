@@ -1,3 +1,4 @@
+import { Helper } from '@/helpers'
 import { WorkspaceService } from '@/services'
 import { store } from '@/stores'
 import { Util } from '@/utils'
@@ -12,6 +13,7 @@ import { PagePathEnum } from '@/constants/pageEnum'
 import { getDefaultWorkspaceSettings, getStepsInfo } from './data'
 import { getDefaultFormValues } from './data'
 import type {
+  IMenu,
   JoinParamValues,
   UserWorkspace,
   WorkspaceSettings,
@@ -39,12 +41,15 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     selectedWorkspaceId: Util.Storage.get(WORKSPACE_ID_KEY),
     workspace: null,
     settings: getDefaultWorkspaceSettings(),
-    isCompleteWorkspaceLoad: false
+    isCompleteWorkspaceLoad: false,
+    menus: []
   })
 
-  const getStepType = computed(() => state.stepType)
   const getWorkspace = computed(() => state.workspace)
   const getSettings = computed(() => state.settings)
+  const getMenus = computed(() => state.menus)
+
+  const getStepType = computed(() => state.stepType)
   const getCurrentStep = computed(() => state.currentStep)
   const getNextBtnDisabled = computed(() => state.nextBtnDisabled)
   const getWorkspaceId = computed(() => state.selectedWorkspaceId)
@@ -132,10 +137,6 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     )
   }
 
-  /**
-   * @description 워크스페이스 상세정보 조회
-   * @param workspaceId
-   */
   async function getUserWorkspace(): Promise<void> {
     try {
       const { success, data } = await WorkspaceService.getUserWorkspace(
@@ -178,6 +179,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
         setWorkspace(workspace)
         setHtmlDataTheme(display.themeName)
         await setLocale(language.language)
+        await getWorkspaceMenu()
 
         resolve()
       } catch (error) {
@@ -186,7 +188,22 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     })
   }
 
-  function setWorkspaceSettings(values: Partial<WorkspaceSettings>): Promise<void> {
+  async function getWorkspaceMenu(): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { data, success } = await WorkspaceService.getWorkspaceMenu(unref(getWorkspaceId))
+
+        if (success) {
+          state.menus = Helper.Menu.getMenus(data.menus)
+          resolve()
+        }
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  function updateWorkspaceSettings(values: Partial<WorkspaceSettings>): Promise<void> {
     const settings = {
       ...(state.workspace as UserWorkspace).settings,
       ...values
@@ -234,15 +251,16 @@ export const useWorkspaceStore = defineStore('workspace', () => {
 
   return {
     ...toRefs(state),
-    getStepType,
+    getMenus,
     getWorkspace,
+    getWorkspaceId,
+    getWorkspaceName,
+    getStepType,
     getSettings,
     getCurrentStep,
     getSteps,
     getNextBtnDisabled,
-    getWorkspaceId,
     getWorkspaceInviteLogId,
-    getWorkspaceName,
     getFormValues,
     getJoinParam,
     initCurrentStep,
@@ -260,7 +278,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     getUserWorkspace,
     setJoinParam,
     setSelectedWorkspaceId,
-    setWorkspaceSettings
+    updateWorkspaceSettings
   }
 })
 
