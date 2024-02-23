@@ -1,6 +1,6 @@
 // @ts-ignore
 import { localeMessages } from '@/locales'
-import { setupFontAwesome, setupStore } from '@/plugins'
+import { setupFontAwesome } from '@/plugins'
 import { type Preview, StoryContext, setup } from '@storybook/vue3'
 import { createPinia } from 'pinia'
 import type { App } from 'vue'
@@ -13,10 +13,10 @@ import './index.scss'
 
 // import { themes } from '@storybook/theming';
 
-// const pinia = createPinia()
+const pinia = createPinia()
 
 setup((app: App) => {
-  setupStore(app)
+  app.use(pinia)
   app.use(
     createI18n({
       legacy: false,
