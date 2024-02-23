@@ -10,6 +10,7 @@ import '@/styles/theme/light.scss'
 import '@/styles/theme/semiDark.scss'
 import ConfigProvider from './components/ConfigProvider.vue'
 import './index.scss'
+import i18n from './locales'
 
 // import { themes } from '@storybook/theming';
 
@@ -17,16 +18,7 @@ const pinia = createPinia()
 
 setup((app: App) => {
   app.use(pinia)
-  app.use(
-    createI18n({
-      legacy: false,
-      allowComposition: true,
-      locale: 'ko_KR',
-      fallbackLocale: 'ko_KR',
-      messages: localeMessages,
-      globalInjection: true
-    })
-  )
+  app.use(i18n)
   setupFontAwesome(app)
 })
 

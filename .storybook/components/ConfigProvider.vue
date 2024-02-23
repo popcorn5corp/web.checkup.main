@@ -70,6 +70,8 @@ const getPrimaryColor = computed(() => {
   return themeColors.find((colorInfo) => props.colorPrimary === colorInfo.label).value
 })
 
+console.log(getPrimaryColor.value)
+
 const customSeed = computed(() => {
   return {
     ...defaultSeed,
