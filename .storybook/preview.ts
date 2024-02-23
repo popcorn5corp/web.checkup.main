@@ -1,13 +1,14 @@
 // @ts-ignore
-import { setupFontAwesome, setupI18n, setupStore } from '@/plugins'
+import { localeMessages } from '@/locales'
+import { setupFontAwesome, setupStore } from '@/plugins'
 import { type Preview, StoryContext, setup } from '@storybook/vue3'
 import { createPinia } from 'pinia'
 import type { App } from 'vue'
+import { createI18n } from 'vue-i18n'
 import '@/styles/theme/dark.scss'
 import '@/styles/theme/light.scss'
 import '@/styles/theme/semiDark.scss'
 import ConfigProvider from './components/ConfigProvider.vue'
-// @ts-ignore
 import './index.scss'
 
 // import { themes } from '@storybook/theming';
@@ -16,7 +17,16 @@ import './index.scss'
 
 setup((app: App) => {
   setupStore(app)
-  setupI18n(app)
+  app.use(
+    createI18n({
+      legacy: false,
+      allowComposition: true,
+      locale: 'ko_KR',
+      fallbackLocale: 'ko_KR',
+      messages: localeMessages,
+      globalInjection: true
+    })
+  )
   setupFontAwesome(app)
 })
 
