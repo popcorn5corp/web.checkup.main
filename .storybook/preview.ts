@@ -1,3 +1,4 @@
+// @ts-ignore
 import { setupFontAwesome, setupI18n } from '@/plugins'
 import { type Preview, StoryContext, setup } from '@storybook/vue3'
 import { createPinia } from 'pinia'
@@ -6,9 +7,8 @@ import '@/styles/theme/dark.scss'
 import '@/styles/theme/light.scss'
 import '@/styles/theme/semiDark.scss'
 import ConfigProvider from './components/ConfigProvider.vue'
+// @ts-ignore
 import './index.scss'
-
-// import i18n from './locales'
 
 // import { themes } from '@storybook/theming';
 
@@ -16,7 +16,7 @@ const pinia = createPinia()
 
 setup((app: App) => {
   app.use(pinia)
-  app.use(setupI18n)
+  setupI18n(app)
   setupFontAwesome(app)
 })
 
