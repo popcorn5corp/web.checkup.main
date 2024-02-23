@@ -8,7 +8,7 @@ const meta: Meta<ComponentProps<typeof DrawerContainer>> = {
   title: 'checkupuikit/Template/DrawerContainer',
   tags: ['autodocs'],
   argTypes: {
-    useResize: {
+    resize: {
       description: '드래그로 리사이징 기능 사용여부',
       type: { name: 'boolean' },
       table: {
@@ -27,26 +27,29 @@ const meta: Meta<ComponentProps<typeof DrawerContainer>> = {
         defaultValue: { summary: 'right' }
       }
     },
-    isFloating: {
+    floating: {
       description: 'drawer 외의 영역을 덮으면서 나오는지 여부',
       table: {
         type: { summary: 'boolean' }
       }
     },
-    isFloatResize: {
-      description: `영역을 덮으면서 리사이징 여부, 'isFloating=false' 일 때만 사용가능`,
+    resizeOption: {
+      description: `리사이징 옵션: 영역을 덮으면서 리사이징 여부, 'floating=false' 일 때만 사용가능`,
       table: {
-        type: { summary: 'boolean' }
+        type: {
+          summary: 'float | push'
+        },
+        defaultValue: { summary: 'float' }
       }
     },
-    useMask: {
-      description: `drawer 뒤에 mask 사용여부, 'isFloating=true' 일 때만 사용가능`,
+    mask: {
+      description: `drawer 뒤에 mask 사용여부, 'floating=true' 일 때만 사용가능`,
       table: {
         type: { summary: 'boolean' }
       }
     },
     drawerWidth: {
-      description: `drawer 너비값, '%'를 붙여서 사용`,
+      description: `drawer 너비값`,
       control: {
         type: 'text'
       },
@@ -74,8 +77,8 @@ const meta: Meta<ComponentProps<typeof DrawerContainer>> = {
   },
   args: {
     drawerPosition: 'right',
-    isFloatResize: false,
-    useMask: false
+    resizeOption: 'float',
+    mask: false
   },
   parameters: {
     layout: 'fullscreen',
@@ -103,13 +106,11 @@ export const Default: Story = {
         style="overflow: hidden"
         v-bind="args"
       >
-        <template #content>
-          <div style="height: 950px; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #c7e5fe; padding: 1rem 0;">
-            <div>content 영역</div>
-            <br />
-            <Button label="drawer 열기" @click="openDetail = true"/>
-          </div>
-        </template>
+        <div style="height: 950px; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #c7e5fe; padding: 1rem 0;">
+          <div>content 영역</div>
+          <br />
+          <Button label="drawer 열기" @click="openDetail = true"/>
+        </div>
 
         <template #drawerContent>
           <div style="padding: 1rem; height: 840px; display: flex; justify-content: center; align-items: center;">drawer 영역</div>
@@ -120,7 +121,7 @@ export const Default: Story = {
 }
 
 export const NoResizing: Story = {
-  args: { ...Default.args, useResize: false },
+  args: { ...Default.args, resize: false },
   render: Default.render
 }
 export const LeftPositionDrawer: Story = {
@@ -129,19 +130,19 @@ export const LeftPositionDrawer: Story = {
 }
 
 export const NoFloatingAndFloatDrawer: Story = {
-  args: { ...Default.args, isFloating: false, isFloatResize: true },
+  args: { ...Default.args, floating: false, resizeOption: 'float' },
   render: Default.render
 }
-export const NoFloatingAndNoFloatDrawer: Story = {
-  args: { ...Default.args, isFloating: false, isFloatResize: false },
+export const NoFloatingAndPushDrawer: Story = {
+  args: { ...Default.args, floating: false, resizeOption: 'push' },
   render: Default.render
 }
 
 export const FloatingAndNoMaskDrawer: Story = {
-  args: { ...Default.args, isFloating: true, useMask: false },
+  args: { ...Default.args, floating: true, mask: false },
   render: Default.render
 }
 export const FloatingAndMaskDrawer: Story = {
-  args: { ...Default.args, isFloating: true, useMask: true },
+  args: { ...Default.args, floating: true, mask: true },
   render: Default.render
 }

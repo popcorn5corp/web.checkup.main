@@ -366,6 +366,15 @@ export const menus: any = [
           namePath: ['components', 'components-tour'],
           fullPath: '/components/tour'
         }
+      },
+      {
+        path: 'drawer',
+        name: 'components-drawer',
+        meta: {
+          title: 'Drawer',
+          namePath: ['components', 'components-drawer'],
+          fullPath: '/components/drawer'
+        }
       }
     ]
   }

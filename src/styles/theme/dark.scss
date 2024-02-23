@@ -208,4 +208,16 @@ html[data-theme='dark'] {
       }
     }
   }
+
+  .drawer-container, .drawer-wrapper {
+    .drawer {
+      background: $darkmode-color-background;
+    }
+    .drawer.right {
+      border-left: 0.5px solid $darkmode-color-border;
+    }
+    .drawer.left {
+      border-right:0.5px solid  $darkmode-color-border;
+    }
+  }
 }
