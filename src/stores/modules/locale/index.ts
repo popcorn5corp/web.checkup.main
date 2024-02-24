@@ -28,7 +28,7 @@ const Trans = {
   }
 }
 
-export const useLocaleStore = defineStore('locale', () => {
+export let useLocaleStore = defineStore('locale', () => {
   const state = reactive<LocaleState>({
     locale: Trans.persistedLocale
   })
