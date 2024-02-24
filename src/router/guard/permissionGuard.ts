@@ -5,8 +5,8 @@ import { useAuthStore } from '@/stores/modules/auth'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { PagePathEnum } from '@/constants/pageEnum'
 
-const whiteListByPath: string[] = [PagePathEnum.BASE_LOGIN]
-const whiteListByName: string[] = []
+const whiteListByPath: string[] = [PagePathEnum.BASE_LOGIN, '/social-login']
+const whiteListByName: string[] = ['login', 'social-login']
 
 const isWhiteList = (to: RouteLocationNormalized) => {
   return whiteListByPath.indexOf(to.path) !== -1 || whiteListByName.indexOf(to.name as any) !== -1

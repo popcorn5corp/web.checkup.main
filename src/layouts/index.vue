@@ -2,8 +2,6 @@
   <component :is="LayoutComponents[layout]">
     <RouterView></RouterView>
   </component>
-
-  <!-- <ThemeDrawer /> -->
 </template>
 
 <script setup lang="ts" name="Layout">

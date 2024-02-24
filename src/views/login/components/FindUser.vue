@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts" name="FindUser">
-import type { FindUserFormTypes } from '../index2.vue'
+import type { FindUserFormTypes } from '../index.vue'
 import FindIdForm from './FindIdForm.vue'
 import FindPasswordForm from './FindPasswordForm.vue'
 

@@ -1,10 +1,16 @@
 import { service } from '@/utils/http'
+import { WorkspaceError } from './error'
 import type { IWorkspace } from './types'
 
-class WorkspaceService {
+class WorkspaceService extends WorkspaceError {
   private readonly PATH = '/workspace/v1.0'
+  private readonly ErrorMessage = {
+    NOT_EXIST_WORKSPACE: 'Workspace does not exist.'
+  } as const
 
-  constructor() {}
+  constructor() {
+    super('')
+  }
 
   /**
    * @description 워크스페이스 목록 조회 API
@@ -18,6 +24,15 @@ class WorkspaceService {
    */
   updateDefaultWorkspace(param: IWorkspace.UpdateDefaultWorkspceInfo) {
     return service.post(this.PATH + '/user/workspaces/default-workspace', param)
+  }
+
+  /**
+   * @description 워크스페이스 메뉴 정보 조회 API
+   */
+  getWorkspaceMenu(workspaceId: string) {
+    return service.get<IWorkspace.GetWorkspaceMenuResponse>(
+      this.PATH + `/workspaces/${workspaceId}/menu`
+    )
   }
 
   /**

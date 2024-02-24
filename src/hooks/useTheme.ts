@@ -55,7 +55,7 @@ export interface ITheme {
   fontSize: number
 }
 
-const defaultTheme: ITheme = {
+export const defaultTheme: ITheme = {
   themeName: 'light',
   menuThemeName: 'light',
   isDark: false,
@@ -63,7 +63,7 @@ const defaultTheme: ITheme = {
   menuPosition: 'side',
   title: 'checkup',
   fontSize: DEFAULT_FONT_SIZE
-}
+} as const
 
 export const useTheme = () => {
   const appStore = useAppStore()
@@ -105,31 +105,39 @@ export const useTheme = () => {
 
   function initTheme() {
     watchEffect(() => {
-      setDataTheme(theme.value.themeName || DEFAULT_THEME_NAME)
+      // setHtmlDataTheme(theme.value.themeName || DEFAULT_THEME_NAME)
+      const { primaryColor, themeName, isDark } = defaultTheme
+      theme.value.primaryColor = primaryColor
+      theme.value.themeName = themeName
+      theme.value.isDark = isDark
+      setHtmlDataTheme(themeName)
+      // setLocale(Helper.Locale.locales.browserLanguage)
     })
   }
 
-  async function _setTheme(values: Partial<WorkspaceSettings>) {
-    await workspaceStore.setWorkspaceSettings(values)
+  async function _setSttings(values: Partial<WorkspaceSettings>) {
+    if (unref(getWorkspace)?.workspaceId) {
+      await workspaceStore.updateWorkspaceSettings(values)
+    }
   }
 
   function setThemeName(themeName: ThemeName) {
     const menuThemeName: MenuThemeName =
       themeName === 'dark' || themeName === 'semiDark' ? 'dark' : 'light'
 
-    _setTheme({
+    _setSttings({
       display: {
         ...unref(settings).display,
         themeName,
         menuThemeName
       }
     }).then(() => {
-      setDataTheme(themeName)
+      setHtmlDataTheme(themeName)
     })
   }
 
   function setFontSize(fontSize: number) {
-    _setTheme({
+    _setSttings({
       accessibility: {
         fontSize
       }
@@ -137,7 +145,7 @@ export const useTheme = () => {
   }
 
   function setPrimaryColor(primaryColor: string) {
-    _setTheme({
+    _setSttings({
       display: {
         ...unref(settings).display,
         primaryColor
@@ -146,7 +154,7 @@ export const useTheme = () => {
   }
 
   function setMenuPosition(menuPosition: MenuPosition) {
-    _setTheme({
+    _setSttings({
       display: {
         ...unref(settings).display,
         menuPosition
@@ -158,32 +166,17 @@ export const useTheme = () => {
     })
   }
 
-  function setLocaleTheme(_theme: Partial<ITheme>) {
-    theme.value = {
-      ...unref(theme),
-      ..._theme
-    }
-  }
-
-  // const setDataTheme = (navTheme?: ThemeName) => {
-  //   if (navTheme === 'dark') {
-  //     document.documentElement.setAttribute('data-theme', 'dark')
-  //   } else {
-  //     document.documentElement.removeAttribute('data-theme')
-  //   }
-  // }
-
-  const setDataTheme = (themeName: ThemeName) => {
+  const setHtmlDataTheme = (themeName: ThemeName) => {
     document.documentElement.setAttribute('data-theme', themeName)
   }
   return {
+    theme,
     initTheme,
     getTheme,
     setThemeName,
     setFontSize,
     setMenuPosition,
     setPrimaryColor,
-    setDataTheme,
-    setLocaleTheme
+    setHtmlDataTheme
   }
 }

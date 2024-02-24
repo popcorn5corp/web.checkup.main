@@ -14,11 +14,25 @@ export interface WorkspaceState {
   selectedWorkspaceId: string
   isCompleteWorkspaceLoad: boolean
   settings: WorkspaceSettings
+  menus: IMenu[]
 }
 
 export interface Workspace {
   workspaceId: string
   workspaceName: string
+}
+
+export interface IMenu {
+  path: string
+  name: string
+  meta: {
+    title: string
+    namePath: string[]
+    fullPath: string
+    icon?: string
+    isNew?: boolean
+  }
+  children: IMenu[]
 }
 
 export interface WorkspaceFormValues {

@@ -11,5 +11,15 @@ export const publicRoutes: RouteRecordRaw[] = [
       layout: layoutTypes.pure,
       public: true
     }
+  },
+  {
+    path: '/social-login',
+    name: 'social-login',
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login/SocialLoginPage.vue'),
+    meta: {
+      title: '',
+      layout: layoutTypes.pure,
+      public: true
+    }
   }
 ]

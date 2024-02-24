@@ -366,6 +366,154 @@ export const menus: any = [
           namePath: ['components', 'components-tour'],
           fullPath: '/components/tour'
         }
+      },
+      {
+        path: 'drawer',
+        name: 'components-drawer',
+        meta: {
+          title: 'Drawer',
+          namePath: ['components', 'components-drawer'],
+          fullPath: '/components/drawer'
+        }
+      }
+    ]
+  }
+]
+
+export const sampleMenus = [
+  {
+    path: '/samples',
+    name: 'samples',
+    // redirect: '/dashboard/welcome',
+    meta: {
+      // title: 'routes.dashboard.dashboard',
+      title: 'Samples',
+      icon: 'kaaba',
+      namePath: ['samples'],
+      fullPath: '/samples'
+    },
+    children: [
+      {
+        path: 'dynamic-table',
+        name: 'samples-dynamic-table',
+        meta: {
+          // title: 'routes.dashboard.workbench',
+          title: 'Dynamic Table',
+          icon: 'kaaba',
+          namePath: ['samples', 'samples-dynamic-table'],
+          fullPath: '/samples/dynamic-table'
+        }
+      }
+    ]
+  },
+  {
+    path: '/components',
+    name: 'components',
+    meta: {
+      title: 'UI Components',
+      icon: 'icons',
+      namePath: ['components'],
+      fullPath: '/components'
+    },
+    children: [
+      {
+        path: 'table',
+        name: 'components-table',
+        meta: {
+          title: 'Table',
+          namePath: ['components', 'components-table'],
+          fullPath: '/components/table'
+        }
+      },
+      {
+        path: 'accordion',
+        name: 'components-accordion',
+        meta: {
+          title: 'Accordion',
+          namePath: ['components', 'components-accordion'],
+          fullPath: '/components/accordion'
+        }
+      },
+      {
+        path: 'modal',
+        name: 'components-modal',
+        meta: {
+          title: 'Modal',
+          namePath: ['components', 'components-modal'],
+          fullPath: '/components/modal'
+        }
+      },
+      {
+        path: 'card',
+        name: 'components-card',
+        meta: {
+          title: 'Card',
+          namePath: ['components', 'components-card'],
+          fullPath: '/components/card'
+        }
+      },
+      {
+        path: 'list',
+        name: 'components-list',
+        meta: {
+          title: 'List',
+          namePath: ['components', 'components-list'],
+          fullPath: '/components/list'
+        }
+      },
+      {
+        path: 'form',
+        name: 'components-form',
+        meta: {
+          title: 'Form',
+          namePath: ['components', 'components-form'],
+          fullPath: '/components/form'
+        }
+      },
+      {
+        path: 'timeline',
+        name: 'components-timeline',
+        meta: {
+          title: 'Timeline',
+          namePath: ['components', 'components-timeline'],
+          fullPath: '/components/timeline'
+        }
+      },
+      {
+        path: 'search-select',
+        name: 'components-search-select',
+        meta: {
+          title: 'SearchSelect',
+          namePath: ['components', 'components-search-select'],
+          fullPath: '/components/search-select'
+        }
+      },
+      {
+        path: 'input',
+        name: 'components-input',
+        meta: {
+          title: 'Input',
+          namePath: ['components', 'components-input'],
+          fullPath: '/components/input'
+        }
+      },
+      {
+        path: 'select',
+        name: 'components-select',
+        meta: {
+          title: 'Select',
+          namePath: ['components', 'components-select'],
+          fullPath: '/components/select'
+        }
+      },
+      {
+        path: 'tour',
+        name: 'components-tour',
+        meta: {
+          title: 'Tour',
+          namePath: ['components', 'components-tour'],
+          fullPath: '/components/tour'
+        }
       }
     ]
   }

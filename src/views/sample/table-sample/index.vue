@@ -1,23 +1,31 @@
 <template>
-  <DynamicTable
+  <DrawerContainer
     v-model:openDetail="showDetail"
-    ref="dynamicTableRef"
-    :row-key="'boardId'"
-    :columns="columns"
-    :filter-request="getFilters"
-    :data-request="getDataSource"
-    :column-request="getColumns"
-    :data-callback="dataCallback"
-    :content-callback="contentCallback"
-    :card-content-callback="cardContentCallback"
-    @row-click="onClickRow"
-    @row-delete="onRemovePost"
-    @row-add="onClickRegist"
+    :resize="true"
+    :floating="false"
+    :mask="false"
+    :drawerTitle="$t('page.manage.userInfo')"
+    resizeOption="push"
+    drawerWidth="30%"
+    drawerPosition="right"
   >
-    <template #detail-title>
-      <span>{{ $t('page.manage.userInfo') }}</span>
-    </template>
-    <template #detail-content>
+    <DynamicTable
+      v-model:openDetail="showDetail"
+      ref="dynamicTableRef"
+      :row-key="'boardId'"
+      :columns="columns"
+      :filter-request="getFilters"
+      :data-request="getDataSource"
+      :column-request="getColumns"
+      :data-callback="dataCallback"
+      :content-callback="contentCallback"
+      :card-content-callback="cardContentCallback"
+      @row-click="onClickRow"
+      @row-delete="onRemovePost"
+      @row-add="onClickRegist"
+    />
+
+    <template #drawerContent>
       <div class="detail-contents">
         <div class="profile">
           <div class="img-wrapper">
@@ -36,9 +44,7 @@
         </div>
       </div>
     </template>
-  </DynamicTable>
-
-  <!-- <Drawer v-model:open="openDrawer" /> -->
+  </DrawerContainer>
 
   <Modal v-model:open="isOpen" :title="title" :width="500" destroyOnClose>
     <Spin :spinning="isLoading">
@@ -81,7 +87,6 @@ import { computed, createVNode, ref, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IBaseSample } from '@/services/base-sample/types'
 import { Button } from '@/components/button'
-import { Drawer } from '@/components/drawer'
 import { DynamicTable } from '@/components/dynamic-table'
 import { QuestionCircleTwoTone } from '@/components/icons'
 import { contentModes as modes } from '@/constants/content'
@@ -94,7 +99,6 @@ const { t } = useI18n()
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 const postDetailRef = ref()
 const isOpen = ref(false)
-const openDrawer = ref(false)
 const isLoading = ref(false)
 const mode = ref<ContentMode>(DEFAULT_MODE)
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)

@@ -16,6 +16,11 @@ export const DEFAULT_THEME_NAME = 'light'
 export const DEFAULT_MENU_POSITION = 'side'
 export const DEFAULT_MENU_THEME_NAME = 'light'
 
+export enum ThemeEnum {
+  DARK = 'dark',
+  LIGHT = 'light'
+}
+
 export const themeStyle: ReadonlyArray<LabelValue<ThemeName>> = [
   {
     label: 'Light',
