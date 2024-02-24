@@ -4,8 +4,6 @@ import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 import type { LocaleState } from './types'
 
-const { locales } = Helper.Locale
-
 //
 // export const useLocaleStore = defineStore('locale', () => {
 //   const state = reactive<LocaleState>({
@@ -33,6 +31,7 @@ const { locales } = Helper.Locale
 
 
 export function useLocaleStoreWithOut() {
+  const { locales } = Helper.Locale
   const useLocaleStore = defineStore('locale', () => {
     const state = reactive<LocaleState>({
       locale: locales.persistedLocale
