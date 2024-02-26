@@ -59,7 +59,8 @@ import type { DrawerContainerProps } from '../types'
 const emit = defineEmits(['update:openDetail'])
 const props = withDefaults(defineProps<DrawerContainerProps>(), {
   drawerWidth: '30%',
-  resize: true
+  resize: true,
+  drawerPosition: 'right'
 })
 
 const isResizerActive = ref(false)

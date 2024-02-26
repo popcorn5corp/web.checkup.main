@@ -10,7 +10,7 @@ export interface DrawerProps {
   /**
    * drawer 너비값
    */
-  drawerWidth: string
+  drawerWidth?: string
   /**
    * drawer 제목
    */
@@ -18,7 +18,7 @@ export interface DrawerProps {
   /**
    * drawer 오픈 여부 v-model
    */
-  openDetail?: boolean
+  openDetail: boolean
   /**
    * conatiner의 min-height
    */

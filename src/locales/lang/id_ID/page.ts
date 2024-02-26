@@ -54,6 +54,7 @@ export default {
     moreContent: 'Dapatkan lebih banyak konten',
     groupTitle: 'Judul grup',
     groupContent: 'Isi Grup',
+    groupInfo: 'Informasi kelompok',
     userInfo: 'Informasi pengguna',
     userInvite: 'Undangan Pengguna',
     emailInvite: 'Tambahkan rekan kerja melalui email',
