@@ -1,32 +1,40 @@
 <template>
   <div class="manage-group-container">
-    <DynamicTable
-      ref="dynamicTableRef"
+    <DrawerContainer
       v-model:openDetail="showDetail"
-      :row-key="'groupId'"
-      :columns="columns()"
-      :data-request="getDataSource"
-      :column-request="getColumns"
-      :filter-request="getFilters"
-      :data-callback="dataCallback"
-      :showRegist="false"
-      :phText="$t('component.ph.groupSearchPh')"
-      @row-click="onClickRow"
-      @row-delete="onRemovePost"
+      :resize="true"
+      :floating="false"
+      :mask="false"
+      :drawerTitle="$t('page.manage.groupInfo')"
+      resizeOption="float"
     >
-      <template #tableBtns>
-        <Button :label="t('component.button.registration')" size="middle" @click="handleShowModal">
-          <template #icon>
-            <PlusCircleTwoTone />
-          </template>
-        </Button>
-      </template>
-
-      <template #detail-title>
-        <span> {{ t('common.postRead') }} </span>
-      </template>
-
-      <template #detail-content>
+      <DynamicTable
+        ref="dynamicTableRef"
+        v-model:openDetail="showDetail"
+        :row-key="'groupId'"
+        :columns="columns()"
+        :data-request="getDataSource"
+        :column-request="getColumns"
+        :filter-request="getFilters"
+        :data-callback="dataCallback"
+        :showRegist="false"
+        :phText="$t('component.ph.groupSearchPh')"
+        @row-click="onClickRow"
+        @row-delete="onRemovePost"
+      >
+        <template #tableBtns>
+          <Button
+            :label="t('component.button.registration')"
+            size="middle"
+            @click="handleShowModal"
+          >
+            <template #icon>
+              <PlusCircleTwoTone />
+            </template>
+          </Button>
+        </template>
+      </DynamicTable>
+      <template #drawerContent>
         <div class="detail-contents">
           <div class="tab-wrapper">
             <PostDetail
@@ -48,8 +56,7 @@
           </div>
         </div>
       </template>
-    </DynamicTable>
-
+    </DrawerContainer>
     <Modal
       v-if="showModal"
       :title="t('page.manage.addUserToAGroup')"

@@ -22,7 +22,7 @@
         </Item>
       </div>
 
-      <a-dropdown v-model:open="visible" :trigger="['click']">
+      <a-dropdown v-model:open="visible" :trigger="['click']" placement="bottomRight">
         <a class="ant-dropdown-link" @click.prevent><MoreOutlined style="font-size: 18px" /></a>
         <template #overlay>
           <a-menu>

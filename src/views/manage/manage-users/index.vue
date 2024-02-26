@@ -1,40 +1,45 @@
 <template>
   <div class="manage-users-container">
-    <DynamicTable
+    <DrawerContainer
       v-model:openDetail="showDetail"
-      ref="dynamicTableRef"
-      :columns="columns()"
-      :row-key="'index'"
-      :data-request="getDataSource"
-      :column-request="getColumns"
-      :filter-request="getFilters"
-      :data-callback="dataCallback"
-      :content-callback="contentCallback"
-      :card-content-callback="cardContentCallback"
-      :showDownload="false"
-      :showRegist="false"
-      :phText="$t('component.ph.userSearchPh')"
-      :deleteBtnText="$t('component.button.export')"
-      @row-click="onClickRow"
-      @row-add="isVisible = true"
-      @row-delete="onRemovePost"
+      :resize="true"
+      :floating="false"
+      :mask="false"
+      :drawerTitle="$t('page.manage.userInfo')"
+      resizeOption="float"
     >
-      <template #tableBtns>
-        <Button
-          :label="$t('component.button.invite')"
-          size="middle"
-          @click="$emit('row-add', (isVisible = true))"
-        >
-          <template #icon>
-            <UserAddOutlined style="color: #1890ff" />
-          </template>
-        </Button>
-      </template>
-
-      <template #detail-title>
-        <span>{{ $t('page.manage.userInfo') }}</span>
-      </template>
-      <template #detail-content>
+      <DynamicTable
+        v-model:openDetail="showDetail"
+        ref="dynamicTableRef"
+        :columns="columns()"
+        :row-key="'index'"
+        :data-request="getDataSource"
+        :column-request="getColumns"
+        :filter-request="getFilters"
+        :data-callback="dataCallback"
+        :content-callback="contentCallback"
+        :card-content-callback="cardContentCallback"
+        :showDownload="false"
+        :showRegist="false"
+        :phText="$t('component.ph.userSearchPh')"
+        :deleteBtnText="$t('component.button.export')"
+        @row-click="onClickRow"
+        @row-add="isVisible = true"
+        @row-delete="onRemovePost"
+      >
+        <template #tableBtns>
+          <Button
+            :label="$t('component.button.invite')"
+            size="middle"
+            @click="$emit('row-add', (isVisible = true))"
+          >
+            <template #icon>
+              <UserAddOutlined style="color: #1890ff" />
+            </template>
+          </Button>
+        </template>
+      </DynamicTable>
+      <template #drawerContent>
         <div class="detail-contents">
           <PostDetail ref="postDetailRef" :data="selectedUserDetailData" />
           <a-tabs
@@ -49,8 +54,7 @@
           </a-tabs>
         </div>
       </template>
-    </DynamicTable>
-
+    </DrawerContainer>
     <Modal
       v-if="isVisible"
       @cancel="onCancelModal"
