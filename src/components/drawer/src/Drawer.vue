@@ -31,7 +31,6 @@ const props = withDefaults(defineProps<DrawerProps>(), {
 
 const drawerStyles = computed(() => {
   const { drawerWidth, top, minHeight } = props
-  console.log('dddd', drawerWidth)
   return {
     width: drawerWidth ?? '100%',
     height: minHeight ?? '100%',
@@ -69,7 +68,8 @@ const drawerClasses = computed(() => [
     font-size: 16px;
     font-weight: bold;
     justify-content: space-between;
-    padding: 19.5px;
+    padding: 20px;
+    padding-right: 5px;
     align-items: center;
 
     .ant-btn {
@@ -126,5 +126,65 @@ const drawerClasses = computed(() => [
 }
 .drawer-left-leave-from {
   translate: 0 0;
+}
+
+// mobile
+@media screen and (max-width: $size-screen-md) {
+  .drawer.active {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh;
+    position: fixed !important;
+    top: 0px;
+    left: 0px;
+    z-index: 999;
+    animation: slideUp 0.4s;
+    background: $color-white;
+    :deep(.drawer-wrapper) {
+      .drawer {
+        min-height: 100vh;
+      }
+    }
+  }
+
+  .slideUp {
+    -webkit-animation-name: slideUp;
+    animation-name: slideUp;
+  }
+
+  @-webkit-keyframes slideUp {
+    0% {
+      width: 100vw;
+      -webkit-transform-origin: 0 0;
+      transform-origin: 0 0;
+      -webkit-transform: translateY(0%);
+      transform: translateY(0%);
+    }
+
+    100% {
+      -webkit-transform-origin: 0 0;
+      transform-origin: 0 0;
+      -webkit-transform: translateY(-100%);
+      transform: translateY(-100%);
+    }
+  }
+
+  @keyframes slideUp {
+    0% {
+      width: 100vw;
+      -webkit-transform-origin: 0 0;
+      transform-origin: 0 0;
+      -webkit-transform: translateY(100%);
+      transform: translateY(100%);
+    }
+
+    100% {
+      -webkit-transform-origin: 0 0;
+      transform-origin: 0 0;
+
+      -webkit-transform: translateY(0%);
+      transform: translateY(0%);
+    }
+  }
 }
 </style>
