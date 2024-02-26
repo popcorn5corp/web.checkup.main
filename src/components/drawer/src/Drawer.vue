@@ -56,12 +56,14 @@ const drawerClasses = computed(() => [
 }
 .drawer {
   width: v-bind('drawerStyles.width');
+  height: calc(v-bind('drawerStyles.height'));
   min-height: calc(v-bind('drawerStyles.height'));
   position: absolute;
   top: v-bind('drawerStyles.top');
   background-color: $color-white;
   transition: all 0.3s;
   box-shadow: $elevation-4;
+  overflow-y: scroll;
 
   > .title-wrapper {
     display: flex;
