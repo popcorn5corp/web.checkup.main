@@ -323,14 +323,14 @@ $transition: all 0.3s;
 // mobile
 @media screen and (max-width: 830px) {
   .drawer.active {
-    animation: slideUp 0.5s;
-    background: $color-white;
-    position: fixed !important;
-    top: 0px;
-    left: 0px;
     width: 100vw !important;
     max-width: 100vw !important;
     height: 100vh;
+    position: fixed !important;
+    top: 0px;
+    left: 0px;
+    animation: slideUp 0.5s;
+    background: $color-white;
     :deep(.drawer-wrapper) {
       .drawer {
         min-height: 100vh;
@@ -345,6 +345,7 @@ $transition: all 0.3s;
 
   @-webkit-keyframes slideUp {
     0% {
+      width: 100vw;
       -webkit-transform-origin: 0 0;
       transform-origin: 0 0;
       -webkit-transform: translateY(0%);
@@ -361,6 +362,7 @@ $transition: all 0.3s;
 
   @keyframes slideUp {
     0% {
+      width: 100vw;
       -webkit-transform-origin: 0 0;
       transform-origin: 0 0;
       -webkit-transform: translateY(100%);
