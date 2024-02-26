@@ -96,7 +96,7 @@ const filterTypeComponents: Record<FilterUI, Component> = {
       }
     }
 
-    @media screen and (max-width: 830px) {
+    @media screen and (max-width: $size-screen-md) {
       animation: slideUp 0.5s;
       background: $color-white;
       // position: absolute;
