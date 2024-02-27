@@ -6,13 +6,15 @@ interface AppStoreState {
   title: string
   isCollapse: boolean
   logoFileName: string
+  isMobile: boolean
 }
 
 export const useAppStore = defineStore('app', () => {
   const settings = ref<AppStoreState>({
     title: 'checkup',
     isCollapse: false,
-    logoFileName: ''
+    logoFileName: '',
+    isMobile: false
   })
 
   const getSettings = computed(() => settings.value)
@@ -40,9 +42,15 @@ export const useAppStore = defineStore('app', () => {
     settings.value.isCollapse = isCollapse
   }
 
+  function setMobile(isMobile: boolean) {
+    settings.value.isMobile = isMobile
+    setCollapse(false)
+  }
+
   return {
     getSettings,
     setLogo,
-    setCollapse
+    setCollapse,
+    setMobile
   }
 })

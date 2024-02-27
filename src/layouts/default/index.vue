@@ -75,7 +75,7 @@
 <script setup lang="ts" name="LayoutDefault">
 import { Divider, Layout } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
-import { type CSSProperties, computed, onMounted, ref, unref } from 'vue'
+import { type CSSProperties, computed, onMounted, ref, unref, watch } from 'vue'
 import { useAppStore } from '@/stores/modules/app'
 import { useTourStore } from '@/stores/modules/tour'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -89,17 +89,28 @@ import { TOUR_TYPE } from '@/components/tour/types'
 import LayoutTabs from '../components/LayoutTabs.vue'
 import CircularMenu from './components/CircularMenu.vue'
 
-const { getTheme } = useTheme()
+const { getTheme, setMenuPosition } = useTheme()
 const { getSettings } = storeToRefs(useAppStore())
+const { setMobile } = useAppStore()
 const { getMenus } = storeToRefs(useWorkspaceStore())
 const tourStore = useTourStore()
 const collapsed = computed<boolean>(() => unref(getSettings).isCollapse)
-const asiderWidth = computed(() => (collapsed.value ? 80 : 220))
+const asiderWidth = computed(() => {
+  const { isCollapse } = unref(getSettings)
+
+  if (isMobile.value) {
+    return 0
+  } else {
+    return isCollapse ? 80 : 220
+  }
+})
 const isSideMenu = computed(() => unref(getTheme).menuPosition === 'side')
 const tour = useTour()
 const tourType = TOUR_TYPE.CHECKUP_TOUR
 const steps = computed(() => tourStore.getTour(tourType))
 const open = ref(false)
+const windowWidth = ref(window.innerWidth)
+const isMobile = ref(false)
 
 const handleOpen = () => {
   open.value = true
@@ -126,16 +137,55 @@ const mainStyles = computed<{ size: CSSProperties }>(() => {
   const { menuPosition } = unref(getTheme)
   const { isCollapse } = unref(getSettings)
 
+  let width
+  let marginLeft
+  if (!isMobile.value) {
+    width =
+      menuPosition === 'top' ? '100%' : isCollapse ? 'calc(100% - 80px)' : 'calc(100% - 220px)'
+    marginLeft = menuPosition === 'top' ? '0' : isCollapse ? '80px' : '220px'
+  } else {
+    width = isCollapse ? 'calc(100% - 80px)' : '100%'
+    marginLeft = isCollapse ? '80px' : '0'
+  }
+
   return {
     size: {
-      width:
-        menuPosition === 'top' ? '100%' : isCollapse ? 'calc(100% - 80px)' : 'calc(100% - 220px)',
-      paddingLeft: menuPosition === 'top' ? '0' : isCollapse ? '80px' : '220px'
+      width,
+      marginLeft
     }
   }
 })
 
+const handleResize = () => {
+  windowWidth.value = window.innerWidth
+}
+
+function handleMobile() {
+  isMobile.value = windowWidth.value < 769
+}
+
+watch(
+  () => isMobile.value,
+  () => {
+    setMobile(isMobile.value)
+    if (isMobile.value) {
+      setMenuPosition('side')
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  () => windowWidth.value,
+  () => {
+    handleMobile()
+  },
+  { immediate: true }
+)
+
 onMounted(() => {
+  window.addEventListener('resize', handleResize)
+
   setTimeout(() => {
     document.getElementById('circularMenu')?.classList.add('active')
   }, 300)
@@ -171,7 +221,7 @@ $tab-margin-top: 2px;
   }
   .layout-main {
     width: v-bind('mainStyles.size.width');
-    margin-left: v-bind('mainStyles.size.paddingLeft');
+    margin-left: v-bind('mainStyles.size.marginLeft');
     overflow: auto;
   }
   .layout-header {
