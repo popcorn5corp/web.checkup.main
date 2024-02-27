@@ -1,4 +1,5 @@
 // @ts-ignore
+import { Helper } from '@/helpers'
 import { setupFontAwesome, setupI18n, setupStore } from '@/plugins'
 import { type Preview, StoryContext, setup } from '@storybook/vue3'
 import { createPinia } from 'pinia'
