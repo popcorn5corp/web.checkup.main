@@ -16,7 +16,7 @@ const pinia = createPinia()
 
 setup((app: App) => {
   app.use(pinia)
-  setupI18n(app)
+  app.use(setupI18n)
   setupFontAwesome(app)
 })
 
