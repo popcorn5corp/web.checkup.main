@@ -1,21 +1,44 @@
+import { Helper } from '@/helpers'
+import antdLocale from 'ant-design-vue/es/locale/ko_KR'
 import { createI18n } from 'vue-i18n'
 import { localeMap } from './config'
-import en_US from './lang/en_US'
-import id_ID from './lang/id_ID'
-import ko_KR from './lang/ko_KR'
 
 export const localeMessages = {
+  // ko_KR: {
+  //   ...ko_KR.message
+  // },
+  // id_ID: {
+  //   ...id_ID.message
+  // },
+  // en_US: {
+  //   ...en_US.message
+  // }
   ko_KR: {
-    ...ko_KR.message
+    ...Helper.Locale.genMessage(
+      import.meta.glob<Recordable>(`./lang/ko_KR/**/*.ts`, { eager: true }),
+      localeMap.ko_KR
+    ).lang.ko_KR,
+    antdLocale
   },
+
   id_ID: {
-    ...id_ID.message
+    ...Helper.Locale.genMessage(
+      import.meta.glob<Recordable>(`./lang/id_ID/**/*.ts`, { eager: true }),
+      localeMap.id_ID
+    ).lang.id_ID,
+    antdLocale
   },
+
   en_US: {
-    ...en_US.message
+    ...Helper.Locale.genMessage(
+      import.meta.glob<Recordable>(`./lang/en_US/**/*.ts`, { eager: true }),
+      localeMap.en_US
+    ).lang.en_US,
+    antdLocale
   }
 }
 
+console.log(localeMessages)
 const i18n = createI18n({
   legacy: false,
   allowComposition: true,
