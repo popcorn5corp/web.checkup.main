@@ -30,7 +30,7 @@ const meta = {
     },
     type: {
       type: { name: 'string', required: false },
-      options: ['default', 'primary', 'dashed', 'text', 'link'],
+      options: ['default', 'primary', 'ghost', 'dashed', 'text', 'link'],
       control: 'select',
       table: {
         type: { summary: 'primary | ghost | dashed | link | text | default' },
