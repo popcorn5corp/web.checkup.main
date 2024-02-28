@@ -1,6 +1,6 @@
 <template>
   <Descriptions :title="$t('layout.header.settings.displaySettingTheme')" :column="5">
-    <Descriptions.Item v-for="theme in themeStyle" :key="theme.value">
+    <Descriptions.Item v-for="theme in themeStyle" :key="theme.value" class="margin">
       <Tooltip :title="theme.label">
         <div
           class="check-item"
@@ -12,8 +12,13 @@
       </Tooltip>
     </Descriptions.Item>
   </Descriptions>
-  <Descriptions :title="$t('layout.header.settings.displaySettingMenuPosition')" :column="5">
-    <Descriptions.Item v-for="item in menuLayouts" :key="item.value">
+
+  <Descriptions
+    v-if="!getSettings.isMobile"
+    :title="$t('layout.header.settings.displaySettingMenuPosition')"
+    :column="5"
+  >
+    <Descriptions.Item v-for="item in menuLayouts" :key="item.value" class="margin">
       <Tooltip :title="item.label">
         <div
           class="check-item"
@@ -25,6 +30,7 @@
       </Tooltip>
     </Descriptions.Item>
   </Descriptions>
+
   <Descriptions :title="$t('layout.header.settings.displaySettingColor')" :column="9">
     <Descriptions.Item v-for="item in themeColors" :key="item.value">
       <div class="check-item">
@@ -43,10 +49,12 @@
 </template>
 <script setup lang="ts" name="DisplaySetting">
 import { Descriptions, Tag, Tooltip } from 'ant-design-vue'
+import { useAppStore } from '@/stores/modules/app'
 import { useTheme } from '@/hooks/useTheme'
 import { menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'
 
 const { getTheme, setThemeName, setMenuPosition, setPrimaryColor } = useTheme()
+const { getSettings } = useAppStore()
 
 // function setNavTheme(themeName: ThemeConfig['navTheme']) {
 //   console.log('themeName', themeName)
@@ -69,5 +77,13 @@ const { getTheme, setThemeName, setMenuPosition, setPrimaryColor } = useTheme()
     right: 12px;
     color: $color-gray-7;
   }
+}
+:deep(.ant-descriptions-row) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+:deep(.ant-descriptions-item.margin) {
+  margin-right: 15px;
 }
 </style>
