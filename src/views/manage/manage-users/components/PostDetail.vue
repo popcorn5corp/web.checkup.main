@@ -258,8 +258,10 @@ watch(
     gap: 1rem;
     .ant-form-item-label {
       width: 55px;
+      padding: 0;
       > label {
         font-weight: 900;
+        font-size: 14px;
       }
       > label::after {
         content: '';
@@ -275,10 +277,7 @@ watch(
 
     .ant-form-item {
       padding: 0;
-      margin-bottom: 0;
-      .ant-row {
-        flex-wrap: nowrap;
-      }
+      margin-bottom: 7px;
       .ant-form-item-control {
         width: 100%;
       }

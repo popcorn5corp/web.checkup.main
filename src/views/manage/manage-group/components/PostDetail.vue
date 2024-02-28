@@ -211,8 +211,10 @@ const showDeleteConfirm = () => {
 
     .ant-form-item-label {
       width: 70px;
+      padding: 0;
       > label {
-        font-weight: 500;
+        font-weight: 900;
+        font-size: 14px;
       }
       > label::after {
         content: '';
@@ -241,7 +243,8 @@ const showDeleteConfirm = () => {
     }
 
     .ant-form-item {
-      margin-bottom: 0;
+      padding: 0;
+      margin-bottom: 7px;
     }
 
     .ant-dropdown-link {
