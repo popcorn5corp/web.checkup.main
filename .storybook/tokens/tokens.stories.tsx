@@ -10,18 +10,18 @@ export default {
 
 function CopyItem(element: Element, copyValue: string) {
   return (
-    <div class="copy-wrapper" onClick={() => onCopy(copyValue ?? (element as string))}>
+    <div class="copy-wrapper">
       {element}
-      <span className="copy-icon">
+      {/* <span className="copy-icon">
         <font-awesome-icon icon="fa-regular fa-clone" />
-      </span>
+      </span> */}
     </div>
   )
 }
 
-function onCopy(value: string) {
-  window.navigator.clipboard.writeText(value)
-}
+// function onCopy(value: string) {
+//   window.navigator.clipboard.writeText(value)
+// }
 
 function TokenContainer(token) {
   return (
