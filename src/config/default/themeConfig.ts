@@ -10,7 +10,7 @@ import {
 
 const { t } = i18n.global
 
-export const DEFAULT_PRIMARY_COLOR = '#1890ff'
+export const DEFAULT_PRIMARY_COLOR = 'rgba(24, 144, 255, 1)' // '#1890ff'
 export const DEFAULT_FONT_SIZE = 13
 export const DEFAULT_THEME_NAME = 'light'
 export const DEFAULT_MENU_POSITION = 'side'
