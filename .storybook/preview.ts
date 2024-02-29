@@ -43,7 +43,7 @@ const preview: Preview = {
           value: '#ffffff'
         },
         {
-          name: 'realDark',
+          name: 'dark',
           value: 'rgba(40,42,66)'
         }
       ]
@@ -59,9 +59,8 @@ const preview: Preview = {
   },
   decorators: [
     (story, context) => {
-      const theme = context.globals?.backgrounds?.value === 'rgba(40,42,66)' ? 'realDark' : 'light'
+      const theme = context.globals?.backgrounds?.value === 'rgba(40,42,66)' ? 'dark' : 'light'
       const colorPrimary = context.globals.theme
-
       return {
         components: { story, ConfigProvider },
         template: `<html data-theme="${theme}" class="container" style="padding: 1rem;"><ConfigProvider theme="${theme}" colorPrimary="${colorPrimary}"><story /></ConfigProvider></html>`

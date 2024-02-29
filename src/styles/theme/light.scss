@@ -4,35 +4,33 @@
  *  Light Mode (default) styles.
  *  ======================================================================== */
 
-.layout-default {
-  .layout-main {
+.layout-main {
+  background: $color-white;
+}
+
+.menu-header {
+  .user-preview {
+    .name {
+      color: #121212;
+    }
+  }
+}
+
+.custom-input-container > .custom-input.active ~ label,
+.custom-select-container > .custom-select.active ~ label {
+  background-color: $color-white;
+}
+
+.dynamic-table-containter {
+  .body {
+    .detail-wrapper {
+      background-color: $color-white;
+    }
+  }
+}
+
+.filter-form-container {
+  .filter-list {
     background: $color-white;
-  }
-
-  .menu-header {
-    .user-preview {
-      .name {
-        color: #121212;
-      }
-    }
-  }
-
-  .custom-input-container > .custom-input.active ~ label,
-  .custom-select-container > .custom-select.active ~ label {
-    background-color: $color-white;
-  }
-
-  .dynamic-table-containter {
-    .body {
-      .detail-wrapper {
-        background-color: $color-white;
-      }
-    }
-  }
-
-  .filter-form-container {
-    .filter-list {
-      background: $color-white;
-    }
   }
 }

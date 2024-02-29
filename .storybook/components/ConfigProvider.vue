@@ -15,7 +15,10 @@ import { ConfigProvider } from 'ant-design-vue'
 import { theme } from 'ant-design-vue'
 import { computed, watch } from 'vue'
 import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useTheme } from '@/hooks/useTheme'
 import { themeColors } from '@/config/default/themeConfig'
+
+const { setPrimaryColor } = useTheme()
 
 const { defaultAlgorithm, darkAlgorithm, defaultSeed } = theme
 
@@ -40,7 +43,7 @@ const customSeed = computed(() => {
 watch(
   () => props.colorPrimary,
   (val) => {
-    setTheme({ primaryColor: getPrimaryColor.value })
+    setPrimaryColor(getPrimaryColor.value)
   },
   { immediate: true }
 )
@@ -58,6 +61,6 @@ const customDarkAlgorithm = () => {
 
 const mergeToken = computed(() => darkAlgorithm(customSeed.value))
 const themeAlgorithm = computed(() =>
-  props.theme === 'realDark' ? customDarkAlgorithm : defaultAlgorithm
+  props.theme === 'dark' ? customDarkAlgorithm : defaultAlgorithm
 )
 </script>

@@ -88,7 +88,7 @@ html[data-theme='dark'] {
   #workspace-container {
     background-color: $darkmode-color-background;
     color: $darkmode-color-text;
-    
+
     .list-wrapper {
       border: 1px solid $darkmode-color-border !important;
 
@@ -112,7 +112,7 @@ html[data-theme='dark'] {
       }
     }
   }
-  
+
   #workspace-step-btn-container {
     .form-wrapper {
       input {
@@ -155,6 +155,11 @@ html[data-theme='dark'] {
   .ant-statistic-content-prefix,
   .ant-statistic-content-value-int {
     color: $darkmode-color-text;
+  }
+
+  .custom-input-container > .custom-input.active ~ label,
+  .custom-select-container > .custom-select.active ~ label {
+    background-color: $darkmode-color-background-sub;
   }
 
   .custom-input-container {
@@ -209,7 +214,8 @@ html[data-theme='dark'] {
     }
   }
 
-  .drawer-container, .drawer-wrapper {
+  .drawer-container,
+  .drawer-wrapper {
     .drawer {
       background: $darkmode-color-background;
     }
@@ -217,7 +223,7 @@ html[data-theme='dark'] {
       border-left: 0.5px solid $darkmode-color-border;
     }
     .drawer.left {
-      border-right:0.5px solid  $darkmode-color-border;
+      border-right: 0.5px solid $darkmode-color-border;
     }
   }
 }
