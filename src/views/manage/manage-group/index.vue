@@ -6,6 +6,7 @@
       :floating="false"
       :mask="false"
       :drawerTitle="$t('page.manage.groupInfo')"
+      drawerWidth="30%"
       resizeOption="float"
     >
       <DynamicTable
