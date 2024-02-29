@@ -1,36 +1,46 @@
 <template>
   <Descriptions :title="$t('layout.header.settings.displaySettingTheme')" :column="5">
-    <Descriptions.Item v-for="theme in themeStyle" :key="theme.value">
+    <Descriptions.Item v-for="theme in themeStyle" :key="theme.value" class="margin">
       <Tooltip :title="theme.label">
         <div
           class="check-item"
-          :class="{ active: config.theme.navTheme === theme.value }"
-          @click="setNavTheme(theme.value)"
+          :class="{ active: getTheme.themeName === theme.value }"
+          @click="setThemeName(theme.value)"
         >
           <SvgIcon :name="theme.value" size="50" />
         </div>
       </Tooltip>
     </Descriptions.Item>
   </Descriptions>
-  <Descriptions :title="$t('layout.header.settings.displaySettingMenuPosition')" :column="5">
-    <Descriptions.Item v-for="item in menuLayouts" :key="item.value">
+
+  <Descriptions
+    v-if="!getSettings.isMobile"
+    :title="$t('layout.header.settings.displaySettingMenuPosition')"
+    :column="5"
+  >
+    <Descriptions.Item v-for="item in menuLayouts" :key="item.value" class="margin">
       <Tooltip :title="item.label">
         <div
           class="check-item"
-          :class="{ active: config.theme.menuPosition === item.value }"
+          :class="{ active: getTheme.menuPosition === item.value }"
           @click="setMenuPosition(item.value)"
         >
-          <SvgIcon :name="item.value" size="50" />
+          <SvgIcon :name="item.value + 'menu'" size="50" />
         </div>
       </Tooltip>
     </Descriptions.Item>
   </Descriptions>
+
   <Descriptions :title="$t('layout.header.settings.displaySettingColor')" :column="9">
     <Descriptions.Item v-for="item in themeColors" :key="item.value">
       <div class="check-item">
         <Tooltip :title="item.label">
-          <Tag :color="item.value" @click="setThemeColor(item.value)">
-            <span :style="{ visibility: getThemeColorVisible(item.value) }"> ✔ </span>
+          <Tag :color="item.value" @click="setPrimaryColor(item.value)">
+            <span
+              :style="{ visibility: getTheme.primaryColor === item.value ? 'visible' : 'hidden' }"
+            >
+              ✔
+            </span>
           </Tag>
         </Tooltip>
       </div>
@@ -39,31 +49,21 @@
 </template>
 <script setup lang="ts" name="DisplaySetting">
 import { Descriptions, Tag, Tooltip } from 'ant-design-vue'
-import type { ThemeConfig } from '@/stores/interface'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useAppStore } from '@/stores/modules/app'
+import { useTheme } from '@/hooks/useTheme'
 import { menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'
 
-const { config, setTheme, setCollapse, setRealDarkTheme } = useProjectConfigStore()
-const getThemeColorVisible = (color: string) =>
-  config.theme.primaryColor === color ? 'visible' : 'hidden'
+const { getTheme, setThemeName, setMenuPosition, setPrimaryColor } = useTheme()
+const { getSettings } = useAppStore()
 
-function setThemeColor(primaryColor: string) {
-  setTheme({ primaryColor })
-}
+// function setNavTheme(themeName: ThemeConfig['navTheme']) {
+//   console.log('themeName', themeName)
+//   // setTheme({ navTheme: themeName })
+//   // setTheme({ isRealDarkTheme: themeName === 'realDark' })
+//   // setRealDarkTheme(themeName)
 
-function setNavTheme(themeName: ThemeConfig['navTheme']) {
-  setTheme({ navTheme: themeName })
-  setTheme({ isRealDarkTheme: themeName === 'realDark' })
-  setRealDarkTheme(themeName)
-}
-
-function setMenuPosition(menuPosition: ThemeConfig['menuPosition']) {
-  setTheme({ menuPosition })
-
-  if (menuPosition === 'topmenu' && config.isCollapse) {
-    setCollapse(false)
-  }
-}
+//   setThemeName(themeName)
+// }
 </script>
 <style lang="scss" scoped>
 .check-item {
@@ -77,5 +77,13 @@ function setMenuPosition(menuPosition: ThemeConfig['menuPosition']) {
     right: 12px;
     color: $color-gray-7;
   }
+}
+:deep(.ant-descriptions-row) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+:deep(.ant-descriptions-item.margin) {
+  margin-right: 15px;
 }
 </style>

@@ -1,6 +1,4 @@
 import { createI18n } from 'vue-i18n'
-// import type { I18n, I18nOptions } from 'vue-i18n'
-// import { setHtmlPageLang, setLoadLocalePool } from '@/helpers/locale'
 import { useLocaleStoreWithOut } from '@/stores/modules/locale'
 import { localeMap } from './config'
 import en_US from './lang/en_US'

@@ -1,9 +1,11 @@
 <template>
   <div class="method">
-    <div class="method-control" v-for="item in socialLoginTypes" :key="item.url">
+    <div class="method-control" v-for="item in socialTypes" :key="item.url">
       <Tooltip>
-        <template #title>{{ $t('common.socialLoginText', { type: item.type }) }}</template>
-        <a class="method-action" @click="onSocialLogin(item)">
+        <template #title>{{
+          $t('common.socialLoginText', { type: Util.Format.toFirstUpperCase(item.type) })
+        }}</template>
+        <a class="method-action" @click="onLogin(item)">
           <img :src="item.icon" style="width: 25px; margin-right: 5px" />
         </a>
       </Tooltip>
@@ -14,22 +16,16 @@
 import NaverIcon from '@/assets/images/btnG_icon_square.png'
 import GoogleIcon from '@/assets/svgs/google_g_logo.svg.webp'
 import KakaoIcon from '@/assets/svgs/kakaotalk.svg'
+import { Util } from '@/utils'
 import { Tooltip } from 'ant-design-vue'
+import type { SocialType } from '@/stores/modules/auth/types'
 
-interface SocialLoginType {
-  type: 'google' | 'naver' | 'kakao'
-  url: string
-  icon: string
-}
-
-const AUTH_API_URL = 'http://dev-auth.checkup-api.co.kr'
-
-const onSocialLogin = (loginType: SocialLoginType) => {
-  const link = AUTH_API_URL + loginType.url
+function onLogin(socialType: SocialType) {
+  const link = import.meta.env.VITE_AUTH_API_URL + socialType.url
   window.location.href = link
 }
 
-const socialLoginTypes: SocialLoginType[] = [
+const socialTypes: SocialType[] = [
   {
     type: 'google',
     url: '/oauth2/authorization/google',

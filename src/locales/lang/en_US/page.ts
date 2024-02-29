@@ -54,6 +54,7 @@ export default {
     moreContent: 'Get more content',
     groupTitle: 'Group Title',
     groupContent: 'Group Content',
+    groupInfo: 'Group information',
     userInfo: 'User Information',
     userInvite: 'User Invitation',
     emailInvite: 'Add coworkers by email',

@@ -2,7 +2,7 @@
   <div class="menu-header">
     <div class="user-preview">
       <div class="img-wrapper">
-        <img :src="getWorkspace?.user.profile" />
+        <img :src="getWorkspace?.user.profile" @click="tempFlag++" />
       </div>
       <div class="info" v-if="!collapsed">
         <div class="name">{{ getWorkspace?.user.nickname }}</div>
@@ -13,16 +13,27 @@
 </template>
 <script setup lang="ts" name="MenuHeader">
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { computed, ref, watch } from 'vue'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { sampleMenus } from '../mock'
 
 interface Props {
   collapsed: boolean
 }
 
 const props = defineProps<Props>()
-const { getWorkspace } = storeToRefs(useWorkspaceStore())
+const { getWorkspace, menus } = storeToRefs(useWorkspaceStore())
+
+//temp code
+const tempFlag = ref(0)
+watch(
+  () => tempFlag.value,
+  (tempFlag) => {
+    if (tempFlag === 3) {
+      menus.value = menus.value.concat(...(sampleMenus as any))
+    }
+  }
+)
 
 const styles = computed(() => {
   const { collapsed } = props
@@ -36,7 +47,6 @@ const styles = computed(() => {
 <style lang="scss" scoped>
 .menu-header {
   .user-preview {
-    // padding: 1rem;
     padding: 10px;
     align-items: center;
     flex-direction: column;

@@ -1,3 +1,4 @@
+import type { GetComponentProps } from 'ant-design-vue/es/vc-table/interface'
 import { ref } from 'vue'
 import type { TableEmits } from '../types'
 
@@ -7,9 +8,9 @@ interface Options {
 
 export function useCustomRow(options: Options) {
   const { emit } = options
-  const selectedRowIndex = ref<number | null>(null)
+  const selectedRowIndex = ref<number | undefined>()
 
-  function customRow(record: Recordable, index: number) {
+  const customRow: GetComponentProps<any> = (record, index) => {
     return {
       onClick: (event: Event) => {
         selectedRowIndex.value = index
@@ -26,7 +27,7 @@ export function useCustomRow(options: Options) {
   }
 
   function initCustomRow() {
-    selectedRowIndex.value = null
+    selectedRowIndex.value = undefined
   }
 
   return {

@@ -1,4 +1,5 @@
-import type { WorkspaceFormValues, WorkspaceUsers } from '@/stores/modules/workspace/type'
+import type { WorkspaceFormValues, WorkspaceUsers } from '@/stores/modules/workspace/types'
+import type { LocaleType } from '@/locales/config'
 
 export namespace IWorkspace {
   export interface WorkspaceInfo {
@@ -103,8 +104,53 @@ export namespace IWorkspace {
       value: UserStatus
     }
   }
+
+  export interface WorkspaceSettings {
+    // 계정 설정
+    account: {}
+    // 알람 설정
+    alarm: {}
+    // 디스플레이 설정
+    display: {
+      themeName: 'light' | 'semiDark' | 'dark' // 워크스페이스 테마
+      menuPosition: 'side' | 'top' // 메뉴 위치
+      primaryColor: string // 메인 색상
+      menuThemeName: 'light' | 'dark' // 메뉴 테마
+    }
+    // 언어 설정
+    language: {
+      // 사용 언어
+      language: LocaleType
+    }
+    // 접근성 설정
+    accessibility: {
+      // 글자 크기
+      fontSize: number
+    }
+  }
   export interface GetUserWorkspaceResponse {
     workspace: WorkspaceInfo
     workspaceUser: WorkspaceUserInfo
+    workspaceSettings: WorkspaceSettings
+  }
+
+  export type UpdateWorkspaceSettingsParam = WorkspaceSettings
+  export type UpdateWorkspaceSettingsResponse = WorkspaceSettings
+
+  export interface MenuDto {
+    menuId: string
+    name: string
+    title: string
+    link: string
+    icon: string
+    hasLink: boolean
+    isNew: boolean
+    seq: number
+    depth: number
+    subMenus: MenuDto[]
+  }
+
+  export interface GetWorkspaceMenuResponse {
+    menus: MenuDto[]
   }
 }

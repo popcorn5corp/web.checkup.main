@@ -11,12 +11,28 @@ export interface WorkspaceState {
   formValues: WorkspaceFormValues
   joinParam: JoinParamValues
   workspace: UserWorkspace | null
-  selectedWorkspaceId: string | null
+  selectedWorkspaceId: string
+  isCompleteWorkspaceLoad: boolean
+  settings: WorkspaceSettings
+  menus: IMenu[]
 }
 
 export interface Workspace {
   workspaceId: string
   workspaceName: string
+}
+
+export interface IMenu {
+  path: string
+  name: string
+  meta: {
+    title: string
+    namePath: string[]
+    fullPath: string
+    icon?: string
+    isNew?: boolean
+  }
+  children: IMenu[]
 }
 
 export interface WorkspaceFormValues {
@@ -49,7 +65,8 @@ export interface WorkspaceUsers {
   userImagePath: string
 }
 
-export type UserWorkspace = {
+export type WorkspaceSettings = IWorkspace.WorkspaceSettings
+export interface UserWorkspace {
   workspaceId: string
   workspaceName: string
   user: {
@@ -62,6 +79,7 @@ export type UserWorkspace = {
       value: IWorkspace.UserStatus
     }
   }
+  settings: WorkspaceSettings
 }
 
 export interface WorkspaceStep {

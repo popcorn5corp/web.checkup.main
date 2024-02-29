@@ -24,7 +24,6 @@
 import Menu from 'ant-design-vue/es/menu'
 import { reactive, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-// import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { RouteNameEnum } from '@/router/interface'
 import { useTour } from '@/components/tour/hooks/useTour'
 import type { MenuProps } from './'

@@ -10,29 +10,40 @@ import {
 
 const { t } = i18n.global
 
+export const DEFAULT_PRIMARY_COLOR = 'rgba(24, 144, 255, 1)' // '#1890ff'
+export const DEFAULT_FONT_SIZE = 13
+export const DEFAULT_THEME_NAME = 'light'
+export const DEFAULT_MENU_POSITION = 'side'
+export const DEFAULT_MENU_THEME_NAME = 'light'
+
+export enum ThemeEnum {
+  DARK = 'dark',
+  LIGHT = 'light'
+}
+
 export const themeStyle: ReadonlyArray<LabelValue<ThemeName>> = [
   {
     label: 'Light',
     value: themeNames.light
   },
   {
-    label: 'Dark',
-    value: themeNames.dark
+    label: 'Semi Dark',
+    value: themeNames.semiDark
   },
   {
-    label: 'Real Dark',
-    value: themeNames.realDark
+    label: 'Dark',
+    value: themeNames.dark
   }
 ] as const
 
 export const menuLayouts: ReadonlyArray<LabelValue<MenuPosition>> = [
   {
-    label: 'Side Menu',
-    value: menuPositions.side
-  },
-  {
     label: 'Top Menu',
     value: menuPositions.top
+  },
+  {
+    label: 'Side Menu',
+    value: menuPositions.side
   }
 ] as const
 

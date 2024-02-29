@@ -10,7 +10,7 @@ export default {
       tabDisplaySetting: 'Display',
       displaySettingTheme: 'Theme',
       displaySettingMenuPosition: 'Menu Position',
-      displaySettingColor: 'Color',
+      displaySettingColor: 'Main Color',
       displaySettingFontSize: 'Font Size',
       fontSizeSmall: 'Small',
       fontSizeMedium: 'Medium',

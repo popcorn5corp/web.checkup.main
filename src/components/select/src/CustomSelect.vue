@@ -24,21 +24,17 @@
 
 <script setup lang="ts" name="CustomSelect">
 import { Select, SelectOption } from 'ant-design-vue'
-import { computed, ref } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { type CSSProperties, computed, ref, unref } from 'vue'
+import { useTheme } from '@/hooks/useTheme'
 import type { SelectProps } from '../types'
 
 const emit = defineEmits(['update:value'])
-
 const props = withDefaults(defineProps<SelectProps>(), {})
 
-const {
-  config: { theme }
-} = useProjectConfigStore()
-
+const { getTheme } = useTheme()
 const themeColorStyle = computed<CSSProperties>(() => {
   return {
-    color: theme.primaryColor
+    color: unref(getTheme).primaryColor
   }
 })
 
@@ -61,7 +57,7 @@ const onFocusout = () => {
   isColored.value = false
 }
 
-const onChange = (value, options) => {
+const onChange: SelectProps['onChange'] = (value, options) => {
   selectValue.value = value
   emit('update:value', options)
 }

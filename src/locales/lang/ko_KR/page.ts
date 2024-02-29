@@ -52,6 +52,7 @@ export default {
     moreContent: '더 불러오기',
     groupTitle: '그룹 제목',
     groupContent: '그룹 내용',
+    groupInfo: '그룹 정보',
     userInfo: '사용자 정보',
     userInvite: '사용자 초대',
     emailInvite: '이메일로 직장동료 추가',

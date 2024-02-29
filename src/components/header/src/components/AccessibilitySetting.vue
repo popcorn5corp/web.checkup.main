@@ -1,7 +1,7 @@
 <template>
   <Descriptions :title="$t('layout.header.settings.displaySettingFontSize')" :column="5">
     <Descriptions.Item>
-      <RadioGroup v-model:value="config.theme.fontSize" @change="setLayoutFontSize">
+      <RadioGroup v-model:value="getTheme.fontSize" @change="setLayoutFontSize">
         <Radio v-for="(item, i) in layoutFonts" :key="i" :value="item.value">{{
           item.label
         }}</Radio>
@@ -12,13 +12,12 @@
 
 <script setup lang="ts" name="AccessibilitySetting">
 import { Descriptions, Radio, type RadioChangeEvent, RadioGroup } from 'ant-design-vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
+import { useTheme } from '@/hooks/useTheme'
 import { layoutFonts } from '@/config/default/themeConfig'
 
-const { config, setTheme } = useProjectConfigStore()
-
+const { getTheme, setFontSize } = useTheme()
 function setLayoutFontSize({ target: { value } }: RadioChangeEvent) {
-  setTheme({ fontSize: value })
+  setFontSize(value)
 }
 </script>
 

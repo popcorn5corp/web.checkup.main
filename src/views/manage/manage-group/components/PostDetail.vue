@@ -7,7 +7,7 @@
         <Item :label="t('page.manage.groupContent')">{{ formState.post?.content ?? '-' }}</Item>
       </div>
 
-      <a-dropdown v-model:open="isDropdown" :trigger="['click']">
+      <a-dropdown v-model:open="isDropdown" :trigger="['click']" placement="bottomRight">
         <a class="ant-dropdown-link" @click.prevent> <MoreOutlined style="font-size: 18px" /> </a>
         <template #overlay>
           <a-menu>
@@ -211,8 +211,10 @@ const showDeleteConfirm = () => {
 
     .ant-form-item-label {
       width: 70px;
+      padding: 0;
       > label {
-        font-weight: 500;
+        font-weight: 900;
+        font-size: 14px;
       }
       > label::after {
         content: '';
@@ -241,7 +243,8 @@ const showDeleteConfirm = () => {
     }
 
     .ant-form-item {
-      margin-bottom: 0;
+      padding: 0;
+      margin-bottom: 7px;
     }
 
     .ant-dropdown-link {

@@ -23,7 +23,7 @@ export interface ThemeConfig {
   isRealDarkTheme: boolean
   isDark: boolean
   primaryColor: string // '#F5222D', // primary color of ant design
-  menuPosition: MenuPosition // nav menu position: `sidemenu` or `topmenu`
+  menuPosition: MenuPosition // nav menu position: `side` or `top`
   contentWidth: 'Fluid' | 'Fixed' // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
   fixedHeader: boolean // sticky header
   fixSiderbar: boolean // sticky siderbar
@@ -57,8 +57,8 @@ export const layouts = {
 
 export const themeNames = {
   light: 'light',
-  dark: 'dark',
-  realDark: 'realDark'
+  semiDark: 'semiDark',
+  dark: 'dark'
 } as const
 
 export const layoutFontSizes = {
@@ -68,8 +68,8 @@ export const layoutFontSizes = {
 } as const
 
 export const menuPositions = {
-  side: 'sidemenu',
-  top: 'topmenu'
+  side: 'side',
+  top: 'top'
 } as const
 
 export type LayoutType = (typeof layoutTypes)[keyof typeof layoutTypes]

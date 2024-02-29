@@ -10,7 +10,7 @@ export default {
       tabDisplaySetting: 'Menampilkan',
       displaySettingTheme: 'Tema',
       displaySettingMenuPosition: 'Posisi Menu',
-      displaySettingColor: 'Warna',
+      displaySettingColor: 'Warna Utama',
       displaySettingFontSize: 'Ukuran huruf',
       fontSizeSmall: 'Kecil',
       fontSizeMedium: 'Sedang',

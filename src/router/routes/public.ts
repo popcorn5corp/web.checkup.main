@@ -5,7 +5,7 @@ export const publicRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
-    component: () => import(/* webpackChunkName: "login2" */ '@/views/login/index2.vue'),
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
     meta: {
       title: 'Login',
       layout: layoutTypes.pure,
@@ -13,11 +13,11 @@ export const publicRoutes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/login2',
-    name: 'login2',
-    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
+    path: '/social-login',
+    name: 'social-login',
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login/SocialLoginPage.vue'),
     meta: {
-      title: 'Login',
+      title: '',
       layout: layoutTypes.pure,
       public: true
     }
