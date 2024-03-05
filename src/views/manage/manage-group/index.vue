@@ -6,6 +6,7 @@
       :floating="false"
       :mask="false"
       :drawerTitle="$t('page.manage.groupInfo')"
+      drawerWidth="30%"
       resizeOption="float"
     >
       <DynamicTable
@@ -81,6 +82,7 @@ import { createVNode, defineAsyncComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/types'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { DrawerContainer } from '@/components/drawer-container'
 import { DynamicTable } from '@/components/dynamic-table'
 import { PlusCircleTwoTone } from '@/components/icons'
 import { QuestionCircleTwoTone } from '@/components/icons'

@@ -338,6 +338,7 @@ async function onSelectWorkspace(workspace: Workspace) {
   .list-wrapper {
     padding: 1rem !important;
     height: 90% !important;
+    margin-top: 1rem;
 
     .list-li {
       padding: 18px !important;

@@ -42,13 +42,14 @@
     "@types/lodash-es": "^4.17.7",
     "@types/vue-i18n": "^7.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
-    "ant-design-vue": "4.x",
-    "axios": "^1.4.0",
+    "ant-design-vue": "^4.1.2",
+    "axios": "^1.6.7",
     "chart.js": "^4.4.1",
-    "dayjs": "^1.11.9",
+    "dayjs": "^1.11.10",
     "file-saver": "^2.0.5",
+    "immer": "^10.0.3",
     "lodash-es": "^4.17.21",
-    "pinia": "^2.0.36",
+    "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "qs": "^6.11.2",
     "radium": "^0.26.2",
@@ -57,8 +58,8 @@
     "string-width": "^6.1.0",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-svg-icons": "^2.0.1",
-    "vue": "^3.3.2",
-    "vue-i18n": "^9.3.0-beta.21",
+    "vue": "^3.4.21",
+    "vue-i18n": "^9.10.1",
     "vue-responsive-dash": "^0.5.0",
     "vue-router": "^4.2.0"
   },
@@ -83,11 +84,11 @@
     "@types/node": "^18.16.8",
     "@types/node-fetch": "^2.6.6",
     "@types/sortablejs": "^1.15.2",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "@vue/eslint-config-prettier": "^7.1.0",
-    "@vue/eslint-config-typescript": "^11.0.3",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/test-utils": "^2.3.2",
-    "@vue/tsconfig": "^0.4.0",
+    "@vue/tsconfig": "^0.5.1",
     "chromatic": "^10.2.0",
     "cypress": "^12.12.0",
     "eslint": "^8.39.0",
@@ -104,10 +105,10 @@
     "storybook-addon-vue-slots": "^0.9.29",
     "typescript": "~5.0.4",
     "unplugin-vue-components": "^0.24.1",
-    "vite": "^4.3.5",
+    "vite": "^5.1.5",
     "vite-tsconfig-paths": "^4.2.1",
     "vitest": "^0.31.0",
-    "vue-tsc": "^1.6.4",
+    "vue-tsc": "^2.0.4",
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "resolutions": {
@@ -116,7 +117,7 @@
   "readme": "ERROR: No README data found!",
   "_id": "web.checkup.main@0.0.0",
   "engines": {
-    "node": ">=20.9.0",
-    "npm": ">=10.1.0"
+    "node": "^20.9.0",
+    "npm": "^10.1.0"
   }
 }

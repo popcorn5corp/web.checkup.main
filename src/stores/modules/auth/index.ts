@@ -29,12 +29,14 @@ export const useAuthStore = defineStore(
      */
     function login(param: IAuth.SignInParam): Promise<{ goPath: string }> {
       return new Promise(async (resolve, reject) => {
-        state.loading = true
+        state.loggedIn = true
 
         try {
           const { data, success } = await AuthService.signIn(param)
 
           if (success) {
+            state.loggedIn = false
+            state.loading = true
             const { accessToken, refreshToken } = data
 
             setToken(accessToken)
@@ -48,8 +50,6 @@ export const useAuthStore = defineStore(
             })
 
             workspaceId && setSelectedWorkspaceId(workspaceId)
-            state.loggedIn = true
-            state.loading = false
 
             resolve({
               goPath

@@ -106,7 +106,7 @@ const resizingHandler = () => {
   /**
    * @description resizer에 마우스 이벤트가 발생하면 실행하는 Handler
    */
-  const mouseDownHandler = (e) => {
+  const mouseDownHandler = (e: MouseEvent) => {
     // 마우스 위치값을 가져와 x, y에 할당
     startX = e.clientX
 
@@ -122,7 +122,7 @@ const resizingHandler = () => {
   /**
    * @description 마우스가 이동하면 발생하면 실행하는 Handler
    */
-  const mouseMoveHandler = (e) => {
+  const mouseMoveHandler = (e: MouseEvent) => {
     if (!contentRef.value || !drawerRef.value || !containerRef.value) return
     const { floating, drawerPosition, resizeOption } = props
 
