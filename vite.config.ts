@@ -12,15 +12,43 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import pkg from './package.json'
 
 const CWD = process.cwd()
-// const { dependencies, devDependencies, name, version } = pkg
-// const __APP_INFO__ = {
-//   pkg: { dependencies, devDependencies, name, version },
-//   lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
-// }
+const { dependencies, devDependencies, name, version, engines } = pkg
+const __APP_INFO__ = {
+  pkg: { dependencies, devDependencies, name, version },
+  lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+}
 
 // @ts-ignore
 export default defineConfig(({ command, mode, ssrBuild }): UserConfig => {
   const env = loadEnv(mode, process.cwd())
+  const {
+    pkg: { dependencies, version },
+    lastBuildTime
+  } = __APP_INFO__
+
+  console.log(`
+     ██████╗ ██╗  ██╗ ███████╗  ██████╗ ██╗  ██╗ ██╗   ██╗ ██████╗ 
+    ██╔════╝ ██║  ██║ ██╔════╝ ██╔════╝ ██║ ██╔╝ ██║   ██║ ██╔══██╗
+    ██║      ███████║ █████╗   ██║      █████╔╝  ██║   ██║ ██████╔╝
+    ██║      ██╔══██║ ██╔══╝   ██║      ██╔═██╗  ██║   ██║ ██╔═══╝ 
+    ╚██████╗ ██║  ██║ ███████╗ ╚██████╗ ██║  ██╗ ╚██████╔╝ ██║     
+     ╚═════╝ ╚═╝  ╚═╝ ╚══════╝  ╚═════╝ ╚═╝  ╚═╝  ╚═════╝  ╚═╝
+     project: ${version} node: ${engines.node} vue: ${dependencies.vue}
+     last build time: ${lastBuildTime}         
+`)
+
+  // console.log(`
+  //   ▄████▄   ██░ ██ ▓█████  ▄████▄   ██ ▄█▀ █    ██  ██▓███
+  //   ▒██▀ ▀█  ▓██░ ██▒▓█   ▀ ▒██▀ ▀█   ██▄█▒  ██  ▓██▒▓██░  ██▒
+  //   ▒▓█    ▄ ▒██▀▀██░▒███   ▒▓█    ▄ ▓███▄░ ▓██  ▒██░▓██░ ██▓▒
+  //   ▒▓▓▄ ▄██▒░▓█ ░██ ▒▓█  ▄ ▒▓▓▄ ▄██▒▓██ █▄ ▓▓█  ░██░▒██▄█▓▒ ▒
+  //   ▒ ▓███▀ ░░▓█▒░██▓░▒████▒▒ ▓███▀ ░▒██▒ █▄▒▒█████▓ ▒██▒ ░  ░
+  //   ░ ░▒ ▒  ░ ▒ ░░▒░▒░░ ▒░ ░░ ░▒ ▒  ░▒ ▒▒ ▓▒░▒▓▒ ▒ ▒ ▒▓▒░ ░  ░
+  //     ░  ▒    ▒ ░▒░ ░ ░ ░  ░  ░  ▒   ░ ░▒ ▒░░░▒░ ░ ░ ░▒ ░
+  //   ░         ░  ░░ ░   ░   ░        ░ ░░ ░  ░░░ ░ ░ ░░
+  //   ░ ░       ░  ░  ░   ░  ░░ ░      ░  ░      ░
+  //   ░                       ░
+  // `)
 
   return {
     plugins: [

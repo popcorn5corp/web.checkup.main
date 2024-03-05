@@ -18,7 +18,7 @@ export const useLocale = () => {
     return (i18n.global.getLocaleMessage(unref(getLocale)) as any).antdLocale
   })
 
-  async function _loadLocaleMessages(locale: LocaleType) {
+  async function _loadLocaleMessages(locale: LocaleType): Promise<void> {
     const globalI18n = i18n.global
 
     if (!globalI18n.availableLocales.includes(locale)) {
@@ -31,8 +31,8 @@ export const useLocale = () => {
     return nextTick()
   }
 
-  function setI18nLanguage(locale: LocaleType) {
-    _loadLocaleMessages(locale)
+  async function setI18nLanguage(locale: LocaleType) {
+    await _loadLocaleMessages(locale)
 
     const localeStore = useLocaleStoreWithOut()
     i18n.global.locale.value = locale
@@ -40,8 +40,8 @@ export const useLocale = () => {
     localeStore.setLocale(locale)
   }
 
-  async function setLocale(locale: LocaleType): Promise<LocaleType> {
-    return new Promise((resolve, reject) => {
+  function setLocale(locale: LocaleType): Promise<LocaleType> {
+    return new Promise(async (resolve, reject) => {
       if (!locale) reject()
 
       const globalI18n = i18n.global
@@ -51,12 +51,12 @@ export const useLocale = () => {
       }
 
       if (Helper.Locale.loadLocalePool.includes(locale)) {
-        setI18nLanguage(locale)
+        await setI18nLanguage(locale)
         resolve(locale)
       }
 
       Helper.Locale.loadLocalePool.push(locale)
-      setI18nLanguage(locale)
+      await setI18nLanguage(locale)
       resolve(locale)
     })
   }
