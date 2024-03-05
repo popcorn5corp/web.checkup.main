@@ -5,7 +5,7 @@ import { Button } from '@/components/button'
 import { DrawerContainer } from '../'
 
 const meta: Meta<ComponentProps<typeof DrawerContainer>> = {
-  title: 'checkupuikit/Template/DrawerContainer',
+  title: 'checkupuikit/Templates/DrawerContainer',
   tags: ['autodocs'],
   argTypes: {
     resize: {
