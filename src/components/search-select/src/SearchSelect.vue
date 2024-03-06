@@ -61,7 +61,6 @@
 <script setup lang="ts" name="SearchSelect">
 import { Util } from '@/utils'
 import { Select } from 'ant-design-vue'
-import type { SelectValue } from 'ant-design-vue/es/tree-select'
 import { debounce } from 'lodash-es'
 import { computed, ref, unref } from 'vue'
 import { useTheme } from '@/hooks/useTheme'
