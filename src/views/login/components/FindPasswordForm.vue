@@ -1,12 +1,12 @@
 <template>
   <div class="find-password-form-container">
     <template v-if="!isSuccessFindPassword">
-      <RadioGroup class="radio-wrapper" v-model:value="authenticationType" size="large">
+      <!-- <RadioGroup class="radio-wrapper" v-model:value="authenticationType" size="large">
         <Radio :value="IAuth.authenticationTypes.PHONE">{{ $t('page.login.authPhone') }}</Radio>
         <Radio :value="IAuth.authenticationTypes.EMAIL">
           {{ $t('page.login.authEmail') }}
         </Radio>
-      </RadioGroup>
+      </RadioGroup> -->
       <Form :model="formData" @finish="onFindPassword">
         <FormItem name="userId">
           <Input
@@ -33,8 +33,8 @@
           </div>
         </FormItem>
         <div class="certification-wrapper">
-          <template v-if="authenticationType === IAuth.authenticationTypes.EMAIL">
-            <!-- email로 인증 -->
+          <!-- email로 인증 -->
+          <!-- <template v-if="authenticationType === IAuth.authenticationTypes.EMAIL">
             <FormItem name="email">
               <div class="input-wrapper">
                 <Input
@@ -58,8 +58,8 @@
                 {{ $t('message.validate.checkEmail') }}
               </div>
             </FormItem>
-          </template>
-          <template v-else>
+          </template> -->
+          <template v-if="authenticationType === IAuth.authenticationTypes.PHONE">
             <!-- phone으로 인증 -->
             <FormItem name="phone">
               <div class="input-wrapper">
