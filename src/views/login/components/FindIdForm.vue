@@ -444,14 +444,17 @@ watch(
 .success-wrapper {
   p {
     font-size: 15px;
-    margin: 2rem 0;
+    margin: 1rem 0;
   }
   .id-wrapper {
     font-size: 15px;
     margin: 30px 0;
     border: 1px solid $color-gray-5;
     border-radius: 8px;
-    padding: 20px;
+    padding: 8px;
+
+    height: 200px;
+    overflow-y: scroll;
   }
 }
 </style>
