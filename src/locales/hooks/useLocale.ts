@@ -11,13 +11,13 @@ interface LangModule {
   dateLocaleName: string
 }
 
-export const useLocale = () => {
-  const localeStore = useLocaleStoreWithOut()
-  const getLocale = computed(() => localeStore.getLocale)
-  const getAntdLocale = computed<Locale>(() => {
-    return (i18n.global.getLocaleMessage(unref(getLocale)) as any).antdLocale
-  })
+const localeStore = useLocaleStoreWithOut()
+const getLocale = computed(() => localeStore.getLocale)
+const getAntdLocale = computed<Locale>(() => {
+  return (i18n.global.getLocaleMessage(unref(getLocale)) as any).antdLocale
+})
 
+export const useLocale = () => {
   async function _loadLocaleMessages(locale: LocaleType): Promise<void> {
     const globalI18n = i18n.global
 
@@ -50,12 +50,12 @@ export const useLocale = () => {
         resolve(locale)
       }
 
-      if (Helper.Locale.loadLocalePool.includes(locale)) {
-        await setI18nLanguage(locale)
-        resolve(locale)
-      }
+      // if (Helper.Locale.loadLocalePool.includes(locale)) {
+      //   await setI18nLanguage(locale)
+      //   resolve(locale)
+      // }
 
-      Helper.Locale.loadLocalePool.push(locale)
+      // Helper.Locale.loadLocalePool.push(locale)
       await setI18nLanguage(locale)
       resolve(locale)
     })

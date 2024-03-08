@@ -50,6 +50,8 @@
       </div>
     </div>
   </div>
+
+  <!-- <Spinner :text="$t('message.checkingLogin')" :text-width="'13rem'" /> -->
 </template>
 
 <script setup lang="ts" name="WorkspaceList">

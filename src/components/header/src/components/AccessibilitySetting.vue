@@ -1,7 +1,7 @@
 <template>
   <Descriptions :title="$t('layout.header.settings.displaySettingFontSize')" :column="5">
     <Descriptions.Item>
-      <RadioGroup v-model:value="getTheme.fontSize" @change="setLayoutFontSize">
+      <RadioGroup :value="getTheme.fontSize" @change="setLayoutFontSize">
         <Radio v-for="(item, i) in layoutFonts" :key="i" :value="item.value">{{
           item.label
         }}</Radio>
@@ -14,8 +14,10 @@
 import { Descriptions, Radio, type RadioChangeEvent, RadioGroup } from 'ant-design-vue'
 import { useTheme } from '@/hooks/useTheme'
 import { layoutFonts } from '@/config/default/themeConfig'
+import { useSettingStore } from '@/stores/modules/setting';
 
-const { getTheme, setFontSize } = useTheme()
+const { setFontSize } = useSettingStore();
+const { getTheme } = useTheme()
 function setLayoutFontSize({ target: { value } }: RadioChangeEvent) {
   setFontSize(value)
 }

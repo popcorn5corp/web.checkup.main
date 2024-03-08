@@ -14,19 +14,17 @@
 import { ConfigProvider } from 'ant-design-vue'
 import { theme } from 'ant-design-vue'
 import { computed, watch } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
-import { useLocale } from '@/locales/hooks/useLocale'
 import { themeColors } from '@/config/default/themeConfig'
+import { useTheme } from '@storybook/theming'
 
 const { defaultAlgorithm, darkAlgorithm, defaultSeed } = theme
-
-const { config, setTheme, setCollapse, setRealDarkTheme } = useProjectConfigStore()
 
 const props = defineProps<{
   theme: string
   colorPrimary: string
 }>()
 
+const { setTheme } = useTheme();
 const getPrimaryColor = computed(() => {
   return themeColors.find((colorInfo) => props.colorPrimary === colorInfo.label).value
 })

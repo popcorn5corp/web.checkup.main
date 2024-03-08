@@ -10,10 +10,10 @@ export interface WorkspaceState {
   nextBtnDisabled: boolean
   formValues: WorkspaceFormValues
   joinParam: JoinParamValues
-  workspace: UserWorkspace | null
+  workspace: UserWorkspace
   selectedWorkspaceId: string
   isCompleteWorkspaceLoad: boolean
-  settings: WorkspaceSettings
+  // settings: WorkspaceSettings
   menus: IMenu[]
 }
 
@@ -65,12 +65,22 @@ export interface WorkspaceUsers {
   userImagePath: string
 }
 
+export const workspaceSettingsCategory = [
+  'account',
+  'alarm',
+  'display',
+  'language',
+  'accessibility'
+] as const
+
+export type workspaceSettingsCategoryKey = (typeof workspaceSettingsCategory)[number]
+
 export type WorkspaceSettings = IWorkspace.WorkspaceSettings
 export interface UserWorkspace {
-  workspaceId: string
+  workspaceId: string | null
   workspaceName: string
   user: {
-    workspaceUserId: string
+    workspaceUserId: string | null
     email: string
     nickname: string
     profile: string

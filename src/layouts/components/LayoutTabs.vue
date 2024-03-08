@@ -54,7 +54,6 @@ const route = useRoute()
 const tabsLyoutStore = useTabsLayoutStore()
 const { getTheme } = useTheme()
 const activeKey = ref(route.fullPath)
-const newTabIndex = ref(0)
 const tabsRef = ref()
 
 const activeTabBorderColor = computed(() => unref(getTheme).primaryColor)

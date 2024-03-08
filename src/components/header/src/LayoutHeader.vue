@@ -48,6 +48,7 @@ import { type HeaderProps, rollingList } from '../types'
 import RollingText from './components/RollingText.vue'
 import UserDropdown from './components/UserDropdown.vue'
 
+
 defineEmits(['update:collapsed'])
 const props = withDefaults(defineProps<HeaderProps>(), {})
 
