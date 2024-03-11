@@ -1,17 +1,16 @@
 <script setup lang="tsx" name="PostDetail">
 import { BaseSampleService } from '@/services'
-import { Form, type SelectProps } from 'ant-design-vue'
+import { type SelectProps } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, reactive, ref, watch } from 'vue'
 import type { IBaseSample, ICode } from '@/services/base-sample/types'
+import { Form, FormItem } from '@/components/form'
 import { Input } from '@/components/input'
 import { Select } from '@/components/select'
 // import { FileUploader } from '@/components/file-uploader'
 // import { fileTypes } from '@/constants/file'
 import { getDefaultPost } from '../constant'
-
-const { Item } = Form
 
 type Post = IBaseSample.BaseSample
 interface PostDetailProps {
@@ -110,21 +109,21 @@ defineExpose({
 <template>
   <div class="post-detail">
     <Form v-if="!isEdit" :layout="formState.layout" :model="formState" v-bind="formItemLayout">
-      <Item label="게시물 제목">
+      <FormItem label="게시물 제목">
         {{ formState.post.boardTitle }}
-      </Item>
-      <Item label="게시물 내용">
+      </FormItem>
+      <FormItem label="게시물 내용">
         {{ formState.post.boardContent }}
-      </Item>
-      <Item label="생성일">
+      </FormItem>
+      <FormItem label="생성일">
         {{ formState.post.createdAt }}
-      </Item>
-      <Item label="권한">
+      </FormItem>
+      <FormItem label="권한">
         {{ formState.post.permission.value }}
-      </Item>
-      <Item label="게시물 구분">
+      </FormItem>
+      <FormItem label="게시물 구분">
         {{ formState.post.division.value }}
-      </Item>
+      </FormItem>
       <!-- <Item label="게시물 첩부파일">
         <FileUploader :files="formState.post.boardFiles" readonly />
       </Item> -->
@@ -137,16 +136,16 @@ defineExpose({
       :model="formState"
       v-bind="formItemLayout"
     >
-      <Item name="boardTitle">
+      <FormItem name="boardTitle">
         <Input v-model:value="formState.post.boardTitle" label="게시물 제목" />
-      </Item>
-      <Item>
+      </FormItem>
+      <FormItem>
         <Input v-model:value="formState.post.boardContent" label="게시물 내용" />
-      </Item>
-      <Item>
+      </FormItem>
+      <FormItem>
         <Input v-model:value="formState.post.createdAt" label="생성일" disabled />
-      </Item>
-      <Item>
+      </FormItem>
+      <FormItem>
         <!-- <Select
           v-model:value="formState.post.permission.label"
           :options="(permissionCodes as any)"
@@ -156,14 +155,14 @@ defineExpose({
           :options="(permissionCodes as any)"
           label="권한"
         />
-      </Item>
-      <Item>
+      </FormItem>
+      <FormItem>
         <Select
           v-model:value="formState.post.division.label"
           :options="divisionOptions"
           label="게시물 구분"
         />
-      </Item>
+      </FormItem>
       <!-- <Item label="게시물 첩부파일">
         <FileUploader
           ref="fileUploader"

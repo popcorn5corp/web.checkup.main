@@ -26,8 +26,12 @@ const props = defineProps<FormItemProps>()
   .ant-input-number-input-wrap {
     padding: 2px 0;
   }
+
   .ant-input {
     padding: 6.5px 11px;
+  }
+  .custom-input-container .ant-input {
+    padding: 0;
   }
 
   .ant-select-selector {
@@ -35,7 +39,9 @@ const props = defineProps<FormItemProps>()
     padding: 3px 11px;
   }
   .ant-form-item-label {
+    padding: 0;
     > label {
+      font-size: 14px;
       flex-direction: row-reverse;
     }
     > label::before {
@@ -43,6 +49,10 @@ const props = defineProps<FormItemProps>()
       margin-left: 4px;
       padding-top: 6px;
     }
+  }
+
+  .ant-row {
+    align-items: center;
   }
 }
 </style>

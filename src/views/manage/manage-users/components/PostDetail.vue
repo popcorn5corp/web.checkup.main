@@ -1,25 +1,31 @@
 <template>
   <div class="post-detail">
-    <Form v-if="!isEdit" layout="horizontal" :model="formState" class="form-wrapper">
+    <Form
+      v-if="!isEdit"
+      layout="horizontal"
+      :model="formState"
+      v-bind="formItemLayout"
+      class="form-wrapper"
+    >
       <div class="img-wrapper">
         <img :src="formState.data.thumbnail?.url" />
       </div>
       <div class="form-item-wrapper">
-        <Item :label="$t('common.name')" name="nickname">
+        <FormItem :label="$t('common.name')" name="nickname">
           {{ formState.data.nickname }}
-        </Item>
-        <Item :label="$t('common.status')" name="userStatus">
+        </FormItem>
+        <FormItem :label="$t('common.status')" name="userStatus">
           {{ formState.data.userStatus.label }}
-        </Item>
-        <Item :label="$t('common.email')" name="email">
+        </FormItem>
+        <FormItem :label="$t('common.email')" name="email">
           {{ formState.data.email }}
-        </Item>
-        <Item :label="$t('common.phone')" name="phone">
+        </FormItem>
+        <FormItem :label="$t('common.phone')" name="phone">
           {{ formState.data.phone || '-' }}
-        </Item>
-        <Item :label="$t('common.joinDate')" name="joinDate">
+        </FormItem>
+        <FormItem :label="$t('common.joinDate')" name="joinDate">
           {{ formState.data.joinDate }}
-        </Item>
+        </FormItem>
       </div>
 
       <a-dropdown v-model:open="visible" :trigger="['click']" placement="bottomRight">
@@ -38,25 +44,25 @@
     </Form>
 
     <Form v-else ref="formRef" layout="horizontal" :model="formState">
-      <Item name="nickname">
+      <FormItem name="nickname">
         <Input v-model:value="formState.data.nickname" :label="$t('common.name')" />
-      </Item>
-      <Item>
+      </FormItem>
+      <FormItem>
         <Select
           v-model:value="formState.data.userStatus"
           :options="userStatusOptions"
           :label="$t('common.status')"
         ></Select>
-      </Item>
-      <Item name="email">
+      </FormItem>
+      <FormItem name="email">
         <Input v-model:value="formState.data.email" :label="$t('common.email')" />
-      </Item>
-      <Item name="phone">
+      </FormItem>
+      <FormItem name="phone">
         <Input v-model:value="formState.data.phone" :label="$t('common.phone')" />
-      </Item>
-      <Item name="joinDate">
+      </FormItem>
+      <FormItem name="joinDate">
         <Input v-model:value="formState.data.joinDate" :label="$t('common.joinDate')" disabled />
-      </Item>
+      </FormItem>
       <div class="btn-wrapper">
         <Button @click="initState"><CloseOutlined /></Button>
         <Button @click="onSubmit" type="primary"><CheckOutlined /></Button>
@@ -68,11 +74,12 @@
 </template>
 
 <script setup lang="tsx" name="PostDetail">
-import { Form, Modal, type SelectProps } from 'ant-design-vue'
+import { Modal, type SelectProps } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageUser } from '@/services/manage-users/types'
+import { Form, FormItem } from '@/components/form'
 import {
   CheckOutlined,
   CloseOutlined,
@@ -97,7 +104,6 @@ interface FormState {
 }
 
 const { t } = useI18n()
-const { Item } = Form
 const [modal, contextHolder] = Modal.useModal()
 
 const props = defineProps<PostDetailProps>()
@@ -129,6 +135,11 @@ const formState: UnwrapRef<FormState> = reactive({
   data: getDefaultPost(),
   cloneData: getDefaultPost()
 })
+
+const formItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 14 }
+}
 
 const onSubmit = async () => {
   console.log('click onSubmit')
@@ -217,9 +228,10 @@ watch(
   .form-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
 
     .img-wrapper {
+      padding-left: 1rem;
+      margin-bottom: 1rem;
       > img {
         width: 180px;
         border: 1px solid $color-gray-5;
@@ -256,24 +268,24 @@ watch(
 
   :deep(.ant-form) {
     gap: 1rem;
-    .ant-form-item-label {
-      width: 55px;
-      padding: 0;
-      > label {
-        font-weight: 900;
-        font-size: 14px;
-      }
-      > label::after {
-        content: '';
-        position: relative;
-        margin-block: 0;
-        margin-inline-start: 7px;
-        margin-inline-end: 8px;
-        width: 1.5px;
-        height: 37%;
-        background: #d1d1d1;
-      }
-    }
+    // .ant-form-item-label {
+    //   width: 55px;
+    //   padding: 0;
+    //   > label {
+    //     font-weight: 900;
+    //     font-size: 14px;
+    //   }
+    //   > label::after {
+    //     content: '';
+    //     position: relative;
+    //     margin-block: 0;
+    //     margin-inline-start: 7px;
+    //     margin-inline-end: 8px;
+    //     width: 1.5px;
+    //     height: 37%;
+    //     background: #d1d1d1;
+    //   }
+    // }
 
     .ant-form-item {
       padding: 0;
