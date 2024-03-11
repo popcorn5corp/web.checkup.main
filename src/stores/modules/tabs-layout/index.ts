@@ -3,6 +3,7 @@ import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { LOGIN_NAME, PAGE_NOT_FOUND_NAME, REDIRECT_NAME } from '@/router/constant'
 import type { RouteItem, TabsLayoutState } from './types'
+import { PagePathEnum } from '@/constants/pageEnum'
 
 const blackList = [REDIRECT_NAME, LOGIN_NAME, PAGE_NOT_FOUND_NAME] as const
 
@@ -14,7 +15,6 @@ export const useTabsLayoutStore = defineStore('tabsLayout', () => {
 
   const getTabs = computed(() => state.tabs)
 
-  // action
   function initTabs(routes: RouteItem[]) {
     state.tabs = routes
   }
@@ -44,11 +44,24 @@ export const useTabsLayoutStore = defineStore('tabsLayout', () => {
     }
   }
 
+  function closeAll() {
+    state.tabs = []
+    router.push(PagePathEnum.BASE_HOME)
+  }
+
+  function closeOhters() {
+    state.tabs = state.tabs.filter((tab) => {
+      if (tab.fullPath === getCurrentTab()?.fullPath) return tab
+    })
+  }
+
   return {
     initTabs,
     getCurrentTab,
     getTabs,
     addTab,
-    closeCurrentTab
+    closeCurrentTab,
+    closeAll,
+    closeOhters
   }
 })

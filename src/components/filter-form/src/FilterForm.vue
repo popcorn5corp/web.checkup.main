@@ -32,15 +32,15 @@
 <script setup lang="ts" name="FilterForm">
 import { type Component, computed, ref, unref } from 'vue'
 import type { CSSProperties } from 'vue'
+import { useTheme } from '@/hooks/useTheme'
 import { Accordion } from '@/components/accordion'
 import { Button } from '@/components/button'
 import type { FilterFormProps, FilterUI } from '../types'
 import { Checkbox, DatePicker, Radio, RangeDatePicker, Select } from './components/filter-types'
-import { useTheme } from '@/hooks/useTheme'
 
 const emit = defineEmits(['close'])
 defineProps<FilterFormProps>()
-const { getTheme } = useTheme();
+const { getTheme } = useTheme()
 
 const isShow = ref(true)
 const containerStyles = computed<CSSProperties>(() => {

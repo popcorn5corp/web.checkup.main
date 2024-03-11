@@ -24,7 +24,7 @@ const props = defineProps<{
   colorPrimary: string
 }>()
 
-const { setTheme } = useTheme();
+const { setTheme } = useTheme()
 const getPrimaryColor = computed(() => {
   return themeColors.find((colorInfo) => props.colorPrimary === colorInfo.label).value
 })

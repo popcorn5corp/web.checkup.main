@@ -1,8 +1,8 @@
 # Workflow name
-name: "Chromatic Deployment"
+name: 'Chromatic Deployment'
 
 # Event for the workflow
-on: 
+on:
   push:
     branches: ['develop']
 

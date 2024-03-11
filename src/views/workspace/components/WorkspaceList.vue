@@ -3,6 +3,7 @@
     <div class="list-wrapper">
       <h1>{{ $t('page.workspace.listTitle') }}</h1>
       <p class="list-desc">{{ $t('page.workspace.listDesc') }}</p>
+
       <div class="list-box">
         <ul>
           <li
@@ -28,6 +29,7 @@
           </li>
         </ul>
       </div>
+
       <div class="invite-code-wrapper" @click="router.push({ name: 'workspace-invite' })">
         <div class="invite-text">
           <p>{{ $t('page.workspace.listInviteText') }}</p>
@@ -39,6 +41,7 @@
           <ArrowRightOutlined />
         </div>
       </div>
+
       <div class="check-wrapper">
         <span>
           <Checkbox v-model:checked="getUser.useDefaultWorkspace">
@@ -170,6 +173,7 @@ async function onSelectWorkspace(workspace: Workspace) {
     overflow-y: auto;
     border: 1px solid $color-gray-5;
     border-radius: 8px;
+
     ul {
       padding: 0;
     }

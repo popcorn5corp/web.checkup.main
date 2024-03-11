@@ -23,5 +23,9 @@ export default {
   },
   menu: {
     newWorkspace: 'New Workspace'
+  },
+  tabs: {
+    closeAll: 'Close all tabs',
+    closeAllOthers: 'Close all other tabs'
   }
 }

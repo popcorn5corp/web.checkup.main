@@ -12,7 +12,9 @@
           <template v-for="tag in tags" :key="tag">
             <div class="tag">
               <span class="text">{{ tag }}</span>
-              <span class="icon" @click="onRemove(tag)"><CloseOutlined /></span>
+              <span class="icon" @click="onRemove(tag)">
+                <CloseOutlined />
+              </span>
             </div>
           </template>
         </div>
@@ -50,7 +52,7 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
-const { getFormValues, getStepType, getWorkspace } = toRefs(workspaceStore)
+const { getFormValues, getStepType, getWorkspace, getWorkspaceId } = toRefs(workspaceStore)
 
 const props = defineProps({
   isShowDescription: {
@@ -112,7 +114,7 @@ const onManageUsersCheckEmail = async (emailValue: string) => {
     if (getWorkspace.value) {
       const {
         data: { exist }
-      } = await ManageUserService.checkDuplicatedEmail(getWorkspace.value.workspaceId, {
+      } = await ManageUserService.checkDuplicatedEmail(getWorkspaceId.value, {
         inviteEmail: emailValue
       })
       if (exist) {
@@ -170,10 +172,12 @@ defineExpose({
     margin-top: 5px;
     overflow-y: auto;
     cursor: text;
+
     .tags-wrapper {
       display: flex;
       flex-wrap: wrap;
       margin-bottom: 4px;
+
       .tag {
         display: flex;
         justify-content: space-between;
@@ -189,6 +193,7 @@ defineExpose({
         font-weight: 400;
         font-size: 15px;
         gap: 2px;
+
         .icon {
           color: rgba(0, 0, 0, 0.45);
           font-size: 13px;
@@ -197,14 +202,17 @@ defineExpose({
         }
       }
     }
+
     .input-wrapper {
       flex: none;
       align-self: center;
       width: 100%;
+
       .input-box {
         display: inline-flex;
         position: relative;
         width: 100%;
+
         .input {
           width: 100%;
           height: 24px;
@@ -220,9 +228,11 @@ defineExpose({
       }
     }
   }
+
   .jump-wrapper {
     text-align: right;
     margin-top: 8px;
+
     .jump {
       font-size: 15px;
       color: $color-gray-7;

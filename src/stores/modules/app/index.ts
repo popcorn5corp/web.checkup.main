@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref, unref, watch, toRefs } from 'vue'
+import { computed, ref, toRefs, unref, watch } from 'vue'
 import { useTheme } from '@/hooks/useTheme'
 import { DeviceEnum } from '@/constants/appKey'
 

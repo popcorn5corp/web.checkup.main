@@ -19,7 +19,7 @@
         </a-col>
       </a-row>
     </template>
-    <a-table :columns="(columns as any)" :data-source="data" :pagination="false">
+    <a-table :columns="columns as any" :data-source="data" :pagination="false">
       <!-- <a-space slot="members" slot-scope="members" :size="-12" class="avatar-chips">
         <img v-for="member in members" :key="member" size="small" src="/public/images/face-1.jpg" />
       </a-space> -->

@@ -13,15 +13,15 @@ $darkmode-color-text-sub: $color-text-50;
 $darkmode-color-border: $border-color;
 
 html[data-theme='semiDark'] {
-   .menu-container {
-      .menu-header .user-preview .info {
-         .name {
-           color: $darkmode-color-text;
-         }
-     
-         .email {
-           color: $darkmode-color-text-sub !important;
-         }
-       }
-   }
+  .menu-container {
+    .menu-header .user-preview .info {
+      .name {
+        color: $darkmode-color-text;
+      }
+
+      .email {
+        color: $darkmode-color-text-sub !important;
+      }
+    }
+  }
 }

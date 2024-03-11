@@ -52,9 +52,9 @@
 
 <script lang="ts" setup name="ThemeToggle">
 import { computed, unref } from 'vue'
-import type { ThemeName } from '@/config/default/themeConfig'
+import { useSettingStore } from '@/stores/modules/setting'
 import { useTheme } from '@/hooks/useTheme'
-import { useSettingStore } from '@/stores/modules/setting';
+import type { ThemeName } from '@/config/default/themeConfig'
 
 const { setThemeName } = useSettingStore()
 const { getTheme } = useTheme()

@@ -1,11 +1,11 @@
 <script setup lang="ts" name="CircularMenu">
 import { computed, onMounted, unref } from 'vue'
 import { useTheme } from '@/hooks/useTheme'
-import { useTour } from '@/components/tour/hooks/useTour'
+// import { useTour } from '@/components/tour/hooks/useTour'
 
 const { getTheme } = useTheme()
 const circularMenuColor = computed(() => unref(getTheme).primaryColor)
-const tour = useTour()
+// const tour = useTour()
 
 onMounted(() => {
   setTimeout(() => {
@@ -120,7 +120,9 @@ onMounted(() => {
   text-align: center;
   line-height: 3;
   background-color: hsla(0, 0%, 0%, 0.1);
-  transition: transform 0.3s ease, background 0.2s ease;
+  transition:
+    transform 0.3s ease,
+    background 0.2s ease;
 }
 
 .circular-menu .menu-item:hover {

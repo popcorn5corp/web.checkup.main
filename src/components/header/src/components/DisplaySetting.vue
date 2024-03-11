@@ -50,16 +50,16 @@
 <script setup lang="ts" name="DisplaySetting">
 import { Descriptions, Tag, Tooltip } from 'ant-design-vue'
 import { useAppStore } from '@/stores/modules/app'
+import { useSettingStore } from '@/stores/modules/setting'
 import { useTheme } from '@/hooks/useTheme'
 import { menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'
-import { useSettingStore } from '@/stores/modules/setting'
+
 // // TODO
 // import { useDevice } from '@/hooks/useDevice'
 
 const { getSettings } = useAppStore()
 const { setThemeName, setPrimaryColor, setMenuPosition } = useSettingStore()
 const { getTheme } = useTheme()
-
 </script>
 <style lang="scss" scoped>
 .check-item {
@@ -74,11 +74,13 @@ const { getTheme } = useTheme()
     color: $color-gray-7;
   }
 }
+
 :deep(.ant-descriptions-row) {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
+
 :deep(.ant-descriptions-item.margin) {
   margin-right: 15px;
 }

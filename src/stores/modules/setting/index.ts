@@ -1,26 +1,23 @@
 import type { MenuTheme } from 'ant-design-vue'
 import { defineStore, storeToRefs } from 'pinia'
+import { unref } from 'vue'
+import { useAppStore } from '@/stores/modules/app'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { useTheme } from '@/hooks/useTheme'
+import { DEFAULT_THEME_NAME } from '@/config/default/themeConfig'
 import type { WorkspaceSettings } from '../workspace/types'
-import { unref } from 'vue';
-import {
-  DEFAULT_THEME_NAME
-} from '@/config/default/themeConfig'
-import { useAppStore } from '@/stores/modules/app';
-import { useTheme } from '@/hooks/useTheme';
 
 type DefaultThemeName = typeof DEFAULT_THEME_NAME
 export type ThemeName = DefaultThemeName | 'semiDark' | 'dark'
 export type MenuThemeName = MenuTheme
 export type MenuPosition = 'side' | 'top'
 
-
 export const useSettingStore = defineStore('setting', () => {
   const appStore = useAppStore()
   const workspaceStore = useWorkspaceStore()
 
   const { setCollapse } = appStore
-  const { getCollapse } = storeToRefs(appStore);
+  const { getCollapse } = storeToRefs(appStore)
   const { getWorkspace, getSettings } = storeToRefs(workspaceStore)
   const { setTheme, setHtmlDataTheme } = useTheme()
 
