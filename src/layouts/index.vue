@@ -7,7 +7,7 @@
 <script setup lang="ts" name="Layout">
 import { type Component, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { type LayoutType, layoutTypes } from '@/stores/interface'
+import { type LayoutType, layoutTypes } from '@/config/default/themeConfig'
 import LayoutDefault from './default/index.vue'
 import LayoutPure from './pure/index.vue'
 

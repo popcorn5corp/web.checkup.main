@@ -30,22 +30,21 @@
   </div>
 </template>
 <script setup lang="ts" name="FilterForm">
-import { type Component, computed, ref } from 'vue'
+import { type Component, computed, ref, unref } from 'vue'
 import type { CSSProperties } from 'vue'
-import { useProjectConfigStore } from '@/stores/modules/projectConfig'
 import { Accordion } from '@/components/accordion'
 import { Button } from '@/components/button'
 import type { FilterFormProps, FilterUI } from '../types'
 import { Checkbox, DatePicker, Radio, RangeDatePicker, Select } from './components/filter-types'
+import { useTheme } from '@/hooks/useTheme'
 
 const emit = defineEmits(['close'])
 defineProps<FilterFormProps>()
-const {
-  config: { theme }
-} = useProjectConfigStore()
+const { getTheme } = useTheme();
+
 const isShow = ref(true)
 const containerStyles = computed<CSSProperties>(() => {
-  const color = theme.isRealDarkTheme ? '#434343' : '#fafafa'
+  const color = unref(getTheme).isDark ? '#434343' : '#fafafa'
 
   return {
     borderLeft: `thick double ${color}`

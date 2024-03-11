@@ -8,6 +8,8 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, USER_INFO_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
 import type { AuthState, IUser } from './types'
+import { useLocale } from '@/locales/hooks/useLocale'
+import { locales } from '@/helpers/localeHelper'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -19,6 +21,8 @@ export const useAuthStore = defineStore(
       loading: false
     })
     const { setSelectedWorkspaceId } = useWorkspaceStore()
+    const { setLocale } = useLocale();
+
     const getUser = computed(() => state.user)
     const getToken = computed(() => state.token)
     const getLoggedIn = computed(() => state.loggedIn)
@@ -195,11 +199,12 @@ export const useAuthStore = defineStore(
       })
     }
 
-    function logout(goLogin = true) {
+    async function logout(goLogin = true) {
       Util.Storage.clear()
       state.loggedIn = false
       state.token = ''
       state.user = getDefaultUser()
+      setLocale(locales.browserLanguage)
       goLogin && router.push(PagePathEnum.BASE_LOGIN)
     }
 

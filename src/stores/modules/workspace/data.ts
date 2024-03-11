@@ -1,13 +1,8 @@
 import { defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
-import {
-  DEFAULT_FONT_SIZE,
-  DEFAULT_MENU_POSITION,
-  DEFAULT_MENU_THEME_NAME,
-  DEFAULT_PRIMARY_COLOR,
-  DEFAULT_THEME_NAME
-} from '@/config/default/themeConfig'
+import * as themeConfig from '@/config/default/themeConfig'
 import type {
+  UserWorkspace,
   WorkspaceFormValues,
   WorkspaceSettings,
   WorkspaceStep,
@@ -131,7 +126,33 @@ export function getDefaultFormValues(): WorkspaceFormValues {
   }
 }
 
+export function getDefaultWorkspace(): UserWorkspace {
+  return {
+    workspaceId: null,
+    workspaceName: '',
+    user: {
+      workspaceUserId: null,
+      email: '',
+      nickname: '',
+      profile: '',
+      status: {
+        label: '',
+        value: 'ACTIVE'
+      }
+    },
+    settings: getDefaultWorkspaceSettings()
+  }
+}
+
 export function getDefaultWorkspaceSettings(): WorkspaceSettings {
+  const {
+    DEFAULT_FONT_SIZE,
+    DEFAULT_MENU_POSITION,
+    DEFAULT_MENU_THEME_NAME,
+    DEFAULT_PRIMARY_COLOR,
+    DEFAULT_THEME_NAME
+  } = themeConfig
+
   return {
     account: {},
     alarm: {},

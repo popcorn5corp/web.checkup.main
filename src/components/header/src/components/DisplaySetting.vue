@@ -52,18 +52,14 @@ import { Descriptions, Tag, Tooltip } from 'ant-design-vue'
 import { useAppStore } from '@/stores/modules/app'
 import { useTheme } from '@/hooks/useTheme'
 import { menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'
+import { useSettingStore } from '@/stores/modules/setting'
+// // TODO
+// import { useDevice } from '@/hooks/useDevice'
 
-const { getTheme, setThemeName, setMenuPosition, setPrimaryColor } = useTheme()
 const { getSettings } = useAppStore()
+const { setThemeName, setPrimaryColor, setMenuPosition } = useSettingStore()
+const { getTheme } = useTheme()
 
-// function setNavTheme(themeName: ThemeConfig['navTheme']) {
-//   console.log('themeName', themeName)
-//   // setTheme({ navTheme: themeName })
-//   // setTheme({ isRealDarkTheme: themeName === 'realDark' })
-//   // setRealDarkTheme(themeName)
-
-//   setThemeName(themeName)
-// }
 </script>
 <style lang="scss" scoped>
 .check-item {

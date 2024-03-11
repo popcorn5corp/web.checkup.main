@@ -1,12 +1,14 @@
 import { defineStore } from 'pinia'
-import { computed, ref, unref, watch } from 'vue'
+import { computed, ref, unref, watch, toRefs } from 'vue'
 import { useTheme } from '@/hooks/useTheme'
+import { DeviceEnum } from '@/constants/appKey'
 
 interface AppStoreState {
   title: string
   isCollapse: boolean
   logoFileName: string
   isMobile: boolean
+  device: DeviceEnum
 }
 
 export const useAppStore = defineStore('app', () => {
@@ -14,10 +16,14 @@ export const useAppStore = defineStore('app', () => {
     title: 'checkup',
     isCollapse: false,
     logoFileName: '',
-    isMobile: false
+    isMobile: false,
+    device: DeviceEnum.Desktop
   })
 
+  const device = ref<DeviceEnum>(DeviceEnum.Desktop)
+
   const getSettings = computed(() => settings.value)
+  const getCollapse = computed(() => settings.value.isCollapse)
 
   const { getTheme } = useTheme()
 
@@ -48,7 +54,9 @@ export const useAppStore = defineStore('app', () => {
   }
 
   return {
+    device,
     getSettings,
+    getCollapse,
     setLogo,
     setCollapse,
     setMobile

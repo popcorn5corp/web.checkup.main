@@ -52,10 +52,12 @@
 
 <script lang="ts" setup name="ThemeToggle">
 import { computed, unref } from 'vue'
-import type { ThemeName } from '@/stores/interface'
+import type { ThemeName } from '@/config/default/themeConfig'
 import { useTheme } from '@/hooks/useTheme'
+import { useSettingStore } from '@/stores/modules/setting';
 
-const { getTheme, setThemeName, setHtmlDataTheme } = useTheme()
+const { setThemeName } = useSettingStore()
+const { getTheme } = useTheme()
 const isDark = computed({
   get() {
     return unref(getTheme).isDark
@@ -63,7 +65,6 @@ const isDark = computed({
   set(newVal) {
     const themeName: ThemeName = newVal ? 'dark' : 'light'
     setThemeName(themeName)
-    setHtmlDataTheme(themeName)
   }
 })
 </script>

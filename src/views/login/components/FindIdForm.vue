@@ -1,12 +1,12 @@
 <template>
   <div class="find-id-form-container">
     <template v-if="!isSuccessFindId">
-      <RadioGroup class="radio-wrapper" v-model:value="authenticationType" size="large">
+      <!-- <RadioGroup class="radio-wrapper" v-model:value="authenticationType" size="large">
         <Radio :value="IAuth.authenticationTypes.PHONE">{{ $t('page.login.authPhone') }}</Radio>
         <Radio :value="IAuth.authenticationTypes.EMAIL" disabled>
           {{ $t('page.login.authEmail') }}
         </Radio>
-      </RadioGroup>
+      </RadioGroup> -->
       <Form :model="formData" @finish="onFindId">
         <FormItem name="userName">
           <Input
@@ -20,8 +20,8 @@
           </div>
         </FormItem>
         <div class="certification-wrapper">
-          <template v-if="authenticationType === 'EMAIL'">
-            <!-- email로 인증 -->
+          <!-- email로 인증 -->
+          <!-- <template v-if="authenticationType === 'EMAIL'">
             <FormItem name="email">
               <div class="input-wrapper">
                 <Input
@@ -45,8 +45,8 @@
                 {{ $t('message.validate.checkEmail') }}
               </div>
             </FormItem>
-          </template>
-          <template v-else>
+          </template> -->
+          <template v-if="authenticationType === 'PHONE'">
             <!-- phone으로 인증 -->
             <FormItem name="phone">
               <div class="input-wrapper">
@@ -444,14 +444,17 @@ watch(
 .success-wrapper {
   p {
     font-size: 15px;
-    margin: 2rem 0;
+    margin: 1rem 0;
   }
   .id-wrapper {
     font-size: 15px;
     margin: 30px 0;
     border: 1px solid $color-gray-5;
     border-radius: 8px;
-    padding: 20px;
+    padding: 8px;
+
+    height: 200px;
+    overflow-y: scroll;
   }
 }
 </style>

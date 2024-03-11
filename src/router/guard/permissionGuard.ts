@@ -39,7 +39,7 @@ export function createPermissionGuard(router: Router) {
     }
 
     // 워크스페이지가 존재하지 않을 경우, 워크스페이스 정보를 조회
-    if (unref(getWorkspaceId) && !unref(getWorkspace)) {
+    if (unref(getWorkspaceId) && !unref(getWorkspace).workspaceId) {
       await getUserWorkspace()
     }
 

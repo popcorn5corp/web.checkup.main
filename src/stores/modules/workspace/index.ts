@@ -10,15 +10,14 @@ import { useTheme } from '@/hooks/useTheme'
 import { useLocale } from '@/locales/hooks/useLocale'
 import { WORKSPACE_ID_KEY, WORKSPACE_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
-import { getDefaultWorkspaceSettings, getStepsInfo } from './data'
+import { getDefaultWorkspace, getStepsInfo } from './data'
 import { getDefaultFormValues } from './data'
 import type {
-  IMenu,
   JoinParamValues,
   UserWorkspace,
   WorkspaceSettings,
   WorkspaceState,
-  WorkspaceStepType
+  WorkspaceStepType,
 } from './types'
 
 const FIRST_STEP_COUNT = 1 as const
@@ -26,7 +25,7 @@ const FIRST_STEP_COUNT = 1 as const
 export const useWorkspaceStore = defineStore('workspace', () => {
   const router = useRouter()
   const { setLocale } = useLocale()
-  const { setHtmlDataTheme } = useTheme()
+  const { setHtmlDataTheme, setInitTheme } = useTheme()
   const state = reactive<WorkspaceState>({
     stepType: null, // 'create' | 'invite' | null
     currentStep: FIRST_STEP_COUNT, // 현재 step
@@ -39,14 +38,14 @@ export const useWorkspaceStore = defineStore('workspace', () => {
       workspaceName: '' // 워크스페이스 이름
     },
     selectedWorkspaceId: Util.Storage.get(WORKSPACE_ID_KEY),
-    workspace: null,
-    settings: getDefaultWorkspaceSettings(),
+    workspace: getDefaultWorkspace(),
+    // settings: getDefaultWorkspaceSettings(),
     isCompleteWorkspaceLoad: false,
     menus: []
   })
 
   const getWorkspace = computed(() => state.workspace)
-  const getSettings = computed(() => state.settings)
+  const getSettings = computed(() => state.workspace.settings)
   const getMenus = computed(() => state.menus)
 
   const getStepType = computed(() => state.stepType)
@@ -82,12 +81,10 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     state.stepType = setpType
   }
 
-  function setWorkspace(params: Partial<UserWorkspace>) {
+  function setWorkspace(workspace: UserWorkspace) {
     state.workspace = {
-      ...state.workspace,
-      ...params
-    } as UserWorkspace
-
+      ...workspace
+    }
     Util.Storage.set(WORKSPACE_KEY, state.workspace)
   }
 
@@ -173,13 +170,13 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     return new Promise(async (resolve, reject) => {
       try {
         const {
-          settings: { display, language }
+          settings: { language }
         } = workspace
 
-        setWorkspace(workspace)
-        setHtmlDataTheme(display.themeName)
-        await setLocale(language.language)
         await getWorkspaceMenu()
+        setWorkspace(workspace)
+        setInitTheme(workspace.settings)
+        setLocale(language.language)
 
         resolve()
       } catch (error) {
@@ -218,11 +215,10 @@ export const useWorkspaceStore = defineStore('workspace', () => {
 
         if (!success) reject()
 
-        setWorkspace({
-          settings
-        })
+        state.workspace.settings = {
+          ...data
+        }
 
-        state.settings = data
         resolve()
       } catch (error) {
         reject(error)
@@ -235,7 +231,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
   }
 
   function initWorkspace() {
-    state.workspace = null
+    state.workspace = getDefaultWorkspace()
     Util.Storage.remove(WORKSPACE_ID_KEY)
   }
 

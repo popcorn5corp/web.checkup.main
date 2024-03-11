@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<Props>(), {})
   font-size: 2rem;
   font-weight: 600;
   color: #121212;
-  margin: 3rem;
+  margin: 2rem;
 }
 
 // transition

@@ -32,6 +32,7 @@
 <script setup lang="ts" name="InviteCodeForm">
 import { WorkspaceService } from '@/services'
 import { CheckOutlined } from '@ant-design/icons-vue'
+import { Input } from 'ant-design-vue'
 import { ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
