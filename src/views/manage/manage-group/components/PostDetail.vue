@@ -1,10 +1,12 @@
 <template>
   <div class="post-detail">
-    <Form class="post-detail-read" v-if="!isEdit" layout="horizontal">
+    <Form class="post-detail-read" v-if="!isEdit" layout="horizontal" v-bind="formItemLayout">
       <div>
-        <Item :label="t('page.manage.groupTitle')">{{ formState.post?.name ?? '-' }}</Item>
+        <FormItem :label="t('page.manage.groupTitle')">{{ formState.post?.name ?? '-' }}</FormItem>
 
-        <Item :label="t('page.manage.groupContent')">{{ formState.post?.content ?? '-' }}</Item>
+        <FormItem :label="t('page.manage.groupContent')">{{
+          formState.post?.content ?? '-'
+        }}</FormItem>
       </div>
 
       <a-dropdown v-model:open="isDropdown" :trigger="['click']" placement="bottomRight">
@@ -27,12 +29,12 @@
     </Form>
 
     <Form v-else layout="horizontal" :model="formState">
-      <Item>
+      <FormItem>
         <Input v-model:value="formState.clonePost.name" :label="t('page.manage.groupTitle')" />
-      </Item>
-      <Item>
+      </FormItem>
+      <FormItem>
         <Input v-model:value="formState.clonePost.content" :label="t('page.manage.groupContent')" />
-      </Item>
+      </FormItem>
 
       <div class="btn-wrapper">
         <Button @click="initState"><CloseOutlined /></Button>
@@ -47,14 +49,13 @@
 
 <script setup lang="ts" name="PostDetail">
 import { ManageGroupService } from '@/services'
-import { Form } from 'ant-design-vue'
-import { Modal } from 'ant-design-vue'
-import { message } from 'ant-design-vue'
+import { Modal, message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { IManageGroup } from '@/services/manage-group/types'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { Form, FormItem } from '@/components/form'
 import {
   CheckOutlined,
   CloseOutlined,
@@ -79,7 +80,6 @@ interface FormState {
 const props = defineProps<PostDetailProps>()
 const emit = defineEmits(['reload', 'close'])
 
-const { Item } = Form
 const { getWorkspaceId } = useWorkspaceStore()
 const [modal, contextHolder] = Modal.useModal()
 
@@ -102,6 +102,11 @@ const formState: UnwrapRef<FormState> = reactive({
   post: defaultFormState,
   clonePost: defaultFormState
 })
+
+const formItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 14 }
+}
 
 ;(() => {
   formState.post = {
@@ -209,24 +214,24 @@ const showDeleteConfirm = () => {
   :deep(.ant-form) {
     padding: 16px 16px;
 
-    .ant-form-item-label {
-      width: 70px;
-      padding: 0;
-      > label {
-        font-weight: 900;
-        font-size: 14px;
-      }
-      > label::after {
-        content: '';
-        position: relative;
-        margin-block: 0;
-        margin-inline-start: 7px;
-        margin-inline-end: 8px;
-        width: 1.5px;
-        height: 37%;
-        background: #d1d1d1;
-      }
-    }
+    // .ant-form-item-label {
+    //   width: 70px;
+    //   padding: 0;
+    //   > label {
+    //     font-weight: 900;
+    //     font-size: 14px;
+    //   }
+    //   > label::after {
+    //     content: '';
+    //     position: relative;
+    //     margin-block: 0;
+    //     margin-inline-start: 7px;
+    //     margin-inline-end: 8px;
+    //     width: 1.5px;
+    //     height: 37%;
+    //     background: #d1d1d1;
+    //   }
+    // }
 
     .btn-wrapper {
       justify-content: flex-end;

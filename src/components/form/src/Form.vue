@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <Form v-bind="{ ...props }">
+    <Form v-bind="{ ...props }" layout="vertical">
       <slot />
     </Form>
   </div>
@@ -12,3 +12,5 @@ import type { FormProps } from '../types'
 
 const props = defineProps<FormProps>()
 </script>
+
+<style lang="scss" scoped></style>
