@@ -1,7 +1,7 @@
 <template>
   <Form
-    :model="formState"
     v-bind="formItemLayout"
+    :model="formState"
     @finishFailed="onFinishFailed"
     @finish="onFinish"
     @submit="onSubmit"
@@ -133,6 +133,7 @@ import { reactive } from 'vue'
 import { Button } from '@/components/button'
 import { Form, FormItem } from '@/components/form'
 
+// 보기모드 일 때
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 14 }

@@ -46,6 +46,12 @@ import { Button } from '@/components/button'
 import { Form, FormItem } from '@/components/form'
 import { LockOutlined, UserOutlined } from '@/components/icons'
 
+// 보기모드 일 때
+// const formItemLayout = {
+//   labelCol: { span: 6 },
+//   wrapperCol: { span: 14 }
+// }
+
 const formState = reactive<Record<string, any>>({
   'input-number': 3,
   'checkbox-group': ['A', 'B', 'C'],
