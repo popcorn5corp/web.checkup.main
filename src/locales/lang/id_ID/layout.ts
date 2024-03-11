@@ -23,5 +23,9 @@ export default {
   },
   menu: {
     newProject: 'Buat Proyek Baru'
+  },
+  tabs: {
+    closeAll: 'Close all tabs',
+    closeAllOthers: 'Close all other tabs'
   }
 }

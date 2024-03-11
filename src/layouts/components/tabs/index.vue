@@ -16,6 +16,10 @@
           </span>
         </template>
       </TabPane>
+
+      <template #rightExtra>
+        <TabOptionButton />
+      </template>
     </Tabs>
     <!-- <div class="tabs-content">
       <router-view v-slot="{ Component }">
@@ -42,10 +46,11 @@ import { Tabs } from 'ant-design-vue'
 import Sortable from 'sortablejs'
 import { type CSSProperties, computed, onMounted, onUnmounted, ref, unref, watch } from 'vue'
 import { type RouteLocationNormalized, useRoute } from 'vue-router'
-import type { RouteItem } from '@/stores/interface'
 import { useTabsLayoutStore } from '@/stores/modules/tabs-layout'
+import type { RouteItem } from '@/stores/modules/tabs-layout/types'
 import { useTheme } from '@/hooks/useTheme'
 import { TABS_ROUTES_KEY } from '@/constants/cacheKeyEnum'
+import TabOptionButton from './components/TabOptionButton.vue'
 
 const { TabPane } = Tabs
 const { Storage } = Util
@@ -133,6 +138,7 @@ onUnmounted(() => {
   :deep(.ant-tabs) {
     &.ant-tabs-top {
       border-radius: 0;
+      border: 1px solid rgba(5, 5, 5, 0.06);
 
       .ant-tabs-nav {
         margin: 0;
@@ -171,7 +177,7 @@ onUnmounted(() => {
 
           &:hover {
             .anticon-close {
-              width: 16px;
+              width: 20px;
               visibility: visible;
               padding-left: 6px;
             }
@@ -186,6 +192,18 @@ onUnmounted(() => {
 
         .ant-tabs-tab-active {
           border-top: 2px solid v-bind(activeTabBorderColor);
+        }
+
+        .ant-tabs-extra-content {
+          .option-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 43px;
+            cursor: pointer;
+            border-left: 1px solid rgba(5, 5, 5, 0.06);
+            height: 35px;
+          }
         }
       }
     }

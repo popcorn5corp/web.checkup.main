@@ -23,5 +23,9 @@ export default {
   },
   menu: {
     newWorkspace: '새 워크스페이스 생성'
+  },
+  tabs: {
+    closeAll: '탭 모두 닫기',
+    closeAllOthers: '다른 탭 모두 닫기'
   }
 }

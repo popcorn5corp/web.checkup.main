@@ -5,11 +5,11 @@ import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 import type { IAuth } from '@/services/auth/types'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+import { locales } from '@/helpers/localeHelper'
+import { useLocale } from '@/locales/hooks/useLocale'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, USER_INFO_KEY } from '@/constants/cacheKeyEnum'
 import { PagePathEnum } from '@/constants/pageEnum'
 import type { AuthState, IUser } from './types'
-import { useLocale } from '@/locales/hooks/useLocale'
-import { locales } from '@/helpers/localeHelper'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -21,7 +21,7 @@ export const useAuthStore = defineStore(
       loading: false
     })
     const { setSelectedWorkspaceId } = useWorkspaceStore()
-    const { setLocale } = useLocale();
+    const { setLocale } = useLocale()
 
     const getUser = computed(() => state.user)
     const getToken = computed(() => state.token)

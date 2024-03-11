@@ -1,6 +1,7 @@
 import i18n from '@/locales'
-const { t } = i18n.global
 import type { MenuTheme } from 'ant-design-vue'
+
+const { t } = i18n.global
 
 // export type LayoutType = 'default' | 'vertical' | 'transverse' | 'columns'
 export type AssemblySizeType = 'large' | 'default' | 'small'
@@ -26,7 +27,6 @@ export const menuPositions = {
   top: 'top'
 } as const
 
-
 export const DEFAULT_PRIMARY_COLOR = 'rgba(24, 144, 255, 1)' // '#1890ff'
 export const DEFAULT_FONT_SIZE = 13
 export const DEFAULT_THEME_NAME = 'light'
@@ -36,15 +36,15 @@ export const DEFAULT_MENU_THEME_NAME = 'light'
 type DefaultThemeName = typeof DEFAULT_THEME_NAME
 export type ThemeName = DefaultThemeName | 'semiDark' | 'dark'
 export type LayoutType = (typeof layoutTypes)[keyof typeof layoutTypes]
-export type ThemeName = (typeof themeNames)[keyof typeof themeNames]
+// export type ThemeName = (typeof themeNames)[keyof typeof themeNames]
 export type LayoutFontSize = (typeof layoutFontSizes)[keyof typeof layoutFontSizes]
 export type MenuPosition = (typeof menuPositions)[keyof typeof menuPositions]
-export type MenuThemeName = MenuTheme;
+export type MenuThemeName = MenuTheme
 
 export enum ThemeEnum {
   LIGHT = 'light',
   SEMI_DARK = 'semiDark',
-  DARK = 'dark',
+  DARK = 'dark'
 }
 
 export const themeStyle: ReadonlyArray<LabelValue<ThemeName>> = [

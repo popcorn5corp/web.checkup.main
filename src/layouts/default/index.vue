@@ -56,7 +56,7 @@
 
         <Divider />
 
-        <div class="content-start" :class="[$route.name as string + '-content']">
+        <div class="content-start" :class="[($route.name as string) + '-content']">
           <slot></slot>
           <!-- <div class="layer">상세영역</div> -->
         </div>
@@ -73,10 +73,12 @@
   </Layout>
 </template>
 <script setup lang="ts" name="LayoutDefault">
+import LayoutTabs from '@/layouts/components/tabs/index.vue'
 import { Divider, Layout } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
 import { type CSSProperties, computed, onMounted, ref, unref, watch } from 'vue'
 import { useAppStore } from '@/stores/modules/app'
+import { useSettingStore } from '@/stores/modules/setting'
 import { useTourStore } from '@/stores/modules/tour'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { useTheme } from '@/hooks/useTheme'
@@ -86,10 +88,10 @@ import { Menu as AsideMenu } from '@/components/menu'
 import { Tour } from '@/components/tour'
 import { useTour } from '@/components/tour/hooks/useTour'
 import { TOUR_TYPE } from '@/components/tour/types'
-import LayoutTabs from '../components/LayoutTabs.vue'
 import CircularMenu from './components/CircularMenu.vue'
 
-const { getTheme, setMenuPosition } = useTheme()
+const { setMenuPosition } = useSettingStore()
+const { getTheme } = useTheme()
 const { getSettings } = storeToRefs(useAppStore())
 const { setMobile } = useAppStore()
 const { getMenus } = storeToRefs(useWorkspaceStore())
@@ -198,14 +200,17 @@ onMounted(() => {
 <style lang="scss" scoped>
 $header-height: 55px;
 $tab-margin-top: 2px;
+
 .layout-default {
   display: flex;
   height: 100vh;
+
   // overflow: hidden;
   .layout-sider {
     position: fixed;
     z-index: 998;
     height: 100%;
+
     .ant-menu-root {
       padding-bottom: 30px;
     }
@@ -219,20 +224,24 @@ $tab-margin-top: 2px;
       width: v-bind('logoStyles.img.width');
     }
   }
+
   .layout-main {
     width: v-bind('mainStyles.size.width');
     margin-left: v-bind('mainStyles.size.marginLeft');
     overflow: auto;
   }
+
   .layout-header {
     height: $header-height;
     overflow-x: auto;
     overflow-y: hidden;
     z-index: 99;
+
     .header-menu {
       min-width: 105px;
     }
   }
+
   :deep(.tabs-container) {
     position: sticky;
     top: $header-height + $tab-margin-top - 2px;
@@ -261,8 +270,10 @@ $tab-margin-top: 2px;
       .layer {
         width: 500px;
         background-color: rgb(247, 247, 242);
-        position: absolute; /* Layer를 절대 위치로 설정하여 content-start 영역에 상대적으로 배치합니다. */
-        right: 0; /* Layer를 content-start 영역의 오른쪽 끝에 배치합니다. */
+        position: absolute;
+        /* Layer를 절대 위치로 설정하여 content-start 영역에 상대적으로 배치합니다. */
+        right: 0;
+        /* Layer를 content-start 영역의 오른쪽 끝에 배치합니다. */
         top: 0;
         z-index: 10;
         height: 100%;

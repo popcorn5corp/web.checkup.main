@@ -3,9 +3,9 @@
  *
  *  Light Mode (default) styles.
  *  ======================================================================== */
- .custom-input-container > .custom-input.active ~ label,
- .custom-select-container > .custom-select.active ~ label {
-   background-color: $color-white;
+.custom-input-container > .custom-input.active ~ label,
+.custom-select-container > .custom-select.active ~ label {
+  background-color: $color-white;
 }
 
 .layout-default {

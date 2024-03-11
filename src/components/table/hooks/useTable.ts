@@ -255,9 +255,9 @@ export const useTable = (
       state.sorter = Util.Is.isArray(sorter)
         ? sorter
         : // @ts-ignore
-        !(sorter as TableSorter).column
-        ? []
-        : [sorter]
+          !(sorter as TableSorter).column
+          ? []
+          : [sorter]
     }
 
     await fetchDataSource()

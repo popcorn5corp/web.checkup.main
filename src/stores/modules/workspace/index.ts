@@ -17,7 +17,7 @@ import type {
   UserWorkspace,
   WorkspaceSettings,
   WorkspaceState,
-  WorkspaceStepType,
+  WorkspaceStepType
 } from './types'
 
 const FIRST_STEP_COUNT = 1 as const
@@ -25,7 +25,7 @@ const FIRST_STEP_COUNT = 1 as const
 export const useWorkspaceStore = defineStore('workspace', () => {
   const router = useRouter()
   const { setLocale } = useLocale()
-  const { setHtmlDataTheme, setInitTheme } = useTheme()
+  const { setInitTheme } = useTheme()
   const state = reactive<WorkspaceState>({
     stepType: null, // 'create' | 'invite' | null
     currentStep: FIRST_STEP_COUNT, // 현재 step

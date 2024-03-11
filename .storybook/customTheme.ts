@@ -1,4 +1,4 @@
-import { create } from '@storybook/theming/create';
+import { create } from '@storybook/theming/create'
 // import logoUrl from './public/logo.svg'
 
 export default create({
@@ -7,5 +7,5 @@ export default create({
   brandUrl: 'https://www.checkupweb.co.kr/',
   brandImage: 'https://pds.saramin.co.kr/company/logo/202206/21/rdtaww_5i2f-3xwiqk_logo.png',
   // brandImage: logoUrl,
-  brandTarget: '_self',
-});
+  brandTarget: '_self'
+})

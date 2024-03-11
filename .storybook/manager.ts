@@ -1,7 +1,7 @@
-import { addons } from '@storybook/manager-api';
-import themes from './customTheme'; 
+import { addons } from '@storybook/manager-api'
+import themes from './customTheme'
 // import { themes } from '@storybook/theming';
 
 addons.setConfig({
   theme: themes
-});
+})
