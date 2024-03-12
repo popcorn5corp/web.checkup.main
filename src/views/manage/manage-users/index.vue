@@ -44,13 +44,12 @@
         <div class="detail-contents">
           <PostDetail ref="postDetailRef" :data="selectedUserDetailData" />
           <a-tabs
-            v-model:active-key="activeKey"
             :destroyInactiveTabPane="true"
             :tabBarGutter="70"
             :tabBarStyle="{ padding: '0 10%', display: 'flex' }"
           >
-            <a-tab-pane v-for="(tab, index) in tabInfo" :key="tab.key" :tab="tab.title">
-              <component :is="tab.component" :workspaceUserId="selectedWSUserId" />
+            <a-tab-pane key="History" :tab="t('page.manage.history')">
+              <UserTimeline :workspaceUserId="selectedWSUserId" />
             </a-tab-pane>
           </a-tabs>
         </div>
@@ -81,31 +80,24 @@ import { ManageUserService } from '@/services'
 import { message, Modal as modal } from 'ant-design-vue'
 import { createVNode, defineAsyncComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+
 import type { IManageUser } from '@/services/manage-users/types'
+
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+
 import InviteMemberForm from '@/views/workspace/components/create/InviteMemberForm.vue'
+
 import { DrawerContainer } from '@/components/drawer-container'
 import { DynamicTable } from '@/components/dynamic-table'
 import { QuestionCircleTwoTone, UserAddOutlined } from '@/components/icons'
 import { Modal } from '@/components/modal'
+
 import PostDetail from './components/PostDetail.vue'
+import UserTimeline from './components/UserTimeline.vue'
 import { getDefaultPost } from './constant'
 import { columns } from './mock'
 
 const { t } = useI18n()
-
-const tabInfo = {
-  Detail: {
-    key: 'Detail',
-    title: t('common.detail'),
-    component: defineAsyncComponent(() => import('./components/UserDetail.vue'))
-  },
-  History: {
-    key: 'History',
-    title: t('page.manage.history'),
-    component: defineAsyncComponent(() => import('./components/UserTimeline.vue'))
-  }
-}
 
 const { getWorkspaceId } = useWorkspaceStore()
 const selectedUserDetailData = ref(getDefaultPost())
@@ -116,7 +108,6 @@ const inviteMemberRef = ref()
 const showDetail = ref(false)
 const isVisible = ref(false)
 const isModalLoading = ref(false)
-const activeKey = ref(tabInfo.Detail.key)
 
 const getDataSource = async (param: IManageUser.GetUserListParam) => {
   return await ManageUserService.getUserList(getWorkspaceId || '', param)
@@ -159,7 +150,6 @@ const cardContentCallback = (
 
 const onClickRow = (row: IManageUser.UserInfo): void => {
   showDetail.value = true
-  activeKey.value = tabInfo.Detail.key
 
   selectedUserDetailData.value = row
   selectedWSUserId.value = row.workspaceUserId
