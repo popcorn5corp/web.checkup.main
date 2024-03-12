@@ -45,6 +45,11 @@ export const useTabsLayoutStore = defineStore('tabsLayout', () => {
   }
 
   function closeAll() {
+    if (getCurrentTab()?.fullPath === PagePathEnum.BASE_HOME) {
+      closeOhters()
+      return
+    }
+
     state.tabs = []
     router.push(PagePathEnum.BASE_HOME)
   }
