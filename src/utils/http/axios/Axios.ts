@@ -7,10 +7,7 @@ import type {
   InternalAxiosRequestConfig
 } from 'axios'
 import qs from 'qs'
-import { useAuthStore } from '@/stores/modules/auth'
-import { ACCESS_TOKEN_KEY } from '@/constants/cacheKeyEnum'
 import { ContentTypeEnum } from '@/constants/httpEnum'
-import { AxiosCanceler } from './axiosCancel'
 import type { AxiosTransform } from './axiosTransform'
 
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined

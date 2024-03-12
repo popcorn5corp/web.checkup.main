@@ -50,10 +50,10 @@ export const useLocale = () => {
         resolve(locale)
       }
 
-      // if (Helper.Locale.loadLocalePool.includes(locale)) {
-      //   await setI18nLanguage(locale)
-      //   resolve(locale)
-      // }
+      if (Helper.Locale.loadLocalePool.includes(locale)) {
+        await setI18nLanguage(locale)
+        resolve(locale)
+      }
 
       // Helper.Locale.loadLocalePool.push(locale)
       await setI18nLanguage(locale)

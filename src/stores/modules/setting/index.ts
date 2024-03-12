@@ -6,6 +6,9 @@ import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { useTheme } from '@/hooks/useTheme'
 import { DEFAULT_THEME_NAME } from '@/config/default/themeConfig'
 import type { WorkspaceSettings } from '../workspace/types'
+import type { LocaleType } from '@/locales/config'
+import { useLocale } from '@/locales/hooks/useLocale'
+import { useRouter } from 'vue-router'
 
 type DefaultThemeName = typeof DEFAULT_THEME_NAME
 export type ThemeName = DefaultThemeName | 'semiDark' | 'dark'
@@ -13,6 +16,7 @@ export type MenuThemeName = MenuTheme
 export type MenuPosition = 'side' | 'top'
 
 export const useSettingStore = defineStore('setting', () => {
+  const router = useRouter()
   const appStore = useAppStore()
   const workspaceStore = useWorkspaceStore()
 
@@ -20,6 +24,7 @@ export const useSettingStore = defineStore('setting', () => {
   const { getCollapse } = storeToRefs(appStore)
   const { getWorkspace, getSettings } = storeToRefs(workspaceStore)
   const { setTheme, setHtmlDataTheme } = useTheme()
+  const { setLocale } = useLocale()
 
   async function _setSttings(values: Partial<WorkspaceSettings>) {
     if (unref(getWorkspace)?.workspaceId) {
@@ -76,10 +81,22 @@ export const useSettingStore = defineStore('setting', () => {
     })
   }
 
+  function setLanguage(locale: LocaleType) {
+    _setSttings({
+      language: {
+        language: locale
+      }
+    }).then(async () => {
+      setLocale(locale)
+      router.go(0)
+    })
+  }
+
   return {
     setThemeName,
     setFontSize,
     setPrimaryColor,
-    setMenuPosition
+    setMenuPosition,
+    setLanguage
   }
 })

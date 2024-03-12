@@ -18,20 +18,18 @@
 import { Descriptions, Modal, Select } from 'ant-design-vue'
 import { createVNode, ref, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { localeList } from '@/locales/config'
 import type { LocaleType } from '@/locales/config'
 import { useLocale } from '@/locales/hooks/useLocale'
 import { QuestionCircleTwoTone } from '@/components/icons'
+import { useSettingStore } from '@/stores/modules/setting'
 
 const { Option } = Select
 
 const { getLocale } = useLocale()
-const { updateWorkspaceSettings } = useWorkspaceStore()
+const { setLanguage } = useSettingStore()
 const selectedLocale = ref<LocaleType>(unref(getLocale))
 let prevLocale = selectedLocale.value
-const router = useRouter()
 const { t } = useI18n()
 
 const onChangeLang = async (locale: LocaleType) => {
@@ -41,17 +39,7 @@ const onChangeLang = async (locale: LocaleType) => {
     width: 450,
     icon: createVNode(QuestionCircleTwoTone),
     async onOk() {
-      try {
-        await updateWorkspaceSettings({
-          language: {
-            language: locale
-          }
-        })
-
-        router.go(0)
-      } catch (error) {
-        console.log(error)
-      }
+      setLanguage(locale)
     },
     onCancel() {
       selectedLocale.value = prevLocale

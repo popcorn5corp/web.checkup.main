@@ -19,29 +19,11 @@ import { Dropdown, Menu, MenuItem, type MenuProps } from 'ant-design-vue'
 import { MinusOutlined, SettingOutlined } from '@/components/icons'
 import { useTabsLayoutStore } from '@/stores/modules/tabs-layout'
 import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-
-export type TabOptionKeyType = (typeof tabOptionKeyTypes)[keyof typeof tabOptionKeyTypes]
+import { tabOptionKeyTypes, tabOptions } from '@/stores/modules/tabs-layout/data'
+import type { TabOptionKeyType } from '@/stores/modules/tabs-layout/types'
 
 const router = useRouter()
-const { t } = useI18n()
 const { closeAll, closeOhters } = useTabsLayoutStore()
-
-const tabOptionKeyTypes = {
-  CLOSE_ALL: 'closeAll',
-  CLOSE_OTHERS: 'closeOthers'
-} as const
-
-const tabOptions: { key: TabOptionKeyType; title: string }[] = [
-  {
-    key: tabOptionKeyTypes.CLOSE_ALL,
-    title: t('layout.tabs.closeAll')
-  },
-  {
-    key: tabOptionKeyTypes.CLOSE_OTHERS,
-    title: t('layout.tabs.closeAllOthers')
-  }
-] as const
 
 const handleTabOption: MenuProps['onClick'] = ({ key }) => {
   const optionKey = key as TabOptionKeyType

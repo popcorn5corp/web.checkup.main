@@ -141,7 +141,7 @@ onUnmounted(() => {
 .tabs-container {
   :deep(.ant-tabs) {
     &.ant-tabs-top {
-      border-radius: 0;
+      // border-radius: 0;
       border: 1px solid rgba(5, 5, 5, 0.06);
 
       .ant-tabs-nav {
@@ -150,7 +150,7 @@ onUnmounted(() => {
         line-height: 0px;
 
         .ant-tabs-tab {
-          border-radius: 0;
+          // border-radius: 0;
           transition: all 0s cubic-bezier(0.645, 0.045, 0.355, 1);
 
           .ant-tabs-tab-remove {
