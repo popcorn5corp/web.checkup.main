@@ -26,6 +26,9 @@
         <FormItem :label="$t('common.joinDate')" name="joinDate">
           {{ formState.data.joinDate }}
         </FormItem>
+        <FormItem label="그룹">
+          <UserGroupDetail :workspaceUserId="formState.data.workspaceUserId" />
+        </FormItem>
       </div>
 
       <a-dropdown v-model:open="visible" :trigger="['click']" placement="bottomRight">
@@ -90,6 +93,7 @@ import { Select } from '@/components/select'
 import { contentModes as modes } from '@/constants/content'
 
 import { getDefaultPost } from '../constant'
+import UserGroupDetail from './UserGroupDetail.vue'
 
 const DEFAULT_MODE = modes.R
 
