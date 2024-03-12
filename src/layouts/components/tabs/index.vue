@@ -46,10 +46,14 @@ import { Tabs } from 'ant-design-vue'
 import Sortable from 'sortablejs'
 import { type CSSProperties, computed, onMounted, onUnmounted, ref, unref, watch } from 'vue'
 import { type RouteLocationNormalized, useRoute } from 'vue-router'
+
 import { useTabsLayoutStore } from '@/stores/modules/tabs-layout'
 import type { RouteItem } from '@/stores/modules/tabs-layout/types'
+
 import { useTheme } from '@/hooks/useTheme'
+
 import { TABS_ROUTES_KEY } from '@/constants/cacheKeyEnum'
+
 import TabOptionButton from './components/TabOptionButton.vue'
 
 const { TabPane } = Tabs
@@ -155,7 +159,9 @@ onUnmounted(() => {
             margin: 0;
 
             .anticon-close {
+              font-size: 13px;
               padding-left: 6px;
+              padding-bottom: 1px;
             }
           }
 
