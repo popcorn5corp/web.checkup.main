@@ -25,7 +25,9 @@
 <script setup lang="ts" name="CustomInput">
 import { Input } from 'ant-design-vue'
 import { type CSSProperties, computed, ref, unref, watch } from 'vue'
+
 import { useTheme } from '@/hooks/useTheme'
+
 import type { InputProps } from '../types'
 
 const props = defineProps<InputProps>()
@@ -70,12 +72,12 @@ watch(
 
 <style lang="scss" scoped>
 .custom-input-container {
-  margin: 10px 0;
+  margin-top: 10px;
   position: relative;
   background: inherit;
 
   .custom-input {
-    padding: 10px 13px;
+    padding: 6.5px 11px;
     border: solid 1.5px $input-border-color;
     border-radius: 8px;
     transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);

@@ -52,6 +52,7 @@
 <script setup lang="ts" name="ResetPasswordForm">
 import { AuthService } from '@/services'
 import { reactive, ref } from 'vue'
+
 import { Input } from '@/components/input'
 
 interface Props {
@@ -123,6 +124,9 @@ const onFinish = async () => {
 </script>
 
 <style scoped lang="scss">
+:deep(.custom-input) {
+  padding: 10px 13px !important;
+}
 .reset-password-container {
   .title {
     font-size: 16px;

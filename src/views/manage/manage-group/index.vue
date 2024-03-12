@@ -68,7 +68,12 @@
       class="invite-modal"
     >
       <template #body>
-        <GroupModalForm ref="modalRef" v-model="groupInfo" />
+        <GroupModalForm
+          ref="modalRef"
+          v-model="groupInfo"
+          :isError="isError || false"
+          @handleError="(value) => (isError = value)"
+        />
       </template>
     </Modal>
   </div>
@@ -80,13 +85,17 @@ import { message } from 'ant-design-vue'
 import { Modal as modal } from 'ant-design-vue'
 import { createVNode, defineAsyncComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+
 import type { IManageGroup } from '@/services/manage-group/types'
+
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+
 import { DrawerContainer } from '@/components/drawer-container'
 import { DynamicTable } from '@/components/dynamic-table'
 import { PlusCircleTwoTone } from '@/components/icons'
 import { QuestionCircleTwoTone } from '@/components/icons'
 import { Modal } from '@/components/modal'
+
 import GroupModalForm from './components/GroupModalForm.vue'
 import PostDetail from './components/PostDetail.vue'
 import { columns } from './mock'
@@ -114,6 +123,7 @@ const showModal = ref(false)
 const groupInfo = ref<IManageGroup.DefaultGroupInfo>()
 const selectedData = ref()
 const modalRef = ref()
+const isError = ref()
 const { getWorkspaceId } = useWorkspaceStore()
 
 const handleShowDetail = (val: boolean) => {
@@ -169,6 +179,9 @@ const onClickRow = (row: IManageGroup.TableDataSource): void => {
 const createGroup = async () => {
   try {
     const groupInfo = modalRef.value?.getModalInfo
+    if (!groupInfo.name.trim()) {
+      return (isError.value = true)
+    }
 
     const requestBody = {
       ...groupInfo,
@@ -187,6 +200,8 @@ const createGroup = async () => {
           tableReload()
 
           handleShowModal()
+
+          isError.value = false
         }
       })
       .catch((error) => {
