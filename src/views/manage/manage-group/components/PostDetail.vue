@@ -4,9 +4,9 @@
       <div>
         <FormItem :label="t('page.manage.groupTitle')">{{ formState.post?.name ?? '-' }}</FormItem>
 
-        <FormItem :label="t('page.manage.groupContent')">{{
-          formState.post?.content ?? '-'
-        }}</FormItem>
+        <FormItem :label="t('page.manage.groupContent')">
+          {{ formState.post.content ?? '-' }}
+        </FormItem>
       </div>
 
       <a-dropdown v-model:open="isDropdown" :trigger="['click']" placement="bottomRight">
@@ -29,11 +29,11 @@
     </Form>
 
     <Form v-else layout="horizontal" :model="formState">
-      <FormItem>
-        <Input v-model:value="formState.clonePost.name" :label="t('page.manage.groupTitle')" />
+      <FormItem :label="t('page.manage.groupTitle')">
+        <Input v-model:value="formState.clonePost.name" />
       </FormItem>
-      <FormItem>
-        <Input v-model:value="formState.clonePost.content" :label="t('page.manage.groupContent')" />
+      <FormItem :label="t('page.manage.groupContent')">
+        <Input v-model:value="formState.clonePost.content" />
       </FormItem>
 
       <div class="btn-wrapper">
@@ -53,8 +53,11 @@ import { Modal, message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+
 import type { IManageGroup } from '@/services/manage-group/types'
+
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+
 import { Form, FormItem } from '@/components/form'
 import {
   CheckOutlined,
@@ -63,6 +66,7 @@ import {
   MoreOutlined
 } from '@/components/icons'
 import { Input } from '@/components/input'
+
 import { contentModes as modes } from '@/constants/content'
 
 const { t } = useI18n()
@@ -110,7 +114,8 @@ const formItemLayout = {
 
 ;(() => {
   formState.post = {
-    ...props.data
+    ...props.data,
+    content: props.data.content.length ? props.data.content : ' - '
   }
 
   formState.clonePost = cloneDeep(props.data)
@@ -249,7 +254,6 @@ const showDeleteConfirm = () => {
 
     .ant-form-item {
       padding: 0;
-      margin-bottom: 7px;
     }
 
     .ant-dropdown-link {
