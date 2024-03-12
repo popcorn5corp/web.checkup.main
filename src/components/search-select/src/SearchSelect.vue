@@ -63,8 +63,11 @@ import { Util } from '@/utils'
 import { Select } from 'ant-design-vue'
 import { debounce } from 'lodash-es'
 import { computed, ref, unref } from 'vue'
+
 import { useTheme } from '@/hooks/useTheme'
+
 import { CloseOutlined } from '@/components/icons'
+
 import type { SearchSelectProps } from '../types'
 
 const emit = defineEmits(['update:modelValue', 'search'])
@@ -114,7 +117,7 @@ const onChange: SearchSelectProps['onChange'] = (value, options) => {
 
 .select-item-img,
 .select-tag-img {
-  width: 31px;
+  width: 25px;
   border-radius: 3px;
 }
 
@@ -131,6 +134,7 @@ const onChange: SearchSelectProps['onChange'] = (value, options) => {
   }
 }
 .select-tag {
+  height: 25px;
   margin-right: 3px;
   display: flex;
   align-items: center;

@@ -120,6 +120,7 @@ import { Util } from '@/utils'
 import { Checkbox } from 'ant-design-vue'
 import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+
 import { LeftOutlined } from '@/components/icons'
 import { Input } from '@/components/input'
 
@@ -221,6 +222,9 @@ const onFinish = async () => {
 </script>
 
 <style lang="scss" scoped>
+:deep(.custom-input) {
+  padding: 10px 13px !important;
+}
 .form button {
   width: 100%;
   font-size: 16px;

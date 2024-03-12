@@ -21,6 +21,7 @@ export default {
     checkUserId: 'Please enter your ID.',
     checkEmail: 'Please enter it in email format.',
     checkCertifiNum: 'Please enter your authentication number.',
-    checkErrorCertifiNum: 'The authentication number is invalid.'
+    checkErrorCertifiNum: 'The authentication number is invalid.',
+    checkGroupName: 'Please enter the group name.'
   }
 }

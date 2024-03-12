@@ -1,19 +1,31 @@
 <template>
   <Form>
     <div class="invite-form-wrapper">
-      <Input v-model:value="groupInfo.name" :label="t('page.manage.groupName')" />
-
-      <Input v-model:value="groupInfo.content" :label="t('page.manage.groupDescription')" />
+      <FormItem :label="t('page.manage.groupName')" :required="true">
+        <Input
+          v-model:value="groupInfo.name"
+          :maxlength="20"
+          :isError="props.isError"
+          @change="onChange"
+        />
+        <div class="errorMsg" v-if="props.isError">
+          {{ $t('message.validate.checkGroupName') }}
+        </div>
+      </FormItem>
+      <FormItem :label="t('page.manage.groupDescription')">
+        <Input v-model:value="groupInfo.content" :maxlength="50" />
+      </FormItem>
 
       <br />
 
-      <h4 class="title">{{ t('page.manage.addUserToAGroup') }}</h4>
-      <SearchSelect
-        v-model="groupInfo.addUsers"
-        :filterOption="true"
-        :options="options"
-        width="100%"
-      />
+      <FormItem :label="t('page.manage.addUserToAGroup')">
+        <SearchSelect
+          v-model="groupInfo.addUsers"
+          :filterOption="true"
+          :options="options"
+          width="100%"
+        />
+      </FormItem>
     </div>
   </Form>
 </template>
@@ -22,9 +34,12 @@
 import { ManageUserService } from '@/services'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+
 import type { IManageGroup } from '@/services/manage-group/types'
 import type { IManageUser } from '@/services/manage-users/types'
+
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+
 import { Form } from '@/components/form'
 import { Input } from '@/components/input'
 import type { SearchSelectProps } from '@/components/search-select/types'
@@ -33,6 +48,13 @@ const { t } = useI18n()
 const { getWorkspaceId } = useWorkspaceStore()
 
 type GroupInfoType = Pick<IManageGroup.DefaultGroupInfo, 'name' | 'content' | 'addUsers'>
+interface Props {
+  isError?: boolean
+  handleError?: () => void
+}
+
+const props = withDefaults(defineProps<Props>(), {})
+const emit = defineEmits(['handleError'])
 
 const groupInfo = ref<GroupInfoType>({
   name: '',
@@ -57,6 +79,13 @@ const getUserOptions = (content: IManageUser.UserInfo[]) => {
   }))
 }
 
+const onChange = (e: Event) => {
+  const inputValue = (e.target as HTMLInputElement).value
+  if (inputValue) {
+    emit('handleError', false)
+  }
+}
+
 ;(() => {
   if (!options.value.length) {
     getUserListAll()
@@ -72,4 +101,11 @@ defineExpose({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.search-select-container {
+  margin: 10px 0;
+}
+:deep(.custom-input) {
+  padding: 6.5px 11px !important;
+}
+</style>

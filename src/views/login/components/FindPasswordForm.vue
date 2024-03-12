@@ -124,9 +124,12 @@ import { Radio, RadioGroup } from 'ant-design-vue'
 import { reactive } from 'vue'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+
 import { IAuth } from '@/services/auth/types'
+
 import { FormItem } from '@/components/form'
 import { Input } from '@/components/input'
+
 import ResetPasswordForm from './ResetPasswordForm.vue'
 
 const { t } = useI18n()
@@ -399,6 +402,9 @@ watch(
 .certification-wrapper {
   .custom-input-container {
     margin: 0;
+  }
+  :deep(.custom-input) {
+    padding: 10px 13px !important;
   }
   :deep(.ant-form-item-control-input-content) {
     display: flex;

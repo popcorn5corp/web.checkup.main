@@ -45,8 +45,11 @@
 <script setup lang="ts" name="SignIn">
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+
 import type { IAuth } from '@/services/auth/types'
+
 import { useAuthStore } from '@/stores/modules/auth'
+
 import { Input } from '@/components/input'
 
 interface Props {
@@ -185,6 +188,9 @@ const onLogin = async () => {
 
 :deep(.custom-input-container) {
   margin: 0;
+}
+:deep(.custom-input) {
+  padding: 10px 13px !important;
 }
 
 :deep(.ant-form) {
