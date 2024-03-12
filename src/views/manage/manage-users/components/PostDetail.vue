@@ -44,24 +44,20 @@
     </Form>
 
     <Form v-else ref="formRef" layout="horizontal" :model="formState">
-      <FormItem name="nickname">
-        <Input v-model:value="formState.data.nickname" :label="$t('common.name')" />
+      <FormItem name="nickname" :label="$t('common.name')">
+        <Input v-model:value="formState.data.nickname" />
       </FormItem>
-      <FormItem>
-        <Select
-          v-model:value="formState.data.userStatus"
-          :options="userStatusOptions"
-          :label="$t('common.status')"
-        ></Select>
+      <FormItem :label="$t('common.status')">
+        <Select v-model:value="formState.data.userStatus" :options="userStatusOptions"></Select>
       </FormItem>
-      <FormItem name="email">
-        <Input v-model:value="formState.data.email" :label="$t('common.email')" />
+      <FormItem name="email" :label="$t('common.email')">
+        <Input v-model:value="formState.data.email" />
       </FormItem>
-      <FormItem name="phone">
-        <Input v-model:value="formState.data.phone" :label="$t('common.phone')" />
+      <FormItem name="phone" :label="$t('common.phone')">
+        <Input v-model:value="formState.data.phone" />
       </FormItem>
-      <FormItem name="joinDate">
-        <Input v-model:value="formState.data.joinDate" :label="$t('common.joinDate')" disabled />
+      <FormItem name="joinDate" :label="$t('common.joinDate')">
+        <Input v-model:value="formState.data.joinDate" disabled />
       </FormItem>
       <div class="btn-wrapper">
         <Button @click="initState"><CloseOutlined /></Button>
@@ -78,7 +74,9 @@ import { Modal, type SelectProps } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+
 import type { IManageUser } from '@/services/manage-users/types'
+
 import { Form, FormItem } from '@/components/form'
 import {
   CheckOutlined,
@@ -88,7 +86,9 @@ import {
 } from '@/components/icons'
 import { Input } from '@/components/input'
 import { Select } from '@/components/select'
+
 import { contentModes as modes } from '@/constants/content'
+
 import { getDefaultPost } from '../constant'
 
 const DEFAULT_MODE = modes.R
@@ -289,7 +289,6 @@ watch(
 
     .ant-form-item {
       padding: 0;
-      margin-bottom: 7px;
       .ant-form-item-control {
         width: 100%;
       }

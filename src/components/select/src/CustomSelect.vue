@@ -25,7 +25,9 @@
 <script setup lang="ts" name="CustomSelect">
 import { Select, SelectOption } from 'ant-design-vue'
 import { type CSSProperties, computed, ref, unref } from 'vue'
+
 import { useTheme } from '@/hooks/useTheme'
+
 import type { SelectProps } from '../types'
 
 const emit = defineEmits(['update:value'])
@@ -69,15 +71,13 @@ defineExpose({
 
 <style lang="scss" scoped>
 .custom-select-container {
-  margin: 10px 0;
+  margin-top: 10px;
   position: relative;
   background: inherit;
 
   .custom-select {
     transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
     :deep(.ant-select-selector) {
-      height: auto;
-      padding: 5px 13px;
       border: 1.5px solid $color-gray-5;
       border-radius: 8px;
     }
