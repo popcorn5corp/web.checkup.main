@@ -43,7 +43,7 @@
     </FormItem>
 
     <FormItem label="InputNumber" :rules="[{ required: true }]">
-      <a-input-number v-model:value="formState['input-number']" :min="1" :max="10" />
+      <Input v-model:value="formState['input-number']" :min="1" :max="10" type="number" />
     </FormItem>
 
     <FormItem name="switch" label="Switch">
@@ -130,8 +130,10 @@
 <script lang="ts" setup name="ComponentsOverviewContentForm">
 import { InboxOutlined } from '@ant-design/icons-vue'
 import { reactive } from 'vue'
+
 import { Button } from '@/components/button'
 import { Form, FormItem } from '@/components/form'
+import { Input } from '@/components/input'
 
 // 보기모드 일 때
 const formItemLayout = {

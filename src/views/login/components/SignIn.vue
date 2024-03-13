@@ -3,7 +3,7 @@
     <h1 class="text text-title">{{ $t('component.button.loginText') }}</h1>
     <Form :model="formData" @finish="onLogin">
       <FormItem name="userId">
-        <Input
+        <CustomInput
           id="loginEmail"
           type="email"
           v-model:value="formData.userId"
@@ -17,7 +17,7 @@
         </div>
       </FormItem>
       <FormItem name="password">
-        <Input
+        <CustomInput
           id="loginPassword"
           type="password"
           v-model:value="formData.password"
@@ -50,7 +50,7 @@ import type { IAuth } from '@/services/auth/types'
 
 import { useAuthStore } from '@/stores/modules/auth'
 
-import { Input } from '@/components/input'
+import { CustomInput } from '@/components/input'
 
 interface Props {
   onToggle: () => void

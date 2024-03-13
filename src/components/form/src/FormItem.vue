@@ -17,22 +17,6 @@ const props = defineProps<FormItemProps>()
 <style lang="scss" scoped>
 :deep(.ant-form-item) {
   margin-bottom: 16px;
-  .ant-input-affix-wrapper {
-    padding: 0 11px;
-  }
-  .ant-input-number-input-wrap {
-    padding: 2px 0;
-  }
-
-  .ant-input {
-    padding: 6.5px 11px;
-  }
-  .custom-input-container .ant-input {
-    padding: 0;
-  }
-  // .custom-input {
-  //   padding: 6.5px 11px !important;
-  // }
 
   .ant-select-selector {
     height: 36px;
