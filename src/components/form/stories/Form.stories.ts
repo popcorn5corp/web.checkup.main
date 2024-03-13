@@ -3,7 +3,6 @@ import {
   Checkbox,
   CheckboxGroup,
   Col,
-  Input,
   InputNumber,
   InputPassword,
   Radio,
@@ -17,10 +16,13 @@ import {
   Switch
 } from 'ant-design-vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
+
 import ContentForm from '@/views/components-overview/form/components/ContentForm.vue'
+
 import { Button } from '@/components/button'
 import { Form, FormItem } from '@/components/form'
 import { LockOutlined, UserOutlined } from '@/components/icons'
+import { Input } from '@/components/input'
 
 const meta: Meta<ComponentProps<typeof Form>> = {
   title: 'checkupuikit/Atoms/Form',

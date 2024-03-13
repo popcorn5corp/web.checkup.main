@@ -17,11 +17,11 @@
       name="password"
       :rules="[{ required: true, message: 'Please input your password!' }]"
     >
-      <InputPassword v-model:value="formState.password">
+      <Input v-model:value="formState.password" type="password">
         <template #prefix>
           <LockOutlined class="site-form-item-icon" />
         </template>
-      </InputPassword>
+      </Input>
     </FormItem>
 
     <FormItem>
@@ -40,11 +40,13 @@
 </template>
 
 <script setup lang="ts" name="ComponentsOverviewContentForm">
-import { Checkbox, Input, InputPassword } from 'ant-design-vue'
+import { Checkbox } from 'ant-design-vue'
 import { reactive } from 'vue'
+
 import { Button } from '@/components/button'
 import { Form, FormItem } from '@/components/form'
 import { LockOutlined, UserOutlined } from '@/components/icons'
+import { Input } from '@/components/input'
 
 // 보기모드 일 때
 // const formItemLayout = {

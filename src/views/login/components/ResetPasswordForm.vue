@@ -6,7 +6,7 @@
       </div>
       <Form :model="formData" @finish="onFinish">
         <FormItem name="password">
-          <Input
+          <CustomInput
             type="password"
             v-model:value="formData.password"
             :isError="errorState.password"
@@ -19,7 +19,7 @@
           </div>
         </FormItem>
         <FormItem name="verifyPassword">
-          <Input
+          <CustomInput
             type="password"
             v-model:value="formData.verifyPassword"
             :label="$t('common.rePasswordText')"
@@ -53,7 +53,7 @@
 import { AuthService } from '@/services'
 import { reactive, ref } from 'vue'
 
-import { Input } from '@/components/input'
+import { CustomInput } from '@/components/input'
 
 interface Props {
   uid: string

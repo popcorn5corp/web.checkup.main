@@ -4,7 +4,7 @@
       <template v-if="!signUpComplete">
         <h1 class="text text-title">{{ $t('component.button.signUpText') }}</h1>
         <FormItem name="email">
-          <Input
+          <CustomInput
             type="email"
             v-model:value="formData.email"
             placeholder="example@gmail.com"
@@ -15,7 +15,7 @@
           <div class="errorMsg" v-if="errorState.email">{{ emailErrorMsg }}</div>
         </FormItem>
         <FormItem name="password">
-          <Input
+          <CustomInput
             type="password"
             v-model:value="formData.password"
             :isError="errorState.password"
@@ -28,7 +28,7 @@
           </div>
         </FormItem>
         <FormItem name="verifyPassword">
-          <Input
+          <CustomInput
             type="password"
             v-model:value="formData.verifyPassword"
             :label="$t('common.rePasswordText')"
@@ -40,7 +40,7 @@
           </div>
         </FormItem>
         <FormItem name="name">
-          <Input
+          <CustomInput
             :label="$t('common.name')"
             v-model:value="formData.name"
             :isError="errorState.name"
@@ -49,7 +49,7 @@
           <div class="errorMsg" v-if="errorState.name">{{ $t('message.validate.checkName') }}</div>
         </FormItem>
         <FormItem name="phone">
-          <Input
+          <CustomInput
             v-model:value="formData.phone"
             :label="$t('common.phone')"
             :maxlength="13"
@@ -122,7 +122,7 @@ import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { LeftOutlined } from '@/components/icons'
-import { Input } from '@/components/input'
+import { CustomInput } from '@/components/input'
 
 interface Props {
   onToggle: () => void

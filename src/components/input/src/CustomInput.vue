@@ -1,23 +1,12 @@
 <template>
   <div class="custom-input-container">
-    <template v-if="props.type === 'password'">
-      <Input.Password
-        v-bind="props"
-        class="custom-input"
-        :class="[isActive && 'active', isColored && 'colored', isError && 'error']"
-        @focus="onFocus"
-        @focusout="onFocusout"
-      />
-    </template>
-    <template v-else>
-      <Input
-        v-bind="props"
-        class="custom-input"
-        :class="[isActive && 'active', isColored && 'colored', isError && 'error']"
-        @focus="onFocus"
-        @focusout="onFocusout"
-      />
-    </template>
+    <Input
+      v-bind="props"
+      class="custom-input"
+      :class="[isActive && 'active', isColored && 'colored', isError && 'error']"
+      @focus="onFocus"
+      @focusout="onFocusout"
+    />
     <label class="input-label">{{ props.label }}</label>
   </div>
 </template>
@@ -77,7 +66,7 @@ watch(
   background: inherit;
 
   .custom-input {
-    padding: 6.5px 11px;
+    padding: 10px 13px;
     border: solid 1.5px $input-border-color;
     border-radius: 8px;
     transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Card>
-      <Input
+      <CustomInput
         label="이메일"
         class="input"
         v-model:value="inputData.emailKo"
@@ -11,15 +11,20 @@
         @pressEnter="onPressEnter"
         @change="onChange"
       />
-      <Input v-model:value="inputData.emailEn" label="email" style="width: 300px" allowClear />
-      <Input
+      <CustomInput
+        v-model:value="inputData.emailEn"
+        label="email"
+        style="width: 300px"
+        allowClear
+      />
+      <CustomInput
         v-model:value="inputData.name"
         label="username"
         placeholder="input username"
         :maxlength="4"
         showCount
       />
-      <Input v-model:value="inputData.password" label="password" type="password" />
+      <CustomInput v-model:value="inputData.password" label="password" type="password" />
     </Card>
   </div>
 </template>
@@ -27,7 +32,8 @@
 <script setup lang="ts" name="ComponentsOverviewInput">
 import { Card } from 'ant-design-vue'
 import { reactive } from 'vue'
-import { Input } from '@/components/input'
+
+import { CustomInput } from '@/components/input'
 
 const inputData = reactive({
   emailKo: '',

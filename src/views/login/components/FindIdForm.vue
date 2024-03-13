@@ -9,7 +9,7 @@
       </RadioGroup> -->
       <Form :model="formData" @finish="onFindId">
         <FormItem name="userName">
-          <Input
+          <CustomInput
             v-model:value="formData.userName"
             :label="$t('common.name')"
             :isError="errorState.userName"
@@ -50,7 +50,7 @@
             <!-- phone으로 인증 -->
             <FormItem name="phone">
               <div class="input-wrapper">
-                <Input
+                <CustomInput
                   v-model:value="formData.phone"
                   :label="$t('common.phone')"
                   style="width: 100%"
@@ -73,7 +73,7 @@
           </template>
         </div>
         <FormItem name="certificationNumber">
-          <Input
+          <CustomInput
             v-model:value="formData.certificationNumber"
             :label="$t('common.certificationNumber')"
             :isError="errorState.certificationNumber"
@@ -125,7 +125,7 @@ import { useI18n } from 'vue-i18n'
 import { IAuth } from '@/services/auth/types'
 
 import { FormItem } from '@/components/form'
-import { Input } from '@/components/input'
+import { CustomInput } from '@/components/input'
 
 const { t } = useI18n()
 
