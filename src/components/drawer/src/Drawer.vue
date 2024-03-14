@@ -22,6 +22,7 @@
 <script setup lang="ts" name="Drawer">
 import { Divider } from 'ant-design-vue'
 import { computed } from 'vue'
+
 import type { DrawerProps } from '../types'
 
 const emit = defineEmits(['onClose'])
@@ -131,62 +132,62 @@ const drawerClasses = computed(() => [
 }
 
 // mobile
-@media screen and (max-width: $size-screen-md) {
-  .drawer.active {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    height: 100vh;
-    position: fixed !important;
-    top: 0px;
-    left: 0px;
-    z-index: 999;
-    animation: slideUp 0.4s;
-    background: $color-white;
-    :deep(.drawer-wrapper) {
-      .drawer {
-        min-height: 100vh;
-      }
-    }
-  }
+// @media screen and (max-width: $size-screen-md) {
+//   .drawer.active {
+//     width: 100vw !important;
+//     max-width: 100vw !important;
+//     height: 100vh;
+//     position: fixed !important;
+//     top: 0px;
+//     left: 0px;
+//     z-index: 999;
+//     animation: slideUp 0.4s;
+//     background: $color-white;
+//     :deep(.drawer-wrapper) {
+//       .drawer {
+//         min-height: 100vh;
+//       }
+//     }
+//   }
 
-  .slideUp {
-    -webkit-animation-name: slideUp;
-    animation-name: slideUp;
-  }
+//   .slideUp {
+//     -webkit-animation-name: slideUp;
+//     animation-name: slideUp;
+//   }
 
-  @-webkit-keyframes slideUp {
-    0% {
-      width: 100vw;
-      -webkit-transform-origin: 0 0;
-      transform-origin: 0 0;
-      -webkit-transform: translateY(0%);
-      transform: translateY(0%);
-    }
+//   @-webkit-keyframes slideUp {
+//     0% {
+//       width: 100vw;
+//       -webkit-transform-origin: 0 0;
+//       transform-origin: 0 0;
+//       -webkit-transform: translateY(0%);
+//       transform: translateY(0%);
+//     }
 
-    100% {
-      -webkit-transform-origin: 0 0;
-      transform-origin: 0 0;
-      -webkit-transform: translateY(-100%);
-      transform: translateY(-100%);
-    }
-  }
+//     100% {
+//       -webkit-transform-origin: 0 0;
+//       transform-origin: 0 0;
+//       -webkit-transform: translateY(-100%);
+//       transform: translateY(-100%);
+//     }
+//   }
 
-  @keyframes slideUp {
-    0% {
-      width: 100vw;
-      -webkit-transform-origin: 0 0;
-      transform-origin: 0 0;
-      -webkit-transform: translateY(100%);
-      transform: translateY(100%);
-    }
+//   @keyframes slideUp {
+//     0% {
+//       width: 100vw;
+//       -webkit-transform-origin: 0 0;
+//       transform-origin: 0 0;
+//       -webkit-transform: translateY(100%);
+//       transform: translateY(100%);
+//     }
 
-    100% {
-      -webkit-transform-origin: 0 0;
-      transform-origin: 0 0;
+//     100% {
+//       -webkit-transform-origin: 0 0;
+//       transform-origin: 0 0;
 
-      -webkit-transform: translateY(0%);
-      transform: translateY(0%);
-    }
-  }
-}
+//       -webkit-transform: translateY(0%);
+//       transform: translateY(0%);
+//     }
+//   }
+// }
 </style>

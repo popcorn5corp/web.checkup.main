@@ -1,6 +1,6 @@
 export enum DeviceEnum {
-  Mobile,
-  Desktop
+  Mobile = 'mobile',
+  Desktop = 'desktop'
 }
 
 export enum LayoutModeEnum {

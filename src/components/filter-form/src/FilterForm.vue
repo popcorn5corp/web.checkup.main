@@ -32,9 +32,12 @@
 <script setup lang="ts" name="FilterForm">
 import { type Component, computed, ref, unref } from 'vue'
 import type { CSSProperties } from 'vue'
+
 import { useTheme } from '@/hooks/useTheme'
+
 import { Accordion } from '@/components/accordion'
 import { Button } from '@/components/button'
+
 import type { FilterFormProps, FilterUI } from '../types'
 import { Checkbox, DatePicker, Radio, RangeDatePicker, Select } from './components/filter-types'
 
@@ -95,73 +98,73 @@ const filterTypeComponents: Record<FilterUI, Component> = {
       }
     }
 
-    @media screen and (max-width: $size-screen-md) {
-      animation: slideUp 0.5s;
-      background: $color-white;
-      // position: absolute;
-      position: fixed;
-      top: -7px;
-      left: 0px;
-      width: 100vw;
-      height: 101vh;
+    // @media screen and (max-width: $size-screen-md) {
+    //   animation: slideUp 0.5s;
+    //   background: $color-white;
+    //   // position: absolute;
+    //   position: fixed;
+    //   top: -7px;
+    //   left: 0px;
+    //   width: 100vw;
+    //   height: 101vh;
 
-      .mobile-header {
-        padding: 41px 16px;
-        display: block;
-        font-size: 20px;
-        font-weight: 700;
+    //   .mobile-header {
+    //     padding: 41px 16px;
+    //     display: block;
+    //     font-size: 20px;
+    //     font-weight: 700;
 
-        .xmark {
-          position: absolute;
-          top: 41px;
-          right: 30px;
-          font-size: 22px !important;
-          color: #04111d;
-        }
-      }
+    //     .xmark {
+    //       position: absolute;
+    //       top: 41px;
+    //       right: 30px;
+    //       font-size: 22px !important;
+    //       color: #04111d;
+    //     }
+    //   }
 
-      .mobile-footer {
-        display: block;
-      }
+    //   .mobile-footer {
+    //     display: block;
+    //   }
 
-      .slideUp {
-        -webkit-animation-name: slideUp;
-        animation-name: slideUp;
-      }
+    //   .slideUp {
+    //     -webkit-animation-name: slideUp;
+    //     animation-name: slideUp;
+    //   }
 
-      @-webkit-keyframes slideUp {
-        0% {
-          -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
-          -webkit-transform: translateY(0%);
-          transform: translateY(0%);
-        }
+    //   @-webkit-keyframes slideUp {
+    //     0% {
+    //       -webkit-transform-origin: 0 0;
+    //       transform-origin: 0 0;
+    //       -webkit-transform: translateY(0%);
+    //       transform: translateY(0%);
+    //     }
 
-        100% {
-          -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
-          -webkit-transform: translateY(-100%);
-          transform: translateY(-100%);
-        }
-      }
+    //     100% {
+    //       -webkit-transform-origin: 0 0;
+    //       transform-origin: 0 0;
+    //       -webkit-transform: translateY(-100%);
+    //       transform: translateY(-100%);
+    //     }
+    //   }
 
-      @keyframes slideUp {
-        0% {
-          -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
-          -webkit-transform: translateY(100%);
-          transform: translateY(100%);
-        }
+    //   @keyframes slideUp {
+    //     0% {
+    //       -webkit-transform-origin: 0 0;
+    //       transform-origin: 0 0;
+    //       -webkit-transform: translateY(100%);
+    //       transform: translateY(100%);
+    //     }
 
-        100% {
-          -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
+    //     100% {
+    //       -webkit-transform-origin: 0 0;
+    //       transform-origin: 0 0;
 
-          -webkit-transform: translateY(0%);
-          transform: translateY(0%);
-        }
-      }
-    }
+    //       -webkit-transform: translateY(0%);
+    //       transform: translateY(0%);
+    //     }
+    //   }
+    // }
 
     > ul {
       padding: 0 1rem;
