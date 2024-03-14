@@ -13,11 +13,7 @@
     </Descriptions.Item>
   </Descriptions>
 
-  <Descriptions
-    v-if="!getSettings.isMobile"
-    :title="$t('layout.header.settings.displaySettingMenuPosition')"
-    :column="5"
-  >
+  <Descriptions :title="$t('layout.header.settings.displaySettingMenuPosition')" :column="5">
     <Descriptions.Item v-for="item in menuLayouts" :key="item.value" class="margin">
       <Tooltip :title="item.label">
         <div
@@ -49,15 +45,13 @@
 </template>
 <script setup lang="ts" name="DisplaySetting">
 import { Descriptions, Tag, Tooltip } from 'ant-design-vue'
-import { useAppStore } from '@/stores/modules/app'
+
 import { useSettingStore } from '@/stores/modules/setting'
+
 import { useTheme } from '@/hooks/useTheme'
+
 import { menuLayouts, themeColors, themeStyle } from '@/config/default/themeConfig'
 
-// // TODO
-// import { useDevice } from '@/hooks/useDevice'
-
-const { getSettings } = useAppStore()
 const { setThemeName, setPrimaryColor, setMenuPosition } = useSettingStore()
 const { getTheme } = useTheme()
 </script>

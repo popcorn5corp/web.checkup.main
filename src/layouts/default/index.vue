@@ -77,17 +77,21 @@ import LayoutTabs from '@/layouts/components/tabs/index.vue'
 import { Divider, Layout } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
 import { type CSSProperties, computed, onMounted, ref, unref, watch } from 'vue'
+
 import { useAppStore } from '@/stores/modules/app'
 import { useSettingStore } from '@/stores/modules/setting'
 import { useTourStore } from '@/stores/modules/tour'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+
 import { useTheme } from '@/hooks/useTheme'
+
 import { Header as LayoutHeader } from '@/components/header'
 import { Logo } from '@/components/logo'
 import { Menu as AsideMenu } from '@/components/menu'
 import { Tour } from '@/components/tour'
 import { useTour } from '@/components/tour/hooks/useTour'
 import { TOUR_TYPE } from '@/components/tour/types'
+
 import CircularMenu from './components/CircularMenu.vue'
 
 const { setMenuPosition } = useSettingStore()
@@ -99,12 +103,12 @@ const tourStore = useTourStore()
 const collapsed = computed<boolean>(() => unref(getSettings).isCollapse)
 const asiderWidth = computed(() => {
   const { isCollapse } = unref(getSettings)
-
-  if (isMobile.value) {
-    return 0
-  } else {
-    return isCollapse ? 80 : 220
-  }
+  return isCollapse ? 80 : 220
+  // if (isMobile.value) {
+  //   return 0
+  // } else {
+  //   return isCollapse ? 80 : 220
+  // }
 })
 const isSideMenu = computed(() => unref(getTheme).menuPosition === 'side')
 const tour = useTour()
@@ -139,21 +143,21 @@ const mainStyles = computed<{ size: CSSProperties }>(() => {
   const { menuPosition } = unref(getTheme)
   const { isCollapse } = unref(getSettings)
 
-  let width
-  let marginLeft
-  if (!isMobile.value) {
-    width =
-      menuPosition === 'top' ? '100%' : isCollapse ? 'calc(100% - 80px)' : 'calc(100% - 220px)'
-    marginLeft = menuPosition === 'top' ? '0' : isCollapse ? '80px' : '220px'
-  } else {
-    width = isCollapse ? 'calc(100% - 80px)' : '100%'
-    marginLeft = isCollapse ? '80px' : '0'
-  }
-
+  // let width
+  // let marginLeft
+  // if (!isMobile.value) {
+  //   width =
+  //     menuPosition === 'top' ? '100%' : isCollapse ? 'calc(100% - 80px)' : 'calc(100% - 220px)'
+  //   marginLeft = menuPosition === 'top' ? '0' : isCollapse ? '80px' : '220px'
+  // } else {
+  //   width = isCollapse ? 'calc(100% - 80px)' : '100%'
+  //   marginLeft = isCollapse ? '80px' : '0'
+  // }
   return {
     size: {
-      width,
-      marginLeft
+      width:
+        menuPosition === 'top' ? '100%' : isCollapse ? 'calc(100% - 80px)' : 'calc(100% - 220px)',
+      marginLeft: menuPosition === 'top' ? '0' : isCollapse ? '80px' : '220px'
     }
   }
 })
@@ -203,9 +207,9 @@ $tab-margin-top: 2px;
 
 .layout-default {
   display: flex;
+  min-width: $size-screen-md;
   height: 100vh;
 
-  // overflow: hidden;
   .layout-sider {
     position: fixed;
     z-index: 998;

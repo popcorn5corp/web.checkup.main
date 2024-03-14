@@ -4,29 +4,27 @@
       <slot>
         <Space :size="20">
           <span class="menu-fold" @click="setCollapse(!props.collapsed)">
-            <template v-if="getSettings.isMobile">
+            <!-- <template v-if="getMobile">
               <font-awesome-icon :icon="['fas', 'bars']" style="font-size: 16px" />
             </template>
             <template v-else>
-              <template v-if="collapsed">
-                <font-awesome-icon :icon="['fas', 'angles-right']" />
-              </template>
-              <template v-else>
-                <font-awesome-icon :icon="['fas', 'angles-left']" />
-              </template>
+            </template> -->
+            <template v-if="collapsed">
+              <font-awesome-icon :icon="['fas', 'angles-right']" />
+            </template>
+            <template v-else>
+              <font-awesome-icon :icon="['fas', 'angles-left']" />
             </template>
 
             <!-- <component :is="props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined" /> -->
           </span>
         </Space>
       </slot>
-      <template v-if="!getSettings.isMobile">
-        <RollingText :list="rollingList" :width="450">
-          <template #default="{ marquee }">
-            <span>{{ marquee.title }} <Tag v-if="marquee.isNew" color="yellow">New</Tag> </span>
-          </template>
-        </RollingText>
-      </template>
+      <RollingText :list="rollingList" :width="450">
+        <template #default="{ marquee }">
+          <span>{{ marquee.title }} <Tag v-if="marquee.isNew" color="yellow">New</Tag> </span>
+        </template>
+      </RollingText>
     </Space>
     <div style="display: flex; align-items: center; gap: 0.1rem">
       <ThemeToggle />
@@ -40,10 +38,13 @@
 <script lang="ts" setup name="LayoutHeader">
 import { Layout, Space, Tag } from 'ant-design-vue'
 import { type CSSProperties, computed, unref } from 'vue'
+
 import { useAppStore } from '@/stores/modules/app'
+
 import { useTheme } from '@/hooks/useTheme'
-// import { MenuFoldOutlined, MenuUnfoldOutlined } from '@/components/icons'
+
 import { ThemeToggle } from '@/components/theme-toggle'
+
 import { type HeaderProps, rollingList } from '../types'
 import RollingText from './components/RollingText.vue'
 import UserDropdown from './components/UserDropdown.vue'
@@ -52,7 +53,7 @@ defineEmits(['update:collapsed'])
 const props = withDefaults(defineProps<HeaderProps>(), {})
 
 const { getTheme } = useTheme()
-const { setCollapse, getSettings } = useAppStore()
+const { setCollapse } = useAppStore()
 
 const headerStyle = computed<CSSProperties>(() => {
   const { themeName, menuThemeName, menuPosition } = unref(getTheme)

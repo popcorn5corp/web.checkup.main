@@ -1,8 +1,11 @@
 // import type { MenuTheme } from 'ant-design-vue'
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+
 import type { WorkspaceSettings } from '@/stores/modules/workspace/types'
+
 import { PagePathEnum } from '@/constants/pageEnum'
+
 import {
   DEFAULT_FONT_SIZE,
   DEFAULT_PRIMARY_COLOR,
@@ -69,7 +72,7 @@ export function useTheme() {
   const route = useRoute()
 
   watch(
-    () => route.path,
+    () => route?.path,
     async (path) => {
       if (themeBlackList.includes(path)) {
         setTheme({ ...defaultTheme })
