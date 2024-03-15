@@ -65,7 +65,7 @@
       <template #title>{{ $t('page.manage.userInvite') }}</template>
       <template #body>
         <div class="invite-form-wrapper">
-          <h4 class="title">{{ $t('page.manage.emailInvite') }}</h4>
+          <h4 class="title" style="font-size: 16px">{{ $t('page.manage.emailInvite') }}</h4>
           <InviteMemberForm ref="inviteMemberRef" :isShowDescription="false" :isShowJump="false" />
           <!-- TODO 추후개발 -->
           <!-- <br />
@@ -208,8 +208,23 @@ const onCancelModal = (): void => {
 </script>
 
 <style lang="scss" scoped>
-p {
-  margin: 0;
+.manage-users-container {
+  p {
+    margin: 0;
+  }
+
+  .invite-form-wrapper {
+    small {
+      font-size: 13px !important;
+    }
+  }
+  :deep(.invite-modal) {
+    :deep(.invite-member-form-container) {
+      .form-wrapper small {
+        font-size: 13px !important;
+      }
+    }
+  }
 }
 
 :deep(.ant-tabs-tab-active) {

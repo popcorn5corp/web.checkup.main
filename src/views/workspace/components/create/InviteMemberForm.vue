@@ -5,19 +5,11 @@
       <p>{{ $t('page.workspace.createStep3Desc') }}</p>
     </div>
     <div class="form-wrapper">
-      <small>{{ $t('page.workspace.createStep3Info') }}</small>
+      <div style="font-size: 15px; display: inline-block">
+        {{ $t('page.workspace.createStep3Info') }}
+      </div>
       <small v-if="isError" style="color: red; margin-left: 10px">{{ errMsg }}</small>
       <div class="select-wrapper" @click="inputRef.focus()">
-        <div class="tags-wrapper">
-          <template v-for="tag in tags" :key="tag">
-            <div class="tag">
-              <span class="text">{{ tag }}</span>
-              <span class="icon" @click="onRemove(tag)">
-                <CloseOutlined />
-              </span>
-            </div>
-          </template>
-        </div>
         <div class="input-wrapper">
           <div class="input-box">
             <Input
@@ -29,6 +21,16 @@
               @focusout="onInputEnter"
             />
           </div>
+        </div>
+        <div class="tags-wrapper">
+          <template v-for="tag in tags" :key="tag">
+            <div class="tag">
+              <span class="text">{{ tag }}</span>
+              <span class="icon" @click="onRemove(tag)">
+                <CloseOutlined />
+              </span>
+            </div>
+          </template>
         </div>
       </div>
       <div class="jump-wrapper" v-if="isShowJump">
@@ -43,12 +45,14 @@
 <script setup lang="ts" name="InviteMemberForm">
 import { ManageUserService } from '@/services'
 import { Util } from '@/utils'
-import { CloseOutlined } from '@ant-design/icons-vue'
 import { Input, message } from 'ant-design-vue'
 import { type CSSProperties, computed, ref, toRefs } from 'vue'
 import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+
+import { CloseOutlined } from '@/components/icons'
 
 const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
@@ -70,7 +74,7 @@ const errMsg = ref('')
 const emailRef = ref('')
 const inputRef = ref()
 
-const tags = computed(() => [...getFormValues.value.inviteEmails])
+const tags = computed(() => [...getFormValues.value.inviteEmails].reverse())
 const errorTagStyle = computed<CSSProperties>(() => {
   return {
     borderColor: isError.value ? '#ff4d4f' : '#d9d9d9'
@@ -197,7 +201,7 @@ defineExpose({
         .icon {
           color: rgba(0, 0, 0, 0.45);
           font-size: 13px;
-          padding: 5px;
+          padding: 3px 5px;
           cursor: pointer;
         }
       }
@@ -207,6 +211,7 @@ defineExpose({
       flex: none;
       align-self: center;
       width: 100%;
+      padding: 5px 0;
 
       .input-box {
         display: inline-flex;
