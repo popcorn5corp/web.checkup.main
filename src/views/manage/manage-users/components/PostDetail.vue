@@ -26,7 +26,7 @@
         <FormItem :label="$t('common.joinDate')" name="joinDate">
           {{ formState.data.joinDate }}
         </FormItem>
-        <FormItem label="그룹">
+        <FormItem label="그룹" class="group">
           <UserGroupDetail :workspaceUserId="formState.data.workspaceUserId" />
         </FormItem>
       </div>
@@ -246,6 +246,14 @@ watch(
       width: 100%;
       align-self: flex-start;
       padding-left: 1rem;
+    }
+    .form-item-wrapper.group {
+      :deep(.ant-form-item-control-input-content) {
+        border: 1px solid $input-border-color;
+        border-radius: 6px;
+        padding: 10px;
+        padding-right: 0;
+      }
     }
   }
 
