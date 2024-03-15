@@ -14,11 +14,15 @@ export default {
     checkDuplicatedEmail: 'Email ini telah ditambahkan.',
     checkInviteCode: 'Silakan periksa kembali kode undangannya.',
     checkPassword: 'Silakan masukkan kata sandi minimal 8 karakter.',
-    checkPhone: 'Silakan masukkan nomor ponsel Anda.',
+    checkPasswordFormat:
+      'Masukkan kombinasi huruf, angka, dan karakter khusus dalam 8-15 karakter.',
     checkVerifyPassword: 'Itu tidak cocok dengan kata sandi Anda.',
+    checkPhone: 'Silakan masukkan nomor ponsel Anda.',
+    checkPhoneFormat: 'Silakan masukkan format ponsel dengan benar',
     checkTerms: 'Harap setujui syarat dan ketentuan.',
     checkName: 'Silakan masukkan nama Anda.',
     checkUserId: 'Silakan masukkan ID Anda.',
+    checkUserIdFormat: 'Silakan masukkan 4 sampai 15 digit dalam bahasa Inggris.',
     checkEmail: 'Silakan masukkan dalam format email.',
     checkCertifiNum: 'Silakan masukkan nomor otentikasi Anda.',
     checkErrorCertifiNum: 'Nomor otentikasi tidak valid.'

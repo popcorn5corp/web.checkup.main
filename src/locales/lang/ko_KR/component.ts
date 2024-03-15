@@ -27,6 +27,7 @@ export default {
     delete: '삭제',
     download: '다운로드',
     sendCertifiNum: '인증번호 전송',
+    reCertifiNum: '인증번호 재전송',
     join: '가입'
   },
   ph: {

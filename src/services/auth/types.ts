@@ -71,7 +71,7 @@ export namespace IAuth {
   }
 
   export interface FindIdResponse {
-    userId: string[]
+    userInfo: string[]
   }
 
   export interface FindPasswordParam extends FindType {

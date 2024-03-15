@@ -81,7 +81,7 @@ class AuthService {
   /**
    * @description 사용자 휴대폰 인증번호 전송 API
    */
-  sendPhone(param: IAuth.SendPhoneParam) {
+  sendCertificationNumber(param: IAuth.SendPhoneParam) {
     return authService.post<IAuth.SendEmailResponse>(this.AUTH_PATH + '/users/auth/phone', param)
   }
 

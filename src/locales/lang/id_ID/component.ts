@@ -27,6 +27,7 @@ export default {
     delete: 'Menghapus',
     download: 'Unduh',
     sendCertifiNum: 'Kirim nomor otentikasi',
+    reCertifiNum: 'pengiriman kembali',
     join: 'Bergabung'
   },
   ph: {

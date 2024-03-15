@@ -65,7 +65,8 @@ export default {
     // 회원가입
     signUpDesc: '이미 계정이 있으신가요?',
     signUpComplete: '{ name } 님 가입이 완료되었습니다',
-    signUpTerms: '개인정보 보호정책 및 약관에 동의합니다.',
+    privacyTerms: '개인정보 보호정책 및 약관에 동의합니다.',
+    serviceTerms: '서비스 이용약관에 동의합니다.',
     // 계정 찾기
     authPhone: '휴대폰 번호로 인증',
     authEmail: '이메일로 인증',

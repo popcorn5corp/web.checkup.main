@@ -1,85 +1,91 @@
 <template>
   <div class="sign-up-container">
-    <Form :model="formData" @finish="onFinish">
+    <Form :model="formData" @validate="onFormValid" @finish="onSubmit">
       <template v-if="!signUpComplete">
         <h1 class="text text-title">{{ $t('component.button.signUpText') }}</h1>
-        <FormItem name="email">
+        <FormItem
+          name="userId"
+          :rules="[
+            {
+              required: true,
+              pattern: ValidateUtil.isId() as RegExp,
+              message: `${$t('message.validate.checkUserIdFormat')}`
+            }
+          ]"
+        >
           <Input
-            type="email"
-            v-model:value="formData.email"
-            placeholder="example@gmail.com"
-            :label="$t('common.email')"
-            :isError="errorState.email"
-            @change="onValidateFields($event, 'email')"
+            v-model:value="formData.userId"
+            :label="$t('common.idText')"
+            :isError="errorState.userId"
           />
-          <div class="errorMsg" v-if="errorState.email">{{ emailErrorMsg }}</div>
         </FormItem>
-        <FormItem name="password">
+
+        <FormItem
+          name="password"
+          :rules="[
+            {
+              required: true,
+              pattern: ValidateUtil.isPassword() as RegExp,
+              message: `${$t('message.validate.checkPasswordFormat')}`
+            }
+          ]"
+        >
           <Input
             type="password"
             v-model:value="formData.password"
             :isError="errorState.password"
             :label="$t('common.passwordText')"
-            :min="8"
-            @change="onValidateFields($event, 'password')"
           />
-          <div class="errorMsg" v-if="errorState.password">
-            {{ $t('message.validate.checkPassword') }}
-          </div>
         </FormItem>
-        <FormItem name="verifyPassword">
+
+        <FormItem
+          name="passwordVerify"
+          :rules="[
+            {
+              required: true,
+              message: `${$t('message.validate.checkVerifyPassword')}`,
+              whitespace: true,
+              validator: onValidVerifyPassword
+            }
+          ]"
+        >
           <Input
             type="password"
-            v-model:value="formData.verifyPassword"
+            v-model:value="formData.passwordVerify"
             :label="$t('common.rePasswordText')"
-            :isError="errorState.verifyPassword"
-            @change="onValidateFields($event, 'verifyPassword')"
+            :isError="errorState.passwordVerify"
           />
-          <div class="errorMsg" v-if="errorState.verifyPassword">
-            {{ $t('message.validate.checkVerifyPassword') }}
-          </div>
         </FormItem>
-        <FormItem name="name">
-          <Input
-            :label="$t('common.name')"
-            v-model:value="formData.name"
-            :isError="errorState.name"
-            @change="onValidateFields($event, 'name')"
-          />
-          <div class="errorMsg" v-if="errorState.name">{{ $t('message.validate.checkName') }}</div>
-        </FormItem>
-        <FormItem name="phone">
-          <Input
-            v-model:value="formData.phone"
-            :label="$t('common.phone')"
-            :maxlength="13"
-            :isError="errorState.phone"
-            @change="onInputPhoneNumber"
-          />
-          <div class="errorMsg" v-if="errorState.phone">
-            {{ $t('message.validate.checkPhone') }}
-          </div>
-        </FormItem>
+
         <div class="terms-wrapper">
-          <FormItem>
-            <Checkbox
-              v-model:checked="agreeTerms"
-              @change="
-                (value) => {
-                  errorState.check = !value
-                }
-              "
-            >
-              {{ $t('page.login.signUpTerms') }}
-            </Checkbox>
-            <span>
-              <a>{{ $t('component.button.viewDetail') }}</a>
-            </span>
-            <div class="errorMsg" v-if="errorState.check">
-              {{ $t('message.validate.checkTerms') }}
-            </div>
+          <FormItem
+            name="terms"
+            :rules="[
+              {
+                required: true,
+                type: 'array',
+                min: 2,
+                message: `${$t('message.validate.checkTerms')}`
+              }
+            ]"
+          >
+            <CheckboxGroup v-model:value="formData.terms">
+              <Checkbox value="serviceTerms">
+                {{ $t('page.login.serviceTerms') }}
+              </Checkbox>
+              <span>
+                <a>{{ $t('component.button.viewDetail') }}</a>
+              </span>
+              <Checkbox value="privacyTerms">
+                {{ $t('page.login.privacyTerms') }}
+              </Checkbox>
+              <span>
+                <a>{{ $t('component.button.viewDetail') }}</a>
+              </span>
+            </CheckboxGroup>
           </FormItem>
         </div>
+
         <FormItem>
           <Button
             type="primary"
@@ -89,6 +95,7 @@
             :loading="isLoading"
           />
         </FormItem>
+
         <p>
           <span>
             {{ $t('page.login.signUpDesc') }}
@@ -96,7 +103,7 @@
           <span>
             <b>
               <a @click="props.onToggle">
-                {{ ' ' + $t('common.backToLogin') }}
+                {{ $t('common.backToLogin') }}
               </a>
             </b>
           </span>
@@ -116,10 +123,12 @@
 
 <script setup lang="ts" name="SignUp">
 import { AuthService } from '@/services'
-import { Util } from '@/utils'
-import { Checkbox } from 'ant-design-vue'
+import { Checkbox, CheckboxGroup } from 'ant-design-vue'
+import { error } from 'console'
 import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ValidateUtil } from '@/utils/validateUtil'
+import { Form } from '@/components/form'
 import { LeftOutlined } from '@/components/icons'
 import { Input } from '@/components/input'
 
@@ -132,87 +141,76 @@ const emit = defineEmits(['updateTitleMsg'])
 const { t } = useI18n()
 
 const signUpComplete = ref(false)
-const agreeTerms = ref(false)
 const isLoading = ref(false)
 
-const emailErrorMsg = ref(t('message.validate.checkEmail'))
 const errorState = reactive<Record<string, boolean>>({
-  email: false,
+  userId: false,
   password: false,
-  verifyPassword: false,
-  name: false,
-  phone: false,
-  check: false
+  passwordVerify: false,
+  terms: false
 })
 
-const formData = reactive<Record<string, string>>({
-  email: '',
+const formData = reactive<{ [index: string]: any }>({
+  userId: '',
   password: '',
-  verifyPassword: '',
-  name: '',
-  phone: ''
+  passwordVerify: '',
+  terms: []
 })
 
-const onValidateFields = (e: Event, value: string) => {
-  const fieldsValue = (e.target as HTMLInputElement).value
-
-  if (value === 'email') {
-    errorState.email = !Util.Validate.isEmail(fieldsValue)
-    emailErrorMsg.value = t('message.validate.checkEmail')
-  } else if (value === 'password') {
-    errorState.password = fieldsValue.length < 8
-  } else if (value === 'verifyPassword') {
-    errorState.verifyPassword = formData.password !== fieldsValue
-  } else {
-    errorState[value] = !fieldsValue
-  }
-
-  if (!fieldsValue) {
-    errorState[value] = true
-  }
+const onFormValid = (name: string | number | string[] | number[], status: boolean) => {
+  console.log(name, status)
+  errorState[name as string] = !status
 }
 
-const onInputPhoneNumber = (e: Event) => {
-  const phoneNumber = Util.Format.phoneDash((e.target as HTMLInputElement).value)
-  formData.phone = phoneNumber
-  errorState.phone = !phoneNumber
+/**
+ * @description 아이디 형식 검사
+ */
+const onValidId = () => {
+  errorState.userIdFormat = !ValidateUtil.isId(formData.userId)
 }
 
-const isFormValid = () => {
-  Object.keys(formData).forEach((field) => {
-    if (!formData[field]) {
-      errorState[field] = true
-    }
-  })
-  if (!agreeTerms.value) errorState.check = true
-
-  const { email, password, verifyPassword, name, phone, check } = errorState
-  if (email || password || verifyPassword || name || phone || check) {
-    return false
-  }
-  return true
+/**
+ * @description 비밀번호 형식 검사
+ */
+const onValidPassword = () => {
+  errorState.passwordFormat = !ValidateUtil.isPassword(formData.password)
 }
 
-const onFinish = async () => {
-  if (!isFormValid()) return
+/**
+ * @description 비밀번호 확인 형식 검사
+ */
+const onValidVerifyPassword = () => {
+  errorState.passwordVerify = formData.password !== formData.passwordVerify
 
+  return errorState.passwordVerify
+    ? Promise.reject(t('message.validate.checkVerifyPassword'))
+    : Promise.resolve()
+}
+
+const onSubmit = async () => {
   try {
     isLoading.value = true
-    for (let k in formData) {
-      formData[k] = formData[k].trim()
-    }
-    const { email, password, name, phone } = formData
-    const { data } = await AuthService.signUp({
-      userId: email,
-      email,
+
+    const { userId, password, passwordVerify } = formData
+
+    const payload = {
+      userId,
       password,
-      name,
-      phone
-    })
-    console.log('sign up complete', data)
-    emit('updateTitleMsg', '환영합니다!')
+      passwordVerify
+    }
+
+    const { success, data } = await AuthService.signUp(payload)
+
+    if (!success) {
+      throw new Error()
+    }
     signUpComplete.value = true
+
+    emit('updateTitleMsg', '환영합니다!')
   } catch (err) {
+    /**
+     * @description show modal
+     */
     console.log(err)
   } finally {
     isLoading.value = false
@@ -280,6 +278,11 @@ const onFinish = async () => {
 
 .pointer {
   cursor: pointer;
+}
+
+.form-item-wrapper {
+  margin-bottom: 2rem;
+  text-align: left;
 }
 
 /* RESPONSIVE */

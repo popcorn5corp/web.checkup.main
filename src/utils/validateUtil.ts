@@ -3,6 +3,25 @@ function isEmail(target: string) {
   return regExp.test(target)
 }
 
+function isId(target?: string): RegExp | boolean {
+  const regExp = /^[a-zA-z0-9]{4,15}$/
+
+  return target ? regExp.test(target) : regExp
+}
+
+function isPassword(target?: string): RegExp | boolean {
+  const regExp = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{8,15}$/
+
+  return target ? regExp.test(target) : regExp
+}
+
+function isPhone(target: string) {
+  return target.match(/^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/)
+}
+
 export const ValidateUtil = {
-  isEmail
+  isEmail,
+  isId,
+  isPassword,
+  isPhone
 }

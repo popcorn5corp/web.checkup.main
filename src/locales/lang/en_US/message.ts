@@ -14,11 +14,15 @@ export default {
     checkDuplicatedEmail: 'This email has already been added.',
     checkInviteCode: 'Please check the invitation code again.',
     checkPassword: 'Please enter a password of at least 8 characters.',
+    checkPasswordFormat:
+      'Please enter a combination of English, numbers, and special characters in 8-15 characters',
     checkPhone: 'Please enter your mobile phone number.',
+    checkPhoneFormat: 'Please enter the cell phone format correctly',
     checkVerifyPassword: 'It does not match your password.',
     checkTerms: 'Please agree to the terms and conditions.',
     checkName: 'Please input your name.',
     checkUserId: 'Please enter your ID.',
+    checkUserIdFormat: 'Please enter 4 to 15 digits in English.',
     checkEmail: 'Please enter it in email format.',
     checkCertifiNum: 'Please enter your authentication number.',
     checkErrorCertifiNum: 'The authentication number is invalid.'

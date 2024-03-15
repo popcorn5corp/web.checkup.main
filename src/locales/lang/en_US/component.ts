@@ -27,6 +27,7 @@ export default {
     delete: 'Delete',
     download: 'Download',
     sendCertifiNum: 'Send authentication number',
+    reCertifiNum: 'retransmission',
     join: 'Join'
   },
   ph: {

@@ -1,13 +1,7 @@
 <template>
   <div class="find-id-form-container">
     <template v-if="!isSuccessFindId">
-      <!-- <RadioGroup class="radio-wrapper" v-model:value="authenticationType" size="large">
-        <Radio :value="IAuth.authenticationTypes.PHONE">{{ $t('page.login.authPhone') }}</Radio>
-        <Radio :value="IAuth.authenticationTypes.EMAIL" disabled>
-          {{ $t('page.login.authEmail') }}
-        </Radio>
-      </RadioGroup> -->
-      <Form :model="formData" @finish="onFindId">
+      <Form :model="formData" @finish="onSubmit">
         <FormItem name="userName">
           <Input
             v-model:value="formData.userName"
@@ -19,71 +13,51 @@
             {{ $t('message.validate.checkName') }}
           </div>
         </FormItem>
+
         <div class="certification-wrapper">
-          <!-- email로 인증 -->
-          <!-- <template v-if="authenticationType === 'EMAIL'">
-            <FormItem name="email">
-              <div class="input-wrapper">
-                <Input
-                  type="email"
-                  v-model:value="formData.email"
-                  style="width: 100%"
-                  placeholder="example@gmail.com"
-                  :label="$t('common.email')"
-                  :isError="errorState.email"
-                  @change="onValidateFields($event, 'email')"
-                />
-                <Button
-                  :label="$t('component.button.sendCertifiNum')"
-                  class="certification-btn"
-                  :loading="isSendLoading"
-                  :disabled="!formData.email"
-                  @click="onSendEmail"
-                />
-              </div>
-              <div class="errorMsg" v-if="errorState.email">
-                {{ $t('message.validate.checkEmail') }}
-              </div>
-            </FormItem>
-          </template> -->
-          <template v-if="authenticationType === 'PHONE'">
-            <!-- phone으로 인증 -->
-            <FormItem name="phone">
-              <div class="input-wrapper">
-                <Input
-                  v-model:value="formData.phone"
-                  :label="$t('common.phone')"
-                  style="width: 100%"
-                  :maxlength="13"
-                  :isError="errorState.phone"
-                  @change="onInputPhoneNumber"
-                />
-                <Button
-                  class="certification-btn"
-                  :label="$t('component.button.sendCertifiNum')"
-                  :loading="isSendLoading"
-                  :disabled="!formData.phone"
-                  @click="onSendPhone"
-                />
-              </div>
-              <div class="errorMsg" v-if="errorState.phone">
-                {{ $t('message.validate.checkPhone') }}
-              </div>
-            </FormItem>
-          </template>
+          <FormItem name="phone">
+            <div class="input-wrapper">
+              <Input
+                v-model:value="formData.phone"
+                :label="$t('common.phone')"
+                style="width: 100%"
+                :maxlength="13"
+                :isError="errorState.phone || errorState.phoneFormat"
+                @change="onInputPhoneNumber"
+                @blur="onValidPhone"
+              />
+
+              <Button
+                class="certification-btn"
+                :label="
+                  errorState.clickCertificationBtn
+                    ? $t('component.button.sendCertifiNum')
+                    : $t('component.button.reCertifiNum')
+                "
+                :loading="isSendLoading"
+                :disabled="!formData.phone"
+                @click="onSendCertification"
+              />
+            </div>
+            <div class="errorMsg" v-if="phoneValidErrMsg">
+              {{ phoneValidErrMsg }}
+            </div>
+          </FormItem>
         </div>
         <FormItem name="certificationNumber">
           <Input
             v-model:value="formData.certificationNumber"
             :label="$t('common.certificationNumber')"
-            :isError="errorState.certificationNumber"
-            @change="onValidateFields($event, 'certificationNumber')"
+            :disabled="errorState.clickCertificationBtn"
+            :isError="!!certificationValidErrMsg"
+            @change="onValidEmptyField($event, 'certificationNumber')"
           />
-          <div class="errorMsg" v-if="errorState.certificationNumber">
-            {{ $t('message.validate.checkCertifiNum') }}
+          <div class="errorMsg" v-if="certificationValidErrMsg">
+            {{ certificationValidErrMsg }}
           </div>
-          <p v-if="validData.validSec" class="timer">
-            <small class="text-danger">{{ validData.timeStr }}</small>
+
+          <p v-if="timer" class="timer">
+            <small>유효시간 {{ renderTimer }}</small>
           </p>
         </FormItem>
         <FormItem>
@@ -103,8 +77,8 @@
         <p>{{ $t('page.login.certifiSuccessText') }}</p>
         <div class="id-wrapper">
           <template v-if="findIds.length">
-            <div style="margin: 9px 0" v-for="id in findIds" :key="id">
-              {{ id }}
+            <div style="margin: 9px 0" v-for="{ provider, userId } in findIds" :key="userId">
+              <img v-if="provider" class="social-img" :src="renderLogo(provider)" />{{ userId }}
             </div>
           </template>
           <template v-else>{{ $t('page.login.certifiFailText') }}</template>
@@ -118,18 +92,19 @@
 import { AuthService } from '@/services'
 import { Util } from '@/utils'
 import { Radio, RadioGroup } from 'ant-design-vue'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { IAuth } from '@/services/auth/types'
+import { ValidateUtil } from '@/utils/validateUtil'
 import { FormItem } from '@/components/form'
 import { Input } from '@/components/input'
 
 const { t } = useI18n()
 
 const formData = reactive<Record<string, string>>({
+  auth_uuid: '',
   userName: '',
-  email: '',
   phone: '',
   certificationNumber: ''
 })
@@ -137,34 +112,83 @@ const errorState = reactive<Record<string, boolean>>({
   userName: false,
   email: false,
   phone: false,
-  certificationNumber: false
+  phoneFormat: false,
+  certificationNumber: false,
+  clickCertificationBtn: true
 })
 
-// 인증 정보 & 타이머
-const validData = reactive({
-  auth_uuid: '',
-  validSec: 0,
-  timeStr: '',
-  certificationNumber: '',
-  isRunning: false,
-  timer: ''
-})
-const isValidSuccess = reactive({
-  email: false,
-  phone: false
-})
+const timer = ref<boolean | number>(false)
+const validSec = ref(0)
 
+const isSuccessCertification = ref(false)
 const findIds = ref()
-const authenticationType = ref<IAuth.AuthenticationType>(IAuth.authenticationTypes.PHONE)
+
 const isLoading = ref(false)
 const isSendLoading = ref(false)
 const isSuccessFindId = ref(false)
+
+let serverErrMsgStorage = ref<renderErrMsg>(false)
+type renderErrMsg = boolean | string
+
+const renderLogo = (provider: string) => {
+  if (provider.includes('KAKAO')) {
+    return '/src/assets/svgs/kakaotalk.svg'
+  } else if (provider.includes('naver')) {
+    return '/src/assets/images/btnG_icon_square.png'
+  } else if (provider.includes('GOOGLE')) {
+    return '/src/assets/svgs/google_g_logo.svg.webp'
+  }
+}
 
 const onInputPhoneNumber = (e: Event) => {
   const phoneNumber = Util.Format.phoneDash((e.target as HTMLInputElement).value)
   formData.phone = phoneNumber
   errorState.phone = !phoneNumber
 }
+
+/**
+ * @description 핸드폰 형식 검사
+ */
+const onValidPhone = () => {
+  errorState.phoneFormat = !ValidateUtil.isPhone(formData.phone)
+}
+
+/**
+ * @description 필드 공백 체크
+ */
+const onValidEmptyField = (e: Event, value: string) => {
+  const fieldsValue = (e.target as HTMLInputElement).value
+  if (fieldsValue) {
+    errorState[value] = !fieldsValue
+  } else {
+    errorState[value] = true
+  }
+}
+
+/**
+ * @description 핸드폰 유효성 텍스트 렌더링
+ */
+const phoneValidErrMsg = computed<renderErrMsg>(() => {
+  const { phone, phoneFormat } = errorState
+
+  const isError = phone || phoneFormat
+  const message = phone ? t('message.validate.checkPhone') : t('message.validate.checkPhoneFormat')
+
+  return isError ? message : false
+})
+
+/**
+ * @description 인증번호 유효성 텍스트 렌더링
+ */
+const certificationValidErrMsg = computed<renderErrMsg>(() => {
+  const isError = errorState.certificationNumber || serverErrMsgStorage.value
+
+  const message = serverErrMsgStorage.value
+    ? serverErrMsgStorage.value
+    : t('message.validate.checkCertifiNum')
+
+  return isError ? message : false
+})
 
 const onValidateFields = (e: Event, value: string) => {
   const fieldsValue = (e.target as HTMLInputElement).value
@@ -176,7 +200,7 @@ const onValidateFields = (e: Event, value: string) => {
 }
 
 /**
- * @description 폼 벨리데이션 체크
+ * @description 필드 유효성 체크
  */
 const isFormValid = () => {
   Object.keys(formData).forEach((field) => {
@@ -184,77 +208,44 @@ const isFormValid = () => {
       errorState[field] = true
     }
   })
-  const { userName, certificationNumber, phone, email } = errorState
 
-  if (userName || certificationNumber) return false
-  if (authenticationType.value === IAuth.authenticationTypes.PHONE) {
-    if (phone) return false
-    if (!isValidSuccess.phone) return false
-  } else {
-    if (email) return false
-    if (!isValidSuccess.email) return false
-  }
+  const { userName, certificationNumber, clickCertificationBtn, phone } = errorState
+
+  if (phone || clickCertificationBtn || userName || certificationNumber) return false
 
   return true
-}
-
-const resetFields = () => {
-  Object.keys(formData).forEach((field) => {
-    errorState[field] = false
-    formData[field] = ''
-  })
-}
-
-/**
- * @description 이메일 인증번호 전송 & 타이머 시작
- */
-const onSendEmail = async () => {
-  isSendLoading.value = true
-  try {
-    const reqData = {
-      certificationType: IAuth.certificationTypes.EMAIL_AUTH,
-      email: formData.email.trim()
-    }
-    const { data } = await AuthService.sendEmail(reqData)
-    validData.validSec = data.validSec
-    validData.auth_uuid = data.auth_uuid
-
-    if (validData.isRunning) {
-      stopTimer(validData.timer)
-    } else {
-      startTimer()
-    }
-    isValidSuccess.email = true
-  } catch (err) {
-    console.log(err)
-  } finally {
-    isSendLoading.value = false
-  }
 }
 
 /**
  * @description 휴대폰 인증번호 전송 & 타이머 시작
  */
-const onSendPhone = async () => {
-  isSendLoading.value = true
+const onSendCertification = async () => {
+  if (errorState.phoneFormat) return
 
   try {
-    const reqData = {
+    isSendLoading.value = true
+
+    const payload: IAuth.SendPhoneParam = {
       certificationType: IAuth.certificationTypes.SIGNUP,
       phone: formData.phone.trim()
     }
-    const { data } = await AuthService.sendPhone(reqData)
-    validData.validSec = data.validSec
-    validData.auth_uuid = data.auth_uuid
 
-    if (validData.isRunning) {
-      stopTimer(validData.timer)
-    } else {
-      startTimer()
+    const { success, data } = await AuthService.sendCertificationNumber(payload)
+
+    if (!success) {
+      throw new Error()
     }
-    isValidSuccess.phone = true
-  } catch (err) {
-    console.log(err)
+
+    validSec.value = data.validSec
+    formData.auth_uuid = data.auth_uuid
+
+    startTimer()
+  } catch (error) {
+    /**
+     * @TODO show modal
+     */
+    console.log(error)
+    stopTimer()
   } finally {
     isSendLoading.value = false
   }
@@ -263,125 +254,130 @@ const onSendPhone = async () => {
 /**
  * @description 아이디 찾기
  */
-const onFindId = async () => {
+const onSubmit = async () => {
   if (!isFormValid()) return
 
   try {
     isLoading.value = true
-    for (let k in formData) {
-      formData[k] = formData[k].trim()
-    }
-    const { userName, email, phone, certificationNumber } = formData
+    if (!isSuccessCertification.value) {
+      const { success } = await checkValidCertification()
 
-    const validReqData = {
-      certificationType: IAuth.certificationTypes.SIGNUP,
-      auth_uuid: validData.auth_uuid,
-      certificationNumber
+      if (!success) {
+        throw new Error()
+      }
+
+      stopTimer()
     }
-    const findReqData = {
+
+    const { auth_uuid, userName, phone } = formData
+    const payload: IAuth.FindType = {
+      auth_uuid,
       authenticationType: IAuth.authenticationTypes.PHONE,
       userName,
-      auth_uuid: validData.auth_uuid,
-      contact: {}
+      contact: { phone }
     }
 
-    if (authenticationType.value === IAuth.authenticationTypes.EMAIL) {
-      // 이메일 인증번호 확인
-      await handleAuthentication(
-        validReqData,
-        findReqData,
-        IAuth.certificationTypes.EMAIL_AUTH,
-        IAuth.authenticationTypes.EMAIL,
-        { email: email }
-      )
-    } else {
-      // 휴대폰 인증번호 확인
-      await handleAuthentication(
-        validReqData,
-        findReqData,
-        IAuth.certificationTypes.SIGNUP,
-        IAuth.authenticationTypes.PHONE,
-        { phone: phone }
-      )
+    const {
+      success,
+      data: { userInfo }
+    } = await AuthService.findId(payload)
+
+    if (!success) {
+      return new Error()
     }
 
-    const { data } = await AuthService.findId(findReqData)
-    findIds.value = data.userId
+    findIds.value = userInfo
 
     isSuccessFindId.value = true
-    stopTimer(validData.timer)
+    stopTimer()
   } catch (err) {
+    /**
+     * @TODO show modal
+     */
     console.log(err)
   } finally {
     isLoading.value = false
   }
 }
+/**
+ * @description 전송된 인증번호값과 입력된 인증번호 동일한지 체크
+ */
+const checkValidCertification = (): Promise<{ success: boolean; message: string }> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      for (let k in formData) {
+        formData[k] = formData[k].trim()
+      }
 
-const handleAuthentication = async (
-  validReqData: any,
-  findReqData: any,
-  certificationType: IAuth.CertificationType,
-  authenticationType: IAuth.AuthenticationType,
-  contact: any
-) => {
-  let data
-  if (authenticationType === IAuth.authenticationTypes.EMAIL) {
-    data = await AuthService.validEmail({
-      ...validReqData,
-      certificationType,
-      ...contact
-    })
-  } else {
-    data = await AuthService.validPhone({
-      ...validReqData,
-      certificationType,
-      ...contact
-    })
-  }
+      const { phone, auth_uuid, certificationNumber } = formData
 
-  if (!data.success) {
-    errorState.certificationNumber = true
-    throw new Error(t('message.validate.checkErrorCertifiNum'))
-  }
+      const payload: IAuth.ValidPhoneParam = {
+        auth_uuid,
+        certificationNumber,
+        certificationType: IAuth.certificationTypes.SIGNUP,
+        phone
+      }
 
-  Object.assign(findReqData, {
-    authenticationType,
-    contact
+      const { success, data } = await AuthService.validPhone(payload)
+
+      if (!success) {
+        throw new Error()
+      }
+
+      isSuccessCertification.value = true
+      resolve({
+        success,
+        message: data.message
+      })
+    } catch (error) {
+      errorState.certificationNumber = true
+      serverErrMsgStorage.value = error.message
+
+      reject({
+        success: false,
+        message: error.message
+      })
+    }
   })
 }
-
-const stopTimer = (timer: string) => {
-  clearInterval(timer)
-  validData.validSec = 0
-  validData.isRunning = false
+const initCertificationInfo = () => {
+  formData.certificationNumber = ''
+  isSuccessCertification.value = false
+  errorState.clickCertificationBtn = false
 }
 
 const startTimer = () => {
-  validData.timer = setInterval(() => {
-    validData.validSec--
-    validData.timeStr = prettyTime()
+  initCertificationInfo()
 
-    if (validData.validSec <= 0) {
-      stopTimer(validData.timer)
+  if (timer.value) stopTimer()
+
+  timer.value = setInterval(() => {
+    validSec.value--
+
+    if (validSec.value <= 0) {
+      stopTimer()
+      validSec.value = 0
     }
   }, 1000) as any
-  validData.isRunning = true
 }
 
-const prettyTime = () => {
-  let minutes = parseInt(validData.validSec / 60, 10).toString()
-  let seconds = parseInt(validData.validSec % 60, 10).toString()
-  minutes = minutes.length < 2 ? '0' + minutes : minutes
-  seconds = seconds.length < 2 ? '0' + seconds : seconds
+const stopTimer = () => {
+  clearInterval(timer.value as number)
+
+  timer.value = false
+  serverErrMsgStorage.value = ''
+}
+
+const renderTimer = computed(() => {
+  const minutes = parseInt(validSec.value / 60, 10)
+    .toString()
+    .padStart(2, '0')
+  const seconds = parseInt(validSec.value % 60, 10)
+    .toString()
+    .padStart(2, '0')
+
   return minutes + ':' + seconds
-}
-
-watch(
-  () => authenticationType.value,
-  () => {
-    resetFields()
-  }
-)
+})
 </script>
 
 <style scoped lang="scss">
@@ -430,7 +426,7 @@ watch(
   position: absolute;
   bottom: -22px;
   left: 0;
-  color: $color-feedback-error;
+  color: $color-feedback-info;
   font-size: 13px;
   margin: 0;
 }
@@ -456,5 +452,10 @@ watch(
     height: 200px;
     overflow-y: scroll;
   }
+}
+
+.social-img {
+  width: 17px;
+  margin-right: 8px;
 }
 </style>

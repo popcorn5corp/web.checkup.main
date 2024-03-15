@@ -5,15 +5,13 @@
       <FormItem name="userId">
         <Input
           id="loginEmail"
-          type="email"
           v-model:value="formData.userId"
-          placeholder="example@gmail.com"
           :label="$t('common.idText')"
           :isError="errorState.userId"
           @change="onValidateFields($event, 'userId')"
         />
         <div class="errorMsg" v-if="errorState.userId">
-          {{ $t('message.validate.checkEmail') }}
+          {{ $t('message.validate.checkUserId') }}
         </div>
       </FormItem>
       <FormItem name="password">
