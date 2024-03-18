@@ -5,15 +5,14 @@ export default {
     welcomeTit: 'Selamat datang di, {userName}!',
     welcomeDesc: `Terima kasih sudah mendaftar untuk Check Up.
     Sekarang, silakan pilih opsi pilihan Anda untuk mulai bekerja.`,
-    createStep1Tit: 'Masukkan nama tim atau perusahaan',
-    createStep1Desc: `Ini akan menjadi nama ruang kerja Pemeriksaan.`,
-    nameProfileDesc: `Menambahkan nama dan foto profil Anda akan membantu 
-    Timmu menemukanmu dan terhubung denganmu dengan mudah.`,
+    createStep1Tit: 'Masukkan nama perusahaan atau tim',
+    createStep1Desc: `Ini menjadi nama ruang kerja yang dibuat.`,
+    nameProfileDesc: `Silakan daftarkan nama profil dan gambar untuk digunakan di ruang kerja.`,
     profileImg: 'Foto profil saya',
     profileImgDesc: `Pastikan tim Anda tahu 
     Mereka berbicara dengan orang yang tepat.`,
     createStep3Tit: 'Tambahkan anggota tim atau rekan kerja',
-    createStep3Desc: 'Harap tambahkan rekan kerja Anda dalam format email.',
+    createStep3Desc: 'Undang rekan kerja untuk bergabung dengan Anda melalui email.',
     createStep3Info: 'Masukkan kunci setelah menulis surel',
     createStep4Tit: 'Pilih industri dan ukuran Anda',
     createStep4Desc: `Silakan pilih industri tim/perusahaan 

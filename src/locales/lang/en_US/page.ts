@@ -5,15 +5,14 @@ export default {
     welcomeTit: 'Welcome, {userName}!',
     welcomeDesc: `Thank you for signing up for CheckUp.
     Now, please select your preferred option to start working.`,
-    createStep1Tit: 'Enter team or company name',
-    createStep1Desc: `This will be the name of Checkup's workspace.`,
-    nameProfileDesc: `Adding your name and profile photo will help 
-    your team find you and connect with you easily.`,
+    createStep1Tit: 'Enter company or team name',
+    createStep1Desc: `It becomes the name of the workspace that is created.`,
+    nameProfileDesc: `Please register the profile name and picture to use within the workspace.`,
     profileImg: 'My profile picture',
     profileImgDesc: `Make sure your team knows 
     they're talking to the right person.`,
     createStep3Tit: 'Add team members or coworkers',
-    createStep3Desc: 'Please add your coworkers in email format.',
+    createStep3Desc: 'Invite a colleague to join you via email.',
     createStep3Info: 'Enter key after writing email',
     createStep4Tit: 'Choose your industry and size',
     createStep4Desc: `Please select the industry of the team/company 

@@ -7,13 +7,14 @@
           :maxlength="20"
           :isError="props.isError"
           @change="onChange"
+          showCount
         />
         <div class="errorMsg" v-if="props.isError">
           {{ $t('message.validate.checkGroupName') }}
         </div>
       </FormItem>
       <FormItem :label="t('page.manage.groupDescription')">
-        <Input v-model:value="groupInfo.content" :maxlength="50" />
+        <Input v-model:value="groupInfo.content" :maxlength="50" showCount />
       </FormItem>
 
       <br />

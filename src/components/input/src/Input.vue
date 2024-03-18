@@ -1,6 +1,6 @@
 <template>
   <div class="input-container">
-    <Input v-bind="{ ...props }" :class="[props.isError && 'error']">
+    <Input v-bind="{ ...props }">
       <template #prefix>
         <slot name="prefix" />
       </template>
@@ -16,27 +16,25 @@
 
 <script setup lang="ts" name="Input">
 import { Input } from 'ant-design-vue'
-
 import type { InputProps } from '../types'
 
 const props = withDefaults(defineProps<InputProps>(), {
-  bordered: true,
-  isError: false
+  bordered: true
 })
 </script>
 
 <style scoped lang="scss">
 .input-container {
-  .ant-input-affix-wrapper {
-    padding: 6.5px 11px !important;
-  }
+  // .ant-input-affix-wrapper {
+  //   padding: 6.5px 11px !important;
+  // }
 
   .ant-input {
     padding: 6.5px 11px !important;
   }
 
-  .error {
-    border: 1.5px solid $color-feedback-error !important;
-  }
+  // .error {
+  //   border: 1.5px solid $color-feedback-error !important;
+  // }
 }
 </style>

@@ -5,15 +5,14 @@ export default {
     welcomeTit: '{userName}님 환영합니다!',
     welcomeDesc: `체크업에 가입해주셔서 감사합니다.
     이제 업무를 시작하기 위해 원하시는 선택지를 선택해주세요.`,
-    createStep1Tit: '팀 또는 회사명 입력',
-    createStep1Desc: 'checkup 워크스페이스의 이름이 됩니다.',
-    nameProfileDesc: `이름과 프로필 사진을 추가하면
-    팀원이 사용자를 쉽게 알아보고 연결하는 데 도움이됩니다.`,
+    createStep1Tit: '회사 또는 팀 이름 입력',
+    createStep1Desc: '생성되는 워크스페이스의 이름이 됩니다.',
+    nameProfileDesc: `워크스페이스 내에서 사용할 프로필 이름과 사진을 등록해 주세요.`,
     profileImg: '내 프로필 사진',
     profileImgDesc: `팀원들이 적절한 사람과 대화하고 있음을
     알 수 있도록 하세요.`,
     createStep3Tit: '팀원 또는 직장 동료 추가',
-    createStep3Desc: '이메일 형식으로 직장동료를 추가 해주세요.',
+    createStep3Desc: '함께할 동료를 이메일로 초대 해보세요.',
     createStep3Info: '이메일 작성 후 엔터키(enter)',
     createStep4Tit: '업종과 규모 선택',
     createStep4Desc: '팀/회사의 업종과 팀/회사의 규모(인원수)를 선택해주세요.',

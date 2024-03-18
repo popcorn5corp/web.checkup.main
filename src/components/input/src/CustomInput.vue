@@ -45,18 +45,18 @@ const onFocusout = () => {
   isColored.value = false
 }
 
-watch(
-  () => props,
-  () => {
-    if (props.isError) {
-      isError.value = true
-      isActive.value = true
-    } else {
-      isError.value = false
-    }
-  },
-  { immediate: true, deep: true }
-)
+// watch(
+//   () => props,
+//   () => {
+//     if (props.isError) {
+//       isError.value = true
+//       isActive.value = true
+//     } else {
+//       isError.value = false
+//     }
+//   },
+//   { immediate: true, deep: true }
+// )
 </script>
 
 <style lang="scss" scoped>

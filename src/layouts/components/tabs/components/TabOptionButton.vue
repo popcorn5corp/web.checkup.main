@@ -1,7 +1,7 @@
 <template>
   <Dropdown :trigger="['click']" :placement="'bottomLeft'">
     <div class="option-btn">
-      <SettingOutlined />
+      <DownOutlined />
     </div>
 
     <template #overlay>
@@ -16,7 +16,7 @@
 </template>
 <script setup lang="ts" name="TabOptionButton">
 import { Dropdown, Menu, MenuItem, type MenuProps } from 'ant-design-vue'
-import { MinusOutlined, SettingOutlined } from '@/components/icons'
+import { MinusOutlined, DownOutlined } from '@/components/icons'
 import { useTabsLayoutStore } from '@/stores/modules/tabs-layout'
 import { useRouter } from 'vue-router'
 import { tabOptionKeyTypes, tabOptions } from '@/stores/modules/tabs-layout/data'

@@ -2,7 +2,7 @@
   <div class="content left">
     <div class="welcome-text-wrapper">
       <h1>
-        {{ $t('page.workspace.welcomeTit', { userName: workspaceUserInfo.userName }) }}
+        {{ $t('page.workspace.welcomeTit', { userName: getUser.userName }) }}
       </h1>
       <p>
         {{ $t('page.workspace.welcomeDesc') }}
@@ -40,18 +40,18 @@ import { ArrowRightOutlined } from '@ant-design/icons-vue'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/modules/auth'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import type { WorkspaceStepType } from '@/stores/modules/workspace/types'
+import { PagePathEnum } from '@/constants/pageEnum'
 
 const { t } = useI18n()
 const router = useRouter()
 const workspaceStore = useWorkspaceStore()
-const { getUser } = useAuthStore()
+const { getUser } = storeToRefs(useAuthStore())
 
-const workspaceUserInfo = reactive({
-  ...getUser
-})
+console.log('getUser :: ', getUser)
 
 const btns = reactive({
   create: {
@@ -70,9 +70,7 @@ const btns = reactive({
 
 const onBtnClick = (type: WorkspaceStepType) => {
   workspaceStore.setStepType(type)
-  router.push({
-    name: type === 'create' ? 'workspace-create' : 'workspace-invite'
-  })
+  router.push(type === 'create' ? PagePathEnum.WORKSPACE_CREATE : PagePathEnum.WORKSPACE_INVITE)
 }
 </script>
 

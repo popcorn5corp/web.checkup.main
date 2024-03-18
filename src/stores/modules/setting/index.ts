@@ -19,6 +19,7 @@ export const useSettingStore = defineStore('setting', () => {
   const router = useRouter()
   const appStore = useAppStore()
   const workspaceStore = useWorkspaceStore()
+  const { updateWorkspaceSettings } = workspaceStore
 
   const { setCollapse } = appStore
   const { getCollapse } = storeToRefs(appStore)
@@ -28,7 +29,7 @@ export const useSettingStore = defineStore('setting', () => {
 
   async function _setSttings(values: Partial<WorkspaceSettings>) {
     if (unref(getWorkspace)?.workspaceId) {
-      await workspaceStore.updateWorkspaceSettings(values)
+      await updateWorkspaceSettings(values)
     }
   }
 

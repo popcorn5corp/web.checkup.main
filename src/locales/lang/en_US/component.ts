@@ -32,7 +32,8 @@ export default {
   ph: {
     selectBusinessTypeOpt: 'Select business type',
     selectEmployeeScaleOpt: 'Select employee scale',
-    inputTeamOrCompanyName: 'Please enter your team or company name.',
+    // inputTeamOrCompanyName: 'Please enter your team or company name.',
+    inputTeamOrCompanyName: 'Example: checkup Inspection or checkup',
     inputInviteCode: 'Please enter the invitation code.',
     userSearchPh: 'Please search your name and email.',
     groupSearchPh: 'Please search for the group name.'

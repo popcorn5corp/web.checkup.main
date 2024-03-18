@@ -10,7 +10,7 @@
         v-model:value="getFormValues.inviteCode"
         @input="
           () => {
-            workspaceStore.setNextBtnDisabled(true)
+            setNextBtnDisabled(true)
             isConfirm = false
           }
         "
@@ -42,6 +42,7 @@ const { createMessage } = useMessage()
 
 const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
+const { setJoinParam, setNextBtnDisabled } = workspaceStore
 const { getFormValues } = toRefs(workspaceStore)
 const isLoading = ref(false)
 const isConfirm = ref(false)
@@ -49,6 +50,7 @@ const isConfirm = ref(false)
 const onCheckInviteCode = async () => {
   const codeValue = getFormValues.value.inviteCode.trim()
   const reg = /^[0-9]+$/
+
   try {
     if (codeValue.length) {
       isLoading.value = true
@@ -58,19 +60,19 @@ const onCheckInviteCode = async () => {
         const { workspaceId, workspaceName, workspaceInviteLogId } = data
 
         // 워크스페이스 이름&아이디 저장
-        workspaceStore.setJoinParam({ workspaceId, workspaceName, workspaceInviteLogId })
-        workspaceStore.setNextBtnDisabled(false)
+        setJoinParam({ workspaceId, workspaceName, workspaceInviteLogId })
+        setNextBtnDisabled(false)
         isConfirm.value = true
       } else {
         createMessage.error(t('message.validate.checkInviteCode'))
-        workspaceStore.setNextBtnDisabled(true)
+        setNextBtnDisabled(true)
       }
     }
   } catch (err: any) {
-    isLoading.value = false
     console.log(err)
+    isLoading.value = false
     createMessage.error(err.response.data.error.message)
-    workspaceStore.setNextBtnDisabled(true)
+    setNextBtnDisabled(true)
   } finally {
     isLoading.value = false
   }

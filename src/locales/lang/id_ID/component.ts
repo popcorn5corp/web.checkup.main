@@ -32,7 +32,8 @@ export default {
   ph: {
     selectBusinessTypeOpt: 'Pilih jenis bisnis',
     selectEmployeeScaleOpt: 'Pilih skala karyawan',
-    inputTeamOrCompanyName: 'Silakan masukkan nama tim Anda atau nama perusahaan.',
+    // inputTeamOrCompanyName: 'Silakan masukkan nama tim Anda atau nama perusahaan.',
+    inputTeamOrCompanyName: 'Contoh: pemeriksaan Pemeriksaan atau pemeriksaan',
     inputInviteCode: 'Silakan masukkan kode undangan.',
     userSearchPh: 'Silakan cari nama dan email Anda.',
     groupSearchPh: 'Silakan cari nama grupnya.'

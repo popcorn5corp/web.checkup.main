@@ -15,6 +15,7 @@ import { getDefaultFormValues } from './data'
 import type {
   JoinParamValues,
   UserWorkspace,
+  WorkspaceFormValues,
   WorkspaceSettings,
   WorkspaceState,
   WorkspaceStepType
@@ -64,16 +65,16 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     }
   })
 
-  function prevCurrentStep() {
+  function movePrevStep() {
     if (state.currentStep === FIRST_STEP_COUNT) {
       state.stepType = null
-      router.push(PagePathEnum.WORKSPACE)
+      router.go(-1)
     } else if (state.currentStep > FIRST_STEP_COUNT) {
       state.currentStep -= 1
     }
   }
 
-  function nextCurrentStep() {
+  function moveNextStep() {
     state.currentStep += 1
   }
 
@@ -99,6 +100,13 @@ export const useWorkspaceStore = defineStore('workspace', () => {
 
   function setNextBtnDisabled(disabled: boolean) {
     state.nextBtnDisabled = disabled
+  }
+
+  function setFormValues(values: Partial<WorkspaceFormValues>) {
+    state.formValues = {
+      ...state.formValues,
+      ...values
+    }
   }
 
   function setFormValueImgFile({
@@ -260,11 +268,12 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     getFormValues,
     getJoinParam,
     initCurrentStep,
-    prevCurrentStep,
-    nextCurrentStep,
+    movePrevStep,
+    moveNextStep,
     setStepType,
     setNextBtnDisabled,
     setWorkspace,
+    setFormValues,
     initWorkspace,
     pushFormValueInviteEmails,
     removeFormValueInviteEmails,

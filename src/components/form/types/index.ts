@@ -24,7 +24,6 @@ export interface FormProps extends AFormProps {
    *
    */
   rulesRef?: Recordable<FormRules>
-
   /**
    *  비활성화
    */
@@ -44,7 +43,14 @@ export interface FormProps extends AFormProps {
 }
 
 export interface FormItemProps extends AFormItemProps {
+  /**
+   * FormItem Label
+   */
   label?: string
+  /**
+   * FormItem 내부 필드에 대한 border, valid text 를 feed-back color 로 적용해주기 위한 option
+   */
+  isError?: boolean
 }
 
 export interface FormItemRestProps {}

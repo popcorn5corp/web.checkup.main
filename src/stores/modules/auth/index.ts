@@ -15,7 +15,7 @@ export const useAuthStore = defineStore(
   'auth',
   () => {
     const state = reactive<AuthState>({
-      user: Util.Storage.get<IUser>('user') || getDefaultUser(),
+      user: Util.Storage.get<IUser>(USER_INFO_KEY) || getDefaultUser(),
       token: Util.Storage.get<string>(ACCESS_TOKEN_KEY),
       loggedIn: false,
       loading: false
@@ -46,12 +46,12 @@ export const useAuthStore = defineStore(
             setToken(accessToken)
             setRefreshToken(refreshToken)
 
-            const { userInfo, goPath, workspaceId, useDefaultWorkspace } = await afterLoginAction()
+            const { goPath, workspaceId } = await afterLoginAction()
 
-            setUser({
-              ...userInfo,
-              useDefaultWorkspace
-            })
+            // setUser({
+            //   ...userInfo,
+            //   useDefaultWorkspace
+            // })
 
             workspaceId && setSelectedWorkspaceId(workspaceId)
 
@@ -74,12 +74,12 @@ export const useAuthStore = defineStore(
     function loginSocial(): Promise<{ goPath: string }> {
       return new Promise(async (resolve, reject) => {
         try {
-          const { userInfo, goPath, workspaceId, useDefaultWorkspace } = await afterLoginAction()
+          const { goPath, workspaceId } = await afterLoginAction()
 
-          setUser({
-            ...userInfo,
-            useDefaultWorkspace
-          })
+          // setUser({
+          //   ...userInfo,
+          //   useDefaultWorkspace
+          // })
 
           workspaceId && setSelectedWorkspaceId(workspaceId)
           state.loggedIn = true
@@ -100,21 +100,24 @@ export const useAuthStore = defineStore(
      * @description [2] 사용자 로그인 이후 처리
      */
     function afterLoginAction(): Promise<{
-      userInfo: IAuth.UserResponse
+      // userInfo: IAuth.UserResponse
       goPath: string
       workspaceId: string | null
-      useDefaultWorkspace: boolean
+      // useDefaultWorkspace: boolean
     }> {
       return new Promise(async (resolve, reject) => {
         try {
           const userInfo = await getUserInfo()
           const { goPath, workspaceId, useDefaultWorkspace } = await workspaceAction(userInfo)
 
-          resolve({
-            userInfo,
-            goPath,
-            workspaceId,
+          setUser({
+            ...userInfo,
             useDefaultWorkspace
+          })
+
+          resolve({
+            goPath,
+            workspaceId
           })
         } catch (error) {
           reject(error)

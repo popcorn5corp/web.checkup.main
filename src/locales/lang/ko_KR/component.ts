@@ -32,7 +32,8 @@ export default {
   ph: {
     selectBusinessTypeOpt: '업종 선택',
     selectEmployeeScaleOpt: '규모 선택',
-    inputTeamOrCompanyName: '팀 또는 회사명을 입력해주세요.',
+    // inputTeamOrCompanyName: '팀 또는 회사명을 입력해주세요.',
+    inputTeamOrCompanyName: '예: checkup 점검 또는 checkup',
     inputInviteCode: '초대 코드를 입력해 주세요.',
     userSearchPh: '이름과 이메일을 검색해주세요.',
     groupSearchPh: '그룹명을 검색해주세요.'

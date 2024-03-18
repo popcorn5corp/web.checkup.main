@@ -22,6 +22,7 @@ export default {
     checkEmail: '이메일 형식으로 입력해주세요.',
     checkCertifiNum: '인증번호를 입력해주세요.',
     checkErrorCertifiNum: '인증번호가 유효하지 않습니다.',
-    checkGroupName: '그룹명을 입력해주세요.'
+    checkGroupName: '그룹명을 입력해주세요.',
+    checkSpecialChar: '특수문자는 포함할 수 없습니다.'
   }
 }

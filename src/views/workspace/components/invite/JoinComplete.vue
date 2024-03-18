@@ -5,6 +5,7 @@
     </h1>
     <p>{{ $t('page.workspace.joinCompleteDesc1') }}</p>
   </div>
+
   <div class="user-wrapper" v-if="!isLoading">
     <a-avatar-group
       :max-count="5"
@@ -29,15 +30,16 @@ import { reactive, ref, toRefs, unref } from 'vue'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import type { WorkspaceUsers } from '@/stores/modules/workspace/types'
 
-const workspaceStore = useWorkspaceStore()
-const { getJoinParam } = toRefs(workspaceStore)
-
-interface TState {
+interface State {
   workspaceName: string
   totalUserCount: number
   workspaceUsers: WorkspaceUsers[]
 }
-const state = reactive<TState>({
+
+const workspaceStore = useWorkspaceStore()
+const { getJoinParam } = toRefs(workspaceStore)
+
+const state = reactive<State>({
   workspaceName: '',
   totalUserCount: 0,
   workspaceUsers: []
@@ -51,6 +53,7 @@ const isLoading = ref(false)
     state.workspaceName = data.workspaceName
     state.totalUserCount = data.totalUserCount
     state.workspaceUsers = data.workspaceUsers
+
     workspaceStore.setSelectedWorkspaceId(data.workspaceId)
   } catch (err) {
     console.log(err)

@@ -22,6 +22,7 @@ export default {
     checkEmail: 'Please enter it in email format.',
     checkCertifiNum: 'Please enter your authentication number.',
     checkErrorCertifiNum: 'The authentication number is invalid.',
-    checkGroupName: 'Please enter the group name.'
+    checkGroupName: 'Please enter the group name.',
+    checkSpecialChar: 'Special characters cannot be included.'
   }
 }

@@ -4,9 +4,9 @@ import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
 import type { LocaleState } from './types'
 
-const { locales } = Helper.Locale
-
 export const useLocaleStore = defineStore('locale', () => {
+  const { locales } = Helper.Locale
+
   const state = reactive<LocaleState>({
     locale: locales.persistedLocale
   })

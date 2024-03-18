@@ -6,19 +6,26 @@
     </p>
   </div>
   <div class="form-wrapper">
-    <Input
-      :placeholder="$t('message.validate.checkName')"
-      v-model:value="getFormValues.nickname"
-      :maxlength="50"
-      @input="onInput"
-      @press-enter="workspaceStore.nextCurrentStep()"
-    />
+    <FormItem :isError="isError">
+      <Input
+        v-model:value="getFormValues.nickname"
+        :placeholder="$t('message.validate.checkName')"
+        :maxlength="10"
+        @input="onInput"
+        @press-enter="moveNextStep()"
+        show-count
+      />
+
+      <template #validText>{{ validText }}</template>
+    </FormItem>
+
     <div class="profile-wrapper">
       <h2>{{ $t('page.workspace.profileImg') }}</h2>
       <div class="profile-box">
         <div class="img-wrapper">
           <img :src="seletedImg" alt="출처 Freepik" />
         </div>
+
         <div>
           <p>
             {{ $t('page.workspace.profileImgDesc') }}
@@ -36,10 +43,11 @@
       </div>
     </div>
   </div>
+
   <Modal
     :open="modalVisible"
     :title="$t('component.button.selectImg')"
-    width="64%"
+    width="620px"
     centered
     :bodyStyle="{
       display: 'flex',
@@ -63,14 +71,19 @@
 
 <script lang="ts" setup name="NameProfileForm">
 import { WorkspaceService } from '@/services'
-import { Input, Modal } from 'ant-design-vue'
+import { Modal } from 'ant-design-vue'
 import { computed, ref, toRefs, watch } from 'vue'
 import type { IWorkspace } from '@/services/workspace/types'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 import { Button } from '@/components/button'
 import { FileUploader } from '@/components/file-uploader'
+import { Input } from '@/components/input'
+import { FormItem } from '@/components/form'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
+const { moveNextStep, setFormValueImgFile, setNextBtnDisabled } = workspaceStore
 const { getFormValues } = toRefs(workspaceStore)
 
 const fileUploader = ref()
@@ -78,6 +91,8 @@ const modalVisible = ref(false)
 const profileList = ref<IWorkspace.ImageFileInfo[]>([])
 const fileUploaderImg = computed(() => fileUploader.value?.getFiles())
 const seletedImg = ref('')
+const isError = ref(false)
+const validText = ref('')
 
 ;(async () => {
   try {
@@ -86,7 +101,7 @@ const seletedImg = ref('')
     profileList.value = data.images
     seletedImg.value = defaultImage.url
 
-    workspaceStore.setFormValueImgFile({
+    setFormValueImgFile({
       ...defaultImage,
       saveName: defaultImage.name
     })
@@ -99,16 +114,33 @@ const seletedImg = ref('')
   }
 })()
 
+function isValid(value: string) {
+  const specialCharRule = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g
+  let result = true
+
+  if (specialCharRule.test(value)) {
+    isError.value = true
+    validText.value = t('message.validate.checkSpecialChar')
+    return false
+  }
+
+  if (!value.length) result = false
+
+  isError.value = false
+  validText.value = ''
+  return result
+}
+
 const onInput = (e: Event) => {
-  const nameValue = (e.target as HTMLInputElement).value
-  workspaceStore.setNextBtnDisabled(nameValue.length > 0 ? false : true)
+  const value = (e.target as HTMLInputElement).value
+  setNextBtnDisabled(!isValid(value))
 }
 
 const onClickImg = (imgValue: IWorkspace.ImageFileInfo) => {
   seletedImg.value = imgValue.url
   modalVisible.value = false
 
-  workspaceStore.setFormValueImgFile({
+  setFormValueImgFile({
     ...imgValue,
     saveName: imgValue.name
   })
@@ -118,7 +150,8 @@ watch(fileUploaderImg, (imgfileList) => {
   if (imgfileList.length) {
     const imgValue = imgfileList.at(-1)
     seletedImg.value = imgValue.url
-    workspaceStore.setFormValueImgFile({
+
+    setFormValueImgFile({
       ...imgValue,
       saveName: imgValue.name
     })
@@ -129,7 +162,7 @@ watch(
   getFormValues,
   (formValue) => {
     if (formValue.nickname.length) {
-      workspaceStore.setNextBtnDisabled(false)
+      setNextBtnDisabled(false)
     }
   },
   { immediate: true }
@@ -146,22 +179,26 @@ watch(
   }
 }
 .img-wrapper {
-  width: 150px;
+  width: 100px;
   img {
     width: 100%;
+    border-radius: $radius-round-2;
   }
 }
 p {
   color: $color-gray-7;
   line-height: 1.4;
-  font-size: 17px;
+  font-size: $font-size-base;
 }
 .btn-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.8rem;
-  font-size: 15px;
+
+  > span {
+    font-size: $font-size-small;
+  }
 }
 
 :deep(.ant-upload-list) {
@@ -170,6 +207,7 @@ p {
 .profile-img-wrapper {
   position: relative;
   cursor: pointer;
+
   .img-masking {
     position: absolute;
     top: 0;
@@ -190,11 +228,10 @@ p {
       font-weight: 700;
       border-radius: 1rem;
     }
-  }
-}
-.profile-img-wrapper:hover {
-  .img-masking {
-    opacity: 1;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 

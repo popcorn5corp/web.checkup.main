@@ -117,11 +117,11 @@ html[data-theme='dark'] {
   #workspace-step-btn-container {
     .form-wrapper {
       input {
-        background-color: $darkmode-color-background !important;
+        // background-color: $darkmode-color-background !important;
         color: $darkmode-color-text !important;
       }
       input::placeholder {
-        color: $darkmode-color-text !important;
+        color: $darkmode-color-text-sub !important;
       }
     }
   }
@@ -129,6 +129,7 @@ html[data-theme='dark'] {
     .select-wrapper {
       background-color: $darkmode-color-background !important;
       border: 1px solid $darkmode-color-border !important;
+      
       .tag {
         background-color: $darkmode-color-text-sub !important;
         color: $darkmode-color-text !important;
@@ -137,7 +138,6 @@ html[data-theme='dark'] {
   }
 
   .ant-table {
-    // !dark: #acc0f2
     .ant-table-container {
       background-color: $darkmode-color-background;
     }

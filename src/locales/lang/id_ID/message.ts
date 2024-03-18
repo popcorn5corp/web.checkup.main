@@ -22,6 +22,7 @@ export default {
     checkEmail: 'Silakan masukkan dalam format email.',
     checkCertifiNum: 'Silakan masukkan nomor otentikasi Anda.',
     checkErrorCertifiNum: 'Nomor otentikasi tidak valid.',
-    checkGroupName: 'Silakan masukkan nama grup.'
+    checkGroupName: 'Silakan masukkan nama grup.',
+    checkSpecialChar: 'Karakter khusus tidak dapat disertakan.'
   }
 }

@@ -26,6 +26,6 @@ export default {
   },
   tabs: {
     closeAll: 'Close all tabs',
-    closeAllOthers: 'Close all other tabs'
+    closeAllOthers: 'Close other tabs'
   }
 }

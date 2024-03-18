@@ -9,6 +9,7 @@
         {{ $t('page.workspace.createStep3Info') }}
       </div>
       <small v-if="isError" style="color: red; margin-left: 10px">{{ errMsg }}</small>
+
       <div class="select-wrapper" @click="inputRef.focus()">
         <div class="input-wrapper">
           <div class="input-box">
@@ -34,9 +35,7 @@
         </div>
       </div>
       <div class="jump-wrapper" v-if="isShowJump">
-        <span class="jump" @click="workspaceStore.nextCurrentStep()">{{
-          $t('page.workspace.inviteStepJump')
-        }}</span>
+        <span class="jump" @click="moveNextStep()">{{ $t('page.workspace.inviteStepJump') }}</span>
       </div>
     </div>
   </div>
@@ -56,6 +55,13 @@ import { CloseOutlined } from '@/components/icons'
 
 const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
+const {
+  moveNextStep,
+  initFormValueInviteEmails,
+  pushFormValueInviteEmails,
+  removeFormValueInviteEmails,
+  setNextBtnDisabled
+} = workspaceStore
 const { getFormValues, getStepType, getWorkspace, getWorkspaceId } = toRefs(workspaceStore)
 
 const props = defineProps({
@@ -83,7 +89,7 @@ const errorTagStyle = computed<CSSProperties>(() => {
 
 ;(async () => {
   if (getStepType.value === null) {
-    workspaceStore.initFormValueInviteEmails()
+    initFormValueInviteEmails()
   }
 })()
 
@@ -98,14 +104,13 @@ const onInputEnter = async (event: KeyboardEvent) => {
     } else if (tags.value.includes(emailValue)) {
       // 작성한 email 과 중복일 때
       handleError(t('message.validate.checkDuplicatedEmail'))
-      console.log('step', getStepType.value)
     } else {
       if (getStepType.value === null) {
         // 사용자 관리 - 초대하기 일 떼 워크스페이스에 존재하는 email인지 검사
         onManageUsersCheckEmail(emailValue)
       }
       emailRef.value = ''
-      workspaceStore.pushFormValueInviteEmails(emailValue.trim())
+      pushFormValueInviteEmails(emailValue.trim())
       resetError()
     }
   } catch (err) {
@@ -131,22 +136,22 @@ const onManageUsersCheckEmail = async (emailValue: string) => {
 }
 
 const onInitInviteEmails = () => {
-  workspaceStore.initFormValueInviteEmails()
+  initFormValueInviteEmails()
 }
 
 const onRemove = (tag: string) => {
-  workspaceStore.removeFormValueInviteEmails(tag)
+  removeFormValueInviteEmails(tag)
 }
 
 const handleError = (message: string) => {
   errMsg.value = message
   isError.value = true
-  workspaceStore.setNextBtnDisabled(true)
+  setNextBtnDisabled(true)
 }
 
 const resetError = () => {
   isError.value = false
-  workspaceStore.setNextBtnDisabled(false)
+  setNextBtnDisabled(false)
 }
 
 watch(emailRef, () => {

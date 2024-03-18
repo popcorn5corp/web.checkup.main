@@ -25,7 +25,7 @@
           class="btn"
           size="large"
           :label="$t('component.button.prev')"
-          @click="workspaceStore.prevCurrentStep()"
+          @click="movePrevStep()"
         />
         <Button
           v-if="getSteps[getCurrentStep - 1].nextBtnText"
@@ -61,7 +61,9 @@ import { PagePathEnum } from '@/constants/pageEnum'
 
 const router = useRouter()
 const workspaceStore = useWorkspaceStore()
-workspaceStore.initCurrentStep()
+const { initCurrentStep, setJoinParam, setSelectedWorkspaceId, moveNextStep, movePrevStep } =
+  workspaceStore
+
 const {
   getCurrentStep,
   getSteps,
@@ -80,12 +82,13 @@ const props = defineProps({
   }
 })
 
+initCurrentStep()
+
 const onComplete = async () => {
   try {
     if (getSteps.value[getCurrentStep.value - 1].isComplete) {
       isLoading.value = true
       if (getStepType.value === 'create') {
-        // 생성 api
         // eslint-disable-next-line
         const { inviteCode, url, ...formDataWithoutInviteCode } = getFormValues.value
         const { data, success } = await WorkspaceService.createWorkspace({
@@ -95,8 +98,8 @@ const onComplete = async () => {
 
         if (success) {
           const { workspaceId, workspaceName } = data
-          workspaceStore.setJoinParam({ workspaceId, workspaceName })
-          workspaceStore.setSelectedWorkspaceId(workspaceId)
+          setJoinParam({ workspaceId, workspaceName })
+          setSelectedWorkspaceId(workspaceId)
         }
       } else {
         // 초대 api
@@ -115,7 +118,7 @@ const onComplete = async () => {
       }
     }
 
-    workspaceStore.nextCurrentStep()
+    moveNextStep()
   } finally {
     isLoading.value = false
   }
@@ -180,7 +183,7 @@ const onComplete = async () => {
     input {
       padding: 0.8rem 2rem;
       font-size: 1rem;
-      background-color: $input-bg-color;
+      // background-color: $input-bg-color;
       border-radius: 0.5rem;
       border: none;
       color: $color-semiDark;
