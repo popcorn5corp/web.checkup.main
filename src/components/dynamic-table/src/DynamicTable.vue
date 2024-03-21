@@ -16,11 +16,11 @@
             <div class="table-btns">
               <Space>
                 <template v-if="getContextValues.selectedRows?.length > 0">
-                  <Button v-if="showDownload" :label="buttonText.download" size="middle">
+                  <!-- <Button v-if="showDownload" :label="buttonText.download" size="middle">
                     <template #icon>
                       <DownloadOutlined />
                     </template>
-                  </Button>
+                  </Button> -->
 
                   <Button
                     v-if="showDelete"
@@ -36,6 +36,17 @@
 
                 <slot name="tableBtns"></slot>
 
+                <Tooltip placement="topRight">
+                  <template #title>
+                    <span>Download</span>
+                  </template>
+                  <Button :label="''" size="middle" :ref="(ref) => tour.setTour(7, ref as Element)">
+                    <template #icon>
+                      <DownloadOutlined />
+                    </template>
+                  </Button>
+                </Tooltip>
+
                 <Button
                   :ref="(ref) => tour.setTour(3, ref as Element)"
                   v-if="showRegist"
@@ -49,7 +60,7 @@
                 </Button>
 
                 <!-- 필터 버튼 -->
-                <Button
+                <!-- <Button
                   :ref="(ref) => tour.setTour(4, ref as Element)"
                   v-if="activeFilter"
                   type="primary"
@@ -65,7 +76,7 @@
                   <template #icon>
                     <FilterTwoTone />
                   </template>
-                </Button>
+                </Button> -->
               </Space>
             </div>
           </div>
@@ -94,7 +105,7 @@
   </div>
 </template>
 <script setup lang="ts" name="DynamicTable">
-import { Divider, Space } from 'ant-design-vue'
+import { Divider, Space, Tooltip } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/button'
@@ -154,8 +165,7 @@ const activeFilter = ref(
 const buttonText = computed(() => ({
   delete: props.deleteBtnText || t('component.button.delete'),
   download: t('component.button.download'),
-  registration: t('component.button.registration'),
-  filter: t('component.button.filter')
+  registration: t('component.button.registration')
 }))
 
 const contextValues = ref<DynamicTableContextValues>({
@@ -233,13 +243,16 @@ let dynamicTableAction: DynamicTableAction = {
   setFilterFormItem,
   clearSelectedItems,
   initFilterFormItems,
+
   closeDetail: () => {
     emit('update:openDetail', false)
     unref(tableRef)?.initCustomRow()
   },
+
   closeFilter: () => {
     unref(showFilter) && (showFilter.value = false)
   },
+
   emitter: emit
 }
 

@@ -1,18 +1,30 @@
 <template>
   <div class="table-toolbar-container">
-    <Input
-      class="search"
-      v-model:value="searchWord"
-      :placeholder="phText || $t('common.searchPlaceholder')"
-      @change="onChange"
-      @press-enter="onSearch"
-      allow-clear
-    >
-      <template #prefix>
-        <font-awesome-icon :icon="['fas', 'magnifying-glass']" @click="onSearch" />
-      </template>
-    </Input>
+    <div class="table-search-wrapper">
+      <Button
+        :ref="(ref) => tour.setTour(4, ref as Element)"
+        type="primary"
+        :label="$t('component.button.filter')"
+        size="middle"
+      >
+        <template #icon>
+          <FilterTwoTone />
+        </template>
+      </Button>
 
+      <Input
+        class="search"
+        v-model:value="searchWord"
+        :placeholder="phText || $t('common.searchPlaceholder')"
+        @change="onChange"
+        @press-enter="onSearch"
+        allow-clear
+      >
+        <template #prefix>
+          <font-awesome-icon :icon="['fas', 'magnifying-glass']" @click="onSearch" />
+        </template>
+      </Input>
+    </div>
     <Space class="settings">
       <Tooltip placement="top">
         <template #title>
@@ -29,7 +41,7 @@
           </template>
         </Button>
       </Tooltip>
-
+      <!-- 
       <Tooltip placement="top">
         <template #title>
           <span>Full Download</span>
@@ -39,7 +51,7 @@
             <DownloadOutlined />
           </template>
         </Button>
-      </Tooltip>
+      </Tooltip> -->
 
       <Tooltip placement="top">
         <template #title>
@@ -48,7 +60,7 @@
         <Dropdown :trigger="['click']">
           <Button size="middle" :ref="(ref) => tour.setTour(8, ref as Element)">
             <template #icon>
-              <ColumnHeightOutlined />
+              <FontSizeOutlined />
             </template>
           </Button>
 
@@ -62,12 +74,12 @@
         </Dropdown>
       </Tooltip>
 
-      <Tooltip placement="top">
+      <!-- <Tooltip placement="top">
         <template #title>
           <span>Layout Mode</span>
         </template>
         <TableSegmentButton />
-      </Tooltip>
+      </Tooltip> -->
     </Space>
   </div>
 </template>
@@ -77,7 +89,7 @@ import { Dropdown, Input, Menu, MenuItem, Space, Tooltip } from 'ant-design-vue'
 import type { MenuClickEventHandler } from 'ant-design-vue/es/menu/src/interface'
 import { computed, onMounted, ref, unref, watch } from 'vue'
 import { Button } from '@/components/button'
-import { ColumnHeightOutlined, DownloadOutlined } from '@/components/icons'
+import { FilterTwoTone, FontSizeOutlined } from '@/components/icons'
 import { useTour } from '@/components/tour/hooks/useTour'
 import { useTableContext } from '../../hooks/useTableContext'
 import { type SizeType, cardSizeItems, tableSizeItems } from '../../types'
@@ -138,6 +150,11 @@ function onReload() {
 
 <style lang="scss" scoped>
 .table-toolbar-container {
+  .table-search-wrapper {
+    display: flex;
+    gap: 3px;
+  }
+
   display: flex;
   justify-content: space-between;
   gap: 10px;

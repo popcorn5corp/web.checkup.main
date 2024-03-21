@@ -202,7 +202,7 @@ export const defaultPaginaton: TablePagination = {
   current: 1,
   pageSize: 10,
   showSizeChanger: true,
-  position: ['topRight'],
+  position: ['bottomRight'],
   pageSizeOptions: ['10', '30', '50']
 }
 
