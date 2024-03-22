@@ -1,3 +1,4 @@
+import { PagePathEnum } from '@/constants/pageEnum'
 import i18n from '@/locales'
 import type { MenuTheme } from 'ant-design-vue'
 
@@ -122,3 +123,5 @@ export const themeColors: ReadonlyArray<LabelValue<string>> = [
     value: 'rgba(114, 46, 209, 1)'
   }
 ] as const
+
+export const themeBlackList = [PagePathEnum.BASE_LOGIN] as string[]

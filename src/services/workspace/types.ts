@@ -1,4 +1,4 @@
-import type { WorkspaceFormValues, WorkspaceUsers } from '@/stores/modules/workspace/types'
+import type { WorkspaceFormValues, WorkspaceUser } from '@/stores/modules/workspace/types'
 import type { LocaleType } from '@/locales/config'
 
 export namespace IWorkspace {
@@ -90,7 +90,7 @@ export namespace IWorkspace {
 
   export interface GetWorkspaceInfoResponse extends WorkspaceInfo {
     totalUserCount: number
-    workspaceUsers: WorkspaceUsers[]
+    workspaceUsers: WorkspaceUser[]
   }
 
   export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'WITHDRAWN' | 'REVOKE'
