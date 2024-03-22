@@ -34,10 +34,11 @@
 
   <Modal
     v-model:open="isOpen"
-    :title="$t('layout.header.dropdownItemSettings')"
-    @ok="isOpen = false"
-    :footer="false"
     width="800px"
+    destroy-on-close
+    :title="$t('layout.header.dropdownItemSettings')"
+    :footer="false"
+    @ok="isOpen = false"
   >
     <div class="modal-content">
       <Tabs :tabPosition="'left'">
@@ -65,8 +66,10 @@ import { Badge, Dropdown, Menu, MenuItem, type MenuProps, Modal } from 'ant-desi
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+
 import { useAuthStore } from '@/stores/modules/auth'
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+
 import { Button } from '@/components/button'
 import {
   CaretDownOutlined,
@@ -78,7 +81,9 @@ import {
 import { Tabs } from '@/components/tabs'
 import { TabPane } from '@/components/tabs'
 import { useTour } from '@/components/tour/hooks/useTour'
+
 import { PagePathEnum } from '@/constants/pageEnum'
+
 import AccessibilitySetting from './AccessibilitySetting.vue'
 import AlarmSetting from './AlarmSetting.vue'
 import DisplaySetting from './DisplaySetting.vue'

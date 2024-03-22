@@ -14,7 +14,9 @@
 <script setup lang="ts" name="MenuHeader">
 import { storeToRefs } from 'pinia'
 import { computed, ref, watch } from 'vue'
+
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+
 import { sampleMenus } from '../mock'
 
 interface Props {

@@ -23,7 +23,7 @@
       <h2>{{ $t('page.workspace.profileImg') }}</h2>
       <div class="profile-box">
         <div class="img-wrapper">
-          <img :src="seletedImg" alt="출처 Freepik" />
+          <img :src="getFormValues.url" alt="출처 Freepik" />
         </div>
 
         <div>
@@ -44,42 +44,25 @@
     </div>
   </div>
 
-  <Modal
-    :open="modalVisible"
-    :title="$t('component.button.selectImg')"
-    width="620px"
-    centered
-    :bodyStyle="{
-      display: 'flex',
-      flexWrap: 'wrap',
-      gap: '1rem'
-    }"
-    wrapClassName="modal-wrapper"
-    :footer="false"
+  <ProfileSelectModal
+    :modalVisible="modalVisible"
+    v-model:selectImg="getFormValues.url"
     @cancel="modalVisible = false"
-  >
-    <div v-for="profileImg in profileList" :key="profileImg.url">
-      <div class="profile-img-wrapper">
-        <img :src="profileImg.url" alt="출처 Freepik" class="profile-img" />
-        <div class="img-masking" @click="onClickImg(profileImg)">
-          <span>{{ $t('common.select') }}</span>
-        </div>
-      </div>
-    </div>
-  </Modal>
+  />
 </template>
 
 <script lang="ts" setup name="NameProfileForm">
-import { WorkspaceService } from '@/services'
-import { Modal } from 'ant-design-vue'
 import { computed, ref, toRefs, watch } from 'vue'
-import type { IWorkspace } from '@/services/workspace/types'
+import { useI18n } from 'vue-i18n'
+
 import { useWorkspaceStore } from '@/stores/modules/workspace'
+
+import ProfileSelectModal from '@/views/workspace/components/ProfileSelectModal.vue'
+
 import { Button } from '@/components/button'
 import { FileUploader } from '@/components/file-uploader'
-import { Input } from '@/components/input'
 import { FormItem } from '@/components/form'
-import { useI18n } from 'vue-i18n'
+import { Input } from '@/components/input'
 
 const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
@@ -88,31 +71,10 @@ const { getFormValues } = toRefs(workspaceStore)
 
 const fileUploader = ref()
 const modalVisible = ref(false)
-const profileList = ref<IWorkspace.ImageFileInfo[]>([])
 const fileUploaderImg = computed(() => fileUploader.value?.getFiles())
 const seletedImg = ref('')
 const isError = ref(false)
 const validText = ref('')
-
-;(async () => {
-  try {
-    const { data } = await WorkspaceService.getDefaultProfiles()
-    const defaultImage = data.images[0]
-    profileList.value = data.images
-    seletedImg.value = defaultImage.url
-
-    setFormValueImgFile({
-      ...defaultImage,
-      saveName: defaultImage.name
-    })
-
-    if (getFormValues.value.url) {
-      seletedImg.value = getFormValues.value.url
-    }
-  } catch (err) {
-    console.log(err)
-  }
-})()
 
 function isValid(value: string) {
   const specialCharRule = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g
@@ -134,16 +96,6 @@ function isValid(value: string) {
 const onInput = (e: Event) => {
   const value = (e.target as HTMLInputElement).value
   setNextBtnDisabled(!isValid(value))
-}
-
-const onClickImg = (imgValue: IWorkspace.ImageFileInfo) => {
-  seletedImg.value = imgValue.url
-  modalVisible.value = false
-
-  setFormValueImgFile({
-    ...imgValue,
-    saveName: imgValue.name
-  })
 }
 
 watch(fileUploaderImg, (imgfileList) => {
@@ -201,43 +153,6 @@ p {
   }
 }
 
-:deep(.ant-upload-list) {
-  height: auto !important;
-}
-.profile-img-wrapper {
-  position: relative;
-  cursor: pointer;
-
-  .img-masking {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(87 86 86 / 40%);
-    transition: opacity 0.4s;
-    opacity: 0;
-
-    span {
-      color: $color-text-10;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      translate: -50% -50%;
-      background: $color-white;
-      padding: 5px 10px;
-      font-weight: 700;
-      border-radius: 1rem;
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-}
-
-:deep(.profile-img) {
-  width: 130px;
-}
 :deep(.ant-upload-list) {
   display: none;
 }
