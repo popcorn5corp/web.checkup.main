@@ -10,7 +10,8 @@ export const publicRoutes: RouteRecordRaw[] = [
       title: 'Login',
       layout: layoutTypes.pure,
       public: true
-    }
+    },
+    beforeEnter: () => {}
   },
   {
     path: '/social-login',

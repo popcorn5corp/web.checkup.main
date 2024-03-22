@@ -26,7 +26,7 @@ const FIRST_STEP_COUNT = 1 as const
 export const useWorkspaceStore = defineStore('workspace', () => {
   const router = useRouter()
   const { setLocale } = useLocale()
-  const { setInitTheme } = useTheme()
+  const { setThemeBySettings } = useTheme()
   const state = reactive<WorkspaceState>({
     stepType: null, // 'create' | 'invite' | null
     currentStep: FIRST_STEP_COUNT, // 현재 step
@@ -183,7 +183,7 @@ export const useWorkspaceStore = defineStore('workspace', () => {
 
         await getWorkspaceMenu()
         setWorkspace(workspace)
-        setInitTheme(workspace.settings)
+        setThemeBySettings(workspace.settings)
         setLocale(language.language)
 
         resolve()

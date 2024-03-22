@@ -59,7 +59,7 @@ export interface JoinParamValues {
   workspaceName: string
 }
 
-export interface WorkspaceUsers {
+export interface WorkspaceUser {
   uid: string
   nickname: string
   userImagePath: string

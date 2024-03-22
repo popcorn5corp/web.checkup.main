@@ -14,12 +14,15 @@
 </template>
 <script setup lang="ts" name="AppProvider">
 import { theme as ATheme, ConfigProvider } from 'ant-design-vue'
-import { computed, unref } from 'vue'
+import { computed, unref, watch } from 'vue'
 import { useTheme } from '@/hooks/useTheme'
 import { useLocale } from '@/locales/hooks/useLocale'
+import { useRoute } from 'vue-router'
+import { themeBlackList } from './config/default/themeConfig'
 
 const { defaultAlgorithm, darkAlgorithm, defaultSeed } = ATheme
-const { getTheme } = useTheme()
+const route = useRoute()
+const { getTheme, initTheme } = useTheme()
 const { getAntdLocale } = useLocale()
 
 const customSeed = computed(() => {
@@ -31,6 +34,15 @@ const customSeed = computed(() => {
     fontSize
   }
 })
+
+watch(
+  () => route?.path,
+  async (path) => {
+    if (themeBlackList.includes(path)) {
+      initTheme()
+    }
+  }
+)
 
 const themeAlgorithm = computed(() =>
   unref(getTheme).isDark ? customDarkAlgorithm : defaultAlgorithm

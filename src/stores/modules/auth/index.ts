@@ -205,6 +205,7 @@ export const useAuthStore = defineStore(
     async function logout(goLogin = true) {
       Util.Storage.clear()
       state.loggedIn = false
+      state.loading = false
       state.token = ''
       state.user = getDefaultUser()
       setLocale(locales.browserLanguage)

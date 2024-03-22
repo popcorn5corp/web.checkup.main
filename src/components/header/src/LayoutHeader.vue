@@ -7,7 +7,7 @@
             <!-- <template v-if="getMobile">
               <font-awesome-icon :icon="['fas', 'bars']" style="font-size: 16px" />
             </template>
-            <template v-else>
+<template v-else>
             </template> -->
             <template v-if="collapsed">
               <font-awesome-icon :icon="['fas', 'angles-right']" />
