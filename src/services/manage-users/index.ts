@@ -1,4 +1,5 @@
 import { service } from '@/utils/http'
+
 import type { SortCodesResponse } from '../base-sample/types'
 import type { IBaseAPI } from '../base/types'
 import type { IManageUser } from './types'
@@ -24,12 +25,20 @@ class ManageUserService {
   }
 
   // 사용자 목록 상세 조회
-
   getOneById(workspaceId: string, workspaceUserId: string) {
-    // TODO response 변경 예정
     return service.get<IManageUser.GetDetailResponse>(
       this.PATH + `/${workspaceId}/user/${workspaceUserId}`
     )
+  }
+
+  // 사용자 수정
+  updateUser(workspaceId: string, workspaceUserId: string, param: IManageUser.UpdateUserParam) {
+    return service.put(this.PATH + `/${workspaceId}/user/${workspaceUserId}`, param)
+  }
+
+  // 사용자 삭제
+  removeUser(workspaceId: string, workspaceUserId: string) {
+    return service.delete(this.PATH + `/${workspaceId}/user/${workspaceUserId}`)
   }
 
   // 사용자 초대 이메일 중복 확인

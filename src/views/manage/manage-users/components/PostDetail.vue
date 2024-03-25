@@ -8,59 +8,65 @@
       class="form-wrapper"
     >
       <div class="img-wrapper">
-        <img :src="formState.data.thumbnail?.url" />
+        <img :src="formState.data.detail.thumbnail?.url" />
       </div>
       <div class="form-item-wrapper">
         <FormItem :label="$t('common.name')" name="nickname">
-          {{ formState.data.nickname }}
+          {{ formState.data.detail.nickname }}
         </FormItem>
         <FormItem :label="$t('common.status')" name="userStatus">
-          {{ formState.data.userStatus.label }}
+          {{ formState.data.detail.userStatus.label }}
         </FormItem>
         <FormItem :label="$t('common.email')" name="email">
-          {{ formState.data.email }}
+          {{ formState.data.detail.email }}
         </FormItem>
         <FormItem :label="$t('common.phone')" name="phone">
-          {{ formState.data.phone || '-' }}
+          {{ formState.data.detail.phone || '-' }}
         </FormItem>
         <FormItem :label="$t('common.joinDate')" name="joinDate">
-          {{ formState.data.joinDate }}
+          {{ formState.data.detail.joinDate }}
         </FormItem>
         <FormItem label="그룹" class="group">
-          <UserGroupDetail :workspaceUserId="formState.data.workspaceUserId" />
+          <UserGroupDetail :userGroupData="formState.data.groups" />
         </FormItem>
       </div>
 
-      <a-dropdown v-model:open="visible" :trigger="['click']" placement="bottomRight">
-        <a class="ant-dropdown-link" @click.prevent><MoreOutlined style="font-size: 18px" /></a>
+      <Dropdown v-model:open="visible" :trigger="['click']" placement="bottomRight">
+        <a class="ant-dropdown-link" @click.prevent><MoreOutlined style="font-size: 20px" /></a>
         <template #overlay>
-          <a-menu>
-            <a-menu-item key="1" @click="onEditMode">
-              <span>{{ t('common.postModify') }}</span>
-            </a-menu-item>
-            <a-menu-item key="2" @click="showDeleteConfirm">
-              <span>{{ t('component.button.export') }}</span>
-            </a-menu-item>
-          </a-menu>
+          <Menu @click="isEdit = true">
+            <MenuItem key="1" @click="onEditMode">
+              <!-- 수정 -->
+              <span class="item edit"><FormOutlined />{{ $t('component.button.edit') }}</span>
+            </MenuItem>
+            <MenuItem key="2" @click="showDeleteConfirm">
+              <!-- 삭제 -->
+              <span class="item delete"><DeleteOutlined />{{ $t('component.button.delete') }}</span>
+            </MenuItem>
+          </Menu>
         </template>
-      </a-dropdown>
+      </Dropdown>
     </Form>
 
     <Form v-else ref="formRef" layout="horizontal" :model="formState">
       <FormItem name="nickname" :label="$t('common.name')">
-        <Input v-model:value="formState.data.nickname" />
+        <Input v-model:value="formState.cloneData.detail.nickname" disabled />
       </FormItem>
       <FormItem :label="$t('common.status')">
-        <Select v-model:value="formState.data.userStatus" :options="userStatusOptions"></Select>
+        <Select
+          v-model:value="formState.cloneData.detail.userStatus"
+          :options="userStatusOptions"
+          @select="onStatusSelect"
+        ></Select>
       </FormItem>
       <FormItem name="email" :label="$t('common.email')">
-        <Input v-model:value="formState.data.email" />
+        <Input v-model:value="formState.cloneData.detail.email" disabled />
       </FormItem>
       <FormItem name="phone" :label="$t('common.phone')">
-        <Input v-model:value="formState.data.phone" />
+        <Input v-model:value="formState.cloneData.detail.phone" disabled />
       </FormItem>
       <FormItem name="joinDate" :label="$t('common.joinDate')">
-        <Input v-model:value="formState.data.joinDate" disabled />
+        <Input v-model:value="formState.cloneData.detail.joinDate" disabled />
       </FormItem>
       <div class="btn-wrapper">
         <Button @click="initState"><CloseOutlined /></Button>
@@ -73,18 +79,22 @@
 </template>
 
 <script setup lang="tsx" name="PostDetail">
-import { Modal, type SelectProps } from 'ant-design-vue'
+import { ManageUserService } from '@/services'
+import { Dropdown, Menu, MenuItem, Modal, type SelectProps, message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import type { IManageUser } from '@/services/manage-users/types'
 
+import { Button } from '@/components/button'
 import { Form, FormItem } from '@/components/form'
 import {
   CheckOutlined,
   CloseOutlined,
+  DeleteOutlined,
   ExclamationCircleOutlined,
+  FormOutlined,
   MoreOutlined
 } from '@/components/icons'
 import { Input } from '@/components/input'
@@ -97,9 +107,10 @@ import UserGroupDetail from './UserGroupDetail.vue'
 
 const DEFAULT_MODE = modes.R
 
-type WorkspaceUsers = IManageUser.UserInfo
+type WorkspaceUsers = IManageUser.GetDetailResponse
 interface PostDetailProps {
-  data: WorkspaceUsers
+  workspaceId: string
+  workspaceUserId: string
 }
 
 interface FormState {
@@ -107,10 +118,17 @@ interface FormState {
   cloneData: WorkspaceUsers
 }
 
+const MessageType = {
+  Delete: 'Delete',
+  Active: 'Active',
+  Inactive: 'Inactive'
+}
+
 const { t } = useI18n()
 const [modal, contextHolder] = Modal.useModal()
 
 const props = defineProps<PostDetailProps>()
+const emit = defineEmits(['reload', 'close'])
 
 const isEdit = computed(() => mode.value === modes.C || mode.value === modes.U)
 
@@ -122,14 +140,6 @@ const userStatusOptions = ref<SelectProps['options']>([
   {
     label: '비활성',
     value: 'INACTIVE'
-  },
-  {
-    label: '탈퇴',
-    value: 'WITHDRAWN'
-  },
-  {
-    label: '퇴출',
-    value: 'REVOKE'
   }
 ])
 const mode = ref<ContentMode>(DEFAULT_MODE)
@@ -145,83 +155,108 @@ const formItemLayout = {
   wrapperCol: { span: 14 }
 }
 
-const onSubmit = async () => {
-  console.log('click onSubmit')
-  // const requestBody = {
-  //   workspaceId: getWorkspace?.workspaceId,
-  //   name: formState.clonePost.name,
-  //   content: formState.clonePost.content
-  // }
-  // ManagerUserService.updateGroup(props.data.groupId, requestBody)
-  //   .then(({ success }) => {
-  //     if (success) {
-  //       message.success(t('message.saveSuccess'), 1)
-  //       initState()
-  //       emit('reload')
-  //       formState.post = {
-  //         ...formState.post,
-  //         name: formState.clonePost.name,
-  //         content: formState.clonePost.content
-  //       }
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.log(error)
-  //   })
-}
-
-const onEditMode = () => {
-  mode.value = modes.C
-}
-
-const showDeleteConfirm = () => {
-  modal.confirm({
-    title: t('message.modalDeleteCheck'),
-    icon: h(ExclamationCircleOutlined),
-    okText: t('component.button.ok'),
-    okType: 'primary',
-    cancelText: t('component.button.cancel')
-    // onOk() {
-    //   const params = {
-    //     groupId: [props.data.groupId]
-    //   }
-
-    //   ManagerUserService.removeGroup(getWorkspace?.workspaceId, params)
-    //     .then(({ success }) => {
-    //       if (success) {
-    //         emit('reload')
-    //         emit('isDetail')
-
-    //         message.success(t('message.deleteSuccess'), 1)
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error)
-    //     })
-    // },
-    // onCancel() {
-    //   console.log('Cancel')
-    // }
-  })
-}
-
 const initState = (): void => {
   mode.value = DEFAULT_MODE
   visible.value = false
   formState.data = formState.cloneData
 }
 
-watch(
-  () => props.data,
-  (post) => {
-    formState.data = {
-      ...post
-    }
-    formState.cloneData = cloneDeep(post)
-  },
-  {
-    immediate: true
+const onEditMode = () => {
+  mode.value = modes.C
+}
+
+const showMessage = (type: string) => {
+  if (type === MessageType.Delete) {
+    return message.success(t('message.deleteSuccess'), 1)
+  } else if (type === MessageType.Active) {
+    return message.success(t('message.userActive', { user: formState.data.detail.nickname }), 1)
+  } else if (type === MessageType.Inactive) {
+    return message.success(t('message.userInactive', { user: formState.data.detail.nickname }), 1)
   }
+}
+
+const onStatusSelect = (value: any) => {
+  if (value === 'INACTIVE') {
+    modal.confirm({
+      title: t('message.userStatusInfo'),
+      icon: h(ExclamationCircleOutlined)
+    })
+  }
+}
+
+const deleteUser = () => {
+  const { workspaceId, workspaceUserId } = props
+  ManageUserService.removeUser(workspaceId, workspaceUserId)
+    .then(({ success }) => {
+      if (success) {
+        emit('reload')
+        emit('close')
+
+        showMessage(MessageType.Delete)
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+const showDeleteConfirm = () => {
+  modal.confirm({
+    title: <pre>{t('message.modalUserDeleteCheck')}</pre>,
+    icon: h(ExclamationCircleOutlined),
+    onOk() {
+      deleteUser()
+    }
+  })
+}
+
+const onSubmit = async () => {
+  const { workspaceId, workspaceUserId } = props
+  const requestBody = {
+    userStatus: formState.cloneData.detail.userStatus.value
+  }
+
+  ManageUserService.updateUser(workspaceId, workspaceUserId, requestBody)
+    .then(({ success }) => {
+      if (success) {
+        initState()
+
+        emit('reload')
+
+        formState.data.detail = {
+          ...formState.cloneData.detail,
+          userStatus: formState.cloneData.detail.userStatus
+        }
+
+        if (formState.cloneData.detail.userStatus.value === 'ACTIVE') {
+          showMessage(MessageType.Active)
+        } else {
+          showMessage(MessageType.Inactive)
+        }
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+const fetchUserDetail = async (workspaceId: string, workspaceUserId: string) => {
+  await ManageUserService.getOneById(workspaceId, workspaceUserId).then(({ success, data }) => {
+    if (success) {
+      formState.data = {
+        ...data
+      }
+      formState.cloneData = cloneDeep(data)
+    }
+  })
+}
+
+watch(
+  () => props,
+  (props) => {
+    fetchUserDetail(props.workspaceId, props.workspaceUserId)
+  },
+  { immediate: true, deep: true }
 )
 </script>
 
@@ -280,25 +315,6 @@ watch(
 
   :deep(.ant-form) {
     gap: 1rem;
-    // .ant-form-item-label {
-    //   width: 55px;
-    //   padding: 0;
-    //   > label {
-    //     font-weight: 900;
-    //     font-size: 14px;
-    //   }
-    //   > label::after {
-    //     content: '';
-    //     position: relative;
-    //     margin-block: 0;
-    //     margin-inline-start: 7px;
-    //     margin-inline-end: 8px;
-    //     width: 1.5px;
-    //     height: 37%;
-    //     background: #d1d1d1;
-    //   }
-    // }
-
     .ant-form-item {
       padding: 0;
       .ant-form-item-control {
@@ -308,6 +324,22 @@ watch(
         word-break: break-all;
       }
     }
+  }
+}
+
+.item {
+  .anticon {
+    margin-right: 5px;
+  }
+}
+.item.edit {
+  .anticon {
+    color: $color-blue-6;
+  }
+}
+.item.delete {
+  .anticon {
+    color: $color-red-6;
   }
 }
 </style>

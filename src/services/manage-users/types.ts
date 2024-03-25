@@ -62,15 +62,16 @@ export namespace IManageUser {
   export interface GroupData {
     groupId: string
     name: string
-    url: string
+    url: string | null
   }
 
   export interface GetDetailResponse {
-    detail: {
-      joinDate: string
-      gender: LabelValue<string>
-    }
+    detail: UserInfo
     groups: GroupData[]
+  }
+
+  export interface UpdateUserParam {
+    userStatus: string
   }
 
   export interface GetDuplicatedEmailParam {
