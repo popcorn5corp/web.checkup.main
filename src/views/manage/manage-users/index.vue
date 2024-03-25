@@ -71,9 +71,6 @@
         <div class="invite-form-wrapper">
           <h4 class="title" style="font-size: 16px">{{ $t('page.manage.emailInvite') }}</h4>
           <InviteMemberForm ref="inviteMemberRef" :isShowDescription="false" :isShowJump="false" />
-          <!-- TODO 추후개발 -->
-          <!-- <br />
-          <h4 class="title">다음 그룹으로 초대</h4> -->
         </div>
       </template>
     </Modal>
