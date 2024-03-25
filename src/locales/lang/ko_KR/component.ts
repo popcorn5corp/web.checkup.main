@@ -20,7 +20,7 @@ export default {
     signUpText: '회원가입',
     selectImgBtn: '기본이미지 선택',
     selectImg: '프로필 기본이미지 선택',
-    export: '내보내기',
+    // export: '내보내기',
     invite: '초대하기',
     filter: '필터',
     registration: '등록',
