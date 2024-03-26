@@ -10,14 +10,14 @@ export const columns = (): TableColumnsType => {
       key: 'nickname'
     },
     {
-      title: `${t('common.email')}`,
-      dataIndex: 'email',
-      key: 'email'
-    },
-    {
       title: `${t('common.phone')}`,
       dataIndex: 'phone',
       key: 'phone'
+    },
+    {
+      title: `${t('common.email')}`,
+      dataIndex: 'email',
+      key: 'email'
     },
     {
       title: `${t('common.joinDate')}`,

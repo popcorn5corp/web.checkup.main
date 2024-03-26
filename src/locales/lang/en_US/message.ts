@@ -8,6 +8,12 @@ export default {
   reTry: 'Please try again in a few minutes.',
   checkingLogin: 'Checking user information',
   deleteUser: 'Are you sure you want to export users from the group?',
+  modalUserDeleteCheck: `Are you sure you want to delete the user?
+The user's permissions and groups are also removed.`,
+  userInviteSuceess: 'You have invited a user.',
+  userStatusInfo: 'If you deactivate a user, they will no longer be able to log in.',
+  userActive: '{user} has been activated.',
+  userInactive: '{user} has been deactivated.',
   validate: {
     checkData: 'No information matches the criteria.',
     checkEmailForm: 'The email format is incorrect.',

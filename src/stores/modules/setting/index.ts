@@ -76,9 +76,7 @@ export const useSettingStore = defineStore('setting', () => {
         menuPosition
       }
     }).then(() => {
-      if (menuPosition === 'top' && unref(getCollapse)) {
-        setCollapse(false)
-      }
+      if (menuPosition === 'top' && unref(getCollapse)) setCollapse(false)
     })
   }
 

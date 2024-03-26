@@ -25,7 +25,8 @@ export default {
     inviteStepJump: '이 단계 건너뛰기',
     joinCompleteTit: '{workspaceName} 워크스페이스에 참여되었어요!',
     joinCompleteDesc1: '이제 워크스페이스 사용이 가능합니다.',
-    joinCompleteDesc2: '님이 사용중입니다.',
+    joinCompleteDesc2: '{name} 님이 사용중입니다.',
+    joinCompleteDesc3: '{name} 님 외 {count}명이 사용중입니다.',
     listTitle: '워크스페이스 선택',
     listDesc: '선택한 워크스페이스로 이동합니다.',
     listCheckText: '마지막으로 사용했던 워크스페이스로 기본설정',
@@ -34,12 +35,15 @@ export default {
     listInviteSubText: '초대 코드 입력하기'
   },
   manage: {
-    userName: '{userName}님이 ',
+    userName: '{userName} 님이 ',
+    targetName: '{targetName} 님을',
     userStatus: {
       CREATE: '그룹을 생성 했습니다.',
       JOIN: '가입 되었습니다.',
-      WITHDRAWN: '탈퇴 되었습니다',
-      REVOKE: '제명 되었습니다'
+      WITHDRAWN: '탈퇴 되었습니다.',
+      REVOKE: '제명 되었습니다.',
+      ACTIVE: '활성화하였습니다.',
+      INACTIVE: '비활성화하였습니다.'
     },
     history: '타임라인',
     joined: '이미 가입됨',

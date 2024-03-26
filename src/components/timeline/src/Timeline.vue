@@ -9,6 +9,11 @@
             <p>
               <span>{{ log.createTime }}</span>
               <span> {{ t('page.manage.userName', { userName: log.nickname }) }} </span>
+
+              <span v-if="['ACTIVE', 'INACTIVE'].includes(log.status.value)">
+                {{ t('page.manage.targetName', { targetName: log.targetNickName }) }}
+              </span>
+
               <span>{{ t(`page.manage.userStatus.${[log.status.value]}`) }}</span>
             </p>
           </template>
@@ -23,7 +28,7 @@
     <template v-if="showBtn">
       <div style="text-align: center">
         <Button type="primary" :loading="loading" :block="true" @click="onClick">
-          <slot v-if="!loading" name="button-text">더 불러오기</slot>
+          <slot v-if="!loading" name="button-text">{{ $t('component.button.loadMore') }}</slot>
         </Button>
       </div>
     </template>
@@ -33,7 +38,9 @@
 <script setup lang="ts" name="Timeline">
 import { Timeline, TimelineItem } from 'ant-design-vue'
 import { useI18n } from 'vue-i18n'
+
 import { Button } from '@/components/button'
+
 import type { TimelineProps } from '../types'
 
 const { t } = useI18n()

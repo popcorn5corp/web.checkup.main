@@ -119,6 +119,8 @@ const onComplete = async () => {
     }
 
     moveNextStep()
+  } catch (error) {
+    console.log(error)
   } finally {
     isLoading.value = false
   }

@@ -27,7 +27,8 @@ export default {
     inviteStepJump: 'Lewati langkah ini',
     joinCompleteTit: '{workspaceName}, kau bergabung dengan ruang kerja!',
     joinCompleteDesc1: 'Ruang kerja Anda sekarang tersedia.',
-    joinCompleteDesc2: 'menggunakan.',
+    joinCompleteDesc2: '{name} sedang menggunakannya.',
+    joinCompleteDesc3: '{count} orang menggunakannya selain {name}.',
     listTitle: 'Pilih area kerja',
     listDesc: 'Pergi ke area kerja yang dipilih.',
     listCheckText: 'Baku untuk area kerja yang terakhir dipakai',
@@ -37,11 +38,14 @@ export default {
   },
   manage: {
     userName: '{userName} ',
+    targetName: '{targetName} ',
     userStatus: {
       CREATE: 'telah dibuat.',
       JOIN: 'telah bergabung.',
       WITHDRAWN: 'keluar dari grup.',
-      REVOKE: 'telah dikeluarkan.'
+      REVOKE: 'telah dikeluarkan.',
+      ACTIVE: 'telah diaktifkan.',
+      INACTIVE: 'telah dinonaktifkan.'
     },
     history: 'Sejarah',
     joined: 'Sudah berlangganan',

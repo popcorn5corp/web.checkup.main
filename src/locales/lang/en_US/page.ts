@@ -27,7 +27,8 @@ export default {
     inviteStepJump: 'Skip this step',
     joinCompleteTit: '{workspaceName}, you joined the workspace!',
     joinCompleteDesc1: 'Your workspace is now available.',
-    joinCompleteDesc2: 'is using.',
+    joinCompleteDesc2: '{name} is using.',
+    joinCompleteDesc3: '{count} people are using it besides {name}.',
     listTitle: 'Select workspace',
     listDesc: 'Go to the selected workspace.',
     listCheckText: 'Default to last used workspace',
@@ -37,11 +38,14 @@ export default {
   },
   manage: {
     userName: '{userName} ',
+    targetName: '{targetName} ',
     userStatus: {
       CREATE: 'has been created.',
       JOIN: 'has joined.',
       WITHDRAWN: 'has been withdrawn.',
-      REVOKE: 'has been expelled.'
+      REVOKE: 'has been expelled.',
+      ACTIVE: 'has been activated.',
+      INACTIVE: 'has been deactivated.'
     },
     history: 'History',
     joined: 'Already subscribed',

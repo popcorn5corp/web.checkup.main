@@ -71,6 +71,7 @@ const onFocusout = () => {
     border-radius: 8px;
     transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
   }
+
   .input-label {
     position: absolute;
     top: 50%;
@@ -105,6 +106,7 @@ const onFocusout = () => {
   padding: 0 5px;
   z-index: 99;
 }
+
 .custom-input.active.colored ~ label {
   color: v-bind('themeColorStyle.color') !important;
 }
@@ -119,6 +121,7 @@ const onFocusout = () => {
     color: transparent;
   }
 }
+
 .custom-input.active {
   :deep(input)::placeholder {
     color: $input-border-color;

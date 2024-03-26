@@ -1,8 +1,17 @@
 <template>
   <div class="content">
     <div class="list-wrapper">
-      <h1>{{ $t('page.workspace.listTitle') }}</h1>
-      <p class="list-desc">{{ $t('page.workspace.listDesc') }}</p>
+      <div class="list-top">
+        <div class="prev-icon">
+          <font-awesome-icon :icon="['fas', 'chevron-left']" @click="$router.go(-1)" />
+          <!-- <font-awesome-icon :icon="['fas', 'angles-left']" /> -->
+        </div>
+
+        <div class="title">
+          <h1>{{ $t('page.workspace.listTitle') }}</h1>
+          <p class="list-desc">{{ $t('page.workspace.listDesc') }}</p>
+        </div>
+      </div>
 
       <div class="list-box">
         <ul>
@@ -153,10 +162,32 @@ async function onSelectWorkspace(workspace: Workspace) {
   display: flex;
   flex-direction: column;
 
-  h1 {
-    text-align: center;
-    margin: 1rem 0;
-    line-height: 1;
+  .list-top {
+    display: flex;
+
+    .prev-icon {
+      > svg {
+        font-size: 35px;
+        color: $color-gray-7;
+        margin-top: 10px;
+        cursor: pointer;
+
+        :hover {
+          color: $color-gray-6;
+        }
+      }
+    }
+
+    .title {
+      flex-grow: 1;
+      padding-right: 21.88px;
+
+      h1 {
+        text-align: center;
+        margin: 1rem 0;
+        line-height: 1;
+      }
+    }
   }
 
   .list-desc {

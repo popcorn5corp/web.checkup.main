@@ -20,14 +20,15 @@ export default {
     signUpText: '회원가입',
     selectImgBtn: '기본이미지 선택',
     selectImg: '프로필 기본이미지 선택',
-    export: '내보내기',
+    // export: '내보내기',
     invite: '초대하기',
     filter: '필터',
     registration: '등록',
     delete: '삭제',
     download: '다운로드',
     sendCertifiNum: '인증번호 전송',
-    join: '가입'
+    join: '가입',
+    loadMore: '더 불러오기'
   },
   ph: {
     selectBusinessTypeOpt: '업종 선택',
