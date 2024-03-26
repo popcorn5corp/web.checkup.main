@@ -38,11 +38,14 @@ export default {
   },
   manage: {
     userName: '{userName} ',
+    targetName: '{targetName} ',
     userStatus: {
       CREATE: 'telah dibuat.',
       JOIN: 'telah bergabung.',
       WITHDRAWN: 'keluar dari grup.',
-      REVOKE: 'telah dikeluarkan.'
+      REVOKE: 'telah dikeluarkan.',
+      ACTIVE: 'telah diaktifkan.',
+      INACTIVE: 'telah dinonaktifkan.'
     },
     history: 'Sejarah',
     joined: 'Sudah berlangganan',

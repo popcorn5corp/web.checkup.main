@@ -53,7 +53,7 @@
             :tabBarStyle="{ padding: '0 10%', display: 'flex' }"
           >
             <a-tab-pane key="History" :tab="t('page.manage.history')">
-              <UserTimeline :workspaceUserId="selectedWSUserId" />
+              <UserTimeline :workspaceId="getWorkspaceId" :workspaceUserId="selectedWSUserId" />
             </a-tab-pane>
           </a-tabs>
         </div>

@@ -27,7 +27,8 @@ export default {
     delete: 'Delete',
     download: 'Download',
     sendCertifiNum: 'Send authentication number',
-    join: 'Join'
+    join: 'Join',
+    loadMore: 'Load more'
   },
   ph: {
     selectBusinessTypeOpt: 'Select business type',

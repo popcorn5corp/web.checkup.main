@@ -31,6 +31,18 @@ class ManageUserService {
     )
   }
 
+  // 사용자 타임라인
+  getUserTimeline(
+    workspaceId: string,
+    workspaceUserId: string,
+    param: IManageUser.GetTimelineParam
+  ) {
+    return service.get<IManageUser.GetTimelineResponse>(
+      this.PATH + `/${workspaceId}/user/${workspaceUserId}/logs`,
+      param
+    )
+  }
+
   // 사용자 수정
   updateUser(workspaceId: string, workspaceUserId: string, param: IManageUser.UpdateUserParam) {
     return service.put(this.PATH + `/${workspaceId}/user/${workspaceUserId}`, param)

@@ -5,6 +5,7 @@ export interface ConditionParam {
   filter?: string
 }
 export namespace IManageUser {
+  export interface GetTimelineResponse extends ResponseData<TimelineInfo[]> {}
   export interface SortInfo {
     sorted: boolean
     unsorted: boolean
@@ -39,20 +40,26 @@ export namespace IManageUser {
     unpaged: boolean
   }
 
+  export interface PageableResponse<T> {
+    content: T
+    pageable: PageableInfo
+    last: boolean
+    totalPages: number
+    totalElements: number
+    sort: SortInfo
+    first: boolean
+    number: number
+    numberOfElements: number
+    size: number
+    empty: boolean
+  }
+
+  export interface ResponseData<T> {
+    posts: PageableResponse<T>
+  }
+
   export interface GetUserListRequest {
-    workspaceUsers: {
-      content: UserInfo[]
-      pageable: PageableInfo[]
-      last: boolean
-      totalPages: number
-      totalElements: number
-      sort: SortInfo
-      first: boolean
-      number: number
-      numberOfElements: number
-      size: number
-      empty: boolean
-    }
+    workspaceUsers: PageableResponse<UserInfo[]>
   }
 
   export interface FilterResponse {
@@ -68,6 +75,26 @@ export namespace IManageUser {
   export interface GetDetailResponse {
     detail: UserInfo
     groups: GroupData[]
+  }
+
+  export interface LogItem {
+    logId: string
+    uid: string
+    nickname: string
+    targetUid: string
+    targetNickName: string
+    createTime: string
+    status: LabelValue<string>
+  }
+
+  export interface TimelineInfo {
+    issuedDate: string
+    logs: LogItem[]
+  }
+
+  export interface GetTimelineParam {
+    page?: number
+    size: number
   }
 
   export interface UpdateUserParam {
