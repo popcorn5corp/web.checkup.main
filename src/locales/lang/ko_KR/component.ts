@@ -27,7 +27,8 @@ export default {
     delete: '삭제',
     download: '다운로드',
     sendCertifiNum: '인증번호 전송',
-    join: '가입'
+    join: '가입',
+    loadMore: '더 불러오기'
   },
   ph: {
     selectBusinessTypeOpt: '업종 선택',

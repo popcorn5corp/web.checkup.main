@@ -179,7 +179,8 @@ const onStatusSelect = (value: any) => {
   if (value === 'INACTIVE') {
     modal.confirm({
       title: t('message.userStatusInfo'),
-      icon: h(ExclamationCircleOutlined)
+      icon: h(ExclamationCircleOutlined),
+      okCancel: false
     })
   }
 }

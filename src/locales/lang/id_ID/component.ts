@@ -27,7 +27,8 @@ export default {
     delete: 'Menghapus',
     download: 'Unduh',
     sendCertifiNum: 'Kirim nomor otentikasi',
-    join: 'Bergabung'
+    join: 'Bergabung',
+    loadMore: 'Muat lebih banyak'
   },
   ph: {
     selectBusinessTypeOpt: 'Pilih jenis bisnis',
