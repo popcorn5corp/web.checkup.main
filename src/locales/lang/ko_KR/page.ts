@@ -76,5 +76,11 @@ export default {
     certifiFailText: '가입되지 않은 사용자입니다.',
     resetPassword: '비밀번호 재설정',
     successResetPassword: '비밀번호 재설정이 완료되었습니다.'
+  },
+  userAccount: {
+    passwordConfirm: `개인정보 보호를 위해 비밀번호를 확인합니다.`,
+    profileName: '프로필명',
+    closeEditModal: `현재 수정중인 사항이 있습니다.
+페이지를 벗어나면 저장되지 않습니다.`
   }
 }

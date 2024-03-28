@@ -20,7 +20,8 @@ export default {
     signUpText: 'Sign Up',
     selectImgBtn: 'Select basic image',
     selectImg: 'Select profile default image',
-    export: 'Export',
+    uploadFile: 'Upload from My Files',
+    // export: 'Export',
     invite: 'Invite',
     filter: 'Filters',
     registration: 'Registration',
@@ -28,7 +29,9 @@ export default {
     download: 'Download',
     sendCertifiNum: 'Send authentication number',
     join: 'Join',
-    loadMore: 'Load more'
+    loadMore: 'Load more',
+    change: 'Change',
+    changePassword: 'Change Password'
   },
   ph: {
     selectBusinessTypeOpt: 'Select business type',

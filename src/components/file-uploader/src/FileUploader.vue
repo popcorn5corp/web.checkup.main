@@ -8,16 +8,19 @@
       :multiple="true"
       :custom-request="onUpload"
       :before-upload="onBeforeUpload"
-      :show-upload-list="{
-        showDownloadIcon: showDownload,
-        showRemoveIcon: !readonly || showRemove,
-        showPreviewIcon: showPreview
-      }"
+      :show-upload-list="
+        showUploadList && {
+          showDownloadIcon: showDownload,
+          showRemoveIcon: !readonly || showRemove,
+          showPreviewIcon: showPreview
+        }
+      "
       @download="onDownload"
       @remove="onRemove"
       @change="onChange"
     >
-      <Button v-if="!readonly" label="Upload">
+      <span v-if="!useButton">{{ btnLabel }}</span>
+      <Button v-if="!readonly && useButton" :label="btnLabel">
         <template #icon>
           <UploadOutlined />
         </template>
@@ -31,8 +34,10 @@ import { Upload } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
 import { saveAs } from 'file-saver'
 import { ref, watch } from 'vue'
+
 import { Button } from '@/components/button'
 import { UploadOutlined } from '@/components/icons'
+
 import type {
   FileUploaderEmits,
   FileUploaderProps,
@@ -50,7 +55,10 @@ const props = withDefaults(defineProps<FileUploaderProps>(), {
   type: 'TEST',
   showDownload: true,
   showRemove: false,
-  showPreview: true
+  showPreview: true,
+  showUploadList: true,
+  useButton: true,
+  btnLabel: 'Upload'
 })
 
 const IMG_SERVER_URL: Readonly<string> = 'https://sawork-prod.s3.ap-northeast-2.amazonaws.com/'

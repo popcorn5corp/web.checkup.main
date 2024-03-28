@@ -20,6 +20,8 @@ The user's permissions and groups are also removed.`,
     checkDuplicatedEmail: 'This email has already been added.',
     checkInviteCode: 'Please check the invitation code again.',
     checkPassword: 'Please enter a password of at least 8 characters.',
+    checkInputPassword: 'Please enter a password.',
+    checkCorrectPassword: 'Please enter the correct password.',
     checkPhone: 'Please enter your mobile phone number.',
     checkVerifyPassword: 'It does not match your password.',
     checkTerms: 'Please agree to the terms and conditions.',
@@ -29,6 +31,10 @@ The user's permissions and groups are also removed.`,
     checkCertifiNum: 'Please enter your authentication number.',
     checkErrorCertifiNum: 'The authentication number is invalid.',
     checkGroupName: 'Please enter the group name.',
-    checkSpecialChar: 'Special characters cannot be included.'
+    checkSpecialChar: 'Special characters cannot be included.',
+    checkProfileName: 'Please enter your profile name within 10 characters.',
+    checkId: 'Please enter 4 to 15 English characters and numbers.',
+    checkSetPassword:
+      'Please enter 8 to 15 characters including letters, numbers, and special characters.'
   }
 }

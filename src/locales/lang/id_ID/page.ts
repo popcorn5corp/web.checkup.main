@@ -76,5 +76,9 @@ export default {
     certifiFailText: 'Anda adalah pengguna yang tidak terdaftar.',
     resetPassword: 'Setel ulang kata sandi',
     successResetPassword: 'Penyetelan ulang kata sandi telah selesai.'
+  },
+  userAccount: {
+    passwordConfirm: `Konfirmasikan kata sandi Anda untuk melindungi informasi pribadi Anda.`,
+    profileName: 'Nama profil'
   }
 }

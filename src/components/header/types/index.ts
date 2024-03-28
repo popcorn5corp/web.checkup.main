@@ -9,6 +9,10 @@ export interface HeaderProps {
 
 export const rollingList = [
   {
+    title: '[공지사항] 체크업 파이팅!!',
+    isNew: true
+  },
+  {
     title: '[공지사항] 체크업서비스 사용법 안내',
     isNew: false
   },

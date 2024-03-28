@@ -8,6 +8,9 @@ export interface FileUploaderProps {
   showRemove?: boolean
   showPreview?: boolean
   showDownload?: boolean
+  showUploadList?: boolean
+  useButton?: boolean
+  btnLabel?: string
 }
 
 export interface FileUploaderEmits {

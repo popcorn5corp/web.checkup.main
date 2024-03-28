@@ -22,6 +22,8 @@ export default {
     checkPassword: 'Silakan masukkan kata sandi minimal 8 karakter.',
     checkPhone: 'Silakan masukkan nomor ponsel Anda.',
     checkVerifyPassword: 'Itu tidak cocok dengan kata sandi Anda.',
+    checkInputPassword: 'Silakan masukkan kata sandi.',
+    checkCorrectPassword: 'Silakan masukkan kata sandi yang benar.',
     checkTerms: 'Harap setujui syarat dan ketentuan.',
     checkName: 'Silakan masukkan nama Anda.',
     checkUserId: 'Silakan masukkan ID Anda.',
@@ -29,6 +31,10 @@ export default {
     checkCertifiNum: 'Silakan masukkan nomor otentikasi Anda.',
     checkErrorCertifiNum: 'Nomor otentikasi tidak valid.',
     checkGroupName: 'Silakan masukkan nama grup.',
-    checkSpecialChar: 'Karakter khusus tidak dapat disertakan.'
+    checkSpecialChar: 'Karakter khusus tidak dapat disertakan.',
+    checkProfileName: 'Silakan masukkan nama profil Anda dalam 10 karakter.',
+    checkId: 'Silakan masukkan 4 hingga 15 karakter dan angka bahasa Inggris.',
+    checkSetPassword:
+      'Silakan masukkan 8 hingga 15 karakter termasuk huruf, angka, dan karakter khusus.'
   }
 }

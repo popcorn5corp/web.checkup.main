@@ -20,7 +20,8 @@ export default {
     signUpText: 'Mendaftar',
     selectImgBtn: 'Pilih gambar dasar',
     selectImg: 'Pilih gambar default profil',
-    export: 'Ekspor',
+    uploadFile: 'Unggah dari File Saya',
+    // export: 'Ekspor',
     invite: 'Mengundang',
     filter: 'Saring',
     registration: 'Registrasi',
@@ -28,7 +29,9 @@ export default {
     download: 'Unduh',
     sendCertifiNum: 'Kirim nomor otentikasi',
     join: 'Bergabung',
-    loadMore: 'Muat lebih banyak'
+    loadMore: 'Muat lebih banyak',
+    change: 'Mengubah',
+    changePassword: 'Ganti kata sandi'
   },
   ph: {
     selectBusinessTypeOpt: 'Pilih jenis bisnis',

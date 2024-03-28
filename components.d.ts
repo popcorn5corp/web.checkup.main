@@ -114,5 +114,6 @@ declare module '@vue/runtime-core' {
     Tour: typeof import('./src/components/tour/src/Tour.vue')['default']
     UserAccount: typeof import('./src/components/header/src/components/UserAccount.vue')['default']
     UserDropdown: typeof import('./src/components/header/src/components/UserDropdown.vue')['default']
+    UserProfile: typeof import('./src/components/header/src/components/UserProfile.vue')['default']
   }
 }

@@ -76,5 +76,9 @@ export default {
     certifiFailText: 'You are an unregistered user.',
     resetPassword: 'Reset password',
     successResetPassword: 'Password reset has been completed.'
+  },
+  userAccount: {
+    passwordConfirm: 'Confirm your password to protect your personal information.',
+    profileName: 'Profile name'
   }
 }

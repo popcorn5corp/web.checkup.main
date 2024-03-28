@@ -1,4 +1,5 @@
 <template>
+  <UserAccount />
   <div class="manage-users-container">
     <DrawerContainer
       v-model:openDetail="showDetail"
@@ -90,6 +91,7 @@ import InviteMemberForm from '@/views/workspace/components/create/InviteMemberFo
 
 import { DrawerContainer } from '@/components/drawer-container'
 import { DynamicTable } from '@/components/dynamic-table'
+import UserAccount from '@/components/header/src/components/UserAccount.vue'
 import { QuestionCircleTwoTone, UserAddOutlined } from '@/components/icons'
 import { Modal } from '@/components/modal'
 

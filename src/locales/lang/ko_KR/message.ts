@@ -21,6 +21,8 @@ export default {
     checkInviteCode: '초대 코드를 다시 확인해주세요.',
     checkPassword: '비밀번호를 8자 이상 입력해주세요.',
     checkVerifyPassword: '비밀번호와 일치하지 않습니다.',
+    checkInputPassword: '비밀번호를 입력해주세요.',
+    checkCorrectPassword: '올바른 비밀번호를 입력해주세요.',
     checkPhone: '휴대폰번호를 입력해주세요.',
     checkTerms: '약관에 동의해주세요.',
     checkName: '이름을 입력해주세요.',
@@ -29,6 +31,9 @@ export default {
     checkCertifiNum: '인증번호를 입력해주세요.',
     checkErrorCertifiNum: '인증번호가 유효하지 않습니다.',
     checkGroupName: '그룹명을 입력해주세요.',
-    checkSpecialChar: '특수문자는 포함할 수 없습니다.'
+    checkSpecialChar: '특수문자는 포함할 수 없습니다.',
+    checkProfileName: '프로필명은 10자 이내로 입력해주세요.',
+    checkId: '영문, 숫자 4~15자로 입력해주세요.',
+    checkSetPassword: '영문, 숫자, 특수문자 8~15자로 입력해주세요.'
   }
 }

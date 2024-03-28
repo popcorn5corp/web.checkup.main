@@ -20,6 +20,7 @@ export default {
     signUpText: '회원가입',
     selectImgBtn: '기본이미지 선택',
     selectImg: '프로필 기본이미지 선택',
+    uploadFile: '내 파일에서 업로드',
     // export: '내보내기',
     invite: '초대하기',
     filter: '필터',
@@ -28,7 +29,9 @@ export default {
     download: '다운로드',
     sendCertifiNum: '인증번호 전송',
     join: '가입',
-    loadMore: '더 불러오기'
+    loadMore: '더 불러오기',
+    change: '변경',
+    changePassword: '비밀번호 변경'
   },
   ph: {
     selectBusinessTypeOpt: '업종 선택',
