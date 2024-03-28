@@ -16,7 +16,7 @@ type Props = { workspaceId: string; workspaceUserId: string }
 
 const props = withDefaults(defineProps<Props>(), {})
 const page = ref(0)
-const size = ref(0)
+const size = ref(5)
 const loading = ref(false)
 
 const handleLoading = () => {
