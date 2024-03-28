@@ -28,5 +28,6 @@ export default {
   backToLogin: 'Kembali untuk masuk',
   signInTitle: 'Kumpulkan momen untuk melihat masa depan',
   signUpTitle: 'Buat akun dengan checkup',
-  certificationNumber: 'Nomor Sertifikasi'
+  certificationNumber: 'Nomor Sertifikasi',
+  essential: 'Sangat penting'
 }

@@ -120,6 +120,13 @@ class WorkspaceService extends WorkspaceError {
       param
     )
   }
+
+  /**
+   * @description 워크스페이스 권한 목록 조회 API
+   */
+  getWorkspaceAuthList() {
+    return service.get<IWorkspace.GetWorkspaceAuthListResponse>(this.PATH + '/auth')
+  }
 }
 
 export default new WorkspaceService()

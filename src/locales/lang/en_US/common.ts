@@ -28,5 +28,6 @@ export default {
   backToLogin: 'Back to login',
   signInTitle: 'Collect moments to see the future',
   signUpTitle: 'Create a Checkup account',
-  certificationNumber: 'Certification Number'
+  certificationNumber: 'Certification Number',
+  essential: 'Essential'
 }

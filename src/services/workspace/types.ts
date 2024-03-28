@@ -153,4 +153,13 @@ export namespace IWorkspace {
   export interface GetWorkspaceMenuResponse {
     menus: MenuDto[]
   }
+
+  export interface WorkspaceAuth {
+    authId: string
+    name: string
+  }
+
+  export interface GetWorkspaceAuthListResponse {
+    auths: WorkspaceAuth[]
+  }
 }

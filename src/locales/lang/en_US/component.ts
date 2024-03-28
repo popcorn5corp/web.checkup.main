@@ -37,7 +37,8 @@ export default {
     inputTeamOrCompanyName: 'Example: checkup Inspection or checkup',
     inputInviteCode: 'Please enter the invitation code.',
     userSearchPh: 'Please search your name and email.',
-    groupSearchPh: 'Please search for the group name.'
+    groupSearchPh: 'Please search for the group name.',
+    selectAuth: 'Please select permissions.'
   },
   tour: {
     step1: {

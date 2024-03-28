@@ -14,6 +14,7 @@ export default {
     createStep3Tit: 'Add team members or coworkers',
     createStep3Desc: 'Invite a colleague to join you via email.',
     createStep3Info: 'Enter key after writing email',
+    createStep4Info: 'Invite to the following privileges',
     createStep4Tit: 'Choose your industry and size',
     createStep4Desc: `Please select the industry of the team/company 
     and the size (number of people) of the team/company.`,
@@ -34,7 +35,8 @@ export default {
     listCheckText: 'Default to last used workspace',
     listArrowText: 'Current workspace',
     listInviteText: `Not the workspace you're looking for?`,
-    listInviteSubText: 'Enter invitation code'
+    listInviteSubText: 'Enter invitation code',
+    alreadyParticipation: 'This user is participating in the workspace.'
   },
   manage: {
     userName: '{userName} ',

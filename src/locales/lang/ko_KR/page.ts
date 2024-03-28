@@ -13,7 +13,8 @@ export default {
     알 수 있도록 하세요.`,
     createStep3Tit: '팀원 또는 직장 동료 추가',
     createStep3Desc: '함께할 동료를 이메일로 초대 해보세요.',
-    createStep3Info: '이메일 작성 후 엔터키(enter)',
+    createStep3Info: '이메일 작성 후 엔터키 (enter)',
+    createStep4Info: '다음 권한으로 초대',
     createStep4Tit: '업종과 규모 선택',
     createStep4Desc: '팀/회사의 업종과 팀/회사의 규모(인원수)를 선택해주세요.',
     createCompleteTit: '워크스페이스 생성이 완료되었어요!',
@@ -32,7 +33,8 @@ export default {
     listCheckText: '마지막으로 사용했던 워크스페이스로 기본설정',
     listArrowText: '현재 워크스페이스',
     listInviteText: '찾고 있는 워크스페이스가 아닙니까?',
-    listInviteSubText: '초대 코드 입력하기'
+    listInviteSubText: '초대 코드 입력하기',
+    alreadyParticipation: '해당 유저는 워크스페이스에 참여중입니다.'
   },
   manage: {
     userName: '{userName} 님이 ',

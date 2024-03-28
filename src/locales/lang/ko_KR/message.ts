@@ -5,7 +5,7 @@ export default {
   modalSaveCheck: '해당 내용을 저장하시겠습니까?',
   saveSuccess: '저장이 완료되었습니다.',
   deleteSuccess: '삭제가 완료되었습니다.',
-  reTry: '잠시 후 다시 시도해주세요.',
+  retry: '잠시 후 다시 시도해주세요.',
   checkingLogin: '유저 정보를 확인 중입니다',
   deleteUser: '사용자를 그룹에서 내보내시겠습니까?',
   modalUserDeleteCheck: `사용자를 정말 삭제하시겠습니까?

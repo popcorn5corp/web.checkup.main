@@ -59,27 +59,29 @@
         </div>
       </template>
     </DrawerContainer>
-    <Modal
-      v-if="isVisible"
-      @cancel="onCancelModal"
-      @ok="onCompleteModal"
-      :isModalLoading="isModalLoading"
-      class="invite-modal"
-    >
-      <template #title>{{ $t('page.manage.userInvite') }}</template>
-      <template #body>
-        <div class="invite-form-wrapper">
-          <h4 class="title" style="font-size: 16px">{{ $t('page.manage.emailInvite') }}</h4>
-          <InviteMemberForm ref="inviteMemberRef" :isShowDescription="false" :isShowJump="false" />
-        </div>
-      </template>
-    </Modal>
   </div>
+
+  <Modal
+    v-if="isVisible"
+    class="invite-modal"
+    @cancel="onCancelModal"
+    @ok="onCompleteModal"
+    :isModalLoading="isModalLoading"
+    :disabledOk="getNextBtnDisabled"
+  >
+    <template #title>{{ $t('page.manage.userInvite') }}</template>
+    <template #body>
+      <div class="invite-form-wrapper">
+        <!-- <h4 class="title" style="font-size: 16px">{{ $t('page.manage.emailInvite') }}</h4> -->
+        <InviteMemberForm ref="inviteMemberRef" :isShowDescription="false" :isShowJump="false" />
+      </div>
+    </template>
+  </Modal>
 </template>
-<script setup lang="ts" name="TableSample">
+<script setup lang="ts" name="ManageUsers">
 import { ManageUserService } from '@/services'
 import { message, Modal as modal } from 'ant-design-vue'
-import { createVNode, defineAsyncComponent, ref } from 'vue'
+import { createVNode, ref, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import type { IManageUser } from '@/services/manage-users/types'
@@ -97,10 +99,11 @@ import PostDetail from './components/PostDetail.vue'
 import UserTimeline from './components/UserTimeline.vue'
 import { getDefaultPost } from './constant'
 import { columns } from './mock'
+import { storeToRefs } from 'pinia'
 
 const { t } = useI18n()
-
-const { getWorkspaceId } = useWorkspaceStore()
+const workspaceStore = useWorkspaceStore()
+const { getWorkspaceId, getNextBtnDisabled } = storeToRefs(workspaceStore)
 const selectedUserDetailData = ref(getDefaultPost())
 const selectedWSUserId = ref()
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
@@ -109,9 +112,10 @@ const inviteMemberRef = ref()
 const showDetail = ref(false)
 const isVisible = ref(false)
 const isModalLoading = ref(false)
+const isDisabledOk = ref(false)
 
 const getDataSource = async (param: IManageUser.GetUserListParam) => {
-  return await ManageUserService.getUserList(getWorkspaceId || '', param)
+  return await ManageUserService.getUserList(unref(getWorkspaceId) || '', param)
 }
 
 const getColumns = () => {
@@ -180,7 +184,7 @@ const onCompleteModal = async () => {
     isModalLoading.value = true
     const inviteEmails = inviteMemberRef.value.tags
     getWorkspaceId &&
-      (await ManageUserService.inviteUsers(getWorkspaceId, {
+      (await ManageUserService.inviteUsers(unref(getWorkspaceId), {
         inviteEmails: inviteEmails
       }))
 
@@ -223,10 +227,13 @@ const onCancelModal = (): void => {
       font-size: 13px !important;
     }
   }
+
   :deep(.invite-modal) {
-    :deep(.invite-member-form-container) {
-      .form-wrapper small {
-        font-size: 13px !important;
+    .invite-member-form-container {
+      .form-wrapper {
+        .label > span {
+          font-size: 13px !important;
+        }
       }
     }
   }

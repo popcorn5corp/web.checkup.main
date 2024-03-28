@@ -134,7 +134,7 @@ defineExpose({
 
 :deep(.ant-select-selection-placeholder) {
   line-height: 1;
-  color: transparent;
+  // color: transparent;
 }
 .custom-select.active {
   :deep(.ant-select-selection-placeholder) {
