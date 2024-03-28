@@ -9,23 +9,19 @@
         </FormItem>
       </div>
 
-      <a-dropdown v-model:open="isDropdown" :trigger="['click']" placement="bottomRight">
-        <a class="ant-dropdown-link" @click.prevent> <MoreOutlined style="font-size: 18px" /> </a>
+      <Dropdown v-model:open="isDropdown" :trigger="['click']" placement="bottomRight">
+        <a class="ant-dropdown-link" @click.prevent><MoreOutlined style="font-size: 20px" /></a>
         <template #overlay>
-          <a-menu>
-            <a-menu-item key="1" @click="changeMode(modes.C)">
-              <div style="display: flex; gap: 10px">
-                <span>{{ t('common.postModify') }}</span>
-              </div>
-            </a-menu-item>
-            <a-menu-item key="2" @click="showDeleteConfirm">
-              <div style="display: flex; gap: 10px">
-                <span>{{ t('component.button.delete') }}</span>
-              </div>
-            </a-menu-item>
-          </a-menu>
+          <Menu @click="isEdit = true">
+            <MenuItem key="1" @click="changeMode(modes.C)">
+              <span class="item edit"><FormOutlined />{{ $t('component.button.edit') }}</span>
+            </MenuItem>
+            <MenuItem key="2" @click="showDeleteConfirm">
+              <span class="item delete"><DeleteOutlined />{{ $t('component.button.delete') }}</span>
+            </MenuItem>
+          </Menu>
         </template>
-      </a-dropdown>
+      </Dropdown>
     </Form>
 
     <Form v-else layout="horizontal" :model="formState">
@@ -49,7 +45,7 @@
 
 <script setup lang="ts" name="PostDetail">
 import { ManageGroupService } from '@/services'
-import { Modal, message } from 'ant-design-vue'
+import { Dropdown, Menu, MenuItem, Modal, message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -62,7 +58,9 @@ import { Form, FormItem } from '@/components/form'
 import {
   CheckOutlined,
   CloseOutlined,
+  DeleteOutlined,
   ExclamationCircleOutlined,
+  FormOutlined,
   MoreOutlined
 } from '@/components/icons'
 import { Input } from '@/components/input'
@@ -260,6 +258,21 @@ const showDeleteConfirm = () => {
       position: absolute;
       top: 15px;
     }
+  }
+}
+.item {
+  .anticon {
+    margin-right: 5px;
+  }
+}
+.item.edit {
+  .anticon {
+    color: $color-blue-6;
+  }
+}
+.item.delete {
+  .anticon {
+    color: $color-red-6;
   }
 }
 </style>

@@ -28,6 +28,8 @@ export interface Log {
   uid: string
   createTime: string
   nickname: string
+  targetUid?: string
+  targetNickName?: string
   status: LabelValue<string>
 }
 

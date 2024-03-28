@@ -23,7 +23,6 @@
         :showDownload="false"
         :showRegist="false"
         :phText="$t('component.ph.userSearchPh')"
-        :deleteBtnText="$t('component.button.export')"
         @row-click="onClickRow"
         @row-add="isVisible = true"
         @row-delete="onRemovePost"
@@ -42,14 +41,19 @@
       </DynamicTable>
       <template #drawerContent>
         <div class="detail-contents">
-          <PostDetail ref="postDetailRef" :data="selectedUserDetailData" />
+          <PostDetail
+            ref="postDetailRef"
+            :workspaceId="getWorkspaceId"
+            :workspaceUserId="selectedWSUserId"
+            @reload="tableReload"
+          />
           <a-tabs
             :destroyInactiveTabPane="true"
             :tabBarGutter="70"
             :tabBarStyle="{ padding: '0 10%', display: 'flex' }"
           >
             <a-tab-pane key="History" :tab="t('page.manage.history')">
-              <UserTimeline :workspaceUserId="selectedWSUserId" />
+              <UserTimeline :workspaceId="getWorkspaceId" :workspaceUserId="selectedWSUserId" />
             </a-tab-pane>
           </a-tabs>
         </div>
@@ -149,26 +153,43 @@ const cardContentCallback = (
   })
 }
 
+const tableReload = () => {
+  dynamicTableRef.value?.reload({ isReset: true })
+}
+
 const onClickRow = (row: IManageUser.UserInfo): void => {
   showDetail.value = true
 
-  selectedUserDetailData.value = row
   selectedWSUserId.value = row.workspaceUserId
 }
 
+const deleteUser = (workspaceUserId: string) => {
+  ManageUserService.removeUser(getWorkspaceId, workspaceUserId)
+    .then(({ success }) => {
+      if (success) {
+        tableReload()
+
+        message.success(t('message.deleteSuccess'), 1)
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 /**
  * @description 사용자 초대 API 요청
  */
 const onCompleteModal = async () => {
   try {
     isModalLoading.value = true
-    // 사용자 초대
     const inviteEmails = inviteMemberRef.value.tags
     getWorkspaceId &&
       (await ManageUserService.inviteUsers(unref(getWorkspaceId), {
         inviteEmails: inviteEmails
       }))
-    message.success('초대가 완료되었습니다.', 1)
+
+    message.success(t('message.userInviteSuceess'), 1)
+
     isVisible.value = false
     isModalLoading.value = false
   } finally {
@@ -179,26 +200,13 @@ const onCompleteModal = async () => {
 /**
  * @description 사용자 삭제 API 요청
  */
-const onRemovePost = (selectedRows: IManageUser.UserInfo[], selectedRowKeys: string[]): void => {
-  console.log(selectedRows, selectedRowKeys)
+const onRemovePost = (selectedRows: IManageUser.UserInfo[]) => {
   modal.confirm({
-    content: '선택한 사용자를 내보내시겠습니까?',
+    title: t('message.modalUserDeleteCheck'),
     icon: createVNode(QuestionCircleTwoTone),
     onOk() {
-      // const params = {
-      //   groupId: selectedRowKeys
-      // }
-      // console.log(selectedRowKeys)
-      // ManagerUserService.removeUser(getWorkspace?.workspaceId, params).then(({ success }) => {
-      //   if (success) {
-      //     dynamicTableRef.value?.reload({ isReset: true })
-      //     setTimeout(() => {
-      //       message.success(t('message.deleteSuccess'), 1)
-      //     }, 300)
-      //   }
-      // })
+      deleteUser(selectedRows[0].workspaceUserId)
     }
-    // async onCancel() {}
   })
 }
 

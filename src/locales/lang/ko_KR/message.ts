@@ -8,6 +8,12 @@ export default {
   retry: '잠시 후 다시 시도해주세요.',
   checkingLogin: '유저 정보를 확인 중입니다',
   deleteUser: '사용자를 그룹에서 내보내시겠습니까?',
+  modalUserDeleteCheck: `사용자를 정말 삭제하시겠습니까?
+해당 사용자의 권한과 그룹에서도 삭제됩니다.`,
+  userInviteSuceess: '사용자를 초대하였습니다.',
+  userStatusInfo: '사용자를 비활성화하면 더 이상 로그인할 수 없습니다.',
+  userActive: '{user}님이 활성화되었습니다.',
+  userInactive: '{user}님이 비활성화되었습니다.',
   validate: {
     checkData: '해당 조건에 일치하는 정보가 없습니다.',
     checkEmailForm: '이메일형식이 올바르지 않습니다.',

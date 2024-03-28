@@ -40,11 +40,14 @@ export default {
   },
   manage: {
     userName: '{userName} ',
+    targetName: '{targetName} ',
     userStatus: {
       CREATE: 'has been created.',
       JOIN: 'has joined.',
       WITHDRAWN: 'has been withdrawn.',
-      REVOKE: 'has been expelled.'
+      REVOKE: 'has been expelled.',
+      ACTIVE: 'has been activated.',
+      INACTIVE: 'has been deactivated.'
     },
     history: 'History',
     joined: 'Already subscribed',

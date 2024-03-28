@@ -1,13 +1,16 @@
+import type { IManageUser } from '@/services/manage-users/types'
+
 export const getDefaultPost = () => ({
-  email: '',
-  // index: 0,
-  joinDate: '',
-  nickname: '',
-  phone: '',
-  // rowKey: 0,
-  thumbnail: {
-    url: ''
+  detail: {
+    workspaceUserId: '',
+    nickname: '',
+    email: '',
+    phone: '',
+    joinDate: '',
+    userStatus: { label: '', value: '' },
+    thumbnail: {
+      url: ''
+    }
   },
-  userStatus: { label: '', value: '' },
-  workspaceUserId: ''
+  groups: [] as IManageUser.GroupData[]
 })

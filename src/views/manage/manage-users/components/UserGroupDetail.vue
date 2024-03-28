@@ -1,7 +1,7 @@
 <template>
   <div class="user-group-container">
-    <template v-if="state.data.groups?.length">
-      <span v-for="group in state.data.groups" :key="group.groupId" class="group-item">
+    <template v-if="state.groups?.length">
+      <span v-for="group in state.groups" :key="group.groupId" class="group-item">
         {{ group.name }}
       </span>
     </template>
@@ -10,50 +10,24 @@
 </template>
 
 <script setup lang="ts">
-import { ManageUserService } from '@/services'
 import { reactive, watch } from 'vue'
 
 import type { IManageUser } from '@/services/manage-users/types'
 
-import { useWorkspaceStore } from '@/stores/modules/workspace'
-
 interface UserGroupDetailProps {
-  workspaceUserId: string
+  userGroupData: [] | IManageUser.GroupData[]
 }
 
 const props = defineProps<UserGroupDetailProps>()
-const { getWorkspaceId } = useWorkspaceStore()
 
 const state = reactive({
-  data: {
-    detail: {
-      joinDate: '',
-      gender: {
-        label: '',
-        value: ''
-      }
-    },
-    groups: [] as IManageUser.GroupData[]
-  }
+  groups: [] as IManageUser.GroupData[]
 })
 
-const fetchUserDetail = async (workspaceUserId: string) => {
-  getWorkspaceId &&
-    (await ManageUserService.getOneById(getWorkspaceId, workspaceUserId).then(
-      ({ success, data }) => {
-        if (success) {
-          state.data = {
-            ...data
-          }
-        }
-      }
-    ))
-}
-
 watch(
-  () => props.workspaceUserId,
-  (id) => {
-    fetchUserDetail(id)
+  () => props.userGroupData,
+  (groupData) => {
+    state.groups = groupData
   },
   { immediate: true }
 )

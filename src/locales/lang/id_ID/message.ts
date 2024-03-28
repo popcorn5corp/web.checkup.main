@@ -8,6 +8,12 @@ export default {
   retry: 'Silakan coba lagi dalam beberapa menit.',
   checkingLogin: 'Memeriksa informasi pengguna',
   deleteUser: 'Anda yakin ingin mengekspor pengguna dari grup?',
+  modalUserDeleteCheck: `Apakah Anda yakin ingin menghapus pengguna tersebut?
+  Izin dan grup pengguna juga dihapus.`,
+  userInviteSuceess: 'Anda telah mengundang pengguna.',
+  userStatusInfo: 'Jika Anda menonaktifkan pengguna, mereka tidak dapat lagi masuk.',
+  userActive: '{user} telah diaktifkan.',
+  userInactive: '{user} telah dinonaktifkan.',
   validate: {
     checkData: 'Tidak ada informasi yang sesuai dengan kriteria.',
     checkEmailForm: 'Format email salah.',
