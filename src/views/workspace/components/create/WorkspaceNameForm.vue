@@ -6,8 +6,14 @@
 
   <div class="form-wrapper">
     <FormItem :isError="isError">
-      <Input v-model:value="getFormValues.workspaceName" :placeholder="$t('component.ph.inputTeamOrCompanyName')"
-        :maxlength="20" @input="onInput" @press-enter="moveNextStep()" show-count />
+      <Input
+        v-model:value="getFormValues.workspaceName"
+        :placeholder="$t('component.ph.inputTeamOrCompanyName')"
+        :maxlength="20"
+        @input="onInput"
+        @press-enter="moveNextStep()"
+        show-count
+      />
       <template #validText> {{ validText }} </template>
     </FormItem>
   </div>

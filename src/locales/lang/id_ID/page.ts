@@ -14,6 +14,7 @@ export default {
     createStep3Tit: 'Tambahkan anggota tim atau rekan kerja',
     createStep3Desc: 'Undang rekan kerja untuk bergabung dengan Anda melalui email.',
     createStep3Info: 'Masukkan kunci setelah menulis surel',
+    createStep4Info: 'Undang ke hak istimewa berikut',
     createStep4Tit: 'Pilih industri dan ukuran Anda',
     createStep4Desc: `Silakan pilih industri tim/perusahaan 
     dan ukuran (jumlah orang) tim/perusahaan.`,
@@ -34,7 +35,8 @@ export default {
     listCheckText: 'Baku untuk area kerja yang terakhir dipakai',
     listArrowText: 'Area kerja saat ini',
     listInviteText: `Bukan ruang kerja yang kau cari?`,
-    listInviteSubText: 'Masukkan kode undangan'
+    listInviteSubText: 'Masukkan kode undangan',
+    alreadyParticipation: 'Pengguna ini berpartisipasi di ruang kerja.'
   },
   manage: {
     userName: '{userName} ',

@@ -1,11 +1,11 @@
 <template>
   <Modal
     class="modal-container"
-    :width="500"
-    destroyOnClose
     v-model:open="isOpen"
     :centered="props.positionCenter"
+    :width="500"
     @cancel="emit('cancel')"
+    destroyOnClose
   >
     <template #title>
       <div class="modal-title">
@@ -30,6 +30,7 @@
           v-if="useOkBtn"
           :label="props.okBtnText || $t('component.button.complete2')"
           :loading="props.isModalLoading"
+          :disabled="props.disabledOk"
           type="primary"
           @click="emit('ok')"
         />
@@ -42,13 +43,16 @@
 import { Modal } from 'ant-design-vue'
 import { ref } from 'vue'
 import type { ModalProps } from '../types'
+import { Button } from '@/components/button'
 
 const emit = defineEmits(['ok', 'cancel', 'update:isVisible'])
 const props = withDefaults(defineProps<ModalProps>(), {
   positionCenter: false,
   useOkBtn: true,
-  useCancelBtn: true
+  useCancelBtn: true,
+  disabledOk: false
 })
+
 const isOpen = ref(true)
 </script>
 

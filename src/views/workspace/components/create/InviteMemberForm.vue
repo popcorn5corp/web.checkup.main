@@ -5,10 +5,12 @@
       <p>{{ $t('page.workspace.createStep3Desc') }}</p>
     </div>
     <div class="form-wrapper">
-      <div style="font-size: 15px; display: inline-block">
-        {{ $t('page.workspace.createStep3Info') }}
+      <div class="label email-input">
+        <span>
+          {{ $t('page.workspace.createStep3Info') }}
+        </span>
+        <small class="error-msg" v-if="!isEmailValid">{{ emailValidText }}</small>
       </div>
-      <small v-if="isError" style="color: red; margin-left: 10px">{{ errMsg }}</small>
 
       <div class="select-wrapper" @click="inputRef.focus()">
         <div class="input-wrapper">
@@ -17,14 +19,15 @@
               ref="inputRef"
               class="input"
               :placeholder="$t('message.validate.checkEmail')"
-              v-model:value="emailRef"
+              v-model:value="emailValue"
               @pressEnter="onInputEnter"
               @focusout="onInputEnter"
+              @change="onChangeEmail"
             />
           </div>
         </div>
         <div class="tags-wrapper">
-          <template v-for="tag in tags" :key="tag">
+          <template v-for="tag in inviteEmails" :key="tag">
             <div class="tag">
               <span class="text">{{ tag }}</span>
               <span class="icon" @click="onRemove(tag)">
@@ -34,8 +37,25 @@
           </template>
         </div>
       </div>
+
+      <div>
+        <div class="label auth-select">
+          {{ $t('page.workspace.createStep4Info') }}
+          <span style="">({{ $t('common.essential') }})</span>
+        </div>
+
+        <Select
+          v-model:value="selectedAuth"
+          :options="authList.map((auth) => ({ label: auth.name, value: auth.authId }))"
+          :placeholder="$t('component.ph.selectAuth')"
+          style="width: 250px"
+          @change="onChangeSelectedAuth"
+          allowClear
+        />
+      </div>
+
       <div class="jump-wrapper" v-if="isShowJump">
-        <span class="jump" @click="moveNextStep()">{{ $t('page.workspace.inviteStepJump') }}</span>
+        <span class="jump" @click="onSkip">{{ $t('page.workspace.inviteStepJump') }}</span>
       </div>
     </div>
   </div>
@@ -44,127 +64,247 @@
 <script setup lang="ts" name="InviteMemberForm">
 import { ManageUserService } from '@/services'
 import { Util } from '@/utils'
-import { Input, message } from 'ant-design-vue'
-import { type CSSProperties, computed, ref, toRefs } from 'vue'
-import { watch } from 'vue'
+import { Input, Select } from 'ant-design-vue'
+import { type CSSProperties, computed, ref, toRefs, unref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useWorkspaceStore } from '@/stores/modules/workspace'
 
 import { CloseOutlined } from '@/components/icons'
+import { WorkspaceService } from '@/services'
+import type { IWorkspace } from '@/services/workspace/types'
+import type { ChangeEventHandler } from 'ant-design-vue/es/_util/EventInterface'
+import type { KeyboardEventHandler } from 'ant-design-vue/lib/_util/EventInterface'
+import { useMessage } from '@/hooks/useMessage'
+
+interface Props {
+  isShowDescription?: boolean
+  isShowJump?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  isShowDescription: true,
+  isShowJump: true
+})
 
 const { t } = useI18n()
+const { createMessage: message } = useMessage()
 const workspaceStore = useWorkspaceStore()
 const {
   moveNextStep,
   initFormValueInviteEmails,
   pushFormValueInviteEmails,
   removeFormValueInviteEmails,
-  setNextBtnDisabled
+  setNextBtnDisabled,
+  setFormValues
 } = workspaceStore
-const { getFormValues, getStepType, getWorkspace, getWorkspaceId } = toRefs(workspaceStore)
+const { getFormValues, getStepType, getWorkspaceId, getNextBtnDisabled } = toRefs(workspaceStore)
 
-const props = defineProps({
-  isShowDescription: {
-    type: Boolean,
-    default: true
-  },
-  isShowJump: {
-    type: Boolean,
-    default: true
-  }
-})
-
-const isError = ref(false)
-const errMsg = ref('')
-const emailRef = ref('')
+const isEmailValid = ref(true)
+const emailValidText = ref('')
+const emailValue = ref('')
 const inputRef = ref()
-
-const tags = computed(() => [...getFormValues.value.inviteEmails].reverse())
-const errorTagStyle = computed<CSSProperties>(() => {
-  return {
-    borderColor: isError.value ? '#ff4d4f' : '#d9d9d9'
-  }
-})
+const authList = ref<IWorkspace.WorkspaceAuth[]>([])
+const selectedAuth = ref()
+const inviteEmails = computed(() => [...getFormValues.value.inviteEmails].reverse())
+const errorTagStyle = computed<CSSProperties>(() => ({
+  borderColor: !unref(isEmailValid) ? '#ff4d4f' : '#d9d9d9'
+}))
 
 ;(async () => {
-  if (getStepType.value === null) {
-    initFormValueInviteEmails()
-  }
-})()
-
-const onInputEnter = async (event: KeyboardEvent) => {
-  const emailValue = (event.target as HTMLInputElement).value
-
   try {
-    if (!emailValue) return
-    if (!Util.Validate.isEmail(emailValue)) {
-      // email 형식이 아닐 때
-      handleError(t('message.validate.checkEmailForm'))
-    } else if (tags.value.includes(emailValue)) {
-      // 작성한 email 과 중복일 때
-      handleError(t('message.validate.checkDuplicatedEmail'))
-    } else {
-      if (getStepType.value === null) {
-        // 사용자 관리 - 초대하기 일 떼 워크스페이스에 존재하는 email인지 검사
-        onManageUsersCheckEmail(emailValue)
-      }
-      emailRef.value = ''
-      pushFormValueInviteEmails(emailValue.trim())
-      resetError()
-    }
-  } catch (err) {
-    message.error(t('message.validate.reTry'))
-  }
-}
-
-const onManageUsersCheckEmail = async (emailValue: string) => {
-  try {
-    if (getWorkspace.value) {
-      const {
-        data: { exist }
-      } = await ManageUserService.checkDuplicatedEmail(getWorkspaceId.value, {
-        inviteEmail: emailValue
-      })
-      if (exist) {
-        return handleError('이미 이 워크스페이스에 존재합니다.')
-      }
-    }
+    const {
+      data: { auths }
+    } = await WorkspaceService.getWorkspaceAuthList()
+    authList.value = auths
   } catch (err) {
     console.log(err)
   }
+
+  if (unref(getStepType) === null) initFormValueInviteEmails()
+})()
+
+watch(
+  () => unref(inviteEmails),
+  (inviteEmails) => {
+    if (!inviteEmails.length) {
+      setCompleteBtnDisabled(true)
+    }
+  }
+)
+
+/**
+ * 이메일에 대한 validation 수행
+ * @param email
+ */
+const emailValidator = async (email: string) => {
+  // email 형식 체크
+  if (!Util.Validate.isEmail(email)) {
+    setEmailValidate({
+      isValid: false,
+      validText: t('message.validate.checkEmailForm')
+    })
+
+    return false
+  }
+
+  // 이메일 추가 폼 내부에 존재하는 email 여부 체크
+  if (inviteEmails.value.includes(email)) {
+    setEmailValidate({
+      isValid: false,
+      validText: t('message.validate.checkDuplicatedEmail')
+    })
+
+    return false
+  }
+
+  // 사용자 관리 > 초대하기일 경우
+  if (getStepType.value === null) {
+    const { isValid } = await checkManageUsersEmail(email)
+
+    if (!isValid) {
+      setEmailValidate({
+        isValid: false,
+        validText: t('page.workspace.alreadyParticipation')
+      })
+
+      return false
+    }
+  }
+
+  setEmailValidate({
+    isValid: true
+  })
+
+  return true
 }
 
-const onInitInviteEmails = () => {
-  initFormValueInviteEmails()
+/**
+ * 이메일 입력후 Enter에 대한 input event handler
+ * @param event
+ */
+const onInputEnter: KeyboardEventHandler = async (event) => {
+  const email = (event.target as HTMLInputElement).value.trim()
+  if (!email) return false
+
+  // email 유효성 검증
+  if (!(await emailValidator(email))) {
+    setCompleteBtnDisabled(true)
+    return
+  }
+
+  addEmail(email)
+
+  // 권한 선택 필수 검증
+  if (!selectedAuth.value) {
+    setCompleteBtnDisabled(true)
+    return
+  }
+
+  setCompleteBtnDisabled(false)
 }
 
+const setCompleteBtnDisabled = (disabled: boolean) => {
+  if (unref(getNextBtnDisabled) !== disabled) {
+    setNextBtnDisabled(disabled)
+  }
+}
+
+/**
+ * 이메일 추가
+ * @param email
+ */
+const addEmail = (email: string) => {
+  pushFormValueInviteEmails(email)
+  emailValue.value = ''
+}
+
+/**
+ * 이메일 입력에 대한 change event handler
+ * @param event
+ */
+const onChangeEmail: ChangeEventHandler = (event) => {
+  const email = (event.target as HTMLInputElement).value.trim()
+
+  if (!email && !unref(isEmailValid)) {
+    setEmailValidate({
+      isValid: true
+    })
+
+    unref(selectedAuth) && setCompleteBtnDisabled(false)
+  }
+}
+
+/**
+ * 권한 선택 select box 선택 변경에 대한 change event handler
+ */
+const onChangeSelectedAuth = () => {
+  if (unref(inviteEmails).length && unref(selectedAuth)) {
+    return setCompleteBtnDisabled(false)
+  }
+
+  setCompleteBtnDisabled(true)
+}
+
+/**
+ * 이메일 tag 삭제에 대한 click event handler
+ * @param tag
+ */
 const onRemove = (tag: string) => {
   removeFormValueInviteEmails(tag)
-}
 
-const handleError = (message: string) => {
-  errMsg.value = message
-  isError.value = true
-  setNextBtnDisabled(true)
-}
-
-const resetError = () => {
-  isError.value = false
-  setNextBtnDisabled(false)
-}
-
-watch(emailRef, () => {
-  if (!emailRef.value.length) {
-    resetError()
+  if (!unref(inviteEmails).length) {
+    setCompleteBtnDisabled(true)
   }
-})
+}
+
+/**
+ * '이 단계 건너뛰기' 수행에 대한 click event handler
+ */
+const onSkip = () => {
+  setFormValues({ inviteEmails: [] })
+  moveNextStep()
+}
+
+/**
+ * 입력한 이메일에 대한 워크스페이스 내부 존재여부 확인
+ * @param email
+ * @description 사용자 관리 > 초대하기 내에서 사용됨
+ */
+const checkManageUsersEmail = async (
+  email: string
+): Promise<{ success: boolean; isValid: boolean }> => {
+  try {
+    const {
+      data: { exist }
+    } = await ManageUserService.checkDuplicatedEmail(getWorkspaceId.value, {
+      inviteEmail: email
+    })
+
+    if (exist) return { success: true, isValid: false }
+    return { success: true, isValid: true }
+  } catch (err) {
+    console.log(err)
+    message.error(t('message.retry'))
+    return { success: false, isValid: false }
+  }
+}
+
+/**
+ * 이메일 validation 정보 설정
+ * @param param
+ */
+const setEmailValidate = (param: { isValid: boolean; validText?: string }) => {
+  const { isValid, validText = '' } = param
+  isEmailValid.value = isValid
+  emailValidText.value = validText
+}
 
 defineExpose({
-  isError,
-  tags,
+  isError: !unref(isEmailValid),
+  tags: inviteEmails,
   onInputEnter,
-  onInitInviteEmails
+  onInitInviteEmails: initFormValueInviteEmails
 })
 </script>
 
@@ -178,9 +318,10 @@ defineExpose({
     border-color: v-bind('errorTagStyle.borderColor');
     border-radius: 6px;
     padding: 5px;
-    margin-top: 5px;
+    // margin-top: 5px;
     overflow-y: auto;
     cursor: text;
+    margin-bottom: 30px;
 
     .tags-wrapper {
       display: flex;
@@ -241,13 +382,34 @@ defineExpose({
 
   .jump-wrapper {
     text-align: right;
-    margin-top: 8px;
+    margin-top: 30px;
 
     .jump {
-      font-size: 15px;
+      font-size: $font-size-small;
       color: $color-gray-7;
       border-bottom: 1px solid $color-gray-7;
       cursor: pointer;
+    }
+  }
+
+  .label {
+    font-size: $font-size-base;
+    // color: $color-text-sub;
+    margin-bottom: 10px;
+
+    &.email-input {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &.auth-select > span {
+      font-size: $font-size-small;
+      // color: $color-text-sub;
+    }
+
+    .error-msg {
+      color: $color-feedback-error !important;
+      font-size: $font-size-small !important;
     }
   }
 }

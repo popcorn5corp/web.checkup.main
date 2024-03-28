@@ -5,7 +5,7 @@ export default {
   modalSaveCheck: 'Do you want to save this content?',
   saveSuccess: 'Your save is complete.',
   deleteSuccess: 'Deletion completed.',
-  reTry: 'Please try again in a few minutes.',
+  retry: 'Please try again in a few minutes.',
   checkingLogin: 'Checking user information',
   deleteUser: 'Are you sure you want to export users from the group?',
   validate: {

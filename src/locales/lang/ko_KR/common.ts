@@ -28,5 +28,6 @@ export default {
   backToLogin: '로그인으로 돌아가기',
   signInTitle: '순간을 모아 미래를 보다',
   signUpTitle: '체크업의 계정을 만들어보세요',
-  certificationNumber: '인증번호'
+  certificationNumber: '인증번호',
+  essential: '필수'
 }

@@ -36,7 +36,8 @@ export default {
     inputTeamOrCompanyName: 'Contoh: pemeriksaan Pemeriksaan atau pemeriksaan',
     inputInviteCode: 'Silakan masukkan kode undangan.',
     userSearchPh: 'Silakan cari nama dan email Anda.',
-    groupSearchPh: 'Silakan cari nama grupnya.'
+    groupSearchPh: 'Silakan cari nama grupnya.',
+    selectAuth: 'Silakan pilih izin.'
   },
   tour: {
     step1: {

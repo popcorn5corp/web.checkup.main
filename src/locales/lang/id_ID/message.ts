@@ -5,7 +5,7 @@ export default {
   modalSaveCheck: 'Apakah Anda ingin menyimpan konten ini?',
   saveSuccess: 'Penyimpanan Anda selesai.',
   deleteSuccess: 'Penghapusan selesai.',
-  reTry: 'Silakan coba lagi dalam beberapa menit.',
+  retry: 'Silakan coba lagi dalam beberapa menit.',
   checkingLogin: 'Memeriksa informasi pengguna',
   deleteUser: 'Anda yakin ingin mengekspor pengguna dari grup?',
   validate: {

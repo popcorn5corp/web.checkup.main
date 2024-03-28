@@ -23,6 +23,8 @@ const props = defineProps<FormItemProps>()
     margin-bottom: 16px;
 
     &.error {
+      // .ant-select,
+      .ant-select-selector,
       .ant-input-affix-wrapper {
         border: 1.5px solid $color-feedback-error !important;
       }
