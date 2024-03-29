@@ -7,6 +7,10 @@ export function useFilter(propsRef: ComputedRef<DynamicTableProps>) {
   const filterFormItems = ref<FilterFormItem[]>([])
   const cloneFilterFormItems = ref<FilterFormItem[]>([])
   const getFilterFormItems = computed(() => unref(filterFormItems))
+
+  const getSelectedItemsCount = computed(
+    () => unref(getFilterFormItems).filter((formItem) => formItem.selectedItems.length).length
+  )
   let countFlag = 0
 
   watch(
@@ -72,6 +76,10 @@ export function useFilter(propsRef: ComputedRef<DynamicTableProps>) {
     }
   }
 
+  // function getSelectedItemsCount() {
+  //   return unref(filterFormItems).filter((formItem) => formItem.selectedItems.length).length
+  // }
+
   function clearSelectedItems() {
     unref(filterFormItems).map((formItem) => {
       const { type, options } = formItem
@@ -88,6 +96,7 @@ export function useFilter(propsRef: ComputedRef<DynamicTableProps>) {
 
   return {
     getFilterFormItems,
+    getSelectedItemsCount,
     setFilterFormItem,
     clearSelectedItems,
     initFilterFormItems

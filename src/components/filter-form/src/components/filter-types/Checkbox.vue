@@ -63,7 +63,7 @@ const onChange = (checkedValue: CheckboxValueType[]) => {
     ...unref(formItem),
     selectedItems
   }
-
+  console.log(filterFormItem)
   dynamicTable?.setFilterFormItem(filterFormItem)
 }
 

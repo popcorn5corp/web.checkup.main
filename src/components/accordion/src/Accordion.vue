@@ -1,45 +1,49 @@
-<script setup lang="ts" name="Accordion">
-import { Collapse } from 'ant-design-vue'
-import { ref } from 'vue'
-import type { AccordionProps } from '../types'
-import AccordionPanel from './AccordionPanel.vue'
-
-const props = defineProps<AccordionProps>()
-const emit = defineEmits(['change'])
-const activeKey = ref(props.activeKey)
-
-const onChange = (key: string[]) => {
-  emit('change', key)
-}
-</script>
-
 <template>
   <div class="accordian-container" :style="style">
     <template v-if="items">
       <Collapse
+        v-bind="{ ...props }"
         v-for="(item, index) in items"
         v-model:activeKey="activeKey"
-        :expand-icon-position="expandIconPosition"
         :key="index"
-        :bordered="bordered"
-        :ghost="ghost"
         @change="onChange"
       >
-        <AccordionPanel :key="index" :header="item.title">
+        <AccordionPanel :showArrow="showArrow" :key="index">
+          <template #header>{{ item.title }}</template>
           <slot name="content" :item="item"></slot>
           <template #extra><slot name="extra"></slot></template>
         </AccordionPanel>
+
+        <!-- 아이콘 -->
+        <template #expandIcon="{ isActive }">
+          <slot name="expandIcon" :isActive="isActive"></slot>
+        </template>
       </Collapse>
     </template>
 
-    <Collapse
-      v-else
-      v-model:activeKey="activeKey"
-      :expand-icon-position="expandIconPosition"
-      :bordered="bordered"
-      :ghost="ghost"
-    >
+    <Collapse v-else v-bind="{ ...props }" v-model:activeKey="activeKey">
       <slot></slot>
     </Collapse>
   </div>
 </template>
+
+<script setup lang="ts" name="Accordion">
+import { Collapse } from 'ant-design-vue'
+import { computed, ref, watch } from 'vue'
+import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
+import type { CollapseProps } from '../types'
+import AccordionPanel from './AccordionPanel.vue'
+
+const props = defineProps<CollapseProps>()
+const emit = defineEmits(['change'])
+
+const activeKey = ref(props.activeKey)
+
+const dynamicTable = useDynamicTableContext()
+const selectedFilterItems = computed(() => dynamicTable.getFilterFormItems())
+
+const onChange = (key: Key | Key[]) => {
+  emit('change', key)
+  console.log(key)
+}
+</script>

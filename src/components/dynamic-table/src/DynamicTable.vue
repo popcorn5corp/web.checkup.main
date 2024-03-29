@@ -11,7 +11,7 @@
           }"
         >
           <div class="header">
-            <TableTags :items="getFilterFormItems" />
+            <!-- <TableTags :items="getFilterFormItems" /> -->
             <!-- <Button label="Drawer" @click="showDetail = true" /> -->
             <div class="table-btns">
               <Space>
@@ -92,14 +92,14 @@
           </Table>
         </div>
 
-        <KeepAlive>
+        <!-- <KeepAlive>
           <FilterForm
             v-if="showFilter && !openDetail"
             :items="getFilterFormItems"
             @close="(flag: boolean) => (showFilter = flag)"
             :style="{ width: props.showToolbar && showFilter && !openDetail ? '30%' : '' }"
           />
-        </KeepAlive>
+        </KeepAlive> -->
       </div>
     </div>
   </div>
@@ -109,7 +109,6 @@ import { Divider, Space, Tooltip } from 'ant-design-vue'
 import { computed, ref, unref, useAttrs, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/button'
-import { FilterForm } from '@/components/filter-form'
 import {
   DeleteTwoTone,
   DownloadOutlined,
@@ -202,8 +201,13 @@ function setContextValues(values: Partial<DynamicTableContextValues>) {
   }
 }
 
-const { getFilterFormItems, clearSelectedItems, setFilterFormItem, initFilterFormItems } =
-  useFilter(getProps)
+const {
+  getFilterFormItems,
+  getSelectedItemsCount,
+  clearSelectedItems,
+  setFilterFormItem,
+  initFilterFormItems
+} = useFilter(getProps)
 
 watch(
   () => unref(tableRef)?.selectedRows,
@@ -239,6 +243,7 @@ function closeDetail() {
 let dynamicTableAction: DynamicTableAction = {
   setProps,
   setContextValues,
+  getSelectedItemsCount: () => unref(getSelectedItemsCount),
   getFilterFormItems: () => unref(getFilterFormItems),
   setFilterFormItem,
   clearSelectedItems,
@@ -288,7 +293,7 @@ $header-btns-height: 15px;
     .content {
       .header {
         display: flex;
-        justify-content: space-between;
+        justify-content: end;
         gap: 10px;
 
         .table-btns {

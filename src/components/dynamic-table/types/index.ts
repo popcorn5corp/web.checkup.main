@@ -56,6 +56,7 @@ export interface DynamicTableExposes {
 export interface DynamicTableAction {
   setProps: (props: Partial<DynamicTableProps>) => void
   setContextValues: (value: Partial<DynamicTableContextValues>) => void
+  getSelectedItemsCount: () => number
   getFilterFormItems: () => FilterFormItem[]
   setFilterFormItem: (filterFormItem: FilterFormItem) => void
   initFilterFormItems: () => void

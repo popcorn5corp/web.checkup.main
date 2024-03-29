@@ -7,13 +7,29 @@
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
       </div>
 
-      <Accordion :items="items" :style="{ fontWeight: 'bold', fontSize: '16px' }" ghost>
-        <template #content="{ item }">
-          <keep-alive>
-            <component :is="filterTypeComponents[item.type as FilterUI]" :item="item" />
-          </keep-alive>
-        </template>
-      </Accordion>
+      <div class="content">
+        <Accordion
+          :activeKey="acitveKey"
+          :showArrow="true"
+          expandIconPosition="end"
+          :items="items"
+          :style="{ fontWeight: 'bold', fontSize: '16px' }"
+          ghost
+          @change="onChange"
+        >
+          <template #expandIcon="{ isActive }">
+            <CaretDownOutlined />
+          </template>
+
+          <template #content="{ item }">
+            <keep-alive>
+              <component :is="filterTypeComponents[item.type as FilterUI]" :item="item" />
+            </keep-alive>
+          </template>
+        </Accordion>
+
+        <TableTags :items="getFilterFormItems" />
+      </div>
 
       <div class="mobile-footer">
         <div class="btn-group">
@@ -30,19 +46,24 @@
   </div>
 </template>
 <script setup lang="ts" name="FilterForm">
-import { type Component, computed, ref, unref } from 'vue'
+import { CaretDownOutlined, DownOutlined } from '@ant-design/icons-vue'
+import { type Component, computed, ref, unref, watch } from 'vue'
 import type { CSSProperties } from 'vue'
+import { useTheme } from '@/hooks/useTheme'
 import { Accordion } from '@/components/accordion'
 import { Button } from '@/components/button'
+import { useDynamicTableContext } from '@/components/dynamic-table/hooks/useDynamicTableContext'
+import TableTags from '@/components/dynamic-table/src/components/TableTags.vue'
 import type { FilterFormProps, FilterUI } from '../types'
 import { Checkbox, DatePicker, Radio, RangeDatePicker, Select } from './components/filter-types'
-import { useTheme } from '@/hooks/useTheme'
 
 const emit = defineEmits(['close'])
-defineProps<FilterFormProps>()
-const { getTheme } = useTheme();
+const props = defineProps<FilterFormProps>()
+
+const { getTheme } = useTheme()
 
 const isShow = ref(true)
+const acitveKey = ref<string[]>([])
 const containerStyles = computed<CSSProperties>(() => {
   const color = unref(getTheme).isDark ? '#434343' : '#fafafa'
 
@@ -50,6 +71,16 @@ const containerStyles = computed<CSSProperties>(() => {
     borderLeft: `thick double ${color}`
   }
 })
+
+const dynamicTable = useDynamicTableContext()
+
+const getFilterFormItems = computed(() => dynamicTable.getFilterFormItems())
+
+const onChange = (key: string[]) => {
+  if (key.length >= 2) {
+    acitveKey.value = [key.shift() as string]
+  }
+}
 
 const onFilter = (): void => {
   isShow.value = !isShow.value
@@ -66,11 +97,67 @@ const filterTypeComponents: Record<FilterUI, Component> = {
 </script>
 
 <style lang="scss" scoped>
+:deep(.ant-picker-dropdown, .ant-select) {
+  z-index: 9999 !important;
+}
 .filter-form-container {
+  border-left: none !important;
   .filter-list {
-    // width: 100%;
+    z-index: 2;
 
-    z-index: 999;
+    :deep(.accordian-container) {
+      display: flex;
+      gap: 5px;
+
+      .ant-collapse {
+        position: relative;
+        .ant-collapse-item {
+          .ant-collapse-header {
+            border: 1px solid #d9d9d9;
+            border-radius: 23px;
+            padding: 3px 18px;
+            display: flex;
+            // gap: 6px;
+            .ant-collapse-header-text {
+              font-weight: 300;
+              font-size: 13px;
+            }
+            align-items: center;
+
+            &:hover {
+              background: #f0f4f8;
+            }
+          }
+
+          align-items: center;
+          .ant-collapse-expand-icon {
+            font-size: 10px;
+          }
+        }
+        .ant-collapse-content {
+          position: absolute;
+          z-index: 999;
+          top: 34px;
+          left: 2px;
+          width: 200px;
+          background: white;
+          border-radius: $radius-round-2;
+          box-shadow: $elevation-4;
+          .ant-picker {
+            width: 100%;
+          }
+
+          .ant-checkbox-group {
+            padding: 1rem 0 0 0;
+          }
+        }
+      }
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+    }
 
     .mobile-header {
       display: none;
@@ -105,6 +192,11 @@ const filterTypeComponents: Record<FilterUI, Component> = {
       width: 100vw;
       height: 101vh;
 
+      :deep(.accordian-container) {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+      }
       .mobile-header {
         padding: 41px 16px;
         display: block;

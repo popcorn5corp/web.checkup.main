@@ -1,14 +1,12 @@
-import type { CollapseProps as ACollapseProps } from 'ant-design-vue/es/collapse/Collapse'
+import type {
+  CollapsePanelProps as ACollapsePanelProps,
+  CollapseProps as ACollapseProps
+} from 'ant-design-vue'
 import { type CSSProperties } from 'vue'
 
 export type AccordionIconPositionType = 'start' | 'end'
 
-interface AccordionItem {
-  title: string
-  [key: string]: string
-}
-
-export interface AccordionProps {
+export interface CollapseProps extends /* @vue-ignore */ ACollapseProps {
   /**
    * 아코디언 패널 생성 데이터
    */
@@ -29,13 +27,27 @@ export interface AccordionProps {
    * 경계선 제거 및 투명 배경 제공
    */
   ghost?: boolean
+  /**
+   * 패널 아이콘(화살표) 유무
+   */
+  showArrow?: boolean
 
   style?: CSSProperties
 }
 
-export interface AccordionPanelProps {
+export interface CollapsePanelProps extends /* @vue-ignore */ ACollapsePanelProps {
+  /**
+   * 패널 타이틀
+   */
   key?: string | number
-  header?: string | number
+  /**
+   * 패널 타이틀
+   */
+  header?: string | number | Element
+  /**
+   * 패널들을 식별하는 고유 키
+   */
   text?: string | number
+
   style?: CSSProperties
 }
