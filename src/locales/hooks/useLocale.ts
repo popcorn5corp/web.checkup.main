@@ -21,14 +21,18 @@ export const useLocale = () => {
   async function _loadLocaleMessages(locale: LocaleType): Promise<void> {
     const globalI18n = i18n.global
 
-    if (!globalI18n.availableLocales.includes(locale)) {
-      const langModule = ((await import(`./lang/${locale}.ts`)) as any).default as LangModule
-      if (!langModule) return
-      const { message } = langModule
-      globalI18n.setLocaleMessage(locale, message as any)
-    }
+    try {
+      if (!globalI18n.availableLocales.includes(locale)) {
+        const langModule = ((await import(`./lang/${locale}.ts`)) as any).default as LangModule
+        if (!langModule) return
+        const { message } = langModule
+        globalI18n.setLocaleMessage(locale, message as any)
+      }
 
-    return nextTick()
+      return nextTick()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   async function setI18nLanguage(locale: LocaleType) {
