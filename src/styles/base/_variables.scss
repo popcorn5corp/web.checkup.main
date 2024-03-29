@@ -323,6 +323,10 @@ $size-component-height-large: 25px;
 /* Border Color
    ========================================================================== */
 $border-color: #ebebff45;
+$input-border-color: $color-gray-5;
+$input-hover-border-color: $color-blue-6;
+$select-border-color: $color-gray-5;
+$select-hover-border-color: $color-blue-6;
 
 /* Border Radius
    ========================================================================== */
@@ -332,6 +336,9 @@ $radius-round-2: 8px;
 $radius-round-3: 24px;
 $radius-round-4: 40px;
 $radius-circle: 50%;
+
+$border-radius-base: $radius-round-1;
+$btn-border-radius-base: $radius-round-1;
 
 /** ========================================================================== 
  *  Shadows Tokens(--shadow-**-**)
@@ -368,6 +375,8 @@ $font-weight-normal: 400;
 $font-weight-medium: 500;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
+$btn-font-weight: $font-weight-bold;
+
 
 /* Font Family
       ========================================================================== */
@@ -397,12 +406,8 @@ $btn-font-size-sm: 12px;
 // Shadow
 $btn-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
 
-// Border
-$border-radius-base: $radius-round-1;
-$btn-border-radius-base: $radius-round-1;
-
+// Padding
 $btn-padding-base: 0px 15px;
-$btn-font-weight: $font-weight-bold;
 
 /* Input
    ========================================================================== */
@@ -413,25 +418,10 @@ $input-height-sm: $btn-height-sm;
 
 // Color
 $input-color: $color-gray-7;
+$select-color: $color-gray-7;
 
 // Background Color
 $input-bg-color: $color-gray-3;
 
-$input-border-color: $color-gray-5;
-
 // Shadow
 $input-shadow: 0px 2px 4px rgba(0, 0, 0, 0.07);
-
-// Hover
-$input-hover-border-color: $color-blue-6;
-
-/* Select
-   ========================================================================== */
-// Color
-$select-color: $color-gray-7;
-
-// Border Color
-$select-border-color: $color-gray-5;
-
-// Hover
-$select-hover-border-color: $color-blue-6;

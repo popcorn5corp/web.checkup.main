@@ -73,7 +73,12 @@
     <template #body>
       <div class="invite-form-wrapper">
         <!-- <h4 class="title" style="font-size: 16px">{{ $t('page.manage.emailInvite') }}</h4> -->
-        <InviteMemberForm ref="inviteMemberRef" :isShowDescription="false" :isShowJump="false" />
+        <InviteMemberForm
+          ref="inviteMemberRef"
+          :isShowDescription="false"
+          :isShowJump="false"
+          :isFetch="true"
+        />
       </div>
     </template>
   </Modal>
@@ -97,22 +102,19 @@ import { Modal } from '@/components/modal'
 
 import PostDetail from './components/PostDetail.vue'
 import UserTimeline from './components/UserTimeline.vue'
-import { getDefaultPost } from './constant'
+// import { getDefaultPost } from './constant'
 import { columns } from './mock'
 import { storeToRefs } from 'pinia'
 
 const { t } = useI18n()
 const workspaceStore = useWorkspaceStore()
 const { getWorkspaceId, getNextBtnDisabled } = storeToRefs(workspaceStore)
-const selectedUserDetailData = ref(getDefaultPost())
 const selectedWSUserId = ref()
 const dynamicTableRef = ref<InstanceType<typeof DynamicTable>>()
 const inviteMemberRef = ref()
-
 const showDetail = ref(false)
 const isVisible = ref(false)
 const isModalLoading = ref(false)
-const isDisabledOk = ref(false)
 
 const getDataSource = async (param: IManageUser.GetUserListParam) => {
   return await ManageUserService.getUserList(unref(getWorkspaceId) || '', param)
@@ -164,7 +166,7 @@ const onClickRow = (row: IManageUser.UserInfo): void => {
 }
 
 const deleteUser = (workspaceUserId: string) => {
-  ManageUserService.removeUser(getWorkspaceId, workspaceUserId)
+  ManageUserService.removeUser(unref(getWorkspaceId), workspaceUserId)
     .then(({ success }) => {
       if (success) {
         tableReload()
@@ -222,17 +224,17 @@ const onCancelModal = (): void => {
     margin: 0;
   }
 
-  .invite-form-wrapper {
-    small {
-      font-size: 13px !important;
-    }
-  }
-
-  :deep(.invite-modal) {
+  :deep(.invite-form-wrapper) {
     .invite-member-form-container {
       .form-wrapper {
         .label > span {
           font-size: 13px !important;
+        }
+
+        .label {
+          .error-msg {
+            line-height: 26px !important;
+          }
         }
       }
     }
