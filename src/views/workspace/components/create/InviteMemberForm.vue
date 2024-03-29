@@ -9,10 +9,10 @@
         <span>
           {{ $t('page.workspace.createStep3Info') }}
         </span>
-        <small class="error-msg" v-if="!isEmailValid">{{ emailValidText }}</small>
+        <span class="error-msg" v-if="!isEmailValid">{{ emailValidText }}</span>
       </div>
 
-      <div class="select-wrapper" @click="inputRef.focus()">
+      <div :class="['select-wrapper', !isEmailValid ? 'error' : '']" @click="inputRef.focus()">
         <div class="input-wrapper">
           <div class="input-box">
             <Input
@@ -65,7 +65,7 @@
 import { ManageUserService } from '@/services'
 import { Util } from '@/utils'
 import { Input, Select } from 'ant-design-vue'
-import { type CSSProperties, computed, ref, toRefs, unref, watch } from 'vue'
+import { computed, ref, toRefs, unref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useWorkspaceStore } from '@/stores/modules/workspace'
@@ -80,11 +80,13 @@ import { useMessage } from '@/hooks/useMessage'
 interface Props {
   isShowDescription?: boolean
   isShowJump?: boolean
+  isFetch?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   isShowDescription: true,
-  isShowJump: true
+  isShowJump: true,
+  isFetch: false
 })
 
 const { t } = useI18n()
@@ -107,9 +109,6 @@ const inputRef = ref()
 const authList = ref<IWorkspace.WorkspaceAuth[]>([])
 const selectedAuth = ref()
 const inviteEmails = computed(() => [...getFormValues.value.inviteEmails].reverse())
-const errorTagStyle = computed<CSSProperties>(() => ({
-  borderColor: !unref(isEmailValid) ? '#ff4d4f' : '#d9d9d9'
-}))
 
 ;(async () => {
   try {
@@ -123,15 +122,6 @@ const errorTagStyle = computed<CSSProperties>(() => ({
 
   if (unref(getStepType) === null) initFormValueInviteEmails()
 })()
-
-watch(
-  () => unref(inviteEmails),
-  (inviteEmails) => {
-    if (!inviteEmails.length) {
-      setCompleteBtnDisabled(true)
-    }
-  }
-)
 
 /**
  * 이메일에 대한 validation 수행
@@ -159,7 +149,7 @@ const emailValidator = async (email: string) => {
   }
 
   // 사용자 관리 > 초대하기일 경우
-  if (getStepType.value === null) {
+  if (props.isFetch) {
     const { isValid } = await checkManageUsersEmail(email)
 
     if (!isValid) {
@@ -231,7 +221,9 @@ const onChangeEmail: ChangeEventHandler = (event) => {
       isValid: true
     })
 
-    unref(selectedAuth) && setCompleteBtnDisabled(false)
+    if (unref(selectedAuth) && unref(inviteEmails).length) {
+      setCompleteBtnDisabled(false)
+    }
   }
 }
 
@@ -313,12 +305,10 @@ defineExpose({
   .select-wrapper {
     min-height: 130px;
     max-height: 227px;
-    background-color: $color-white;
     border: 1px solid;
-    border-color: v-bind('errorTagStyle.borderColor');
+    border-color: $input-border-color;
     border-radius: 6px;
     padding: 5px;
-    // margin-top: 5px;
     overflow-y: auto;
     cursor: text;
     margin-bottom: 30px;
@@ -378,6 +368,10 @@ defineExpose({
         }
       }
     }
+
+    &.error {
+      border-color: $color-feedback-error !important;
+    }
   }
 
   .jump-wrapper {
@@ -404,12 +398,11 @@ defineExpose({
 
     &.auth-select > span {
       font-size: $font-size-small;
-      // color: $color-text-sub;
     }
 
     .error-msg {
       color: $color-feedback-error !important;
-      font-size: $font-size-small !important;
+      font-size: $font-size-xsmall !important;
     }
   }
 }
