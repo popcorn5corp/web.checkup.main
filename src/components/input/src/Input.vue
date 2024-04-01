@@ -16,6 +16,7 @@
 
 <script setup lang="ts" name="Input">
 import { Input } from 'ant-design-vue'
+
 import type { InputProps } from '../types'
 
 const props = withDefaults(defineProps<InputProps>(), {
@@ -25,16 +26,10 @@ const props = withDefaults(defineProps<InputProps>(), {
 
 <style scoped lang="scss">
 .input-container {
-  // .ant-input-affix-wrapper {
-  //   padding: 6.5px 11px !important;
-  // }
+  margin-top: 7px;
 
   .ant-input {
     padding: 6.5px 11px !important;
   }
-
-  // .error {
-  //   border: 1.5px solid $color-feedback-error !important;
-  // }
 }
 </style>

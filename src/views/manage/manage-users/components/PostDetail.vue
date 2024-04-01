@@ -34,7 +34,7 @@
       <Dropdown v-model:open="visible" :trigger="['click']" placement="bottomRight">
         <a class="ant-dropdown-link" @click.prevent><MoreOutlined style="font-size: 20px" /></a>
         <template #overlay>
-          <Menu @click="isEdit = true">
+          <Menu>
             <MenuItem key="1" @click="onEditMode">
               <!-- 수정 -->
               <span class="item edit"><FormOutlined />{{ $t('component.button.edit') }}</span>
@@ -48,7 +48,7 @@
       </Dropdown>
     </Form>
 
-    <Form v-else ref="formRef" layout="horizontal" :model="formState">
+    <Form v-else ref="formRef" layout="horizontal" class="edit-mode" :model="formState">
       <FormItem name="nickname" :label="$t('common.name')">
         <Input v-model:value="formState.cloneData.detail.nickname" disabled />
       </FormItem>
@@ -80,7 +80,7 @@
 
 <script setup lang="tsx" name="PostDetail">
 import { ManageUserService } from '@/services'
-import { Dropdown, Menu, MenuItem, Modal, type SelectProps, message } from 'ant-design-vue'
+import { Dropdown, Menu, MenuItem, Modal, Select, type SelectProps, message } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
 import { type UnwrapRef, computed, h, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -98,7 +98,6 @@ import {
   MoreOutlined
 } from '@/components/icons'
 import { Input } from '@/components/input'
-import { Select } from '@/components/select'
 
 import { contentModes as modes } from '@/constants/content'
 
@@ -180,7 +179,13 @@ const onStatusSelect = (value: any) => {
     modal.confirm({
       title: t('message.userStatusInfo'),
       icon: h(ExclamationCircleOutlined),
-      okCancel: false
+      // okCancel: false
+      onCancel() {
+        formState.cloneData.detail.userStatus = {
+          label: '활성',
+          value: 'ACTIVE'
+        }
+      }
     })
   }
 }
@@ -216,7 +221,7 @@ const onSubmit = async () => {
   const requestBody = {
     userStatus: formState.cloneData.detail.userStatus.value
   }
-
+  console.log('req', requestBody)
   ManageUserService.updateUser(workspaceId, workspaceUserId, requestBody)
     .then(({ success }) => {
       if (success) {
@@ -263,7 +268,6 @@ watch(
 
 <style lang="scss" scoped>
 .post-detail {
-  padding: 10px;
   position: relative;
   .form-wrapper {
     display: flex;
@@ -316,6 +320,7 @@ watch(
 
   :deep(.ant-form) {
     gap: 1rem;
+    padding: 10px;
     .ant-form-item {
       padding: 0;
       .ant-form-item-control {
@@ -325,6 +330,9 @@ watch(
         word-break: break-all;
       }
     }
+  }
+  .edit-mode {
+    padding: 10px 40px;
   }
 }
 

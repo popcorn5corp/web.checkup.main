@@ -12,6 +12,7 @@
 
 <script setup lang="ts" name="FormItem">
 import { FormItem } from 'ant-design-vue'
+
 import type { FormItemProps } from '../types'
 
 const props = defineProps<FormItemProps>()
@@ -50,6 +51,9 @@ const props = defineProps<FormItemProps>()
         margin-left: 4px;
         padding-top: 6px;
       }
+    }
+    .ant-form-item {
+      margin-bottom: 20px;
     }
 
     .valid-text {
