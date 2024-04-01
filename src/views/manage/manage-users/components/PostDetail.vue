@@ -179,7 +179,6 @@ const onStatusSelect = (value: any) => {
     modal.confirm({
       title: t('message.userStatusInfo'),
       icon: h(ExclamationCircleOutlined),
-      // okCancel: false
       onCancel() {
         formState.cloneData.detail.userStatus = {
           label: '활성',
