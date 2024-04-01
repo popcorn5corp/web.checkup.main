@@ -24,7 +24,7 @@
       </Dropdown>
     </Form>
 
-    <Form v-else layout="horizontal" :model="formState">
+    <Form v-else layout="horizontal" class="edit-mode" :model="formState">
       <FormItem :label="t('page.manage.groupTitle')">
         <Input v-model:value="formState.clonePost.name" />
       </FormItem>
@@ -215,7 +215,7 @@ const showDeleteConfirm = () => {
 }
 .post-detail {
   :deep(.ant-form) {
-    padding: 16px 16px;
+    padding: 16px;
 
     // .ant-form-item-label {
     //   width: 70px;
@@ -274,5 +274,8 @@ const showDeleteConfirm = () => {
   .anticon {
     color: $color-red-6;
   }
+}
+.edit-mode {
+  padding: 10px 40px;
 }
 </style>

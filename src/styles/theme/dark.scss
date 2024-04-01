@@ -79,10 +79,16 @@ html[data-theme='dark'] {
     }
   }
 
-  .user-detail-container {
-    .group-wrapper .group-item {
-      background: $darkmode-color-background;
+  .user-group-container {
+    .group-item {
+      background: $darkmode-color-background-sub;
       border: 1px solid $darkmode-color-border;
+    }
+  }
+
+  .form-item-wrapper.group {
+    .ant-form-item-control-input-content {
+      border: 1px solid $darkmode-color-border !important;
     }
   }
 

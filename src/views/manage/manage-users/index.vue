@@ -47,7 +47,14 @@
             :workspaceUserId="selectedWSUserId"
             @reload="tableReload"
           />
-          <a-tabs
+
+          <h3 style="margin: 1rem">타임라인</h3>
+          <UserTimeline
+            :workspaceId="getWorkspaceId"
+            :workspaceUserId="selectedWSUserId"
+            force-render
+          />
+          <!-- <a-tabs
             :destroyInactiveTabPane="true"
             :tabBarGutter="70"
             :tabBarStyle="{ padding: '0 10%', display: 'flex' }"
@@ -55,7 +62,7 @@
             <a-tab-pane key="History" :tab="t('page.manage.history')">
               <UserTimeline :workspaceId="getWorkspaceId" :workspaceUserId="selectedWSUserId" />
             </a-tab-pane>
-          </a-tabs>
+          </a-tabs> -->
         </div>
       </template>
     </DrawerContainer>
