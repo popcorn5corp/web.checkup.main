@@ -9,7 +9,7 @@
       >
         <template #icon>
           <FilterTwoTone />
-          <DownOutlined />
+          <DownOutlined :rotate="showFilter ? 0 : 180" />
         </template>
       </Button>
 
@@ -83,13 +83,9 @@
       </Tooltip> -->
       </Space>
     </div>
-    <div class="table-filter-wrapper">
+    <div v-if="showFilter" class="table-filter-wrapper">
       <KeepAlive>
-        <FilterForm
-          v-if="showFilter"
-          :items="getFilterFormItems"
-          @close="(flag: boolean) => (showFilter = flag)"
-        />
+        <FilterForm :items="getFilterFormItems" @close="(flag: boolean) => (showFilter = flag)" />
       </KeepAlive>
     </div>
   </div>
@@ -166,6 +162,10 @@ function onReload() {
 
 <style lang="scss" scoped>
 .table-toolbar-container {
+  .table-filter-wrapper {
+    padding: 3px 0;
+    animation: slide-bottom 0.4s;
+  }
   .table-search-wrapper {
     .ant-btn:has(.anticon-down) {
       padding: 4.5px 5px;
@@ -190,18 +190,19 @@ function onReload() {
   justify-content: space-between;
   gap: 10px;
 
-  @keyframes rotating {
-    from {
-      -webkit-transform: rotate(0deg);
+  @keyframes slide-bottom {
+    0% {
+      -webkit-transform: translateY(-10px);
+      transform: translateY(-10px);
     }
-
-    to {
-      -webkit-transform: rotate(360deg);
+    100% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
     }
   }
 
-  .rotating {
-    animation: rotating 0.5s linear infinite;
-  }
+  // .rotating {
+  //   animation: rotating 0.5s linear infinite;
+  // }
 }
 </style>
