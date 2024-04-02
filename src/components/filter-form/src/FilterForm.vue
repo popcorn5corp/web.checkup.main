@@ -1,11 +1,10 @@
 <template>
   <div class="filter-form-container" :style="containerStyles">
     <div class="filter-list">
-      <!--  -->
-      <div class="mobile-header">
+      <!-- <div class="mobile-header">
         <h3>{{ $t('component.button.filter') }}</h3>
         <font-awesome-icon @click="onFilter" class="xmark" :icon="['fas', 'xmark']" />
-      </div>
+      </div> -->
 
       <div class="content">
         <Accordion
@@ -31,7 +30,7 @@
         <TableTags :items="getFilterFormItems" />
       </div>
 
-      <div class="mobile-footer">
+      <!-- <div class="mobile-footer">
         <div class="btn-group">
           <Button :label="$t('component.button.reset')" size="large" @click="onFilter" />
           <Button
@@ -41,7 +40,7 @@
             @click="onFilter"
           />
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -115,7 +114,7 @@ const filterTypeComponents: Record<FilterUI, Component> = {
           .ant-collapse-header {
             border: 1px solid #d9d9d9;
             border-radius: 23px;
-            padding: 3px 18px;
+            padding: 5px 18px;
             display: flex;
             // gap: 6px;
             .ant-collapse-header-text {
@@ -182,78 +181,78 @@ const filterTypeComponents: Record<FilterUI, Component> = {
       }
     }
 
-    @media screen and (max-width: $size-screen-md) {
-      animation: slideUp 0.5s;
-      background: $color-white;
-      // position: absolute;
-      position: fixed;
-      top: -7px;
-      left: 0px;
-      width: 100vw;
-      height: 101vh;
+    // @media screen and (max-width: $size-screen-md) {
+    //   animation: slideUp 0.5s;
+    //   background: $color-white;
+    //   // position: absolute;
+    //   position: fixed;
+    //   top: -7px;
+    //   left: 0px;
+    //   width: 100vw;
+    //   height: 101vh;
 
-      :deep(.accordian-container) {
-        display: flex;
-        flex-direction: column;
-        text-align: left;
-      }
-      .mobile-header {
-        padding: 41px 16px;
-        display: block;
-        font-size: 20px;
-        font-weight: 700;
+    //   :deep(.accordian-container) {
+    //     display: flex;
+    //     flex-direction: column;
+    //     text-align: left;
+    //   }
+    //   .mobile-header {
+    //     padding: 41px 16px;
+    //     display: block;
+    //     font-size: 20px;
+    //     font-weight: 700;
 
-        .xmark {
-          position: absolute;
-          top: 41px;
-          right: 30px;
-          font-size: 22px !important;
-          color: #04111d;
-        }
-      }
+    //     .xmark {
+    //       position: absolute;
+    //       top: 41px;
+    //       right: 30px;
+    //       font-size: 22px !important;
+    //       color: #04111d;
+    //     }
+    //   }
 
-      .mobile-footer {
-        display: block;
-      }
+    //   .mobile-footer {
+    //     display: block;
+    //   }
 
-      .slideUp {
-        -webkit-animation-name: slideUp;
-        animation-name: slideUp;
-      }
+    //   .slideUp {
+    //     -webkit-animation-name: slideUp;
+    //     animation-name: slideUp;
+    //   }
 
-      @-webkit-keyframes slideUp {
-        0% {
-          -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
-          -webkit-transform: translateY(0%);
-          transform: translateY(0%);
-        }
+    //   @-webkit-keyframes slideUp {
+    //     0% {
+    //       -webkit-transform-origin: 0 0;
+    //       transform-origin: 0 0;
+    //       -webkit-transform: translateY(0%);
+    //       transform: translateY(0%);
+    //     }
 
-        100% {
-          -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
-          -webkit-transform: translateY(-100%);
-          transform: translateY(-100%);
-        }
-      }
+    //     100% {
+    //       -webkit-transform-origin: 0 0;
+    //       transform-origin: 0 0;
+    //       -webkit-transform: translateY(-100%);
+    //       transform: translateY(-100%);
+    //     }
+    //   }
 
-      @keyframes slideUp {
-        0% {
-          -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
-          -webkit-transform: translateY(100%);
-          transform: translateY(100%);
-        }
+    //   @keyframes slideUp {
+    //     0% {
+    //       -webkit-transform-origin: 0 0;
+    //       transform-origin: 0 0;
+    //       -webkit-transform: translateY(100%);
+    //       transform: translateY(100%);
+    //     }
 
-        100% {
-          -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
+    //     100% {
+    //       -webkit-transform-origin: 0 0;
+    //       transform-origin: 0 0;
 
-          -webkit-transform: translateY(0%);
-          transform: translateY(0%);
-        }
-      }
-    }
+    //       -webkit-transform: translateY(0%);
+    //       transform: translateY(0%);
+    //     }
+    //   }
+    // }
 
     > ul {
       padding: 0 1rem;
